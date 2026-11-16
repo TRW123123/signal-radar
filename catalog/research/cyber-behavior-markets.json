@@ -1,0 +1,2617 @@
+{
+ "subdomain": "Verhaltens-, Markt- und Aufmerksamkeits-Proxys",
+ "generated": "2026-11-17",
+ "signals": [
+  {
+   "id": "cyber.market.cyber_etf_volume",
+   "name_de": "Ungewoehnliche Volumina in Cyber-ETFs (HACK, CIBR, BUG)",
+   "plain_de": "Wie viel Cyber-Sicherheits-ETFs gehandelt werden, verglichen mit der Normalitaet.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Wer einen Grossangriff erwartet oder Kenntnis davon hat, positioniert sich oft vorab in Cyber-Werten; Volumenspitzen ohne Nachricht sind der Brotkrumen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Index-Rebalancing",
+    "Quartalsende",
+    "Nachrichten ueber einzelne Hacks",
+    "Dividenden-/Verfallstermine"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    },
+    {
+     "source_id": "stooq",
+     "name": "stooq CSV Download",
+     "doc_url": "https://stooq.com/db/h/",
+     "endpoint": "https://stooq.com/q/d/l/?s=cibr.us&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "Tageskerzen, lange Historie",
+     "rate_limit": "unbekannt",
+     "license": "unklar (private Nutzung)",
+     "verified": false,
+     "sample_note": "Date,Open,High,Low,Close,Volume. Beim Test lieferte stooq eine JavaScript-Proof-of-Work-Huerde statt CSV: nur mit Browser/Challenge-Loesung, nicht skriptbar ohne Weiteres"
+    },
+    {
+     "source_id": "alphavantage",
+     "name": "Alpha Vantage",
+     "doc_url": "https://www.alphavantage.co/documentation/",
+     "endpoint": "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=HACK&apikey=KEY",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "20+ Jahre Tageswerte",
+     "rate_limit": "25 Anfragen/Tag im Free-Tier",
+     "license": "ToS Alpha Vantage, nur eigene Nutzung",
+     "verified": false,
+     "sample_note": "Time Series (Daily) -> 5. volume / 4. close"
+    }
+   ],
+   "notes": "Z-Score auf Volumen/20-Tage-Median; Rebalancing-Tage maskieren. Auch BUG, IHAK, CYSE mitbeobachten."
+  },
+  {
+   "id": "cyber.market.cyber_pureplay_volume",
+   "name_de": "Handelsvolumen Cyber-Einzelwerte (CRWD, PANW, ZS, FTNT, S)",
+   "plain_de": "Ungewoehnlich hohe Umsaetze bei den grossen Cyber-Sicherheitsfirmen.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Einzelwerte reagieren frueher/staerker als ETFs; Aggregat ueber Korb reduziert Rauschen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Quartalszahlen",
+    "Analystenupgrades",
+    "Indexaufnahmen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CRWD?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    },
+    {
+     "source_id": "stooq",
+     "name": "stooq CSV Download",
+     "doc_url": "https://stooq.com/db/h/",
+     "endpoint": "https://stooq.com/q/d/l/?s=crwd.us&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "Tageskerzen, lange Historie",
+     "rate_limit": "unbekannt",
+     "license": "unklar (private Nutzung)",
+     "verified": false,
+     "sample_note": "Date,Open,High,Low,Close,Volume. Beim Test lieferte stooq eine JavaScript-Proof-of-Work-Huerde statt CSV: nur mit Browser/Challenge-Loesung, nicht skriptbar ohne Weiteres"
+    }
+   ],
+   "notes": "Korb als Median-Z-Score ueber 8-10 Titel."
+  },
+  {
+   "id": "cyber.market.cdn_cloud_stress",
+   "name_de": "Kursabschlaege bei Cloud-/CDN-Infrastrukturwerten (AKAM, NET, FSLY, AMZN, MSFT)",
+   "plain_de": "Fallen die Kurse der Firmen, die das Internet ausliefern, ploetzlich gemeinsam?",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Markt preist Betriebsstoerungen und Haftung bei Grossausfaellen in Minuten ein; zeitgleicher Gap-Down ohne Makro-Grund.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Marktweite Korrekturen",
+    "Einzelne schwache Zahlen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/NET?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    },
+    {
+     "source_id": "stooq",
+     "name": "stooq CSV Download",
+     "doc_url": "https://stooq.com/db/h/",
+     "endpoint": "https://stooq.com/q/d/l/?s=net.us&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "Tageskerzen, lange Historie",
+     "rate_limit": "unbekannt",
+     "license": "unklar (private Nutzung)",
+     "verified": false,
+     "sample_note": "Date,Open,High,Low,Close,Volume. Beim Test lieferte stooq eine JavaScript-Proof-of-Work-Huerde statt CSV: nur mit Browser/Challenge-Loesung, nicht skriptbar ohne Weiteres"
+    },
+    {
+     "source_id": "alphavantage",
+     "name": "Alpha Vantage",
+     "doc_url": "https://www.alphavantage.co/documentation/",
+     "endpoint": "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=AKAM&apikey=KEY",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "20+ Jahre Tageswerte",
+     "rate_limit": "25 Anfragen/Tag im Free-Tier",
+     "license": "ToS Alpha Vantage, nur eigene Nutzung",
+     "verified": false,
+     "sample_note": "Time Series (Daily) -> 5. volume / 4. close"
+    }
+   ],
+   "notes": "Residual gegen Nasdaq-100 berechnen."
+  },
+  {
+   "id": "cyber.market.cyber_insurer_prices",
+   "name_de": "Kurse von Cyber-Versicherern und Rueckversicherern",
+   "plain_de": "Aktienkurse der Firmen, die Cyberrisiken tragen (Beazley, Hiscox, Chubb, Munich Re).",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Versicherer sind die Letztinstanz fuer Schadenssummen: Abschlaege ohne Nachricht deuten auf Schadenserwartung.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Naturkatastrophen-Schaeden",
+    "Zinsbewegung",
+    "Quartalszahlen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/BEZ.L?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/MUV2.DE?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    },
+    {
+     "source_id": "stooq",
+     "name": "stooq CSV Download",
+     "doc_url": "https://stooq.com/db/h/",
+     "endpoint": "https://stooq.com/q/d/l/?s=bez.uk&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "Tageskerzen, lange Historie",
+     "rate_limit": "unbekannt",
+     "license": "unklar (private Nutzung)",
+     "verified": false,
+     "sample_note": "Date,Open,High,Low,Close,Volume. Beim Test lieferte stooq eine JavaScript-Proof-of-Work-Huerde statt CSV: nur mit Browser/Challenge-Loesung, nicht skriptbar ohne Weiteres"
+    }
+   ],
+   "notes": "Korb Beazley, Hiscox, Chubb, Travelers, Munich Re, Swiss Re; Cat-Schaeden separat maskieren."
+  },
+  {
+   "id": "cyber.market.vix",
+   "name_de": "VIX-Volatilitaetsindex",
+   "plain_de": "Die Angst-Kennzahl der US-Boerse.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Allgemeines Stress-Mass; Cyber-Grossereignis wirkt wie Schock. Wenig spezifisch, aber lueckenlos und kostenlos.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Zinsentscheide",
+    "Geopolitik",
+    "Optionsverfall"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cboe",
+     "name": "Cboe Indizes CSV",
+     "doc_url": "https://www.cboe.com/tradable_products/vix/vix_historical_data/",
+     "endpoint": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "ab 1990",
+     "rate_limit": "unbekannt",
+     "license": "Cboe Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "DATE,OPEN,HIGH,LOW,CLOSE"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=VIXCLS&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich/woechentlich",
+     "history": "vollstaendige Historie",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED Terms of Use (Drittanbieter-Serien teils eingeschraenkt)",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.vix_term_structure",
+   "name_de": "VIX-Terminstruktur (VIX9D/VIX/VIX3M)",
+   "plain_de": "Vergleich kurzfristiger mit laengerfristiger Angstkennzahl.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Invertierung (kurzfristig teurer) zeigt erwartete Nahzeit-Schocks, die Insider einpreisen koennten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Ereignisrisiko (Wahlen, Fed)"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cboe-vix9d",
+     "name": "Cboe VIX9D/VIX3M CSV",
+     "doc_url": "https://www.cboe.com/tradable_products/vix/vix_historical_data/",
+     "endpoint": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX9D_History.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "ab 2011",
+     "rate_limit": "unbekannt",
+     "license": "Cboe Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "CLOSE-Spalte"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=VXVCLS&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich/woechentlich",
+     "history": "vollstaendige Historie",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED Terms of Use (Drittanbieter-Serien teils eingeschraenkt)",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.putcall_ratio",
+   "name_de": "Put/Call-Verhaeltnis (Cboe)",
+   "plain_de": "Verhaeltnis aus Absicherungs- zu Wettoptionen.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Anstieg der Absicherung ohne Kursbewegung = Wissensvorsprung moeglich.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Verfallstermine",
+    "Dividendenstichtage"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cboe-pcr",
+     "name": "Cboe Put/Call Ratios",
+     "doc_url": "https://www.cboe.com/us/options/market_statistics/daily/",
+     "endpoint": "https://cdn.cboe.com/resources/options/volume_and_call_put_ratios/totalpc.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "ab 2006",
+     "rate_limit": "unbekannt",
+     "license": "Cboe Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "P/C Ratio je Tag"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.single_name_options",
+   "name_de": "Optionsaktivitaet auf Cyber- und Cloud-Werte",
+   "plain_de": "Ungewoehnlich viele Puts/Calls auf einzelne Cyber- oder Cloud-Aktien.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Klassischer Insider-Spurenleser: OTM-Optionen mit kurzer Laufzeit vor einem Ereignis. Nur Aggregat je Titel, keine Personen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen",
+    "Hedge-Programme"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "polygon",
+     "name": "Polygon.io Options",
+     "doc_url": "https://polygon.io/docs/options",
+     "endpoint": "https://api.polygon.io/v2/aggs/ticker/O:CRWD261218C00400000/range/1/day/2026-10-01/2026-11-16?apiKey=KEY",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "15 min (Free: EOD)",
+     "history": "2 Jahre im Bezahlplan",
+     "rate_limit": "5 Anfragen/min",
+     "license": "Polygon ToS",
+     "verified": false,
+     "sample_note": "results[].v = Volumen; Free-Tier ohne Optionsdaten moeglich"
+    }
+   ],
+   "notes": "Beste freie Alternative: Tradier Sandbox, Yahoo options chain (inoffiziell)."
+  },
+  {
+   "id": "cyber.market.gold",
+   "name_de": "Goldpreis",
+   "plain_de": "Preis des klassischen Krisenmetalls.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Fluchtbewegung bei Systemrisiko; wenig spezifisch.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Zinserwartungen",
+    "Geopolitik",
+    "Dollar"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    },
+    {
+     "source_id": "stooq",
+     "name": "stooq CSV Download",
+     "doc_url": "https://stooq.com/db/h/",
+     "endpoint": "https://stooq.com/q/d/l/?s=xauusd&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "Tageskerzen, lange Historie",
+     "rate_limit": "unbekannt",
+     "license": "unklar (private Nutzung)",
+     "verified": false,
+     "sample_note": "Date,Open,High,Low,Close,Volume. Beim Test lieferte stooq eine JavaScript-Proof-of-Work-Huerde statt CSV: nur mit Browser/Challenge-Loesung, nicht skriptbar ohne Weiteres"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.bitcoin_vs_gold_divergence",
+   "name_de": "Bitcoin gegen Gold (Divergenz)",
+   "plain_de": "Wie sich Bitcoin im Vergleich zu Gold bewegt.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Bei Internet-/Infrastrukturausfall faellt Bitcoin eher (haengt am Netz), Gold steigt: ungewoehnliche Divergenz als Signal.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Krypto-Eigenereignisse"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "coingecko",
+     "name": "CoinGecko API",
+     "doc_url": "https://docs.coingecko.com/",
+     "endpoint": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "bis 365 Tage frei",
+     "rate_limit": "~30/min",
+     "license": "CoinGecko ToS (Quellenangabe)",
+     "verified": false,
+     "sample_note": "prices, total_volumes"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.bitcoin_network_nodes",
+   "name_de": "Erreichbare Bitcoin-Knoten nach Land",
+   "plain_de": "Wie viele Bitcoin-Rechner weltweit erreichbar sind.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Internetpartition zeigt sich als Einbruch erreichbarer Knoten in Region/ASN.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Bitnodes-Crawler-Probleme",
+    "Knotenwechsel"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "bitnodes",
+     "name": "Bitnodes API",
+     "doc_url": "https://bitnodes.io/api/",
+     "endpoint": "https://bitnodes.io/api/v1/snapshots/latest/",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~10 min",
+     "history": "Snapshot-Historie per /snapshots/",
+     "rate_limit": "begrenzt ohne Key",
+     "license": "oeffentlich, Nutzungsbedingungen unklar",
+     "verified": false,
+     "sample_note": "total_nodes, nodes{} mit Land/ASN-Feldern"
+    }
+   ],
+   "notes": "Passive Auswertung des bereits publizierten Snapshots; kein eigenes Scannen."
+  },
+  {
+   "id": "cyber.market.bitcoin_tx_and_mempool",
+   "name_de": "Bitcoin-Transaktionen und Mempool",
+   "plain_de": "Anzahl Bitcoin-Transaktionen pro Tag und Gebuehrendruck.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Fluchtbewegung in Selbstverwahrung oder Einbruch durch Netzprobleme.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Ordinals-Hypes",
+    "Preisspruenge"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "blockchain-charts",
+     "name": "Blockchain.com Charts API",
+     "doc_url": "https://www.blockchain.com/explorer/api/charts",
+     "endpoint": "https://api.blockchain.info/charts/n-transactions?timespan=1year&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2009",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "values[].y = Transaktionen/Tag"
+    },
+    {
+     "source_id": "mempool-space",
+     "name": "mempool.space API",
+     "doc_url": "https://mempool.space/docs/api/rest",
+     "endpoint": "https://mempool.space/api/v1/fees/recommended",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Blocks/Statistiken per API",
+     "rate_limit": "unbekannt",
+     "license": "AGPL/offen",
+     "verified": false,
+     "sample_note": "fastestFee"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.stablecoin_depeg",
+   "name_de": "Stablecoin-Kursabweichung (USDT, USDC)",
+   "plain_de": "Ob Dollar-Stablecoins von 1 Dollar abweichen.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Abweichung = Vertrauens-/Liquiditaetsstress, auch bei Infrastrukturangst.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Emittentenmeldungen",
+    "Boersenspezifische Liquiditaet"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "coingecko",
+     "name": "CoinGecko API",
+     "doc_url": "https://docs.coingecko.com/",
+     "endpoint": "https://api.coingecko.com/api/v3/coins/tether/market_chart?vs_currency=usd&days=365",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "bis 365 Tage frei",
+     "rate_limit": "~30/min",
+     "license": "CoinGecko ToS (Quellenangabe)",
+     "verified": false,
+     "sample_note": "prices[] Abweichung von 1.0"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.cash_in_circulation",
+   "name_de": "Bargeldumlauf (Eurosystem, Fed)",
+   "plain_de": "Wie viel Bargeld im Umlauf ist.",
+   "domain": "market",
+   "evidence_class": "B",
+   "rationale": "Bargeldhortung vor erwarteter Zahlungssystemstoerung zeigt sich im Wochenausweis.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Saisonale Effekte (Weihnachten, Urlaub)",
+    "Zinsniveau"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "ECB Data Portal API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/overview",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/ILM/W.U2.C.L010000.Z5.EUR?format=csvdata",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich",
+     "history": "ab 1999",
+     "rate_limit": "unbekannt",
+     "license": "ECB Reuse Policy (Quellenangabe)",
+     "verified": false,
+     "sample_note": "OBS_VALUE = Banknotenumlauf Eurosystem (Reihenschluessel pruefen)"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=WCURCIR&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich/woechentlich",
+     "history": "vollstaendige Historie",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED Terms of Use (Drittanbieter-Serien teils eingeschraenkt)",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": "Saison herausrechnen."
+  },
+  {
+   "id": "cyber.market.financial_stress_index",
+   "name_de": "St. Louis Financial Stress Index",
+   "plain_de": "Ein Index aus 18 Marktkennzahlen fuer Stress im Finanzsystem.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Breiter Stress-Mess-Wert; Cyber-Kaskade auf Banken wuerde sich zeigen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Bankenkrisen",
+    "Zinsschocks"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=STLFSI4&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich/woechentlich",
+     "history": "vollstaendige Historie",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED Terms of Use (Drittanbieter-Serien teils eingeschraenkt)",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.bank_stocks",
+   "name_de": "Kurse von Banken- und Zahlungsdienstleistern (KRE, EXV1, V, MA, FI)",
+   "plain_de": "Verhalten der Aktien von Banken und Kartenzahlsystemen.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Gemeinsame Abschlaege bei Zahlungsdienstern deuten auf Ausfallrisiko im Zahlungsverkehr.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Zinsen",
+    "Bankenkrisen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/V?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffizielle API)",
+     "doc_url": "https://finance.yahoo.com",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/EXV1.DE?range=2y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert, Tagesende",
+     "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und .volume"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.safe_haven_fx",
+   "name_de": "Schweizer Franken und Yen als Fluchtwaehrung",
+   "plain_de": "Kurs von CHF und JPY gegenueber dem Euro/Dollar.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Fluchtbewegung in Franken/Yen bei Systemstress.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "SNB/BoJ-Entscheide"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXSZUS&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich/woechentlich",
+     "history": "vollstaendige Historie",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED Terms of Use (Drittanbieter-Serien teils eingeschraenkt)",
+     "verified": false,
+     "sample_note": "observations[].value"
+    },
+    {
+     "source_id": "ecb-data",
+     "name": "ECB Data Portal API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/overview",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?format=csvdata",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 1999",
+     "rate_limit": "unbekannt",
+     "license": "ECB Reuse Policy (Quellenangabe)",
+     "verified": false,
+     "sample_note": "OBS_VALUE CHF je EUR"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.short_interest_cyber",
+   "name_de": "Leerverkaufsquoten bei Cyber-Werten (FINRA)",
+   "plain_de": "Wie viele Aktien von Cyber-Firmen leerverkauft sind.",
+   "domain": "market",
+   "evidence_class": "B",
+   "rationale": "Aufbau von Short-Positionen kann Erwartung negativer Ereignisse spiegeln (verzoegert).",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Bewertungs-Shorts",
+    "Hedging fuer Konvertibles"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "finra-short",
+     "name": "FINRA Short Interest / Daily Short Volume",
+     "doc_url": "https://www.finra.org/finra-data/browse-catalog/short-sale-volume-data",
+     "endpoint": "https://cdn.finra.org/equity/regsho/daily/CNMSshvol20261116.txt",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2009",
+     "rate_limit": "unbekannt",
+     "license": "FINRA Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "ShortVolume/TotalVolume je Symbol"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.insider.form4_cyber_cloud",
+   "name_de": "Insider-Transaktionen (Form 4) Cyber-/Cloud-Werte als Aggregat",
+   "plain_de": "Netto-Kauf/Verkauf durch Vorstaende bei Cyber- und Cloud-Firmen, nur als Summe.",
+   "domain": "insider",
+   "evidence_class": "B",
+   "rationale": "Ungewoehnliche Verkaufswellen ausserhalb geplanter Programme bei vielen Firmen gleichzeitig. Nur Summen, keine Personenprofile.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "10b5-1-Plaene",
+    "Aktienvergaben und Steuerverkaeufe",
+    "Lockup-Ende"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "sec-edgar",
+     "name": "SEC EDGAR",
+     "doc_url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+     "endpoint": "https://www.sec.gov/Archives/edgar/daily-index/form.20261116.idx",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Form 4 binnen 2 Geschaeftstagen",
+     "history": "Daily/Full-Index seit 1993",
+     "rate_limit": "10 Anfragen/s",
+     "license": "US-Public-Domain; faire Nutzung, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "Zeilen mit Form 4; Filter auf CIK der Zielliste, danach XML mit transactionCode P/S"
+    },
+    {
+     "source_id": "sec-insider-datasets",
+     "name": "SEC Insider Transactions Data Sets",
+     "doc_url": "https://www.sec.gov/data-research/sec-markets-data/insider-transactions-data-sets",
+     "endpoint": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2026q3_form345.zip",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise",
+     "history": "ab 2006",
+     "rate_limit": "unbekannt",
+     "license": "US-Public-Domain",
+     "verified": false,
+     "sample_note": "TSV mit TRANS_CODE, SHARES, PRICE (nur Aggregat auswerten)"
+    }
+   ],
+   "notes": "Nur Code P/S ohne 10b5-1-Flag werten."
+  },
+  {
+   "id": "cyber.insider.form4_banks",
+   "name_de": "Insider-Transaktionen bei Banken und Zahlungsdienstern",
+   "plain_de": "Summe der Vorstandsgeschaefte bei Banken, Visa, Mastercard.",
+   "domain": "insider",
+   "evidence_class": "B",
+   "rationale": "Gleiches Muster fuer Finanzinfrastruktur.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Planverkaeufe",
+    "Bonus-Vergaben"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "sec-edgar",
+     "name": "SEC EDGAR",
+     "doc_url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+     "endpoint": "https://www.sec.gov/Archives/edgar/daily-index/form.20261116.idx",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Form 4 binnen 2 Geschaeftstagen",
+     "history": "Daily/Full-Index seit 1993",
+     "rate_limit": "10 Anfragen/s",
+     "license": "US-Public-Domain; faire Nutzung, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "Zeilen mit Form 4; Filter auf CIK der Zielliste, danach XML mit transactionCode P/S"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.insider.bafin_dealings",
+   "name_de": "BaFin Directors' Dealings (Cyber-, IT- und Bankwerte)",
+   "plain_de": "Meldungen der Fuehrungskraefte deutscher Emittenten.",
+   "domain": "insider",
+   "evidence_class": "B",
+   "rationale": "Europaeisches Gegenstueck: Kauf-/Verkaufsmuster als Korb.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Optionsprogramme"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "bafin-dd",
+     "name": "BaFin Eigengeschaefte von Fuehrungskraeften",
+     "doc_url": "https://portal.mvp.bafin.de/database/DealingsInfo/",
+     "endpoint": "https://portal.mvp.bafin.de/database/DealingsInfo/sucheForm.do",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Datenbank ab 2016 mit CSV-Export",
+     "rate_limit": "unbekannt",
+     "license": "Datenlizenz Deutschland? unklar",
+     "verified": false,
+     "sample_note": "Meldungen nach Art. 19 MAR: Emittent, Kauf/Verkauf, Volumen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.insider.form144_planned_sales",
+   "name_de": "Form 144 (geplante Insider-Verkaeufe) Cyber/Cloud",
+   "plain_de": "Vorankuendigungen von Aktienverkaeufen grosser Anteilseigner.",
+   "domain": "insider",
+   "evidence_class": "B",
+   "rationale": "Vorlaufindikator: Form 144 kommt vor dem Verkauf.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routineplaene"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "sec-edgar",
+     "name": "SEC EDGAR",
+     "doc_url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+     "endpoint": "https://www.sec.gov/Archives/edgar/daily-index/form.20261116.idx",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Form 4 binnen 2 Geschaeftstagen",
+     "history": "Daily/Full-Index seit 1993",
+     "rate_limit": "10 Anfragen/s",
+     "license": "US-Public-Domain; faire Nutzung, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "Zeilen mit Formtyp 144"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.insider.8k_ciso_departures",
+   "name_de": "8-K Item 5.02: Abgaenge von Sicherheitsverantwortlichen",
+   "plain_de": "Wie viele Firmen den Weggang ihrer IT-Sicherheitschefs melden.",
+   "domain": "insider",
+   "evidence_class": "B",
+   "rationale": "Haeufung kuendigt Spannungen/Kenntnisse an; sehr verrauscht.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Normale Fluktuation"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "sec-efts",
+     "name": "SEC EDGAR Full-Text Search",
+     "doc_url": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K",
+     "endpoint": "https://efts.sec.gov/LATEST/search-index?q=%22Chief%20Information%20Security%20Officer%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-16",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 Tag",
+     "history": "ab 2001",
+     "rate_limit": "10 Anfragen/s",
+     "license": "US-Public-Domain",
+     "verified": false,
+     "sample_note": "hits.total.value = Anzahl 8-K mit Item 1.05"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.insider.8k_item105_filings",
+   "name_de": "8-K Item 1.05 (Cybervorfaelle bei boersennotierten Firmen)",
+   "plain_de": "Anzahl Pflichtmeldungen wesentlicher Cybervorfaelle.",
+   "domain": "insider",
+   "evidence_class": "B",
+   "rationale": "Clustering mehrerer Firmen an wenigen Tagen = koordinierte Kampagne.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Einzelne Ransomware-Faelle"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "sec-efts",
+     "name": "SEC EDGAR Full-Text Search",
+     "doc_url": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K",
+     "endpoint": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-16",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 Tag",
+     "history": "ab 2001",
+     "rate_limit": "10 Anfragen/s",
+     "license": "US-Public-Domain",
+     "verified": false,
+     "sample_note": "hits.total.value = Anzahl 8-K mit Item 1.05"
+    }
+   ],
+   "notes": "Ueberschneidung mit anderen Agents (Meldungen). Hier als Aggregat-Verhalten."
+  },
+  {
+   "id": "cyber.prediction.polymarket_cyber",
+   "name_de": "Prognosemarkt-Preise zu Cyberereignissen (Polymarket)",
+   "plain_de": "Wetten, ob ein grosser Cyberangriff passiert.",
+   "domain": "prediction",
+   "evidence_class": "A",
+   "rationale": "Preisspruenge ohne Nachricht koennten Wissen spiegeln; reale Gelder.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Geringe Liquiditaet",
+    "Einzelne Wale"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/markets?limit=100&closed=false",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Preishistorie per CLOB /prices-history",
+     "rate_limit": "unbekannt",
+     "license": "Polymarket ToS; Nutzung in einigen Laendern eingeschraenkt",
+     "verified": true,
+     "sample_note": "Antwort ist JSON-Liste mit question, outcomePrices, volume, liquidity. Erreichbarkeit geprueft; tag_slug-Filter lieferte im Test nicht gefilterte Treffer: Cyber-Maerkte per Textsuche/Event-Slug selektieren"
+    },
+    {
+     "source_id": "kalshi",
+     "name": "Kalshi Trade API",
+     "doc_url": "https://docs.kalshi.com/",
+     "endpoint": "https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Candlesticks je Markt",
+     "rate_limit": "unbekannt",
+     "license": "Kalshi API Terms",
+     "verified": false,
+     "sample_note": "markets[].last_price, volume, open_interest"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.prediction.metaculus_manifold",
+   "name_de": "Community-Prognosen (Metaculus, Manifold) zu Cyber/Infrastruktur",
+   "plain_de": "Aggregierte Expertenschaetzungen zu Grossausfaellen.",
+   "domain": "prediction",
+   "evidence_class": "D",
+   "rationale": "Kontextschicht fuer Erwartungen, kein Geld im Spiel (Manifold: Spielgeld).",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Medienereignisse beeinflussen Schaetzung"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "metaculus",
+     "name": "Metaculus API",
+     "doc_url": "https://www.metaculus.com/api/",
+     "endpoint": "https://www.metaculus.com/api/posts/?search=cyber&order_by=-hotness",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Community-Prediction-Historie je Frage",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 fuer Fragen (laut Metaculus; pruefen)",
+     "verified": false,
+     "sample_note": "Community-Aggregat je Frage"
+    },
+    {
+     "source_id": "manifold",
+     "name": "Manifold Markets API",
+     "doc_url": "https://docs.manifold.markets/api",
+     "endpoint": "https://api.manifold.markets/v0/search-markets?term=cyberattack&limit=20",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Wetten-Historie per /v0/bets",
+     "rate_limit": "unbekannt",
+     "license": "Manifold ToS, Daten offen",
+     "verified": false,
+     "sample_note": "probability, volume24Hours"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.prediction.market_volume_cyber",
+   "name_de": "Handelsvolumen in Cyber-Prognosemaerkten",
+   "plain_de": "Wie intensiv ueber Cyberangriff gewettet wird.",
+   "domain": "prediction",
+   "evidence_class": "A",
+   "rationale": "Volumen-Anstieg ohne Nachrichtenanlass ist unabhaengig vom Preis informativ.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Virale Nachricht"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/markets?limit=100&closed=false",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Preishistorie per CLOB /prices-history",
+     "rate_limit": "unbekannt",
+     "license": "Polymarket ToS; Nutzung in einigen Laendern eingeschraenkt",
+     "verified": true,
+     "sample_note": "volume24hr je Markt"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.aviation.bizjet_nz_aggregate",
+   "name_de": "Business-Jet-Landungen in Neuseeland (nur Summe)",
+   "plain_de": "Zahl der Geschaeftsflugzeug-Ankuenfte in Queenstown/Wanaka/Auckland.",
+   "domain": "aviation",
+   "evidence_class": "A",
+   "rationale": "Absetzbewegung in sichere Haefen. Nur Zaehlung nach Typcode/Flughafen, keine Halter, keine Einzelfluege.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Ski-Saison",
+    "Gipfeltreffen",
+    "Tourismus"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/flights/arrival?airport=NZQN&begin=1763000000&end=1763080000",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Flug-Historie bis ca. 30 Tage per REST, laenger via Trino (Forschungskonto)",
+     "rate_limit": "4000 Credits/Tag mit Konto",
+     "license": "CC BY-NC (nur nichtkommerziell)",
+     "verified": false,
+     "sample_note": "Liste von Fluegen mit icao24, firstSeenaus. Nur Aggregat je Flugzeugtyp/Flughafen auswerten, keine Halterabfrage"
+    },
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol API und Historie",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Tagesdumps auf github.com/adsblol/globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL / frei (Community)",
+     "verified": false,
+     "sample_note": "ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie ueber Tagesarchive"
+    }
+   ],
+   "notes": "Strikt Aggregat; keine Registrierungs-/Halterabfragen."
+  },
+  {
+   "id": "cyber.aviation.bizjet_remote_havens",
+   "name_de": "Business-Jet-Ankuenfte an abgelegenen Zielen (Patagonien, Azoren, Faroer, Island)",
+   "plain_de": "Summe der Geschaeftsflieger zu abgelegenen Regionen.",
+   "domain": "aviation",
+   "evidence_class": "A",
+   "rationale": "Erweiterung auf weitere Rueckzugsorte, in Summe.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Urlaubszeit",
+    "Veranstaltungen"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol API und Historie",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Tagesdumps auf github.com/adsblol/globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL / frei (Community)",
+     "verified": false,
+     "sample_note": "ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie ueber Tagesarchive"
+    },
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/flights/arrival?airport=NZQN&begin=1763000000&end=1763080000",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Flug-Historie bis ca. 30 Tage per REST, laenger via Trino (Forschungskonto)",
+     "rate_limit": "4000 Credits/Tag mit Konto",
+     "license": "CC BY-NC (nur nichtkommerziell)",
+     "verified": false,
+     "sample_note": "Liste von Fluegen mit icao24, firstSeenaus. Nur Aggregat je Flugzeugtyp/Flughafen auswerten, keine Halterabfrage"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.aviation.continuity_aircraft",
+   "name_de": "Staatliche Fuehrungs-/Kommandoflugzeuge (E-4B, E-6B) in der Luft",
+   "plain_de": "Wie oft bekannte Regierungs-Fuehrungsflugzeuege ungewoehnlich fliegen.",
+   "domain": "aviation",
+   "evidence_class": "A",
+   "rationale": "Staatliche Flugzeuge (keine Privatpersonen) zeigen Alarmbereitschaft; Selbstblocking moeglich.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Uebungen",
+    "Wartung"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol API und Historie",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Tagesdumps auf github.com/adsblol/globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL / frei (Community)",
+     "verified": false,
+     "sample_note": "ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie ueber Tagesarchive"
+    }
+   ],
+   "notes": "Nur Flugzeugtyp-Aggregat. Nicht alle Fluege sichtbar (Transponder aus)."
+  },
+  {
+   "id": "cyber.aviation.airline_it_ground_stops",
+   "name_de": "Gleichzeitige Flugzeug-Bodenstopps / Flugausfaelle",
+   "plain_de": "Wie viele Fluege gleichzeitig am Boden bleiben.",
+   "domain": "aviation",
+   "evidence_class": "A",
+   "rationale": "IT-Ausfall von Airlines/Flugsicherung zeigt sich in Flugzahlen.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wetter",
+    "Streik"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "opensky-states",
+     "name": "OpenSky States",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=45&lomin=5&lamax=55&lomax=15",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "10 s",
+     "history": "nur Live",
+     "rate_limit": "400 Credits/Tag anonym",
+     "license": "CC BY-NC",
+     "verified": false,
+     "sample_note": "states[] Anzahl Flugzeuge in Box"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.wikipedia_cyber_terms",
+   "name_de": "Wikipedia-Seitenaufrufe zu Cyberangriff/Blackout/Notvorrat",
+   "plain_de": "Wie oft diese Artikel gelesen werden.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Laien-Aufmerksamkeit steigt, sobald Probleme sichtbar werden; Baseline seit 2015.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienbericht",
+    "Filme/Serien",
+    "Schulaufgaben"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Cyberangriff/daily/20250101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich (stuendlich nur ueber Dumps)",
+     "history": "ab Juli 2015",
+     "rate_limit": "200 Anfragen/s, User-Agent Pflicht",
+     "license": "CC0 fuer Daten",
+     "verified": true,
+     "sample_note": "items[].views. Fuer 'Cyberangriff' Test erfolgreich (daily views)"
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Blackout/daily/20250101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich (stuendlich nur ueber Dumps)",
+     "history": "ab Juli 2015",
+     "rate_limit": "200 Anfragen/s, User-Agent Pflicht",
+     "license": "CC0 fuer Daten",
+     "verified": true,
+     "sample_note": "items[].views. Fuer 'Cyberangriff' Test erfolgreich (daily views)"
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notvorrat/daily/20250101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich (stuendlich nur ueber Dumps)",
+     "history": "ab Juli 2015",
+     "rate_limit": "200 Anfragen/s, User-Agent Pflicht",
+     "license": "CC0 fuer Daten",
+     "verified": true,
+     "sample_note": "items[].views. Fuer 'Cyberangriff' Test erfolgreich (daily views)"
+    }
+   ],
+   "notes": "Auch Bargeld, Zivilschutz, Internet-Stoerung; mehrere Sprachen."
+  },
+  {
+   "id": "cyber.attention.wikipedia_cash_prep",
+   "name_de": "Wikipedia-Aufrufe: Bargeld, Notgepaeck, Katastrophenschutz",
+   "plain_de": "Alltagsvorsorge-Begriffe.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Vorsorge-Mentalitaet vor erwarteten Stoerungen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Behoerden-Kampagnen",
+    "Wetterereignisse"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Bargeld/daily/20250101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich (stuendlich nur ueber Dumps)",
+     "history": "ab Juli 2015",
+     "rate_limit": "200 Anfragen/s, User-Agent Pflicht",
+     "license": "CC0 fuer Daten",
+     "verified": true,
+     "sample_note": "items[].views. Fuer 'Cyberangriff' Test erfolgreich (daily views)"
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notgepäck/daily/20250101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich (stuendlich nur ueber Dumps)",
+     "history": "ab Juli 2015",
+     "rate_limit": "200 Anfragen/s, User-Agent Pflicht",
+     "license": "CC0 fuer Daten",
+     "verified": true,
+     "sample_note": "items[].views. Fuer 'Cyberangriff' Test erfolgreich (daily views)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.wikipedia_traffic_baseline",
+   "name_de": "Wikipedia-Gesamtaufrufe als Internet-Gesundheit",
+   "plain_de": "Wie viel Wikipedia insgesamt gelesen wird.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Einbruch = Zugangsproblem; global per Projekt.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wochenende",
+    "Bot-Filter"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "wikimedia-aggregate",
+     "name": "Wikimedia Aggregate Pageviews",
+     "doc_url": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/de.wikipedia/all-access/user/daily/20250101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2015",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "items[].views"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.wikipedia_edit_rate_outage_pages",
+   "name_de": "Wikipedia-Bearbeitungsrate in Ausfall-Artikeln",
+   "plain_de": "Wie schnell Aktuelle-Ereignisse-Seiten ueberarbeitet werden.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Hohe Bearbeitung nach Auftreten; kurze Vorlaufzeit.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Fan-Edits"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "wikimedia-eventstreams",
+     "name": "Wikimedia EventStreams recentchange",
+     "doc_url": "https://stream.wikimedia.org/?doc",
+     "endpoint": "https://stream.wikimedia.org/v2/stream/recentchange",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "nur Live; Dumps/Historie separat",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "SSE; title, wiki, type"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.google_trends_crisis",
+   "name_de": "Google-Trends-Suchinteresse (Notstrom, Powerbank, Bargeld, VPN)",
+   "plain_de": "Wonach die Bevoelkerung sucht.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Vorsorgekaeufe = Vorlauf bei Warnungen; Lizenz problematisch.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienereignisse",
+    "Saisonale Muster"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "google-trends-unofficial",
+     "name": "Google Trends (pytrends, inoffiziell)",
+     "doc_url": "https://github.com/GeneralMills/pytrends",
+     "endpoint": "https://trends.google.com/trends/api/widgetdata/multiline?req=...(via pytrends build_payload)",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich/stuendlich (7 Tage)",
+     "history": "ab 2004 (relativ 0-100)",
+     "rate_limit": "unbekannt",
+     "license": "Google ToS verbieten automatisierte Abfragen; keine offene Lizenz",
+     "verified": false,
+     "sample_note": "Relative Suchinteresse-Indexwerte; instabil, Rate-Limits/429"
+    }
+   ],
+   "notes": "Alternative: Wikipedia-Pageviews."
+  },
+  {
+   "id": "cyber.attention.gdelt_cyber_volume",
+   "name_de": "GDELT-Themenvolumen Cyberangriff/Ausfall",
+   "plain_de": "Anteil der Nachrichten ueber Cyberangriffe.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Medienvolumen als Zeitreihe; Medien = Kontext, aber Zeitreihe messbar.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Kampagnen",
+    "Prominente Faelle"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT DOC 2.0 API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22cyber%20attack%22%20sourcelang:eng&mode=timelinevol&format=json&timespan=1y",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "rollierend 3 Monate (DOC API), GKG-Dateien ab 2015",
+     "rate_limit": "unbekannt",
+     "license": "frei nutzbar mit Quellenangabe",
+     "verified": false,
+     "sample_note": "timeline[].data[].value = Anteil an Gesamtberichterstattung (normiert)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.hackernews_volume",
+   "name_de": "Hacker-News-Volumen zu outage/ransomware/DDoS",
+   "plain_de": "Wie viele HN-Beitraege pro Stunde.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Technikszene reagiert in Minuten; Kommentarvolumen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Einzelner Blog-Hype"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "hn-algolia",
+     "name": "Hacker News Algolia API",
+     "doc_url": "https://hn.algolia.com/api",
+     "endpoint": "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&hitsPerPage=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "vollstaendig seit 2006 (numericFilters=created_at_i)",
+     "rate_limit": "10000 Anfragen/h",
+     "license": "Daten oeffentlich, ToS Algolia/HN beachten",
+     "verified": false,
+     "sample_note": "nbHits fuer Zeitfenster = Themenvolumen. Test lief in Rate-Limit (429), nicht bestaetigt"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.reddit_sysadmin_activity",
+   "name_de": "Reddit r/sysadmin Aktivitaet",
+   "plain_de": "Aktive Nutzer in der Admin-Community.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Admins berichten Stoerungen zuerst; Spike der aktiven Konten.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Virale Threads"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "reddit-json",
+     "name": "Reddit about.json",
+     "doc_url": "https://www.reddit.com/dev/api/",
+     "endpoint": "https://www.reddit.com/r/sysadmin/about.json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "nur Live",
+     "rate_limit": "unbekannt",
+     "license": "Reddit Data API Terms, kommerziell eingeschraenkt",
+     "verified": false,
+     "sample_note": "data.accounts_active, subscribers (r/preppers etc.)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.bluesky_mastodon_keywords",
+   "name_de": "Bluesky-/Mastodon-Stichwortzaehlung (outage, down, Stoerung)",
+   "plain_de": "Zaehlungen in oeffentlichen Firehoses.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Echtzeitnahe Stoerungsmeldung; nur Zaehlen, keine Profile.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Einzelne Dienste ausser Betrieb"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "bluesky-jetstream",
+     "name": "Bluesky Jetstream",
+     "doc_url": "https://github.com/bluesky-social/jetstream",
+     "endpoint": "wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "nur Live, selbst zaehlen",
+     "rate_limit": "unbekannt",
+     "license": "oeffentliche Firehose, Nutzerinhalte; nur Aggregat zaehlen",
+     "verified": false,
+     "sample_note": "commit.record.text auf Stichworte zaehlen, nicht speichern"
+    },
+    {
+     "source_id": "mastodon-trends",
+     "name": "Mastodon Trends API",
+     "doc_url": "https://docs.joinmastodon.org/methods/trends/",
+     "endpoint": "https://mastodon.social/api/v1/trends/tags?limit=20",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "7 Tage je Tag (history[])",
+     "rate_limit": "unbekannt",
+     "license": "je Instanz, offen",
+     "verified": false,
+     "sample_note": "history[].uses, accounts"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.crowd_outage_aggregators",
+   "name_de": "Crowd-Stoerungsmeldungen (Downdetector-Ersatz)",
+   "plain_de": "Wie viele Nutzer gleichzeitig Stoerungen melden.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Downdetector ohne offene API; Alternativen: StatusGator/IsDown, Statuspage-Feeds, Reddit.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Einzeldienst-Ausfall"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "isdown-statusgator",
+     "name": "StatusGator / IsDown (Aggregation von Statusseiten)",
+     "doc_url": "https://statusgator.com/",
+     "endpoint": "https://isdown.app/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "paid",
+     "cost": "paid ab ca. 20 USD/Monat",
+     "update_latency": "Minuten",
+     "history": "StatusGator-Historie in Bezahlplaenen",
+     "rate_limit": "unbekannt",
+     "license": "kommerziell, ToS pruefen",
+     "verified": false,
+     "sample_note": "Aggregierte Vendor-Stoerungen; Gratis-Ersatz: Statuspage-JSON je Anbieter (z. B. https://www.githubstatus.com/api/v2/summary.json)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.app_store_survival_apps",
+   "name_de": "App-Store-Charts: Offline-Karten, VPN, Funk-/Notfall-Apps",
+   "plain_de": "Rang von Krisen-Apps im Store.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Vorsorge-Apps steigen bei Angst; Historie selbst archivieren.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Reisesaison",
+    "Zensurereignisse"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "itunes-rss",
+     "name": "Apple Marketing Tools RSS (App-Charts)",
+     "doc_url": "https://rss.applemarketingtools.com/",
+     "endpoint": "https://rss.applemarketingtools.com/api/v2/de/apps/top-free/100/apps.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "nur aktueller Stand; Historie selbst archivieren (oder Wayback/Sensor Tower paid)",
+     "rate_limit": "unbekannt",
+     "license": "Apple-Bedingungen, unklar",
+     "verified": false,
+     "sample_note": "feed.results[] mit Reihenfolge = Rang"
+    }
+   ],
+   "notes": "Bluetooth-Mesh-Apps (Bridgefy, Briar), NINA, Warn-Apps beobachten."
+  },
+  {
+   "id": "cyber.attention.tor_vpn_demand",
+   "name_de": "Tor-Nutzerzahlen und VPN-Nachfrage",
+   "plain_de": "Wie viele Nutzer Tor verwenden.",
+   "domain": "attention",
+   "evidence_class": "A",
+   "rationale": "Tor-Statistik ist eine Messung; Anstieg bei Zensur/Stoerung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Politische Ereignisse",
+    "Zensur in anderen Laendern"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "tor-metrics",
+     "name": "Tor Metrics",
+     "doc_url": "https://metrics.torproject.org/stats.html",
+     "endpoint": "https://metrics.torproject.org/userstats-relay-country.csv?start=2025-01-01&end=2026-11-16&country=de&events=off",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich, ~2 Tage Verzug",
+     "history": "ab 2011",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "users je Land (geschaetzt aus Verzeichnisanfragen)"
+    }
+   ],
+   "notes": "VPN-Nachfrage zusaetzlich ueber Wikipedia/Trends."
+  },
+  {
+   "id": "cyber.attention.steam_twitch_activity",
+   "name_de": "Gleichzeitige Spieler (Steam) als Internet-Gesundheit",
+   "plain_de": "Wie viele Menschen gleichzeitig online spielen.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Einbruch zeigt breite Erreichbarkeitsprobleme; taeglicher Rhythmus.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Steam-Ausfall",
+    "Spiel-Releases"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "steam-players",
+     "name": "Steam Web API (Gleichzeitige Spieler)",
+     "doc_url": "https://partner.steamgames.com/doc/webapi/ISteamUserStats",
+     "endpoint": "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=730",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "nur Live, Historie selbst archivieren (steamcharts)",
+     "rate_limit": "unbekannt",
+     "license": "Steam Web API Terms",
+     "verified": false,
+     "sample_note": "response.player_count"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.ham_radio_activity",
+   "name_de": "Amateurfunk-Spots (PSKReporter) als Krisenverhalten",
+   "plain_de": "Wie aktiv Funkamateure digital senden.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Hams werden bei Krisen aktiv; Aggregat.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Contests",
+    "Sonnenaktivitaet"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "pskreporter",
+     "name": "PSKReporter",
+     "doc_url": "https://pskreporter.info/pskdev.html",
+     "endpoint": "https://retrieve.pskreporter.info/query?flowStartSeconds=-900&rronly=1&noactive=1",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "kurz; Langzeit selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "unklar, Fair Use",
+     "verified": false,
+     "sample_note": "Anzahl receptionReport = Funk-Amateuraktivitaet"
+    }
+   ],
+   "notes": "Aggregat, keine Rufzeichen."
+  },
+  {
+   "id": "cyber.attention.meshtastic_nodes",
+   "name_de": "Meshtastic-Mesh-Netz Knotenzahl",
+   "plain_de": "Wie viele Offline-Funk-Mesh-Geraete aktiv sind.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Wachstum = Vorsorge/Interesse an netzunabhaengiger Kommunikation.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Hobby-Wachstum"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "meshtastic-map",
+     "name": "Meshtastic Public Map (liamcottle)",
+     "doc_url": "https://meshtastic.liamcottle.net/",
+     "endpoint": "https://meshtastic.liamcottle.net/api/v1/nodes",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur Live; selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "Community, unklar",
+     "verified": false,
+     "sample_note": "Anzahl Knoten, Neuregistrierungen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dev.github_push_volume",
+   "name_de": "GitHub-Push-Volumen (GH Archive)",
+   "plain_de": "Wie viele Code-Uebertragungen pro Stunde.",
+   "domain": "dev",
+   "evidence_class": "A",
+   "rationale": "Weltweite Arbeitsunterbrechung zeigt sich als Einbruch.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Feiertage",
+    "GitHub-Ausfall"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gharchive",
+     "name": "GH Archive",
+     "doc_url": "https://www.gharchive.org/",
+     "endpoint": "https://data.gharchive.org/2026-11-16-15.json.gz",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 h",
+     "history": "stuendliche Dateien seit 2011",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 fuer Archiv, Inhalte unterliegen Autorenrechten",
+     "verified": false,
+     "sample_note": "Zeilenweise Events; type=PushEvent zaehlen; BigQuery-Variante github_archive"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dev.security_repo_commit_hours",
+   "name_de": "Commit-Zeitmuster in oeffentlichen Security-Repos",
+   "plain_de": "Zu welchen Uhrzeiten Security-Projekte arbeiten.",
+   "domain": "dev",
+   "evidence_class": "D",
+   "rationale": "Ungewoehnliche Nachtarbeit vieler Maintainer = Notfall. Aggregat je Repo-Korb.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Release-Termine"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "github-rest",
+     "name": "GitHub REST API",
+     "doc_url": "https://docs.github.com/en/rest",
+     "endpoint": "https://api.github.com/repos/torvalds/linux/commits?per_page=100",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "gesamte Git-Historie",
+     "rate_limit": "60/h anonym, 5000/h mit Token",
+     "license": "GitHub ToS, Commit-Metadaten oeffentlich",
+     "verified": false,
+     "sample_note": "commit.author.date / committer.date (UTC)"
+    }
+   ],
+   "notes": "Nur Repo-Aggregate, keine Autorenprofile."
+  },
+  {
+   "id": "cyber.dev.emergency_releases",
+   "name_de": "Notfall-Updates grosser Software (Chrome, Microsoft)",
+   "plain_de": "Ausserplanmaessige Sicherheitsupdates.",
+   "domain": "dev",
+   "evidence_class": "B",
+   "rationale": "Haeufung ausserhalb Patch-Rhythmus = aktive Ausnutzung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Zero-Day-Einzelfall"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "chromiumdash",
+     "name": "Chromium Dash Releases",
+     "doc_url": "https://chromiumdash.appspot.com/releases",
+     "endpoint": "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "mehrere Jahre",
+     "rate_limit": "unbekannt",
+     "license": "BSD/Chromium; API inoffiziell",
+     "verified": false,
+     "sample_note": "time, version; Notfall-Zero-Day-Updates ausserhalb Rhythmus"
+    },
+    {
+     "source_id": "msrc",
+     "name": "Microsoft Security Update Guide API",
+     "doc_url": "https://api.msrc.microsoft.com/cvrf/v3.0/swagger/index.html",
+     "endpoint": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "ab 1998",
+     "rate_limit": "unbekannt",
+     "license": "Microsoft API ToS",
+     "verified": false,
+     "sample_note": "value[] mit InitialReleaseDate (ausserplanmaessige Releases erkennbar abseits Patch Tuesday)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dev.package_downloads_npm_pypi",
+   "name_de": "npm-/PyPI-Downloadzahlen",
+   "plain_de": "Wie viele Pakete geladen werden.",
+   "domain": "dev",
+   "evidence_class": "B",
+   "rationale": "Globaler Einbruch zeigt Ausfall; Anomalien bei Lieferketten.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "CI-Ausfaelle",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "npm-downloads",
+     "name": "npm Download Counts API",
+     "doc_url": "https://github.com/npm/registry/blob/main/docs/download-counts.md",
+     "endpoint": "https://api.npmjs.org/downloads/range/2025-11-01:2026-11-16/express",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "18 Monate",
+     "rate_limit": "unbekannt",
+     "license": "npm ToS; Daten offen",
+     "verified": false,
+     "sample_note": "downloads[].downloads je Tag"
+    },
+    {
+     "source_id": "pypistats",
+     "name": "pypistats.org API",
+     "doc_url": "https://pypistats.org/api/",
+     "endpoint": "https://pypistats.org/api/packages/requests/overall",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "180 Tage (BigQuery fuer mehr)",
+     "rate_limit": "unbekannt",
+     "license": "CC0? unklar",
+     "verified": false,
+     "sample_note": "data[].downloads"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dev.ct_log_issuance",
+   "name_de": "Zertifikatsausstellung (CT-Log-Wachstum)",
+   "plain_de": "Wie viele TLS-Zertifikate pro Stunde.",
+   "domain": "dev",
+   "evidence_class": "A",
+   "rationale": "Einbruch bei CA-Ausfall; Anstieg bei Massenregistrierungen.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Log-Sharding"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ct-logs",
+     "name": "Certificate Transparency Log STH",
+     "doc_url": "https://certificate.transparency.dev/",
+     "endpoint": "https://ct.googleapis.com/logs/us1/argon2026h2/ct/v1/get-sth",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "nur Zaehlerstand, Differenz selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "oeffentlich",
+     "verified": false,
+     "sample_note": "tree_size: Zuwachs/Stunde = Zertifikatsausstellungen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dev.domain_registrations_crisis_terms",
+   "name_de": "Neu registrierte Domains mit Krisenbegriffen",
+   "plain_de": "Neue Domains mit Begriffen wie notstrom, cyberangriff.",
+   "domain": "dev",
+   "evidence_class": "D",
+   "rationale": "Opportunisten und Betrueger reagieren schnell.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Spam"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "whoisds",
+     "name": "WhoisDS Newly Registered Domains",
+     "doc_url": "https://whoisds.com/newly-registered-domains",
+     "endpoint": "https://whoisds.com/whois-database/newly-registered-domains/",
+     "access": "download",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "archivierte Tageslisten",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Liste neuer Domains pro Tag; Zaehlung nach Schluesselwoertern"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dev.cloudflare_domain_rankings",
+   "name_de": "Cloudflare Radar Domain-Rankings Notfall-/Behoerdenseiten",
+   "plain_de": "Rang von Behoerden- und Notfall-Domains.",
+   "domain": "dev",
+   "evidence_class": "D",
+   "rationale": "Nachfrage nach Informationsseiten.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Kampagnen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/ranking/top?limit=100&dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "bis ca. 1-2 Jahre je Endpunkt",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC 4.0",
+     "verified": false,
+     "sample_note": "result.top_0[].domain, rank"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.govt.ted_emergency_it",
+   "name_de": "TED: Notfall-/Verhandlungsvergaben IT-Sicherheit",
+   "plain_de": "Beschaffungen ohne Ausschreibung bei IT-Sicherheit.",
+   "domain": "procurement",
+   "evidence_class": "B",
+   "rationale": "Dringlichkeitsvergaben als Verhalten.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Haushaltsende"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ted",
+     "name": "TED Search API (EU Ausschreibungen)",
+     "doc_url": "https://docs.ted.europa.eu/api/latest/index.html",
+     "endpoint": "https://api.ted.europa.eu/v3/notices/search",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2014 (eForms ab 2023)",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "POST mit query z. B. classification-cpv=72* und procedure-type; notice-publication-number, publication-date"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.govt.sam_gov_justifications",
+   "name_de": "SAM.gov Justification-Notices (ohne Wettbewerb)",
+   "plain_de": "US-Notvergaben im Cyberbereich.",
+   "domain": "procurement",
+   "evidence_class": "B",
+   "rationale": "Haeufung von J&A fuer Cyber/Backup.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Fiskaljahresende"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "sam-gov",
+     "name": "SAM.gov Opportunities API",
+     "doc_url": "https://open.gsa.gov/api/get-opportunities-public-api/",
+     "endpoint": "https://api.sam.gov/opportunities/v2/search?api_key=KEY&postedFrom=11/01/2026&postedTo=11/16/2026&ptype=a&ncode=541512",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "mehrere Jahre",
+     "rate_limit": "1000/Tag (Key)",
+     "license": "US-Public-Domain",
+     "verified": false,
+     "sample_note": "opportunitiesData[] mit Typ 'Justification' (J&A) = Notvergabe ohne Wettbewerb"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.labor.incident_response_postings",
+   "name_de": "Stellenanzeigen Incident Response",
+   "plain_de": "Offene Stellen fuer Notfallteams.",
+   "domain": "labor",
+   "evidence_class": "D",
+   "rationale": "Aufbau von Reaktionskapazitaet.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Konjunktur"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "bundesagentur-jobsuche",
+     "name": "Bundesagentur fuer Arbeit Jobsuche API",
+     "doc_url": "https://jobsuche.api.bund.dev/",
+     "endpoint": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobs?was=Incident%20Response&size=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "nur aktueller Bestand, Historie selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "bund.dev, offene Nutzung; Bedingungen pruefen",
+     "verified": false,
+     "sample_note": "maxErgebnisse = Anzahl offener Stellen (oeffentlicher Client-Header X-API-Key laut bund.dev)"
+    },
+    {
+     "source_id": "adzuna",
+     "name": "Adzuna API",
+     "doc_url": "https://developer.adzuna.com/",
+     "endpoint": "https://api.adzuna.com/v1/api/jobs/de/search/1?app_id=ID&app_key=KEY&what=incident%20response",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "aktueller Bestand",
+     "rate_limit": "unbekannt",
+     "license": "Adzuna ToS",
+     "verified": false,
+     "sample_note": "count"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.energy.grid_load_germany",
+   "name_de": "Netzlast Deutschland (SMARD)",
+   "plain_de": "Gesamtstromverbrauch im Netz.",
+   "domain": "energy",
+   "evidence_class": "A",
+   "rationale": "Abrupte Abweichung = grosse Abschaltungen.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wetter",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "smard",
+     "name": "SMARD (Bundesnetzagentur)",
+     "doc_url": "https://smard.de/page/home/downloadcenter/download-marktdaten",
+     "endpoint": "https://www.smard.de/app/chart_data/410/DE/410_DE_hour_1731542400000.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich",
+     "history": "ab 2015",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "series[]=[timestamp, MW] (410=Stromverbrauch Netzlast)"
+    },
+    {
+     "source_id": "entsoe",
+     "name": "ENTSO-E Transparency Platform",
+     "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=202611150000&periodEnd=202611160000&securityToken=TOKEN",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~1 h",
+     "history": "ab 2015",
+     "rate_limit": "400 Anfragen/min",
+     "license": "CC BY 4.0 (laut ENTSO-E)",
+     "verified": false,
+     "sample_note": "Actual Total Load je Zone (MW)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.energy.irish_datacenter_load",
+   "name_de": "Irische Netzlast (Rechenzentren-Anteil)",
+   "plain_de": "Last in Irland, wo Rechenzentren grossen Anteil haben.",
+   "domain": "energy",
+   "evidence_class": "A",
+   "rationale": "Datacenter-Abschaltung als Lastsprung.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "eirgrid",
+     "name": "EirGrid Smart Grid Dashboard",
+     "doc_url": "https://www.smartgriddashboard.com/",
+     "endpoint": "https://www.smartgriddashboard.com/DashboardService.svc/data?area=demandactual&region=ALL&datefrom=15-Nov-2026+00:00&dateto=16-Nov-2026+23:59",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "ab 2014",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Rows[].Value = MW (Irland: ~20 % Last durch Rechenzentren)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.energy.ercot_pjm_load",
+   "name_de": "US-Stromlast ERCOT/PJM (Ashburn, Texas)",
+   "plain_de": "Stromlast in Rechenzentrums-Regionen.",
+   "domain": "energy",
+   "evidence_class": "A",
+   "rationale": "Lastsprung = Abschaltung.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "eia-930",
+     "name": "EIA Open Data (Hourly Grid Monitor)",
+     "doc_url": "https://www.eia.gov/opendata/",
+     "endpoint": "https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=KEY&frequency=hourly&data[0]=value&facets[respondent][]=PJM",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~1 h",
+     "history": "ab 2015",
+     "rate_limit": "unbekannt",
+     "license": "US-Public-Domain",
+     "verified": false,
+     "sample_note": "data[].value MWh"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.market.cat_bond_cyber",
+   "name_de": "Cyber-Katastrophenanleihen",
+   "plain_de": "Preise/Spreads von Cyber-Cat-Bonds.",
+   "domain": "market",
+   "evidence_class": "A",
+   "rationale": "Spread-Ausweitung = Risikoneubewertung.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Neuemissionen"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "artemis",
+     "name": "Artemis Cyber Cat Bonds",
+     "doc_url": "https://www.artemis.bm/",
+     "endpoint": "https://www.artemis.bm/deal-directory/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Deal-Verzeichnis",
+     "rate_limit": "unbekannt",
+     "license": "urheberrechtlich geschuetzt",
+     "verified": false,
+     "sample_note": "Deal, Spread"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.ransomware_leak_volume",
+   "name_de": "Ransomware-Leak-Seiten-Posts pro Tag",
+   "plain_de": "Zahl der Opfer, die Erpressergruppen listen.",
+   "domain": "attention",
+   "evidence_class": "B",
+   "rationale": "Verhalten der Angreifer (selbstgemeldet): Anstieg = Kampagne.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Gruppenwechsel",
+    "Datenbank-Aufholung"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ransomware-live",
+     "name": "ransomware.live API",
+     "doc_url": "https://www.ransomware.live/api",
+     "endpoint": "https://api.ransomware.live/v2/recentvictims",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Opfer-Historie seit 2020",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC? unklar",
+     "verified": false,
+     "sample_note": "discovered, group_name, country"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.labor.conference_cancellations",
+   "name_de": "Konferenz-/Event-Absagen in Sicherheit/Cloud",
+   "plain_de": "Absagen grosser Fachkonferenzen.",
+   "domain": "labor",
+   "evidence_class": "D",
+   "rationale": "Teilnehmer erwarten Probleme; kein Standardfeed.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Kosten"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "confs-tech",
+     "name": "confs.tech",
+     "doc_url": "https://confs.tech/",
+     "endpoint": "https://github.com/tech-conferences/conference-data",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unregelmaessig",
+     "history": "GitHub-Historie",
+     "rate_limit": "unbekannt",
+     "license": "MIT",
+     "verified": false,
+     "sample_note": "Event-Eintraege; Absagen via Commit-Historie"
+    }
+   ],
+   "notes": ""
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Verkehrsdaten (Staus/Zufahrten) an Rechenzentrums-Standorten - keine freie Quelle bekannt",
+  "Idee: Thermalsatellitenbilder von Rechenzentren (Landsat/ASTER) - ungeklaerte Aufloesung und Latenz",
+  "Idee: Diesel-/Heizoel-Bestellungen und Notstromaggregat-Verkaeufe im Handel - keine offene Zeitreihe",
+  "Idee: Hamsterkaeufe Batterien/Powerbank (Preisindex Geizhals) - Scrape-Lizenz unklar",
+  "Idee: Lieferzeit-Anstiege fuer Satellitenkommunikation/Funkgeraete",
+  "Idee: Cyber-Versicherungsprämien (Marktberichte) - nicht frei",
+  "Idee: Konferenzabsagen als strukturierter Feed - keine Quelle",
+  "Idee: Interne Rechenzentrums-Wartungsfenster-Mitteilungen",
+  "Idee: Bundestag-/Behoerden-Anfragen zu Krisenvorsorge (Kleine Anfragen, DIP-API) als Verhaltensindikator"
+ ]
+}

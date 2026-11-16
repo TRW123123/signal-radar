@@ -1,0 +1,163 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { normalizeSignal } from '../src/core/catalog.ts';
+import type { BanalRule, Observation, ScenarioDef, SignalDef } from '../src/core/types.ts';
+import { baselineAt, evaluate, SENSITIVITY } from '../src/engine/anomaly.ts';
+import { banalDamp, globMatch } from '../src/engine/banal.ts';
+import { levelOf, scoreScenario } from '../src/engine/score.ts';
+import { mad, median, noisyOr } from '../src/engine/stats.ts';
+
+const NOW = Date.parse('2026-11-17T12:00:00Z');
+const H = 3600_000;
+
+function sig(id: string, over: Partial<SignalDef> = {}): SignalDef {
+  return normalizeSignal({
+    id, scenarios: ['cyber'], domain: id.split('.')[1], evidenceClass: 'A', direction: 'up', kind: 'gauge', weight: 0.9,
+    manipulability: 'low', intervalMinutes: 60, status: 'active', baseline: { method: 'rolling', windowDays: 28, minPoints: 48 },
+    ...over,
+  });
+}
+
+/** hourly series: deterministic noise around `level`, last `spikeHours` hours multiplied by `spike` */
+function series(id: string, level: number, spike = 1, spikeHours = 3, days = 20): Observation[] {
+  const out: Observation[] = [];
+  const n = days * 24;
+  for (let i = n; i >= 0; i--) {
+    const noise = 1 + 0.03 * Math.sin(i * 1.7) + 0.02 * Math.cos(i * 0.37);
+    out.push({ signalId: id, ts: new Date(NOW - i * H).toISOString(), value: level * noise * (i < spikeHours ? spike : 1) });
+  }
+  return out;
+}
+
+const scenario: ScenarioDef = {
+  id: 'cyber', order: 1, title: 'Cyber', question: '?', tagline: '',
+  domains: { routing: { title: 'R', weight: 1 }, finance: { title: 'F', weight: 1 }, outages: { title: 'O', weight: 1 }, physical: { title: 'P', weight: 1 } },
+};
+
+function run(signals: SignalDef[], data: Observation[][], rules: BanalRule[] = [], now = NOW) {
+  const map = new Map<string, Observation[]>();
+  signals.forEach((s, i) => map.set(s.id, data[i]));
+  return scoreScenario({ now, sensitivity: 'high', scenario, signals, series: map, rules });
+}
+
+test('stats basics', () => {
+  assert.equal(median([3, 1, 2]), 2);
+  assert.equal(median([1, 2, 3, 4]), 2.5);
+  assert.ok(Math.abs(mad([1, 2, 3, 4, 5]) - 1.4826) < 1e-9);
+  assert.ok(Math.abs(noisyOr([0.5, 0.5]) - 0.75) < 1e-9);
+});
+
+test('baseline uses only the past and is robust against an old incident', () => {
+  const s = sig('cyber.routing.x');
+  const data = series(s.id, 100);
+  data[100].value = 10_000; // old incident inside the window
+  const b = baselineAt(s, data, NOW)!;
+  assert.ok(Math.abs(b.center - 100) < 5, `center ${b.center}`);
+  assert.ok(b.scale < 10, `scale ${b.scale}`);
+});
+
+test('quiet series produces no anomaly', () => {
+  const s = sig('cyber.routing.x');
+  const r = evaluate(s, series(s.id, 100), NOW, SENSITIVITY.high);
+  assert.equal(r.anomaly, 0);
+  assert.equal(r.fresh, true);
+});
+
+test('spike produces an anomaly, direction is respected', () => {
+  const up = sig('cyber.routing.x');
+  assert.ok(evaluate(up, series(up.id, 100, 2), NOW, SENSITIVITY.high).anomaly > 0.9);
+  // a drop is not an anomaly for an "up" signal, but is for a "down" signal
+  assert.equal(evaluate(up, series(up.id, 100, 0.3), NOW, SENSITIVITY.high).anomaly, 0);
+  const down = sig('cyber.routing.y', { direction: 'down' });
+  assert.ok(evaluate(down, series(down.id, 100, 0.3), NOW, SENSITIVITY.high).anomaly > 0.9);
+});
+
+test('stale data never counts', () => {
+  const s = sig('cyber.routing.x');
+  const old = series(s.id, 100, 3).map((o) => ({ ...o, ts: new Date(Date.parse(o.ts) - 3 * 24 * H).toISOString() }));
+  const r = evaluate(s, old, NOW, SENSITIVITY.high);
+  assert.equal(r.fresh, false);
+  assert.equal(r.anomaly, 0);
+});
+
+test('a spike keeps counting during the hold window and decays', () => {
+  const s = sig('cyber.routing.x', { holdHours: 12 });
+  const data = series(s.id, 100);
+  data[data.length - 4].value = 400; // 3 hours ago
+  const r = evaluate(s, data, NOW, SENSITIVITY.high);
+  assert.ok(r.anomaly > 0.7 && r.anomaly < 1, `anomaly ${r.anomaly}`);
+});
+
+test('a single domain cannot push the scenario beyond "Leicht erhöht"', () => {
+  const a = sig('cyber.routing.a');
+  const b = sig('cyber.routing.b', { independenceGroup: 'other' });
+  const v = run([a, b], [series(a.id, 100, 5), series(b.id, 50, 5)]);
+  assert.equal(v.activeDomains, 1);
+  assert.ok(v.level <= 1, `level ${v.level} score ${v.score}`);
+});
+
+test('convergence of independent domains raises the level', () => {
+  const sigs = [sig('cyber.routing.a'), sig('cyber.finance.a'), sig('cyber.outages.a'), sig('cyber.physical.a')];
+  const two = run(sigs, [series(sigs[0].id, 100, 5), series(sigs[1].id, 10, 5), series(sigs[2].id, 7), series(sigs[3].id, 3)]);
+  const four = run(sigs, sigs.map((s, i) => series(s.id, 10 * (i + 1), 5)));
+  assert.equal(two.activeDomains, 2);
+  assert.equal(four.activeDomains, 4);
+  assert.ok(two.level >= 2 && two.level < four.level, `two ${two.level} four ${four.level}`);
+  assert.equal(four.level, 4);
+});
+
+test('quiet world is level 0 with full confidence', () => {
+  const sigs = [sig('cyber.routing.a'), sig('cyber.finance.a')];
+  const v = run(sigs, sigs.map((s) => series(s.id, 100)));
+  assert.equal(v.level, 0);
+  assert.equal(v.score, 0);
+  assert.ok(v.confidence > 0.99);
+  assert.equal(v.verdict, 'Messwerte im normalen Bereich.');
+});
+
+test('signals from the same source count once per domain', () => {
+  const a = sig('cyber.routing.a', { independenceGroup: 'ripe', weight: 0.5 });
+  const b = sig('cyber.routing.b', { independenceGroup: 'ripe', weight: 0.5 });
+  const c = sig('cyber.routing.c', { independenceGroup: 'other', weight: 0.5 });
+  const same = run([a, b], [series(a.id, 100, 5), series(b.id, 100, 5)]);
+  const indep = run([a, c], [series(a.id, 100, 5), series(c.id, 100, 5)]);
+  assert.ok(indep.domains[0].score > same.domains[0].score);
+});
+
+test('attention is separate: rumour without measurements is labelled as such', () => {
+  const m = sig('cyber.routing.a');
+  const d = sig('cyber.attention.wiki', { evidenceClass: 'D', domain: 'attention', weight: 0.7 });
+  const v = run([m, d], [series(m.id, 100), series(d.id, 1000, 6)]);
+  assert.equal(v.level, 0);
+  assert.ok(v.attention > 0.35, `attention ${v.attention}`);
+  assert.equal(v.rumorGap, 'talk-no-data');
+  assert.match(v.verdict, /Aufmerksamkeit/);
+});
+
+test('official statements (class C) never contribute', () => {
+  const c = sig('cyber.routing.statement', { evidenceClass: 'C' });
+  const v = run([c], [series(c.id, 1, 50)]);
+  assert.equal(v.score, 0);
+});
+
+test('banal rule damps and explains', () => {
+  const rules: BanalRule[] = [{ id: 'pt', type: 'nth-weekday', appliesTo: ['cyber.vuln.*'], factor: 0.4, reason: 'Patch-Dienstag', params: { weekday: 2, n: 2, spillDays: 1 } }];
+  const patchTuesday = Date.parse('2026-11-10T18:00:00Z'); // second Tuesday of November 2026
+  assert.deepEqual(banalDamp(rules, 'cyber.vuln.kev', patchTuesday, { latest: () => null }), { factor: 0.4, reason: 'Patch-Dienstag' });
+  assert.equal(banalDamp(rules, 'cyber.vuln.kev', patchTuesday + 5 * 24 * H, { latest: () => null }), null);
+  assert.equal(banalDamp(rules, 'cyber.routing.x', patchTuesday, { latest: () => null }), null);
+  assert.ok(globMatch('cyber.*.gps*', 'cyber.physical.gps_jam'));
+  assert.ok(!globMatch('cyber.vuln.*', 'cyberXvuln.a'));
+});
+
+test('immature baseline counts half and lowers confidence', () => {
+  const s = sig('cyber.routing.a');
+  const short = series(s.id, 100, 5, 3, 1); // one day of history, minPoints 48
+  const v = run([s], [short]);
+  assert.ok(v.confidence <= 0.5);
+  assert.ok(v.domains[0].signals[0].contribution < 0.5);
+});
+
+test('level thresholds', () => {
+  assert.deepEqual([0, 0.12, 0.3, 0.55, 0.78, 1].map(levelOf), [0, 1, 2, 3, 4, 4]);
+});

@@ -1,0 +1,2837 @@
+{
+ "subdomain": "Internet-Kerninfrastruktur",
+ "generated": "2026-11-17",
+ "signals": [
+  {
+   "id": "cyber.routing.bgp_withdrawals_global",
+   "name_de": "BGP-Withdrawals weltweit",
+   "plain_de": "Zaehlt, wie viele Routen pro Minute aus dem Internet-Routing zurueckgezogen werden; ein Sprung heisst, dass Netze verschwinden.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Grossausfaelle (Konfigurationsfehler, Kabel, Angriff) zeigen sich als Withdrawal-Welle, oft vor Medienberichten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Routing-Maintenance",
+    "Route-Flapping einzelner Provider",
+    "Session-Resets bei Collectoren"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ris-live",
+     "name": "RIPE RIS Live (WebSocket)",
+     "doc_url": "https://ris-live.ripe.net/manual/",
+     "endpoint": "wss://ris-live.ripe.net/v1/ws/?client=signalradar (subscribe type=UPDATE, Auswertung withdrawals)",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "keine (nur Live-Stream; Archiv ueber RIS-MRT-Dumps)",
+     "rate_limit": "fair use",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "Felder data.withdrawals je UPDATE; Rate pro Minute selbst aggregieren"
+    },
+    {
+     "source_id": "ripe-stat",
+     "name": "RIPEstat Data API",
+     "doc_url": "https://stat.ripe.net/docs/02.data-api/",
+     "endpoint": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS3320",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5-15 min",
+     "history": "teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage)",
+     "rate_limit": "ca. 8 parallele Anfragen, fair use",
+     "license": "RIPE NCC Terms, frei nutzbar",
+     "verified": false,
+     "sample_note": "Update-/Withdrawal-Zaehler je Resource in Zeitfenstern"
+    }
+   ],
+   "notes": "Baseline je Collector bilden, Session-Resets herausfiltern."
+  },
+  {
+   "id": "cyber.routing.bgp_update_rate",
+   "name_de": "BGP-Update-Rate (Announcements)",
+   "plain_de": "Gesamtzahl der BGP-Aenderungsmeldungen; Stuerme deuten auf Instabilitaet oder Leaks hin.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Routing-Instabilitaet im grossen Stil (Worm, Leak, Fehlkonfiguration) erhoeht die Update-Rate drastisch.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Collector-Resets",
+    "Tabellen-Neuaufbau grosser Peers"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ris-live",
+     "name": "RIPE RIS Live (WebSocket)",
+     "doc_url": "https://ris-live.ripe.net/manual/",
+     "endpoint": "wss://ris-live.ripe.net/v1/ws/ (type=UPDATE)",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "keine (nur Live-Stream; Archiv ueber RIS-MRT-Dumps)",
+     "rate_limit": "fair use",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "Zaehle UPDATE-Nachrichten/min je rrc"
+    },
+    {
+     "source_id": "routeviews",
+     "name": "RouteViews Archive",
+     "doc_url": "https://www.routeviews.org/routeviews/",
+     "endpoint": "https://archive.routeviews.org/route-views.eqix/bgpdata/YYYY.MM/UPDATES/",
+     "access": "download",
+     "format": "mrt",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min Updates, 2h RIB",
+     "history": "Archiv seit 2001",
+     "rate_limit": "kein Limit bekannt",
+     "license": "frei (Univ. Oregon)",
+     "verified": false,
+     "sample_note": "MRT-Updates 15-min-Dateien, Dateigroesse als Proxy"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.visible_prefixes_v4_v6",
+   "name_de": "Sichtbare Praefixe (IPv4/IPv6)",
+   "plain_de": "Anzahl der im globalen Routing sichtbaren Netzbloecke; ein Einbruch ist ein Massenausfall.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Globale Tabellengroesse bricht bei grossflaechigem Ausfall oder Filterfehler ein.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Aggregationsaenderungen",
+    "Bereinigung durch Grossprovider"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ripe-stat",
+     "name": "RIPEstat Data API",
+     "doc_url": "https://stat.ripe.net/docs/02.data-api/",
+     "endpoint": "https://stat.ripe.net/data/routing-status/data.json?resource=AS3320",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5-15 min",
+     "history": "teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage)",
+     "rate_limit": "ca. 8 parallele Anfragen, fair use",
+     "license": "RIPE NCC Terms, frei nutzbar",
+     "verified": false,
+     "sample_note": "visibility.v4/v6.ris_peers_seeing, announced prefixes"
+    },
+    {
+     "source_id": "potaroo",
+     "name": "Potaroo / CIDR Report BGP Table",
+     "doc_url": "https://bgp.potaroo.net/",
+     "endpoint": "https://bgp.potaroo.net/as2.0/bgp-active.txt",
+     "access": "download",
+     "format": "txt",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 1989",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "taegliche Tabellengroesse"
+    },
+    {
+     "source_id": "bgptools",
+     "name": "bgp.tools",
+     "doc_url": "https://bgp.tools/kb/api",
+     "endpoint": "https://bgp.tools/stats",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "begrenzt",
+     "rate_limit": "strenges Limit, UA mit Kontakt Pflicht",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Tabellengroesse live, nur scrape"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.country_prefix_visibility_de",
+   "name_de": "Sichtbarkeit deutscher Netze im Routing",
+   "plain_de": "Anteil der deutschen Netze, die weltweit erreichbar im Routing auftauchen.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Landesweite Isolation oder Grossausfall in DE ist hier unmittelbar sichtbar.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Messartefakte bei wenigen Peers"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ripe-stat",
+     "name": "RIPEstat Data API",
+     "doc_url": "https://stat.ripe.net/docs/02.data-api/",
+     "endpoint": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5-15 min",
+     "history": "teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage)",
+     "rate_limit": "ca. 8 parallele Anfragen, fair use",
+     "license": "RIPE NCC Terms, frei nutzbar",
+     "verified": false,
+     "sample_note": "stats[].v4_prefixes_ris / v6, Zeitreihe via starttime"
+    },
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech)",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+     "rate_limit": "fair use",
+     "license": "frei fuer Forschung, Bedingungen auf Website",
+     "verified": false,
+     "sample_note": "BGP-Signal Anzahl sichtbarer /24 je Land"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.asn_visibility_critical_de",
+   "name_de": "Sichtbarkeit kritischer deutscher ASNs",
+   "plain_de": "Pruefliste grosser deutscher Netze (Telekom, Vodafone, 1&1, DE-CIX u. a.): sind sie noch im Routing?",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Gezielter Ausfall einzelner Backbone-Betreiber ist ein Praezisionsindikator.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartung",
+    "Umnummerierung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ripe-stat",
+     "name": "RIPEstat Data API",
+     "doc_url": "https://stat.ripe.net/docs/02.data-api/",
+     "endpoint": "https://stat.ripe.net/data/routing-status/data.json?resource=AS3320",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5-15 min",
+     "history": "teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage)",
+     "rate_limit": "ca. 8 parallele Anfragen, fair use",
+     "license": "RIPE NCC Terms, frei nutzbar",
+     "verified": false,
+     "sample_note": "visibility je ASN"
+    },
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech)",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/3320?from=-86400&until=now",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+     "rate_limit": "fair use",
+     "license": "frei fuer Forschung, Bedingungen auf Website",
+     "verified": false,
+     "sample_note": "BGP/Active-Probing je ASN"
+    }
+   ],
+   "notes": "ASN-Liste kuratieren."
+  },
+  {
+   "id": "cyber.routing.hijack_events",
+   "name_de": "BGP-Hijack-Ereignisse",
+   "plain_de": "Faelle, in denen ein fremdes Netz Praefixe eines anderen an sich zieht.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Haeufung von Hijacks gegen Finanz-, Cloud- oder Regierungsnetze kann Vorbereitung von Angriffen oder Abfangaktionen sein.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Fehlkonfigurationen",
+    "legitime MOAS",
+    "Anycast"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/bgp/hijacks/events?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "events[] mit Hijacker-ASN, Opfer-ASN, Konfidenz"
+    },
+    {
+     "source_id": "grip",
+     "name": "GRIP BGP-Event-Feed (Georgia Tech)",
+     "doc_url": "https://api.grip.inetintel.cc.gatech.edu/json/events",
+     "endpoint": "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Events mit Historie (Zeitparameter)",
+     "rate_limit": "fair use",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Events mit Score"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.route_leaks",
+   "name_de": "BGP-Route-Leaks",
+   "plain_de": "Faelle, in denen Routen ungewollt an falsche Nachbarn weitergegeben werden und Verkehr umgeleitet wird.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Grosse Leaks erzeugen Ausfaelle und Umleitungen, teils mit Absicht (Angriff).",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Fehlkonfiguration bei Providern"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/bgp/leaks/events?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "leak events, ASNs, Praefixanzahl"
+    },
+    {
+     "source_id": "grip",
+     "name": "GRIP BGP-Event-Feed (Georgia Tech)",
+     "doc_url": "https://api.grip.inetintel.cc.gatech.edu/json/events",
+     "endpoint": "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=defcon",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Events mit Historie (Zeitparameter)",
+     "rate_limit": "fair use",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Events mit Klassifikation"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.rpki_invalid_share",
+   "name_de": "Anteil RPKI-ungueltiger Routen",
+   "plain_de": "Anteil der Routen, die gegen digitale Herkunftszertifikate (RPKI) verstossen.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Anstieg weist auf Hijacks oder Fehler in der RPKI-Kette; Ausfall von RPKI-Repositories ist eigener Brotkrumen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "ROA-Fehlpflege",
+    "Ablauf von ROAs"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ripe-stat",
+     "name": "RIPEstat Data API",
+     "doc_url": "https://stat.ripe.net/docs/02.data-api/",
+     "endpoint": "https://stat.ripe.net/data/rpki-validation/data.json?resource=AS3320&prefix=<prefix>",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5-15 min",
+     "history": "teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage)",
+     "rate_limit": "ca. 8 parallele Anfragen, fair use",
+     "license": "RIPE NCC Terms, frei nutzbar",
+     "verified": false,
+     "sample_note": "status valid/invalid/unknown je Praefix"
+    },
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/bgp/routes/stats",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "routes_valid/invalid/unknown Zaehler"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.rpki_repository_health",
+   "name_de": "RPKI-Repository-Erreichbarkeit",
+   "plain_de": "Ob die Server, die Routing-Zertifikate bereitstellen, erreichbar sind.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Ausfall der RPKI-Infrastruktur kann Routing-Validierung blockieren oder Fehlentscheidungen ausloesen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung einzelner Repos"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "rpkimon",
+     "name": "NIST RPKI Monitor / Routinator VRP",
+     "doc_url": "https://rpki-monitor.antd.nist.gov/",
+     "endpoint": "https://rpki-monitor.antd.nist.gov/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "mehrjaehrig",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Repository-Status, VRP-Zahl, nur scrape"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.as_path_length_shift",
+   "name_de": "Veraenderung von AS-Pfaden nach Deutschland",
+   "plain_de": "Verlaengern sich Wege zu deutschen Zielen oder wechseln auf ungewoehnliche Transitnetze?",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Pfadverschiebungen zeigen Umleitung/Kabelverlust oder Interception.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Peering-Aenderungen",
+    "Traffic-Engineering"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ripe-stat",
+     "name": "RIPEstat Data API",
+     "doc_url": "https://stat.ripe.net/docs/02.data-api/",
+     "endpoint": "https://stat.ripe.net/data/as-path-length/data.json?resource=AS3320",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5-15 min",
+     "history": "teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage)",
+     "rate_limit": "ca. 8 parallele Anfragen, fair use",
+     "license": "RIPE NCC Terms, frei nutzbar",
+     "verified": false,
+     "sample_note": "Pfadlaengenverteilung"
+    },
+    {
+     "source_id": "ris-mrt",
+     "name": "RIPE RIS Raw Data (MRT-Dumps)",
+     "doc_url": "https://ris.ripe.net/docs/mrt/",
+     "endpoint": "https://data.ris.ripe.net/rrc00/YYYY.MM/",
+     "access": "download",
+     "format": "mrt",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min Updates, 8h RIB",
+     "history": "Archiv seit 1999",
+     "rate_limit": "kein Limit bekannt",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "RIB-Dumps fuer eigene Pfadanalyse"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.new_origin_asn_rate",
+   "name_de": "Neue Herkunfts-ASNs fuer bestehende Praefixe",
+   "plain_de": "Zaehlt Praefixe, die ploetzlich von einem neuen Netz angekuendigt werden.",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Origin-Wechsel in Masse = Hijack-Kampagne oder Migrationswelle.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Provider-Wechsel",
+    "DDoS-Mitigation-Umleitungen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ris-live",
+     "name": "RIPE RIS Live (WebSocket)",
+     "doc_url": "https://ris-live.ripe.net/manual/",
+     "endpoint": "wss://ris-live.ripe.net/v1/ws/ (path[-1] Origin je prefix auswerten)",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "keine (nur Live-Stream; Archiv ueber RIS-MRT-Dumps)",
+     "rate_limit": "fair use",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "Origin = letztes Element von path"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.routing.ddos_scrubbing_diversions",
+   "name_de": "BGP-Umleitung zu DDoS-Scrubbing",
+   "plain_de": "Wie viele Netze nehmen gleichzeitig Schutzdienste in Anspruch (Umleitung ueber Cloudflare, Akamai Prolexic u. a.).",
+   "domain": "routing",
+   "evidence_class": "A",
+   "rationale": "Massenhafte Aktivierung von Scrubbing deutet auf laufende Grossangriffe hin.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Einzelne Grosskunden unter Last"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ripe-stat",
+     "name": "RIPEstat Data API",
+     "doc_url": "https://stat.ripe.net/docs/02.data-api/",
+     "endpoint": "https://stat.ripe.net/data/bgp-updates/data.json?resource=<prefix>",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5-15 min",
+     "history": "teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage)",
+     "rate_limit": "ca. 8 parallele Anfragen, fair use",
+     "license": "RIPE NCC Terms, frei nutzbar",
+     "verified": false,
+     "sample_note": "Origin-Wechsel zu Scrubbing-ASNs (z. B. AS13335, AS19551)"
+    }
+   ],
+   "notes": "Idee mit Praefixliste; Aufwand mittel."
+  },
+  {
+   "id": "cyber.outage.ioda_country_signals_de",
+   "name_de": "IODA Landessignale Deutschland",
+   "plain_de": "Drei unabhaengige Messreihen (Routing, aktive Pings, Darknet-Hintergrundrauschen) fuer ein Land.",
+   "domain": "outage",
+   "evidence_class": "A",
+   "rationale": "Konvergenz mehrerer Signale trennt echte Ausfaelle von Messartefakten.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Messausfall einzelner Quellen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech)",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now&datasource=bgp",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+     "rate_limit": "fair use",
+     "license": "frei fuer Forschung, Bedingungen auf Website",
+     "verified": false,
+     "sample_note": "Zeitreihe je datasource: bgp, ping-slash24, merit-nt"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.ioda_outage_events_global",
+   "name_de": "IODA Ausfallereignisse weltweit",
+   "plain_de": "Liste automatisch erkannter Internet-Ausfaelle nach Land/Region/ASN.",
+   "domain": "outage",
+   "evidence_class": "A",
+   "rationale": "Zahl gleichzeitiger Ausfaelle in mehreren Laendern ist der direkte Indikator fuer Grossereignisse.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Zensurmassnahmen",
+    "Stromausfaelle",
+    "Wahlen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech)",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=-86400&until=now&entityType=country",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+     "rate_limit": "fair use",
+     "license": "frei fuer Forschung, Bedingungen auf Website",
+     "verified": false,
+     "sample_note": "events[] mit Score, Dauer"
+    },
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech)",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/alerts?from=-86400&until=now",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+     "rate_limit": "fair use",
+     "license": "frei fuer Forschung, Bedingungen auf Website",
+     "verified": false,
+     "sample_note": "Rohalarme"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.cf_radar_outages",
+   "name_de": "Cloudflare Radar Ausfallmeldungen",
+   "plain_de": "Von Cloudflare bestaetigte Internet-Ausfaelle mit Ursache (Kabel, Strom, Stoerung, Behoerde).",
+   "domain": "outage",
+   "evidence_class": "A",
+   "rationale": "Zeigt Anzahl und Ursachenklasse, inklusive 'Cyberangriff' und 'Kabelschaden'.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Behoerdliche Shutdowns (Pruefungen)",
+    "Stromausfall"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "annotations[] mit locations, outage.outageCause, eventType"
+    },
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/traffic_anomalies?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "automatisch erkannte Verkehrsanomalien"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.cf_traffic_de",
+   "name_de": "Cloudflare HTTP-Verkehr Deutschland",
+   "plain_de": "Gesamtverkehr zu Cloudflare aus Deutschland relativ zur Woche davor.",
+   "domain": "outage",
+   "evidence_class": "A",
+   "rationale": "Ein ploetzlicher Verkehrseinbruch im Land ist ein Aggregat-Indikator fuer Stoerungen der Endnutzernetze.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Feiertage",
+    "Fussball-Grossereignisse"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/timeseries?location=DE&dateRange=7d&aggInterval=1h",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "serie0.timestamps/values normalisiert"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.ooni_anomalies",
+   "name_de": "OONI Messanomalien",
+   "plain_de": "Crowd-gesteuerte Messungen zur Erreichbarkeit von Webseiten und Apps je Land.",
+   "domain": "outage",
+   "evidence_class": "D",
+   "rationale": "Anstieg an Blockaden/Anomalien in vielen Laendern kann koordinierte Eingriffe markieren.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Zensur",
+    "Mess-Artefakte"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ooni",
+     "name": "OONI API",
+     "doc_url": "https://docs.ooni.org/api/",
+     "endpoint": "https://api.ooni.io/api/v1/aggregation?probe_cc=DE&since=<date>&axis_x=measurement_start_day",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten-Stunden",
+     "history": "Messungen seit 2012",
+     "rate_limit": "fair use",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "anomaly_count, confirmed_count, ok_count"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.atlas_probe_connectivity",
+   "name_de": "RIPE-Atlas Probe-Konnektivitaet",
+   "plain_de": "Wie viele der weltweit verteilten Messgeraete sind erreichbar, nach Land.",
+   "domain": "outage",
+   "evidence_class": "A",
+   "rationale": "Massenhafte Probe-Disconnects eines Landes oder Netzes sind unabhaengiger Ausfallhinweis.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Firmware-Updates",
+    "Stromausfaelle"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "atlas",
+     "name": "RIPE Atlas API",
+     "doc_url": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+     "endpoint": "https://atlas.ripe.net/api/v2/probes/?country_code=DE&status=1&page_size=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Ergebnisse oeffentlicher Messungen mit start/stop Zeitstempel, Jahre",
+     "rate_limit": "Key nur fuer eigene Messungen noetig, Lesen oeffentlich",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "count = verbundene Probes; periodisch loggen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.atlas_ping_global",
+   "name_de": "RIPE-Atlas Latenz und Paketverlust",
+   "plain_de": "Messreihe der Ping-Laufzeiten und Verluste weltweit zu Ankerpunkten.",
+   "domain": "outage",
+   "evidence_class": "A",
+   "rationale": "Verlustanstieg oder Latenzsprung zeigt Ueberlastung, Umleitungen oder Kabelausfall.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Lastspitzen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "atlas",
+     "name": "RIPE Atlas API",
+     "doc_url": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+     "endpoint": "https://atlas.ripe.net/api/v2/measurements/1001/results/?start=<unix>&stop=<unix>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Ergebnisse oeffentlicher Messungen mit start/stop Zeitstempel, Jahre",
+     "rate_limit": "Key nur fuer eigene Messungen noetig, Lesen oeffentlich",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "Ping-Ergebnisse zu k.root, Felder min/avg/max/lost"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.mlab_ndt_throughput",
+   "name_de": "M-Lab Durchsatz und Verlust",
+   "plain_de": "Millionenfache Speedtests von Nutzern: Median-Durchsatz und Paketverluste je Land.",
+   "domain": "outage",
+   "evidence_class": "A",
+   "rationale": "Breite Verschlechterung ohne Routingsignal zeigt Last- oder Kapazitaetsangriffe.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Tageszeiteffekte",
+    "Mess-Bias"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "mlab",
+     "name": "M-Lab NDT (BigQuery/Open Data)",
+     "doc_url": "https://www.measurementlab.net/data/",
+     "endpoint": "bigquery: measurement-lab.ndt.unified_downloads",
+     "access": "api",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2009",
+     "rate_limit": "BigQuery-Freikontingent",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "a.MeanThroughputMbps, a.MinRTT, client.Geo.CountryCode"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.cf_iqi_quality",
+   "name_de": "Cloudflare Internet-Quality-Index",
+   "plain_de": "Aggregierte Bandbreite, Latenz und DNS-Antwortzeit je Land.",
+   "domain": "outage",
+   "evidence_class": "A",
+   "rationale": "Qualitaetseinbruch vor/neben Totalausfall.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Messrauschen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/quality/iqi/timeseries?metric=latency&location=DE&dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "Perzentile"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.outage.thousandeyes_internet_report",
+   "name_de": "ThousandEyes Internet Outage Map",
+   "plain_de": "Oeffentliche Karte weltweit erkannter Ausfaelle bei Providern und Diensten.",
+   "domain": "outage",
+   "evidence_class": "B",
+   "rationale": "Zweiter unabhaengiger Messanbieter zum Abgleich; keine offene Rohdaten-API.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Provider-Wartung"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "thousandeyes",
+     "name": "ThousandEyes Internet Report",
+     "doc_url": "https://www.thousandeyes.com/",
+     "endpoint": "https://www.thousandeyes.com/blog/internet-report",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+     "rate_limit": "fair use",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Rohdaten nur als Blog/Karte, kein API"
+    }
+   ],
+   "notes": "Nur Gegenpruefung, nicht automatisierbar ohne Konto."
+  },
+  {
+   "id": "cyber.dns.root_rssac002_volume",
+   "name_de": "Root-Server-Anfragevolumen (RSSAC002)",
+   "plain_de": "Taegliche Anfragezahlen der 13 Root-Server-Systeme.",
+   "domain": "dns",
+   "evidence_class": "A",
+   "rationale": "Starke Spitzen oder Einbrueche sind Hinweis auf Angriffe oder Ausfall der DNS-Wurzel.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Misconfigured Resolver",
+    "Botnetz-Rauschen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "rssac",
+     "name": "RSSAC002 Daten (Root-Server-Operatoren)",
+     "doc_url": "https://github.com/rssac-caucus/RSSAC002-data",
+     "endpoint": "https://github.com/rssac-caucus/RSSAC002-data (z. B. <letter>/<year>/<month>/traffic-volume-YYYYMMDD.yaml)",
+     "access": "download",
+     "format": "yaml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit ca. 2016",
+     "rate_limit": "GitHub-Limits",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "dns-udp-queries-received-ipv4 u. a. pro Tag"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dns.root_instance_count",
+   "name_de": "Anzahl aktiver Root-Server-Instanzen",
+   "plain_de": "Zahl der weltweit verteilten Root-Server-Standorte.",
+   "domain": "dns",
+   "evidence_class": "B",
+   "rationale": "Rueckgang kann auf Angriffe oder Ausfall hindeuten.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Umbauten"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "dnsoarc",
+     "name": "DNS-OARC / root-servers.org",
+     "doc_url": "https://www.root-servers.org/",
+     "endpoint": "https://root-servers.org/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "nur aktuelle Instanzzahlen",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Instanzzahl je Buchstabe, nur scrape"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dns.root_atlas_reachability",
+   "name_de": "Root-Server-Erreichbarkeit aus RIPE Atlas",
+   "plain_de": "Misst von tausenden Punkten, ob die Root-Server antworten und wie schnell.",
+   "domain": "dns",
+   "evidence_class": "A",
+   "rationale": "Direkter Test der DNS-Wurzel durch unabhaengige Sonden.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Lokale Probleme"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ripedocs",
+     "name": "RIPE Labs Atlas Built-in DNS/Ping zu Root-Servern",
+     "doc_url": "https://atlas.ripe.net/measurements/",
+     "endpoint": "https://atlas.ripe.net/api/v2/measurements/10001/results/?start=<unix>&stop=<unix>",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Jahre",
+     "rate_limit": "-",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "DNS-Built-in zu Root-Servern, IDs 1001-1016 Ping, 10001-10016 DNS (Zuordnung pruefen)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dns.root_zone_changes",
+   "name_de": "Aenderungen an der Root-Zone",
+   "plain_de": "Neue/entfernte TLDs, ungewoehnliche Serial-Spruenge oder DS-/NS-Aenderungen in der DNS-Wurzel.",
+   "domain": "dns",
+   "evidence_class": "A",
+   "rationale": "Unplanmaessige Root-Zone-Aenderungen waeren sehr seltener Hinweis auf Manipulation.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "TLD-Delegation",
+    "routine KSK-Rollover"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "internic",
+     "name": "InterNIC Root Zone File",
+     "doc_url": "https://www.internic.net/domain/root.zone",
+     "endpoint": "https://www.internic.net/domain/root.zone",
+     "access": "download",
+     "format": "txt",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "2x taeglich",
+     "history": "nur aktuell (selbst archivieren)",
+     "rate_limit": "-",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "SOA-Serial und Diff selbst taeglich speichern"
+    },
+    {
+     "source_id": "iana",
+     "name": "IANA Root-Zone / TLD-Daten",
+     "doc_url": "https://www.iana.org/domains/root/files",
+     "endpoint": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
+     "access": "download",
+     "format": "txt",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "Aenderungen per Diff nachvollziehbar",
+     "rate_limit": "-",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "TLD-Liste"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dns.cf_query_volume_and_nxdomain",
+   "name_de": "DNS-Verkehr und NXDOMAIN-Anteil",
+   "plain_de": "Cloudflare-Resolver-Statistik: Gesamtvolumen und Anteil fehlgeschlagener Anfragen.",
+   "domain": "dns",
+   "evidence_class": "A",
+   "rationale": "NXDOMAIN-Anstieg kennzeichnet DGA-Botnetze/Water-Torture-Angriffe; Einbrueche kennzeichnen Resolver-Ausfall.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Lokale Fehlkonfigurationen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/dns/timeseries_groups/response_code?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "Verteilung NOERROR/NXDOMAIN/SERVFAIL"
+    },
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/dns/timeseries?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "Volumen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dns.servfail_rate",
+   "name_de": "SERVFAIL-Rate (Resolver)",
+   "plain_de": "Anteil der DNS-Anfragen, die der Resolver nicht beantworten kann.",
+   "domain": "dns",
+   "evidence_class": "A",
+   "rationale": "SERVFAIL-Anstieg deutet auf DNSSEC-Fehler oder Ausfall autoritativer Server.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Kunden-Fehlkonfiguration"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/dns/timeseries_groups/response_code?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "SERVFAIL-Reihe"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dns.tld_nameserver_reachability",
+   "name_de": "TLD-Nameserver-Erreichbarkeit (.de, .com)",
+   "plain_de": "Ob die Nameserver wichtiger TLDs aus Messnetzen antworten.",
+   "domain": "dns",
+   "evidence_class": "A",
+   "rationale": "Ausfall von .de waere fuer Deutschland ein Totalschaden.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Anycast-Teilausfaelle"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "atlas",
+     "name": "RIPE Atlas API",
+     "doc_url": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+     "endpoint": "https://atlas.ripe.net/api/v2/measurements/ (eigene oeffentliche DNS-Messung gegen a.nic.de; Anlegen braucht Key+Credits)",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Ergebnisse oeffentlicher Messungen mit start/stop Zeitstempel, Jahre",
+     "rate_limit": "Key nur fuer eigene Messungen noetig, Lesen oeffentlich",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "DNS-Antwortzeit/Fehlerquote"
+    }
+   ],
+   "notes": "Erfordert eigene Messung; Credits verbrauchen."
+  },
+  {
+   "id": "cyber.dns.dnssec_failures",
+   "name_de": "DNSSEC-Validierungsfehler",
+   "plain_de": "Wie oft DNS-Antworten wegen ungueltiger Signaturen scheitern.",
+   "domain": "dns",
+   "evidence_class": "A",
+   "rationale": "Massenhafte DNSSEC-Fehler weisen auf Schluesselprobleme oder Manipulation hin.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Abgelaufene Signaturen einzelner Domains"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/dns/timeseries_groups/dnssec?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "Anteil validierter Antworten"
+    },
+    {
+     "source_id": "openintel",
+     "name": "OpenINTEL",
+     "doc_url": "https://www.openintel.nl/",
+     "endpoint": "https://openintel.nl/data/",
+     "access": "download",
+     "format": "parquet",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2015",
+     "rate_limit": "Zugang auf Antrag",
+     "license": "CC BY 4.0 (unklar je Datensatz)",
+     "verified": false,
+     "sample_note": "taegliche Messung DNSKEY/RRSIG grosser Zonen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.dns.top_domain_rank_volatility",
+   "name_de": "Ranking-Volatilitaet der Top-Domains",
+   "plain_de": "Aenderungen im Cloudflare-Radar-Ranking der meistbesuchten Domains.",
+   "domain": "dns",
+   "evidence_class": "A",
+   "rationale": "Ausfaelle grosser Dienste verschieben das Ranking; zeigt Abhaengigkeiten.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Kampagnen",
+    "Saisoneffekte"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/ranking/top?limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "topDomains[] mit rank"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ixp.decix_frankfurt_traffic",
+   "name_de": "DE-CIX Frankfurt Verkehr",
+   "plain_de": "Datenmenge am groessten deutschen Austauschknoten.",
+   "domain": "ixp",
+   "evidence_class": "A",
+   "rationale": "Einbruch oder untypische Spitze am zentralen Knoten ist ein harter Infrastruktur-Indikator.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Feiertage",
+    "Sportereignisse",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "decix",
+     "name": "DE-CIX Verkehrsstatistik",
+     "doc_url": "https://www.de-cix.net/en/locations/frankfurt/statistics",
+     "endpoint": "https://www.de-cix.net/en/locations/frankfurt/statistics",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Graphen bis zu mehrjaehrig",
+     "rate_limit": "kein API, Scrapen schonend",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Graph-Rohdaten der Seite, kein API, schonend scrapen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ixp.amsix_linx_traffic",
+   "name_de": "AMS-IX und LINX Verkehr",
+   "plain_de": "Verkehr an zwei weiteren grossen europaeischen Austauschknoten.",
+   "domain": "ixp",
+   "evidence_class": "A",
+   "rationale": "Gleichzeitige Abweichung an mehreren IXPs spricht fuer ein europaweites Ereignis statt lokale Stoerung.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Grosse Software-Updates",
+    "Sportereignisse"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "amsix",
+     "name": "AMS-IX Statistiken",
+     "doc_url": "https://stats.ams-ix.net/",
+     "endpoint": "https://stats.ams-ix.net/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Graphen mehrjaehrig",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Aggregierte Graphen"
+    },
+    {
+     "source_id": "linx",
+     "name": "LINX Statistiken",
+     "doc_url": "https://portal.linx.net/stats",
+     "endpoint": "https://portal.linx.net/stats",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Graphen mehrjaehrig",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Aggregierte Graphen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ixp.member_port_changes",
+   "name_de": "IXP-Mitglieder und Portkapazitaeten",
+   "plain_de": "Zahl der angeschlossenen Netze und Kapazitaet je IXP.",
+   "domain": "ixp",
+   "evidence_class": "B",
+   "rationale": "Ploetzlicher Mitgliederabgang waere Sonderlage; nuetzlich als Struktur-Baseline.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Wachstum/Migration"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "peeringdb",
+     "name": "PeeringDB API",
+     "doc_url": "https://www.peeringdb.com/apidocs/",
+     "endpoint": "https://www.peeringdb.com/api/netixlan?ix_id=<id>",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "aktuell, Snapshots archiviert",
+     "rate_limit": "anonym gedrosselt",
+     "license": "CC0 / AUP",
+     "verified": false,
+     "sample_note": "speed, asn je Port"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ixp.pch_global_counts",
+   "name_de": "PCH-IXP-Verzeichnis",
+   "plain_de": "Weltweite Zahl und Groesse der IXPs.",
+   "domain": "ixp",
+   "evidence_class": "B",
+   "rationale": "Struktur-Baseline.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Aufnahme neuer IXPs"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "tg-ixp",
+     "name": "Packet Clearing House IXP-Statistiken",
+     "doc_url": "https://www.pch.net/ixp/dir",
+     "endpoint": "https://www.pch.net/ixp/dir",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "mehrjaehrig",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Tabelle der IXPs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.cable.cf_outage_cause_cable",
+   "name_de": "Ausfaelle mit Ursache Seekabel",
+   "plain_de": "Anzahl der von Cloudflare als Kabelschaden klassifizierten Ausfaelle.",
+   "domain": "cable",
+   "evidence_class": "A",
+   "rationale": "Haeufung in Region (z. B. Rotes Meer, Ostsee) kann Sabotage nahelegen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Anker-/Fischereischaeden",
+    "Erdbeben"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=30d&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "outage.outageCause = CABLE_CUT"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.cable.latency_shift_regional",
+   "name_de": "Latenzsprung auf Kabelstrecken",
+   "plain_de": "Sprung der Laufzeit zwischen Kontinenten/Regionen nach Kabelausfall.",
+   "domain": "cable",
+   "evidence_class": "A",
+   "rationale": "Kabelverlust zeigt sich als sprunghafte Latenzzunahme durch Umleitung.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Routing-Aenderungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "atlas",
+     "name": "RIPE Atlas API",
+     "doc_url": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+     "endpoint": "https://atlas.ripe.net/api/v2/measurements/1001/results/?start=<unix>&stop=<unix>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Ergebnisse oeffentlicher Messungen mit start/stop Zeitstempel, Jahre",
+     "rate_limit": "Key nur fuer eigene Messungen noetig, Lesen oeffentlich",
+     "license": "RIPE NCC, frei",
+     "verified": false,
+     "sample_note": "avg RTT je Probe-Region"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.cable.map_inventory",
+   "name_de": "Kabelkarten-Inventar",
+   "plain_de": "Offene Kabelgeometrien als Grundlage fuer Betroffenheitsanalysen.",
+   "domain": "cable",
+   "evidence_class": "B",
+   "rationale": "Referenzschicht, kein Signal.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "-"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "subcable",
+     "name": "TeleGeography Submarine Cable Map",
+     "doc_url": "https://www.submarinecablemap.com/",
+     "endpoint": "https://www.submarinecablemap.com/api/v3/cable/cable-geo.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unregelmaessig",
+     "history": "aktueller Stand",
+     "rate_limit": "-",
+     "license": "CC BY-NC-SA 4.0",
+     "verified": false,
+     "sample_note": "Geometrien/Landestationen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.cable.ship_ais_aggregate",
+   "name_de": "Kabelleger und Schiffsaggregate",
+   "plain_de": "Aggregierte Schiffsbewegungen ueber Kabeltrassen (nur Flottensumme, keine Personen).",
+   "domain": "cable",
+   "evidence_class": "D",
+   "rationale": "Ungewoehnliche Ankeraktivitaet ueber Trassen kann Vorlauf zu Schaeden sein.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Fischerei",
+    "Wetter"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "ais",
+     "name": "AISStream.io",
+     "doc_url": "https://aisstream.io/documentation",
+     "endpoint": "wss://stream.aisstream.io/v0/stream (Bounding Box um Kabeltrasse)",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "keine (Live-Stream)",
+     "rate_limit": "Fair use",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Zahl Schiffe mit Geschwindigkeit <1 kn im Gebiet"
+    }
+   ],
+   "notes": "Nur Aggregat je Gebiet, keine Einzelverfolgung."
+  },
+  {
+   "id": "cyber.ct.issuance_volume",
+   "name_de": "Zertifikats-Ausstellungsvolumen (CT)",
+   "plain_de": "Wie viele TLS-Zertifikate pro Tag ausgestellt werden.",
+   "domain": "ct",
+   "evidence_class": "A",
+   "rationale": "Einbruch deutet auf CA-Ausfall; Spruenge auf Kampagnen (Phishing) oder Massenerneuerungen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Erneuerungszyklen",
+    "CA-Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ctlog",
+     "name": "Certificate-Transparency-Logs (RFC 6962 / Static CT)",
+     "doc_url": "https://www.gstatic.com/ct/log_list/v3/log_list.json",
+     "endpoint": "https://ct.googleapis.com/logs/us1/<log>/ct/v1/get-sth",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "tree_size nur live, selbst loggen",
+     "rate_limit": "je Log",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "tree_size regelmaessig abfragen und Differenz bilden"
+    },
+    {
+     "source_id": "le",
+     "name": "Let's Encrypt Statistiken und Status",
+     "doc_url": "https://letsencrypt.org/stats/",
+     "endpoint": "https://letsencrypt.org/stats/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Zeitreihen seit 2015",
+     "rate_limit": "-",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "Tageszertifikate"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ct.mass_revocation",
+   "name_de": "Massen-Widerrufe von Zertifikaten",
+   "plain_de": "Wie viele Zertifikate auf einmal zurueckgezogen werden.",
+   "domain": "ct",
+   "evidence_class": "B",
+   "rationale": "Grossrevokation weist auf CA-Kompromittierung oder Systemfehler.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Bugfix-Revokation",
+    "Policy-Aenderung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "le",
+     "name": "Let's Encrypt Statistiken und Status",
+     "doc_url": "https://letsencrypt.org/stats/",
+     "endpoint": "https://community.letsencrypt.org/c/incidents/",
+     "access": "rss",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Zeitreihen seit 2015",
+     "rate_limit": "-",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "Incident-Meldungen mit Anzahl"
+    },
+    {
+     "source_id": "crtsh",
+     "name": "crt.sh",
+     "doc_url": "https://crt.sh/",
+     "endpoint": "https://crt.sh/?q=<domain>&output=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "alle CT-Logeintraege seit 2013",
+     "rate_limit": "oft ueberlastet, schonend nutzen",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "Eintraege je Domain"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ct.ca_incidents_and_root_removals",
+   "name_de": "CA-Vorfaelle und Root-Programm",
+   "plain_de": "Meldungen in Mozilla-/Chrome-Root-Programmen zu CA-Vorfaellen.",
+   "domain": "ct",
+   "evidence_class": "B",
+   "rationale": "Vertrauensverlust in Root-CA waere weitreichend.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Compliance-Maengel"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "status-misc",
+     "name": "Statuspage-APIs weiterer Dienste (GitHub, Akamai, Let's Encrypt etc.)",
+     "doc_url": "https://www.githubstatus.com/api",
+     "endpoint": "https://bugzilla.mozilla.org/rest/bug?component=CA%20Certificate%20Compliance&product=CA%20Program",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1-5 min",
+     "history": "Incident-Historie",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Bugs mit Datum"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ct.log_availability",
+   "name_de": "CT-Log-Verfuegbarkeit",
+   "plain_de": "Ob die Zertifikatstransparenz-Logs erreichbar sind.",
+   "domain": "ct",
+   "evidence_class": "A",
+   "rationale": "Logausfall verhindert Zertifikatsausstellung; Signal fuer CA-Kette.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ctlog",
+     "name": "Certificate-Transparency-Logs (RFC 6962 / Static CT)",
+     "doc_url": "https://www.gstatic.com/ct/log_list/v3/log_list.json",
+     "endpoint": "https://www.gstatic.com/ct/log_list/v3/log_list.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "tree_size nur live, selbst loggen",
+     "rate_limit": "je Log",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "Logliste; get-sth je Log auf Erreichbarkeit pruefen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ct.lookalike_issuance_gov_banks",
+   "name_de": "Zertifikate fuer aehnliche Domains",
+   "plain_de": "Neue Zertifikate fuer Domains, die Behoerden/Banken imitieren.",
+   "domain": "ct",
+   "evidence_class": "A",
+   "rationale": "Phishing-Welle bei Krisenlagen; nur Domains, keine Personen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Markenschutzregistrierungen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "crtsh",
+     "name": "crt.sh",
+     "doc_url": "https://crt.sh/",
+     "endpoint": "https://crt.sh/?q=%25sparkasse%25&output=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "alle CT-Logeintraege seit 2013",
+     "rate_limit": "oft ueberlastet, schonend nutzen",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "not_before und name_value je Eintrag"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.time.ntp_pool_health_de",
+   "name_de": "NTP-Pool-Gesundheit Deutschland",
+   "plain_de": "Anzahl und Score aktiver Zeitserver in Deutschland.",
+   "domain": "time",
+   "evidence_class": "A",
+   "rationale": "Zeitdienst-Ausfall oder Manipulation beeintraechtigt Zertifikate, Logs, Finanzsysteme.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Server-Churn"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ntppool",
+     "name": "NTP Pool Project",
+     "doc_url": "https://www.ntppool.org/",
+     "endpoint": "https://www.ntppool.org/zone/de",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Score-Historie je Server (CSV)",
+     "rate_limit": "fair use",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "aktive Server/Score, auch JSON /scores/<ip>/json"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.time.gnss_interference",
+   "name_de": "GNSS-Stoerungen",
+   "plain_de": "Taegliche Karte von GPS-Stoerungen (aus Flugzeugdaten abgeleitet).",
+   "domain": "time",
+   "evidence_class": "A",
+   "rationale": "Zunahme nahe Rechenzentren/Europa kann Zeitsynchronisation und Kommunikationsdienste stoeren; auch Konfliktproxy.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Militaerische Uebungen",
+    "Konflikte"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam (ADS-B-basiert)",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Tageskarten, Archiv",
+     "rate_limit": "-",
+     "license": "CC BY-NC 4.0 (unklar)",
+     "verified": false,
+     "sample_note": "Tageskarten, Hexagon-Anteil gestoerter Flugzeuge"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.cloud.statuspage_incidents",
+   "name_de": "Statusseiten von CDN/Cloud (Cloudflare, Fastly, GitHub)",
+   "plain_de": "Offizielle Statusmeldungen grosser Anbieter als Maschinenstrom.",
+   "domain": "cloud",
+   "evidence_class": "B",
+   "rationale": "Parallele Stoerungen bei mehreren Anbietern deuten auf gemeinsame Ursache.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Routinewartungen"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "status-cf",
+     "name": "Cloudflare Status (Statuspage API)",
+     "doc_url": "https://www.cloudflarestatus.com/api",
+     "endpoint": "https://www.cloudflarestatus.com/api/v2/summary.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1-5 min",
+     "history": "Incident-Historie via /api/v2/incidents.json",
+     "rate_limit": "-",
+     "license": "Statuspage-Dienst, unklar",
+     "verified": false,
+     "sample_note": "status.indicator, incidents[]"
+    },
+    {
+     "source_id": "status-fastly",
+     "name": "Fastly Status (Statuspage API)",
+     "doc_url": "https://status.fastly.com/api",
+     "endpoint": "https://status.fastly.com/api/v2/summary.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1-5 min",
+     "history": "Incident-Historie",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "status.indicator"
+    },
+    {
+     "source_id": "status-misc",
+     "name": "Statuspage-APIs weiterer Dienste (GitHub, Akamai, Let's Encrypt etc.)",
+     "doc_url": "https://www.githubstatus.com/api",
+     "endpoint": "https://www.githubstatus.com/api/v2/summary.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1-5 min",
+     "history": "Incident-Historie",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "status.indicator"
+    }
+   ],
+   "notes": "Selbstberichtet, kann verzoegert/geschoent sein."
+  },
+  {
+   "id": "cyber.cloud.aws_azure_gcp_events",
+   "name_de": "AWS, Azure, GCP Stoerungsfeeds",
+   "plain_de": "Maschinenlesbare Ereignisfeeds der drei Hyperscaler.",
+   "domain": "cloud",
+   "evidence_class": "B",
+   "rationale": "Gleichzeitige Multi-Cloud-Stoerung ist selten und aussagekraeftig.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Regionale Teilausfaelle"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "status-aws",
+     "name": "AWS Health/Status",
+     "doc_url": "https://health.aws.amazon.com/health/status",
+     "endpoint": "https://health.aws.amazon.com/public/currentevents",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur aktuell, RSS-Archiv",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Eventliste JSON (Kodierung pruefen)"
+    },
+    {
+     "source_id": "status-azure",
+     "name": "Azure Status RSS",
+     "doc_url": "https://azure.status.microsoft/en-us/status/feed/",
+     "endpoint": "https://azure.status.microsoft/en-us/status/feed/",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Feed mit juengsten Events",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "RSS Items"
+    },
+    {
+     "source_id": "status-gcp",
+     "name": "Google Cloud Status",
+     "doc_url": "https://status.cloud.google.com/",
+     "endpoint": "https://status.cloud.google.com/incidents.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "incidents.json seit Jahren",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "incidents[] mit begin/end"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.cloud.cf_http_error_rates",
+   "name_de": "HTTP-Fehler und Bot-Anteil (Cloudflare)",
+   "plain_de": "Anteil 5xx-Fehler und automatisierter Anfragen im Cloudflare-Netz.",
+   "domain": "cloud",
+   "evidence_class": "A",
+   "rationale": "Unabhaengige Messung von Ausfaellen und Bot-Kampagnen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Lastspitzen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/bot_class?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "Verteilung likely_human/automated"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.cloud.downdetector_volume",
+   "name_de": "Nutzermeldungen zu Stoerungen",
+   "plain_de": "Zahl der Nutzer-Stoerungsmeldungen bei grossen Diensten.",
+   "domain": "cloud",
+   "evidence_class": "D",
+   "rationale": "Crowd-Signal fuer Endnutzerwirkung; schnell, aber manipulierbar.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Social-Media-Hypes"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "downdet",
+     "name": "Downdetector",
+     "doc_url": "https://downdetector.com/",
+     "endpoint": "https://downdetector.com/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "paid",
+     "cost": "paid",
+     "update_latency": "Minuten",
+     "history": "API kostenpflichtig",
+     "rate_limit": "-",
+     "license": "kommerz. ToS",
+     "verified": false,
+     "sample_note": "Kommerzielle API, Scrape verboten"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ddos.cf_l3_l7_attack_volume",
+   "name_de": "DDoS-Angriffsvolumen (L3/L7)",
+   "plain_de": "Anteil des Cloudflare-Verkehrs, der aus Angriffen besteht.",
+   "domain": "ddos",
+   "evidence_class": "A",
+   "rationale": "Weltweit steigende Angriffsvolumen koennen Vorbereitung oder Begleitung von Kampagnen sein.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Botnetz-Wellen",
+    "Hacktivisten"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/attacks/layer3/timeseries?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "Prozent Angriffsverkehr"
+    },
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/attacks/layer7/timeseries?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "L7-Angriffe"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ddos.mass_scan_surge",
+   "name_de": "Massenscans und Honeypot-Aktivitaet",
+   "plain_de": "Zunahme von Scans auf bestimmte Ports/Dienste.",
+   "domain": "ddos",
+   "evidence_class": "A",
+   "rationale": "Vorlaeufer von Ausnutzung neuer Schwachstellen (Tage bis Stunden).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Forschungsscanner"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "isc",
+     "name": "SANS ISC / DShield API",
+     "doc_url": "https://isc.sans.edu/api/",
+     "endpoint": "https://isc.sans.edu/api/topports/records/10?json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten-Stunden",
+     "history": "Zeitreihen je Port",
+     "rate_limit": "1 Abruf/Min empfohlen",
+     "license": "CC BY-NC-SA 3.0",
+     "verified": false,
+     "sample_note": "Ports mit Records/Sources"
+    },
+    {
+     "source_id": "gn",
+     "name": "GreyNoise Community/Trends",
+     "doc_url": "https://docs.greynoise.io/",
+     "endpoint": "https://api.greynoise.io/v3/community/<ip>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "begrenzt im Free-Tier",
+     "rate_limit": "stark begrenzt",
+     "license": "kommerz. ToS",
+     "verified": false,
+     "sample_note": "Nur Einzel-IP; Trends via viz.greynoise.io (Konto)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ddos.infocon_level",
+   "name_de": "SANS-Infocon-Stufe",
+   "plain_de": "Ampel des Internet Storm Center fuer die Netzlage.",
+   "domain": "ddos",
+   "evidence_class": "C",
+   "rationale": "Kontext-Layer, kein eigenes Signal.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Routinewarnungen"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "isc",
+     "name": "SANS ISC / DShield API",
+     "doc_url": "https://isc.sans.edu/api/",
+     "endpoint": "https://isc.sans.edu/api/infocon?json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten-Stunden",
+     "history": "Zeitreihen je Port",
+     "rate_limit": "1 Abruf/Min empfohlen",
+     "license": "CC BY-NC-SA 3.0",
+     "verified": false,
+     "sample_note": "status = green/yellow/orange/red"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ddos.kev_additions_rate",
+   "name_de": "Neue ausgenutzte Schwachstellen (KEV)",
+   "plain_de": "Rate neuer, bereits aktiv ausgenutzter Schwachstellen.",
+   "domain": "ddos",
+   "evidence_class": "B",
+   "rationale": "Haeufung kritischer Eintraege in Infrastruktur-Produkten erhoeht Risiko fuer Massenangriffe.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Patchday-Zyklen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "kev",
+     "name": "CISA KEV Catalog",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktaeglich",
+     "history": "dateAdded je Eintrag",
+     "rate_limit": "-",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "vulnerabilities[].dateAdded"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ddos.exposed_services_shadowserver",
+   "name_de": "Exponierte verwundbare Dienste",
+   "plain_de": "Zahl offen erreichbarer verwundbarer Systeme (Aggregat je Land).",
+   "domain": "ddos",
+   "evidence_class": "A",
+   "rationale": "Grosse verwundbare Population + neuer Exploit = Wurmpotenzial.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Scan-Methodikaenderungen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "shadow",
+     "name": "Shadowserver Dashboard",
+     "doc_url": "https://dashboard.shadowserver.org/",
+     "endpoint": "https://dashboard.shadowserver.org/statistics/combined/time-series/?date_range=30&geo=DE",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Zeitreihen seit Jahren",
+     "rate_limit": "-",
+     "license": "CC BY 4.0 (unklar)",
+     "verified": false,
+     "sample_note": "Anzahl Hosts je Report-Typ"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.traffic.mix_protocol_shift",
+   "name_de": "Verschiebung Traffic-Mix (QUIC/HTTP-Versionen)",
+   "plain_de": "Anteile von HTTP/3, HTTP/2 und TLS-Versionen am Gesamtverkehr.",
+   "domain": "traffic",
+   "evidence_class": "A",
+   "rationale": "Abruptes Kippen deutet auf Eingriffe (z. B. QUIC-Blockade) oder Botverkehr.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Client-Updates"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/http_protocol?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "HTTP/1.x, 2, 3 Anteile"
+    },
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/tls_version?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "TLS 1.2/1.3/QUIC"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.traffic.ipv6_share_shift",
+   "name_de": "IPv6-/IPv4-Anteil",
+   "plain_de": "Anteil IPv6-Verkehr im Land.",
+   "domain": "traffic",
+   "evidence_class": "A",
+   "rationale": "Abweichungen weisen auf Teilausfaelle einzelner Netze (Mobilfunk/Kabel).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Tageszeit"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/ip_version?location=DE&dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "IPv4/IPv6 Anteile"
+    },
+    {
+     "source_id": "apnic",
+     "name": "APNIC Labs Statistiken",
+     "doc_url": "https://stats.labs.apnic.net/",
+     "endpoint": "https://stats.labs.apnic.net/ipv6/DE",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit ca. 2010",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "IPv6-Capable Rate"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.traffic.mobile_vs_desktop_shift",
+   "name_de": "Geraeteverteilung im Verkehr",
+   "plain_de": "Anteil Mobil/Desktop im Verkehr.",
+   "domain": "traffic",
+   "evidence_class": "A",
+   "rationale": "Plötzlicher Wechsel kann Festnetzausfall (mehr Mobil) markieren.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Tageszeit"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/device_type?location=DE&dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis 1h",
+     "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+     "rate_limit": "gem. Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+     "verified": false,
+     "sample_note": "Verteilung"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.tor.users_de",
+   "name_de": "Tor-Nutzerschaetzung Deutschland",
+   "plain_de": "Geschaetzte Zahl direkter Tor-Verbindungen aus DE.",
+   "domain": "tor",
+   "evidence_class": "A",
+   "rationale": "Anstieg weist auf Zensur/Ausweichverhalten; Einbruch auf Netzausfall.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Kampagnen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "tor",
+     "name": "Tor Metrics / Onionoo",
+     "doc_url": "https://metrics.torproject.org/",
+     "endpoint": "https://metrics.torproject.org/userstats-relay-country.csv?start=2026-01-01&end=2026-11-17&country=de&events=off",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2009",
+     "rate_limit": "-",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "users je Tag"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.tor.relay_count_bandwidth",
+   "name_de": "Tor-Relay-Anzahl und Bandbreite",
+   "plain_de": "Gesamtzahl der Relays und Kapazitaet.",
+   "domain": "tor",
+   "evidence_class": "A",
+   "rationale": "Strukturindikator fuer die Gesundheit des Netzes.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "tor",
+     "name": "Tor Metrics / Onionoo",
+     "doc_url": "https://metrics.torproject.org/",
+     "endpoint": "https://onionoo.torproject.org/summary?limit=1",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2009",
+     "rate_limit": "-",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "relays_truncated, Statistiken"
+    },
+    {
+     "source_id": "tor",
+     "name": "Tor Metrics / Onionoo",
+     "doc_url": "https://metrics.torproject.org/",
+     "endpoint": "https://metrics.torproject.org/bandwidth.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2009",
+     "rate_limit": "-",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Gesamtbandbreite"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.satellite.starlink_fleet_count",
+   "name_de": "Starlink-Flottengroesse und Bahnabsenkungen",
+   "plain_de": "Zahl der Starlink-Satelliten im Orbit und ihre Bahnhoehen.",
+   "domain": "satellite",
+   "evidence_class": "A",
+   "rationale": "Satelliten-Internet als Ausweichnetz; Verluste durch Sonnenstuerme.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neustarts/Deorbit-Plaene"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "celestrak",
+     "name": "CelesTrak GP-Daten",
+     "doc_url": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+     "endpoint": "https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. taeglich",
+     "history": "aktuell (selbst archivieren), Space-Track fuer Historie",
+     "rate_limit": "wenige Abrufe/Tag",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "Objekte mit MEAN_MOTION/ECCENTRICITY"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.satellite.ioda_starlink_asn",
+   "name_de": "Starlink-ASN im Routing",
+   "plain_de": "Sichtbarkeit des Starlink-Netzes im Routing.",
+   "domain": "satellite",
+   "evidence_class": "A",
+   "rationale": "Ausfall eines Satellitennetzes sichtbar im ASN-Signal.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech)",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/14593?from=-86400&until=now",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+     "rate_limit": "fair use",
+     "license": "frei fuer Forschung, Bedingungen auf Website",
+     "verified": false,
+     "sample_note": "BGP/Active-Probing"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.space.geomagnetic_storm",
+   "name_de": "Geomagnetische Stuerme (Kp-Index)",
+   "plain_de": "Staerke von Sonnenstuermen.",
+   "domain": "space",
+   "evidence_class": "A",
+   "rationale": "Starke Stuerme stoeren Satelliten, GNSS und Stromnetze und erzeugen Fehlalarme.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Naturphaenomen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "swpc",
+     "name": "NOAA SWPC Space Weather",
+     "doc_url": "https://www.swpc.noaa.gov/products",
+     "endpoint": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1-3 min",
+     "history": "Archiv seit Jahrzehnten",
+     "rate_limit": "-",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Kp je 3h"
+    }
+   ],
+   "notes": "Dient auch zur Ausschlussdiagnostik."
+  },
+  {
+   "id": "cyber.proxy.grid_load_entsoe_de",
+   "name_de": "Netzlast und Erzeugung Deutschland (Abhaengigkeit)",
+   "plain_de": "Last und Erzeugung im deutschen Stromnetz.",
+   "domain": "proxy",
+   "evidence_class": "A",
+   "rationale": "Stromausfall ist haeufigste Ursache fuer Internetausfall; trennt Angriff von Stromstoerung.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wetter",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "entsoe",
+     "name": "ENTSO-E Transparency Platform",
+     "doc_url": "https://transparency.entsoe.eu/",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "seit 2015",
+     "rate_limit": "400 req/min",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Last je 15 min"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.hn_wikipedia_attention",
+   "name_de": "Aufmerksamkeit: Outage-Begriffe",
+   "plain_de": "Haeufigkeit von Begriffen wie outage in HN und Wikipedia-Aufrufen.",
+   "domain": "proxy",
+   "evidence_class": "D",
+   "rationale": "Schnelles, aber unscharfes Crowd-Signal bei Grosslagen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Medienzyklus"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "hn",
+     "name": "Hacker News Algolia Search API",
+     "doc_url": "https://hn.algolia.com/api",
+     "endpoint": "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&numericFilters=created_at_i>1",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "gesamte HN-Historie",
+     "rate_limit": "10k/h",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "nbHits je Zeitfenster"
+    },
+    {
+     "source_id": "wm",
+     "name": "Wikimedia Pageviews API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Internet/daily/20261101/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2015",
+     "rate_limit": "200 req/s",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "views je Tag"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.bnetza_disruption_reports",
+   "name_de": "Meldungen zu Stoerungen deutscher Netze",
+   "plain_de": "Aufsichts- und Stoerungsmeldungen zu Telekommunikationsnetzen.",
+   "domain": "proxy",
+   "evidence_class": "B",
+   "rationale": "Pflichtmeldungen belegen Ausfaelle, kommen aber verspaetet.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Routineausfaelle"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "bnetza",
+     "name": "Bundesnetzagentur Breitbandmessung / Netzstoerungen",
+     "doc_url": "https://www.bundesnetzagentur.de/",
+     "endpoint": "https://www.bundesnetzagentur.de/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unregelmaessig",
+     "history": "kaum",
+     "rate_limit": "-",
+     "license": "dl-de/by-2-0 (unklar je Datensatz)",
+     "verified": false,
+     "sample_note": "Veroeffentlichungen, kein Feed bekannt"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.manrs_adoption",
+   "name_de": "MANRS-Routing-Sicherheit",
+   "plain_de": "Wie viele Netze Routing-Sicherheitsregeln einhalten.",
+   "domain": "proxy",
+   "evidence_class": "B",
+   "rationale": "Struktur-Baseline fuer Verwundbarkeit.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Mitgliedschaftswechsel"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "manrs",
+     "name": "MANRS Observatory",
+     "doc_url": "https://observatory.manrs.org/",
+     "endpoint": "https://observatory.manrs.org/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "mehrjaehrig",
+     "rate_limit": "-",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Scores je Land"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.speedtest_open_data",
+   "name_de": "Ookla Open Data Quartalsdaten",
+   "plain_de": "Median-Geschwindigkeit je Kachel.",
+   "domain": "proxy",
+   "evidence_class": "A",
+   "rationale": "Langsame Baseline; Strukturvergleich.",
+   "direction": "down",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Netzausbau"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "ookla",
+     "name": "Ookla Open Data",
+     "doc_url": "https://registry.opendata.aws/speedtest-global-performance/",
+     "endpoint": "s3://ookla-open-data/parquet/performance/type=fixed/year=2026/quarter=3/",
+     "access": "download",
+     "format": "parquet",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise",
+     "history": "seit 2019",
+     "rate_limit": "-",
+     "license": "CC BY-NC-SA 4.0",
+     "verified": false,
+     "sample_note": "avg_d_kbps, avg_lat_ms"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.openintel_dns_dependency",
+   "name_de": "DNS-Abhaengigkeiten grosser Anbieter",
+   "plain_de": "Wie viele Domains haengen an wenigen DNS-/Mail-Anbietern.",
+   "domain": "proxy",
+   "evidence_class": "A",
+   "rationale": "Konzentration bestimmt Ausmass einer Stoerung.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Marktdynamik"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "openintel",
+     "name": "OpenINTEL",
+     "doc_url": "https://www.openintel.nl/",
+     "endpoint": "https://openintel.nl/data/",
+     "access": "download",
+     "format": "parquet",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2015",
+     "rate_limit": "Zugang auf Antrag",
+     "license": "CC BY 4.0 (unklar je Datensatz)",
+     "verified": false,
+     "sample_note": "NS-/A-Records taegliche Snapshots"
+    }
+   ],
+   "notes": ""
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Abstuerze oder Neustartwellen von Router-Betriebssystemen ueber Update-Mitteilungen (keine standardisierte Quelle)",
+  "Idee: Anomalien in Zeitstempeln von Blockchain-Blocks als NTP/Netz-Proxy (Quelle nicht geprueft)",
+  "Idee: Mobilfunk-Zellen-Ausfaelle aus Crowd-Apps (OpenCellID ist Struktur, nicht Ausfall)",
+  "Idee: Stromverbrauch grosser Rechenzentren in Frankfurt (keine oeffentliche Rohdatenquelle)",
+  "Idee: Tagesaktivitaet von Rechenzentrumsbaustellen ueber Satellitenbilder (nur kommerziell)"
+ ]
+}

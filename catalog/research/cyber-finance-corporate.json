@@ -1,0 +1,1913 @@
+{
+ "subdomain": "Finanz- und Zahlungsinfrastruktur, Unternehmensmeldungen",
+ "generated": "2026-11-17",
+ "signals": [
+  {
+   "id": "cyber.filings.sec_8k_item105_daily_count",
+   "name_de": "SEC 8-K Item 1.05 Meldungen pro Tag",
+   "plain_de": "Boersennotierte US-Firmen muessen wesentliche Cybervorfaelle binnen 4 Geschaeftstagen melden; die Zahl der Meldungen pro Tag zeigt Wellen.",
+   "domain": "filings",
+   "evidence_class": "B",
+   "rationale": "Eine koordinierte Kampagne oder Lieferkettenangriff erzeugt innerhalb weniger Tage viele Item-1.05-Filings. Pflichtmeldung, kein PR-Text.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Einzelne grosse Ransomware-Faelle",
+    "Zunahme durch Nachmeldungen (8-K/A)",
+    "Wochenend-/Feiertagseffekte"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "sec-edgar-fts",
+     "name": "SEC EDGAR Full-Text Search (efts)",
+     "doc_url": "https://www.sec.gov/edgar/search/",
+     "endpoint": "https://efts.sec.gov/LatestSearch/rest/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-11-01&enddt=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 1 min bis wenige Minuten nach Veroeffentlichung",
+     "history": "Volltext ab 2001, 8-K Item 1.05 erst seit 18.12.2023",
+     "rate_limit": "max 10 Anfragen/s laut SEC Fair Access",
+     "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "hits.total.value = Trefferzahl; hits.hits[]._source mit ciks, display_names, file_date, items. Inoffizielle (undokumentierte) JSON-Schnittstelle der Websuche; beim Abruf in dieser Recherche rate-limitiert, daher ungeprueft."
+    },
+    {
+     "source_id": "sec-edgar-submissions",
+     "name": "SEC EDGAR submissions API (data.sec.gov)",
+     "doc_url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+     "endpoint": "https://data.sec.gov/submissions/CIK0000320193.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unter 1 s nach Dissemination",
+     "history": "komplette Filing-Historie je CIK",
+     "rate_limit": "10 req/s",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "filings.recent.items enthaelt pro Filing die 8-K Item-Nummern (z. B. 1.05) und filingDate, so lassen sich Item-1.05-Filings je CIK filtern."
+    },
+    {
+     "source_id": "sec-edgar-atom",
+     "name": "SEC EDGAR Current Events Atom-Feed 8-K",
+     "doc_url": "https://www.sec.gov/about/rss-feeds",
+     "endpoint": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=8-K&company=&dateb=&owner=include&count=100&output=atom",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1-5 min",
+     "history": "nur aktuelle Eintraege (letzte ca. 100); Historie ueber Daily Index",
+     "rate_limit": "10 req/s",
+     "license": "gemeinfrei, User-Agent Pflicht",
+     "verified": false,
+     "sample_note": "entry/title enthaelt Formtyp und Filer; Item-Nummern stehen nicht im Feed, dafuer submissions-API nutzen."
+    },
+    {
+     "source_id": "sec-edgar-daily-index",
+     "name": "SEC EDGAR Daily Index",
+     "doc_url": "https://www.sec.gov/Archives/edgar/daily-index/",
+     "endpoint": "https://www.sec.gov/Archives/edgar/daily-index/2026/QTR4/form.20261116.idx",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 1994",
+     "rate_limit": "unbekannt",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Textliste aller Filings je Tag (Formtyp, Firma, CIK); Basis fuer Zaehlung 8-K und 8-K/A pro Tag."
+    }
+   ],
+   "notes": "Baseline ab 18.12.2023 per startdt-Parameter. Nur Item-Zaehlung, Firmenname ist Organisation. SEC verlangt User-Agent mit Kontaktadresse."
+  },
+  {
+   "id": "cyber.filings.sec_8k_item105_same_vendor_cluster",
+   "name_de": "Mehrere 8-K nennen denselben Dienstleister",
+   "plain_de": "Wenn mehrere Firmen in kurzer Zeit denselben Drittanbieter als Ursache nennen, deutet das auf einen Lieferkettenangriff hin.",
+   "domain": "filings",
+   "evidence_class": "B",
+   "rationale": "Lieferketten-Kollaps (z. B. Zahlungsdienstleister, MSP, Cloud) zeigt sich als gemeinsamer Begriff in vielen Filings.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Zufaellig gleicher Cloud-Anbieter",
+    "Wiederholte Meldungen derselben Firma"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "sec-edgar-fts",
+     "name": "SEC EDGAR Full-Text Search (efts)",
+     "doc_url": "https://www.sec.gov/edgar/search/",
+     "endpoint": "https://efts.sec.gov/LatestSearch/rest/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-11-01&enddt=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 1 min bis wenige Minuten nach Veroeffentlichung",
+     "history": "Volltext ab 2001, 8-K Item 1.05 erst seit 18.12.2023",
+     "rate_limit": "max 10 Anfragen/s laut SEC Fair Access",
+     "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "hits.total.value = Trefferzahl; hits.hits[]._source mit ciks, display_names, file_date, items. Inoffizielle (undokumentierte) JSON-Schnittstelle der Websuche; beim Abruf in dieser Recherche rate-limitiert, daher ungeprueft."
+    }
+   ],
+   "notes": "Volltextsuche nach 'third-party', 'service provider', 'vendor' innerhalb Item 1.05/8.01 und Clustering nach genannten Eigennamen (NLP)."
+  },
+  {
+   "id": "cyber.filings.sec_8k_item105_amendments",
+   "name_de": "8-K/A Nachmeldungen zur Wesentlichkeit",
+   "plain_de": "Spaetere Berichtigungen zeigen, ob ein Vorfall doch wesentlich wurde.",
+   "domain": "filings",
+   "evidence_class": "B",
+   "rationale": "Anstieg an Nachmeldungen nach Initialmeldungen bedeutet vertiefte Betroffenheit.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Routine-Updates zu Untersuchungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "sec-edgar-fts",
+     "name": "SEC EDGAR Full-Text Search (efts)",
+     "doc_url": "https://www.sec.gov/edgar/search/",
+     "endpoint": "https://efts.sec.gov/LatestSearch/rest/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-11-01&enddt=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 1 min bis wenige Minuten nach Veroeffentlichung",
+     "history": "Volltext ab 2001, 8-K Item 1.05 erst seit 18.12.2023",
+     "rate_limit": "max 10 Anfragen/s laut SEC Fair Access",
+     "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "hits.total.value = Trefferzahl; hits.hits[]._source mit ciks, display_names, file_date, items. Inoffizielle (undokumentierte) JSON-Schnittstelle der Websuche; beim Abruf in dieser Recherche rate-limitiert, daher ungeprueft."
+    }
+   ],
+   "notes": "forms=8-K/A in Suche nutzen."
+  },
+  {
+   "id": "cyber.filings.sec_8k_keywords_outage",
+   "name_de": "8-K Stichworte: Ransomware, Betriebsunterbrechung, Systemausfall",
+   "plain_de": "Auch Meldungen unter anderen Items (7.01, 8.01) erwaehnen oft Cybervorfaelle.",
+   "domain": "filings",
+   "evidence_class": "B",
+   "rationale": "Firmen, die den Vorfall noch nicht als wesentlich einstufen, melden freiwillig unter 8.01. Frueher Hinweis.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Hardware-/Softwareausfall ohne Angriff"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "sec-edgar-fts",
+     "name": "SEC EDGAR Full-Text Search (efts)",
+     "doc_url": "https://www.sec.gov/edgar/search/",
+     "endpoint": "https://efts.sec.gov/LatestSearch/rest/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-11-01&enddt=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 1 min bis wenige Minuten nach Veroeffentlichung",
+     "history": "Volltext ab 2001, 8-K Item 1.05 erst seit 18.12.2023",
+     "rate_limit": "max 10 Anfragen/s laut SEC Fair Access",
+     "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "hits.total.value = Trefferzahl; hits.hits[]._source mit ciks, display_names, file_date, items. Inoffizielle (undokumentierte) JSON-Schnittstelle der Websuche; beim Abruf in dieser Recherche rate-limitiert, daher ungeprueft."
+    }
+   ],
+   "notes": "Suchbegriffe: ransomware, 'unauthorized access', 'operational disruption', 'systems offline'."
+  },
+  {
+   "id": "cyber.filings.sec_8k_financial_sector",
+   "name_de": "Item 1.05 Meldungen von Banken und Finanzdienstleistern",
+   "plain_de": "Nur die Meldungen aus dem Finanzsektor (Banken, Broker, Zahlungsdienste).",
+   "domain": "filings",
+   "evidence_class": "B",
+   "rationale": "Ein Cluster im Finanzsektor ist direkter Hinweis auf Zahlungs-/Bankenstoerung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Einzelfaelle bei Fintechs"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "sec-edgar-submissions",
+     "name": "SEC EDGAR submissions API (data.sec.gov)",
+     "doc_url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+     "endpoint": "https://data.sec.gov/submissions/CIK0000320193.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unter 1 s nach Dissemination",
+     "history": "komplette Filing-Historie je CIK",
+     "rate_limit": "10 req/s",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "filings.recent.items enthaelt pro Filing die 8-K Item-Nummern (z. B. 1.05) und filingDate, so lassen sich Item-1.05-Filings je CIK filtern."
+    },
+    {
+     "source_id": "sec-edgar-fts",
+     "name": "SEC EDGAR Full-Text Search (efts)",
+     "doc_url": "https://www.sec.gov/edgar/search/",
+     "endpoint": "https://efts.sec.gov/LatestSearch/rest/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-11-01&enddt=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 1 min bis wenige Minuten nach Veroeffentlichung",
+     "history": "Volltext ab 2001, 8-K Item 1.05 erst seit 18.12.2023",
+     "rate_limit": "max 10 Anfragen/s laut SEC Fair Access",
+     "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "hits.total.value = Trefferzahl; hits.hits[]._source mit ciks, display_names, file_date, items. Inoffizielle (undokumentierte) JSON-Schnittstelle der Websuche; beim Abruf in dieser Recherche rate-limitiert, daher ungeprueft."
+    }
+   ],
+   "notes": "SIC-Codes 6021, 6022, 6199, 7389, 6211 ueber Suchfilter bzw. company_tickers; Zuordnung CIK-SIC via submissions-API (sic Feld)."
+  },
+  {
+   "id": "cyber.filings.eqs_adhoc_cyber",
+   "name_de": "EQS/DGAP Ad-hoc-Mitteilungen mit Cyberbezug",
+   "plain_de": "Deutsche und europaeische Ad-hoc-Meldungen, die IT-Vorfaelle oder Systemausfaelle nennen.",
+   "domain": "filings",
+   "evidence_class": "B",
+   "rationale": "Ad-hoc-Pflicht (MAR Art. 17) zwingt Emittenten zur Meldung kursrelevanter Vorfaelle, auch Cyberangriffe.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Seltene Ereignisse",
+    "Fehlklassifikation durch Stichworte"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "eqs-news",
+     "name": "EQS-News / EQS Group Ad-hoc und Pflichtmitteilungen (Feeds)",
+     "doc_url": "https://www.eqs-news.com/",
+     "endpoint": "https://www.eqs-news.com/feed/ (Feed-Pfade je Kategorie, Ad-hoc-Filter ueber Webseite pruefen)",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "nur Feed-Fenster; Archiv als HTML",
+     "rate_limit": "unbekannt",
+     "license": "unklar (Pressetexte der Emittenten; nur Metadaten nutzen)",
+     "verified": false,
+     "sample_note": "Titel + Zeitstempel + Emittent. Stichwortfilter auf Cyberangriff, IT-Sicherheitsvorfall, Systemausfall. Genaue Feed-URLs nicht geprueft."
+    },
+    {
+     "source_id": "bundesanzeiger",
+     "name": "Bundesanzeiger Veroeffentlichungen",
+     "doc_url": "https://www.bundesanzeiger.de/",
+     "endpoint": "https://www.bundesanzeiger.de/pub/de/to_nlp_start",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "mehrjaehriges Archiv",
+     "rate_limit": "unbekannt",
+     "license": "unklar; Nutzungsbedingungen pruefen, automatisierter Abruf ggf. eingeschraenkt",
+     "verified": false,
+     "sample_note": "Keine offizielle API; Stimmrechts- und Ad-hoc-Veroeffentlichungen als HTML. Aufwand hoch."
+    }
+   ],
+   "notes": "Feed-URLs vorab pruefen; Rate niedrig halten."
+  },
+  {
+   "id": "cyber.filings.uk_rns_cyber",
+   "name_de": "UK RNS Pflichtmitteilungen mit Cyberbezug",
+   "plain_de": "Meldungen boersennotierter UK-Firmen ueber IT-Vorfaelle.",
+   "domain": "filings",
+   "evidence_class": "B",
+   "rationale": "UK-Pendant zu 8-K; Kursrelevanz fuehrt zu Meldung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wenige Treffer pro Jahr"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fca-nsm",
+     "name": "FCA National Storage Mechanism (UK RNS-Pflichtmitteilungen)",
+     "doc_url": "https://data.fca.org.uk/#/nsm/nationalstoragemechanism",
+     "endpoint": "https://api.data.fca.org.uk/search?index=fca-nsm-searchdata",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "mehrjaehrig",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Interne JSON-Suche der NSM-Weboberflaeche (POST); Struktur nicht geprueft."
+    }
+   ],
+   "notes": "API-Struktur ist nicht dokumentiert."
+  },
+  {
+   "id": "cyber.breach.hhs_ocr_hacking_incidents",
+   "name_de": "HHS Breach Portal: Hacking-Vorfaelle im Gesundheitswesen",
+   "plain_de": "Meldungen ueber Datenpannen mit IT-Angriff bei Gesundheitsorganisationen in den USA.",
+   "domain": "breach",
+   "evidence_class": "B",
+   "rationale": "Welle an Hacking-Meldungen in einem Sektor deutet auf Massenkampagne.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Meldefrist 60 Tage, daher stark verzoegert",
+    "Grosse Einzelfaelle verzerren"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "hhs-ocr-breach",
+     "name": "HHS OCR Breach Portal (Wall of Shame)",
+     "doc_url": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+     "endpoint": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf (CSV-Export-Button)",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage bis Wochen",
+     "history": "ab 2009",
+     "rate_limit": "unbekannt",
+     "license": "US-Regierungsdaten",
+     "verified": false,
+     "sample_note": "Spalten: Covered Entity, State, Individuals Affected, Breach Submission Date, Type of Breach (Hacking/IT Incident)."
+    }
+   ],
+   "notes": "Nur Organisationen und Aggregate, keine Betroffenen."
+  },
+  {
+   "id": "cyber.breach.state_ag_notifications",
+   "name_de": "US-Bundesstaaten-Breach-Portale (Maine, Kalifornien, Washington)",
+   "plain_de": "Oeffentliche Listen, in die Firmen Datenpannen melden.",
+   "domain": "breach",
+   "evidence_class": "B",
+   "rationale": "Zahl und Branchenmix neuer Meldungen zeigt Angriffswellen; haeufig Tage vor Medien.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Verspaetete Sammelmeldungen",
+    "Einzelne Dienstleister melden fuer viele Kunden"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "maine-ag-breach",
+     "name": "Maine AG Data Breach Notifications",
+     "doc_url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html",
+     "endpoint": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "ab ca. 2009",
+     "rate_limit": "unbekannt",
+     "license": "oeffentliche Behoerdendaten",
+     "verified": false,
+     "sample_note": "Tabelle mit Organisation, Datum der Meldung, Gesamtzahl Betroffene."
+    },
+    {
+     "source_id": "ca-ag-breach",
+     "name": "California AG Data Security Breach Reports",
+     "doc_url": "https://oag.ca.gov/privacy/databreach/list",
+     "endpoint": "https://oag.ca.gov/privacy/databreach/list",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "ab 2012",
+     "rate_limit": "unbekannt",
+     "license": "oeffentliche Behoerdendaten",
+     "verified": false,
+     "sample_note": "Liste mit Organisation, Breach- und Meldedatum; paginiertes HTML."
+    },
+    {
+     "source_id": "wa-ag-breach",
+     "name": "Washington AG Data Breach Notifications",
+     "doc_url": "https://www.atg.wa.gov/data-breach-notifications",
+     "endpoint": "https://www.atg.wa.gov/data-breach-notifications",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "mehrjaehrig",
+     "rate_limit": "unbekannt",
+     "license": "oeffentliche Behoerdendaten",
+     "verified": false,
+     "sample_note": "Tabelle mit Organisation, Datum, Betroffene."
+    }
+   ],
+   "notes": "Weitere Portale: Texas, Vermont, Indiana, Oregon, NY (jeweils HTML)."
+  },
+  {
+   "id": "cyber.breach.ransomware_leaksite_victims",
+   "name_de": "Ransomware-Leak-Site Opferzahlen pro Tag",
+   "plain_de": "Aggregierte Zahl der Organisationen, die auf Erpresser-Seiten genannt werden.",
+   "domain": "breach",
+   "evidence_class": "A",
+   "rationale": "Massiver Anstieg oder Konzentration auf Finanzsektor deutet auf Kampagne.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Gruppen-Abrechnungswellen",
+    "Datenqualitaet der Aggregatoren"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ransomware-live",
+     "name": "ransomware.live API",
+     "doc_url": "https://www.ransomware.live/api",
+     "endpoint": "https://api.ransomware.live/v2/recentvictims",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Opferliste ab 2020 (Leak-Site-Postings)",
+     "rate_limit": "unbekannt",
+     "license": "unklar (teils CC BY-NC)",
+     "verified": false,
+     "sample_note": "Aggregierte Listen von Organisationen, die auf Leak-Sites genannt werden; nur Organisations-Aggregate nutzen. Endpunkt nicht geprueft."
+    }
+   ],
+   "notes": "Nur Aggregate je Sektor/Land; keine Personen."
+  },
+  {
+   "id": "cyber.regulatory.dora_ico_incident_stats",
+   "name_de": "Aufsichtsstatistiken zu IKT-Vorfaellen (DORA, ICO)",
+   "plain_de": "Offizielle Sammelzahlen gemeldeter Vorfaelle im Finanzsektor.",
+   "domain": "regulatory",
+   "evidence_class": "B",
+   "rationale": "Strukturelle Baseline; Anomalien erst spaet sichtbar.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Neue Meldepflichten erhoehen Zahlen"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "ico-trends",
+     "name": "UK ICO Data security incident trends",
+     "doc_url": "https://ico.org.uk/action-weve-taken/data-security-incident-trends/",
+     "endpoint": "https://ico.org.uk/action-weve-taken/data-security-incident-trends/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise",
+     "history": "ab 2019",
+     "rate_limit": "unbekannt",
+     "license": "Open Government Licence (vermutet)",
+     "verified": false,
+     "sample_note": "Quartalszahlen gemeldeter Vorfaelle nach Sektor; lagging."
+    },
+    {
+     "source_id": "esas-dora",
+     "name": "ESAs/EBA/ECB Statistiken zu IKT-Vorfaellen (DORA, TIBER)",
+     "doc_url": "https://www.eiopa.europa.eu/digital-operational-resilience-act-dora_en",
+     "endpoint": "https://www.bafin.de/DE/Aufsicht/DORA/dora_node.html",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "jaehrlich",
+     "history": "ab 2025",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Aggregierte Berichte (PDF) zu gemeldeten Vorfaellen; keine Echtzeit-API bekannt."
+    }
+   ],
+   "notes": "Keine Echtzeit-API bekannt (ideas_without_source siehe unten)."
+  },
+  {
+   "id": "cyber.insurance.cyber_premium_index",
+   "name_de": "Cyberversicherung: Praemien-Index",
+   "plain_de": "Aenderung der Cyber-Praemien laut Makler.",
+   "domain": "insurance",
+   "evidence_class": "B",
+   "rationale": "Versicherer preisen Systemrisiko, aber stark verzoegert.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Marktzyklus",
+    "Loss ratios"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "marsh-cyber-pricing",
+     "name": "Marsh Global Insurance Market Index (Cyber-Preise)",
+     "doc_url": "https://www.marsh.com/en/services/global-insurance-market-index.html",
+     "endpoint": "https://www.marsh.com/en/services/global-insurance-market-index.html",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise",
+     "history": "ab 2017",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Prozentuale Praemienaenderung Cyber; lagging. Alternativ Artemis Cat-Bond-Spreads."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.attention.gdelt_cyber_bank_volume",
+   "name_de": "Medienvolumen zu Cyberangriffen auf Banken (GDELT)",
+   "plain_de": "Anteil der weltweiten Nachrichtenartikel, die Cyberangriff und Bank nennen.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Kontext-Layer: bestaetigt, ob die Oeffentlichkeit eine Welle wahrnimmt; beweist nichts.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Berichterstattung ueber Einzelereignisse",
+    "Jahresberichte"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT DOC 2.0 API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22cyber%20attack%22%20bank&mode=timelinevol&format=json&timespan=30d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "rollierend ca. 3 Monate, GKG-Dateien ab 2015",
+     "rate_limit": "1 Anfrage/5 s empfohlen",
+     "license": "frei nutzbar mit Quellenangabe",
+     "verified": false,
+     "sample_note": "timeline[].value = Anteil der Artikel am globalen Volumen. Evidenzklasse D (Medienaufmerksamkeit)."
+    }
+   ],
+   "notes": "Evidenzklasse D."
+  },
+  {
+   "id": "cyber.status.statuspage_incident_rate",
+   "name_de": "Statuspage-Incidents (kritisch/major) ueber viele Dienste",
+   "plain_de": "Zahl der offenen schweren Stoerungen ueber eine feste Liste von Cloud-, SaaS-, Zahlungs- und Krypto-Anbietern.",
+   "domain": "status",
+   "evidence_class": "B",
+   "rationale": "Gleichzeitige major/critical-Incidents bei vielen unabhaengigen Anbietern sind untypisch und deuten auf gemeinsame Ursache (Cloud, BGP, DNS, Angriff).",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Ein einzelner CDN-/Cloud-Ausfall betrifft viele Dienste",
+    "Geplante Wartung"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "githubstatus",
+     "name": "GitHub Status (Atlassian Statuspage)",
+     "doc_url": "https://www.githubstatus.com/api",
+     "endpoint": "https://www.githubstatus.com/api/v2/summary.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "incidents.json liefert ca. letzte 50 Incidents",
+     "rate_limit": "Statuspage: Limits nicht dokumentiert, 1/min pro Host ist verlaessig",
+     "license": "unklar (Statuspage-API oeffentlich, ToS pruefen)",
+     "verified": true,
+     "sample_note": "Geprueft (HTTP 200, 2026-11-16): page, components[].status (operational|degraded_performance|partial_outage|major_outage), incidents[], status.indicator (none|minor|major|critical)."
+    },
+    {
+     "source_id": "cloudflarestatus",
+     "name": "Cloudflare Status (Statuspage)",
+     "doc_url": "https://www.cloudflarestatus.com/api",
+     "endpoint": "https://www.cloudflarestatus.com/api/v2/incidents.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "ca. letzte 50 Incidents",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "incidents[].impact (none|minor|major|critical), created_at, resolved_at. Beim Abruf rate-limitiert, ungeprueft."
+    },
+    {
+     "source_id": "statuspage-hosts",
+     "name": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://<host>/api/v2/summary.json | /api/v2/incidents.json | /api/v2/components.json | /api/v2/status.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "incidents.json: letzte ca. 50; Historie selbst mitschreiben",
+     "rate_limit": "1 Abruf/min/Host reicht",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "Einheitliches Schema; status.indicator und components[].status sind Messwerte. Nur GitHub ist geprueft, alle anderen Hosts siehe notes."
+    }
+   ],
+   "notes": "Startliste Statuspage-Hosts (Pfad /api/v2/summary.json). NUR www.githubstatus.com ist von mir real abgerufen; alle anderen sind aus dem Gedaechtnis und muessen per Probe-Skript (HTTP 200 + JSON mit page/status) validiert werden, einige sind eigene Systeme statt Atlassian. Liste: www.githubstatus.com (geprueft); www.cloudflarestatus.com; status.atlassian.com; status.zoom.us; status.twilio.com; status.sendgrid.com; status.datadoghq.com; status.digitalocean.com; www.fastlystatus.com; status.braintreepayments.com; status.coinbase.com; status.kraken.com; status.gemini.com; status.bitfinex.com; status.circle.com; status.plaid.com; status.mollie.com; status.gocardless.com; status.paddle.com; status.chargebee.com; status.recurly.com; status.auth0.com; status.duo.com; status.pagerduty.com; status.mongodb.com; www.netlifystatus.com; www.vercel-status.com; status.supabase.com; status.hashicorp.com; status.docker.com; status.npmjs.org; status.box.com; status.hubspot.com; status.zendesk.com; status.sentry.io; status.newrelic.com; discordstatus.com; www.redditstatus.com; www.shopifystatus.com; status.intercom.com; status.openai.com; status.anthropic.com; status.bandwidth.com; status.sinch.com; status.messagebird.com; status.checkout.com; status.klarna.com; status.wise.com; status.revolut.com; status.developer.mastercard.com; status.square.com; status.slack.com (eher eigenes API); status.okta.com (eher eigenes System). Banken haben fast nie eine Statuspage-API; Telekom-Anbieter (Telekom, Vodafone) haben keine bekannte, nur CPaaS (Twilio, Bandwidth, Sinch)."
+  },
+  {
+   "id": "cyber.status.payment_providers",
+   "name_de": "Statusseiten der Zahlungsdienste",
+   "plain_de": "Meldungen von Stripe, Adyen, Braintree, Mollie, Mastercard u. a. ueber Ausfaelle.",
+   "domain": "status",
+   "evidence_class": "B",
+   "rationale": "Zahlungsdienste sind Engpass; Ausfall mehrerer bedeutet Zahlungsverkehrsstoerung.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Eigene Release-Probleme",
+    "Regionale Netzausfaelle"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "stripe-status",
+     "name": "Stripe Status",
+     "doc_url": "https://docs.stripe.com/api/",
+     "endpoint": "https://status.stripe.com/current",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Historie ueber /history-Seiten",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Eigene JSON-Schnittstelle von Stripe (kein Atlassian). Pfad nicht geprueft."
+    },
+    {
+     "source_id": "adyen-status",
+     "name": "Adyen Status",
+     "doc_url": "https://status.adyen.com/",
+     "endpoint": "https://status.adyen.com/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Webseite",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Statusseite mit Regionen; API-Verfuegbarkeit nicht geprueft."
+    },
+    {
+     "source_id": "mastercard-dev-status",
+     "name": "Mastercard Developers Status",
+     "doc_url": "https://developer.mastercard.com/",
+     "endpoint": "https://status.developer.mastercard.com/api/v2/summary.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "ca. 50 Incidents",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Vermutlich Statuspage-Instanz; Host nicht geprueft. Visa Developer Status analog pruefen."
+    },
+    {
+     "source_id": "statuspage-hosts",
+     "name": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://<host>/api/v2/summary.json | /api/v2/incidents.json | /api/v2/components.json | /api/v2/status.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "incidents.json: letzte ca. 50; Historie selbst mitschreiben",
+     "rate_limit": "1 Abruf/min/Host reicht",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "Einheitliches Schema; status.indicator und components[].status sind Messwerte. Nur GitHub ist geprueft, alle anderen Hosts siehe notes."
+    }
+   ],
+   "notes": "Visa Developer Status ebenfalls pruefen (Host unbekannt)."
+  },
+  {
+   "id": "cyber.status.hyperscaler_incidents",
+   "name_de": "Cloud-Hyperscaler Incident-Feeds (AWS, Azure, GCP)",
+   "plain_de": "Offizielle Stoerungsmeldungen der grossen Cloud-Anbieter.",
+   "domain": "status",
+   "evidence_class": "B",
+   "rationale": "Regionale oder globale Ausfaelle ziehen Banken und Zahlungsdienste nach.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Fehlkonfiguration, Strom, Kuehlung"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "aws-health-rss",
+     "name": "AWS Health Dashboard RSS",
+     "doc_url": "https://status.aws.amazon.com/",
+     "endpoint": "https://status.aws.amazon.com/rss/all.rss",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur letzte Eintraege",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Ein Item pro Service-Meldung; Feeds je Service/Region vorhanden."
+    },
+    {
+     "source_id": "azure-status-rss",
+     "name": "Azure Status RSS",
+     "doc_url": "https://azure.status.microsoft/en-us/status/feed/",
+     "endpoint": "https://azure.status.microsoft/en-us/status/feed/",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur aktuelle Eintraege",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Items mit Titel/Beschreibung je Incident und Region."
+    },
+    {
+     "source_id": "gcp-status",
+     "name": "Google Cloud Status incidents.json",
+     "doc_url": "https://status.cloud.google.com/",
+     "endpoint": "https://status.cloud.google.com/incidents.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Incident-Historie seit ca. 2019 im Feed",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Je Incident severity, begin, end, affected_products."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.status.saas_identity_m365",
+   "name_de": "Identity/Collaboration: Microsoft 365, Okta, Zoom, Slack",
+   "plain_de": "Status von Anmelde- und Kommunikationsdiensten.",
+   "domain": "status",
+   "evidence_class": "B",
+   "rationale": "Identity-Ausfall legt Firmen lahm; haeufig Ziel von Angriffen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Software-Rollouts"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ms-graph-service-health",
+     "name": "Microsoft Graph serviceAnnouncement (M365 Service Health)",
+     "doc_url": "https://learn.microsoft.com/graph/api/serviceannouncement-list-issues",
+     "endpoint": "https://graph.microsoft.com/v1.0/admin/serviceAnnouncement/issues",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "ca. 30 Tage",
+     "rate_limit": "unbekannt",
+     "license": "Microsoft APIs ToS",
+     "verified": false,
+     "sample_note": "Braucht Entra-App-Registrierung mit ServiceHealth.Read.All in einem M365-Tenant. Oeffentlich ohne Tenant nur Webseite status.cloud.microsoft."
+    },
+    {
+     "source_id": "okta-status",
+     "name": "Okta Trust Status",
+     "doc_url": "https://status.okta.com/",
+     "endpoint": "https://status.okta.com/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Incident-Historie auf Webseite",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Keine bestaetigte Statuspage-API; ggf. RSS/Atom pruefen."
+    },
+    {
+     "source_id": "statuspage-hosts",
+     "name": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://<host>/api/v2/summary.json | /api/v2/incidents.json | /api/v2/components.json | /api/v2/status.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "incidents.json: letzte ca. 50; Historie selbst mitschreiben",
+     "rate_limit": "1 Abruf/min/Host reicht",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "Einheitliches Schema; status.indicator und components[].status sind Messwerte. Nur GitHub ist geprueft, alle anderen Hosts siehe notes."
+    }
+   ],
+   "notes": "Zoom: status.zoom.us (Statuspage vermutet)."
+  },
+  {
+   "id": "cyber.status.cdn_dns_providers",
+   "name_de": "CDN/DNS-Anbieter: Cloudflare, Fastly, Akamai",
+   "plain_de": "Stoerungen der Netzknoten, die einen grossen Teil des Web ausliefern.",
+   "domain": "status",
+   "evidence_class": "B",
+   "rationale": "Zentrale Abhaengigkeit; Ausfall trifft Banking-Websites.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Config-Push-Fehler"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "cloudflarestatus",
+     "name": "Cloudflare Status (Statuspage)",
+     "doc_url": "https://www.cloudflarestatus.com/api",
+     "endpoint": "https://www.cloudflarestatus.com/api/v2/incidents.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "ca. letzte 50 Incidents",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "incidents[].impact (none|minor|major|critical), created_at, resolved_at. Beim Abruf rate-limitiert, ungeprueft."
+    },
+    {
+     "source_id": "statuspage-hosts",
+     "name": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://<host>/api/v2/summary.json | /api/v2/incidents.json | /api/v2/components.json | /api/v2/status.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "incidents.json: letzte ca. 50; Historie selbst mitschreiben",
+     "rate_limit": "1 Abruf/min/Host reicht",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "Einheitliches Schema; status.indicator und components[].status sind Messwerte. Nur GitHub ist geprueft, alle anderen Hosts siehe notes."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.status.cpaas_telecom",
+   "name_de": "SMS/Sprache: Twilio, Vonage, Bandwidth",
+   "plain_de": "Ausfall von SMS-Diensten bricht TAN/2FA-Zustellung.",
+   "domain": "status",
+   "evidence_class": "B",
+   "rationale": "Zweiter Ordnung: Banking-Login ohne SMS-Code.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Carrier-Probleme"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "telecom-statuspages",
+     "name": "Telekom/CPaaS Statuspages (Twilio, Vonage, Bandwidth, Sinch)",
+     "doc_url": "https://status.twilio.com/",
+     "endpoint": "https://status.twilio.com/api/v2/summary.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "ca. 50 Incidents",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Statuspage-Schema; Host nicht geprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.status.open_banking_uk",
+   "name_de": "Open-Banking-API Verfuegbarkeit (UK)",
+   "plain_de": "Zeigt Verfuegbarkeit der Bank-Schnittstellen.",
+   "domain": "status",
+   "evidence_class": "B",
+   "rationale": "Banken-APIs fallen vor sichtbaren Ausfaellen im Frontend.",
+   "direction": "down",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Wartungsfenster"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "openbanking-uk",
+     "name": "Open Banking UK API Performance",
+     "doc_url": "https://www.openbanking.org.uk/api-performance/",
+     "endpoint": "https://www.openbanking.org.uk/api-performance/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "mehrjaehrig",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Verfuegbarkeit und Antwortzeiten der Bank-APIs (CMA9) als Berichte; lagging."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.payments.target_services_status",
+   "name_de": "EZB TARGET Services Betriebsstatus",
+   "plain_de": "Betriebsmeldungen zu T2, TIPS, T2S.",
+   "domain": "payments",
+   "evidence_class": "B",
+   "rationale": "Ausfall im Euro-Grosszahlungsverkehr waere dramatisch.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Technische Stoerungen ohne Angriff",
+    "Geplante Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ecb-target-status",
+     "name": "ECB TARGET Services Betriebsstatus",
+     "doc_url": "https://www.ecb.europa.eu/paym/target/html/index.en.html",
+     "endpoint": "https://www.ecb.europa.eu/paym/target/target-professional-use-documents-links/tips/html/index.en.html",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Incident-Berichte als PDF",
+     "rate_limit": "unbekannt",
+     "license": "ECB Copyright, Nutzung mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Betriebsmeldungen (T2, TIPS, T2S, ECMS) als HTML; kein bestaetigter Feed. Seitenpfad ungeprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.payments.target_daily_volume",
+   "name_de": "TARGET Tagesvolumen und -wert",
+   "plain_de": "Zahl und Wert der Euro-Zahlungen pro Tag.",
+   "domain": "payments",
+   "evidence_class": "A",
+   "rationale": "Einbruch des Volumens unter Normal ist Messwert fuer Stoerung.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Feiertage",
+    "Quartalsende"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ecb-data-tgt",
+     "name": "ECB Data Portal: TARGET-Zahlungsstatistik",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/TGT?lastNObservations=30&format=csvdata",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich/monatlich",
+     "history": "ab 1999",
+     "rate_limit": "fair use",
+     "license": "ECB Reuse Policy, Quellenangabe",
+     "verified": false,
+     "sample_note": "Volumen und Wert der Zahlungen. Dataset-Key und Frequenz ungeprueft."
+    }
+   ],
+   "notes": "Lieferfrequenz und Delay pruefen."
+  },
+  {
+   "id": "cyber.payments.fed_services_status",
+   "name_de": "Fed Services (Fedwire, FedACH, FedNow) Status",
+   "plain_de": "Betriebsstatus der US-Grosszahlungsysteme.",
+   "domain": "payments",
+   "evidence_class": "B",
+   "rationale": "Gleiches Prinzip wie TARGET.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "frbservices-status",
+     "name": "Federal Reserve Financial Services Status (Fedwire, FedACH, FedNow)",
+     "doc_url": "https://www.frbservices.org/",
+     "endpoint": "https://www.frbservices.org/ (Statusbereich), FedNow: https://www.frbservices.org/financial-services/fednow",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "gering",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Konkreter Status-Endpunkt nicht belegt; moeglicherweise nur fuer Kunden. Aufwand hoch."
+    },
+    {
+     "source_id": "frb-services-stats",
+     "name": "FRBservices Fedwire/FedACH/FedNow Volumen",
+     "doc_url": "https://www.frbservices.org/resources/financial-services/wires/volume-value-stats",
+     "endpoint": "https://www.frbservices.org/resources/financial-services/wires/volume-value-stats",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich/quartalsweise",
+     "history": "ab 1990er",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Monatsvolumen/Wert Fedwire; lagging."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.payments.uk_chaps_faster_payments",
+   "name_de": "CHAPS, Bacs, Faster Payments Betriebsmeldungen",
+   "plain_de": "UK-Zahlungssysteme.",
+   "domain": "payments",
+   "evidence_class": "B",
+   "rationale": "Systemischer Ausfall waere Hinweis.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "boe-chaps-payuk",
+     "name": "Bank of England RTGS/CHAPS und Pay.UK (Bacs, Faster Payments) Status",
+     "doc_url": "https://www.bankofengland.co.uk/payment-and-settlement/rtgs-renewal-programme",
+     "endpoint": "https://www.bankofengland.co.uk/payment-and-settlement/chaps",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "gering",
+     "rate_limit": "unbekannt",
+     "license": "BoE Copyright / OGL",
+     "verified": false,
+     "sample_note": "Operative Meldungen; kein bestaetigter Feed. Pay.UK Status: https://www.wearepay.uk/ ungeprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.payments.swift_status",
+   "name_de": "SWIFT Betriebsstatus",
+   "plain_de": "Meldungen zum Nachrichtennetz.",
+   "domain": "payments",
+   "evidence_class": "B",
+   "rationale": "Globaler Abhaengigkeitsknoten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "swift-status",
+     "name": "SWIFT Operational Status",
+     "doc_url": "https://www.swift.com/",
+     "endpoint": "https://www.swift.com/about-us/status",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "gering",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Pfad nicht geprueft; ggf. nur fuer Kunden. Alternativ gpi-Statistiken (Berichte)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.payments.sepa_instant_rt1",
+   "name_de": "EBA Clearing RT1/STEP2 Status",
+   "plain_de": "Instant-Zahlungen im SEPA-Raum.",
+   "domain": "payments",
+   "evidence_class": "B",
+   "rationale": "Parallel zu TARGET/TIPS.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ebaclearing",
+     "name": "EBA Clearing RT1/STEP2 Status und Statistik",
+     "doc_url": "https://www.ebaclearing.eu/",
+     "endpoint": "https://www.ebaclearing.eu/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Tage",
+     "history": "Statistiken ab 2017",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Statistiken zu RT1-Volumen; Endpunkt nicht geprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.payments.pix_upi_volumes",
+   "name_de": "Pix/UPI Zahlungsvolumen",
+   "plain_de": "Ausserhalb Europas: Instant-Payment-Volumen als Proxy fuer globale Stoerungen.",
+   "domain": "payments",
+   "evidence_class": "A",
+   "rationale": "Einbruch zeigt nationalen Ausfall.",
+   "direction": "down",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "bcb-pix",
+     "name": "Banco Central do Brasil Open Data Pix",
+     "doc_url": "https://dadosabertos.bcb.gov.br/dataset/pix",
+     "endpoint": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasTransacoesPix(Database=@Database)?@Database='202610'&$format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "ab 2020",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 (BCB Dados Abertos)",
+     "verified": false,
+     "sample_note": "Monatliche Transaktionsstatistik; Parameter und Feldnamen ungeprueft. UPI analog: npci.org.in/statistics."
+    }
+   ],
+   "notes": "Nur monatlich im Open-Data-Dienst; UPI hat taegliche Statistik (HTML)."
+  },
+  {
+   "id": "cyber.payments.bank_app_review_spike",
+   "name_de": "Banking-App Bewertungen: Stoerungsstichworte",
+   "plain_de": "Zaehlen negativer Bewertungen pro Stunde.",
+   "domain": "payments",
+   "evidence_class": "D",
+   "rationale": "Kunden melden Ausfaelle in App Stores oft sofort.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "App-Updates mit Fehlern"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "itunes-reviews",
+     "name": "Apple iTunes Customer Reviews RSS (Banking-Apps)",
+     "doc_url": "https://rss.applemarketingtools.com/",
+     "endpoint": "https://itunes.apple.com/de/rss/customerreviews/id=<APP_ID>/sortby=mostrecent/json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "letzte ca. 500 Reviews je Land",
+     "rate_limit": "unbekannt",
+     "license": "Apple ToS, nur Aggregate",
+     "verified": false,
+     "sample_note": "Zeitstempel und Sterne je Review; nur Zaehlung/Durchschnitt pro App und Stunde. Endpunkt ungeprueft (Apple stellt Feeds teils um)."
+    }
+   ],
+   "notes": "Nur Aggregate je App; keine Nutzerprofile."
+  },
+  {
+   "id": "cyber.payments.stoerungsmelder_card_banking",
+   "name_de": "Crowd-Stoerungsmeldungen Karten/Banking",
+   "plain_de": "Anzahl der Nutzermeldungen pro Dienst.",
+   "domain": "payments",
+   "evidence_class": "D",
+   "rationale": "Fruehe Rueckmeldung bei Kartenterminal-/Online-Banking-Ausfall.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Lokale Stoerungen"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "stoerungsmelder",
+     "name": "Stoerungsmelder / allestoerungen.de Crowd-Meldungen",
+     "doc_url": "https://stoerungsmelder.de/",
+     "endpoint": "https://allestoerungen.de/stoerung/<dienst>/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Verlaufsgrafik auf Seite",
+     "rate_limit": "unbekannt",
+     "license": "unklar, ToS verbieten ggf. Scraping",
+     "verified": false,
+     "sample_note": "Meldungen pro Stunde je Bank/Kartenzahlung; keine API bekannt. Klasse D."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.cash.banknotes_in_circulation",
+   "name_de": "Banknoten im Umlauf (Euro, USD)",
+   "plain_de": "Bargeldnachfrage: Hamsterkaeufe bei Stoerungen.",
+   "domain": "cash",
+   "evidence_class": "A",
+   "rationale": "Anstieg der Bargeldnachfrage vor/waehrend Zahlungskrise.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Saisonalitaet (Weihnachten)"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecb-ilm-banknotes",
+     "name": "ECB Data Portal: Banknoten im Umlauf (Eurosystem-Wochenausweis)",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/ILM/W.U2.C.L010000.U2.EUR?lastNObservations=52&format=csvdata",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich",
+     "history": "ab 1999",
+     "rate_limit": "unbekannt",
+     "license": "ECB Reuse Policy",
+     "verified": false,
+     "sample_note": "Banknotenumlauf in Mio EUR (Reihenschluessel ungeprueft). Bundesbank: api.statistiken.bundesbank.de/rest."
+    },
+    {
+     "source_id": "fred-currcir",
+     "name": "FRED Currency in Circulation (CURRCIR/WCURCIR)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=CURRCIR&api_key=<KEY>&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "woechentlich/monatlich",
+     "history": "ab 1917 (monatlich)",
+     "rate_limit": "unbekannt",
+     "license": "FRED ToS, Quelle Fed Board",
+     "verified": false,
+     "sample_note": "Serien-ID nicht geprueft; alternativ H.4.1 Release."
+    }
+   ],
+   "notes": "Woechentliche Daten, taegliche Auswertung moeglich ueber Eurosystem."
+  },
+  {
+   "id": "cyber.money.estr_percentile_spread",
+   "name_de": "EUR: ESTR Aufspreizung und Volumen",
+   "plain_de": "Interbankenzinsen und Handelsvolumen.",
+   "domain": "money",
+   "evidence_class": "A",
+   "rationale": "Stress zeigt sich in Zinsaufschlaegen und Volumenabfall.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Mindestreserve-Perioden",
+    "EZB-Entscheidungen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ecb-estr",
+     "name": "ECB Euro Short-Term Rate (EST) Datenreihe",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.WT?lastNObservations=30&format=csvdata",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich 08:00 CET",
+     "history": "ab 2019",
+     "rate_limit": "fair use",
+     "license": "ECB Reuse Policy",
+     "verified": false,
+     "sample_note": "Reihe WT = Zinssatz; weitere Schluessel fuer Volumen/Perzentile (Schluessel ungeprueft)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.money.sofr_tail",
+   "name_de": "SOFR: Spreizung P99 minus Median, Volumen",
+   "plain_de": "Repo-Markt-Stress in den USA.",
+   "domain": "money",
+   "evidence_class": "A",
+   "rationale": "Tail-Anstieg zeigt Liquiditaetsengpass.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Quartalsende",
+    "Steuertermine"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "nyfed-markets-api",
+     "name": "NY Fed Markets API (SOFR)",
+     "doc_url": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+     "endpoint": "https://markets.newyorkfed.org/api/rates/secured/sofr/last/5.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich ca. 08:00 ET",
+     "history": "ab April 2018; /search.json mit startDate",
+     "rate_limit": "unbekannt",
+     "license": "NY Fed Terms of Use (frei mit Quelle)",
+     "verified": true,
+     "sample_note": "Geprueft (HTTP 200): refRates[].percentRate, percentPercentile1/25/75/99, volumeInBillions. Tail (P99 minus Median) und Volumen als Stressindikatoren."
+    }
+   ],
+   "notes": "Verifiziert; Tail = percentPercentile99 minus percentRate."
+  },
+  {
+   "id": "cyber.money.fed_repo_facility_usage",
+   "name_de": "Fed Standing Repo Facility / RRP Nutzung",
+   "plain_de": "Nutzung der Notfazilitaeten.",
+   "domain": "money",
+   "evidence_class": "A",
+   "rationale": "Plötzlicher Run auf Fazilitaeten zeigt Stress.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Quartalsende"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nyfed-repo",
+     "name": "NY Fed Repo/Reverse-Repo Operations Results",
+     "doc_url": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+     "endpoint": "https://markets.newyorkfed.org/api/rp/all/all/results/last/5.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2013",
+     "rate_limit": "unbekannt",
+     "license": "NY Fed Terms of Use",
+     "verified": false,
+     "sample_note": "Teilnahme am Standing Repo Facility und RRP je Tag; Feldnamen ungeprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.money.ecb_marginal_lending",
+   "name_de": "EZB Spitzenrefinanzierungsfazilitaet",
+   "plain_de": "Nutzung als Stressindikator.",
+   "domain": "money",
+   "evidence_class": "A",
+   "rationale": "Banken greifen zur teuren Fazilitaet, wenn Interbank versagt.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Technische Nutzung zum Monatsende"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecb-liquidity",
+     "name": "ECB Liquiditaetsbedingungen (Einlage-/Spitzenrefinanzierungsfazilitaet)",
+     "doc_url": "https://www.ecb.europa.eu/mopo/liq_ops/html/index.en.html",
+     "endpoint": "https://www.ecb.europa.eu/mopo/liq_ops/html/index.en.html",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 1999",
+     "rate_limit": "unbekannt",
+     "license": "ECB Reuse Policy",
+     "verified": false,
+     "sample_note": "Nutzung der Spitzenrefinanzierungsfazilitaet als Stress-Proxy; konkrete Download-URL ungeprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.markets.bank_equity_index",
+   "name_de": "Bankaktien-Index (SX7E) Kurs/Volumen",
+   "plain_de": "Marktpreis europaeischer Banken.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Handel preist Stoerungsrisiko schnell ein.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Zinsentscheide",
+    "Konjunktur"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "stooq",
+     "name": "Stooq historische Kurse (CSV)",
+     "doc_url": "https://stooq.com/db/h/",
+     "endpoint": "https://stooq.com/q/d/l/?s=^sx7e&i=d",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende, ggf. verzoegert",
+     "history": "Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "unklar (privater Dienst)",
+     "verified": false,
+     "sample_note": "Spalten Date,Open,High,Low,Close,Volume; Ticker fuer EU-Banken-Index (SX7E) ungeprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.markets.vix_spike",
+   "name_de": "VIX Volatilitaet",
+   "plain_de": "Marktangst.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Allgemeiner Stress; Begleiter.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Makro-Ereignisse"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cboe-vix",
+     "name": "Cboe VIX History CSV",
+     "doc_url": "https://www.cboe.com/tradable_products/vix/vix_historical_data/",
+     "endpoint": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 1990",
+     "rate_limit": "unbekannt",
+     "license": "Cboe ToS",
+     "verified": false,
+     "sample_note": "CLOSE-Spalte."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.markets.nasdaq_nyse_halts",
+   "name_de": "Handelsunterbrechungen Nasdaq/NYSE (Halt-Codes)",
+   "plain_de": "Anzahl und Art von Trading Halts.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Marktweite Halts oder LULD-Haeufung zeigen technische oder Nachrichtenstoerung.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Einzelne Nachrichtenhalts"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nasdaqtrader-halts",
+     "name": "Nasdaq Trader Trading Halts RSS",
+     "doc_url": "https://www.nasdaqtrader.com/Trader.aspx?id=TradeHalts",
+     "endpoint": "http://www.nasdaqtrader.com/rss.aspx?feed=tradehalts",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden bis Minuten",
+     "history": "Tageslisten, Archiv als Download",
+     "rate_limit": "unbekannt",
+     "license": "Nasdaq ToS",
+     "verified": false,
+     "sample_note": "Pro Halt: Symbol, Halt-Code (T1 news pending, LUDP, M Volatility), Halt-/Resume-Zeit. Ungeprueft."
+    },
+    {
+     "source_id": "nyse-halts",
+     "name": "NYSE Trading Halts",
+     "doc_url": "https://www.nyse.com/trade-halts",
+     "endpoint": "https://www.nyse.com/trade-halts",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Tageslisten",
+     "rate_limit": "unbekannt",
+     "license": "NYSE ToS",
+     "verified": false,
+     "sample_note": "Ein getesteter Download-Pfad lieferte MIME_BLOCKED (nicht abrufbar ueber das Pruef-Tool). Seite braucht ggf. JS."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.markets.xetra_market_status",
+   "name_de": "Xetra Marktstatus",
+   "plain_de": "Handelsunterbrechungen in Frankfurt.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Direkt sichtbar.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "IT-Stoerung ohne Angriff"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "xetra-status",
+     "name": "Deutsche Boerse Xetra Marktstatus / Handelsunterbrechungen",
+     "doc_url": "https://www.xetra.com/xetra-de/handel/handelsinformationen",
+     "endpoint": "https://www.xetra.com/xetra-de/handel/handelsinformationen",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "gering",
+     "rate_limit": "unbekannt",
+     "license": "Deutsche Boerse ToS",
+     "verified": false,
+     "sample_note": "Systemstatus und Handelsunterbrechungen als Webseite; kein bestaetigter Feed."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.markets.sip_feed_status",
+   "name_de": "Consolidated Tape (SIP) Stoerungen",
+   "plain_de": "Kursdatenverteilung in den USA.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Bruch der Datenkette.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Software-Updates"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "sip-status",
+     "name": "CTA/UTP SIP Systemstatus",
+     "doc_url": "https://www.ctaplan.com/",
+     "endpoint": "https://www.utpplan.com/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Notices-Archiv",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Operative Hinweise zu Consolidated Tape (Marktdaten-Feed-Stoerungen)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.crypto.stablecoin_peg_deviation",
+   "name_de": "Stablecoin-Abweichung vom Peg",
+   "plain_de": "Preis von USDT/USDC gegen 1 USD.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Vertrauens-/Zugriffsprobleme bei Banken bringen Krypto-Banking-Pfade in Stress.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Marktpanik ohne Bezug"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "defillama-stablecoins",
+     "name": "DefiLlama Stablecoins API",
+     "doc_url": "https://defillama.com/docs/api",
+     "endpoint": "https://stablecoins.llama.fi/stablecoins?includePrices=true",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Zeitreihen je Coin (stablecoincharts)",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "stablecoins[].price (Abweichung von 1.00) und circulating je Chain."
+    },
+    {
+     "source_id": "coingecko",
+     "name": "CoinGecko API",
+     "doc_url": "https://docs.coingecko.com/",
+     "endpoint": "https://api.coingecko.com/api/v3/simple/price?ids=tether,usd-coin&vs_currencies=usd",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "1-2 min",
+     "history": "Demo-Plan 1 Jahr, market_chart/range",
+     "rate_limit": "Demo ca. 30 req/min",
+     "license": "CoinGecko ToS, Attribution",
+     "verified": false,
+     "sample_note": "Preis in USD je Stablecoin; beim Abruf rate-limitiert (ungeprueft)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.crypto.mempool_fee_spike",
+   "name_de": "Bitcoin Mempool/Fees",
+   "plain_de": "Gebuehren steigen, wenn viele Menschen Geld bewegen.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Fluchtbewegung in Krypto.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Ordinals/Inscriptions",
+    "Marktrallye"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "mempool-space",
+     "name": "mempool.space REST API",
+     "doc_url": "https://mempool.space/docs/api/rest",
+     "endpoint": "https://mempool.space/api/v1/fees/recommended",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "/api/v1/mining/... und Fee-Statistiken je Block",
+     "rate_limit": "faire Nutzung",
+     "license": "AGPL-Software, API frei",
+     "verified": false,
+     "sample_note": "fastestFee, halfHourFee, hourFee in sat/vB; /api/mempool liefert count und vsize. Beim Abruf rate-limitiert (ungeprueft)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.crypto.exchange_reserves_outflow",
+   "name_de": "Boersenabfluesse",
+   "plain_de": "Bestaende auf Krypto-Boersen.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Selbstverwahrung steigt bei Misstrauen.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Marktzyklus"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "defillama-cex",
+     "name": "Boersen-Reserven (DefiLlama CEX Transparency / CryptoQuant)",
+     "doc_url": "https://defillama.com/cexs",
+     "endpoint": "https://api.llama.fi/protocols (CEX-Daten ueber Webseite /cexs, API-Pfad ungeprueft)",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "ab ca. 2022",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "CryptoQuant/Glassnode Exchange Netflow sind kostenpflichtig (paid)."
+    }
+   ],
+   "notes": "Gute Daten kostenpflichtig."
+  },
+  {
+   "id": "cyber.crypto.defi_tvl_drop",
+   "name_de": "DeFi TVL Einbruch",
+   "plain_de": "Wert in DeFi-Protokollen.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Exploit/Run.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Preise"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "defillama-tvl",
+     "name": "DefiLlama TVL API",
+     "doc_url": "https://defillama.com/docs/api",
+     "endpoint": "https://api.llama.fi/v2/historicalChainTvl",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "ab 2018",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "date und tvl in USD je Tag."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.crypto.exchange_api_availability",
+   "name_de": "Krypto-Boerse API Erreichbarkeit",
+   "plain_de": "Antwortzeit und HTTP-Status oeffentlicher Endpunkte.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Eigenmessung unabhaengig von Statusseite.",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Netzprobleme beim Messort"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "binance-public",
+     "name": "Binance Public API (ping/time)",
+     "doc_url": "https://developers.binance.com/docs/binance-spot-api-docs/rest-api",
+     "endpoint": "https://api.binance.com/api/v3/ping",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "keine (selbst mitschreiben)",
+     "rate_limit": "1 Anfrage/min genuegt",
+     "license": "Binance API ToS",
+     "verified": false,
+     "sample_note": "HTTP-Status und Latenz als Verfuegbarkeitsmessung. Alternativen: Coinbase /v2/time, Kraken /0/public/SystemStatus (ungeprueft)."
+    }
+   ],
+   "notes": "Nur ein Abruf pro Minute."
+  },
+  {
+   "id": "cyber.status.crypto_exchange_statuspages",
+   "name_de": "Statusseiten der Krypto-Boersen",
+   "plain_de": "Coinbase, Kraken, Gemini, Bitfinex.",
+   "domain": "status",
+   "evidence_class": "B",
+   "rationale": "Krypto-Boersen sind schnelle Indikatoren fuer Cloud/DDoS.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Hohe Last"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "statuspage-hosts",
+     "name": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://<host>/api/v2/summary.json | /api/v2/incidents.json | /api/v2/components.json | /api/v2/status.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "incidents.json: letzte ca. 50; Historie selbst mitschreiben",
+     "rate_limit": "1 Abruf/min/Host reicht",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "Einheitliches Schema; status.indicator und components[].status sind Messwerte. Nur GitHub ist geprueft, alle anderen Hosts siehe notes."
+    }
+   ],
+   "notes": "Hosts siehe Statuspage-Liste."
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Downdetector-Meldungen pro Bank (Quelle hat Nutzungsbedingungen, keine freie API)",
+  "Idee: Bankfilialen-/Geldautomaten-Ausfall Daten (kein offener Feed bekannt)",
+  "Idee: CDS-Spreads grosser Banken (nur kostenpflichtige Daten)",
+  "Idee: Cybersecurity-ETF (CIBR/HACK) Volumenspitzen (nur ueber Boersendatenanbieter)",
+  "Idee: Stellenanzeigen fuer Incident Response (kein oeffentlicher Feed)",
+  "Idee: BaFin/DORA Vorfallsmeldungen in Echtzeit (nicht oeffentlich)"
+ ]
+}

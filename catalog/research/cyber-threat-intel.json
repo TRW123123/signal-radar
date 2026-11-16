@@ -1,0 +1,2360 @@
+{
+ "subdomain": "Threat-Intelligence und Angriffstelemetrie",
+ "generated": "2026-11-17",
+ "signals": [
+  {
+   "id": "cyber.vuln.kev_additions_rate",
+   "name_de": "Zuwachsrate CISA KEV",
+   "plain_de": "Wie viele aktiv ausgenutzte Schwachstellen pro Woche neu in die US-Liste kommen.",
+   "domain": "vuln",
+   "evidence_class": "B",
+   "rationale": "Sprung der Neuaufnahmen zeigt Massenausnutzung; Cluster bei Edge-Geraeten und Netzgeraeten wirken als Vorlaeufer breiter Kampagnen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Backlog-Aufarbeitung durch CISA",
+    "Monatlicher Patch-Dienstag",
+    "Sammelaufnahmen alter CVEs"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "cisa-kev",
+     "name": "CISA Known Exploited Vulnerabilities",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktaeglich",
+     "history": "Komplettes Archiv seit 2021-11 mit dateAdded je Eintrag",
+     "rate_limit": "unbekannt",
+     "license": "CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprueft)",
+     "verified": false,
+     "sample_note": "Feld vulnerabilities[].dateAdded zaehlen; Abruf-Test: BODY_LIMIT beim Tool (Datei gross), per curl abrufbar"
+    },
+    {
+     "source_id": "cisa-kev-csv",
+     "name": "CISA KEV CSV",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktaeglich",
+     "history": "seit 2021-11",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "dateAdded, knownRansomwareCampaignUse"
+    },
+    {
+     "source_id": "vulncheck-kev",
+     "name": "VulnCheck KEV",
+     "doc_url": "https://vulncheck.com/kev",
+     "endpoint": "https://api.vulncheck.com/v3/index/vulncheck-kev",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2021",
+     "rate_limit": "unbekannt",
+     "license": "Community-Tier ToS",
+     "verified": false,
+     "sample_note": "Groesser als CISA KEV; Zuwachsrate"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.vuln.kev_network_edge_share",
+   "name_de": "Anteil Edge-/VPN-Geraete in KEV",
+   "plain_de": "Anteil der neu gelisteten Schwachstellen in VPNs, Firewalls und Routern.",
+   "domain": "vuln",
+   "evidence_class": "B",
+   "rationale": "Edge-Geraete sind Einstieg fuer Grossangriffe; steigender Anteil = erhoehte Flaechenwirkung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Einzelne Herstellerwelle",
+    "Klassifizierung nach Vendor-Namen unscharf"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cisa-kev",
+     "name": "CISA Known Exploited Vulnerabilities",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktaeglich",
+     "history": "Komplettes Archiv seit 2021-11 mit dateAdded je Eintrag",
+     "rate_limit": "unbekannt",
+     "license": "CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprueft)",
+     "verified": false,
+     "sample_note": "Feld vulnerabilities[].dateAdded zaehlen; Abruf-Test: BODY_LIMIT beim Tool (Datei gross), per curl abrufbar"
+    }
+   ],
+   "notes": "Vendor/Produkt-Felder nach Keywords klassifizieren"
+  },
+  {
+   "id": "cyber.vuln.kev_ransomware_flag",
+   "name_de": "KEV-Eintraege mit Ransomware-Nutzung",
+   "plain_de": "Wie viele Ausnutzungs-Eintraege als von Ransomware genutzt markiert sind.",
+   "domain": "vuln",
+   "evidence_class": "B",
+   "rationale": "Feld knownRansomwareCampaignUse markiert bereits operationalisierte Luecken.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Nachtraegliche Markierung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cisa-kev",
+     "name": "CISA Known Exploited Vulnerabilities",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktaeglich",
+     "history": "Komplettes Archiv seit 2021-11 mit dateAdded je Eintrag",
+     "rate_limit": "unbekannt",
+     "license": "CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprueft)",
+     "verified": false,
+     "sample_note": "Feld vulnerabilities[].dateAdded zaehlen; Abruf-Test: BODY_LIMIT beim Tool (Datei gross), per curl abrufbar"
+    },
+    {
+     "source_id": "cisa-kev-csv",
+     "name": "CISA KEV CSV",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktaeglich",
+     "history": "seit 2021-11",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "dateAdded, knownRansomwareCampaignUse"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.vuln.kev_due_date_short",
+   "name_de": "Verkuerzte KEV-Fristen",
+   "plain_de": "Anteil der Eintraege mit besonders kurzer Behebungsfrist.",
+   "domain": "vuln",
+   "evidence_class": "C",
+   "rationale": "Kurze dueDate-Fristen (Tage statt 3 Wochen) deuten auf Akutlage; reiner Kontext.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Notfall-Direktiven"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cisa-kev",
+     "name": "CISA Known Exploited Vulnerabilities",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktaeglich",
+     "history": "Komplettes Archiv seit 2021-11 mit dateAdded je Eintrag",
+     "rate_limit": "unbekannt",
+     "license": "CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprueft)",
+     "verified": false,
+     "sample_note": "Feld vulnerabilities[].dateAdded zaehlen; Abruf-Test: BODY_LIMIT beim Tool (Datei gross), per curl abrufbar"
+    }
+   ],
+   "notes": "Differenz dueDate minus dateAdded"
+  },
+  {
+   "id": "cyber.vuln.nvd_cve_volume",
+   "name_de": "CVE-Veroeffentlichungsvolumen",
+   "plain_de": "Anzahl neuer CVEs pro Tag.",
+   "domain": "vuln",
+   "evidence_class": "B",
+   "rationale": "Ungewoehnliche Spitzen in Tagesmengen oder kritischen Schweregraden koennen Massenmeldung/Koordination zeigen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Batch-Veroeffentlichungen grosser CNAs",
+    "Patch-Dienstag"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nvd-cve-api",
+     "name": "NVD CVE API 2.0",
+     "doc_url": "https://nvd.nist.gov/developers/vulnerabilities",
+     "endpoint": "https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-11-01T00:00:00.000&pubEndDate=2026-11-15T00:00:00.000&resultsPerPage=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~2 h",
+     "history": "alle CVEs seit 1999",
+     "rate_limit": "5 Req/30 s ohne Key, 50 mit Key",
+     "license": "US Gov, frei",
+     "verified": false,
+     "sample_note": "totalResults = CVE-Anzahl im Zeitfenster; cvssMetrics fuer Schweregrad"
+    },
+    {
+     "source_id": "cvelist-v5",
+     "name": "CVE Project cvelistV5 (GitHub)",
+     "doc_url": "https://github.com/CVEProject/cvelistV5",
+     "endpoint": "https://github.com/CVEProject/cvelistV5/tree/main/cves",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~10 min",
+     "history": "Git-Historie komplett",
+     "rate_limit": "unbekannt",
+     "license": "CVE Terms of Use (frei)",
+     "verified": false,
+     "sample_note": "Commits/neue Dateien pro Tag zaehlen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.vuln.nvd_critical_share",
+   "name_de": "Anteil kritischer CVEs (CVSS >= 9)",
+   "plain_de": "Wie hoch der Anteil sehr schwerer Schwachstellen unter den neuen CVEs ist.",
+   "domain": "vuln",
+   "evidence_class": "B",
+   "rationale": "Anstieg des Kritisch-Anteils bei Netz-/Infrastrukturprodukten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Scoring-Aenderungen CVSS 4.0",
+    "Einzelne Produktfamilie"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nvd-cve-api",
+     "name": "NVD CVE API 2.0",
+     "doc_url": "https://nvd.nist.gov/developers/vulnerabilities",
+     "endpoint": "https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-11-01T00:00:00.000&pubEndDate=2026-11-15T00:00:00.000&resultsPerPage=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~2 h",
+     "history": "alle CVEs seit 1999",
+     "rate_limit": "5 Req/30 s ohne Key, 50 mit Key",
+     "license": "US Gov, frei",
+     "verified": false,
+     "sample_note": "totalResults = CVE-Anzahl im Zeitfenster; cvssMetrics fuer Schweregrad"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.vuln.epss_jumps",
+   "name_de": "EPSS-Spruenge",
+   "plain_de": "Plötzlicher Anstieg der vorhergesagten Ausnutzungswahrscheinlichkeit einer Schwachstelle.",
+   "domain": "vuln",
+   "evidence_class": "A",
+   "rationale": "EPSS reagiert auf beobachtete Scans und Exploit-Veroeffentlichung; Sprung eines Einzel-CVEs vor KEV-Aufnahme ist Vorlaeufer.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neu veroeffentlichter PoC",
+    "Modellrekalibrierung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "first-epss",
+     "name": "FIRST EPSS API",
+     "doc_url": "https://www.first.org/epss/api",
+     "endpoint": "https://api.first.org/data/v1/epss?cve=CVE-2024-3400&scope=time-series",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Zeitreihe ueber scope=time-series, Daten seit 2021-04",
+     "rate_limit": "unbekannt",
+     "license": "frei nutzbar mit Quellenangabe (laut FIRST)",
+     "verified": true,
+     "sample_note": "Antwort enthaelt cve, epss, percentile, date; Basisabruf 2026-11-16 geprueft (total 406741)"
+    }
+   ],
+   "notes": "Taegliche Dumps ergeben Delta je CVE"
+  },
+  {
+   "id": "cyber.vuln.epss_high_count",
+   "name_de": "Anzahl CVEs mit EPSS > 0.5",
+   "plain_de": "Wie viele Schwachstellen als sehr wahrscheinlich ausgenutzt gelten.",
+   "domain": "vuln",
+   "evidence_class": "A",
+   "rationale": "Breiter Anstieg des Hochrisiko-Bestands bedeutet wachsendes Angriffsangebot.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Modellversionswechsel"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "first-epss-csv",
+     "name": "EPSS Tagesdump",
+     "doc_url": "https://www.first.org/epss/data_stats",
+     "endpoint": "https://epss.cyentia.com/epss_scores-current.csv.gz",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Archiv je Tag seit 2021",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Spalten cve,epss,percentile"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.vuln.msrc_out_of_band",
+   "name_de": "Microsoft Notfall-Updates ausserhalb Zyklus",
+   "plain_de": "Updates ausserhalb des monatlichen Patch-Dienstags.",
+   "domain": "vuln",
+   "evidence_class": "B",
+   "rationale": "Out-of-band-Updates sind Reaktion auf akute Ausnutzung; seltene Ereignisse.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Fehlerkorrektur eines Patches"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "msrc-cvrf",
+     "name": "Microsoft MSRC Security Update Guide API",
+     "doc_url": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+     "endpoint": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich plus OOB",
+     "history": "alle Monate seit 2016",
+     "rate_limit": "unbekannt",
+     "license": "Microsoft ToS",
+     "verified": false,
+     "sample_note": "CVRF-Dokumente; OOB-Updates und Anzahl Zero-Days (ExploitStatus)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.vuln.msrc_zero_day_count",
+   "name_de": "Zero-Days pro Patch-Dienstag",
+   "plain_de": "Anzahl als ausgenutzt markierter Luecken im Monatsupdate.",
+   "domain": "vuln",
+   "evidence_class": "B",
+   "rationale": "Hohe Zahl bereits ausgenutzter Luecken zeigt Angriffsdruck.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Zufallsschwankung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "msrc-cvrf",
+     "name": "Microsoft MSRC Security Update Guide API",
+     "doc_url": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+     "endpoint": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich plus OOB",
+     "history": "alle Monate seit 2016",
+     "rate_limit": "unbekannt",
+     "license": "Microsoft ToS",
+     "verified": false,
+     "sample_note": "CVRF-Dokumente; OOB-Updates und Anzahl Zero-Days (ExploitStatus)"
+    }
+   ],
+   "notes": "Patch-Dienstag-Kalender (2. Dienstag) als banale Ursache fuer Volumenspitzen mitfuehren"
+  },
+  {
+   "id": "cyber.vuln.patch_tuesday_calendar",
+   "name_de": "Patch-Dienstag-Kalender",
+   "plain_de": "Kalender, der erwartbare Ausschlaege bei CVE/KEV erklaert.",
+   "domain": "vuln",
+   "evidence_class": "C",
+   "rationale": "Baseline-Korrektur fuer alle vuln.-Signale.",
+   "direction": "flat",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "-"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "msrc-cvrf",
+     "name": "Microsoft MSRC Security Update Guide API",
+     "doc_url": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+     "endpoint": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich plus OOB",
+     "history": "alle Monate seit 2016",
+     "rate_limit": "unbekannt",
+     "license": "Microsoft ToS",
+     "verified": false,
+     "sample_note": "CVRF-Dokumente; OOB-Updates und Anzahl Zero-Days (ExploitStatus)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.vuln.cert_bund_critical",
+   "name_de": "CERT-Bund Warnungen mit hohem Risiko",
+   "plain_de": "Zahl der Warnungen mit Risikostufe hoch/kritisch.",
+   "domain": "vuln",
+   "evidence_class": "C",
+   "rationale": "Offizielle Warnlage als Kontext, kein Primaersignal.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Routine-Advisories"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cert-bund-rss",
+     "name": "CERT-Bund / BSI WID RSS",
+     "doc_url": "https://wid.cert-bund.de/",
+     "endpoint": "https://wid.cert-bund.de/content/public/securityAdvisory/rss",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Feed-Fenster begrenzt",
+     "rate_limit": "unbekannt",
+     "license": "DL-DE (unklar)",
+     "verified": false,
+     "sample_note": "Anzahl Advisories mit Risikostufe; Kontext-Layer (Evidenz C)"
+    },
+    {
+     "source_id": "cert-eu",
+     "name": "CERT-EU Advisories RSS",
+     "doc_url": "https://cert.europa.eu/publications/security-advisories/",
+     "endpoint": "https://cert.europa.eu/publications/security-advisories-rss",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "begrenzt",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Kontext"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.honeypot.dshield_port_scan_spike",
+   "name_de": "DShield Scan-Spitzen",
+   "plain_de": "Anstieg von Verbindungsversuchen auf einzelnen Ports bei freiwilligen Sensoren.",
+   "domain": "honeypot",
+   "evidence_class": "A",
+   "rationale": "Massen-Scans auf neue Ports/Dienste gehen oft der Ausnutzung voraus.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Forschungsscanner",
+    "Botnet-Rauschen"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "sans-isc",
+     "name": "SANS ISC / DShield API",
+     "doc_url": "https://isc.sans.edu/api/",
+     "endpoint": "https://isc.sans.edu/api/topports/records/10?json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Endpunkte mit Datum, z. B. /api/dailysummary/<von>/<bis>",
+     "rate_limit": "max 1 Req/s, User-Agent mit Kontakt",
+     "license": "CC BY-NC-SA (laut ISC, pruefen)",
+     "verified": false,
+     "sample_note": "Test /api/infocon?json: MIME_BLOCKED im Tool; Endpunkte nicht verifiziert"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.honeypot.isc_infocon",
+   "name_de": "SANS Infocon-Stufe",
+   "plain_de": "Ampel von SANS fuer Internet-Gesamtlage.",
+   "domain": "honeypot",
+   "evidence_class": "C",
+   "rationale": "Selten verstellt; wird bei Wurm-/Grossereignissen gelb/orange.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Menschliche Entscheidung"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "isc-infocon",
+     "name": "SANS ISC Infocon",
+     "doc_url": "https://isc.sans.edu/api/",
+     "endpoint": "https://isc.sans.edu/api/infocon?json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "keine",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "MIME_BLOCKED im Tool-Test"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.honeypot.greynoise_cve_tag_ips",
+   "name_de": "GreyNoise Scanner je CVE-Tag",
+   "plain_de": "Anzahl IPs, die auf eine bestimmte Schwachstelle scannen.",
+   "domain": "honeypot",
+   "evidence_class": "A",
+   "rationale": "Neue CVE-Tags mit steigender IP-Zahl zeigen Massenausnutzung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Security-Forscher"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "greynoise",
+     "name": "GreyNoise Community/Trends",
+     "doc_url": "https://docs.greynoise.io/",
+     "endpoint": "https://api.greynoise.io/v3/community/<IP>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Trends/Tags im Visualizer 90 Tage, voll nur bezahlt",
+     "rate_limit": "unbekannt",
+     "license": "Community-API eingeschraenkt, ToS",
+     "verified": false,
+     "sample_note": "Tag-Zaehlungen (z. B. CVE-Tags) als Massen-Scan-Indikator"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.honeypot.greynoise_noise_volume",
+   "name_de": "GreyNoise Gesamt-Rauschen",
+   "plain_de": "Anzahl aktiver Scanner-IPs insgesamt.",
+   "domain": "honeypot",
+   "evidence_class": "A",
+   "rationale": "Sprung deutet auf Botnet-Aktivierung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Botnet-Zyklen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "greynoise",
+     "name": "GreyNoise Community/Trends",
+     "doc_url": "https://docs.greynoise.io/",
+     "endpoint": "https://api.greynoise.io/v3/community/<IP>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Trends/Tags im Visualizer 90 Tage, voll nur bezahlt",
+     "rate_limit": "unbekannt",
+     "license": "Community-API eingeschraenkt, ToS",
+     "verified": false,
+     "sample_note": "Tag-Zaehlungen (z. B. CVE-Tags) als Massen-Scan-Indikator"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.honeypot.cowrie_ssh_telnet",
+   "name_de": "Cowrie SSH/Telnet-Honeypot-Logins",
+   "plain_de": "Brute-Force-Versuche in Community-Honeypots.",
+   "domain": "honeypot",
+   "evidence_class": "A",
+   "rationale": "Mirai-artige Botnet-Wachstumswellen zeigen sich in Telnet/SSH.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Saisonale Wellen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cowrie-community",
+     "name": "Cowrie Community-Daten (z. B. SANS/DShield, BitNinja)",
+     "doc_url": "https://github.com/cowrie/cowrie",
+     "endpoint": "https://isc.sans.edu/api/",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unbekannt",
+     "history": "unbekannt",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Kein zentrales offenes Cowrie-API bekannt; ueber DShield-Sensor-Daten zugaenglich"
+    }
+   ],
+   "notes": "Nicht verifiziert, Quelle teils indirekt"
+  },
+  {
+   "id": "cyber.honeypot.shadowserver_exposed",
+   "name_de": "Shadowserver exponierte verwundbare Hosts",
+   "plain_de": "Anzahl internetoffener Hosts mit bekannter Luecke, je Land.",
+   "domain": "honeypot",
+   "evidence_class": "A",
+   "rationale": "Grosse Bestaende ungepatchter Hosts + KEV-Eintrag = hohes Massenrisiko.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Kampagnenbedingte Scans von Shadowserver"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "shadowserver-dash",
+     "name": "Shadowserver Dashboard",
+     "doc_url": "https://dashboard.shadowserver.org/",
+     "endpoint": "https://dashboard.shadowserver.org/statistics/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Historie im Dashboard",
+     "rate_limit": "unbekannt",
+     "license": "CC BY (laut Dashboard, pruefen)",
+     "verified": false,
+     "sample_note": "Exponierte verwundbare Hosts je Land/Port; API per Konto-Key moeglich"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.honeypot.shadowserver_reflectors",
+   "name_de": "Offene DDoS-Reflektoren",
+   "plain_de": "Anzahl offener Dienste (DNS, NTP, Memcached), die fuer DDoS-Verstaerkung nutzbar sind.",
+   "domain": "honeypot",
+   "evidence_class": "A",
+   "rationale": "Wachstum erhoeht DDoS-Kapazitaet fuer Grossangriffe.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Langsame Bereinigung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "shadowserver-dash",
+     "name": "Shadowserver Dashboard",
+     "doc_url": "https://dashboard.shadowserver.org/",
+     "endpoint": "https://dashboard.shadowserver.org/statistics/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Historie im Dashboard",
+     "rate_limit": "unbekannt",
+     "license": "CC BY (laut Dashboard, pruefen)",
+     "verified": false,
+     "sample_note": "Exponierte verwundbare Hosts je Land/Port; API per Konto-Key moeglich"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.malware.urlhaus_volume",
+   "name_de": "URLhaus Malware-URLs pro Tag",
+   "plain_de": "Anzahl neu gemeldeter Malware-Verteilungs-URLs.",
+   "domain": "malware",
+   "evidence_class": "A",
+   "rationale": "Massive Zunahme zeigt aktive Kampagnen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Einzelne Melderbasis",
+    "Batch-Uploads"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "urlhaus",
+     "name": "abuse.ch URLhaus",
+     "doc_url": "https://urlhaus.abuse.ch/api/",
+     "endpoint": "https://urlhaus.abuse.ch/downloads/csv_recent/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Voll-Dump csv.zip; API mit Auth-Key",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Zeilen pro Tag zaehlen, Feld dateadded"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.malware.malwarebazaar_volume",
+   "name_de": "MalwareBazaar Samples pro Tag",
+   "plain_de": "Neue Malware-Proben je Tag und Familie.",
+   "domain": "malware",
+   "evidence_class": "A",
+   "rationale": "Plotzliches Auftreten neuer Familien oder Wiper-Labels.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Batch-Einreichungen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "malwarebazaar",
+     "name": "abuse.ch MalwareBazaar",
+     "doc_url": "https://bazaar.abuse.ch/api/",
+     "endpoint": "https://bazaar.abuse.ch/export/csv/recent/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Voll-Dump verfuegbar",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Samples pro Tag/Familie"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.malware.threatfox_ioc_volume",
+   "name_de": "ThreatFox neue IOCs pro Tag",
+   "plain_de": "Zahl neuer Indikatoren (IP, Domain, Hash).",
+   "domain": "malware",
+   "evidence_class": "A",
+   "rationale": "IOC-Fluten zu einer Familie deuten auf koordinierte Kampagne.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Import-Batch"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "threatfox",
+     "name": "abuse.ch ThreatFox",
+     "doc_url": "https://threatfox.abuse.ch/api/",
+     "endpoint": "https://threatfox.abuse.ch/export/json/recent/",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Export-Dumps",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "IOCs pro Tag, Malware-Familie"
+    },
+    {
+     "source_id": "otx",
+     "name": "AlienVault OTX",
+     "doc_url": "https://otx.alienvault.com/api",
+     "endpoint": "https://otx.alienvault.com/api/v1/pulses/subscribed?modified_since=2026-11-01",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Pulses mit Zeitstempel",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Pulses/Tag zaehlen"
+    },
+    {
+     "source_id": "misp-circl",
+     "name": "CIRCL OSINT Feed (MISP)",
+     "doc_url": "https://www.circl.lu/doc/misp/feed-osint/",
+     "endpoint": "https://www.circl.lu/doc/misp/feed-osint/manifest.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden bis Tage",
+     "history": "Manifest enthaelt komplette Event-Historie",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 / Open Data",
+     "verified": false,
+     "sample_note": "Events pro Woche (Feld timestamp)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.malware.wiper_reports",
+   "name_de": "Wiper-/Zerstoerungs-Malware-Meldungen",
+   "plain_de": "Meldungen zu datenzerstoerender Malware in Feeds.",
+   "domain": "malware",
+   "evidence_class": "B",
+   "rationale": "Wiper sind Marker fuer destruktive statt finanzieller Absicht.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Uebertreibung in Blogs"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "mb-tag-wiper",
+     "name": "MalwareBazaar Tag-Suche",
+     "doc_url": "https://bazaar.abuse.ch/api/",
+     "endpoint": "https://mb-api.abuse.ch/api/v1/",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "unbekannt",
+     "history": "unbekannt",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "POST query=get_taginfo&tag=wiper"
+    },
+    {
+     "source_id": "otx",
+     "name": "AlienVault OTX",
+     "doc_url": "https://otx.alienvault.com/api",
+     "endpoint": "https://otx.alienvault.com/api/v1/pulses/subscribed?modified_since=2026-11-01",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Pulses mit Zeitstempel",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Pulses/Tag zaehlen"
+    }
+   ],
+   "notes": "Tag-Zaehlung je Woche"
+  },
+  {
+   "id": "cyber.malware.ics_malware",
+   "name_de": "ICS-/OT-Malware-Meldungen",
+   "plain_de": "Neue Proben/Berichte mit ICS-Bezug.",
+   "domain": "malware",
+   "evidence_class": "B",
+   "rationale": "Angriffe auf OT-Steuerung sind Vorlaeufer physischer Wirkung.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Forschungsberichte"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ics-cert",
+     "name": "CISA ICS Advisories (CSAF auf GitHub)",
+     "doc_url": "https://github.com/cisagov/CSAF",
+     "endpoint": "https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/changes.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich",
+     "history": "Historie seit 2010er",
+     "rate_limit": "unbekannt",
+     "license": "Public Domain (US Gov)",
+     "verified": false,
+     "sample_note": "changes.csv mit Datum je Advisory; Pfad nicht geprueft"
+    },
+    {
+     "source_id": "otx",
+     "name": "AlienVault OTX",
+     "doc_url": "https://otx.alienvault.com/api",
+     "endpoint": "https://otx.alienvault.com/api/v1/pulses/subscribed?modified_since=2026-11-01",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Pulses mit Zeitstempel",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Pulses/Tag zaehlen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.botnet.feodo_c2_count",
+   "name_de": "Aktive Botnet-C2-Server",
+   "plain_de": "Anzahl aktiv gemeldeter Command-and-Control-Server.",
+   "domain": "botnet",
+   "evidence_class": "A",
+   "rationale": "Anstieg von C2-Infrastruktur geht grossen Spamming/Ransomware-Wellen voraus.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Takedown-Zyklen",
+    "Neuaufbau nach Zerschlagung"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "feodo",
+     "name": "abuse.ch Feodo Tracker",
+     "doc_url": "https://feodotracker.abuse.ch/",
+     "endpoint": "https://feodotracker.abuse.ch/downloads/ipblocklist.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich",
+     "history": "Nur aktuelle Liste, Historie selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Aktive Botnet-C2-IPs; Tool-Abruf 429 (nicht verifiziert)"
+    },
+    {
+     "source_id": "sslbl",
+     "name": "abuse.ch SSLBL",
+     "doc_url": "https://sslbl.abuse.ch/",
+     "endpoint": "https://sslbl.abuse.ch/blacklist/sslipblacklist.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich",
+     "history": "nur aktuelle Liste",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "C2-IPs mit Zertifikat-Bezug"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.botnet.c2_hosting_concentration",
+   "name_de": "C2-Konzentration bei Hostern/ASN",
+   "plain_de": "Wie viele C2-Server bei wenigen Anbietern liegen.",
+   "domain": "botnet",
+   "evidence_class": "A",
+   "rationale": "Konzentration kann Takedown-Moeglichkeit wie Angriffsflaeche anzeigen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Bulletproof-Hoster"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "feodo",
+     "name": "abuse.ch Feodo Tracker",
+     "doc_url": "https://feodotracker.abuse.ch/",
+     "endpoint": "https://feodotracker.abuse.ch/downloads/ipblocklist.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich",
+     "history": "Nur aktuelle Liste, Historie selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Aktive Botnet-C2-IPs; Tool-Abruf 429 (nicht verifiziert)"
+    },
+    {
+     "source_id": "urlhaus",
+     "name": "abuse.ch URLhaus",
+     "doc_url": "https://urlhaus.abuse.ch/api/",
+     "endpoint": "https://urlhaus.abuse.ch/downloads/csv_recent/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Voll-Dump csv.zip; API mit Auth-Key",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Zeilen pro Tag zaehlen, Feld dateadded"
+    },
+    {
+     "source_id": "threatfox",
+     "name": "abuse.ch ThreatFox",
+     "doc_url": "https://threatfox.abuse.ch/api/",
+     "endpoint": "https://threatfox.abuse.ch/export/json/recent/",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Export-Dumps",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "IOCs pro Tag, Malware-Familie"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.botnet.new_ddos_botnet_ips",
+   "name_de": "Neue IP-Blocklist-Eintraege",
+   "plain_de": "Zugang auf Spamhaus/AbuseIPDB-Listen.",
+   "domain": "botnet",
+   "evidence_class": "A",
+   "rationale": "Plotzlicher Zugang kompromittierter Hosts = Botnet-Rekrutierung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Listenpflege"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "spamhaus",
+     "name": "Spamhaus DROP/BGPCC Listen",
+     "doc_url": "https://www.spamhaus.org/drop/",
+     "endpoint": "https://www.spamhaus.org/drop/drop.txt",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "frei fuer nicht-kommerziell",
+     "verified": false,
+     "sample_note": "Netzbloecke unter Kriminellen-Kontrolle"
+    },
+    {
+     "source_id": "abuse-ipdb",
+     "name": "AbuseIPDB",
+     "doc_url": "https://docs.abuseipdb.com/",
+     "endpoint": "https://api.abuseipdb.com/api/v2/blacklist",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Eingeschraenkt",
+     "rate_limit": "5 Blacklist-Abrufe/Tag frei",
+     "license": "CC BY-NC 4.0 (laut Seite)",
+     "verified": false,
+     "sample_note": "Reports pro Tag nur Aggregat nutzen (keine Einzelpersonen)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ransomware.leak_posts_daily",
+   "name_de": "Ransomware-Leak-Posts pro Tag",
+   "plain_de": "Zahl neu veroeffentlichter Opfer auf Leak-Seiten.",
+   "domain": "ransomware",
+   "evidence_class": "B",
+   "rationale": "Gruppenuebergreifende Spitzen zeigen Welle (Ausnutzung gemeinsamer Luecke).",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wochenmuster",
+    "Gruppen-Rebranding"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ransomware-live",
+     "name": "ransomware.live API",
+     "doc_url": "https://www.ransomware.live/api",
+     "endpoint": "https://api.ransomware.live/v2/recentvictims",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Opfer seit 2020 ueber /v2/victims und /v2/groups",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC-SA (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Tool-Abruf 429, nicht verifiziert; Feld discovered/attackdate zaehlen"
+    },
+    {
+     "source_id": "ransomwatch",
+     "name": "ransomwatch (GitHub)",
+     "doc_url": "https://github.com/joshhighet/ransomwatch",
+     "endpoint": "https://raw.githubusercontent.com/joshhighet/ransomwatch/main/posts.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "posts.json seit 2021 (Pflege pruefen)",
+     "rate_limit": "unbekannt",
+     "license": "MIT (Repo), Daten unklar",
+     "verified": false,
+     "sample_note": "Repo evtl. inaktiv"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ransomware.victims_by_country_de",
+   "name_de": "Leak-Opfer in Deutschland",
+   "plain_de": "Opferzahlen Deutschland/EU je Woche.",
+   "domain": "ransomware",
+   "evidence_class": "B",
+   "rationale": "Regionale Verschiebung zeigt gezielte Welle.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Geografische Verzerrung"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ransomware-live",
+     "name": "ransomware.live API",
+     "doc_url": "https://www.ransomware.live/api",
+     "endpoint": "https://api.ransomware.live/v2/recentvictims",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Opfer seit 2020 ueber /v2/victims und /v2/groups",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC-SA (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Tool-Abruf 429, nicht verifiziert; Feld discovered/attackdate zaehlen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ransomware.victims_critical_sector",
+   "name_de": "Leak-Opfer in kritischer Infrastruktur",
+   "plain_de": "Anteil Energie, Gesundheit, Transport an Opfern.",
+   "domain": "ransomware",
+   "evidence_class": "B",
+   "rationale": "Sektor-Verschiebung auf KRITIS ist Eskalationsmarker.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Einzelne Gruppe"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ransomware-live",
+     "name": "ransomware.live API",
+     "doc_url": "https://www.ransomware.live/api",
+     "endpoint": "https://api.ransomware.live/v2/recentvictims",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Opfer seit 2020 ueber /v2/victims und /v2/groups",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC-SA (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Tool-Abruf 429, nicht verifiziert; Feld discovered/attackdate zaehlen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ransomware.group_activity_new",
+   "name_de": "Neue Ransomware-Gruppen",
+   "plain_de": "Anzahl neu auftauchender Gruppen.",
+   "domain": "ransomware",
+   "evidence_class": "B",
+   "rationale": "Neue Gruppen nach Zerschlagung/Leak von Quellcode.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Rebranding"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ransomware-live",
+     "name": "ransomware.live API",
+     "doc_url": "https://www.ransomware.live/api",
+     "endpoint": "https://api.ransomware.live/v2/recentvictims",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Opfer seit 2020 ueber /v2/victims und /v2/groups",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC-SA (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Tool-Abruf 429, nicht verifiziert; Feld discovered/attackdate zaehlen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ransomware.simultaneous_victims",
+   "name_de": "Gleichzeitige Opferdichte",
+   "plain_de": "Viele Opfer gleichen Produkts binnen Stunden.",
+   "domain": "ransomware",
+   "evidence_class": "B",
+   "rationale": "Mass-Exploit-Muster (z. B. Dateitransfer-Software).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Zufall"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ransomware-live",
+     "name": "ransomware.live API",
+     "doc_url": "https://www.ransomware.live/api",
+     "endpoint": "https://api.ransomware.live/v2/recentvictims",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Opfer seit 2020 ueber /v2/victims und /v2/groups",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC-SA (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Tool-Abruf 429, nicht verifiziert; Feld discovered/attackdate zaehlen"
+    }
+   ],
+   "notes": "Opfer nach Zulieferer/Software clustern"
+  },
+  {
+   "id": "cyber.ddos.cloudflare_l3_attacks",
+   "name_de": "DDoS Layer 3/4 Aufkommen",
+   "plain_de": "Anteil und Volumen von Netzwerkflut-Angriffen.",
+   "domain": "ddos",
+   "evidence_class": "A",
+   "rationale": "Rekordhohe Volumen oder breite Zielstreuung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Saisonalitaet (Feiertage)",
+    "Gaming-Events"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/attacks/layer3/timeseries?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~1 h",
+     "history": "Zeitreihen mit dateRange/dateStart",
+     "rate_limit": "Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (laut Radar, pruefen)",
+     "verified": false,
+     "sample_note": "Layer3/Layer7 Attack-Zeitreihen, Top Ziel-/Quell-Laender"
+    },
+    {
+     "source_id": "netscout-radar",
+     "name": "NETSCOUT Cyber Threat Horizon",
+     "doc_url": "https://horizon.netscout.com/",
+     "endpoint": "https://horizon.netscout.com/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich",
+     "history": "keine API-Historie bekannt",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "DDoS-Karte"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ddos.cloudflare_l7_attacks",
+   "name_de": "DDoS Layer 7 HTTP-Angriffe",
+   "plain_de": "Anteil von Anwendungsebene-Angriffen.",
+   "domain": "ddos",
+   "evidence_class": "A",
+   "rationale": "Politisch motivierte Wellen gegen Behoerden/Banken.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Hacktivisten-Kampagnen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/attacks/layer3/timeseries?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~1 h",
+     "history": "Zeitreihen mit dateRange/dateStart",
+     "rate_limit": "Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (laut Radar, pruefen)",
+     "verified": false,
+     "sample_note": "Layer3/Layer7 Attack-Zeitreihen, Top Ziel-/Quell-Laender"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ddos.targets_by_country",
+   "name_de": "DDoS-Ziele je Land/Branche",
+   "plain_de": "Verschiebung der Ziele nach Land/Industrie.",
+   "domain": "ddos",
+   "evidence_class": "A",
+   "rationale": "Verschiebung auf Finanz/Energie/Regierung ist Vorlaeufer.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Geopolitische Ereignisse"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/attacks/layer3/timeseries?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~1 h",
+     "history": "Zeitreihen mit dateRange/dateStart",
+     "rate_limit": "Cloudflare-API-Limits",
+     "license": "CC BY-NC 4.0 (laut Radar, pruefen)",
+     "verified": false,
+     "sample_note": "Layer3/Layer7 Attack-Zeitreihen, Top Ziel-/Quell-Laender"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ddos.traffic_anomalies",
+   "name_de": "Traffic-Einbrueche je Land",
+   "plain_de": "Einbruch der HTTP-Anfragen je Land.",
+   "domain": "ddos",
+   "evidence_class": "A",
+   "rationale": "Folgeeffekt eines grossen Angriffs oder Ausfalls.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Zensur",
+    "Stromausfall",
+    "Feiertag"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cloudflare-radar-dns",
+     "name": "Cloudflare Radar DNS/HTTP",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/timeseries?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~1 h",
+     "history": "ab 2020",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC 4.0 (pruefen)",
+     "verified": false,
+     "sample_note": "Traffic-Einbrueche als Folge-Signal"
+    },
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech)",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~5-10 min",
+     "history": "Seit 2011 teils",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 (pruefen)",
+     "verified": false,
+     "sample_note": "BGP/Active Probing/Darknet-Signal je Land; Folgeeffekt eines Angriffs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.exposure.shodan_exposed_service_trend",
+   "name_de": "Exponierte Dienste (Trend)",
+   "plain_de": "Zahl offener Dienste, die verwundbar sein koennen.",
+   "domain": "exposure",
+   "evidence_class": "A",
+   "rationale": "Wachsender Bestand vor Exploit = Angriffsflaeche.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Cloud-Wachstum"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "shodan-trends",
+     "name": "Shodan Trends/Exposure",
+     "doc_url": "https://trends.shodan.io/",
+     "endpoint": "https://api.shodan.io/shodan/host/count?key=<KEY>&query=<q>",
+     "access": "api",
+     "format": "json",
+     "auth": "paid",
+     "cost": "ab Membership",
+     "update_latency": "Tage",
+     "history": "Trends seit 2017 (bezahlt)",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Nur Konsument: Zaehlung exponierter Dienste, kein eigenes Scannen"
+    },
+    {
+     "source_id": "censys",
+     "name": "Censys Search/Open Data",
+     "doc_url": "https://search.censys.io/api",
+     "endpoint": "https://search.censys.io/api/v2/hosts/aggregate",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "eingeschraenkt",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Aggregat-Zaehlungen exponierter Dienste"
+    }
+   ],
+   "notes": "Nur als Konsument von Aggregaten"
+  },
+  {
+   "id": "cyber.exposure.vulnerable_host_decay",
+   "name_de": "Abbau verwundbarer Hosts",
+   "plain_de": "Wie schnell verwundbare Hosts nach Patch verschwinden.",
+   "domain": "exposure",
+   "evidence_class": "A",
+   "rationale": "Langsamer Abbau + aktive Ausnutzung = hohes Risiko.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Scan-Methodik"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "shadowserver-dash",
+     "name": "Shadowserver Dashboard",
+     "doc_url": "https://dashboard.shadowserver.org/",
+     "endpoint": "https://dashboard.shadowserver.org/statistics/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Historie im Dashboard",
+     "rate_limit": "unbekannt",
+     "license": "CC BY (laut Dashboard, pruefen)",
+     "verified": false,
+     "sample_note": "Exponierte verwundbare Hosts je Land/Port; API per Konto-Key moeglich"
+    },
+    {
+     "source_id": "shodan-trends",
+     "name": "Shodan Trends/Exposure",
+     "doc_url": "https://trends.shodan.io/",
+     "endpoint": "https://api.shodan.io/shodan/host/count?key=<KEY>&query=<q>",
+     "access": "api",
+     "format": "json",
+     "auth": "paid",
+     "cost": "ab Membership",
+     "update_latency": "Tage",
+     "history": "Trends seit 2017 (bezahlt)",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Nur Konsument: Zaehlung exponierter Dienste, kein eigenes Scannen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.phishing.openphish_volume",
+   "name_de": "Phishing-URLs pro Tag",
+   "plain_de": "Neue gemeldete Phishing-Seiten.",
+   "domain": "phishing",
+   "evidence_class": "A",
+   "rationale": "Kampagnenspitzen bei Banken/Behoerden.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Saisonale Aktionen",
+    "Black Friday"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "openphish",
+     "name": "OpenPhish Community Feed",
+     "doc_url": "https://openphish.com/phishing_feeds.html",
+     "endpoint": "https://openphish.com/feed.txt",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "12 h",
+     "history": "nur aktuell, selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "nur nicht-kommerziell (Community)",
+     "verified": false,
+     "sample_note": "URL pro Abruf zaehlen"
+    },
+    {
+     "source_id": "phishtank",
+     "name": "PhishTank",
+     "doc_url": "https://phishtank.org/developer_info.php",
+     "endpoint": "http://data.phishtank.com/data/online-valid.json",
+     "access": "download",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "nur aktuell",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-SA (laut Seite)",
+     "verified": false,
+     "sample_note": "Registrierung evtl. eingeschraenkt"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.phishing.apwg_quarterly",
+   "name_de": "APWG Quartalszahlen",
+   "plain_de": "Phishing-Angriffe pro Quartal.",
+   "domain": "phishing",
+   "evidence_class": "B",
+   "rationale": "Langfristige Baseline.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Methodikwechsel"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "apwg",
+     "name": "APWG Phishing Activity Trends",
+     "doc_url": "https://apwg.org/trendsreports/",
+     "endpoint": "https://apwg.org/trendsreports/",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise",
+     "history": "Reports seit 2004",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Aggregate Quartalszahlen als PDF"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.phishing.spam_volume",
+   "name_de": "Spam-Volumen",
+   "plain_de": "Weltweiter Spamanteil im Mailverkehr.",
+   "domain": "phishing",
+   "evidence_class": "A",
+   "rationale": "Plotzlicher Anstieg durch Botnet-Aktivierung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Botnet-Zyklen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "talos-reputation",
+     "name": "Talos Reputation Center",
+     "doc_url": "https://talosintelligence.com/reputation",
+     "endpoint": "https://talosintelligence.com/reputation",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "gering",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Spam-Volumen Weltweit"
+    },
+    {
+     "source_id": "spamhaus",
+     "name": "Spamhaus DROP/BGPCC Listen",
+     "doc_url": "https://www.spamhaus.org/drop/",
+     "endpoint": "https://www.spamhaus.org/drop/drop.txt",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "selbst archivieren",
+     "rate_limit": "unbekannt",
+     "license": "frei fuer nicht-kommerziell",
+     "verified": false,
+     "sample_note": "Netzbloecke unter Kriminellen-Kontrolle"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.phishing.brand_domains_nrd",
+   "name_de": "Neue Domains mit Bank-/Infrastruktur-Namen",
+   "plain_de": "Neu registrierte Domains mit Namen von Banken, Netzbetreibern, Behoerden.",
+   "domain": "phishing",
+   "evidence_class": "A",
+   "rationale": "Registrierungs-Wellen gehen Phishing-/Betrugsangriffen voraus.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Legitime Markenregistrierungen"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "whoisds",
+     "name": "WhoisDS Newly Registered Domains",
+     "doc_url": "https://www.whoisds.com/newly-registered-domains",
+     "endpoint": "https://www.whoisds.com/whois-database/newly-registered-domains/",
+     "access": "download",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Archiv je Tag",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Filter auf Bank-/Behoerden-/Infrastruktur-Strings"
+    },
+    {
+     "source_id": "crtsh",
+     "name": "crt.sh Certificate Transparency",
+     "doc_url": "https://crt.sh/",
+     "endpoint": "https://crt.sh/?q=%25bank%25&output=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "CT-Logs seit 2013",
+     "rate_limit": "oft ueberlastet",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Neue Zertifikate fuer Marken-aehnliche Namen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.phishing.ct_brand_certs",
+   "name_de": "Neue Zertifikate fuer markenaehnliche Domains",
+   "plain_de": "Ausgestellte TLS-Zertifikate fuer Nachahmer-Domains.",
+   "domain": "phishing",
+   "evidence_class": "A",
+   "rationale": "Zertifikat-Missbrauch zeigt Vorbereitung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Typosquatting-Defensive"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "crtsh",
+     "name": "crt.sh Certificate Transparency",
+     "doc_url": "https://crt.sh/",
+     "endpoint": "https://crt.sh/?q=%25bank%25&output=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "CT-Logs seit 2013",
+     "rate_limit": "oft ueberlastet",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Neue Zertifikate fuer Marken-aehnliche Namen"
+    },
+    {
+     "source_id": "certstream",
+     "name": "CertStream/CT-Logs",
+     "doc_url": "https://certstream.calidog.io/",
+     "endpoint": "wss://certstream.calidog.io/",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "keine",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Websocket, Dienst-Stabilitaet pruefen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.supply.osv_malware_advisories",
+   "name_de": "Neue Paket-Malware-Advisories",
+   "plain_de": "Gemeldete boesartige Pakete in npm/PyPI etc.",
+   "domain": "supply",
+   "evidence_class": "B",
+   "rationale": "Lieferketten-Angriffe koennen breite Infrastruktur treffen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Einzelne Spam-Kampagne"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "osv",
+     "name": "OSV.dev API",
+     "doc_url": "https://google.github.io/osv.dev/api/",
+     "endpoint": "https://api.osv.dev/v1/query",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Datenbank-Dumps gs://osv-vulnerabilities",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 / Datenquellen je Oekosystem",
+     "verified": false,
+     "sample_note": "POST-Abfrage; Dump zum Zaehlen neuer Advisories/MAL-Eintraege"
+    },
+    {
+     "source_id": "ghsa",
+     "name": "GitHub Advisory Database",
+     "doc_url": "https://github.com/github/advisory-database",
+     "endpoint": "https://api.github.com/advisories?type=malware&per_page=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Git-Historie komplett",
+     "rate_limit": "60/h ohne Token",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "type=malware zaehlt Paket-Malware-Advisories"
+    },
+    {
+     "source_id": "ossf-malicious",
+     "name": "OpenSSF malicious-packages",
+     "doc_url": "https://github.com/ossf/malicious-packages",
+     "endpoint": "https://github.com/ossf/malicious-packages/tree/main/osv/malicious",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Git-Historie",
+     "rate_limit": "unbekannt",
+     "license": "Apache-2.0 (Repo)",
+     "verified": false,
+     "sample_note": "Neue OSV-MAL-Dateien je Tag je Oekosystem"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.supply.npm_pypi_takedowns",
+   "name_de": "npm/PyPI Entfernungen",
+   "plain_de": "Anzahl entfernter bzw. gesperrter Pakete.",
+   "domain": "supply",
+   "evidence_class": "B",
+   "rationale": "Takedown-Spitzen zeigen Massenmissbrauch.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Registry-Aufraeumaktion"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "npm-registry",
+     "name": "npm Registry Security Advisories",
+     "doc_url": "https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities",
+     "endpoint": "https://registry.npmjs.org/-/npm/v1/security/advisories/bulk",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "eingeschraenkt",
+     "rate_limit": "unbekannt",
+     "license": "npm ToS",
+     "verified": false,
+     "sample_note": "Bulk-Audit-Endpoint"
+    },
+    {
+     "source_id": "socket-feed",
+     "name": "Socket.dev Blog/Threat-Feed",
+     "doc_url": "https://socket.dev/blog",
+     "endpoint": "https://socket.dev/blog/rss.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Archiv",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Eher Kontext; keine Roh-API bekannt"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.supply.advisory_volume",
+   "name_de": "GitHub Advisories Volumen",
+   "plain_de": "Neue Advisories je Oekosystem.",
+   "domain": "supply",
+   "evidence_class": "B",
+   "rationale": "Breite Fund-Wellen in Kernbibliotheken.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Audit-Kampagnen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ghsa",
+     "name": "GitHub Advisory Database",
+     "doc_url": "https://github.com/github/advisory-database",
+     "endpoint": "https://api.github.com/advisories?type=malware&per_page=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Git-Historie komplett",
+     "rate_limit": "60/h ohne Token",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "type=malware zaehlt Paket-Malware-Advisories"
+    },
+    {
+     "source_id": "osv",
+     "name": "OSV.dev API",
+     "doc_url": "https://google.github.io/osv.dev/api/",
+     "endpoint": "https://api.osv.dev/v1/query",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Datenbank-Dumps gs://osv-vulnerabilities",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 / Datenquellen je Oekosystem",
+     "verified": false,
+     "sample_note": "POST-Abfrage; Dump zum Zaehlen neuer Advisories/MAL-Eintraege"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.exploit.exploitdb_rate",
+   "name_de": "Exploit-DB Neuzugaenge",
+   "plain_de": "Neue oeffentliche Exploits pro Woche.",
+   "domain": "exploit",
+   "evidence_class": "B",
+   "rationale": "Anstieg zeigt Verfuegbarkeit fuer Nachahmer.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Meist alte Exploits"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "exploit-db",
+     "name": "Exploit-DB (GitLab CSV)",
+     "doc_url": "https://gitlab.com/exploit-database/exploitdb",
+     "endpoint": "https://gitlab.com/exploit-database/exploitdb/-/raw/main/files_exploits.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Komplette Historie seit 2000er, Feld date_published",
+     "rate_limit": "unbekannt",
+     "license": "GPLv2 (Repo)",
+     "verified": false,
+     "sample_note": "Exploits pro Woche zaehlen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.exploit.metasploit_modules",
+   "name_de": "Metasploit neue Exploit-Module",
+   "plain_de": "Neue Module im Framework.",
+   "domain": "exploit",
+   "evidence_class": "B",
+   "rationale": "Module fuer Infrastrukturprodukte = Massenverfuegbarkeit.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Release-Zyklus"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "metasploit-commits",
+     "name": "Metasploit Framework Commits/Releases",
+     "doc_url": "https://github.com/rapid7/metasploit-framework",
+     "endpoint": "https://api.github.com/repos/rapid7/metasploit-framework/commits?path=modules/exploits&per_page=30",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "komplette Git-Historie",
+     "rate_limit": "60/h ohne Token",
+     "license": "BSD-3 (Repo)",
+     "verified": false,
+     "sample_note": "Neue Module pro Woche"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.exploit.nuclei_templates",
+   "name_de": "Nuclei-Templates fuer neue CVEs",
+   "plain_de": "Neue Erkennungs-Templates.",
+   "domain": "exploit",
+   "evidence_class": "B",
+   "rationale": "Template-Veroeffentlichung korreliert mit Massen-Scans.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regelmaessige Releases"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nuclei-templates",
+     "name": "ProjectDiscovery nuclei-templates",
+     "doc_url": "https://github.com/projectdiscovery/nuclei-templates",
+     "endpoint": "https://api.github.com/repos/projectdiscovery/nuclei-templates/commits?path=http/cves&per_page=30",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Git-Historie",
+     "rate_limit": "unbekannt",
+     "license": "MIT (Repo)",
+     "verified": false,
+     "sample_note": "Neue CVE-Templates = Massen-Scan-Bereitschaft; nur Konsum der Commits"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.exploit.poc_github",
+   "name_de": "PoC-Repos je neuer CVE",
+   "plain_de": "Anzahl oeffentlicher Proof-of-Concepts.",
+   "domain": "exploit",
+   "evidence_class": "D",
+   "rationale": "Viele PoCs binnen Stunden = Welle (teils Fake-PoCs mit Malware).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Fake-PoC-Repos"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "poc-in-github",
+     "name": "nomi-sec PoC-in-GitHub",
+     "doc_url": "https://github.com/nomi-sec/PoC-in-GitHub",
+     "endpoint": "https://raw.githubusercontent.com/nomi-sec/PoC-in-GitHub/master/2026/CVE-2026-0001.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Verzeichnisse je Jahr seit 1999",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Beispiel-URL ist Platzhalter; Anzahl PoC-Repos je CVE"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ics.cisa_ics_advisories",
+   "name_de": "ICS-Advisories",
+   "plain_de": "Zahl neuer Industrie-Steuerungs-Advisories.",
+   "domain": "ics",
+   "evidence_class": "C",
+   "rationale": "Kontext fuer OT-Risiko.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Routine-Veroeffentlichung"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ics-cert",
+     "name": "CISA ICS Advisories (CSAF auf GitHub)",
+     "doc_url": "https://github.com/cisagov/CSAF",
+     "endpoint": "https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/changes.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich",
+     "history": "Historie seit 2010er",
+     "rate_limit": "unbekannt",
+     "license": "Public Domain (US Gov)",
+     "verified": false,
+     "sample_note": "changes.csv mit Datum je Advisory; Pfad nicht geprueft"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ics.exposed_ot_protocols",
+   "name_de": "Exponierte OT-Protokolle",
+   "plain_de": "Zahl internet-offener Modbus/S7-Dienste.",
+   "domain": "ics",
+   "evidence_class": "A",
+   "rationale": "Wachsend oder fallend je Land; Aenderung als Marker.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Scan-Methodik"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "shadowserver-dash",
+     "name": "Shadowserver Dashboard",
+     "doc_url": "https://dashboard.shadowserver.org/",
+     "endpoint": "https://dashboard.shadowserver.org/statistics/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Historie im Dashboard",
+     "rate_limit": "unbekannt",
+     "license": "CC BY (laut Dashboard, pruefen)",
+     "verified": false,
+     "sample_note": "Exponierte verwundbare Hosts je Land/Port; API per Konto-Key moeglich"
+    },
+    {
+     "source_id": "shodan-trends",
+     "name": "Shodan Trends/Exposure",
+     "doc_url": "https://trends.shodan.io/",
+     "endpoint": "https://api.shodan.io/shodan/host/count?key=<KEY>&query=<q>",
+     "access": "api",
+     "format": "json",
+     "auth": "paid",
+     "cost": "ab Membership",
+     "update_latency": "Tage",
+     "history": "Trends seit 2017 (bezahlt)",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Nur Konsument: Zaehlung exponierter Dienste, kein eigenes Scannen"
+    },
+    {
+     "source_id": "censys",
+     "name": "Censys Search/Open Data",
+     "doc_url": "https://search.censys.io/api",
+     "endpoint": "https://search.censys.io/api/v2/hosts/aggregate",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "eingeschraenkt",
+     "rate_limit": "unbekannt",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Aggregat-Zaehlungen exponierter Dienste"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.vt_malware_stats",
+   "name_de": "VirusTotal Einreichungsstatistik",
+   "plain_de": "Aggregate Tagesstatistik der Malware-Einreichungen.",
+   "domain": "proxy",
+   "evidence_class": "D",
+   "rationale": "Ungewoehnliche Mengen deuten auf Ausbruch.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Batch-Upload"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "virustotal",
+     "name": "VirusTotal Public API",
+     "doc_url": "https://docs.virustotal.com/reference/overview",
+     "endpoint": "https://www.virustotal.com/api/v3/popular_threat_categories",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "gering",
+     "rate_limit": "4 Req/min, 500/Tag",
+     "license": "Public-API nur nicht-kommerziell",
+     "verified": false,
+     "sample_note": "Submissions-Statistik nicht oeffentlich als Zeitreihe"
+    }
+   ],
+   "notes": "Keine offene Zeitreihe bekannt"
+  },
+  {
+   "id": "cyber.proxy.cert_advisory_cadence",
+   "name_de": "CERT-Veroeffentlichungsfrequenz",
+   "plain_de": "Frequenz von Advisories als maschinenlesbare Zaehlreihe.",
+   "domain": "proxy",
+   "evidence_class": "C",
+   "rationale": "Verhalten der Behoerden als Proxy fuer Lage.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Routine"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cert-bund-rss",
+     "name": "CERT-Bund / BSI WID RSS",
+     "doc_url": "https://wid.cert-bund.de/",
+     "endpoint": "https://wid.cert-bund.de/content/public/securityAdvisory/rss",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Feed-Fenster begrenzt",
+     "rate_limit": "unbekannt",
+     "license": "DL-DE (unklar)",
+     "verified": false,
+     "sample_note": "Anzahl Advisories mit Risikostufe; Kontext-Layer (Evidenz C)"
+    },
+    {
+     "source_id": "cert-eu",
+     "name": "CERT-EU Advisories RSS",
+     "doc_url": "https://cert.europa.eu/publications/security-advisories/",
+     "endpoint": "https://cert.europa.eu/publications/security-advisories-rss",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "begrenzt",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Kontext"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.github_security_issue_spike",
+   "name_de": "Security-Meldungen in grossen Repos",
+   "plain_de": "Spitzen von security-Issues/Advisories bei Kernprojekten.",
+   "domain": "proxy",
+   "evidence_class": "B",
+   "rationale": "Koordinierte Offenlegung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Release-Termine"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "ghsa",
+     "name": "GitHub Advisory Database",
+     "doc_url": "https://github.com/github/advisory-database",
+     "endpoint": "https://api.github.com/advisories?type=malware&per_page=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Git-Historie komplett",
+     "rate_limit": "60/h ohne Token",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "type=malware zaehlt Paket-Malware-Advisories"
+    }
+   ],
+   "notes": ""
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Anzahl von Honeypot-Treffern pro Port-Verteilung als Entropie-Mass (Quelle: Auswertung von DShield-Rohdaten, kein eigener Feed)",
+  "Idee: Lieferantenbezogene Patch-Latenz (Zeit zwischen CVE und Hersteller-Patch) - eigene Berechnung noetig",
+  "Idee: Dark-Web-Forenpreise fuer Zugangsdaten (keine oeffentliche Quelle)",
+  "Idee: Darknet-Marktplatz-Listings fuer Zero-Days (keine oeffentliche Quelle)"
+ ]
+}

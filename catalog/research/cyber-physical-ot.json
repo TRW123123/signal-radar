@@ -1,0 +1,2082 @@
+{
+ "subdomain": "Kritische physische Infrastruktur und OT",
+ "generated": "2026-11-17",
+ "signals": [
+  {
+   "id": "cyber.grid.frequency_deviation_de",
+   "name_de": "Netzfrequenz-Abweichung Kontinentaleuropa",
+   "plain_de": "Die Netzfrequenz soll bei 50 Hz bleiben; grosse oder dauerhafte Abweichungen zeigen Ungleichgewicht im Stromnetz.",
+   "domain": "power_grid",
+   "evidence_class": "A",
+   "rationale": "Angriffe auf Leitwarten, Erzeugung oder Laststeuerung (vgl. Ukraine 2015/16) wuerden Erzeugung und Last abrupt aendern; Frequenz ist die schnellste unabhaengige Messgroesse.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Kraftwerks-/Leitungsausfall",
+    "Handelsviertelstunden-Sprung",
+    "Messfehler einzelner Sensoren"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "netzfrequenz",
+     "name": "Netzfrequenzmessung.de",
+     "doc_url": "https://www.netzfrequenzmessung.de/",
+     "endpoint": "https://www.netzfrequenzmessung.de/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 s",
+     "history": "Verlauf im Web",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Live-Frequenz Hz; auf Bedingungen achten"
+    },
+    {
+     "source_id": "energy-charts",
+     "name": "Energy-Charts API (Fraunhofer ISE)",
+     "doc_url": "https://api.energy-charts.info/",
+     "endpoint": "https://api.energy-charts.info/frequency?country=de",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Zeitreihe per start/end Parameter",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Netzfrequenz-Zeitreihe in Hz"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.grid.frequency_rocof",
+   "name_de": "Frequenz-Gradient (RoCoF)",
+   "plain_de": "Wie schnell sich die Netzfrequenz aendert; sehr schnelle Aenderungen deuten auf plotzlichen Lastverlust.",
+   "domain": "power_grid",
+   "evidence_class": "A",
+   "rationale": "Abrupte Gradienten entstehen bei Abschaltung grosser Einheiten oder Netztrennung; Ableitung aus Sekundenwerten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Normale Stoerfaelle",
+    "Systemseparation durch Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "netzfrequenz",
+     "name": "Netzfrequenzmessung.de",
+     "doc_url": "https://www.netzfrequenzmessung.de/",
+     "endpoint": "https://www.netzfrequenzmessung.de/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 s",
+     "history": "Verlauf im Web",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Live-Frequenz Hz; auf Bedingungen achten"
+    },
+    {
+     "source_id": "energy-charts",
+     "name": "Energy-Charts API (Fraunhofer ISE)",
+     "doc_url": "https://api.energy-charts.info/",
+     "endpoint": "https://api.energy-charts.info/frequency?country=de",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Zeitreihe per start/end Parameter",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Netzfrequenz-Zeitreihe in Hz"
+    }
+   ],
+   "notes": "Aus Frequenz-Zeitreihe selbst berechnen."
+  },
+  {
+   "id": "cyber.grid.load_vs_forecast_de",
+   "name_de": "Last gegen Prognose Deutschland",
+   "plain_de": "Vergleich zwischen tatsaechlichem Stromverbrauch und der Vortagesprognose.",
+   "domain": "power_grid",
+   "evidence_class": "B",
+   "rationale": "Plotzliche Abweichung nach unten ohne Wetterursache deutet auf Netzabschaltungen oder Steuerungsausfall.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Feiertage",
+    "Wetter",
+    "Fehlerhafte Prognose"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "smard",
+     "name": "SMARD Bundesnetzagentur",
+     "doc_url": "https://smard.api.proxy.bund.dev/",
+     "endpoint": "https://www.smard.de/app/chart_data/410/DE/index_hour.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "ab 2015",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0, Namensnennung SMARD",
+     "verified": false,
+     "sample_note": "Stromverbrauch/-erzeugung DE; Zeitstempel-Index, dann Datei laden"
+    },
+    {
+     "source_id": "energy-charts",
+     "name": "Energy-Charts API (Fraunhofer ISE)",
+     "doc_url": "https://api.energy-charts.info/",
+     "endpoint": "https://api.energy-charts.info/public_power?country=de",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min bis Stunden",
+     "history": "Zeitreihe mit start/end",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Erzeugung je Technologie in MW"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.grid.generation_unit_outages_eu",
+   "name_de": "Ungeplante Kraftwerksausfaelle EU",
+   "plain_de": "Anzahl und Leistung ungeplant ausgefallener Erzeugungseinheiten in Europa.",
+   "domain": "power_grid",
+   "evidence_class": "B",
+   "rationale": "Koordinierte Angriffe auf mehrere Anlagen gleichzeitig wuerden Cluster von ungeplanten Ausfaellen erzeugen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Revisionen",
+    "Hitzewellen",
+    "Kuehlwasserknappheit"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "entsoe-tp",
+     "name": "ENTSO-E Transparency Platform",
+     "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A80&in_Domain=10Y1001A1001A83F&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "15-60 min",
+     "history": "mehrjaehrig per periodStart/periodEnd",
+     "rate_limit": "ca. 400 Requests/min je Key",
+     "license": "ENTSO-E Nutzungsbedingungen (Namensnennung), unklar im Detail",
+     "verified": false,
+     "sample_note": "Unavailability of generation units, A80 Dokument"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.grid.cross_border_flow_anomaly",
+   "name_de": "Grenzueberschreitende Stromfluesse",
+   "plain_de": "Physische Stromfluesse zwischen Laendern; ungewoehnliche Muster zeigen Netzstress.",
+   "domain": "power_grid",
+   "evidence_class": "B",
+   "rationale": "Plotzliche Umkehr oder Abriss von Flows kann Folge von Leitungsabschaltungen oder Steuerungsproblemen sein.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Marktgetriebene Schwankungen",
+    "Wartung"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "entsoe-tp",
+     "name": "ENTSO-E Transparency Platform",
+     "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001A1001A83F&out_Domain=10YFR-RTE------C&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "15-60 min",
+     "history": "mehrjaehrig per periodStart/periodEnd",
+     "rate_limit": "ca. 400 Requests/min je Key",
+     "license": "ENTSO-E Nutzungsbedingungen (Namensnennung), unklar im Detail",
+     "verified": false,
+     "sample_note": "Physical flows A11"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.grid.price_spike_de",
+   "name_de": "Day-Ahead-Strompreis-Spruenge",
+   "plain_de": "Extreme Preisausschlaege am Strommarkt.",
+   "domain": "power_grid",
+   "evidence_class": "A",
+   "rationale": "Marktteilnehmer mit Informationsvorsprung oder knappe Reserve spiegeln sich im Preis; Stoerung der Handelssysteme zeigt sich als fehlende Daten.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Dunkelflaute",
+    "Gaspreis",
+    "Feiertage"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "energy-charts",
+     "name": "Energy-Charts API (Fraunhofer ISE)",
+     "doc_url": "https://api.energy-charts.info/",
+     "endpoint": "https://api.energy-charts.info/price?bzn=DE-LU",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich (Day-Ahead)",
+     "history": "mehrjaehrig",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Day-Ahead-Preis EUR/MWh"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.grid.us_demand_balancing_authorities",
+   "name_de": "US Last je Balancing Authority",
+   "plain_de": "Stuendliche Stromnachfrage und Erzeugung in US-Regionen.",
+   "domain": "power_grid",
+   "evidence_class": "B",
+   "rationale": "Plotzliche Nachfrage-Einbrueche in mehreren Regionen oder fehlende Meldungen sind Brotkrumen koordinierter Ausfaelle.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Hurrikane",
+    "Kaltefront",
+    "EIA-Datenluecken"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "eia-grid",
+     "name": "US EIA Hourly Electric Grid Monitor API",
+     "doc_url": "https://www.eia.gov/opendata/",
+     "endpoint": "https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=KEY&frequency=hourly",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "ab 2015",
+     "rate_limit": "unklar",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Nachfrage, Erzeugung, Interchange je Balancing Authority"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.grid.us_outage_customers",
+   "name_de": "US Stromausfaelle (Kunden ohne Strom)",
+   "plain_de": "Gesamtzahl der Haushalte ohne Strom in den USA.",
+   "domain": "power_grid",
+   "evidence_class": "B",
+   "rationale": "Ein ueberregionaler Anstieg ohne Unwetter wuerde auf Angriffe hindeuten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Unwetter",
+    "Hitzewelle"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "poweroutage-us",
+     "name": "PowerOutage.us",
+     "doc_url": "https://poweroutage.us/",
+     "endpoint": "https://poweroutage.us/area/state/Texas",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "Daten-API kostenpflichtig, unklar",
+     "update_latency": "ca. 10 min",
+     "history": "kostenpflichtige API",
+     "rate_limit": "unklar",
+     "license": "Nutzung laut ToS eingeschraenkt",
+     "verified": false,
+     "sample_note": "Kunden ohne Strom je Bundesstaat"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.grid.eu_outage_reports_crowd",
+   "name_de": "Crowd-Stoerungsmeldungen Strom DE",
+   "plain_de": "Anzahl der Nutzermeldungen zu Stromausfaellen.",
+   "domain": "power_grid",
+   "evidence_class": "D",
+   "rationale": "Vorlaeufer oder Begleiter grosser Ausfaelle, rasch sichtbar.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Lokale Bauarbeiten",
+    "Sturm"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "vendor-status",
+     "name": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
+     "doc_url": "https://downdetector.com/",
+     "endpoint": "https://downdetector.com/status/vodafone-germany/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "keine offene API",
+     "rate_limit": "unklar",
+     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+     "verified": false,
+     "sample_note": "Crowd-Stoermeldungen, Klasse D"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.grid.solar_wind_feedin_sudden_drop",
+   "name_de": "Plotzlicher Einbruch Einspeisung Wind/PV",
+   "plain_de": "Einspeisung erneuerbarer Energien faellt ohne Wetterursache.",
+   "domain": "power_grid",
+   "evidence_class": "A",
+   "rationale": "Wechselrichter und Fernsteuerungen sind Angriffsziel (Sicherheitsluecken bei Wechselrichtern); gleichzeitige Abschaltung wuerde Einspeisung verringern.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wolkenfronten",
+    "Abregelung",
+    "Sturmabschaltung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "energy-charts",
+     "name": "Energy-Charts API (Fraunhofer ISE)",
+     "doc_url": "https://api.energy-charts.info/",
+     "endpoint": "https://api.energy-charts.info/public_power?country=de",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min bis Stunden",
+     "history": "Zeitreihe mit start/end",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (laut Seite, pruefen)",
+     "verified": false,
+     "sample_note": "Erzeugung je Technologie in MW"
+    },
+    {
+     "source_id": "entsoe-tp",
+     "name": "ENTSO-E Transparency Platform",
+     "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "15-60 min",
+     "history": "mehrjaehrig per periodStart/periodEnd",
+     "rate_limit": "ca. 400 Requests/min je Key",
+     "license": "ENTSO-E Nutzungsbedingungen (Namensnennung), unklar im Detail",
+     "verified": false,
+     "sample_note": "Ist-Erzeugung nach Typ A75"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.gas.storage_level_anomaly_eu",
+   "name_de": "Gasspeicher-Fuellstand und Ausspeicherung",
+   "plain_de": "Wie voll die Gasspeicher sind und wie schnell sie sich leeren.",
+   "domain": "gas",
+   "evidence_class": "B",
+   "rationale": "Ungewoehnliche Ein-/Ausspeicherung kann Notfall oder Sabotage zeigen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Winterwetter",
+    "Marktpreise"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "agsi",
+     "name": "AGSI+ Gas Infrastructure Europe",
+     "doc_url": "https://agsi.gie.eu/api",
+     "endpoint": "https://agsi.gie.eu/api?country=DE&from=2024-01-01",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2011",
+     "rate_limit": "unklar",
+     "license": "GIE Nutzungsbedingungen, unklar",
+     "verified": false,
+     "sample_note": "Speicherfuellstand, Ein-/Ausspeicherung je Land"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.gas.cross_border_flow_drop",
+   "name_de": "Gasfluss-Einbruch an Grenzpunkten",
+   "plain_de": "Physischer Gasfluss an europaeischen Grenzen.",
+   "domain": "gas",
+   "evidence_class": "B",
+   "rationale": "Plotzliche Abrisse an Verdichterstationen koennen OT-Angriffe oder Sabotage anzeigen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung",
+    "Nominierungswechsel"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "entsog",
+     "name": "ENTSOG Transparency Platform API",
+     "doc_url": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+     "endpoint": "https://transparency.entsog.eu/api/v1/operationalData?limit=5&indicator=Physical%20Flow",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich",
+     "history": "ab 2017",
+     "rate_limit": "unklar",
+     "license": "ENTSOG, Namensnennung, unklar",
+     "verified": false,
+     "sample_note": "physische Gasfluesse an Grenzpunkten"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.gas.lng_sendout_anomaly",
+   "name_de": "LNG-Terminal Send-out",
+   "plain_de": "Abgabe aus LNG-Terminals ins Netz.",
+   "domain": "gas",
+   "evidence_class": "B",
+   "rationale": "Ausfall mehrerer Terminals gleichzeitig waere auffaellig.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Schiffsverspaetungen",
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "alsi",
+     "name": "ALSI+ LNG Storage",
+     "doc_url": "https://alsi.gie.eu/api",
+     "endpoint": "https://alsi.gie.eu/api?country=DE",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "mehrjaehrig",
+     "rate_limit": "unklar",
+     "license": "GIE Nutzungsbedingungen, unklar",
+     "verified": false,
+     "sample_note": "LNG-Send-out und Bestand"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.aviation.us_ground_stops",
+   "name_de": "US Ground Stops und Verspaetungsprogramme",
+   "plain_de": "Wie viele US-Flughaefen derzeit Flugverbote oder Verspaetungsprogramme haben.",
+   "domain": "aviation",
+   "evidence_class": "B",
+   "rationale": "IT-Ausfaelle bei Airlines oder FAA-Systemen (z.B. NOTAM-Ausfall Jan 2023) erzeugen schlagartig landesweite Ground Stops.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Gewitter",
+    "Nebel",
+    "Personalmangel Tower"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "faa-nas",
+     "name": "FAA NAS Status",
+     "doc_url": "https://nasstatus.faa.gov/",
+     "endpoint": "https://nasstatus.faa.gov/api/airport-status-information",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 1-5 min",
+     "history": "nur Live, eigene Archivierung noetig",
+     "rate_limit": "unklar",
+     "license": "US-Regierungsdaten, gemeinfrei (typisch)",
+     "verified": false,
+     "sample_note": "Ground Stops, Ground Delay Programs, Closures je Flughafen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.aviation.notam_gps_interference",
+   "name_de": "NOTAMs zu GPS-Ausfall",
+   "plain_de": "Anzahl der Flugwarnungen zu gestoertem GPS.",
+   "domain": "aviation",
+   "evidence_class": "C",
+   "rationale": "Zunahme zeigt Stoerungen oder Tests; Kontext-Layer.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Militaerische Uebungen",
+    "Tests"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "faa-notam",
+     "name": "FAA NOTAM API",
+     "doc_url": "https://api.faa.gov/s/",
+     "endpoint": "https://external-api.faa.gov/notamapi/v1/notams?icaoLocation=KJFK",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "eingeschraenkt",
+     "rate_limit": "unklar",
+     "license": "US-Regierungsdaten, gemeinfrei",
+     "verified": false,
+     "sample_note": "NOTAMs je ICAO-Ort, Zaehlung der GPS-/Navaid-Ausfaelle"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.aviation.eurocontrol_delays_it",
+   "name_de": "Eurocontrol Verspaetungen durch ATC-Systeme",
+   "plain_de": "Verspaetungsminuten wegen Flugsicherungsausruestung.",
+   "domain": "aviation",
+   "evidence_class": "B",
+   "rationale": "Cyberangriff auf Flugsicherung zeigt sich als Spitze in Equipment-bedingten Verspaetungen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Technische Pannen",
+    "Streik"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "eurocontrol",
+     "name": "Eurocontrol Network Manager / Aviation Intelligence",
+     "doc_url": "https://www.eurocontrol.int/dashboard/aviation-intelligence-portal",
+     "endpoint": "https://www.eurocontrol.int/Economics/DailyTrafficVariation-States.html",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2019 in Dashboards",
+     "rate_limit": "unklar",
+     "license": "Eurocontrol Nutzungsbedingungen, unklar",
+     "verified": false,
+     "sample_note": "taegliche Flugbewegungen und Verspaetigungsursachen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.aviation.opensky_flight_count",
+   "name_de": "Flugbewegungen Aggregat",
+   "plain_de": "Anzahl der Flugzeuge in der Luft ueber einem Gebiet.",
+   "domain": "aviation",
+   "evidence_class": "A",
+   "rationale": "Plotzliche Abnahme zeigt Luftraumsperrungen oder Ausfall von Flugsicherung.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Feiertage",
+    "Wetter",
+    "Empfaengerabdeckung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=47&lomin=5&lamax=55&lomax=15",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 10 s",
+     "history": "Live ohne Konto nur kurz; Historie via Trino/Forschungszugang",
+     "rate_limit": "anonym stark begrenzt",
+     "license": "CC BY-NC (OpenSky), nicht kommerziell pruefen",
+     "verified": false,
+     "sample_note": "Anzahl Zustandsvektoren in Bounding Box als Aggregat"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.aviation.adsb_coverage_loss",
+   "name_de": "ADS-B Abdeckungsverlust",
+   "plain_de": "Anteil der sichtbaren Flugzeuge verglichen mit Fluegen laut Fahrplan.",
+   "domain": "aviation",
+   "evidence_class": "A",
+   "rationale": "Ausfall oder Stoerung von Empfaengernetz oder Transponder-Spoofing bemerkbar.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Empfaenger offline",
+    "Wartung"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=47&lomin=5&lamax=55&lomax=15",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 10 s",
+     "history": "Live ohne Konto nur kurz; Historie via Trino/Forschungszugang",
+     "rate_limit": "anonym stark begrenzt",
+     "license": "CC BY-NC (OpenSky), nicht kommerziell pruefen",
+     "verified": false,
+     "sample_note": "Anzahl Zustandsvektoren in Bounding Box als Aggregat"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.aviation.cancellation_rate",
+   "name_de": "Flugausfallquote",
+   "plain_de": "Anteil abgesagter Fluege an Fahrplan.",
+   "domain": "aviation",
+   "evidence_class": "B",
+   "rationale": "Gleichzeitige Ausfaelle bei mehreren Airlines deuten auf Systemausfall.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Streik",
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "flightaware",
+     "name": "FlightAware AeroAPI",
+     "doc_url": "https://www.flightaware.com/commercial/aeroapi/",
+     "endpoint": "https://aeroapi.flightaware.com/aeroapi/disruption_counts/origin",
+     "access": "api",
+     "format": "json",
+     "auth": "paid",
+     "cost": "paid",
+     "update_latency": "Minuten",
+     "history": "Tage",
+     "rate_limit": "unklar",
+     "license": "kommerziell",
+     "verified": false,
+     "sample_note": "Disruption Counts je Flughafen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.gnss.jamming_map_aggregate",
+   "name_de": "GPS-Stoerungsflaeche global",
+   "plain_de": "Wie viel Luftraum durch GPS-Stoerung betroffen ist.",
+   "domain": "gnss",
+   "evidence_class": "A",
+   "rationale": "Ausweitung von Jamming ausserhalb bekannter Hotspots ist Hinweis auf elektronische Kriegsfuehrung; Teil hybrider Eskalation.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Militaerische Konflikte",
+    "Schutzmassnahmen von Staaten"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/data/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "ab 2022 als Tageskarten",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Anteil Flugzeuge mit schlechter Navigationsgenauigkeit je H3-Hexagon, aus ADS-B Exchange"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.gnss.gps_nanu_count",
+   "name_de": "GPS NANU-Meldungen",
+   "plain_de": "Hinweise des GPS-Betreibers zu Satellitenausfaellen.",
+   "domain": "gnss",
+   "evidence_class": "C",
+   "rationale": "Haeufung geplanter/ungeplanter Ausfaelle; Kontextsignal.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wartung",
+    "Orbitmanoever"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "navcen-nanu",
+     "name": "USCG NAVCEN GPS Status/NANU",
+     "doc_url": "https://www.navcen.uscg.gov/gps-constellation-status",
+     "endpoint": "https://www.navcen.uscg.gov/gps-constellation-status",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "NANU-Archiv ab 1990er",
+     "rate_limit": "unklar",
+     "license": "US-Regierungsdaten, gemeinfrei",
+     "verified": false,
+     "sample_note": "Satellitenstatus und Nutzer-Advisories"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.gnss.galileo_service_status",
+   "name_de": "Galileo Servicemeldungen",
+   "plain_de": "Statusmeldungen zum EU-Satellitennavigationssystem.",
+   "domain": "gnss",
+   "evidence_class": "B",
+   "rationale": "Ausfaelle (wie Juli 2019) zeigen Systemfehler oder Angriffe.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Bodensegmentfehler"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gsc-galileo",
+     "name": "GSC Galileo Notices",
+     "doc_url": "https://www.gsc-europa.eu/system-service-status/constellation-information",
+     "endpoint": "https://www.gsc-europa.eu/system-service-status/constellation-information",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "EU, unklar",
+     "verified": false,
+     "sample_note": "NAGUs und Systemstatus"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.gnss.timing_drift_ntp",
+   "name_de": "Zeitserver-Abweichung (NTP-Pool)",
+   "plain_de": "Wie viele NTP-Server schlechte Zeit melden.",
+   "domain": "gnss",
+   "evidence_class": "A",
+   "rationale": "GNSS-Zeit ist Basis fuer Netzzeit; Spoofing wuerde NTP-Offsets verursachen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Serverwartung"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "dcf77",
+     "name": "Zeitsignal/NTP-Pool Statistik",
+     "doc_url": "https://www.ntppool.org/en/",
+     "endpoint": "https://www.ntppool.org/scores/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Verlauf je Server",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Pool-Server-Scores"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.gnss.ionosphere_scintillation",
+   "name_de": "Ionosphaerenstoerung",
+   "plain_de": "Natuerliche Stoerungen von GNSS durch Weltraumwetter.",
+   "domain": "gnss",
+   "evidence_class": "A",
+   "rationale": "Banale Ursache fuer GNSS-Fehler; dient zum Ausfiltern.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Sonnenstuerme"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "noaa-swpc",
+     "name": "NOAA SWPC Products",
+     "doc_url": "https://services.swpc.noaa.gov/products/",
+     "endpoint": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "3 h",
+     "history": "ca. 7 Tage Live, laenger via NCEI",
+     "rate_limit": "unklar",
+     "license": "US-Regierungsdaten, gemeinfrei",
+     "verified": false,
+     "sample_note": "Planetarer Kp-Index"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.maritime.ais_position_jumps",
+   "name_de": "AIS-Positionssprunge",
+   "plain_de": "Anteil der Schiffe mit unplausiblen Positionssprungen.",
+   "domain": "maritime",
+   "evidence_class": "A",
+   "rationale": "Spoofing/Jamming in Haefen und Seegebieten sichtbar.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Technische Fehler",
+    "Dunkelschiffe"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ais-agg",
+     "name": "AISHub / aisstream.io",
+     "doc_url": "https://aisstream.io/documentation",
+     "endpoint": "wss://stream.aisstream.io/v0/stream",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "keine Historie, selbst aggregieren",
+     "rate_limit": "unklar",
+     "license": "aisstream.io ToS, unklar",
+     "verified": false,
+     "sample_note": "Nur Aggregat: Anzahl Schiffe pro Box, Anteil Positionsspruenge"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.maritime.port_congestion",
+   "name_de": "Hafenstau",
+   "plain_de": "Anzahl wartender Schiffe vor Haefen.",
+   "domain": "maritime",
+   "evidence_class": "A",
+   "rationale": "Hafen-IT-Ausfaelle (z.B. NotPetya Maersk) lassen Wartezeiten steigen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wetter",
+    "Streik"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ais-agg",
+     "name": "AISHub / aisstream.io",
+     "doc_url": "https://aisstream.io/documentation",
+     "endpoint": "wss://stream.aisstream.io/v0/stream",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "keine Historie, selbst aggregieren",
+     "rate_limit": "unklar",
+     "license": "aisstream.io ToS, unklar",
+     "verified": false,
+     "sample_note": "Nur Aggregat: Anzahl Schiffe pro Box, Anteil Positionsspruenge"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.maritime.navarea_warnings",
+   "name_de": "NAVAREA-Warnungen mit GPS-Bezug",
+   "plain_de": "Seewarnungen zu Navigationsstoerungen.",
+   "domain": "maritime",
+   "evidence_class": "C",
+   "rationale": "Kontext fuer Stoerungen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Uebungen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "navarea",
+     "name": "NGA Maritime Safety Information",
+     "doc_url": "https://msi.nga.mil/",
+     "endpoint": "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=active",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "aktive plus Archiv",
+     "rate_limit": "unklar",
+     "license": "US-Regierungsdaten, gemeinfrei",
+     "verified": false,
+     "sample_note": "aktive NAVAREA/HYDROLANT Warnungen, Filter auf GPS-Interferenz"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.rail.db_cancellation_rate",
+   "name_de": "Zugausfallquote Deutsche Bahn",
+   "plain_de": "Anteil der ausgefallenen Zuege.",
+   "domain": "rail",
+   "evidence_class": "B",
+   "rationale": "Cyberangriffe auf Stellwerke oder IT (Oktober 2022 GSM-R Sabotage) zeigen sich in landesweitem Ausfall.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Unwetter",
+    "Streik",
+    "Bauarbeiten"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "db-timetables",
+     "name": "DB API Marketplace Timetables / StaDa",
+     "doc_url": "https://developers.deutschebahn.com/db-api-marketplace/apis/",
+     "endpoint": "https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/fchg/8000105",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 1 min",
+     "history": "nur Live; Archivierung noetig",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (laut DB), pruefen",
+     "verified": false,
+     "sample_note": "Fahrplanaenderungen/Verspaetungen und Ausfaelle je Station"
+    },
+    {
+     "source_id": "gtfs-rt",
+     "name": "GTFS-Realtime Feeds (z.B. gtfs.de)",
+     "doc_url": "https://gtfs.de/",
+     "endpoint": "https://realtime.gtfs.de/realtime-free.pb",
+     "access": "download",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 30 s",
+     "history": "nur Live",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (gtfs.de), pruefen",
+     "verified": false,
+     "sample_note": "Protobuf: TripUpdates mit CANCELED; Anteil ausgefallener Fahrten"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.rail.gtfsrt_feed_availability",
+   "name_de": "Verfuegbarkeit Echtzeit-Fahrplanfeeds",
+   "plain_de": "Ob Verkehrsunternehmen noch Echtzeitdaten liefern.",
+   "domain": "rail",
+   "evidence_class": "B",
+   "rationale": "Ausfall der Feeds vieler Betreiber gleichzeitig zeigt IT-Stoerung.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartung",
+    "Umstellung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gtfs-rt",
+     "name": "GTFS-Realtime Feeds (z.B. gtfs.de)",
+     "doc_url": "https://gtfs.de/",
+     "endpoint": "https://realtime.gtfs.de/realtime-free.pb",
+     "access": "download",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 30 s",
+     "history": "nur Live",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (gtfs.de), pruefen",
+     "verified": false,
+     "sample_note": "Protobuf: TripUpdates mit CANCELED; Anteil ausgefallener Fahrten"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.rail.gsmr_outage",
+   "name_de": "Bahnfunk-Stoerungen",
+   "plain_de": "Meldungen zu GSM-R-/Stellwerksausfaellen.",
+   "domain": "rail",
+   "evidence_class": "D",
+   "rationale": "Sabotage 2022 betraf Bahnfunk; Crowd-Berichte.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Kabeldiebstahl"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "vendor-status",
+     "name": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
+     "doc_url": "https://downdetector.com/",
+     "endpoint": "https://downdetector.com/status/vodafone-germany/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "keine offene API",
+     "rate_limit": "unklar",
+     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+     "verified": false,
+     "sample_note": "Crowd-Stoermeldungen, Klasse D"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.telecom.country_outage_ioda",
+   "name_de": "Internet-Ausfall je Land (IODA)",
+   "plain_de": "Messung ob ein Land von aussen erreichbar bleibt.",
+   "domain": "telecom",
+   "evidence_class": "A",
+   "rationale": "Unabhaengige Messung aus BGP, Probing und Darknet-Telescope.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Seekabelbruch",
+    "Zensur",
+    "Stromausfall"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA Internet Outage Detection and Analysis",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=1700000000&until=1700086400",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "ab 2011",
+     "rate_limit": "unklar",
+     "license": "CC BY-NC/Forschung, unklar",
+     "verified": false,
+     "sample_note": "BGP-/Active-Probing-/Telescope-Signale je Land"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.telecom.cloudflare_traffic_anomaly",
+   "name_de": "Traffic-Anomalien Cloudflare Radar",
+   "plain_de": "Plotzliche Verkehrsveraenderung eines Landes.",
+   "domain": "telecom",
+   "evidence_class": "A",
+   "rationale": "Ausfaelle bei Providern zeigen sich als Einbruch.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Feiertage",
+    "Provider-Probleme"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/netflows/timeseries?location=DE",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "mehrjaehrig",
+     "rate_limit": "unklar",
+     "license": "CC BY-NC 4.0",
+     "verified": false,
+     "sample_note": "Traffic je Land, Anomalien"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.telecom.atlas_probe_latency",
+   "name_de": "Latenz und Verlust RIPE Atlas",
+   "plain_de": "Ping-Laufzeiten und Paketverlust zu Infrastruktur.",
+   "domain": "telecom",
+   "evidence_class": "A",
+   "rationale": "Verschlechterung vor/waehrend Angriffen auf Backbone.",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Routing-Aenderungen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ripe-atlas",
+     "name": "RIPE Atlas API",
+     "doc_url": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+     "endpoint": "https://atlas.ripe.net/api/v2/measurements/?status=2&type=ping",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "ab 2010",
+     "rate_limit": "unklar",
+     "license": "RIPE Atlas Nutzungsbedingungen, offen",
+     "verified": false,
+     "sample_note": "Messungen von Probes; als Konsument"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.telecom.mobile_outage_crowd",
+   "name_de": "Mobilfunk-Stoerungsmeldungen",
+   "plain_de": "Crowd-Meldungen zu Mobilfunkausfaellen.",
+   "domain": "telecom",
+   "evidence_class": "D",
+   "rationale": "Schnelles Indiz fuer Netzausfaelle.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Lokale Stoerung",
+    "Bugs"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "vendor-status",
+     "name": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
+     "doc_url": "https://downdetector.com/",
+     "endpoint": "https://downdetector.com/status/vodafone-germany/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "keine offene API",
+     "rate_limit": "unklar",
+     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+     "verified": false,
+     "sample_note": "Crowd-Stoermeldungen, Klasse D"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.telecom.fcc_dirs_reports",
+   "name_de": "FCC DIRS Meldungen",
+   "plain_de": "Pflichtmeldungen zu Netzausfaellen in Katastrophen.",
+   "domain": "telecom",
+   "evidence_class": "B",
+   "rationale": "Nur bei Aktivierung; zeigt betroffene Funknetze.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Naturkatastrophen"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "fcc-dirs",
+     "name": "FCC DIRS Summary",
+     "doc_url": "https://www.fcc.gov/disaster-information-reporting-system-dirs-0",
+     "endpoint": "https://www.fcc.gov/disaster-information-reporting-system-dirs-0",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich bei Aktivierung",
+     "history": "Archiv zu Ereignissen",
+     "rate_limit": "unklar",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Zusammenfassungen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.telecom.emergency_number_outage",
+   "name_de": "Notruf-Stoerungen 112/911",
+   "plain_de": "Meldungen von Behoerden zum Ausfall von Notrufnummern.",
+   "domain": "telecom",
+   "evidence_class": "B",
+   "rationale": "Notrufausfaelle zeigen Kernnetzprobleme.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Technische Pannen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nina-mowas",
+     "name": "NINA / MoWaS Warn-API (BBK)",
+     "doc_url": "https://nina.api.bund.dev/",
+     "endpoint": "https://warnung.bund.de/api31/mowas/mapData.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur Live; Archiv via bund.dev/eigener Mitschnitt",
+     "rate_limit": "unklar",
+     "license": "Datenlizenz Deutschland, unklar im Detail",
+     "verified": false,
+     "sample_note": "aktive Warnmeldungen nach Quelle (MoWaS, KATWARN, DWD, LHP)"
+    },
+    {
+     "source_id": "fcc-psap",
+     "name": "FCC 911 Outage Reports",
+     "doc_url": "https://www.fcc.gov/",
+     "endpoint": "https://www.fcc.gov/public-safety-and-homeland-security/policy-and-licensing-division/9-1-1-reliability",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Wochen",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Stoerungsmeldungen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ics.cisa_advisory_rate",
+   "name_de": "CISA ICS-Advisories pro Woche",
+   "plain_de": "Wie viele neue Sicherheitshinweise zu Industrieanlagen erscheinen.",
+   "domain": "ics",
+   "evidence_class": "C",
+   "rationale": "Haeufung kann Kampagnen anzeigen; nur Kontext.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Patch-Zyklen"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cisa-ics",
+     "name": "CISA ICS Advisories RSS",
+     "doc_url": "https://www.cisa.gov/news-events/cybersecurity-advisories?f%5B0%5D=advisory_type%3A95",
+     "endpoint": "https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Archiv der Advisories im Web",
+     "rate_limit": "unklar",
+     "license": "US-Regierungsdaten, gemeinfrei",
+     "verified": false,
+     "sample_note": "Titel, Datum, Hersteller je Advisory; Zaehlreihe"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ics.vendor_advisories",
+   "name_de": "Hersteller-Advisories Siemens/Schneider",
+   "plain_de": "Sicherheitsmeldungen grosser OT-Hersteller.",
+   "domain": "ics",
+   "evidence_class": "C",
+   "rationale": "Kontext.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Patch Tuesday"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "siemens-cert",
+     "name": "Siemens ProductCERT CSAF Feed",
+     "doc_url": "https://www.siemens.com/global/en/products/services/cert.html",
+     "endpoint": "https://cert-portal.siemens.com/productcert/csaf/ssa-feed-tlp-white.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "TLP:CLEAR",
+     "verified": false,
+     "sample_note": "Advisories; Zaehlreihe"
+    },
+    {
+     "source_id": "schneider-cert",
+     "name": "Schneider Electric Security Notifications",
+     "doc_url": "https://www.se.com/ww/en/work/support/cybersecurity/security-notifications.jsp",
+     "endpoint": "https://www.se.com/ww/en/work/support/cybersecurity/security-notifications.jsp",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Liste der Notifications"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ics.kev_ot_additions",
+   "name_de": "Ausgenutzte OT-Luecken (KEV)",
+   "plain_de": "Neu als aktiv ausgenutzt gelistete Schwachstellen.",
+   "domain": "ics",
+   "evidence_class": "C",
+   "rationale": "Aktive Ausnutzung von Edge-/OT-Produkten ist Vorstufe von Kampagnen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Routine-Aufnahmen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cisa-kev",
+     "name": "CISA KEV Catalog",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "ab 2021",
+     "rate_limit": "unklar",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "dateAdded; Anzahl neuer ausgenutzter Luecken pro Woche, Filter OT-Hersteller"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ics.bsi_warnings",
+   "name_de": "BSI-CERT-Warnungen",
+   "plain_de": "Warnungen des deutschen CERT.",
+   "domain": "ics",
+   "evidence_class": "C",
+   "rationale": "Kontext fuer Deutschland.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Routine"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "bsi-cert",
+     "name": "BSI CERT-Bund Reports",
+     "doc_url": "https://wid.cert-bund.de/",
+     "endpoint": "https://wid.cert-bund.de/content/public/securityAdvisory/rss",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "BSI Nutzungsbedingungen, unklar",
+     "verified": false,
+     "sample_note": "Sicherheitswarnungen; Zaehlreihe kritischer OT-Hersteller"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.ics.exposed_modbus_trend",
+   "name_de": "Oeffentlich sichtbare ICS-Geraete",
+   "plain_de": "Wie viele Industriesteuerungen offen im Netz erreichbar sind.",
+   "domain": "ics",
+   "evidence_class": "A",
+   "rationale": "Plotzlicher Rueckgang kann Abschottung nach Warnung zeigen, Zunahme Fehlkonfiguration.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Scanner-Aenderungen"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "shodan",
+     "name": "Shodan Trends / Search API",
+     "doc_url": "https://developer.shodan.io/api",
+     "endpoint": "https://api.shodan.io/shodan/host/count?query=port:502&key=KEY",
+     "access": "api",
+     "format": "json",
+     "auth": "paid",
+     "cost": "ab ca. 49 USD einmalig/Monat, unklar",
+     "update_latency": "Tage",
+     "history": "Trends ab 2017 (kostenpflichtig)",
+     "rate_limit": "unklar",
+     "license": "Shodan ToS",
+     "verified": false,
+     "sample_note": "Nur Konsum fertiger Aggregat-Counts, kein eigenes Scannen"
+    },
+    {
+     "source_id": "censys",
+     "name": "Censys Search API",
+     "doc_url": "https://search.censys.io/api",
+     "endpoint": "https://search.censys.io/api/v2/hosts/search?q=services.service_name%3AMODBUS",
+     "access": "api",
+     "format": "json",
+     "auth": "paid",
+     "cost": "unklar",
+     "update_latency": "Tage",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "Censys ToS",
+     "verified": false,
+     "sample_note": "Nur Aggregat-Counts konsumieren"
+    }
+   ],
+   "notes": "Nur Konsum fertiger Counts."
+  },
+  {
+   "id": "cyber.ics.port_scanning_ot_protocols",
+   "name_de": "Scan-Aktivitaet auf OT-Ports",
+   "plain_de": "Wie oft Honeypots Scans auf Modbus/S7/DNP3 sehen.",
+   "domain": "ics",
+   "evidence_class": "A",
+   "rationale": "Aufklaerung vor Angriffen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Forscher-Scans"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "sans-isc",
+     "name": "SANS ISC API",
+     "doc_url": "https://isc.sans.edu/api/",
+     "endpoint": "https://isc.sans.edu/api/infocon?json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "eingeschraenkt",
+     "rate_limit": "unklar",
+     "license": "CC BY-NC-SA",
+     "verified": false,
+     "sample_note": "Infocon-Level und Port-Aktivitaet (Port 502, 102, 20000)"
+    },
+    {
+     "source_id": "greynoise",
+     "name": "GreyNoise Community/Trends",
+     "doc_url": "https://docs.greynoise.io/",
+     "endpoint": "https://api.greynoise.io/v3/community/1.1.1.1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "ToS",
+     "verified": false,
+     "sample_note": "Nur Aggregattrends zu Scanning-Tags gegen ICS-Protokolle"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.space.geomagnetic_kp",
+   "name_de": "Kp-Index Geomagnetik",
+   "plain_de": "Staerke geomagnetischer Stuerme.",
+   "domain": "space_weather",
+   "evidence_class": "A",
+   "rationale": "Banale Ursache fuer GNSS-/Funk-/Netz-Stoerungen; ausfiltern.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Sonnenaktivitaet"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "noaa-swpc",
+     "name": "NOAA SWPC Products",
+     "doc_url": "https://services.swpc.noaa.gov/products/",
+     "endpoint": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "3 h",
+     "history": "ca. 7 Tage Live, laenger via NCEI",
+     "rate_limit": "unklar",
+     "license": "US-Regierungsdaten, gemeinfrei",
+     "verified": false,
+     "sample_note": "Planetarer Kp-Index"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.space.xray_flux",
+   "name_de": "Roentgenfluss Sonne",
+   "plain_de": "Sonneneruptionen, die Funk stoeren.",
+   "domain": "space_weather",
+   "evidence_class": "A",
+   "rationale": "Banale Ursache fuer HF-Funkausfaelle.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Flares"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "noaa-swpc",
+     "name": "NOAA SWPC Products",
+     "doc_url": "https://services.swpc.noaa.gov/products/",
+     "endpoint": "https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "Tage live, Archiv via NCEI",
+     "rate_limit": "unklar",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "GOES Roentgenfluss"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.space.starlink_constellation",
+   "name_de": "Starlink-Konstellation",
+   "plain_de": "Anzahl aktiver Starlink-Satelliten und Bahnhoehen.",
+   "domain": "satellite",
+   "evidence_class": "A",
+   "rationale": "Massenhafte Bahnabsenkung oder Ausfall waere ein Brotkrumen fuer Satelliten-Stoerung.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Sonnenaktivitaet",
+    "Neustarts"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "celestrak",
+     "name": "CelesTrak GP Data",
+     "doc_url": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+     "endpoint": "https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "aktuell; Historie via Space-Track",
+     "rate_limit": "unklar",
+     "license": "frei, Namensnennung",
+     "verified": false,
+     "sample_note": "Orbit-Elemente; Aggregat: Anzahl aktiver Starlink-Objekte, Bahnhoehen"
+    },
+    {
+     "source_id": "space-track",
+     "name": "Space-Track.org API",
+     "doc_url": "https://www.space-track.org/documentation",
+     "endpoint": "https://www.space-track.org/basicspacedata/query/class/decay/orderby/DECAY_EPOCH%20desc/limit/10/format/json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "ab 1957",
+     "rate_limit": "unklar",
+     "license": "Space-Track ToS, keine Weitergabe roher Daten",
+     "verified": false,
+     "sample_note": "Zerfalls-/Katalogdaten und Ereignisse"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.space.satellite_decay_events",
+   "name_de": "Satellitenzerfall und Anomalien",
+   "plain_de": "Unerwartete Zerfaelle.",
+   "domain": "satellite",
+   "evidence_class": "A",
+   "rationale": "Anomalien bei Kommunikationssatelliten (Viasat 2022).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Normaler Zerfall"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "space-track",
+     "name": "Space-Track.org API",
+     "doc_url": "https://www.space-track.org/documentation",
+     "endpoint": "https://www.space-track.org/basicspacedata/query/class/decay/orderby/DECAY_EPOCH%20desc/limit/10/format/json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "ab 1957",
+     "rate_limit": "unklar",
+     "license": "Space-Track ToS, keine Weitergabe roher Daten",
+     "verified": false,
+     "sample_note": "Zerfalls-/Katalogdaten und Ereignisse"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.warn.mowas_alert_count",
+   "name_de": "Aktive MoWaS/NINA-Warnungen",
+   "plain_de": "Anzahl behoerdlicher Warnmeldungen.",
+   "domain": "warning",
+   "evidence_class": "C",
+   "rationale": "Kontext; Warntag-Tests als banale Ursache.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Warntag",
+    "Unwetter"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nina-mowas",
+     "name": "NINA / MoWaS Warn-API (BBK)",
+     "doc_url": "https://nina.api.bund.dev/",
+     "endpoint": "https://warnung.bund.de/api31/mowas/mapData.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur Live; Archiv via bund.dev/eigener Mitschnitt",
+     "rate_limit": "unklar",
+     "license": "Datenlizenz Deutschland, unklar im Detail",
+     "verified": false,
+     "sample_note": "aktive Warnmeldungen nach Quelle (MoWaS, KATWARN, DWD, LHP)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.warn.ipaws_test_vs_actual",
+   "name_de": "IPAWS-Alerts echt gegen Test",
+   "plain_de": "Anteil echter Warnungen an allen Alerts.",
+   "domain": "warning",
+   "evidence_class": "C",
+   "rationale": "Falschalarme durch Hacks (EAS 2013) moeglich.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Routinetests"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "fema-ipaws",
+     "name": "FEMA IPAWS Archived Alerts",
+     "doc_url": "https://www.fema.gov/about/openfema/data-sets",
+     "endpoint": "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$top=5&$orderby=sent desc",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "ab 2012",
+     "rate_limit": "unklar",
+     "license": "OpenFEMA, gemeinfrei",
+     "verified": false,
+     "sample_note": "CAP-Alerts inkl. Test-/Actual-Status"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.warn.dwd_weather_alerts",
+   "name_de": "DWD-Wetterwarnungen",
+   "plain_de": "Aktive Unwetterwarnungen.",
+   "domain": "warning",
+   "evidence_class": "C",
+   "rationale": "Banale Ursache fuer Stromausfaelle und Bahnstoerungen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "dwd-opendata",
+     "name": "DWD Open Data Wetterwarnungen",
+     "doc_url": "https://opendata.dwd.de/",
+     "endpoint": "https://opendata.dwd.de/weather/alerts/cap/",
+     "access": "download",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "eingeschraenkt",
+     "rate_limit": "unklar",
+     "license": "GeoNutzV / DWD Open Data",
+     "verified": false,
+     "sample_note": "Wetterwarnungen als banale Ursache fuer Stoerungen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.warn.earthquakes",
+   "name_de": "Erdbeben",
+   "plain_de": "Erdbeben weltweit.",
+   "domain": "warning",
+   "evidence_class": "A",
+   "rationale": "Banale Ursache fuer Infrastrukturausfaelle (Seekabel).",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Natuerlich"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "usgs",
+     "name": "USGS Earthquake Feed",
+     "doc_url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php",
+     "endpoint": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "ab 1900 via FDSN",
+     "rate_limit": "unklar",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Erdbeben als banale Stoerungsursache"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.payment_terminal_outage",
+   "name_de": "Kartenzahlungs-Stoerungen im Handel",
+   "plain_de": "Crowd-Berichte ueber ausgefallene Kartenzahlung.",
+   "domain": "retail",
+   "evidence_class": "D",
+   "rationale": "Zahlungsdienstleister sind zentrale Abhaengigkeit; Ausfall zeigt breite Stoerung.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartungsfenster"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "vendor-status",
+     "name": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
+     "doc_url": "https://downdetector.com/",
+     "endpoint": "https://downdetector.com/status/vodafone-germany/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "keine offene API",
+     "rate_limit": "unklar",
+     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+     "verified": false,
+     "sample_note": "Crowd-Stoermeldungen, Klasse D"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.fuel_station_outage",
+   "name_de": "Tankstellen-Ausfaelle",
+   "plain_de": "Meldungen zu geschlossenen oder nicht zahlungsfaehigen Tankstellen.",
+   "domain": "retail",
+   "evidence_class": "D",
+   "rationale": "Colonial-Pipeline-Angriff 2021 fuehrte zu leeren Tankstellen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Lieferengpaesse"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "tankerkoenig",
+     "name": "Tankerkoenig API",
+     "doc_url": "https://creativecommons.tankerkoenig.de/",
+     "endpoint": "https://creativecommons.tankerkoenig.de/json/list.php?lat=51.4&lng=7.5&rad=5&sort=dist&type=all&apikey=KEY",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Preis-Historie als CSV-Dump",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Tankstellen offen/zu und Preis"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.traffic_lights_outage",
+   "name_de": "Ampel-/Verkehrsleitsysteme",
+   "plain_de": "Meldungen ueber ausgefallene Ampeln.",
+   "domain": "traffic",
+   "evidence_class": "D",
+   "rationale": "Steuerungs-Ausfaelle in Staedten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Stromausfall lokal"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "autobahn-api",
+     "name": "Autobahn App API",
+     "doc_url": "https://autobahn.api.bund.dev/",
+     "endpoint": "https://verkehr.autobahn.de/o/autobahn/A1/services/warning",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur Live",
+     "rate_limit": "unklar",
+     "license": "Datenlizenz Deutschland, unklar",
+     "verified": false,
+     "sample_note": "Stoermeldungen Autobahn"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.hospital_it_outage",
+   "name_de": "Krankenhaus-IT-Ausfaelle",
+   "plain_de": "Abmeldungen von Notaufnahmen.",
+   "domain": "health",
+   "evidence_class": "B",
+   "rationale": "Ransomware trifft Kliniken haeufig.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Ueberlastung"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ivena",
+     "name": "IVENA / Leitstellen-Abmeldungen",
+     "doc_url": "https://www.ivena.de/",
+     "endpoint": "https://www.ivena.de/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "keine",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "oft nicht oeffentlich"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "cyber.proxy.water_utility_alerts",
+   "name_de": "Wasserversorger-Warnungen",
+   "plain_de": "Kochwarnungen und Ausfaelle.",
+   "domain": "water",
+   "evidence_class": "B",
+   "rationale": "OT-Angriffe auf Wasserwerke (Oldsmar 2021).",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Rohrbruch"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "epa-sdwis",
+     "name": "EPA SDWIS / ECHO",
+     "doc_url": "https://echo.epa.gov/tools/web-services",
+     "endpoint": "https://echodata.epa.gov/echo/sdw_rest_services.get_systems",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Wochen",
+     "history": "mehrjaehrig",
+     "rate_limit": "unklar",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Verstoesse"
+    }
+   ],
+   "notes": ""
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Zahl der Strom-Redispatch-Massnahmen taeglich (Quelle nicht geprueft).",
+  "Idee: Anzahl von Stromzaehler-Fernabschaltungen (keine oeffentliche Quelle).",
+  "Idee: Notstromdiesel-Verkaufszahlen (keine offene Quelle).",
+  "Idee: Zeitzeichensender DCF77-Ausfaelle (keine strukturierte Quelle bekannt)."
+ ]
+}

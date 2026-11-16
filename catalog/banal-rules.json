@@ -1,0 +1,12 @@
+[
+  { "id": "patch-tuesday", "type": "nth-weekday", "appliesTo": ["cyber.vuln.*", "cyber.threat.*advis*"], "factor": 0.4,
+    "reason": "Patch-Dienstag: Hersteller veröffentlichen heute planmäßig viele Sicherheitsupdates.", "params": { "weekday": 2, "n": 2, "spillDays": 2 } },
+  { "id": "fema-eas-test-2026", "type": "date-range", "appliesTo": ["*.attention.*", "cyber.physical.*alert*", "cyber.physical.*warn*"], "factor": 0.5,
+    "reason": "Angekündigter landesweiter US-Warntest (FEMA/FCC) am 17.11.2026.", "params": { "from": "2026-11-17T00:00:00Z", "to": "2026-11-18T12:00:00Z" } },
+  { "id": "month-end-payments", "type": "day-of-month", "appliesTo": ["cyber.finance.*volume*", "cyber.finance.*repo*", "cyber.finance.*sofr*", "cyber.finance.*estr*"], "factor": 0.5,
+    "reason": "Monatswechsel: Zahlungsvolumen und Geldmarktsätze schwanken dann regelmäßig.", "params": { "days": [1, 2, 28, 29, 30, 31] } },
+  { "id": "geomagnetic-storm", "type": "signal-condition", "appliesTo": ["cyber.physical.*gnss*", "cyber.physical.*gps*", "cyber.physical.*satell*", "cyber.physical.*hf*"], "factor": 0.3,
+    "reason": "Starker geomagnetischer Sturm: Störungen bei GPS, Funk und Satelliten sind dann natürlich erklärbar.", "params": { "signal": "cyber.context.geomagnetic_kp", "gte": 7 } },
+  { "id": "weekend-status", "type": "weekday", "appliesTo": ["cyber.services.*maintenance*"], "factor": 0.5,
+    "reason": "Wochenende: Anbieter legen Wartungsfenster bevorzugt auf Samstag und Sonntag.", "params": { "days": [0, 6] } }
+]

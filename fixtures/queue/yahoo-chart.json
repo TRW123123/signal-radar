@@ -58,5 +58,30 @@
     "fixture": "yahoo/ZW_F-1mo-1d.json",
     "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZW%3DF?range=1mo&interval=1d",
     "maxChars": 6000
+  },
+  {
+    "fixture": "yahoo/URNM-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/URNM?range=1mo&interval=1d",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "yahoo/CCJ-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CCJ?range=1mo&interval=1d",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "yahoo/U_UN_TO-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/U-UN.TO?range=1mo&interval=1d",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "yahoo/LMT-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/LMT?range=1mo&interval=1d",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "yahoo/NOC-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NOC?range=1mo&interval=1d",
+    "maxChars": 6000
   }
 ]

@@ -1,0 +1,27 @@
+[
+ {
+  "fixture": "ecb/yc-sr-10y.csv",
+  "url": "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y?lastNObservations=50&detail=dataonly&format=csvdata",
+  "maxChars": 6000
+ },
+ {
+  "fixture": "ecb/yc-sr-3m.csv",
+  "url": "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_3M?lastNObservations=50&detail=dataonly&format=csvdata",
+  "maxChars": 6000
+ },
+ {
+  "fixture": "ecb/exr-usd.csv",
+  "url": "https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=50&detail=dataonly&format=csvdata",
+  "maxChars": 6000
+ },
+ {
+  "fixture": "ecb/exr-jpy.csv",
+  "url": "https://data-api.ecb.europa.eu/service/data/EXR/D.JPY.EUR.SP00.A?lastNObservations=50&detail=dataonly&format=csvdata",
+  "maxChars": 6000
+ },
+ {
+  "fixture": "ecb/exr-chf.csv",
+  "url": "https://data-api.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?lastNObservations=50&detail=dataonly&format=csvdata",
+  "maxChars": 6000
+ }
+]

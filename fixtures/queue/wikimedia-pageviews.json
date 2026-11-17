@@ -118,5 +118,85 @@
     "fixture": "wikimedia/en.wikipedia-Taiwan_Strait-30d.json",
     "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Taiwan_Strait/daily/20261018/20261116",
     "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Kaliumiodid-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kaliumiodid/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Radioaktiver_Niederschlag-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Radioaktiver_Niederschlag/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Strahlenkrankheit-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Strahlenkrankheit/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Kernwaffe-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kernwaffe/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Kernwaffentest-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kernwaffentest/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Potassium_iodide-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Potassium_iodide/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Nuclear_fallout-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_fallout/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Acute_radiation_syndrome-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Acute_radiation_syndrome/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Nuclear_weapon-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_weapon/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Nuclear_weapons_testing-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_weapons_testing/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Zaporizhzhia_Nuclear_Power_Plant-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Zaporizhzhia_Nuclear_Power_Plant/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Chernobyl_disaster-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Chernobyl_disaster/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Fukushima_nuclear_accident-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Fukushima_nuclear_accident/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Three_Mile_Island_accident-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Three_Mile_Island_accident/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Nuclear_meltdown-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_meltdown/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Nuclear_power_plant-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_power_plant/daily/20261018/20261116",
+    "maxChars": 6000
   }
 ]

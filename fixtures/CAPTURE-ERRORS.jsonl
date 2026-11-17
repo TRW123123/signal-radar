@@ -72,3 +72,11 @@
 {"fixture":"statuspage-incidents/status.digitalocean.com.json","url":"https://status.digitalocean.com/api/v2/incidents.json","error":"truncated","source_bytes":205310}
 {"fixture":"statuspage-incidents/www.vercel-status.com.json","url":"https://www.vercel-status.com/api/v2/incidents.json","error":"truncated","source_bytes":157131}
 {"fixture":"statuspage-incidents/status.plaid.com.json","url":"https://status.plaid.com/api/v2/incidents.json","error":"truncated","source_bytes":36214}
+{"fixture":"cloudflare-radar/attacks-l3-timeseries.json","url":"https://api.cloudflare.com/client/v4/radar/attacks/layer3/timeseries?dateRange=12w&aggInterval=1d&normalization=MIN0_MAX&format=json","error":"UPSTREAM_HTTP","status":400,"body":""}
+{"fixture":"nyfed/srf-search.json","url":"https://markets.newyorkfed.org/api/rp/results/search.json?startDate=2026-09-18&endDate=2026-11-16&operationTypes=Repo","error":"too-large","source_bytes":62332}
+{"fixture":"adsb-lol/mil.json","url":"https://api.adsb.lol/v2/mil","error":"TIMEOUT","status":null,"body":"Total fetch deadline exceeded."}
+{"fixture":"cloudflare-radar/attacks-l7-timeseries.json","url":"https://api.cloudflare.com/client/v4/radar/attacks/layer7/timeseries?dateRange=12w&aggInterval=1d&normalization=MIN0_MAX&format=json","error":"UPSTREAM_HTTP","status":400,"body":""}
+{"fixture":"statuspage-incidents/status.gocardless.com.json","url":"https://status.gocardless.com/api/v2/incidents.json","error":"too-large","source_bytes":46661}
+{"fixture":"cloudflare-radar/netflows-de.json","url":"https://api.cloudflare.com/client/v4/radar/netflows/timeseries?location=DE&dateRange=7d&aggInterval=1h&normalization=MIN0_MAX&format=json","error":"UPSTREAM_HTTP","status":400,"body":""}
+{"fixture":"ripe-stat/country-routing-stats-DE-20d.json","url":"https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2026-10-28&endtime=2026-11-16","error":"too-large","source_bytes":105999}
+{"fixture":"gdelt/war-iran-hormuz-en-timelinevol-1m.json","url":"https://api.gdeltproject.org/api/v2/doc/doc?query=(Iran%20OR%20Hormuz)%20sourcelang%3Aenglish&mode=timelinevol&format=json&timespan=1m","error":"TIMEOUT","status":null,"body":"Total fetch deadline exceeded."}

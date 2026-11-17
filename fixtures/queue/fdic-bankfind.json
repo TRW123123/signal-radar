@@ -1,0 +1,7 @@
+[
+ {
+  "fixture": "fdic/failures-recent.json",
+  "url": "https://banks.data.fdic.gov/api/failures?filters=FAILDATE%3A%5B2026-06-20%20TO%20*%5D&fields=NAME%2CFAILDATE%2CQBFASSET&sort_by=FAILDATE&sort_order=DESC&limit=50",
+  "maxChars": 6000
+ }
+]

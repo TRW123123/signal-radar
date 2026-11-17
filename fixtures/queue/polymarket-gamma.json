@@ -53,5 +53,15 @@
     "fixture": "polymarket/search-russia-nato-open.json",
     "url": "https://gamma-api.polymarket.com/public-search?q=russia%20nato&limit_per_type=1&events_status=active&keep_closed_markets=0&search_tags=false&search_profiles=false",
     "maxChars": 8000
+  },
+  {
+    "fixture": "polymarket/search-nuclear-strike-open.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=nuclear%20strike&limit_per_type=1&events_status=active&keep_closed_markets=0&search_tags=false&search_profiles=false",
+    "maxChars": 8000
+  },
+  {
+    "fixture": "polymarket/search-nuclear-test-open.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=nuclear%20test&limit_per_type=1&events_status=active&keep_closed_markets=0&search_tags=false&search_profiles=false",
+    "maxChars": 8000
   }
 ]

@@ -1,0 +1,49 @@
+{
+  "id": "bio",
+  "order": 7,
+  "title": "Pandemie und Ausbrüche",
+  "question": "Breitet sich gerade ein gefährlicher Erreger aus?",
+  "tagline": "Abwasser, Arztbesuche, Krankenhäuser, Vogelgrippe, neue Virusvarianten, Medikamentenengpässe",
+  "domains": {
+    "wastewater": {
+      "title": "Abwasser",
+      "weight": 1,
+      "plain": "Wie viel Virus-Erbgut messen Kläranlagen?"
+    },
+    "clinical": {
+      "title": "Arztbesuche und Krankenhäuser",
+      "weight": 1,
+      "plain": "Wie viele Menschen sind mit Atemwegsinfekten in Praxen und Kliniken?"
+    },
+    "outbreaks": {
+      "title": "Ausbruchsmeldungen",
+      "weight": 0.4,
+      "plain": "Was melden WHO, ECDC und Africa CDC? (Aussagen von Organisationen, daher geringes Gewicht)"
+    },
+    "animal": {
+      "title": "Tierseuchen",
+      "weight": 0.9,
+      "plain": "Vogelgrippe bei Geflügel, Wildvögeln und Rindern"
+    },
+    "genomic": {
+      "title": "Erbgut-Überwachung",
+      "weight": 0.8,
+      "plain": "Neue Virus-Linien und Varianten"
+    },
+    "mortality": {
+      "title": "Sterbefälle",
+      "weight": 0.8,
+      "plain": "Sterben mehr Menschen als erwartet?"
+    },
+    "behaviour": {
+      "title": "Verhalten und Versorgung",
+      "weight": 0.5,
+      "plain": "Medikamentenengpässe, Reisehinweise und Krankenstand"
+    },
+    "markets": {
+      "title": "Märkte",
+      "weight": 0.4,
+      "plain": "Aktien von Impfstoff-, Test- und Geflügelherstellern"
+    }
+  }
+}

@@ -8,10 +8,12 @@
 // Zähl-Endpunkt ist nicht bekannt (die API kennt nur /mil, /pia, /ladd, /point, /hex, /callsign usw. mit Vollobjekten), daher Request unverändert.
 // Szenario war: derselbe Zählwert wird zusätzlich als war.military.mil_aircraft_visible_global gemeldet (Katalog-Signale je Region wie
 // mil_count_hormuz brauchen Positionen und sind hier ausgeschlossen; es gibt nur den Gesamtzähler). Kein zusätzlicher Request.
+// Signal-IDs je Szenario: src/collectors/config/<szenario>.ts (Feld adsb); alle bekommen denselben Zählwert aus einem Request.
 // VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Antwortform { ac: [...], total, now, msg } nach Erinnerung)
 
 import type { Collector } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';
+import { declare, scenarioEntries } from './_scenario.ts';
 
 interface Resp { ac?: unknown; total?: unknown }
 
@@ -24,38 +26,29 @@ export function parseMilCount(body: Resp): number {
 
 const STEP = 15 * 60_000;
 
+/** Signal-IDs aller Szenarien für denselben Zählwert (src/collectors/config/<szenario>.ts, Feld adsb). */
+const ENTRIES = scenarioEntries('adsb');
+export const SIGNAL_IDS = ENTRIES.map((e) => e.signal.id);
+
+const DEFAULTS = {
+  evidenceClass: 'A' as const, kind: 'count' as const, manipulability: 'medium' as const, independenceGroup: 'adsb-lol',
+  unit: 'Anzahl', intervalMinutes: 15, holdHours: 6,
+  baseline: { method: 'hour-of-week' as const, windowDays: 28, minPoints: 48 },
+  thresholds: { relFloor: 0.1 },
+  license: 'ODbL (adsb.lol), nur Aggregat',
+};
+
 const collector: Collector = {
   id: 'adsb-lol',
   title: 'adsb.lol (Militärflugzeuge, Aggregat)',
   sourceUrl: 'https://api.adsb.lol/docs',
   intervalMinutes: 15,
-  signals: [
-    {
-      id: 'cyber.physical.military_aircraft_visible', scenarios: ['cyber'], domain: 'physical',
-      name: 'Sichtbare Militärflugzeuge weltweit',
-      plain: 'Wie viele Militärflugzeuge gerade auf öffentlichen Flugradaren zu sehen sind; ungewöhnlich viele oder plötzlich sehr wenige fallen auf.',
-      evidenceClass: 'A', direction: 'both', kind: 'count', weight: 0.2, manipulability: 'medium', independenceGroup: 'adsb-lol',
-      unit: 'Anzahl', intervalMinutes: 15, holdHours: 6,
-      baseline: { method: 'hour-of-week', windowDays: 28, minPoints: 48 },
-      thresholds: { relFloor: 0.1 },
-      license: 'ODbL (adsb.lol), nur Aggregat',
-    },
-    {
-      id: 'war.military.mil_aircraft_visible_global', scenarios: ['war'], domain: 'military',
-      name: 'Sichtbare Militärflugzeuge weltweit (Kriegssicht)',
-      plain: 'Wie viele Militärflugzeuge gerade auf öffentlichen Flugradaren zu sehen sind; ein deutlicher Anstieg kann auf Verlegungen und erhöhte Einsatzbereitschaft hinweisen.',
-      evidenceClass: 'A', direction: 'up', kind: 'count', weight: 0.4, manipulability: 'medium', independenceGroup: 'adsb-lol',
-      unit: 'Anzahl', intervalMinutes: 15, holdHours: 6,
-      baseline: { method: 'hour-of-week', windowDays: 28, minPoints: 48 },
-      thresholds: { relFloor: 0.1 },
-      license: 'ODbL (adsb.lol), nur Aggregat',
-      banalCauses: ['Übungen', 'Änderungen der Feeder-Abdeckung', 'Tageszeit und Wochentag'],
-    },
-  ],
+  signals: ENTRIES.map((e) => declare(DEFAULTS, e.scenario, e.signal)),
   async collect(ctx) {
+    if (SIGNAL_IDS.length === 0) return { observations: [] };
     const n = parseMilCount(await ctx.http.json<Resp>('https://api.adsb.lol/v2/mil', { fixture: 'adsb-lol/mil.json' }));
     const ts = Math.floor(ctx.now.getTime() / STEP) * STEP;
-    return { observations: [obs('cyber.physical.military_aircraft_visible', ts, n), obs('war.military.mil_aircraft_visible_global', ts, n)] };
+    return { observations: SIGNAL_IDS.map((id) => obs(id, ts, n)) };
   },
 };
 

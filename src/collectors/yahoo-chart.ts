@@ -1,94 +1,49 @@
 // Marktdaten als Stress-Indikatoren (Evidenzklasse A: Börsenmessung, aber Aussagekraft für Cyberlagen gering, daher niedrige Gewichte).
 // Quelle: Yahoo Finance Chart-Endpunkt (INOFFIZIELL, keine dokumentierte öffentliche API):
-//   https://query1.finance.yahoo.com/v8/finance/chart/<SYMBOL>?range=3mo&interval=1d
+//   https://query1.finance.yahoo.com/v8/finance/chart/<SYMBOL>?range=1mo&interval=1d
 // LIZENZ NOCH KLÄREN: Yahoos Nutzungsbedingungen erlauben keine systematische Nutzung; vor produktivem Betrieb prüfen
 // oder auf eine lizenzierte Quelle (z. B. stooq, Alpha Vantage) wechseln. Endpunkt kann sich jederzeit ändern oder Anfragen blocken.
 // Gemessen (Tageswerte, nur abgeschlossene Handelstage):
-//   - Relatives Volumen: Summe der Volumina der Symbole eines Signals geteilt durch den Median dieser Summe der 20 Handelstage davor.
+//   - Relatives Volumen: Summe der Volumina der Symbole eines Signals geteilt durch den Median dieser Summe der 10 Handelstage davor.
 //   - Schlusskurs-Stand (VIX).
 //   - Tagesrendite-Betrag: Mittel der Beträge der Tagesrenditen (in Prozent) der Symbole eines Signals.
 // Je Signal werden nur Tage gemeldet, an denen ALLE Symbole des Signals einen Wert haben (sonst Scheineinbruch).
-// Symbole und Signale sind je Szenario in SPECS erweiterbar (ein Eintrag mehr genügt).
+// Symbole und Signale je Szenario: src/collectors/config/<szenario>.ts (Feld yahoo); jedes Symbol wird je Lauf nur einmal geholt.
 // Harmlose Ursachen für Ausschläge: Index-Rebalancing, Quartalsende, Verfallstermine (Hexensabbat), Feiertage mit dünnem Handel,
 // Zinsentscheide/Makrodaten (VIX, Gold, Bitcoin), Krypto-Eigenereignisse.
 // Antwortform: chart.result[0].{meta.gmtoffset, timestamp[], indicators.quote[0].{close[], volume[]}}; einzelne Werte können null sein.
 // Echte Antworten (17.11.2026): Die Quelle liefert Daten (Beginn {"chart":{"result":[{"meta":{"currency":"USD","symbol":"CIBR",...),
 // keine Fehlermeldung; mit range=6mo waren die Antworten 12,6 bis 17,7 kB und wurden von der Prüf-Umgebung bei 12 000 Zeichen
-// abgeschnitten (nicht von der Quelle). Deshalb range=3mo (halbe Größe, ca. 7 bis 9 kB).
+// abgeschnitten (nicht von der Quelle). range=3mo waren ca. 7 bis 9 kB; die Aufzeichnungs-Umgebung nimmt nur noch ca. 6 000 Zeichen,
+// deshalb range=1mo (ca. 21 Handelstage, geschätzt 3 bis 4,5 kB). Längere Historie baut der Speicher Lauf für Lauf auf.
 // Szenario war (Kriegseskalation): Signale in Domain markets für Brent (BZ=F), WTI (CL=F), Gold (GC=F), Öl-Volatilität (^OVX), Rüstungs-ETF (ITA),
 // Rheinmetall (RHM.DE), Weizen (ZW=F) und VIX (^VIX). Gold und VIX sind schon für Cyber abgerufen: derselbe Messwert, hier unter eigener
 // Signal-ID für war (kein zusätzlicher Request). Neue Requests: BZ=F, CL=F, ^OVX, ITA, RHM.DE, ZW=F (insgesamt 12 Symbole je Lauf statt 6,
 // weil jedes Symbol nur einmal geholt wird; die Zahl folgt aus der Signalliste). Metrik für war: Schlusskurs-Stand (Preise/Indizes).
 // Brent/WTI heißen hier war.markets.brent_futures/wti_futures, weil github-oil-prices die Katalog-IDs brent_price/wti_price (EIA-Tagesreihe) schon belegt.
 // Harmlose Ursachen (war): OPEC+-Entscheidungen, Lagerdaten, Quartalszahlen (Rheinmetall), Ernte/Wetter (Weizen), Zinsentscheide (Gold, VIX), Kontraktwechsel bei Futures.
-// VERIFIED: teilweise (Form bestätigt, aber noch keine vollständige echte Antwort für den Replay; Aufzeichnung mit range=3mo steht aus).
+// VERIFIED: teilweise (Form bestätigt, aber noch keine vollständige echte Antwort für den Replay; Aufzeichnung mit range=1mo steht aus).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, isoDay, num, obs } from './_helpers.ts';
+import { declare, scenarioEntries } from './_scenario.ts';
+import type { YahooMetric } from './config/_types.ts';
 
-type Metric = 'rel-volume-sum' | 'close' | 'abs-return-mean';
+type Metric = YahooMetric;
 
-interface Spec {
-  signalId: string; scenario: string; symbols: string[]; metric: Metric;
-  name: string; plain: string; weight: number; unit: string; kind: 'gauge' | 'count';
-  baseline: { method: 'rolling' | 'day-of-week'; windowDays: number; minPoints: number };
-  banalCauses: string[];
-  manipulability?: 'low' | 'medium' | 'high';
-}
+export interface Spec { signalId: string; scenario: string; symbols: string[]; metric: Metric }
 
-/** Symbol- und Signalliste. Weitere Symbole oder Szenarien: Eintrag ergänzen. */
-export const SPECS: Spec[] = [
-  {
-    signalId: 'cyber.markets.cyber_etf_volume', scenario: 'cyber', symbols: ['CIBR', 'HACK', 'BUG'], metric: 'rel-volume-sum',
-    name: 'Relatives Handelsvolumen der Cyber-ETFs (CIBR, HACK, BUG)',
-    plain: 'Wie stark Cyber-Sicherheits-ETFs gerade gehandelt werden, verglichen mit den 20 Tagen davor.',
-    weight: 0.3, unit: 'x Median 20 Tage', kind: 'gauge', baseline: { method: 'rolling', windowDays: 56, minPoints: 21 },
-    banalCauses: ['Index-Rebalancing', 'Quartalsende', 'Verfallstermine', 'Nachrichten über einzelne Hacks'],
-  },
-  {
-    signalId: 'cyber.markets.cyber_etf_abs_return', scenario: 'cyber', symbols: ['CIBR', 'HACK', 'BUG'], metric: 'abs-return-mean',
-    name: 'Tagesschwankung der Cyber-ETFs',
-    plain: 'Wie stark die Cyber-Sicherheits-ETFs an einem Tag steigen oder fallen (Betrag der Tagesrendite).',
-    weight: 0.2, unit: '% (Betrag)', kind: 'gauge', baseline: { method: 'rolling', windowDays: 56, minPoints: 21 },
-    banalCauses: ['Marktweite Kursbewegung', 'Quartalszahlen großer Mitglieder', 'Zinsentscheide'],
-  },
-  {
-    signalId: 'cyber.markets.vix', scenario: 'cyber', symbols: ['^VIX'], metric: 'close',
-    name: 'VIX (Angstindex der US-Börse)',
-    plain: 'Wie nervös die US-Börse insgesamt ist; steigt bei jeder Art von Krise.',
-    weight: 0.3, unit: 'Punkte', kind: 'gauge', baseline: { method: 'rolling', windowDays: 56, minPoints: 21 },
-    banalCauses: ['Zinsentscheide', 'Wahlen', 'Quartalszahlen', 'Verfallstermine'],
-  },
-  {
-    signalId: 'cyber.markets.gold_abs_return', scenario: 'cyber', symbols: ['GC=F'], metric: 'abs-return-mean',
-    name: 'Tagesschwankung des Goldpreises',
-    plain: 'Wie stark der Goldpreis an einem Tag springt, klassisches Zeichen für Fluchtbewegungen.',
-    weight: 0.2, unit: '% (Betrag)', kind: 'gauge', baseline: { method: 'rolling', windowDays: 56, minPoints: 21 },
-    banalCauses: ['Zinserwartungen', 'Dollar', 'Geopolitik'],
-  },
-  {
-    signalId: 'cyber.markets.btc_abs_return', scenario: 'cyber', symbols: ['BTC-USD'], metric: 'abs-return-mean',
-    name: 'Tagesschwankung von Bitcoin',
-    plain: 'Wie stark Bitcoin an einem Tag springt; Bitcoin hängt am Netz und reagiert auf Ausfälle und Risikoscheu.',
-    weight: 0.2, unit: '% (Betrag)', kind: 'gauge', baseline: { method: 'rolling', windowDays: 56, minPoints: 21 },
-    banalCauses: ['Krypto-Eigenereignisse', 'Börsenpleiten', 'ETF-Nachrichten'],
-  },
-  ...([
-    { id: 'war.markets.brent_futures', sym: 'BZ=F', name: 'Brent-Future (Börsenkurs)', plain: 'Der Preis für Nordsee-Rohöl (Brent); Kriegsangst in Förderregionen treibt ihn nach oben.', w: 0.5, unit: 'USD je Barrel', m: 'medium', b: ['OPEC+-Entscheidungen', 'Konjunkturdaten', 'Dollar-Schwankung', 'Kontraktwechsel'] },
-    { id: 'war.markets.wti_futures', sym: 'CL=F', name: 'WTI-Future (Börsenkurs)', plain: 'Der Preis für US-Rohöl (WTI); folgt dem Brent-Preis und reagiert auf Risiken im Golf.', w: 0.4, unit: 'USD je Barrel', m: 'medium', b: ['US-Lagerdaten', 'Pipeline-Engpässe', 'Kontraktwechsel'] },
-    { id: 'war.markets.gold_price', sym: 'GC=F', name: 'Goldpreis', plain: 'Der Goldpreis; Anleger flüchten bei Angst in Gold.', w: 0.3, unit: 'USD je Unze', m: 'medium', b: ['Realzinsen', 'Zentralbankkäufe', 'Dollar'] },
-    { id: 'war.markets.oil_volatility_ovx', sym: '^OVX', name: 'Öl-Volatilität (OVX)', plain: 'Wie stark Anleger große Schwankungen des Ölpreises erwarten; steigt bei Sorge um Lieferausfälle.', w: 0.3, unit: 'Punkte', m: 'medium', b: ['OPEC+-Sitzungen', 'Verfallstermine'] },
-    { id: 'war.markets.defense_etf_us', sym: 'ITA', name: 'US-Rüstungs-ETF (ITA)', plain: 'Der Kurs eines Fonds aus US-Rüstungs- und Luftfahrtfirmen; steigt, wenn höhere Militärausgaben erwartet werden.', w: 0.4, unit: 'USD', m: 'low', b: ['Haushaltsdebatten', 'Quartalszahlen', 'Sektorrotation'] },
-    { id: 'war.markets.defense_stocks_eu', sym: 'RHM.DE', name: 'Rheinmetall-Aktie', plain: 'Der Kurs von Rheinmetall, dem größten deutschen Rüstungskonzern; spiegelt Erwartungen an Aufträge und Eskalation.', w: 0.35, unit: 'EUR', m: 'medium', b: ['Firmenwarnungen', 'Auftragsmeldungen', 'Quartalszahlen', 'Zinsen'] },
-    { id: 'war.markets.wheat_prices', sym: 'ZW=F', name: 'Weizenpreis', plain: 'Der Weltmarktpreis für Weizen; Ukraine und Russland sind große Exporteure, Kriege treiben den Preis.', w: 0.3, unit: 'US-Cent je Scheffel', m: 'medium', b: ['Ernte', 'Wetter', 'Kontraktwechsel'] },
-    { id: 'war.markets.vix', sym: '^VIX', name: 'VIX (Angstindex der US-Börse), Kriegssicht', plain: 'Wie nervös die US-Börse insgesamt ist; steigt bei jeder Art von Krise, auch bei Kriegsangst.', w: 0.2, unit: 'Punkte', m: 'medium', b: ['Notenbank-Termine', 'Tech-Korrektur', 'Verfallstermine'] },
-  ] as { id: string; sym: string; name: string; plain: string; w: number; unit: string; m: 'low' | 'medium' | 'high'; b: string[] }[]).map((x): Spec => ({
-    signalId: x.id, scenario: 'war', symbols: [x.sym], metric: 'close', name: x.name, plain: x.plain, weight: x.w, unit: x.unit,
-    kind: 'gauge', baseline: { method: 'rolling', windowDays: 28, minPoints: 14 }, banalCauses: x.b, manipulability: x.m,
-  })),
-];
-const HISTORY_DAYS = 90; // range=3mo liefert rund 63 Handelstage; die ersten 20 gehen in die Volumen-Normierung
-const REL_WINDOW = 20;
+/** Symbol- und Signalliste aller Szenarien (src/collectors/config/<szenario>.ts, Feld yahoo). */
+const ENTRIES = scenarioEntries('yahoo');
+export const SPECS: Spec[] = ENTRIES.map((e) => ({ signalId: e.signal.id, scenario: e.scenario, symbols: e.symbols, metric: e.metric }));
+
+const DEFAULTS = {
+  domain: 'markets', evidenceClass: 'A' as const, direction: 'up' as const, kind: 'gauge' as const, manipulability: 'low' as const,
+  independenceGroup: 'yahoo-chart', intervalMinutes: 1440, holdHours: 48,
+  license: 'inoffiziell, Lizenz unklar (ToS erlauben keine systematische Nutzung)',
+};
+const HISTORY_DAYS = 35; // range=1mo liefert rund 21 Handelstage; die ersten 10 gehen in die Volumen-Normierung
+export const REL_WINDOW = 10;
 
 export interface Candle { day: string; close: number | null; volume: number | null }
 
@@ -160,10 +115,10 @@ export function compute(metric: Metric, candles: Candle[][]): Map<string, number
 }
 
 export function buildUrl(symbol: string): string {
-  return `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=3mo&interval=1d`;
+  return `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1mo&interval=1d`;
 }
 export function fixtureName(symbol: string): string {
-  return `yahoo/${symbol.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '')}-3mo-1d.json`;
+  return `yahoo/${symbol.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '')}-1mo-1d.json`;
 }
 
 const collector: Collector = {
@@ -171,12 +126,7 @@ const collector: Collector = {
   title: 'Yahoo Finance Chart (inoffiziell, Lizenz noch klären)',
   sourceUrl: 'https://finance.yahoo.com',
   intervalMinutes: 720,
-  signals: SPECS.map((s) => ({
-    id: s.signalId, scenarios: [s.scenario], domain: 'markets', name: s.name, plain: s.plain,
-    evidenceClass: 'A' as const, direction: 'up' as const, kind: s.kind, weight: s.weight, manipulability: s.manipulability ?? ('low' as const),
-    independenceGroup: 'yahoo-chart', unit: s.unit, intervalMinutes: 1440, holdHours: 48, baseline: s.baseline,
-    license: 'inoffiziell, Lizenz unklar (ToS erlauben keine systematische Nutzung)', banalCauses: s.banalCauses,
-  })),
+  signals: ENTRIES.map((e) => declare(DEFAULTS, e.scenario, e.signal)),
   async collect(ctx) {
     const specs = SPECS;
     const symbols = [...new Set(specs.flatMap((s) => s.symbols))];

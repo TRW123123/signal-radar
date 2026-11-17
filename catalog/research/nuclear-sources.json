@@ -1,0 +1,1387 @@
+[
+  {
+    "id": "adsb-lol",
+    "name": "adsb.lol",
+    "docUrl": "https://api.adsb.lol/docs",
+    "endpoints": [
+      "https://api.adsb.lol/v2/type/E6B",
+      "https://api.adsb.lol/v2/mil"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "nur Live",
+    "rateLimit": "unklar",
+    "license": "ODbL (adsb.lol)",
+    "verified": false,
+    "aliases": [],
+    "collector": "adsb-lol",
+    "signals": [
+      "nuclear.military.adsb_command_relay_aircraft",
+      "nuclear.military.adsb_tanker_bomber_count",
+      "nuclear.military.adsb_mil_total"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "alertswiss",
+    "name": "Alertswiss",
+    "docUrl": "https://www.alertswiss.ch/",
+    "endpoints": [
+      "https://www.alertswiss.ch/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "unklar",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "alertswiss",
+    "signals": [
+      "nuclear.alerts.alertswiss_ch"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "bfs-odl",
+    "name": "BfS ODL-Info, WFS offene Schnittstelle (Layer odlinfo_odl_1h_latest)",
+    "docUrl": "https://www.imis.bfs.de/geoportal/",
+    "endpoints": [
+      "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_odl_1h_latest",
+      "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_timeseries_odl_1h&viewparams=kenn:033550222"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 h Mittelwert, ca. 10-60 min Verzug",
+    "history": "nur latest-Layer; Zeitreihe separat",
+    "rateLimit": "unklar",
+    "license": "DL-DE-BY-2.0 (BfS, Datenlizenz Deutschland, Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "bfs-odl",
+    "signals": [
+      "nuclear.radiation.bfs_stations_above_normal",
+      "nuclear.radiation.regional_spread_pattern",
+      "nuclear.radiation.bfs_median_dose_rate",
+      "nuclear.radiation.bfs_max_station_jump",
+      "nuclear.radiation.bfs_stations_offline"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "canada-crmn",
+    "name": "Canadian Radiological Monitoring Network",
+    "docUrl": "https://open.canada.ca/",
+    "endpoints": [
+      "https://open.canada.ca/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "unklar",
+    "rateLimit": "Open Government Licence Canada",
+    "license": "Open Government Licence Canada",
+    "verified": false,
+    "aliases": [],
+    "collector": "canada-crmn",
+    "signals": [
+      "nuclear.radiation.ca_crmn_xenon"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "celestrak",
+    "name": "CelesTrak",
+    "docUrl": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+    "endpoints": [
+      "https://celestrak.org/NORAD/elements/gp.php?GROUP=last-30-days&FORMAT=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "30-Tage-Gruppe",
+    "rateLimit": "unklar",
+    "license": "frei (Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "celestrak",
+    "signals": [
+      "nuclear.military.celestrak_launches_daily"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "ctbto-rss",
+    "name": "CTBTO Pressemitteilungen",
+    "docUrl": "https://www.ctbto.org/press-centre/press-releases",
+    "endpoints": [
+      "https://www.ctbto.org/press-centre/press-releases"
+    ],
+    "access": "rss",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "Archiv",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "ctbto"
+    ],
+    "collector": "ctbto-rss",
+    "signals": [
+      "nuclear.seismic.ctbto_press"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "dwd-opendata",
+    "name": "DWD Open Data",
+    "docUrl": "https://opendata.dwd.de/weather/radar/",
+    "endpoints": [
+      "https://opendata.dwd.de/weather/radar/radolan/rw/"
+    ],
+    "access": "download",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "nur rollierende Archive",
+    "rateLimit": "unklar",
+    "license": "GeoNutzV (DWD, Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "dwd-opendata",
+    "signals": [
+      "nuclear.context.rain_washout"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "ecozagroza",
+    "name": "Ecozagroza (SAEE, Ukraine)",
+    "docUrl": "https://ecozagroza.gov.ua/",
+    "endpoints": [
+      "https://ecozagroza.gov.ua/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unklar",
+    "history": "unklar",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "ecozagroza",
+    "signals": [
+      "nuclear.radiation.ua_ecozagroza"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "elexon-bmrs",
+    "name": "Elexon BMRS Insights",
+    "docUrl": "https://bmrs.elexon.co.uk/api-documentation",
+    "endpoints": [
+      "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST?format=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "Archiv per Datum",
+    "rateLimit": "unklar",
+    "license": "BMRS-Lizenz (offen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "elexon-bmrs",
+    "signals": [
+      "nuclear.plants.uk_elexon_nuclear"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "emsc-fdsn",
+    "name": "EMSC FDSN Event (seismicportal.eu)",
+    "docUrl": "https://www.seismicportal.eu/fdsn-wsevent.html",
+    "endpoints": [
+      "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=41.28&longitude=129.08&maxradius=100&limit=50",
+      "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=41.7&longitude=88.4&maxradius=150&limit=50",
+      "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=73.4&longitude=54.9&maxradius=400&limit=50",
+      "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=37.1&longitude=-116.05&maxradius=60&limit=50",
+      "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=27.1&longitude=71.75&maxradius=150&limit=50",
+      "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=28.8&longitude=64.9&maxradius=150&limit=50"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Katalog mit Historie",
+    "rateLimit": "unklar",
+    "license": "unklar (EMSC, Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "emsc-fdsn",
+    "signals": [
+      "nuclear.seismic.events_near_punggye_ri",
+      "nuclear.seismic.events_near_novaya_zemlya",
+      "nuclear.seismic.events_near_lop_nur",
+      "nuclear.seismic.events_near_nevada_nnss",
+      "nuclear.seismic.events_near_chagai",
+      "nuclear.seismic.events_near_pokhran"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "energy-charts",
+    "name": "Energy-Charts public_power (country=fr)",
+    "docUrl": "https://api.energy-charts.info/",
+    "endpoints": [
+      "https://api.energy-charts.info/public_power?country=fr&start=2026-11-10&end=2026-11-17"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min bis 1 h",
+    "history": "Jahre per start",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0 (Fraunhofer ISE)",
+    "verified": false,
+    "aliases": [],
+    "collector": "energy-charts",
+    "signals": [
+      "nuclear.plants.fr_nuclear_generation"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "entsoe",
+    "name": "ENTSO-E Transparency Platform",
+    "docUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+    "endpoints": [
+      "https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10YFR-RTE------C&periodStart=202611010000&periodEnd=202611300000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A73&processType=A16&in_Domain=10YFR-RTE------C&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001C--00003F&out_Domain=10YPL-AREA-----S&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten bis Stunden",
+    "history": "Jahre",
+    "rateLimit": "400 Anfragen/min",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "entsoe",
+    "signals": [
+      "nuclear.plants.entsoe_unavailability_nuclear",
+      "nuclear.plants.entsoe_nuclear_generation_per_unit",
+      "nuclear.plants.entsoe_ukraine_grid"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "epa-radnet",
+    "name": "EPA RadNet",
+    "docUrl": "https://www.epa.gov/radnet",
+    "endpoints": [
+      "https://www.epa.gov/radnet/radnet-csv-file-downloads"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden bis Tage",
+    "history": "CSV mit Jahreshistorie",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "epa-radnet",
+    "signals": [
+      "nuclear.radiation.us_epa_radnet"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "eurdep-bfs",
+    "name": "EURDEP-Layer beim BfS-WFS (Europa, ca. 5000 Stationen)",
+    "docUrl": "https://remon.jrc.ec.europa.eu/About/Rad-Data-Exchange",
+    "endpoints": [
+      "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:eurdep_latestValue&CQL_FILTER=id LIKE 'PL%25'"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 h",
+    "history": "nur aktuellster Wert; Historie selbst anlegen",
+    "rateLimit": "unklar",
+    "license": "unklar (EURDEP: JRC, Nutzung mit Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "eurdep-bfs",
+    "signals": [
+      "nuclear.radiation.regional_spread_pattern",
+      "nuclear.radiation.eurdep_europe_median",
+      "nuclear.radiation.eurdep_stations_above_normal_baltic_nordic",
+      "nuclear.radiation.eurdep_stations_above_normal_pl",
+      "nuclear.radiation.eurdep_stations_above_normal_ukraine_adjacent"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "faa-notam",
+    "name": "FAA NOTAM Search",
+    "docUrl": "https://notams.aim.faa.gov/",
+    "endpoints": [
+      "https://notams.aim.faa.gov/notamSearch/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "aktuell",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "faa-notam",
+    "signals": [
+      "nuclear.military.faa_notam_us_closures"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "fema-ipaws",
+    "name": "OpenFEMA IPAWS Archived Alerts",
+    "docUrl": "https://www.fema.gov/about/openfema/data-sets",
+    "endpoints": [
+      "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$top=100&$orderby=sent%20desc"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Archiv seit 2012",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "fema-ipaws",
+    "signals": [
+      "nuclear.alerts.fema_ipaws_archive"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "fingrid",
+    "name": "Fingrid Open Data",
+    "docUrl": "https://data.fingrid.fi/en/instructions",
+    "endpoints": [
+      "https://data.fingrid.fi/api/datasets/188/data"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "3 min",
+    "history": "Zeitreihe seit 2015",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "fingrid",
+    "signals": [
+      "nuclear.plants.fi_fingrid_nuclear"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "fred",
+    "name": "FRED series PURANUSDM",
+    "docUrl": "https://fred.stlouisfed.org/series/PURANUSDM",
+    "endpoints": [
+      "https://api.stlouisfed.org/fred/series/observations?series_id=PURANUSDM&api_key=KEY&file_type=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "seit 1980er",
+    "rateLimit": "120 Anfragen/min",
+    "license": "FRED (Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "fred",
+    "signals": [
+      "nuclear.markets.fred_uranium_price"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "gdelt-doc",
+    "name": "GDELT Doc API",
+    "docUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=(nuclear%20OR%20radiation%20OR%20reactor)%20sourcelang:english&mode=timelinevol&format=json&timespan=1m"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "3 Monate per timespan",
+    "rateLimit": "1 Anfrage/5 s",
+    "license": "frei (Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "gdelt-doc",
+    "signals": [
+      "nuclear.attention.gdelt_nuclear_volume"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "geofon-fdsn",
+    "name": "GEOFON (GFZ Potsdam) FDSN Event",
+    "docUrl": "https://geofon.gfz-potsdam.de/fdsnws/event/1/application.wadl",
+    "endpoints": [
+      "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minlatitude=40&maxlatitude=43&minlongitude=128&maxlongitude=130&limit=50"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Katalog mit Historie",
+    "rateLimit": "unklar",
+    "license": "unklar (GFZ, Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "geofon-fdsn",
+    "signals": [
+      "nuclear.seismic.events_near_punggye_ri",
+      "nuclear.seismic.events_near_novaya_zemlya",
+      "nuclear.seismic.events_near_lop_nur",
+      "nuclear.seismic.events_near_nevada_nnss",
+      "nuclear.seismic.events_near_chagai",
+      "nuclear.seismic.events_near_pokhran"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "github-air-raid-sirens",
+    "name": "Ukrainian air raid sirens dataset (GitHub, Vadimkin)",
+    "docUrl": "https://github.com/Vadimkin/ukrainian-air-raid-sirens-dataset",
+    "endpoints": [
+      "https://raw.githubusercontent.com/Vadimkin/ukrainian-air-raid-sirens-dataset/main/datasets/volunteer_data_en.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Verlauf je Region seit 2022",
+    "rateLimit": "unklar",
+    "license": "unklar (Lizenzdatei nicht geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-air-raid-sirens",
+    "signals": [
+      "nuclear.alerts.ua_air_raid_sirens"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "google-trends-unofficial",
+    "name": "Google Trends (inoffiziell)",
+    "docUrl": "https://trends.google.com/",
+    "endpoints": [
+      "https://trends.google.com/trends/explore?q=jodtabletten&geo=DE"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 h bis Tage",
+    "history": "5 Jahre",
+    "rateLimit": "strikt",
+    "license": "Nutzungsbedingungen von Google",
+    "verified": false,
+    "aliases": [
+      "google-trends"
+    ],
+    "collector": "google-trends-unofficial",
+    "signals": [
+      "nuclear.attention.google_trends_iodine"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "gpsjam",
+    "name": "GPSJam",
+    "docUrl": "https://gpsjam.org/",
+    "endpoints": [
+      "https://gpsjam.org/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Archiv täglich",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "gpsjam",
+    "signals": [
+      "nuclear.military.gnss_jamming_aggregates"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "iaea-pris",
+    "name": "IAEA PRIS",
+    "docUrl": "https://pris.iaea.org/PRIS/",
+    "endpoints": [
+      "https://pris.iaea.org/PRIS/CountryStatistics/CountryDetails.aspx?current=UA"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage bis Wochen",
+    "history": "Statistik seit 1954",
+    "rateLimit": "unklar",
+    "license": "unklar (Quellenangabe IAEA)",
+    "verified": false,
+    "aliases": [],
+    "collector": "iaea-pris",
+    "signals": [
+      "nuclear.plants.iaea_pris_status"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "iaea-ukraine",
+    "name": "IAEA Update zur Lage in der Ukraine",
+    "docUrl": "https://www.iaea.org/newscenter/focus/iaea-ukraine-conflict",
+    "endpoints": [
+      "https://www.iaea.org/newscenter/focus/iaea-ukraine-conflict"
+    ],
+    "access": "rss",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "Archiv",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "iaea-ukraine",
+    "signals": [
+      "nuclear.plants.znpp_external_power"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "idealo",
+    "name": "Preisvergleich (Jodtabletten)",
+    "docUrl": "https://www.idealo.de/",
+    "endpoints": [
+      "https://www.idealo.de/preisvergleich/ProductCategory/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "keine; selbst anlegen",
+    "rateLimit": "unklar",
+    "license": "Nutzungsbedingungen beachten",
+    "verified": false,
+    "aliases": [],
+    "collector": "idealo",
+    "signals": [
+      "nuclear.markets.iodine_tablet_price"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "iris-dmc",
+    "name": "EarthScope (IRIS) FDSN Dataselect",
+    "docUrl": "https://service.iris.edu/fdsnws/dataselect/1/",
+    "endpoints": [
+      "https://service.iris.edu/fdsnws/dataselect/1/query?net=IU&sta=MDJ&loc=00&cha=BHZ&starttime=2026-11-16T00:00:00&endtime=2026-11-16T01:00:00"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Jahre per starttime",
+    "rateLimit": "unklar",
+    "license": "frei (Quellenangabe)",
+    "verified": false,
+    "aliases": [
+      "iris-fdsn"
+    ],
+    "collector": "iris-dmc",
+    "signals": [
+      "nuclear.seismic.station_noise_mdj"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "isc",
+    "name": "ISC FDSN Event",
+    "docUrl": "https://www.isc.ac.uk/iscbulletin/search/webservices/",
+    "endpoints": [
+      "https://www.isc.ac.uk/fdsnws/event/1/query?starttime=2026-11-01&format=text&limit=100"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Monate (geprüfte Daten)",
+    "history": "Katalog seit 1900",
+    "rateLimit": "unklar",
+    "license": "unklar (Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "isc",
+    "signals": [
+      "nuclear.seismic.isc_reviewed_events"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "kins-iernet",
+    "name": "KINS iernet",
+    "docUrl": "https://iernet.kins.re.kr/",
+    "endpoints": [
+      "https://iernet.kins.re.kr/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "10 min",
+    "history": "unklar",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "kins-iernet",
+    "signals": [
+      "nuclear.radiation.kr_kins_iernet"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "mastodon-trends",
+    "name": "Mastodon Trends API",
+    "docUrl": "https://docs.joinmastodon.org/methods/trends/",
+    "endpoints": [
+      "https://mastodon.social/api/v1/trends/tags"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "nur aktuell",
+    "rateLimit": "unklar",
+    "license": "API frei",
+    "verified": false,
+    "aliases": [
+      "mastodon"
+    ],
+    "collector": "mastodon-trends",
+    "signals": [
+      "nuclear.attention.mastodon_nuclear_tags"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "metaculus",
+    "name": "Metaculus API",
+    "docUrl": "https://www.metaculus.com/api/",
+    "endpoints": [
+      "https://www.metaculus.com/api/posts/?search=nuclear&order_by=-hotness"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Verlauf je Frage",
+    "rateLimit": "unklar",
+    "license": "CC BY (je Frage)",
+    "verified": false,
+    "aliases": [],
+    "collector": "metaculus",
+    "signals": [
+      "nuclear.attention.metaculus_nuclear"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "navarea",
+    "name": "NGA Maritime Safety Information",
+    "docUrl": "https://msi.nga.mil/Publications/BroadcastWarn",
+    "endpoints": [
+      "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=active"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "aktuelle Meldungen",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [
+      "nga-msi"
+    ],
+    "collector": "navarea",
+    "signals": [
+      "nuclear.military.navarea_missile_test_warnings"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "naz-nadam",
+    "name": "NADAM, Nationale Alarmzentrale Schweiz",
+    "docUrl": "https://www.naz.ch/de/aktuell/messdaten",
+    "endpoints": [
+      "https://www.naz.ch/de/aktuell/messdaten"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "10 min",
+    "history": "unklar",
+    "rateLimit": "unklar",
+    "license": "unklar (Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "naz-nadam",
+    "signals": [
+      "nuclear.radiation.ch_nadam"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "nina-mowas",
+    "name": "NINA / MoWaS (warnung.bund.de API)",
+    "docUrl": "https://nina.api.bund.dev/",
+    "endpoints": [
+      "https://warnung.bund.de/api31/mowas/mapData.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "nur aktuelle Meldungen; Verlauf selbst anlegen",
+    "rateLimit": "unklar",
+    "license": "unklar (BBK, Quellenangabe)",
+    "verified": false,
+    "aliases": [
+      "nina"
+    ],
+    "collector": "nina-mowas",
+    "signals": [
+      "nuclear.alerts.nina_keyword_radiological",
+      "nuclear.alerts.nina_mowas_count"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "nmdb",
+    "name": "NMDB Neutron Monitor Database",
+    "docUrl": "https://www.nmdb.eu/nest/help.php",
+    "endpoints": [
+      "https://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=KIEL&output=ascii&tabchoice=revori&dtype=corr_for_efficiency&tresolution=60&force=1"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 min bis 1 h",
+    "history": "Daten seit 1950er",
+    "rateLimit": "unklar",
+    "license": "unklar (Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "nmdb",
+    "signals": [
+      "nuclear.context.neutron_monitor_nmdb"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "noaa-swpc",
+    "name": "NOAA SWPC",
+    "docUrl": "https://services.swpc.noaa.gov/",
+    "endpoints": [
+      "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "3 h",
+    "history": "30 Tage rollierend",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "noaa-swpc",
+    "signals": [
+      "nuclear.context.solar_geomagnetic"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "nra-jp",
+    "name": "NRA Radioactivity Monitoring",
+    "docUrl": "https://radioactivity.nsr.go.jp/en/",
+    "endpoints": [
+      "https://radioactivity.nsr.go.jp/en/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "10 min",
+    "history": "unklar",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "nra-jp",
+    "signals": [
+      "nuclear.radiation.jp_nra_monitoring"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "nrc-events",
+    "name": "NRC Event Notification Reports",
+    "docUrl": "https://www.nrc.gov/reading-rm/doc-collections/event-status/event/",
+    "endpoints": [
+      "https://www.nrc.gov/reading-rm/doc-collections/event-status/event/en.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Archiv ab 1999",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "nrc-events",
+    "signals": [
+      "nuclear.plants.us_nrc_event_reports"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "nrc-status",
+    "name": "NRC Power Reactor Status Report",
+    "docUrl": "https://www.nrc.gov/reading-rm/doc-collections/event-status/reactor-status/",
+    "endpoints": [
+      "https://www.nrc.gov/reading-rm/doc-collections/event-status/reactor-status/powerreactorstatusforlast365days.txt"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "365 Tage Rückblick",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "nrc-status",
+    "signals": [
+      "nuclear.plants.us_nrc_reactor_status"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "nws-alerts",
+    "name": "NWS Alerts API",
+    "docUrl": "https://www.weather.gov/documentation/services-web-api",
+    "endpoints": [
+      "https://api.weather.gov/alerts/active?event=Radiological%20Hazard%20Warning,Nuclear%20Power%20Plant%20Warning"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 min",
+    "history": "nur aktiv; Archiv per IEM",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "nws-alerts",
+    "signals": [
+      "nuclear.alerts.nws_radiological_events"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "odre-eco2mix",
+    "name": "ODRE eco2mix-national-tr",
+    "docUrl": "https://odre.opendatasoft.com/explore/dataset/eco2mix-national-tr/information/",
+    "endpoints": [
+      "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=96&order_by=date_heure%20desc"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "Datensatz mit Historie",
+    "rateLimit": "unklar",
+    "license": "Licence Ouverte (RTE)",
+    "verified": false,
+    "aliases": [],
+    "collector": "odre-eco2mix",
+    "signals": [
+      "nuclear.plants.fr_nuclear_generation"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "open-meteo",
+    "name": "Open-Meteo",
+    "docUrl": "https://open-meteo.com/en/docs",
+    "endpoints": [
+      "https://api.open-meteo.com/v1/forecast?latitude=51.5&longitude=9.0&hourly=precipitation,wind_speed_10m,wind_direction_10m&past_days=7",
+      "https://api.open-meteo.com/v1/forecast?latitude=50.45&longitude=30.5&hourly=wind_speed_850hPa,wind_direction_850hPa&past_days=3&forecast_days=3",
+      "https://api.open-meteo.com/v1/forecast?latitude=51.5&longitude=9.0&hourly=boundary_layer_height,wind_speed_10m&past_days=3",
+      "https://api.open-meteo.com/v1/forecast?latitude=45.7&longitude=4.8&daily=temperature_2m_max&past_days=14"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 h",
+    "history": "archive-api.open-meteo.com seit 1940",
+    "rateLimit": "10000 Aufrufe/Tag",
+    "license": "CC BY 4.0 (nicht-kommerziell kostenlos)",
+    "verified": false,
+    "aliases": [
+      "open-meteo-bl"
+    ],
+    "collector": "open-meteo",
+    "signals": [
+      "nuclear.context.eu_hot_weather_derate",
+      "nuclear.context.radon_exhalation_proxy",
+      "nuclear.context.rain_washout",
+      "nuclear.context.wind_direction_ukraine_poland"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "overpass",
+    "name": "OSM Overpass API",
+    "docUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+    "endpoints": [
+      "https://overpass-api.de/api/interpreter?data=[out:json];nwr[amenity=shelter][shelter_type=public_transport];out%20count;"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Attic-Daten",
+    "rateLimit": "unklar",
+    "license": "ODbL",
+    "verified": false,
+    "aliases": [],
+    "collector": "overpass",
+    "signals": [
+      "nuclear.attention.shelter_osm_count"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "owid-energy",
+    "name": "Our World in Data Energy Dataset (GitHub)",
+    "docUrl": "https://github.com/owid/energy-data",
+    "endpoints": [
+      "https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-data.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "jährlich",
+    "history": "Jahre ab 1900",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0",
+    "verified": true,
+    "aliases": [],
+    "collector": "owid-energy",
+    "signals": [
+      "nuclear.plants.owid_nuclear_baseline"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "polymarket-gamma",
+    "name": "Polymarket Gamma API",
+    "docUrl": "https://docs.polymarket.com/",
+    "endpoints": [
+      "https://gamma-api.polymarket.com/events?closed=false&limit=50&tag_slug=nuclear"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Preisverlauf per CLOB-Endpunkt",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "polymarket-gamma",
+    "signals": [
+      "nuclear.markets.polymarket_nuclear"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "radmon-org",
+    "name": "radmon.org",
+    "docUrl": "https://radmon.org/",
+    "endpoints": [
+      "https://radmon.org/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "unklar",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "radmon-org",
+    "signals": [
+      "nuclear.radiation.radmon_org"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "rivm-nrm",
+    "name": "RIVM Nationaal Meetnet Radioactiviteit",
+    "docUrl": "https://www.rivm.nl/stralingsmonitor",
+    "endpoints": [
+      "https://www.rivm.nl/stralingsmonitor"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "10 min",
+    "history": "unklar",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "rivm-nrm",
+    "signals": [
+      "nuclear.radiation.nl_be_nrm_rivm"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "safecast",
+    "name": "Safecast API",
+    "docUrl": "https://api.safecast.org/en-US",
+    "endpoints": [
+      "https://api.safecast.org/measurements.json?order=captured_at+desc&distance=100&latitude=50.0&longitude=8.0"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten bis Stunden",
+    "history": "captured_after und captured_before; Datenbestand seit 2011",
+    "rateLimit": "unklar",
+    "license": "CC0 (laut Projektbeschreibung)",
+    "verified": false,
+    "aliases": [],
+    "collector": "safecast",
+    "signals": [
+      "nuclear.radiation.safecast_global"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "uradmonitor",
+    "name": "uRADMonitor Data API",
+    "docUrl": "https://www.uradmonitor.com/api/",
+    "endpoints": [
+      "https://data.uradmonitor.com/api/v1/devices"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Zeitreihe je Gerät (/devices/{id}/all/{from}/{to}) laut Doku",
+    "rateLimit": "unklar",
+    "license": "unklar (Nutzungsbedingungen prüfen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "uradmonitor",
+    "signals": [
+      "nuclear.radiation.uradmonitor_europe"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "usgs",
+    "name": "USGS FDSN Event Web Service",
+    "docUrl": "https://earthquake.usgs.gov/fdsnws/event/1/",
+    "endpoints": [
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=41.28&longitude=129.08&maxradiuskm=100&starttime=2025-01-01&orderby=time&limit=50",
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=41.7&longitude=88.4&maxradiuskm=150&starttime=2025-01-01&orderby=time&limit=50",
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=73.4&longitude=54.9&maxradiuskm=400&starttime=2025-01-01&orderby=time&limit=50",
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=37.1&longitude=-116.05&maxradiuskm=60&starttime=2025-01-01&orderby=time&limit=50",
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=27.1&longitude=71.75&maxradiuskm=150&starttime=2025-01-01&orderby=time&limit=50",
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=28.8&longitude=64.9&maxradiuskm=150&starttime=2025-01-01&orderby=time&limit=50",
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=explosion&starttime=2026-10-01&orderby=time&limit=200",
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=41.28&longitude=129.08&maxradiuskm=300&minmagnitude=3&starttime=2017-01-01&orderby=time",
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=explosion&minlatitude=44&maxlatitude=53&minlongitude=22&maxlongitude=42&starttime=2026-01-01&orderby=time"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten bis Stunden",
+    "history": "Katalog seit 1900 per starttime",
+    "rateLimit": "unklar",
+    "license": "Public Domain (US Government)",
+    "verified": false,
+    "aliases": [
+      "usgs-fdsn"
+    ],
+    "collector": "usgs",
+    "signals": [
+      "nuclear.seismic.events_near_punggye_ri",
+      "nuclear.seismic.events_near_novaya_zemlya",
+      "nuclear.seismic.events_near_lop_nur",
+      "nuclear.seismic.events_near_nevada_nnss",
+      "nuclear.seismic.events_near_chagai",
+      "nuclear.seismic.events_near_pokhran",
+      "nuclear.seismic.explosion_type_global_count",
+      "nuclear.seismic.ukraine_zone_explosions"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "wikimedia-pageviews",
+    "name": "Wikimedia Pageviews",
+    "docUrl": "https://wikimedia.org/api/rest_v1/",
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_fallout/daily/20260901/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kaliumiodid/daily/20260901/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Zaporizhzhia_Nuclear_Power_Plant/daily/20260901/20261116"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "ab 2015",
+    "rateLimit": "200 Anfragen/s",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "wikimedia-pageviews",
+    "signals": [
+      "nuclear.attention.wiki_plants_sites",
+      "nuclear.attention.wiki_nuclear_de",
+      "nuclear.attention.wiki_nuclear_en"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  },
+  {
+    "id": "yahoo-chart",
+    "name": "Yahoo Finance Chart-Endpunkt",
+    "docUrl": "https://finance.yahoo.com/",
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/URA?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/URNM?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/U-UN.TO?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CCJ?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/LMT?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NOC?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/RHM.DE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^VIX?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=3mo&interval=1d"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min verzögert, Tageswerte",
+    "history": "Jahre per range=max",
+    "rateLimit": "unklar",
+    "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+    "verified": false,
+    "aliases": [],
+    "collector": "yahoo-chart",
+    "signals": [
+      "nuclear.markets.uranium_etf_urnm",
+      "nuclear.markets.cameco_ccj",
+      "nuclear.markets.uranium_trust_sprott",
+      "nuclear.markets.defense_stocks",
+      "nuclear.markets.vix_gold"
+    ],
+    "scenarios": [
+      "nuclear"
+    ]
+  }
+]

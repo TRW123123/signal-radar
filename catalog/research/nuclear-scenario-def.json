@@ -1,0 +1,39 @@
+{
+  "id": "nuclear",
+  "order": 6,
+  "title": "Nuklearer Zwischenfall",
+  "question": "Gibt es Anzeichen für einen nuklearen Unfall oder Einsatz?",
+  "tagline": "Strahlungs-Messnetze, Erdbebendaten, Kraftwerksleistung, Warnsysteme",
+  "domains": {
+    "radiation": {
+      "title": "Strahlung in der Umwelt",
+      "weight": 1,
+      "plain": "Messen die Strahlungsnetze in Europa mehr als sonst?"
+    },
+    "seismic": {
+      "title": "Erdbeben und Explosionen",
+      "weight": 0.9,
+      "plain": "Meldet die Erdbebenwarte Explosionen an bekannten Testgeländen?"
+    },
+    "plants": {
+      "title": "Kraftwerke",
+      "weight": 0.7,
+      "plain": "Laufen Atomkraftwerke normal, oder fallen mehrere ungeplant aus?"
+    },
+    "alerts": {
+      "title": "Amtliche Warnungen",
+      "weight": 0.3,
+      "plain": "Zahl der Warnungen von Behörden, nur als Zusammenhang"
+    },
+    "military": {
+      "title": "Militär und Luftraum",
+      "weight": 0.6,
+      "plain": "Führungsflugzeuge, Raketentest-Warnungen, Satellitenstarts als Summe"
+    },
+    "markets": {
+      "title": "Märkte, Wetten und Vorsorgekäufe",
+      "weight": 0.5,
+      "plain": "Uran, Rüstungsaktien, Prognosemärkte und der Preis für Jodtabletten"
+    }
+  }
+}

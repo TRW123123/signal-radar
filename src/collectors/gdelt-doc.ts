@@ -11,63 +11,26 @@
 // Szenario war (Kriegseskalation): vier weitere Ströme (je eine Anfrage pro Lauf, gleiche Form timespan=1m, kurze Suchbegriffe wegen der
 // Timeouts): Iran/Hormus, Ukraine/NATO, Taiwan getrennt, dazu Anteil "World War III"/"nuclear war". Nur englischsprachige Quellen.
 // Harmlose Ursachen (war): Sport/Kultur-Berichte mit Ländernamen (Iran, Taiwan), Wahlen, Jahrestage, Wochentagsrhythmus, Änderungen der GDELT-Abdeckung.
+// Ströme je Szenario: src/collectors/config/<szenario>.ts (Feld gdelt), je Strom eine Anfrage und ein Signal.
 // VERIFIED: nein (noch keine echte Antwort: beide Abrufe liefen in TIMEOUT, neue leichtere Anfrage steht zur Aufzeichnung aus; Form {timeline:[{series, data:[{date:"YYYYMMDDTHHMMSSZ", value}]}]} nach Kenntnis).
 // Unsicher: Sprachfilter-Schreibweise sourcelang:english / sourcelang:german (alternativ 3-Buchstaben-Code eng/ger).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, isoDay, num, obs } from './_helpers.ts';
+import { declare, scenarioEntries } from './_scenario.ts';
 
-interface Stream {
-  signalId: string; fixture: string; query: string; name: string; plain: string;
-  scenario: string; weight: number; manipulability: 'low' | 'medium' | 'high'; banalCauses: string[];
-}
-const CYBER_BANAL = ['Berichterstattung über Einzelfälle', 'Jahresberichte von Sicherheitsfirmen', 'Wochentagsrhythmus'];
-const WAR_BANAL = ['Sport- und Kulturberichte mit Ländernamen', 'Wahlen und Jahrestage', 'Wochentagsrhythmus', 'Änderungen der GDELT-Abdeckung'];
+export interface Stream { signalId: string; scenario: string; fixture: string; query: string }
 
-export const STREAMS: Stream[] = [
-  {
-    signalId: 'cyber.attention.gdelt_cyber_volume', fixture: 'gdelt/cyber-en-timelinevol-1m.json',
-    query: '(cyberattack OR ransomware) sourcelang:english',
-    name: 'Medienvolumen zu Cyberangriffen (GDELT, englisch)',
-    plain: 'Welcher Anteil der weltweiten englischsprachigen Nachrichtenartikel von Cyberangriffen, Ransomware oder Datenlecks handelt.',
-    scenario: 'cyber', weight: 0.4, manipulability: 'medium', banalCauses: CYBER_BANAL,
-  },
-  {
-    signalId: 'cyber.attention.gdelt_cyber_volume_de', fixture: 'gdelt/cyber-de-timelinevol-1m.json',
-    query: '(Cyberangriff OR Ransomware) sourcelang:german',
-    name: 'Medienvolumen zu Cyberangriffen (GDELT, deutsch)',
-    plain: 'Welcher Anteil der deutschsprachigen Nachrichtenartikel von Cyberangriffen, Hackerangriffen oder Ransomware handelt.',
-    scenario: 'cyber', weight: 0.4, manipulability: 'medium', banalCauses: CYBER_BANAL,
-  },
-  {
-    signalId: 'war.attention.gdelt_hotspot_iran_hormuz', fixture: 'gdelt/war-iran-hormuz-en-timelinevol-1m.json',
-    query: '(Iran OR Hormuz) sourcelang:english',
-    name: 'Medienvolumen Iran und Hormus (GDELT, englisch)',
-    plain: 'Welcher Anteil der weltweiten englischsprachigen Nachrichtenartikel von Iran oder der Straße von Hormus handelt.',
-    scenario: 'war', weight: 0.4, manipulability: 'high', banalCauses: WAR_BANAL,
-  },
-  {
-    signalId: 'war.attention.gdelt_hotspot_ukraine_nato', fixture: 'gdelt/war-ukraine-nato-en-timelinevol-1m.json',
-    query: '(Ukraine OR NATO) sourcelang:english',
-    name: 'Medienvolumen Ukraine und NATO-Ostflanke (GDELT, englisch)',
-    plain: 'Welcher Anteil der weltweiten englischsprachigen Nachrichtenartikel von der Ukraine oder der NATO handelt.',
-    scenario: 'war', weight: 0.4, manipulability: 'high', banalCauses: WAR_BANAL,
-  },
-  {
-    signalId: 'war.attention.gdelt_hotspot_taiwan', fixture: 'gdelt/war-taiwan-en-timelinevol-1m.json',
-    query: 'Taiwan sourcelang:english',
-    name: 'Medienvolumen Taiwan (GDELT, englisch)',
-    plain: 'Welcher Anteil der weltweiten englischsprachigen Nachrichtenartikel von Taiwan handelt.',
-    scenario: 'war', weight: 0.4, manipulability: 'high', banalCauses: WAR_BANAL,
-  },
-  {
-    signalId: 'war.attention.gdelt_coverage_share', fixture: 'gdelt/war-ww3-en-timelinevol-1m.json',
-    query: '("World War III" OR "nuclear war") sourcelang:english',
-    name: 'GDELT: Anteil der Weltkriegs-Berichte am Nachrichtenvolumen',
-    plain: 'Welcher Anteil der englischsprachigen Nachrichtenartikel von einem Weltkrieg oder Atomkrieg handelt.',
-    scenario: 'war', weight: 0.45, manipulability: 'medium', banalCauses: ['Kriegsmüdigkeit', 'Filme, Serien und Spiele', ...WAR_BANAL],
-  },
-];
+/** Ströme aller Szenarien (src/collectors/config/<szenario>.ts, Feld gdelt). */
+const ENTRIES = scenarioEntries('gdelt');
+export const STREAMS: Stream[] = ENTRIES.map((e) => ({ signalId: e.signal.id, scenario: e.scenario, fixture: e.fixture, query: e.query }));
+
+const DEFAULTS = {
+  domain: 'attention', evidenceClass: 'D' as const, direction: 'up' as const, kind: 'gauge' as const,
+  independenceGroup: 'gdelt-doc', unit: '% der Artikel', intervalMinutes: 1440, holdHours: 48,
+  baseline: { method: 'day-of-week' as const, windowDays: 56, minPoints: 21 },
+  license: 'frei nutzbar mit Quellenangabe (GDELT Project)',
+};
 
 interface Point { date?: string; value?: unknown }
 interface Resp { timeline?: { series?: string; data?: Point[] }[] }
@@ -105,14 +68,7 @@ const collector: Collector = {
   title: 'GDELT DOC 2.0 API',
   sourceUrl: 'https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/',
   intervalMinutes: 720,
-  signals: STREAMS.map((s) => ({
-    id: s.signalId, scenarios: [s.scenario], domain: 'attention', name: s.name, plain: s.plain,
-    evidenceClass: 'D' as const, direction: 'up' as const, kind: 'gauge' as const, weight: s.weight, manipulability: s.manipulability,
-    independenceGroup: 'gdelt-doc', unit: '% der Artikel', intervalMinutes: 1440, holdHours: 48,
-    baseline: { method: 'day-of-week' as const, windowDays: 56, minPoints: 21 },
-    license: 'frei nutzbar mit Quellenangabe (GDELT Project)',
-    banalCauses: s.banalCauses,
-  })),
+  signals: ENTRIES.map((e) => declare(DEFAULTS, e.scenario, e.signal)),
   async collect(ctx) {
     const today = isoDay(ctx.now);
     const observations: Observation[] = [];

@@ -1,0 +1,1544 @@
+[
+  {
+    "id": "africacdc-brief",
+    "name": "Africa CDC Weekly Event Based Surveillance Report",
+    "docUrl": "https://africacdc.org/disease-outbreak/",
+    "endpoints": [
+      "https://africacdc.org/disease-outbreak/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "Archiv seit 2022",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "africacdc-brief",
+    "signals": [
+      "bio.outbreaks.africacdc"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "auswaertiges-amt",
+    "name": "Auswärtiges Amt Reise- und Sicherheitshinweise (OpenData)",
+    "docUrl": "https://www.auswaertiges-amt.de/opendata",
+    "endpoints": [
+      "https://www.auswaertiges-amt.de/opendata/travelwarning"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "nur aktueller Stand",
+    "rateLimit": "",
+    "license": "Datenlizenz Deutschland Namensnennung 2.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "auswaertiges-amt",
+    "signals": [
+      "bio.behaviour.travel_warn"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "bfarm-engpass",
+    "name": "BfArM Lieferengpassmeldungen (PharmNet)",
+    "docUrl": "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml",
+    "endpoints": [
+      "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "werktags",
+    "history": "aktuelle und beendete Meldungen",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "bfarm-engpass",
+    "signals": [
+      "bio.behaviour.bfarm_engpass"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "biorxiv-api",
+    "name": "bioRxiv/medRxiv API",
+    "docUrl": "https://api.biorxiv.org/",
+    "endpoints": [
+      "https://api.biorxiv.org/details/medrxiv/2026-11-01/2026-11-15/0"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2013",
+    "rateLimit": "",
+    "license": "Preprint-Lizenzen je Artikel",
+    "verified": false,
+    "aliases": [],
+    "collector": "biorxiv-api",
+    "signals": [
+      "bio.attention.preprint_waves"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "cdc-flusight-github",
+    "name": "CDC FluSight Forecast Hub Zielwerte (GitHub)",
+    "docUrl": "https://github.com/cdcepi/FluSight-forecast-hub",
+    "endpoints": [
+      "https://raw.githubusercontent.com/cdcepi/FluSight-forecast-hub/main/target-data/target-hospital-admissions.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (2026-11-07)",
+    "history": "seit 2022-02-05, 0,6 MB",
+    "rateLimit": "",
+    "license": "MIT (LICENSE im Repo geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "cdc-flusight-github",
+    "signals": [
+      "bio.clinical.cdc_flusight"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "cdc-fluview",
+    "name": "CDC FluView / RESP-NET",
+    "docUrl": "https://www.cdc.gov/fluview/",
+    "endpoints": [
+      "https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html"
+    ],
+    "access": "scrape",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (Freitag)",
+    "history": "seit 1997",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "cdc-fluview",
+    "signals": [
+      "bio.clinical.cdc_fluview",
+      "bio.mortality.pediatric_flu_deaths"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "cdc-nchs-deaths",
+    "name": "CDC NCHS Provisional Death Counts (Socrata)",
+    "docUrl": "https://data.cdc.gov/browse?q=provisional%20death%20counts",
+    "endpoints": [
+      "https://data.cdc.gov/resource/r8kw-7aab.json?$limit=5"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2020",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "cdc-nchs-deaths",
+    "signals": [
+      "bio.mortality.cdc_excess"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "cdc-nhsn",
+    "name": "CDC NHSN Hospital Respiratory Data (Socrata)",
+    "docUrl": "https://data.cdc.gov/browse?q=NHSN%20hospital%20respiratory",
+    "endpoints": [
+      "https://data.cdc.gov/browse?q=NHSN%20hospital%20respiratory"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2020",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "cdc-nhsn",
+    "signals": [
+      "bio.clinical.cdc_nhsn"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "cdc-novel-flu",
+    "name": "CDC Novel Influenza A Virus Human Cases",
+    "docUrl": "https://www.cdc.gov/bird-flu/situation-summary/index.html",
+    "endpoints": [
+      "https://www.cdc.gov/bird-flu/situation-summary/index.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2022",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "cdc-novel-flu",
+    "signals": [
+      "bio.clinical.nov_human_h5"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "cdc-nwss-flua",
+    "name": "CDC NWSS Influenza A Wastewater (Socrata)",
+    "docUrl": "https://data.cdc.gov/browse?q=wastewater%20influenza",
+    "endpoints": [
+      "https://data.cdc.gov/resource/<id>.json (ID im Portal suchen: 'NWSS Influenza A Wastewater Data')"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2024",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "cdc-nwss-socrata",
+    "signals": [
+      "bio.wastewater.nwss_flu"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "cdc-nwss-h5",
+    "name": "CDC H5 Wastewater Detection (NWSS)",
+    "docUrl": "https://www.cdc.gov/nwss/wastewater-surveillance/h5.html",
+    "endpoints": [
+      "https://data.cdc.gov/browse?q=H5%20wastewater"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2024",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "cdc-nwss-socrata",
+    "signals": [
+      "bio.wastewater.nwss_h5"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "cdc-nwss-socrata",
+    "name": "CDC NWSS SARS-CoV-2 Wastewater Metric (Socrata)",
+    "docUrl": "https://data.cdc.gov/resource/2ew6-ywp6",
+    "endpoints": [
+      "https://data.cdc.gov/resource/2ew6-ywp6.json?$limit=5&$order=date_end DESC"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2022",
+    "rateLimit": "1000 Req/h ohne App-Token",
+    "license": "Public Domain (US-Regierung)",
+    "verified": false,
+    "aliases": [],
+    "collector": "cdc-nwss-socrata",
+    "signals": [
+      "bio.wastewater.nwss_sars2"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "ch-wastewater",
+    "name": "Schweiz: Abwassermonitoring (BAG/Eawag)",
+    "docUrl": "https://idd.bag.admin.ch/",
+    "endpoints": [
+      "https://www.covid19.admin.ch/api/data/context"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich/wöchentlich",
+    "history": "seit 2022",
+    "rateLimit": "",
+    "license": "OGD Schweiz (Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "ch-wastewater",
+    "signals": [
+      "bio.wastewater.ch_ww"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "delphi-epidata",
+    "name": "CMU Delphi Epidata API (FluView, ILINet, Nowcasts)",
+    "docUrl": "https://cmu-delphi.github.io/delphi-epidata/",
+    "endpoints": [
+      "https://api.delphi.cmu.edu/epidata/fluview/?regions=nat&epiweeks=202640-202646"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 1997 (FluView)",
+    "rateLimit": "anonym: begrenzt",
+    "license": "je Quelle (CC BY 4.0 für Delphi-eigene Daten)",
+    "verified": false,
+    "aliases": [],
+    "collector": "delphi-epidata",
+    "signals": [
+      "bio.clinical.cdc_fluview"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "destatis-sterbefaelle",
+    "name": "Destatis Sonderauswertung Sterbefallzahlen",
+    "docUrl": "https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html",
+    "endpoints": [
+      "https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich, Verzug ca. 1 Woche",
+    "history": "seit 2016 (tägliche Zahlen)",
+    "rateLimit": "",
+    "license": "Datenlizenz Deutschland Namensnennung 2.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "destatis-sterbefaelle",
+    "signals": [
+      "bio.mortality.destatis_deaths"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "ecdc-cdtr",
+    "name": "ECDC Communicable Disease Threats Report",
+    "docUrl": "https://www.ecdc.europa.eu/en/publications-data/monitoring/weekly-threats-reports",
+    "endpoints": [
+      "https://www.ecdc.europa.eu/en/publications-data/monitoring/weekly-threats-reports"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (Freitag)",
+    "history": "Archiv seit 2010",
+    "rateLimit": "",
+    "license": "ECDC Copyright (Weiterverwendung mit Quelle)",
+    "verified": false,
+    "aliases": [],
+    "collector": "ecdc-cdtr",
+    "signals": [
+      "bio.outbreaks.cdtr_items"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "ecdc-erviss-github",
+    "name": "ECDC ERVISS (EU-ECDC/Respiratory_Viruses_Weekly_Data)",
+    "docUrl": "https://github.com/EU-ECDC/Respiratory_Viruses_Weekly_Data",
+    "endpoints": [
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/ILIARIRates.csv",
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/sentinelTestsDetectionsPositivity.csv",
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/nonSentinelSeverity.csv",
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/activityFluTypeSubtype.csv",
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/variants.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (2026-W45)",
+    "history": "seit 2022-W25 bzw. 2023",
+    "rateLimit": "",
+    "license": "keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar)",
+    "verified": true,
+    "aliases": [],
+    "collector": "ecdc-erviss-github",
+    "signals": [
+      "bio.clinical.ecdc_flu_unknown",
+      "bio.clinical.ecdc_positivity",
+      "bio.clinical.ecdc_severity",
+      "bio.clinical.ecdc_ili",
+      "bio.genomic.ecdc_variants"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "efsa-avian",
+    "name": "EFSA/ECDC Avian Influenza Overview",
+    "docUrl": "https://www.efsa.europa.eu/en/topics/topic/avian-influenza",
+    "endpoints": [
+      "https://www.efsa.europa.eu/en/topics/topic/avian-influenza"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "vierteljährlich",
+    "history": "seit 2016",
+    "rateLimit": "",
+    "license": "CC BY 4.0 (EFSA)",
+    "verified": false,
+    "aliases": [],
+    "collector": "efsa-avian",
+    "signals": [
+      "bio.animal.efsa_quarter"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "eu-wastewater-obs",
+    "name": "EU Wastewater Observatory (EU-Kommission/JRC)",
+    "docUrl": "https://wastewater-observatory.jrc.ec.europa.eu/",
+    "endpoints": [
+      "https://wastewater-observatory.jrc.ec.europa.eu/"
+    ],
+    "access": "scrape",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2022",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "eu-wastewater-obs",
+    "signals": [
+      "bio.wastewater.eu_ww"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "euromomo",
+    "name": "EuroMOMO Pooled Estimates",
+    "docUrl": "https://www.euromomo.eu/graphs-and-maps",
+    "endpoints": [
+      "https://www.euromomo.eu/graphs-and-maps"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (Donnerstag)",
+    "history": "seit 2008",
+    "rateLimit": "",
+    "license": "unklar (Quellenangabe)",
+    "verified": false,
+    "aliases": [],
+    "collector": "euromomo",
+    "signals": [
+      "bio.mortality.euromomo"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "europepmc",
+    "name": "Europe PMC REST Search",
+    "docUrl": "https://europepmc.org/RestfulWebService",
+    "endpoints": [
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22H5N1%22%20AND%20FIRST_PDATE%3A%5B2026-10-01%20TO%202026-10-31%5D&format=json&resultType=lite&pageSize=1"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1900er",
+    "rateLimit": "",
+    "license": "CC BY (Metadaten)",
+    "verified": false,
+    "aliases": [],
+    "collector": "europepmc",
+    "signals": [
+      "bio.attention.preprint_waves"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "fda-recalls",
+    "name": "FDA Recalls (Tiernahrung)",
+    "docUrl": "https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts",
+    "endpoints": [
+      "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/recalls/rss.xml"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "werktags",
+    "history": "seit 2000er",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "fda-recalls",
+    "signals": [
+      "bio.animal.pet_food_recall"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "fli-risk",
+    "name": "FLI Risikoeinschätzung Aviäre Influenza",
+    "docUrl": "https://www.fli.de/de/aktuelles/tierseuchengeschehen/aviaere-influenza-ai-gefluegelpest/",
+    "endpoints": [
+      "https://www.fli.de/de/aktuelles/tierseuchengeschehen/aviaere-influenza-ai-gefluegelpest/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Änderung",
+    "history": "Archiv",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "fli-risk",
+    "signals": [
+      "bio.animal.fli_risk"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "fli-tsis",
+    "name": "FLI Tierseuchen-Informationssystem (TSIS)",
+    "docUrl": "https://tsis.fli.de/",
+    "endpoints": [
+      "https://tsis.fli.de/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "werktags",
+    "history": "seit 2000er",
+    "rateLimit": "",
+    "license": "unklar (Landesdaten)",
+    "verified": false,
+    "aliases": [],
+    "collector": "fli-tsis",
+    "signals": [
+      "bio.animal.fli_tsis"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "fred-eggs",
+    "name": "FRED: Eier Verbraucherpreis (APU0000708111)",
+    "docUrl": "https://fred.stlouisfed.org/series/APU0000708111",
+    "endpoints": [
+      "https://api.stlouisfed.org/fred/series/observations?series_id=APU0000708111&file_type=json&api_key=<KEY>"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "seit 1980",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "fred-eggs",
+    "signals": [
+      "bio.markets.poultry_stocks"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "gbif-api",
+    "name": "GBIF Occurrence API (tote Wildvögel/Beobachtungen)",
+    "docUrl": "https://techdocs.gbif.org/en/openapi/",
+    "endpoints": [
+      "https://api.gbif.org/v1/occurrence/search?taxonKey=212&limit=0&year=2026&month=11"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "seit Jahrzehnten",
+    "rateLimit": "",
+    "license": "CC0/CC BY je Datensatz",
+    "verified": false,
+    "aliases": [],
+    "collector": "gbif-api",
+    "signals": [
+      "bio.attention.dead_birds_inat"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "gdelt-doc",
+    "name": "GDELT DOC 2.0 API",
+    "docUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22bird%20flu%22%20OR%20H5N1&mode=timelinevol&format=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "Fenster 3 Monate (timeline)",
+    "rateLimit": "",
+    "license": "frei mit Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "gdelt-doc",
+    "signals": [
+      "bio.attention.gdelt_outbreak"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "gisaid",
+    "name": "GISAID EpiCoV/EpiFlu",
+    "docUrl": "https://gisaid.org/",
+    "endpoints": [
+      "https://www.epicov.org/"
+    ],
+    "access": "scrape",
+    "format": "csv",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "vollständig",
+    "rateLimit": "",
+    "license": "GISAID-Zugangsvereinbarung (restriktiv)",
+    "verified": false,
+    "aliases": [],
+    "collector": "gisaid",
+    "signals": [
+      "bio.genomic.gisaid_counts"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "gkv-au",
+    "name": "GKV-Spitzenverband/Krankenkassen: Krankenstandsstatistik",
+    "docUrl": "https://www.gkv-spitzenverband.de/",
+    "endpoints": [
+      "https://www.gkv-spitzenverband.de/krankenversicherung/zahlen_und_grafiken/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "seit 1990er",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "gkv-au",
+    "signals": [
+      "bio.behaviour.sick_leave"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "healthmap",
+    "name": "HealthMap (Boston Children's)",
+    "docUrl": "https://healthmap.org/",
+    "endpoints": [
+      "https://healthmap.org/getAlerts.php"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "kurz",
+    "rateLimit": "",
+    "license": "nichtkommerziell, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "healthmap",
+    "signals": [
+      "bio.attention.healthmap_alerts"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "inaturalist",
+    "name": "iNaturalist API (Beobachtungen mit Annotation 'tot')",
+    "docUrl": "https://api.inaturalist.org/v1/docs/",
+    "endpoints": [
+      "https://api.inaturalist.org/v1/observations?taxon_id=3&term_id=17&term_value_id=19&place_id=7&per_page=0"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "seit 2008",
+    "rateLimit": "100 Req/min",
+    "license": "CC je Beobachtung",
+    "verified": false,
+    "aliases": [],
+    "collector": "inaturalist",
+    "signals": [
+      "bio.attention.dead_birds_inat"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "mastodon-trends",
+    "name": "Mastodon Trends API",
+    "docUrl": "https://docs.joinmastodon.org/methods/trends/",
+    "endpoints": [
+      "https://mastodon.social/api/v1/trends/tags"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "nur aktuelle Trends",
+    "rateLimit": "",
+    "license": "je Instanz",
+    "verified": false,
+    "aliases": [],
+    "collector": "mastodon-trends",
+    "signals": [
+      "bio.attention.mastodon_health"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "ncbi-eutils",
+    "name": "NCBI E-utilities (PubMed / Nucleotide / SRA)",
+    "docUrl": "https://www.ncbi.nlm.nih.gov/books/NBK25497/",
+    "endpoints": [
+      "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=influenza+A+virus+H5N1[Organism]+AND+2026/10[PDAT]&rettype=count"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit Archivbeginn",
+    "rateLimit": "3 Req/s ohne Key",
+    "license": "Public Domain (Metadaten)",
+    "verified": false,
+    "aliases": [],
+    "collector": "ncbi-eutils",
+    "signals": [
+      "bio.genomic.nextstrain_h5"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "nextstrain-avian-flu",
+    "name": "Nextstrain avian-flu H5N1-Datensätze",
+    "docUrl": "https://github.com/nextstrain/avian-flu",
+    "endpoints": [
+      "https://data.nextstrain.org/files/workflows/avian-flu/h5n1/metadata.tsv.zst"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend (aus öffentlichen Sequenzdaten)",
+    "history": "vollständig, komprimiert",
+    "rateLimit": "",
+    "license": "CC BY 4.0 laut Nextstrain (unklar im Detail)",
+    "verified": false,
+    "aliases": [],
+    "collector": "nextstrain-avian-flu",
+    "signals": [
+      "bio.genomic.nextstrain_h5"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "nl-wastewater",
+    "name": "RIVM Abwassermonitoring (NL)",
+    "docUrl": "https://data.rivm.nl/",
+    "endpoints": [
+      "https://data.rivm.nl/data/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2020",
+    "rateLimit": "",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "nl-wastewater",
+    "signals": [
+      "bio.wastewater.nl_ww"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "pango-alias-github",
+    "name": "cov-lineages/pango-designation alias_key.json",
+    "docUrl": "https://github.com/cov-lineages/pango-designation",
+    "endpoints": [
+      "https://raw.githubusercontent.com/cov-lineages/pango-designation/master/pango_designation/alias_key.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unregelmäßig, bei jeder neuen Rekombinante/Alias",
+    "history": "vollständig seit 2020, 20 kB",
+    "rateLimit": "",
+    "license": "unklar (keine LICENSE-Datei unter master gefunden)",
+    "verified": true,
+    "aliases": [],
+    "collector": "pango-alias-github",
+    "signals": [
+      "bio.genomic.pango_new_alias"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "pango-lineages-github",
+    "name": "pango-designation lineages.csv (Sequenz zu Linie)",
+    "docUrl": "https://github.com/cov-lineages/pango-designation",
+    "endpoints": [
+      "https://raw.githubusercontent.com/cov-lineages/pango-designation/master/lineages.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unregelmäßig, mit Designations",
+    "history": "Sequenzen 2020-2026, 91 MB (nur per Range laden)",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": true,
+    "aliases": [],
+    "collector": "pango-alias-github",
+    "signals": [
+      "bio.genomic.ecdc_variants"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "pango-notes-github",
+    "name": "pango-designation lineage_notes.txt",
+    "docUrl": "https://github.com/cov-lineages/pango-designation",
+    "endpoints": [
+      "https://raw.githubusercontent.com/cov-lineages/pango-designation/master/lineage_notes.txt"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unregelmäßig",
+    "history": "vollständig, 6311 Zeilen, 0,4 MB",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": true,
+    "aliases": [],
+    "collector": "pango-alias-github",
+    "signals": [
+      "bio.genomic.pango_new_alias"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "polymarket-gamma",
+    "name": "Polymarket Gamma API",
+    "docUrl": "https://docs.polymarket.com/",
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?closed=false&limit=20&search=pandemic"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "Preisverlauf je Markt",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "polymarket-gamma",
+    "signals": [
+      "bio.attention.poly_pandemic"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "promed",
+    "name": "ProMED-mail",
+    "docUrl": "https://promedmail.org/",
+    "endpoints": [
+      "https://promedmail.org/rss/"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "mehrmals täglich",
+    "history": "seit 1994",
+    "rateLimit": "",
+    "license": "unklar, teils Konto/Bezahlschranke",
+    "verified": false,
+    "aliases": [],
+    "collector": "promed",
+    "signals": [
+      "bio.attention.promed_volume"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-amelag-github",
+    "name": "RKI AMELAG aggregierte Kurve (GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (letzte Zeile 2026-11-04 am 17.11.)",
+    "history": "seit 2023-11-29 (Influenza A), 138 kB",
+    "rateLimit": "",
+    "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-amelag-github",
+    "signals": [
+      "bio.wastewater.ww_vs_clinical_gap",
+      "bio.wastewater.amelag_sars2",
+      "bio.wastewater.amelag_flu",
+      "bio.wastewater.amelag_rsv",
+      "bio.wastewater.amelag_flub",
+      "bio.context.amelag_covered_pop"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-amelag-github-sites",
+    "name": "RKI AMELAG Einzelstandorte (GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_einzelstandorte.tsv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich bis täglich je Standort",
+    "history": "seit 2024-08, 57 MB",
+    "rateLimit": "",
+    "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-amelag-github",
+    "signals": [
+      "bio.wastewater.amelag_site_spread"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-are-github",
+    "name": "RKI ARE-Konsultationsinzidenz (GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/ARE-Konsultationsinzidenz",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/main/ARE-Konsultationsinzidenz.tsv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (letzte Woche 2026-W45)",
+    "history": "seit Saison 2012/13, 1 MB",
+    "rateLimit": "",
+    "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-are-github",
+    "signals": [
+      "bio.wastewater.ww_vs_clinical_gap",
+      "bio.clinical.are_konsultation",
+      "bio.clinical.are_bl_spread",
+      "bio.clinical.are_kids"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-covid-hosp-github",
+    "name": "RKI COVID-19-Hospitalisierungen (GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland/main/Aktuell_Deutschland_COVID-19-Hospitalisierungen.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich (2026-11-15)",
+    "history": "seit 2020-03-01, 11 MB",
+    "rateLimit": "",
+    "license": "unklar (Repo-Lizenz nicht geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-covid-hosp-github",
+    "signals": [
+      "bio.clinical.covid_hosp"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-covid-inz-github",
+    "name": "RKI COVID-19 7-Tage-Inzidenz (GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/COVID-19_7-Tage-Inzidenz_in_Deutschland",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/COVID-19_7-Tage-Inzidenz_in_Deutschland/main/COVID-19-Faelle_7-Tage-Inzidenz_Deutschland.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich (2026-11-15)",
+    "history": "seit 2020-01-03, 0,8 MB",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-covid-inz-github",
+    "signals": [
+      "bio.clinical.covid_inz"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-epibull",
+    "name": "RKI Epidemiologisches Bulletin / SurvStat",
+    "docUrl": "https://survstat.rki.de/",
+    "endpoints": [
+      "https://survstat.rki.de/Content/Query/Create.aspx"
+    ],
+    "access": "scrape",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2001",
+    "rateLimit": "",
+    "license": "CC BY 4.0 (RKI-Daten)",
+    "verified": false,
+    "aliases": [],
+    "collector": "rki-epibull",
+    "signals": [
+      "bio.clinical.srv_survstat"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-grippeweb-github",
+    "name": "RKI GrippeWeb Wochenbericht-Daten (GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/GrippeWeb_Daten_des_Wochenberichts",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/GrippeWeb_Daten_des_Wochenberichts/main/GrippeWeb_Daten_des_Wochenberichts.tsv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (2026-W45)",
+    "history": "seit 2011, 0,9 MB",
+    "rateLimit": "",
+    "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-grippeweb-github",
+    "signals": [
+      "bio.attention.grippeweb_ili"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-intensivregister-bl-github",
+    "name": "DIVI-Intensivregister je Bundesland (RKI-GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Bundeslaender_Kapazitaeten.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich (2026-11-16)",
+    "history": "seit 2020, 3,8 MB",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-intensivregister-github",
+    "signals": [
+      "bio.clinical.icu_covid_current",
+      "bio.clinical.icu_free_vent"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-intensivregister-github",
+    "name": "DIVI-Intensivregister Deutschland (RKI-GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Deutschland_Kapazitaeten.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich (letzte Zeile 2026-11-16)",
+    "history": "seit 2020, 0,7 MB",
+    "rateLimit": "",
+    "license": "unklar (RKI/DIVI, Repo-Lizenz nicht geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-intensivregister-github",
+    "signals": [
+      "bio.clinical.icu_picu",
+      "bio.clinical.icu_covid_current",
+      "bio.clinical.icu_free_vent"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "rki-sari-github",
+    "name": "RKI SARI-Hospitalisierungsinzidenz (GitHub)",
+    "docUrl": "https://github.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz",
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz/main/SARI-Hospitalisierungsinzidenz.tsv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (2026-W45)",
+    "history": "seit Saison 2014/15, 0,2 MB",
+    "rateLimit": "",
+    "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+    "verified": true,
+    "aliases": [],
+    "collector": "rki-sari-github",
+    "signals": [
+      "bio.clinical.sari_unexplained",
+      "bio.clinical.sari_total",
+      "bio.clinical.sari_kids"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "ukhsa-dashboard",
+    "name": "UKHSA Data Dashboard API",
+    "docUrl": "https://ukhsa-dashboard.data.gov.uk/access-our-data",
+    "endpoints": [
+      "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/Influenza"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "mehrere Jahre",
+    "rateLimit": "",
+    "license": "Open Government Licence v3.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "ukhsa-dashboard",
+    "signals": [
+      "bio.clinical.ukhsa"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "usda-aphis-hpai",
+    "name": "USDA APHIS HPAI Detections (Geflügel, Wildvögel, Milchvieh)",
+    "docUrl": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza",
+    "endpoints": [
+      "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-detections"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "werktags",
+    "history": "seit 2022",
+    "rateLimit": "",
+    "license": "Public Domain (US-Regierung)",
+    "verified": false,
+    "aliases": [],
+    "collector": "usda-aphis-hpai",
+    "signals": [
+      "bio.animal.aphis_dairy",
+      "bio.animal.aphis_mammal",
+      "bio.animal.aphis_flocks",
+      "bio.animal.aphis_wild"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "usda-nmts",
+    "name": "USDA National Milk Testing Strategy",
+    "docUrl": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-livestock/nmts",
+    "endpoints": [
+      "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-livestock/nmts"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2024",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "usda-aphis-hpai",
+    "signals": [
+      "bio.animal.aphis_dairy"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "wastewaterscan",
+    "name": "WastewaterSCAN Dashboard-Daten",
+    "docUrl": "https://data.wastewaterscan.org/",
+    "endpoints": [
+      "https://data.wastewaterscan.org/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2020",
+    "rateLimit": "",
+    "license": "CC BY (laut Seite, unklar)",
+    "verified": false,
+    "aliases": [],
+    "collector": "wastewaterscan",
+    "signals": [
+      "bio.wastewater.nwss_h5",
+      "bio.wastewater.wscan_multi"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "who-dg-statements",
+    "name": "WHO Emergency Committees / PHEIC-Seite",
+    "docUrl": "https://www.who.int/emergencies/disease-outbreak-news",
+    "endpoints": [
+      "https://www.who.int/api/news/emergencycommittees"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Veröffentlichung",
+    "history": "seit 2009",
+    "rateLimit": "",
+    "license": "WHO-Nutzungsbedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "who-dg-statements",
+    "signals": [
+      "bio.outbreaks.who_pheic"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "who-don-api",
+    "name": "WHO Disease Outbreak News API",
+    "docUrl": "https://www.who.int/api/news/diseaseoutbreaknews",
+    "endpoints": [
+      "https://www.who.int/api/news/diseaseoutbreaknews?$orderby=PublicationDateAndTime desc&$top=20"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Veröffentlichung",
+    "history": "seit 1996",
+    "rateLimit": "",
+    "license": "WHO-Nutzungsbedingungen, i. d. R. CC BY-NC-SA 3.0 IGO",
+    "verified": false,
+    "aliases": [],
+    "collector": "who-don-api",
+    "signals": [
+      "bio.outbreaks.who_don_new_pathogen",
+      "bio.outbreaks.who_don_rate"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "who-flunet",
+    "name": "WHO COVID-19 / FluNet Daten",
+    "docUrl": "https://www.who.int/tools/flunet",
+    "endpoints": [
+      "https://frontdoor-l4uyj4ksy6fie.azurefd.net/FLUMART/VIW_FNT?$format=csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 1995",
+    "rateLimit": "",
+    "license": "WHO-Nutzungsbedingungen",
+    "verified": false,
+    "aliases": [
+      "who-covid-dash"
+    ],
+    "collector": "who-flunet",
+    "signals": [
+      "bio.clinical.who_flunet"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "wikimedia-pageviews",
+    "name": "Wikimedia Pageviews API",
+    "docUrl": "https://wikimedia.org/api/rest_v1/",
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia.org/all-access/user/Vogelgrippe/daily/20260101/20261116"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2015-07",
+    "rateLimit": "",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "wikimedia-pageviews",
+    "signals": [
+      "bio.attention.wiki_outbreak",
+      "bio.attention.wiki_masks"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "woah-wahis",
+    "name": "WOAH WAHIS",
+    "docUrl": "https://wahis.woah.org/",
+    "endpoints": [
+      "https://wahis.woah.org/#/dashboards/qd-dashboard"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "seit 2005",
+    "rateLimit": "",
+    "license": "WOAH-Nutzungsbedingungen, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "woah-wahis",
+    "signals": [
+      "bio.animal.woah_events"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  },
+  {
+    "id": "yahoo-chart",
+    "name": "Yahoo Finance Chart (CALM)",
+    "docUrl": "https://finance.yahoo.com/",
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/CALM?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/MRNA?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BNTX?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NVAX?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/ROG.SW?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GILD?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/HOLX?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/VITL?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/MMM?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/APT?range=1y&interval=1d"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min verzögert",
+    "history": "viele Jahre",
+    "rateLimit": "",
+    "license": "inoffiziell, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "yahoo-chart",
+    "signals": [
+      "bio.markets.antivirals",
+      "bio.markets.mask_stocks",
+      "bio.markets.mrna",
+      "bio.markets.poultry_stocks"
+    ],
+    "scenarios": [
+      "bio"
+    ]
+  }
+]

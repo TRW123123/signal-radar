@@ -3,47 +3,36 @@
 // https://wikimedia.org/api/rest_v1/#/Pageviews%20data
 // Reference implementation: other collectors follow this structure.
 // Echte Messung (17.11.2026): einzelne Artikel haben sehr kleine Zahlen (de Cyberattacke ca. 4/Tag, vermutlich Weiterleitung,
-// Notvorrat 11, Stromausfall 22; en Cyberattack 289); daher Summe über je 10 Artikel. Artikelnamen nach Kenntnis gewählt.
-// Szenario war (Kriegseskalation): zwei weitere Gruppen (de, en) mit je 10 Artikeln zu Mobilmachung, Wehrpflicht, Schutzraum,
-// Atomkrieg, Hormus usw. Artikelnamen nach Kenntnis gewählt, nicht gegen die API geprüft: ein 404 fällt aus der Summe (siehe MIN_ANSWER_SHARE).
+// Notvorrat 11, Stromausfall 22; en Cyberattack 289); daher Summe über mehrere Artikel je Gruppe. Artikelnamen nach Kenntnis gewählt.
+// Gruppen je Szenario: src/collectors/config/<szenario>.ts (Feld wikipedia). Höchstens MAX_ARTICLES = 6 Artikel je Gruppe (die mit
+// den vermutlich meisten Aufrufen) und ein Fenster von WINDOW_DAYS = 30 Tagen: eine Antwort hat rund 145 Zeichen je Tag, also
+// ca. 4 500 Zeichen (Grenze der Aufzeichnungs-Umgebung ca. 6 000). Ältere Historie baut der Speicher Lauf für Lauf auf.
 // Harmlose Ursachen für war-Ausschläge: Wehrdienst-Debatten im Bundestag, Warntag, Dokumentationen/Filme, Schulstoff, Katastrophenschutz-Berichte.
 // VERIFIED: nein (neue Artikelliste noch nicht aufgezeichnet; Form {"items":[{"timestamp":"2026090300","views":1}]} laut Auftrag).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, num, obs, ymd } from './_helpers.ts';
-
-interface Group { signalId: string; name: string; plain: string; project: string; articles: string[]; scenario: string }
+import { declare, scenarioEntries } from './_scenario.ts';
 
 /** Mindestanteil der Artikel, die in einem Lauf antworten müssen (404 = Artikel existiert nicht/ist Weiterleitung und fällt aus der Summe). */
 export const MIN_ANSWER_SHARE = 0.8;
+/** Höchstens so viele Artikel je Gruppe (Antwortgröße und Zahl der Requests). */
+export const MAX_ARTICLES = 6;
+/** Tage je Anfrage (gestern und 29 Tage davor). */
+export const WINDOW_DAYS = 30;
 
-/** Article groups per scenario. Adding a scenario's attention signal is one entry here. */
-export const GROUPS: Group[] = [
-  {
-    signalId: 'cyber.attention.wikipedia_de', scenario: 'cyber', project: 'de.wikipedia',
-    name: 'Wikipedia-Aufrufe zu Cyber-Themen (deutsch)',
-    plain: 'Wie oft deutschsprachige Wikipedia-Artikel zu Cyberangriff, Stromausfall und Notvorrat aufgerufen werden.',
-    articles: ['Stromausfall', 'Notvorrat', 'Hacker', 'Ransomware', 'Computervirus', 'Denial_of_Service', 'Cyberkrieg', 'Kritische_Infrastruktur', 'Phishing', 'Botnet'],
-  },
-  {
-    signalId: 'cyber.attention.wikipedia_en', scenario: 'cyber', project: 'en.wikipedia',
-    name: 'Wikipedia-Aufrufe zu Cyber-Themen (englisch)',
-    plain: 'Wie oft englische Wikipedia-Artikel zu Cyberangriffen und Internet-Ausfällen aufgerufen werden.',
-    articles: ['Cyberattack', 'Internet_outage', 'Power_outage', 'Cyberwarfare', 'Ransomware', 'Denial-of-service_attack', 'Data_breach', 'Computer_security', 'Botnet', 'Phishing'],
-  },
-  {
-    signalId: 'war.attention.wikipedia_de', scenario: 'war', project: 'de.wikipedia',
-    name: 'Wikipedia-Aufrufe zu Kriegsthemen (deutsch)',
-    plain: 'Wie oft deutschsprachige Wikipedia-Artikel zu Dritter Weltkrieg, Mobilmachung, Wehrpflicht, Schutzraum oder Kaliumiodid aufgerufen werden.',
-    articles: ['Dritter_Weltkrieg', 'Mobilmachung', 'Wehrpflicht', 'Schutzraum', 'Zivilschutz', 'Kaliumiodid', 'Atomkrieg', 'Straße_von_Hormus', 'Verteidigungsfall', 'Kriegsrecht'],
-  },
-  {
-    signalId: 'war.attention.wikipedia_en', scenario: 'war', project: 'en.wikipedia',
-    name: 'Wikipedia-Aufrufe zu Kriegsthemen (englisch)',
-    plain: 'Wie oft englische Wikipedia-Artikel zu World War III, Wehrpflicht, Atomkrieg, Schutzräumen oder der Straße von Hormus aufgerufen werden.',
-    articles: ['World_War_III', 'Conscription', 'Fallout_shelter', 'Nuclear_warfare', 'Civil_defense', 'Strait_of_Hormuz', 'Mobilization', 'Martial_law', 'Potassium_iodide', 'Taiwan_Strait'],
-  },
-];
+export interface Group { signalId: string; scenario: string; project: string; articles: string[] }
+
+/** Artikelgruppen aller Szenarien (src/collectors/config/<szenario>.ts, Feld wikipedia). */
+export const ENTRIES = scenarioEntries('wikipedia');
+export const GROUPS: Group[] = ENTRIES.map((e) => ({ signalId: e.signal.id, scenario: e.scenario, project: e.project, articles: e.articles.slice(0, MAX_ARTICLES) }));
+
+const DEFAULTS = {
+  domain: 'attention', evidenceClass: 'D' as const, direction: 'up' as const, kind: 'count' as const, weight: 0.5, manipulability: 'medium' as const,
+  independenceGroup: 'wikimedia', unit: 'Aufrufe/Tag', intervalMinutes: 1440, holdHours: 48,
+  baseline: { method: 'day-of-week' as const, windowDays: 28, minPoints: 14 },
+  license: 'CC0 (Wikimedia Analytics)',
+};
 
 interface Resp { items?: { timestamp: string; views: number }[] }
 
@@ -58,22 +47,23 @@ export function parse(body: Resp): Map<string, number> {
   return out;
 }
 
+export function buildUrl(project: string, article: string, start: string, end: string): string {
+  return `https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/${project}/all-access/user/${encodeURIComponent(article)}/daily/${start}/${end}`;
+}
+/** Suffix -30d: frühere Aufzeichnungen (75 Tage) hatten denselben Namen ohne Suffix. */
+export function fixtureName(project: string, article: string): string {
+  return `wikimedia/${project}-${article}-${WINDOW_DAYS}d.json`;
+}
+
 const collector: Collector = {
   id: 'wikimedia-pageviews',
   title: 'Wikimedia Pageviews API',
   sourceUrl: 'https://wikimedia.org/api/rest_v1/',
   intervalMinutes: 360,
-  signals: GROUPS.map((g) => ({
-    id: g.signalId, scenarios: [g.scenario], domain: 'attention', name: g.name, plain: g.plain,
-    evidenceClass: 'D' as const, direction: 'up' as const, kind: 'count' as const, weight: 0.5, manipulability: 'medium' as const,
-    independenceGroup: 'wikimedia', unit: 'Aufrufe/Tag', intervalMinutes: 1440, holdHours: 48,
-    baseline: { method: 'day-of-week' as const, windowDays: 56, minPoints: 21 },
-    license: 'CC0 (Wikimedia Analytics)',
-    ...(g.scenario === 'war' ? { banalCauses: ['Wehrdienst-Debatten', 'Warntag und Katastrophenschutz-Berichte', 'Dokumentationen und Filme', 'Schulstoff'] } : {}),
-  })),
+  signals: ENTRIES.map((e) => declare(DEFAULTS, e.scenario, e.signal)),
   async collect(ctx) {
     const end = ymd(daysAgo(ctx.now, 1));
-    const start = ymd(daysAgo(ctx.now, 75));
+    const start = ymd(daysAgo(ctx.now, WINDOW_DAYS));
     const observations: Observation[] = [];
     for (const g of GROUPS) {
       const perDay = new Map<string, number>();
@@ -81,9 +71,9 @@ const collector: Collector = {
       let gone = 0; // 404: Artikel dauerhaft nicht vorhanden
       let failed = 0; // andere Fehler (Timeout, 5xx): Lauf unsicher
       for (const article of g.articles) {
-        const url = `https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/${g.project}/all-access/user/${encodeURIComponent(article)}/daily/${start}/${end}`;
+        const url = buildUrl(g.project, article, start, end);
         try {
-          const days = parse(await ctx.http.json<Resp>(url, { fixture: `wikimedia/${g.project}-${article}.json` }));
+          const days = parse(await ctx.http.json<Resp>(url, { fixture: fixtureName(g.project, article) }));
           for (const [d, v] of days) perDay.set(d, (perDay.get(d) ?? 0) + v);
           ok++;
         } catch (e) {

@@ -9,7 +9,7 @@
 // ca. 250 Zeichen je Tag; routing-status: data.visibility.v4.{ris_peers_seeing,total_ris_peers} (ca. 1 000 Zeichen).
 // AS3209 lief beim Abruf in ein Timeout (Neuaufzeichnung beantragt); ohne alle fünf ASNs wird kein Mittelwert gemeldet.
 // VERIFIED: teilweise (17.11.2026): Form von routing-status mit 4 von 5 echten Antworten bestätigt; country-routing-stats-Form
-// aus dem abgeschnittenen Anfang bestätigt, vollständige Antwort (45 Tage) steht noch aus.
+// aus dem abgeschnittenen Anfang bestätigt, vollständige Antwort (20 Tage) steht noch aus. Ältere Historie baut der Speicher Lauf für Lauf auf.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, floorDay, floorHour, isoDay, num, obs } from './_helpers.ts';
@@ -17,7 +17,8 @@ import { daysAgo, expect, floorDay, floorHour, isoDay, num, obs } from './_helpe
 const BASE = 'https://stat.ripe.net/data';
 /** kuratierte Prüfliste: Telekom, Vodafone, DE-CIX, Hetzner, IONOS */
 export const CRITICAL_ASNS = ['AS3320', 'AS3209', 'AS6695', 'AS24940', 'AS8560'];
-const HISTORY_DAYS = 45; // 75 Tage ergaben 19 000 Zeichen, 45 Tage bleiben bei ca. 11 500
+// 75 Tage ergaben 19 000 Zeichen (ca. 250 je Tag); 20 Tage bleiben bei ca. 5 500 (Grenze der Aufzeichnungs-Umgebung ca. 6 000).
+export const HISTORY_DAYS = 20;
 
 export interface PrefixPoint { ts: number | null; value: number }
 
@@ -71,7 +72,7 @@ const collector: Collector = {
       ...common, id: 'cyber.routing.country_prefix_visibility_de', name: 'Sichtbarkeit deutscher Netze im Routing',
       plain: 'Wie viele Netzblöcke aus Deutschland das RIPE-Messnetz weltweit im Routing sieht; ein Einbruch heißt, dass Netze verschwinden.',
       direction: 'down', kind: 'count', weight: 0.8, unit: 'Präfixe', intervalMinutes: 1440, holdHours: 48,
-      baseline: { method: 'rolling', windowDays: 56, minPoints: 21 },
+      baseline: { method: 'rolling', windowDays: 56, minPoints: 14 },
       thresholds: { relFloor: 0.01 },
       banalCauses: ['Aggregation/Deaggregation von Präfixen', 'Ausfall einzelner RIS-Peers'],
     },
@@ -92,7 +93,7 @@ const collector: Collector = {
       const start = isoDay(daysAgo(ctx.now, HISTORY_DAYS));
       const end = isoDay(daysAgo(ctx.now, 1));
       const url = `${BASE}/country-routing-stats/data.json?resource=DE&starttime=${start}&endtime=${end}`;
-      const pts = parseCountryStats(await ctx.http.json(url, { fixture: 'ripe-stat/country-routing-stats-DE.json' }));
+      const pts = parseCountryStats(await ctx.http.json(url, { fixture: `ripe-stat/country-routing-stats-DE-${HISTORY_DAYS}d.json` }));
       if (pts.length === 1 && pts[0].ts === null) {
         observations.push(obs('cyber.routing.country_prefix_visibility_de', floorHour(ctx.now), pts[0].value));
       } else {

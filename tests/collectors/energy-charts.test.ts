@@ -61,3 +61,19 @@ test('Frequenz: 15-Minuten-Fenster in Sekundenauflösung ergibt Wert für die St
   // ohne Fenster-Angabe gilt eine ganze Stunde als erwartet: 900 Werte reichen dann nicht
   assert.equal(parseFrequency({ unix_seconds: u, data: d }, Date.UTC(2026, 10, 17, 0)).length, 0);
 });
+
+// --- kleinere Fenster (Antworten unter ca. 6 000 Zeichen) ---
+import collector, { FREQ_WINDOW_MIN, POWER_WINDOW_H } from '../../src/collectors/energy-charts.ts';
+
+test('collect: Frequenz 4 Minuten, Einspeisung 6 Stunden, neue Fixture-Namen', async () => {
+  assert.equal(FREQ_WINDOW_MIN, 4);
+  assert.equal(POWER_WINDOW_H, 6);
+  const calls: [string, string][] = [];
+  const ctx = { now: new Date('2026-11-17T00:16:13Z'), key: () => undefined, log: () => {},
+    http: { text: async () => '', json: async (u: string, i: { fixture: string }) => { calls.push([u, i.fixture]); throw new Error('offline'); } } };
+  await assert.rejects(collector.collect(ctx as never), /beide Abfragen/);
+  assert.deepEqual(calls, [
+    ['https://api.energy-charts.info/frequency?country=de&start=2026-11-16T23%3A56Z&end=2026-11-17T00%3A00Z', 'energy-charts/frequency-4m.json'],
+    ['https://api.energy-charts.info/public_power?country=de&start=2026-11-16T18%3A00Z&end=2026-11-17T00%3A00Z', 'energy-charts/public_power-6h.json'],
+  ]);
+});

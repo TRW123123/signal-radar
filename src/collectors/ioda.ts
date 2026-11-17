@@ -5,39 +5,39 @@
 // (c) Zahl der von IODA erkannten Ausfallereignisse (Länderebene) pro Tag.
 // Harmlose Ursachen: Stromausfälle, Zensur/Prüfungsabschaltungen in anderen Ländern, Seekabelbrüche, Messausfall einzelner
 // IODA-Datenquellen (dann fallen Zeitreihen ab, ohne dass das Netz ausfällt), Wartung großer Provider.
-// 10 Requests pro Lauf (8 Länder mit datasource=bgp, 1 Ping-Anfrage für DE, 1 Ereignisliste): bewusst mehr als 8, weil die
-// Länderliste die Signale 2 bis 4 trägt.
+// Requests pro Lauf: eine je (Land, Datenquelle) über alle Szenarien (heute 17) plus 4 für die Ereignisliste; bewusst mehr als 8,
+// weil die Länderliste die Signale trägt. Länder und Ländergruppen je Szenario: src/collectors/config/<szenario>.ts (iodaCountries, iodaEvents).
 // Echte Form (17.11.2026, aus dem abgeschnittenen Anfang): {type, metadata, requestParameters, error, perf, data:[[{entityType,
 // entityCode, datasource, subtype?, from, until, step, nativeStep, values}]]}. Ohne `datasource` kommen alle Quellen (gtr, bgp,
 // ping-slash24, ...) und die Antwort hat ca. 142 000 Zeichen; mit `datasource=bgp` bzw. `ping-slash24` und 24 Stunden bleibt sie klein.
 // Ereignisse: {type:'outages.events', data:[{location:'country/GU', start (Unix-s), duration, method, datasource, score,
 // overlaps_window}]}, ca. 230 Zeichen je Ereignis, Standard-limit 500 und extendWindow 14 Tage (ergab 113 300 Zeichen). Daher nur
-// der letzte vollständige Tag mit limit=60 und extendWindow=0; gezählt wird nach `start` im Tag, Antworten mit limit
-// Treffern gelten als unvollständig und werden nicht gemeldet. Die Historie baut der Speicher Tag für Tag auf.
+// der letzte vollständige Tag in vier 6-Stunden-Abschnitten mit limit=20 und extendWindow=0 (je Antwort höchstens ca. 5 300 Zeichen,
+// Grenze der Aufzeichnungs-Umgebung ca. 6 000); gezählt wird nach `start` im Abschnitt, eine Antwort mit limit Treffern gilt als
+// unvollständig und der Tag wird nicht gemeldet. Die Historie baut der Speicher Tag für Tag auf.
+// Länderreihen mit datasource=bgp (5-Minuten-Schritt) und 24 Stunden: geschätzt 2 500 bis 3 500 Zeichen je Antwort.
 // Szenario war (Kriegseskalation): zusätzlich BGP-Reihen (gleiche URL-Form, 24 Stunden, datasource=bgp, je Land eine kleine Antwort) für IR, IL, UA, RU, TW
 // und die Golfstaaten SA, AE, QA (Summe als Signal gulf_states_internet; nur wenn alle drei antworten). Neue Fixture-Namen ioda/country-<CC>.json
-// (kein Überschneiden mit den Cyber-Ländern). 8 weitere Requests (insgesamt 18), je Land ein Signal. Harmlose Ursachen (war): Stromausfälle, staatlich angeordnete
+// (kein Überschneiden mit den Cyber-Ländern). 8 weitere Requests, je Land ein Signal. Harmlose Ursachen (war): Stromausfälle, staatlich angeordnete
 // Abschaltungen und Prüfungsabschaltungen, Messausfall einzelner BGP-Quellen, Seekabelbrüche. Die Cyber-Anfragen und ihre Fixture-Namen sind unverändert.
 // VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Formen aus dem abgeschnittenen Anfang bestätigt, die verkleinerten
 // Requests und ob extendWindow=0 gilt sind noch nicht aufgezeichnet).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';
+import { declare, scenarioEntries } from './_scenario.ts';
 
 const BASE = 'https://api.ioda.inetintel.cc.gatech.edu/v2';
-export const COUNTRIES = ['DE', 'US', 'GB', 'FR', 'NL', 'JP', 'IN', 'BR'];
-/** Länder der Konfliktregionen (Szenario war): je ein Signal; Golfstaaten nur als Summe. */
-export const WAR_COUNTRIES: { cc: string; signalId: string; name: string }[] = [
-  { cc: 'IR', signalId: 'war.connectivity.ioda_ir', name: 'Iran' },
-  { cc: 'IL', signalId: 'war.connectivity.ioda_il', name: 'Israel' },
-  { cc: 'UA', signalId: 'war.connectivity.ioda_ua', name: 'Ukraine' },
-  { cc: 'RU', signalId: 'war.connectivity.ioda_ru', name: 'Russland' },
-  { cc: 'TW', signalId: 'war.connectivity.ioda_tw', name: 'Taiwan' },
-];
-export const GULF_COUNTRIES = ['SA', 'AE', 'QA'];
-export const GULF_SIGNAL_ID = 'war.connectivity.gulf_states_internet';
+/** Länder bzw. Ländergruppen aller Szenarien (src/collectors/config/<szenario>.ts, Felder iodaCountries und iodaEvents). */
+const ENTRIES = scenarioEntries('iodaCountries');
+const EVENT_ENTRIES = scenarioEntries('iodaEvents');
+export interface CountryGroup { signalId: string; countries: string[]; datasource: 'bgp' | 'ping-slash24' }
+export const GROUPS: CountryGroup[] = ENTRIES.map((e) => ({ signalId: e.signal.id, countries: e.countries, datasource: e.datasource ?? 'bgp' }));
+export const EVENT_SIGNAL_IDS = EVENT_ENTRIES.map((e) => e.id);
 const HOURS = 24;
-const EVENT_LIMIT = 60;
+/** Ereignisliste in EVENT_SLICES Abschnitten je Tag mit höchstens EVENT_LIMIT Einträgen (ca. 230 Zeichen je Ereignis, Antwort unter ca. 5 300 Zeichen). */
+export const EVENT_LIMIT = 20;
+export const EVENT_SLICES = 4;
 
 export interface Series { datasource: string; from: number; step: number; values: (number | null)[] }
 
@@ -89,17 +89,22 @@ export function parseEventStarts(body: unknown): number[] {
 }
 
 const SRC = { sourceName: 'IODA (Georgia Tech)', sourceUrl: 'https://ioda.inetintel.cc.gatech.edu/' };
-const common = {
-  scenarios: ['cyber'], domain: 'outages', evidenceClass: 'A' as const, manipulability: 'low' as const,
+const DEFAULTS = {
+  evidenceClass: 'A' as const, manipulability: 'low' as const,
   independenceGroup: 'ioda', license: 'frei für Forschung, Bedingungen auf Website', ...SRC,
 };
-const hourly = { method: 'hour-of-week' as const, windowDays: 28, minPoints: 48 };
 
-const warCommon = {
-  ...common, scenarios: ['war'], domain: 'connectivity',
-  direction: 'down' as const, kind: 'gauge' as const, unit: '/24-Netze', intervalMinutes: 60, holdHours: 12, baseline: hourly,
-  banalCauses: ['Stromausfälle', 'Staatlich angeordnete Abschaltungen und Prüfungsabschaltungen', 'Messausfall einzelner BGP-Quellen bei IODA', 'Seekabelbruch'],
-};
+export function fixtureName(cc: string, datasource: CountryGroup['datasource']): string {
+  return `ioda/country-${cc}${datasource === 'bgp' ? '' : '-ping'}.json`;
+}
+
+export function eventsUrl(fromSec: number, untilSec: number): string {
+  return `${BASE}/outages/events?from=${fromSec}&until=${untilSec}&entityType=country&limit=${EVENT_LIMIT}&extendWindow=0`;
+}
+/** Abschnitt i des Vortags (0 = 00 bis 06 Uhr UTC). */
+export function eventsFixture(i: number): string {
+  return `ioda/events-${String(i * (24 / EVENT_SLICES)).padStart(2, '0')}h.json`;
+}
 
 const collector: Collector = {
   id: 'ioda',
@@ -107,111 +112,60 @@ const collector: Collector = {
   sourceUrl: SRC.sourceUrl,
   intervalMinutes: 60,
   signals: [
-    {
-      ...common, id: 'cyber.outages.ioda_outage_events_global', name: 'IODA Ausfallereignisse weltweit',
-      plain: 'Wie viele Internet-Ausfälle auf Länderebene IODA pro Tag automatisch erkennt.',
-      direction: 'up', kind: 'count', weight: 0.85, unit: 'Ereignisse/Tag', intervalMinutes: 1440, holdHours: 48,
-      baseline: { method: 'rolling', windowDays: 56, minPoints: 21 },
-      banalCauses: ['Prüfungsabschaltungen und Zensur', 'Stromausfälle', 'Seekabelbruch'],
-    },
-    {
-      ...common, id: 'cyber.outages.ioda_country_signals_de', name: 'IODA: Deutsche Netze im Routing',
-      plain: 'Wie viele deutsche Netzblöcke (/24) weltweit im Routing sichtbar sind; ein Einbruch heißt, dass Netze verschwinden.',
-      direction: 'down', kind: 'gauge', weight: 0.8, unit: '/24-Netze', intervalMinutes: 60, holdHours: 12, baseline: hourly,
-      banalCauses: ['Messausfall einzelner BGP-Quellen bei IODA'],
-    },
-    {
-      ...common, id: 'cyber.outages.ioda_ping_de', name: 'IODA: Erreichbare deutsche Netze (Ping)',
-      plain: 'Wie viele deutsche Netzblöcke (/24) auf aktive Anfragen antworten; unabhängig vom Routing gemessen.',
-      direction: 'down', kind: 'gauge', weight: 0.7, unit: '/24-Netze', intervalMinutes: 60, holdHours: 12, baseline: hourly,
-      banalCauses: ['Ausfall einzelner Messpunkte', 'Wartung großer Provider'],
-    },
-    {
-      ...common, id: 'cyber.outages.ioda_bgp_big_countries', name: 'IODA: Routing-Sichtbarkeit großer Länder (Summe)',
-      plain: 'Summe der im Routing sichtbaren Netzblöcke von acht großen Ländern; ein Einbruch deutet auf einen großflächigen Ausfall.',
-      direction: 'down', kind: 'gauge', weight: 0.6, unit: '/24-Netze', intervalMinutes: 60, holdHours: 12, baseline: hourly,
-      banalCauses: ['Messausfall bei IODA', 'Umnummerierung großer Provider'],
-    },
-    ...WAR_COUNTRIES.map((c) => ({
-      ...warCommon, id: c.signalId, name: `IODA: ${c.name} im Routing`,
-      plain: `Wie viele Netzblöcke (/24) aus ${c.name} weltweit im Routing sichtbar sind; ein Einbruch heißt, dass Netze verschwinden (Stromnetz, Angriff oder Abschaltung).`,
-      weight: c.cc === 'IR' || c.cc === 'TW' ? 0.85 : c.cc === 'RU' ? 0.75 : 0.8,
-    })),
-    {
-      ...warCommon, id: GULF_SIGNAL_ID, name: 'IODA: Golfstaaten im Routing (Summe)',
-      plain: 'Summe der im Routing sichtbaren Netzblöcke von Saudi-Arabien, den Emiraten und Katar; ein Einbruch deutet auf einen großflächigen Ausfall am Golf.',
-      weight: 0.75,
-    },
+    ...ENTRIES.map((e) => declare(DEFAULTS, e.scenario, e.signal)),
+    ...EVENT_ENTRIES.map(({ scenario, ...decl }) => declare(DEFAULTS, scenario, decl)),
   ],
   async collect(ctx) {
     const untilSec = Math.floor(ctx.now.getTime() / 3600_000) * 3600; // laufende Stunde ausschließen
     const fromSec = untilSec - HOURS * 3600;
     const observations: Observation[] = [];
 
-    const bgpByCountry = new Map<string, Map<number, number>>();
-    for (const cc of COUNTRIES) {
-      const url = `${BASE}/signals/raw/country/${cc}?from=${fromSec}&until=${untilSec}&datasource=bgp`;
-      try {
-        const series = parseSignals(await ctx.http.json(url, { fixture: `ioda/country-${cc}.json` }));
-        const bgp = series.find((s) => s.datasource === 'bgp');
-        if (!bgp) throw new Error('Datenquelle bgp fehlt');
-        const bgpH = hourlyMeans(bgp, untilSec);
-        bgpByCountry.set(cc, bgpH);
-        if (cc === 'DE') {
-          for (const [h, v] of bgpH) observations.push(obs('cyber.outages.ioda_country_signals_de', h * 1000, v));
+    // Jede Reihe (Land, Datenquelle) wird je Lauf nur einmal geholt, auch wenn mehrere Gruppen sie nutzen.
+    const cache = new Map<string, Promise<Map<number, number>>>();
+    const hourly = (cc: string, ds: CountryGroup['datasource']) => {
+      const key = `${cc}|${ds}`;
+      if (!cache.has(key)) {
+        const url = `${BASE}/signals/raw/country/${cc}?from=${fromSec}&until=${untilSec}&datasource=${ds}`;
+        cache.set(key, ctx.http.json(url, { fixture: fixtureName(cc, ds) }).then((body) => {
+          const s = parseSignals(body).find((x) => x.datasource === ds);
+          if (!s) throw new Error(`Datenquelle ${ds} fehlt`);
+          return hourlyMeans(s, untilSec);
+        }));
+      }
+      return cache.get(key)!;
+    };
+    for (const g of GROUPS) {
+      const maps: Map<number, number>[] = [];
+      for (const cc of g.countries) {
+        try {
+          maps.push(await hourly(cc, g.datasource));
+        } catch (e) {
+          ctx.log(`IODA Land ${cc} (${g.datasource}) für ${g.signalId} übersprungen: ${(e as Error).message}`);
         }
-      } catch (e) {
-        ctx.log(`IODA Land ${cc} übersprungen: ${(e as Error).message}`);
+      }
+      // Summe nur, wenn alle Länder geantwortet haben; sonst sähe ein fehlender Summand wie ein Einbruch aus.
+      if (maps.length !== g.countries.length) { ctx.log(`IODA: ${g.signalId} ausgelassen, nicht alle Länder verfügbar`); continue; }
+      const meta = g.countries.length > 1 ? { countries: g.countries.length } : undefined;
+      for (const h of [...maps[0].keys()].filter((x) => maps.every((m) => m.has(x)))) {
+        observations.push(obs(g.signalId, h * 1000, maps.reduce((sum, m) => sum + m.get(h)!, 0), meta));
       }
     }
-    try {
-      const pingUrl = `${BASE}/signals/raw/country/DE?from=${fromSec}&until=${untilSec}&datasource=ping-slash24`;
-      const ping = parseSignals(await ctx.http.json(pingUrl, { fixture: 'ioda/country-DE-ping.json' })).find((x) => x.datasource === 'ping-slash24');
-      if (!ping) throw new Error('Datenquelle ping-slash24 fehlt');
-      for (const [h, v] of hourlyMeans(ping, untilSec)) observations.push(obs('cyber.outages.ioda_ping_de', h * 1000, v));
-    } catch (e) {
-      ctx.log(`IODA DE Ping übersprungen: ${(e as Error).message}`);
-    }
-    // Summe nur, wenn alle Länder geantwortet haben; sonst sähe ein fehlender Summand wie ein Einbruch aus.
-    if (bgpByCountry.size === COUNTRIES.length) {
-      const hours = [...bgpByCountry.get(COUNTRIES[0])!.keys()].filter((h) => [...bgpByCountry.values()].every((m) => m.has(h)));
-      for (const h of hours) {
-        let sum = 0;
-        for (const m of bgpByCountry.values()) sum += m.get(h)!;
-        observations.push(obs('cyber.outages.ioda_bgp_big_countries', h * 1000, sum, { countries: COUNTRIES.length }));
-      }
-    } else ctx.log('IODA: Länder-Summe ausgelassen, nicht alle Länder verfügbar');
 
-    // Szenario war: BGP je Konfliktland; ein Land mit Fehler lässt nur sein Signal aus.
-    const warBgp = new Map<string, Map<number, number>>();
-    for (const cc of [...WAR_COUNTRIES.map((c) => c.cc), ...GULF_COUNTRIES]) {
-      const url = `${BASE}/signals/raw/country/${cc}?from=${fromSec}&until=${untilSec}&datasource=bgp`;
-      try {
-        const bgp = parseSignals(await ctx.http.json(url, { fixture: `ioda/country-${cc}.json` })).find((x) => x.datasource === 'bgp');
-        if (!bgp) throw new Error('Datenquelle bgp fehlt');
-        warBgp.set(cc, hourlyMeans(bgp, untilSec));
-      } catch (e) {
-        ctx.log(`IODA Land ${cc} (war) übersprungen: ${(e as Error).message}`);
-      }
-    }
-    for (const c of WAR_COUNTRIES) {
-      for (const [h, v] of warBgp.get(c.cc) ?? []) observations.push(obs(c.signalId, h * 1000, v));
-    }
-    if (GULF_COUNTRIES.every((cc) => warBgp.has(cc))) {
-      for (const h of [...warBgp.get(GULF_COUNTRIES[0])!.keys()].filter((x) => GULF_COUNTRIES.every((cc) => warBgp.get(cc)!.has(x)))) {
-        observations.push(obs(GULF_SIGNAL_ID, h * 1000, GULF_COUNTRIES.reduce((s, cc) => s + warBgp.get(cc)!.get(h)!, 0), { countries: GULF_COUNTRIES.length }));
-      }
-    } else ctx.log('IODA: Golf-Summe ausgelassen, nicht alle Länder verfügbar');
-
-    try {
+    if (EVENT_SIGNAL_IDS.length) try {
       const evUntil = Math.floor(ctx.now.getTime() / 86400_000) * 86400; // laufenden Tag ausschließen
       const evFrom = evUntil - 86400;
-      const url = `${BASE}/outages/events?from=${evFrom}&until=${evUntil}&entityType=country&limit=${EVENT_LIMIT}&extendWindow=0`;
-      const body = await ctx.http.json(url, { fixture: 'ioda/events.json' });
-      const all = parseEventStarts(body);
-      if (all.length >= EVENT_LIMIT) throw new Error(`Ereignisliste an limit=${EVENT_LIMIT} abgeschnitten, Tageszahl unvollständig`);
-      const n = all.filter((t) => t >= evFrom && t < evUntil).length;
-      observations.push(obs('cyber.outages.ioda_outage_events_global', evFrom * 1000, n));
+      const step = 86400 / EVENT_SLICES;
+      let n = 0;
+      for (let i = 0; i < EVENT_SLICES; i++) {
+        const from = evFrom + i * step;
+        const until = from + step;
+        const body = await ctx.http.json(eventsUrl(from, until), { fixture: eventsFixture(i) });
+        const all = parseEventStarts(body);
+        if (all.length >= EVENT_LIMIT) throw new Error(`Ereignisliste ${i + 1}/${EVENT_SLICES} an limit=${EVENT_LIMIT} abgeschnitten, Tageszahl unvollständig`);
+        // Ereignisse, die vor dem Abschnitt begonnen haben, aber hineinreichen, zählen nur in ihrem Startabschnitt.
+        n += all.filter((t) => t >= from && t < until).length;
+      }
+      for (const id of EVENT_SIGNAL_IDS) observations.push(obs(id, evFrom * 1000, n));
     } catch (e) {
       ctx.log(`IODA Ereignisliste übersprungen: ${(e as Error).message}`);
     }

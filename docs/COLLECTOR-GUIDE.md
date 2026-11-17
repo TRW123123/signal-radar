@@ -8,16 +8,19 @@ Helfer: `src/collectors/_helpers.ts` (`obs`, `num`, `expect`, `parseCsv`, `count
 
 1. **Eine Datei pro Collector:** `src/collectors/<id>.ts`, Default-Export vom Typ `Collector`, `id` = Dateiname, kebab-case.
    Dateien mit `_` am Anfang sind Helfer. Keine anderen Dateien im Ordner anfassen (parallele Agents).
+   Geteilte Collectors (wikimedia-pageviews, hn-algolia, gdelt-doc, polymarket-gamma, yahoo-chart, ioda, ooni, statuspage,
+   adsb-lol) werden je Szenario über `src/collectors/config/<szenario>.ts` erweitert: siehe `docs/SCENARIO-CONFIG-GUIDE.md`.
 2. **Nur `ctx.http`** für Netzwerk (`ctx.http.json(url, { fixture })`, `ctx.http.text(...)`). Kein eigenes `fetch`,
    keine npm-Abhängigkeiten, kein Zugriff aufs Dateisystem. Code muss in Node 22 und in Serverless-Funktionen laufen.
 3. **Jeder Request bekommt einen stabilen `fixture`-Namen** (`<quelle>/<name>.json|csv|txt`), damit echte Antworten
    aufgezeichnet und offline wieder abgespielt werden können.
 4. **Parser als reine, exportierte Funktionen** (`export function parse...(body)`), defensiv: fehlende Felder mit
    `expect(...)` klar melden, Zahlen mit `num(...)` lesen, nie `NaN` zurückgeben.
-5. **Kleine Antworten anfordern:** `limit`, Zeitfenster, Feldauswahl nutzen. Ziel unter 20 000 Zeichen pro Antwort.
+5. **Kleine Antworten anfordern:** `limit`, Zeitfenster, Feldauswahl nutzen. Ziel unter 6 000 Zeichen pro Antwort (größere
+   Antworten kann die Aufzeichnungs-Umgebung nicht vollständig aufnehmen; lieber kürzere Historie, der Speicher baut sie auf).
    Höchstens 8 Requests pro Lauf, außer es ist begründet.
-6. **Historie mitnehmen:** Liefert die API Vergangenheitswerte, gib alle Punkte im Fenster zurück (60–90 Tage bei
-   Tagesreihen). Der Speicher ignoriert bereits bekannte Zeitstempel. So gibt es sofort eine Baseline.
+6. **Historie mitnehmen:** Liefert die API Vergangenheitswerte, gib alle Punkte im Fenster zurück (bei
+   Tagesreihen so viele Tage, wie in ca. 6 000 Zeichen passen, typisch 20 bis 30). Der Speicher ignoriert bereits bekannte Zeitstempel. So gibt es sofort eine Baseline.
 7. **Zeitstempel in UTC.** Tageswerte auf `T00:00:00Z` des Tages, Stundenwerte auf die volle Stunde. **Unvollständige
    Zeiträume nicht melden** (laufender Tag bzw. laufende Stunde bei Zählreihen), sie sehen sonst wie ein Einbruch aus.
 8. **Signale vollständig deklarieren** (`signals: [...]`): `id`, `scenarios`, `domain`, `name`, `plain` (ein Satz für
@@ -44,7 +47,8 @@ am Signal, sonst gilt die Reihe als veraltet und zählt nicht.
 
 ## Fixtures und Tests
 
-- Aufzeichnungs-Wunsch: `fixtures/queue/<collector>.json` mit `[{ "fixture": "<quelle>/<name>.json", "url": "<exakte URL>", "maxChars": 12000 }]`.
+- Aufzeichnungs-Wunsch: `fixtures/queue/<collector>.json` mit `[{ "fixture": "<quelle>/<name>.json", "url": "<exakte URL>", "maxChars": 6000 }]`
+  (`maxChars` realistisch, höchstens 8000).
   Die URL so wählen, wie der Collector sie für `now = 2026-11-17T00:00:00Z` bauen würde. Ein zentraler Agent holt die
   echten Antworten und legt sie unter `fixtures/` ab. **Collector-Agents rufen die Quellen nicht selbst ab.**
 - Test: `tests/collectors/<id>.test.ts` mit `node:test`. Solange keine echte Antwort vorliegt, ein kleines Beispiel

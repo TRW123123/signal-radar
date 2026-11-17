@@ -96,5 +96,220 @@
         "plain": "Öl, Gold, Rüstungsaktien, Währungen der Konfliktparteien"
       }
     }
+  },
+  {
+    "id": "blackout",
+    "order": 3,
+    "title": "Blackout und Energiekrise",
+    "question": "Droht ein großer Stromausfall oder eine Energie-Notlage?",
+    "tagline": "Netzfrequenz, Gasspeicher, Strompreise, Kälte, Kraftwerksausfälle, Pegelstände",
+    "domains": {
+      "grid": {
+        "title": "Stromnetz",
+        "weight": 1,
+        "plain": "Netzfrequenz, Last, Erzeugung, Reserve und Engpässe im Stromnetz"
+      },
+      "gas": {
+        "title": "Gasversorgung",
+        "weight": 1,
+        "plain": "Gasspeicher, Gasflüsse, LNG-Lieferungen und Ausspeicherrate"
+      },
+      "prices": {
+        "title": "Energiepreise",
+        "weight": 0.8,
+        "plain": "Börsenstrompreise, Preisspitzen, negative Preise und Regelenergiekosten"
+      },
+      "weather": {
+        "title": "Wetter",
+        "weight": 0.9,
+        "plain": "Kälte, Dunkelflaute, Sturm, Eis und Sonnenstürme"
+      },
+      "plants": {
+        "title": "Kraftwerke und Pegel",
+        "weight": 0.9,
+        "plain": "Ungeplante Kraftwerksausfälle, französische Atomkraft, Flusspegel und Wasserspeicher"
+      },
+      "outages": {
+        "title": "Gemessene Stromausfälle",
+        "weight": 1,
+        "plain": "Gemeldete Stromausfälle, Störungsportale und Internet-Ausfälle als Folge"
+      },
+      "markets": {
+        "title": "Märkte",
+        "weight": 0.6,
+        "plain": "Gas- und Ölpreise, Energieaktien, Wetten"
+      }
+    }
+  },
+  {
+    "id": "ai",
+    "order": 4,
+    "title": "KI-Vorfall",
+    "question": "Gerät gerade ein KI-System außer Kontrolle oder wird es massenhaft missbraucht?",
+    "tagline": "Modell-Plattformen, Schadpakete, Agenten-Verkehr, Vorfall-Datenbanken, Rechenleistung",
+    "domains": {
+      "platforms": {
+        "title": "Modell-Plattformen",
+        "weight": 1,
+        "plain": "Uploads, Statusseiten und Sperrungen bei Hugging Face und den KI-Anbietern"
+      },
+      "supply_chain": {
+        "title": "Software-Lieferkette",
+        "weight": 1,
+        "plain": "Schadpakete, Versionsfluten und Sicherheitslücken in KI-Software"
+      },
+      "agents": {
+        "title": "Aktivität autonomer Agenten",
+        "weight": 0.9,
+        "plain": "Wie viel Verkehr und Code von Bots und KI-Agenten stammt"
+      },
+      "incidents": {
+        "title": "Vorfall-Sammlungen",
+        "weight": 0.6,
+        "plain": "Datenbanken, die gemeldete KI-Vorfälle zählen"
+      },
+      "compute": {
+        "title": "Rechenleistung und Strom",
+        "weight": 0.7,
+        "plain": "GPU-Mietpreise, Stromlast und Auslastung von Rechenzentren"
+      },
+      "markets": {
+        "title": "Märkte und Wetten",
+        "weight": 0.6,
+        "plain": "KI-Aktien, Prognosemärkte und Pflichtmeldungen von Firmen"
+      }
+    }
+  },
+  {
+    "id": "finance",
+    "order": 5,
+    "title": "Finanzkrise und Bankenstress",
+    "question": "Bahnt sich eine Finanzkrise oder ein Ansturm auf Banken an?",
+    "tagline": "Geldmarkt, Kreditaufschläge, Banken, Schwankungen, Krypto, Insolvenzen",
+    "domains": {
+      "money_market": {
+        "title": "Geldmarkt",
+        "weight": 1,
+        "plain": "Was sich Banken untereinander und bei Zentralbanken zum Tagesgeld leihen müssen"
+      },
+      "credit": {
+        "title": "Kreditaufschläge",
+        "weight": 1,
+        "plain": "Aufpreise für riskante Kredite, Staatsanleihen-Abstände, Zinskurve"
+      },
+      "banks": {
+        "title": "Banken",
+        "weight": 1,
+        "plain": "Bankaktien, Pleiten, Einlagen, Pflichtmeldungen"
+      },
+      "volatility": {
+        "title": "Schwankungen",
+        "weight": 0.8,
+        "plain": "Angstbarometer an Aktien-, Anleihe- und Devisenmärkten"
+      },
+      "crypto": {
+        "title": "Krypto",
+        "weight": 0.5,
+        "plain": "Stablecoins, Abflüsse, Gebühren"
+      },
+      "real_economy": {
+        "title": "Realwirtschaft",
+        "weight": 0.6,
+        "plain": "Insolvenzen, Arbeitslosenanträge, Frachtraten, Metallpreise"
+      },
+      "markets": {
+        "title": "Märkte",
+        "weight": 0.5,
+        "plain": "Wettmärkte, Gold, Fluchtwährungen"
+      }
+    }
+  },
+  {
+    "id": "nuclear",
+    "order": 6,
+    "title": "Nuklearer Zwischenfall",
+    "question": "Gibt es Anzeichen für einen nuklearen Unfall oder Einsatz?",
+    "tagline": "Strahlungs-Messnetze, Erdbebendaten, Kraftwerksleistung, Warnsysteme",
+    "domains": {
+      "radiation": {
+        "title": "Strahlung in der Umwelt",
+        "weight": 1,
+        "plain": "Messen die Strahlungsnetze in Europa mehr als sonst?"
+      },
+      "seismic": {
+        "title": "Erdbeben und Explosionen",
+        "weight": 0.9,
+        "plain": "Meldet die Erdbebenwarte Explosionen an bekannten Testgeländen?"
+      },
+      "plants": {
+        "title": "Kraftwerke",
+        "weight": 0.7,
+        "plain": "Laufen Atomkraftwerke normal, oder fallen mehrere ungeplant aus?"
+      },
+      "alerts": {
+        "title": "Amtliche Warnungen",
+        "weight": 0.3,
+        "plain": "Zahl der Warnungen von Behörden, nur als Zusammenhang"
+      },
+      "military": {
+        "title": "Militär und Luftraum",
+        "weight": 0.6,
+        "plain": "Führungsflugzeuge, Raketentest-Warnungen, Satellitenstarts als Summe"
+      },
+      "markets": {
+        "title": "Märkte, Wetten und Vorsorgekäufe",
+        "weight": 0.5,
+        "plain": "Uran, Rüstungsaktien, Prognosemärkte und der Preis für Jodtabletten"
+      }
+    }
+  },
+  {
+    "id": "bio",
+    "order": 7,
+    "title": "Pandemie und Ausbrüche",
+    "question": "Breitet sich gerade ein gefährlicher Erreger aus?",
+    "tagline": "Abwasser, Arztbesuche, Krankenhäuser, Vogelgrippe, neue Virusvarianten, Medikamentenengpässe",
+    "domains": {
+      "wastewater": {
+        "title": "Abwasser",
+        "weight": 1,
+        "plain": "Wie viel Virus-Erbgut messen Kläranlagen?"
+      },
+      "clinical": {
+        "title": "Arztbesuche und Krankenhäuser",
+        "weight": 1,
+        "plain": "Wie viele Menschen sind mit Atemwegsinfekten in Praxen und Kliniken?"
+      },
+      "outbreaks": {
+        "title": "Ausbruchsmeldungen",
+        "weight": 0.4,
+        "plain": "Was melden WHO, ECDC und Africa CDC? (Aussagen von Organisationen, daher geringes Gewicht)"
+      },
+      "animal": {
+        "title": "Tierseuchen",
+        "weight": 0.9,
+        "plain": "Vogelgrippe bei Geflügel, Wildvögeln und Rindern"
+      },
+      "genomic": {
+        "title": "Erbgut-Überwachung",
+        "weight": 0.8,
+        "plain": "Neue Virus-Linien und Varianten"
+      },
+      "mortality": {
+        "title": "Sterbefälle",
+        "weight": 0.8,
+        "plain": "Sterben mehr Menschen als erwartet?"
+      },
+      "behaviour": {
+        "title": "Verhalten und Versorgung",
+        "weight": 0.5,
+        "plain": "Medikamentenengpässe, Reisehinweise und Krankenstand"
+      },
+      "markets": {
+        "title": "Märkte",
+        "weight": 0.4,
+        "plain": "Aktien von Impfstoff-, Test- und Geflügelherstellern"
+      }
+    }
   }
 ]

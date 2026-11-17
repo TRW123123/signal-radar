@@ -5,7 +5,10 @@
 // Harmlose Ursachen für Ausschläge: Feiertage, Brückentage, Wetter, Zeitumstellung; nicht veröffentlichte Stunden sind null.
 // URL-Form: https://www.smard.de/app/chart_data/<filter>/<region>/index_<resolution>.json und .../<filter>_<region>_<resolution>_<timestamp>.json;
 // <timestamp> muss ein Wert aus dem Index sein (Wochenanfang Montag 00:00 Ortszeit, also 22:00/23:00 UTC), geratene Werte ergeben 404.
-// VERIFIED: teilweise (Index 17.11.2026 echt, 621 Wochen-Zeitstempel; Wochendateien noch nicht aufgezeichnet, Queue mit echten Zeitstempeln neu).
+// Der Index (8 700 Zeichen, wächst jede Woche) wird nicht mehr abgerufen: die Wochenanfänge sind Montag 00:00 Europe/Berlin und werden
+// lokal berechnet (weekStarts; Test gleicht sie mit dem echten Index ab). Je Wochendatei 168 Stunden, ca. 4 500 bis 5 000 Zeichen.
+// Fehlt die Datei der laufenden Woche noch (404), fällt nur sie aus.
+// VERIFIED: teilweise (Index 17.11.2026 echt, 621 Wochen-Zeitstempel, stimmen mit weekStarts überein; Wochendateien noch nicht aufgezeichnet).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';
@@ -15,6 +18,31 @@ const HOUR = 3600_000;
 
 interface IndexResp { timestamps?: unknown }
 interface DataResp { series?: unknown }
+
+const BERLIN = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short', hourCycle: 'h23' });
+function berlinParts(ms: number): Record<string, string> {
+  return Object.fromEntries(BERLIN.formatToParts(new Date(ms)).map((p) => [p.type, p.value]));
+}
+const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+/** Die letzten n Wochenanfänge (Montag 00:00 Europe/Berlin, in ms) bis einschließlich before, aufsteigend. Wie im SMARD-Index. */
+export function weekStarts(before: number, n: number): number[] {
+  const DAY = 86400_000;
+  const p = berlinParts(before);
+  // Kalendertag des Montags in Berliner Ortszeit; dessen Mitternacht liegt um 23:00 (MEZ) oder 22:00 UTC (MESZ) des Vortags.
+  let day = Date.UTC(+p.year, +p.month - 1, +p.day) - WEEKDAYS.indexOf(p.weekday) * DAY;
+  const out: number[] = [];
+  while (out.length < n) {
+    const t = [3600_000, 7200_000].map((off) => day - off).find((c) => {
+      const q = berlinParts(c);
+      return q.weekday === 'Mon' && q.hour === '00' && q.minute === '00';
+    });
+    if (t === undefined) throw new Error(`Wochenanfang für ${new Date(day).toISOString()} nicht bestimmbar`);
+    if (t <= before) out.push(t);
+    day -= 7 * DAY;
+  }
+  return out.reverse();
+}
 
 export function parseIndex(body: IndexResp): number[] {
   const ts = expect(Array.isArray(body.timestamps) ? body.timestamps : null, 'timestamps');
@@ -54,9 +82,7 @@ const collector: Collector = {
   ],
   async collect(ctx) {
     const before = floorHour(ctx.now).getTime();
-    const index = parseIndex(await ctx.http.json<IndexResp>(`${BASE}/index_hour.json`, { fixture: 'smard/index_hour.json' }));
-    const weeks = index.filter((t) => t <= before).slice(-4); // 4 Wochen = Baseline-Fenster (je Wochendatei ca. 5 kB)
-    if (!weeks.length) throw new Error('unerwartete Antwort: kein Wochen-Zeitstempel im Index');
+    const weeks = weekStarts(before, 4); // 4 Wochen = Baseline-Fenster
     const observations: Observation[] = [];
     let ok = 0;
     for (const w of weeks) {

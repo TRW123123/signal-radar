@@ -178,3 +178,150 @@ Automatisch erzeugt von `scripts/consolidate_war.py`. Kriterien wie oben. Zusät
 | VIINA 2.0 (GitHub) | download | unklar | https://github.com/zhukovyuri/VIINA |
 | WorldGovernmentBonds CDS/Renditen | scrape (Status license-unclear) | unklar, Scrape-Verbot möglich | http://www.worldgovernmentbonds.com/ |
 | Yahoo Finance Chart (inoffizielle API) | api | inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar | https://finance.yahoo.com |
+
+
+<!-- szenario:blackout -->
+## Szenario blackout
+
+
+Automatisch erzeugt von `scripts/consolidate_blackout.py`. Kriterien wie in `docs/LICENSE-TODO.md`: Lizenz laut Recherche unklar oder ungeprüft, oder Nutzungsbedingungen schränken automatisierten/kommerziellen Abruf ein. Signale, deren Hauptquelle nur per Scrape erreichbar ist und deren Lizenz unklar ist, haben Status `license-unclear`.
+
+| Quelle | Zugriffsart | Was unklar ist (Stand Recherche) | Link |
+|---|---|---|---|
+| BMWK Notfallplan Gas | scrape (Status license-unclear) | unklar | https://www.bmwk.de/Redaktion/DE/Artikel/Energie/gas-notfallplan-gas.html |
+| Bundesnetzagentur Gasversorgung Lage und Verbrauch | download | unklar | https://www.bundesnetzagentur.de/DE/Gasversorgung/aktuelle_gasversorgung/start.html |
+| Cloudflare Radar API | api | CC BY-NC 4.0 | https://developers.cloudflare.com/api/resources/radar/ |
+| Störungsmelder Westnetz, Stromnetz Berlin, Netze BW, Bayernwerk | scrape (Status license-unclear) | unklar | https://www.westnetz.de/de/stoerungen.html |
+| EDF REMIT Verfügbarkeit (via ODRÉ / RTE) | scrape (Status license-unclear) | unklar | https://www.edf.fr/en/the-edf-group/producing-a-climate-friendly-energy/nuclear-energy/nuclear-availability |
+| ENTSO-E Transparency Platform | api | ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen | https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html |
+| ENTSOG Transparency Platform API | api | ENTSOG, Quellenangabe, unklar im Detail | https://transparency.entsog.eu/api/archiveDirectory/swagger/ |
+| Gassco UMM (Urgent Market Messages) | scrape (Status license-unclear) | unklar | https://umm.gassco.no/ |
+| GIE Inside Information Platform (REMIT) | scrape (Status license-unclear) | unklar | https://iip.gie.eu/ |
+| IODA (Georgia Tech) | api | unklar (akademisch, nicht-kommerziell) | https://api.ioda.inetintel.cc.gatech.edu/v2/ |
+| netzfrequenzmessung.de | scrape (Status license-unclear) | unklar | https://netzfrequenzmessung.de/ |
+| Netztransparenz.de (4 ÜNB) | download | Quellenangabe, unklar | https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung/Redispatch |
+| Open-Meteo | api | CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz) | https://open-meteo.com/en/docs |
+| Polymarket Gamma API | api | unklar | https://docs.polymarket.com/ |
+| PowerOutage.us | api | kommerziell | https://poweroutage.us/ |
+| PSE Raporty (Polen) | api | unklar | https://api.raporty.pse.pl/ |
+| regelleistung.net Datencenter | download | Quellenangabe, unklar | https://www.regelleistung.net/ |
+| StörungsAuskunft.de | scrape (Status license-unclear) | unklar, Nutzungsbedingungen prüfen | https://www.stoerungsauskunft.de/ |
+| Swissgrid Netzdaten | scrape (Status license-unclear) | unklar | https://www.swissgrid.ch/en/home/operation/grid-data.html |
+| Trading Hub Europe Transparenz | scrape (Status license-unclear) | unklar | https://www.tradinghub.eu/de-de/Publikationen/Transparenz |
+| Ukrenergo | scrape (Status license-unclear) | unklar | https://ua.energy/ |
+
+
+<!-- szenario:ai -->
+## Szenario ai
+
+
+Automatisch erzeugt von `scripts/consolidate_ai.py`. Kriterien wie `docs/LICENSE-TODO.md`: Lizenz laut Recherche unklar oder ungeprüft, oder Nutzungsbedingungen schränken automatisierten/kommerziellen Abruf ein. Signale, deren Hauptquelle nur per Scrape erreichbar ist und deren Lizenz unklar ist, haben Status `license-unclear`. Berichte von Behörden und Firmen (Klasse C) zählen höchstens mit Gewicht 0,2.
+
+| Quelle | Zugriffsart | Was unklar ist (Stand Recherche) | Link |
+|---|---|---|---|
+| Cloudflare Radar API (AI Insights) | api | CC BY-NC 4.0 (nicht kommerziell) | https://developers.cloudflare.com/radar/ |
+| EU AI Office / Kalifornien OES | scrape (Status license-unclear) | unklar | https://digital-strategy.ec.europa.eu/en/policies/ai-office |
+| Hugging Face Blog (RSS) | rss | unklar | https://huggingface.co/blog |
+| HF Daily Papers API | api | unklar | https://huggingface.co/papers |
+| Hacker News Algolia | api | unklar | https://hn.algolia.com/api |
+| Metaculus API | api | unklar | https://www.metaculus.com/api/ |
+| METR Agent Incidents | download | unklar | https://metr.org/agent-incidents/ |
+| OECD AI Incidents and Hazards Monitor | scrape (Status license-unclear) | OECD-Nutzungsbedingungen | https://oecd.ai/en/incidents |
+| OpenRouter API | api | unklar | https://openrouter.ai/docs/api-reference/overview |
+| pypistats.org API | api | unklar | https://pypistats.org/api/ |
+| ransomware.live | api | CC BY-NC-SA bzw. siehe Seite | https://www.ransomware.live/ |
+| SANS Internet Storm Center DShield API | api | CC BY-NC-SA 3.0 | https://isc.sans.edu/api/ |
+| Silicon Data H100 Rental Index | scrape | unklar | https://www.silicondata.com/ |
+| Statuspage Hugging Face | api | Je Anbieter unklar | https://developer.statuspage.io/ |
+| Tranco Domain-Ranking | api | CC BY-NC-SA / frei für Forschung | https://tranco-list.eu/ |
+| Vast.ai Marktplatz | api | unklar | https://docs.vast.ai/ |
+| Anbieter-Blogs (RSS) | rss | unklar | https://openai.com/news/rss.xml |
+| Yahoo Finance Chart (inoffiziell) | api | Nutzungsbedingungen verbieten systematische Nutzung, Lizenz klären | https://finance.yahoo.com/ |
+
+
+<!-- szenario:finance -->
+## Szenario finance
+
+
+Automatisch erzeugt von `scripts/consolidate_finance.py`. Kriterien wie in `docs/LICENSE-TODO.md`: Lizenz laut Recherche unklar oder Nutzungsbedingungen schränken automatisierten Abruf ein. Signale, deren Hauptquelle nur per Scrape erreichbar ist und deren Lizenz unklar ist, haben Status `license-unclear`. Yahoo Finance: Nutzungsbedingungen verbieten systematischen Abruf; der Collector yahoo-chart läuft bereits, die Frage gilt für alle Szenarien.
+
+| Quelle | Zugriffsart | Was unklar ist (Stand Recherche) | Link |
+|---|---|---|---|
+| CBOE Indexdaten | download | unklar | https://www.cboe.com/us/indices/dashboard/skew/ |
+| Drewry WCI | scrape (Status license-unclear) | Nutzungsbedingungen prüfen | https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry |
+| FHLB Office of Finance | scrape (Status license-unclear) | unklar | https://www.fhlb-of.com/ofweb_userWeb/pageBuilder/financial-reports-5 |
+| cryptonequity/crypto-fear-greed-historical-dataset-2018-2026 | download | unklar | https://github.com/cryptonequity/crypto-fear-greed-historical-dataset-2018-2026 |
+| Kalshi Trade API (öffentliche Marktdaten) | api | Kalshi ToS | https://docs.kalshi.com/ |
+| Polymarket Gamma API | api | ToS Polymarket, lesend frei | https://docs.polymarket.com/ |
+| Yahoo Finance Chart-Endpunkt (inoffiziell) | api | unklar, ToS verbieten systematische Nutzung | https://finance.yahoo.com/ |
+
+
+<!-- szenario:nuclear -->
+## Szenario nuclear
+
+
+Automatisch erzeugt von `scripts/consolidate_nuclear.py`. Kriterien wie in `docs/LICENSE-TODO.md`: Lizenz laut Recherche unklar oder ungeprüft, oder Nutzungsbedingungen schränken automatisierten Abruf ein. Signale, deren Hauptquelle nur per Scrape erreichbar ist und deren Lizenz unklar ist, haben Status `license-unclear`. Angaben von Behörden (Klasse C) zählen höchstens mit Gewicht 0,2.
+
+| Quelle | Zugriffsart | Was unklar ist (Stand Recherche) | Link |
+|---|---|---|---|
+| Alertswiss | scrape (Status license-unclear) | unklar | https://www.alertswiss.ch/ |
+| CTBTO Pressemitteilungen | rss | unklar | https://www.ctbto.org/press-centre/press-releases |
+| Ecozagroza (SAEE, Ukraine) | scrape (Status license-unclear) | unklar | https://ecozagroza.gov.ua/ |
+| EMSC FDSN Event (seismicportal.eu) | api | unklar (EMSC, Quellenangabe) | https://www.seismicportal.eu/fdsn-wsevent.html |
+| EURDEP-Layer beim BfS-WFS (Europa, ca. 5000 Stationen) | api | unklar (EURDEP: JRC, Nutzung mit Quellenangabe) | https://remon.jrc.ec.europa.eu/About/Rad-Data-Exchange |
+| GEOFON (GFZ Potsdam) FDSN Event | api | unklar (GFZ, Quellenangabe) | https://geofon.gfz-potsdam.de/fdsnws/event/1/application.wadl |
+| Ukrainian air raid sirens dataset (GitHub, Vadimkin) | download | unklar (Lizenzdatei nicht geprüft) | https://github.com/Vadimkin/ukrainian-air-raid-sirens-dataset |
+| Google Trends (inoffiziell) | scrape (Status license-unclear) | Nutzungsbedingungen von Google | https://trends.google.com/ |
+| GPSJam | scrape (Status license-unclear) | unklar | https://gpsjam.org/ |
+| IAEA PRIS | scrape (Status license-unclear) | unklar (Quellenangabe IAEA) | https://pris.iaea.org/PRIS/ |
+| IAEA Update zur Lage in der Ukraine | rss | unklar | https://www.iaea.org/newscenter/focus/iaea-ukraine-conflict |
+| Preisvergleich (Jodtabletten) | scrape (Status license-unclear) | Nutzungsbedingungen beachten | https://www.idealo.de/ |
+| ISC FDSN Event | api | unklar (Quellenangabe) | https://www.isc.ac.uk/iscbulletin/search/webservices/ |
+| KINS iernet | scrape (Status license-unclear) | unklar | https://iernet.kins.re.kr/ |
+| NADAM, Nationale Alarmzentrale Schweiz | scrape (Status license-unclear) | unklar (Quellenangabe) | https://www.naz.ch/de/aktuell/messdaten |
+| NINA / MoWaS (warnung.bund.de API) | api | unklar (BBK, Quellenangabe) | https://nina.api.bund.dev/ |
+| NMDB Neutron Monitor Database | api | unklar (Quellenangabe) | https://www.nmdb.eu/nest/help.php |
+| NRA Radioactivity Monitoring | scrape (Status license-unclear) | unklar | https://radioactivity.nsr.go.jp/en/ |
+| Open-Meteo | api | CC BY 4.0 (nicht-kommerziell kostenlos) | https://open-meteo.com/en/docs |
+| Polymarket Gamma API | api | unklar | https://docs.polymarket.com/ |
+| radmon.org | scrape (Status license-unclear) | unklar | https://radmon.org/ |
+| RIVM Nationaal Meetnet Radioactiviteit | scrape (Status license-unclear) | unklar | https://www.rivm.nl/stralingsmonitor |
+| uRADMonitor Data API | api | unklar (Nutzungsbedingungen prüfen) | https://www.uradmonitor.com/api/ |
+| Yahoo Finance Chart-Endpunkt | api | inoffiziell, Nutzungsbedingungen von Yahoo | https://finance.yahoo.com/ |
+
+
+<!-- szenario:bio -->
+## Szenario bio
+
+
+Automatisch erzeugt von `scripts/consolidate_bio.py`. Kriterien wie in `docs/LICENSE-TODO.md`: Lizenz laut Recherche unklar oder ungeprüft, oder Nutzungsbedingungen schränken automatisierten oder kommerziellen Abruf ein. Signale, deren Hauptquelle nur per Scrape erreichbar ist und deren Lizenz unklar ist, haben Status `license-unclear`.
+
+| Quelle | Zugriffsart | Was unklar ist (Stand Recherche) | Link |
+|---|---|---|---|
+| Africa CDC Weekly Event Based Surveillance Report | scrape (Status license-unclear) | unklar | https://africacdc.org/disease-outbreak/ |
+| BfArM Lieferengpassmeldungen (PharmNet) | download | unklar | https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml |
+| ECDC Communicable Disease Threats Report | scrape | ECDC Copyright (Weiterverwendung mit Quelle) | https://www.ecdc.europa.eu/en/publications-data/monitoring/weekly-threats-reports |
+| ECDC ERVISS (EU-ECDC/Respiratory_Viruses_Weekly_Data) | download | keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar) | https://github.com/EU-ECDC/Respiratory_Viruses_Weekly_Data |
+| EU Wastewater Observatory (EU-Kommission/JRC) | scrape (Status license-unclear) | unklar | https://wastewater-observatory.jrc.ec.europa.eu/ |
+| EuroMOMO Pooled Estimates | download | unklar (Quellenangabe) | https://www.euromomo.eu/graphs-and-maps |
+| FLI Risikoeinschätzung Aviäre Influenza | scrape (Status license-unclear) | unklar | https://www.fli.de/de/aktuelles/tierseuchengeschehen/aviaere-influenza-ai-gefluegelpest/ |
+| FLI Tierseuchen-Informationssystem (TSIS) | scrape (Status license-unclear) | unklar (Landesdaten) | https://tsis.fli.de/ |
+| GISAID EpiCoV/EpiFlu | scrape | GISAID-Zugangsvereinbarung (restriktiv) | https://gisaid.org/ |
+| GKV-Spitzenverband/Krankenkassen: Krankenstandsstatistik | scrape (Status license-unclear) | unklar | https://www.gkv-spitzenverband.de/ |
+| HealthMap (Boston Children's) | api | nichtkommerziell, unklar | https://healthmap.org/ |
+| Nextstrain avian-flu H5N1-Datensätze | download | CC BY 4.0 laut Nextstrain (unklar im Detail) | https://github.com/nextstrain/avian-flu |
+| cov-lineages/pango-designation alias_key.json | download | unklar (keine LICENSE-Datei unter master gefunden) | https://github.com/cov-lineages/pango-designation |
+| pango-designation lineages.csv (Sequenz zu Linie) | download | unklar | https://github.com/cov-lineages/pango-designation |
+| pango-designation lineage_notes.txt | download | unklar | https://github.com/cov-lineages/pango-designation |
+| Polymarket Gamma API | api | unklar | https://docs.polymarket.com/ |
+| ProMED-mail | rss | unklar, teils Konto/Bezahlschranke | https://promedmail.org/ |
+| RKI COVID-19-Hospitalisierungen (GitHub) | download | unklar (Repo-Lizenz nicht geprüft) | https://github.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland |
+| RKI COVID-19 7-Tage-Inzidenz (GitHub) | download | unklar | https://github.com/robert-koch-institut/COVID-19_7-Tage-Inzidenz_in_Deutschland |
+| DIVI-Intensivregister je Bundesland (RKI-GitHub) | download | unklar | https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland |
+| DIVI-Intensivregister Deutschland (RKI-GitHub) | download | unklar (RKI/DIVI, Repo-Lizenz nicht geprüft) | https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland |
+| WastewaterSCAN Dashboard-Daten | download | CC BY (laut Seite, unklar) | https://data.wastewaterscan.org/ |
+| WHO Emergency Committees / PHEIC-Seite | api | WHO-Nutzungsbedingungen | https://www.who.int/emergencies/disease-outbreak-news |
+| WHO Disease Outbreak News API | api | WHO-Nutzungsbedingungen, i. d. R. CC BY-NC-SA 3.0 IGO | https://www.who.int/api/news/diseaseoutbreaknews |
+| WHO COVID-19 / FluNet Daten | download | WHO-Nutzungsbedingungen | https://www.who.int/tools/flunet |
+| WOAH WAHIS | api | WOAH-Nutzungsbedingungen, unklar | https://wahis.woah.org/ |
+| Yahoo Finance Chart (CALM) | api | inoffiziell, unklar | https://finance.yahoo.com/ |

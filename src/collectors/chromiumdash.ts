@@ -7,13 +7,15 @@
 // Es werden nur Tage nach dem ältesten gelieferten Release gemeldet, damit eine zu kurze Antwort nicht wie eine Lücke aussieht.
 // Echte Form (17.11.2026): Array mit je ca. 600 Zeichen (channel, hashes, milestone, platform, previous_version, time, version).
 //   Mehrere Versionen eines Release-Schubs teilen sich denselben `time`-Wert; gezählt werden deshalb verschiedene Zeitstempel.
-//   num=25 hält die Antwort bei ca. 15 000 Zeichen (num=50 waren 30 103 Zeichen, zu groß für die Prüf-Umgebung).
-// VERIFIED: teilweise (17.11.2026, Form an echtem Ausschnitt geprüft; Antwort mit num=25 wartet auf neue Aufzeichnung).
+//   num=50 waren 30 103 Zeichen (ca. 600 je Release); die Aufzeichnungs-Umgebung nimmt nur ca. 6 000 Zeichen, daher num=8 (ca. 4 800).
+//   Das reicht für einige Wochen Historie; ältere Tage baut der Speicher Lauf für Lauf auf (es wird erst ab dem ältesten Release gezählt).
+// VERIFIED: teilweise (17.11.2026, Form an echtem Ausschnitt geprüft; Antwort mit num=8 wartet auf Aufzeichnung).
 
 import type { Collector } from '../core/types.ts';
 import { DAY_MS, countPerDay, expect, floorDay, num } from './_helpers.ts';
 
-export const URL = 'https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=25';
+export const URL = 'https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=8';
+export const FIXTURE = 'chromiumdash/stable-windows-8.json';
 
 export interface Release { version: string; time: number; milestone: number | null }
 
@@ -54,7 +56,7 @@ const collector: Collector = {
     banalCauses: ['Meilenstein-Wechsel', 'Zero-Day-Einzelfall'],
   }],
   async collect(ctx) {
-    const releases = parseReleases(await ctx.http.json<unknown>(URL, { fixture: 'chromiumdash/stable-windows.json' }));
+    const releases = parseReleases(await ctx.http.json<unknown>(URL, { fixture: FIXTURE }));
     if (releases.length === 0) throw new Error('unerwartete Antwort: keine Releases');
     return { observations: releasesPerDay(releases, ctx.now, 90) };
   },

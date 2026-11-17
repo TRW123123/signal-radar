@@ -1,57 +1,57 @@
 [
   {
-    "fixture": "hn-algolia/outage.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
-    "maxChars": 24000
+    "fixture": "hn-algolia/outage-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/cyberattack.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=cyberattack&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
-    "maxChars": 24000
+    "fixture": "hn-algolia/cyberattack-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=cyberattack&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/ransomware.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=ransomware&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
-    "maxChars": 24000
+    "fixture": "hn-algolia/ransomware-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=ransomware&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/breach.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=breach&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
-    "maxChars": 24000
+    "fixture": "hn-algolia/breach-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=breach&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/is-down.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22is%20down%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
-    "maxChars": 24000
+    "fixture": "hn-algolia/is-down-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22is%20down%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/war-world-war.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22world%20war%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=300",
-    "maxChars": 20000
+    "fixture": "hn-algolia/war-world-war-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22world%20war%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/war-nuclear-war.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22nuclear%20war%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=300",
-    "maxChars": 20000
+    "fixture": "hn-algolia/war-nuclear-war-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22nuclear%20war%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/war-Hormuz.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=Hormuz&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=300",
-    "maxChars": 20000
+    "fixture": "hn-algolia/war-Hormuz-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=Hormuz&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/war-Taiwan-Strait.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22Taiwan%20Strait%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=300",
-    "maxChars": 20000
+    "fixture": "hn-algolia/war-Taiwan-Strait-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22Taiwan%20Strait%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/war-conscription.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=conscription&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=300",
-    "maxChars": 20000
+    "fixture": "hn-algolia/war-conscription-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=conscription&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   },
   {
-    "fixture": "hn-algolia/war-missile-strike.json",
-    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22missile%20strike%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=300",
-    "maxChars": 20000
+    "fixture": "hn-algolia/war-missile-strike-24h.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22missile%20strike%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+    "maxChars": 1000
   }
 ]

@@ -1,42 +1,122 @@
 [
- {"fixture":"wikimedia/de.wikipedia-Stromausfall.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stromausfall/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Notvorrat.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notvorrat/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Hacker.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Hacker/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Ransomware.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Ransomware/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Computervirus.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Computervirus/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Denial_of_Service.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Denial_of_Service/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Cyberkrieg.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Cyberkrieg/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Kritische_Infrastruktur.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kritische_Infrastruktur/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Phishing.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Phishing/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Botnet.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Botnet/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Cyberattack.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Cyberattack/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Internet_outage.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Internet_outage/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Power_outage.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Power_outage/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Cyberwarfare.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Cyberwarfare/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Ransomware.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Ransomware/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Denial-of-service_attack.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Denial-of-service_attack/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Data_breach.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Data_breach/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Computer_security.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Computer_security/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Botnet.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Botnet/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Phishing.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Phishing/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Dritter_Weltkrieg.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Dritter_Weltkrieg/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Mobilmachung.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Mobilmachung/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Wehrpflicht.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Wehrpflicht/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Schutzraum.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Schutzraum/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Zivilschutz.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Zivilschutz/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Kaliumiodid.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kaliumiodid/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Atomkrieg.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Atomkrieg/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Straße_von_Hormus.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stra%C3%9Fe_von_Hormus/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Verteidigungsfall.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Verteidigungsfall/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/de.wikipedia-Kriegsrecht.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kriegsrecht/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-World_War_III.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/World_War_III/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Conscription.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Conscription/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Fallout_shelter.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Fallout_shelter/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Nuclear_warfare.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_warfare/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Civil_defense.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Civil_defense/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Strait_of_Hormuz.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Strait_of_Hormuz/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Mobilization.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Mobilization/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Martial_law.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Martial_law/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Potassium_iodide.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Potassium_iodide/daily/20260903/20261116","maxChars":14000},
- {"fixture":"wikimedia/en.wikipedia-Taiwan_Strait.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Taiwan_Strait/daily/20260903/20261116","maxChars":14000}
+  {
+    "fixture": "wikimedia/de.wikipedia-Hacker-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Hacker/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Phishing-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Phishing/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Computervirus-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Computervirus/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Ransomware-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Ransomware/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Stromausfall-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stromausfall/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Denial_of_Service-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Denial_of_Service/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Computer_security-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Computer_security/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Phishing-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Phishing/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Ransomware-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Ransomware/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Data_breach-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Data_breach/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Denial-of-service_attack-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Denial-of-service_attack/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Cyberattack-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Cyberattack/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Dritter_Weltkrieg-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Dritter_Weltkrieg/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Wehrpflicht-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Wehrpflicht/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Atomkrieg-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Atomkrieg/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Mobilmachung-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Mobilmachung/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Kriegsrecht-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kriegsrecht/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/de.wikipedia-Straße_von_Hormus-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stra%C3%9Fe_von_Hormus/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-World_War_III-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/World_War_III/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Nuclear_warfare-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_warfare/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Conscription-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Conscription/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Martial_law-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Martial_law/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Strait_of_Hormuz-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Strait_of_Hormuz/daily/20261018/20261116",
+    "maxChars": 5000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Taiwan_Strait-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Taiwan_Strait/daily/20261018/20261116",
+    "maxChars": 5000
+  }
 ]

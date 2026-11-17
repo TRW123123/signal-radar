@@ -1,0 +1,39 @@
+{
+  "id": "ai",
+  "order": 4,
+  "title": "KI-Vorfall",
+  "question": "Gerät gerade ein KI-System außer Kontrolle oder wird es massenhaft missbraucht?",
+  "tagline": "Modell-Plattformen, Schadpakete, Agenten-Verkehr, Vorfall-Datenbanken, Rechenleistung",
+  "domains": {
+    "platforms": {
+      "title": "Modell-Plattformen",
+      "weight": 1,
+      "plain": "Uploads, Statusseiten und Sperrungen bei Hugging Face und den KI-Anbietern"
+    },
+    "supply_chain": {
+      "title": "Software-Lieferkette",
+      "weight": 1,
+      "plain": "Schadpakete, Versionsfluten und Sicherheitslücken in KI-Software"
+    },
+    "agents": {
+      "title": "Aktivität autonomer Agenten",
+      "weight": 0.9,
+      "plain": "Wie viel Verkehr und Code von Bots und KI-Agenten stammt"
+    },
+    "incidents": {
+      "title": "Vorfall-Sammlungen",
+      "weight": 0.6,
+      "plain": "Datenbanken, die gemeldete KI-Vorfälle zählen"
+    },
+    "compute": {
+      "title": "Rechenleistung und Strom",
+      "weight": 0.7,
+      "plain": "GPU-Mietpreise, Stromlast und Auslastung von Rechenzentren"
+    },
+    "markets": {
+      "title": "Märkte und Wetten",
+      "weight": 0.6,
+      "plain": "KI-Aktien, Prognosemärkte und Pflichtmeldungen von Firmen"
+    }
+  }
+}

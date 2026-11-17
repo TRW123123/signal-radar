@@ -1,62 +1,62 @@
 [
   {
-    "fixture": "yahoo/CIBR-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/CIBR-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/HACK-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/HACK?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/HACK-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/HACK?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/BUG-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BUG?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/BUG-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BUG?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/VIX-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/VIX-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/GC_F-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/GC_F-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/BTC_USD-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/BTC_USD-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/BZ_F-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BZ%3DF?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/BZ_F-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BZ%3DF?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/CL_F-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL%3DF?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/CL_F-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL%3DF?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/OVX-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EOVX?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/OVX-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EOVX?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/ITA-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ITA?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/ITA-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ITA?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/RHM_DE-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/RHM.DE?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/RHM_DE-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/RHM.DE?range=1mo&interval=1d",
+    "maxChars": 6000
   },
   {
-    "fixture": "yahoo/ZW_F-3mo-1d.json",
-    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZW%3DF?range=3mo&interval=1d",
-    "maxChars": 20000
+    "fixture": "yahoo/ZW_F-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZW%3DF?range=1mo&interval=1d",
+    "maxChars": 6000
   }
 ]

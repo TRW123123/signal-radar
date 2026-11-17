@@ -80,3 +80,81 @@ Automatisch erzeugt von `scripts/consolidate_war.py`. Gleiche Spalten wie oben; 
 | Space-Track.org API | nur Alternativquelle für: sat_maneuvers | free (kostenloser Key/Konto) | https://www.space-track.org/documentation | `SR_SPACE_TRACK_KEY` | 0 (+1 als Alternative) |
 | UCDP Candidate Events API | UCDP Candidate Events: Todesopfer je Land | free (kostenloser Key/Konto) | https://ucdp.uu.se/apidocs/ | `SR_UCDP_KEY` | 1 (+1 als Alternative) |
 | IRIS/CTBTO IMS Infraschall (IDC, vDEC) | nur Alternativquelle für: explosions | free (kostenloser Key/Konto) | https://www.ctbto.org/our-work/international-monitoring-system | `SR_USGS_INFRASOUND_KEY` | 0 (+1 als Alternative) |
+
+
+<!-- szenario:blackout -->
+## Szenario blackout
+
+
+Automatisch erzeugt von `scripts/consolidate_blackout.py`. Gleiche Spalten wie `docs/KEYS-NEEDED.md`; Dienste, die dort schon stehen (z. B. ENTSO-E, AGSI+), nutzen dieselbe Umgebungsvariable. Collectors ohne Key werden übersprungen, nicht als Fehler gewertet.
+
+| Dienst | Wofür | Kosten | Link | Umgebungsvariable | Betroffene Signale |
+|---|---|---|---|---|---|
+| GIE AGSI+ (Gasspeicher) | Gasspeicherfüllstand Deutschland; Ausspeicherrate Gasspeicher; Füllstand einzelner Großspeicher | free (kostenloser Key/Konto) | https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf | `SR_AGSI_KEY` | 3 |
+| GIE ALSI (LNG-Terminals) | LNG-Tankfüllstand Terminals EU | free (kostenloser Key/Konto) | https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf | `SR_ALSI_KEY` | 1 (+1 als Alternative) |
+| Cloudflare Radar API | Outage Center mit Stromausfall-Ursachen (Cloudflare Radar) | free (kostenloser Key/Konto) | https://developers.cloudflare.com/api/resources/radar/ | `SR_CF_RADAR_KEY` | 1 |
+| ENTSO-E Transparency Platform | Ungeplante Kraftwerksausfälle (ENTSO-E) | free (kostenloser Key/Konto) | https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html | `SR_ENTSOE_KEY` | 1 (+6 als Alternative) |
+| Fingrid Open Data (Dataset 177 Frequenz) | nur Alternativquelle für: frequency_cross_check_gb_nordic | free (kostenloser Key/Konto) | https://data.fingrid.fi/en/instructions | `SR_FINGRID_KEY` | 0 (+1 als Alternative) |
+| Netztransparenz.de (4 ÜNB) | Regelenergie-Abruf Deutschland; Notfallmaßnahmen nach §13 EnWG; Redispatch-Volumen; Ausgleichsenergiepreis reBAP … | free (kostenloser Key/Konto) | https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung/Redispatch | `SR_NETZTRANSPARENZ_KEY` | 3 |
+| PowerOutage.us | Stromausfall-Zähler USA (EAGLE-I, PowerOutage.us) | paid (bezahlt) | https://poweroutage.us/ | `SR_POWEROUTAGE_US_KEY` | 1 |
+
+
+<!-- szenario:ai -->
+## Szenario ai
+
+
+Automatisch erzeugt von `scripts/consolidate_ai.py`. Gleiche Spalten wie `docs/KEYS-NEEDED.md`; Dienste, die dort schon stehen (z. B. Cloudflare Radar, abuse.ch, GitHub), nutzen dieselbe Umgebungsvariable. Collectors ohne Key werden übersprungen, nicht als Fehler gewertet.
+
+| Dienst | Wofür | Kosten | Link | Umgebungsvariable | Betroffene Signale |
+|---|---|---|---|---|---|
+| Cloudflare Radar API (AI Insights) | Anteil KI-Crawler am Web-Verkehr; Crawl-zu-Verweis-Verhältnis; Layer-7-Angriffe als Begleiter; Gesamt-Bot-Anteil am Web-Verkehr … | free (kostenloser Key/Konto) | https://developers.cloudflare.com/radar/ | `SR_CLOUDFLARE_KEY` | 5 |
+| EIA Open Data (Strom stündlich) | Stromlast Virginia/PJM | free (kostenloser Key/Konto) | https://www.eia.gov/opendata/ | `SR_EIA_KEY` | 1 |
+| GitHub Advisory Database REST | nur Alternativquelle für: osv_malware_ai | free (kostenloser Key/Konto) | https://docs.github.com/en/rest/security-advisories/global-advisories | `SR_GHSA_KEY` | 0 (+1 als Alternative) |
+| GitHub Search API (Repositories) | Neue Repositories zu MCP-Servern; Pull-Requests durch Coding-Agenten pro Tag; Commits mit KI-Co-Autor-Zeile | free (kostenloser Key/Konto) | https://docs.github.com/en/rest/search/search | `SR_GITHUB_REST_KEY` | 3 |
+| GreyNoise Tags API | GreyNoise-Tags zu KI-Diensten | free (Community, begrenzt) (kostenloser Key/Konto) | https://docs.greynoise.io/ | `SR_GREYNOISE_KEY` | 1 |
+| Metaculus API | nur Alternativquelle für: prediction_ai_incident | free (kostenloser Key/Konto) | https://www.metaculus.com/api/ | `SR_METACULUS_KEY` | 0 (+1 als Alternative) |
+| NVD CVE API 2.0 | nur Alternativquelle für: cve_ai_keywords | free (kostenloser Key/Konto) | https://nvd.nist.gov/developers/vulnerabilities | `SR_NVD_CVE_API_KEY` | 0 (+1 als Alternative) |
+| Reddit r/LocalLLaMA und r/ChatGPT (JSON) | Aktivität der Community um lokale Modelle | free (kostenloser Key/Konto) | https://www.reddit.com/dev/api/ | `SR_REDDIT_JSON_KEY` | 1 |
+| Shodan Count API | Offen erreichbare LLM-Server im Internet | Konto (Mitgliedschaft ca. 49 USD einmalig, Stand Kenntnis) (bezahlt) | https://developer.shodan.io/api | `SR_SHODAN_KEY` | 1 |
+| URLhaus Host-Abfrage | Schadsoftware-URLs auf huggingface.co | free (kostenloser Key/Konto) | https://urlhaus-api.abuse.ch/ | `SR_ABUSECH_KEY` | 1 |
+| Vast.ai Marktplatz | GPU-Mietpreise (H100); Verfügbare GPUs am Marktplatz | free (kostenloser Key/Konto) | https://docs.vast.ai/ | `SR_VAST_AI_KEY` | 2 |
+
+
+<!-- szenario:finance -->
+## Szenario finance
+
+
+Automatisch erzeugt von `scripts/consolidate_finance.py`. Gleiche Spalten wie `docs/KEYS-NEEDED.md`; Dienste, die dort schon stehen, nutzen dieselbe Umgebungsvariable. Collectors ohne Key werden übersprungen, nicht als Fehler gewertet.
+
+| Dienst | Wofür | Kosten | Link | Umgebungsvariable | Betroffene Signale |
+|---|---|---|---|---|---|
+| Destatis GENESIS-Online | Deutsche Regelinsolvenzen (Frühindikator) | free (kostenloser Key/Konto) | https://www-genesis.destatis.de/datenbank/online | `SR_DESTATIS_KEY` | 1 |
+| FRED API (St. Louis Fed) | Fed: sonstige Kredite an Institute; Euro-Banken-Anleihen: Aufschlag; Euro-Hochzins-Aufschlag; Investment-Grade-Aufschlag … | free (kostenloser Key/Konto) | https://fred.stlouisfed.org/docs/api/fred/series_observations.html | `SR_FRED_KEY` | 9 (+4 als Alternative) |
+
+
+<!-- szenario:nuclear -->
+## Szenario nuclear
+
+
+Automatisch erzeugt von `scripts/consolidate_nuclear.py`. Gleiche Spalten wie `docs/KEYS-NEEDED.md`; Dienste, die dort schon stehen, nutzen dieselbe Umgebungsvariable. Collectors ohne Key werden übersprungen, nicht als Fehler gewertet.
+
+| Dienst | Wofür | Kosten | Link | Umgebungsvariable | Betroffene Signale |
+|---|---|---|---|---|---|
+| ENTSO-E Transparency Platform | ENTSO-E: Nichtverfügbarkeit von Kernkraftwerken; ENTSO-E: Erzeugung je Kernkraftwerk; Ukraine: Netz-Lastfluss an der Grenze | free (kostenloser Key/Konto) | https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html | `SR_ENTSOE_KEY` | 3 |
+| Fingrid Open Data | Finnland: Atomstrom (Fingrid) | free (kostenloser Key/Konto) | https://data.fingrid.fi/en/instructions | `SR_FINGRID_KEY` | 1 |
+| FRED series PURANUSDM | IMF-Uranpreis (monatlich, FRED) | free (kostenloser Key/Konto) | https://fred.stlouisfed.org/series/PURANUSDM | `SR_FRED_KEY` | 1 |
+| Metaculus API | Metaculus: Fragen zu Nuklearwaffen | free (kostenloser Key/Konto) | https://www.metaculus.com/api/ | `SR_METACULUS_KEY` | 1 |
+| uRADMonitor Data API | uRADMonitor: Sensoren in Europa | free (kostenloser Key/Konto) | https://www.uradmonitor.com/api/ | `SR_URADMONITOR_KEY` | 1 |
+
+
+<!-- szenario:bio -->
+## Szenario bio
+
+
+Automatisch erzeugt von `scripts/consolidate_bio.py`. Gleiche Spalten wie `docs/KEYS-NEEDED.md`; Dienste, die dort schon stehen (z. B. FRED), nutzen dieselbe Umgebungsvariable. Collectors ohne Key werden übersprungen, nicht als Fehler gewertet. "Betroffene Signale" zählt Signale mit dieser Quelle als Hauptquelle und Status needs-key.
+
+| Dienst | Wofür | Kosten | Link | Umgebungsvariable | Betroffene Signale |
+|---|---|---|---|---|---|
+| CMU Delphi Epidata API (FluView, ILINet, Nowcasts) | USA: FluView ILINet und Labor-Positivrate | free (kostenloser Key/Konto) | https://cmu-delphi.github.io/delphi-epidata/ | `SR_DELPHI_EPIDATA_KEY` | 1 |
+| FRED: Eier Verbraucherpreis (APU0000708111) | nur Alternativquelle für: poultry_stocks | free (kostenloser Key/Konto) | https://fred.stlouisfed.org/series/APU0000708111 | `SR_FRED_KEY` | 0 |
+| GISAID EpiCoV/EpiFlu | GISAID Sequenzzahlen | free (kostenloser Key/Konto) | https://gisaid.org/ | `SR_GISAID_KEY` | 1 |

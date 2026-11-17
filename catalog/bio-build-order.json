@@ -1,0 +1,406 @@
+[
+  {
+    "rank": 1,
+    "collector": "ecdc-erviss-github",
+    "domain": "clinical",
+    "signals": [
+      "bio.clinical.ecdc_flu_unknown",
+      "bio.clinical.ecdc_positivity",
+      "bio.clinical.ecdc_severity",
+      "bio.clinical.ecdc_ili",
+      "bio.genomic.ecdc_variants"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/activityFluTypeSubtype.csv",
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/sentinelTestsDetectionsPositivity.csv",
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/nonSentinelSeverity.csv",
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/ILIARIRates.csv",
+      "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/variants.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "uncertainty": "Messfeld laut Recherche: Influenza-Nachweise nach Typ/Subtyp (A(H1)pdm09, A(H3), B, A unknown); die Spalte A (unknown) ist ein Hinweis auf ungetypte Fälle; 2,5 MB.; Datei größer als 6000 Zeichen (0,1 bis 57 MB); Zeilenfilter und Spaltenauswahl im Collector.; Lizenz: keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar)",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (ILIARIRates, sentinelTestsDetectionsPositivity, nonSentinelSeverity, activityFluTypeSubtype: 2026-W45; variants.csv: 2026-W44); ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: seit 2022-W25 bzw. 2023; max. Gewicht 0.85, 5 Signal(e)"
+  },
+  {
+    "rank": 2,
+    "collector": "rki-sari-github",
+    "domain": "clinical",
+    "signals": [
+      "bio.clinical.sari_unexplained",
+      "bio.clinical.sari_total",
+      "bio.clinical.sari_kids"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz/main/SARI-Hospitalisierungsinzidenz.tsv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "uncertainty": "Messfeld laut Recherche: Spalten Saison, Kalenderwoche, Altersgruppe, SARI (Gesamt, COVID-19, Influenza, RSV), Hospitalisierungsinzidenz.; Datei größer als 6000 Zeichen (0,1 bis 57 MB); Zeilenfilter und Spaltenauswahl im Collector.",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (SARI-Hospitalisierungsinzidenz.tsv: letzte Woche 2026-W45); ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: seit Saison 2014/15, 0,2 MB; max. Gewicht 0.85, 3 Signal(e)"
+  },
+  {
+    "rank": 3,
+    "collector": "rki-amelag-github",
+    "domain": "wastewater",
+    "signals": [
+      "bio.wastewater.ww_vs_clinical_gap",
+      "bio.wastewater.amelag_sars2",
+      "bio.wastewater.amelag_site_spread",
+      "bio.wastewater.amelag_flu",
+      "bio.wastewater.amelag_rsv",
+      "bio.wastewater.amelag_flub",
+      "bio.context.amelag_covered_pop"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv",
+      "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_einzelstandorte.tsv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "uncertainty": "Messfeld laut Recherche: Spalten datum, n (Standorte), anteil_bev, viruslast, viruslast_normalisiert, vorhersage, obere/untere_schranke, typ (Influenza A, A+B, B, RSV A, B, A/B, A+B, SARS-CoV-2). Tab-getrennt. Messwert: viruslast_normalisiert.; amelag_einzelstandorte.tsv (57 MB): Kopfzeile am 17.11.2026 abgerufen, Ende der Datei nicht prüfbar (Range-Abruf vom Ende liefert 501).; Datei größer als 6000 Zeichen (0,1 bis 57 MB); Zeilenfilter und Spaltenauswahl im Collector.",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (amelag_aggregierte_kurve.tsv: letzte Woche 04.11.2026); ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: seit 2023-11-29 (Influenza A), 138 kB; max. Gewicht 0.80, 7 Signal(e)"
+  },
+  {
+    "rank": 4,
+    "collector": "rki-are-github",
+    "domain": "clinical",
+    "signals": [
+      "bio.clinical.are_konsultation",
+      "bio.clinical.are_bl_spread",
+      "bio.clinical.are_kids"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/main/ARE-Konsultationsinzidenz.tsv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "uncertainty": "Messfeld laut Recherche: Spalten Saison, Kalenderwoche, Bundesland, Bundesland_ID, Altersgruppe, ARE_Konsultationsinzidenz (Arztbesuche je 100.000).; Datei größer als 6000 Zeichen (0,1 bis 57 MB); Zeilenfilter und Spaltenauswahl im Collector.",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (ARE-Konsultationsinzidenz.tsv: letzte Woche 2026-W45); ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: seit Saison 2012/13, 1 MB; max. Gewicht 0.60, 3 Signal(e)"
+  },
+  {
+    "rank": 5,
+    "collector": "rki-covid-hosp-github",
+    "domain": "clinical",
+    "signals": [
+      "bio.clinical.covid_hosp"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland/main/Aktuell_Deutschland_COVID-19-Hospitalisierungen.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "uncertainty": "Messfeld laut Recherche: Spalten Datum, Bundesland, Altersgruppe, 7T_Hospitalisierung_Faelle, 7T_Hospitalisierung_Inzidenz. Datei trägt Zeilen mit Bundesgebiet/00+.; Datei größer als 6000 Zeichen (0,1 bis 57 MB); Zeilenfilter und Spaltenauswahl im Collector.; Lizenz: unklar (Repo-Lizenz nicht geprüft)",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (Aktuell_Deutschland_COVID-19-Hospitalisierungen.csv: letzter Tag 15.11.2026); ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: seit 2020-03-01, 11 MB; max. Gewicht 0.55, 1 Signal(e)"
+  },
+  {
+    "rank": 6,
+    "collector": "rki-intensivregister-github",
+    "domain": "clinical",
+    "signals": [
+      "bio.clinical.icu_picu",
+      "bio.clinical.icu_covid_current",
+      "bio.clinical.icu_free_vent"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Deutschland_Kapazitaeten.csv",
+      "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Bundeslaender_Kapazitaeten.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "uncertainty": "Messfeld laut Recherche: Zeilen je Datum und Behandlungsgruppe (Erwachsene, Kinder: NICU, PICU). faelle_covid_aktuell, intensivbetten_belegt/_frei, betriebssituation_*. Kinder-Zeilen sind ein RSV-/Atemwegs-Proxy.; Datei größer als 6000 Zeichen (0,1 bis 57 MB); Zeilenfilter und Spaltenauswahl im Collector.; Lizenz: unklar (RKI/DIVI, Repo-Lizenz nicht geprüft)",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (Intensivregister_Deutschland_Kapazitaeten.csv und _Bundeslaender_: letzter Tag 16.11.2026); ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: seit 2020, 0,7 MB; max. Gewicht 0.55, 3 Signal(e)"
+  },
+  {
+    "rank": 7,
+    "collector": "rki-grippeweb-github",
+    "domain": "attention",
+    "signals": [
+      "bio.attention.grippeweb_ili"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/robert-koch-institut/GrippeWeb_Daten_des_Wochenberichts/main/GrippeWeb_Daten_des_Wochenberichts.tsv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "uncertainty": "Messfeld laut Recherche: Spalten Meldungen, Saison, Erkrankung (ARE, ILI), Altersgruppe, Region, Kalenderwoche, Inzidenz. Selbstmeldungen der Bevölkerung (Teilnehmer, nicht Ärzte).; Datei größer als 6000 Zeichen (0,1 bis 57 MB); Zeilenfilter und Spaltenauswahl im Collector.",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (GrippeWeb_Daten_des_Wochenberichts.tsv: letzte Woche 2026-W45); ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: seit 2011, 0,9 MB; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 8,
+    "collector": "polymarket-gamma",
+    "domain": "attention",
+    "signals": [
+      "bio.attention.poly_pandemic"
+    ],
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?closed=false&limit=20&search=pandemic"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "polymarket-gamma",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Vorhandener Collector polymarket-gamma; Märkte zu H5N1, Pandemie, WHO-Notlage.; Lizenz: unklar",
+    "why": "Ergänzen: Neues Signal bio.attention.poly_pandemic: Suchbegriffe pandemic, H5N1, WHO emergency; Wahrscheinlichkeit und Volumen wie bei den Cyber- und War-Signalen.; ohne Key, kostenlos; kleine JSON-Antwort möglich; Historie: Preisverlauf je Markt; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 9,
+    "collector": "yahoo-chart",
+    "domain": "markets",
+    "signals": [
+      "bio.markets.antivirals",
+      "bio.markets.mask_stocks",
+      "bio.markets.mrna",
+      "bio.markets.poultry_stocks"
+    ],
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/ROG.SW?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GILD?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/HOLX?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/MMM?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/APT?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/MRNA?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BNTX?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NVAX?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CALM?range=1y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/VITL?range=1y&interval=1d"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "yahoo-chart",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Vorhandener Collector yahoo-chart, Symbol ROG.SW ergänzen.; Lizenz: inoffiziell, unklar",
+    "why": "Ergänzen: Symbole ergänzen: MRNA, BNTX, NVAX (mrna); ROG.SW, GILD, HOLX (antivirals); CALM, VITL (poultry_stocks, inkl. Eierpreis-Proxy); MMM, APT (mask_stocks). Metrik Schlusskurs-Stand wie bei den Preisen; je Signal nur Tage, an denen alle Symbole Werte haben.; ohne Key, kostenlos; kleine JSON-Antwort möglich; Historie: viele Jahre; max. Gewicht 0.30, 4 Signal(e)"
+  },
+  {
+    "rank": 10,
+    "collector": "cdc-nwss-socrata",
+    "domain": "wastewater",
+    "signals": [
+      "bio.wastewater.nwss_h5",
+      "bio.wastewater.nwss_sars2",
+      "bio.wastewater.nwss_flu"
+    ],
+    "endpoints": [
+      "https://data.cdc.gov/browse?q=H5%20wastewater",
+      "https://data.cdc.gov/resource/2ew6-ywp6.json?$limit=5&$order=date_end DESC",
+      "https://data.cdc.gov/resource/<id>.json (ID im Portal suchen: 'NWSS Influenza A Wastewater Data')"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Standorte mit H5-Nachweis; ID nachschlagen.",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort möglich; Historie: seit 2024; max. Gewicht 0.85, 3 Signal(e)"
+  },
+  {
+    "rank": 11,
+    "collector": "euromomo",
+    "domain": "mortality",
+    "signals": [
+      "bio.mortality.euromomo"
+    ],
+    "endpoints": [
+      "https://www.euromomo.eu/graphs-and-maps"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: z-Scores/Exzess je Land und Altersgruppe; Download-Link auf Seite nachschlagen.; Lizenz: unklar (Quellenangabe)",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort möglich; Historie: seit 2008; max. Gewicht 0.80, 1 Signal(e)"
+  },
+  {
+    "rank": 12,
+    "collector": "usda-aphis-hpai",
+    "domain": "animal",
+    "signals": [
+      "bio.animal.aphis_dairy",
+      "bio.animal.aphis_mammal",
+      "bio.animal.aphis_flocks",
+      "bio.animal.aphis_wild"
+    ],
+    "endpoints": [
+      "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-detections",
+      "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-livestock/nmts"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: CSV-Downloads je Kategorie (commercial/backyard flocks, wild birds, mammals, livestock). Direkt-URL der Datei auf Seite nachschlagen.",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort möglich; Historie: seit 2022; max. Gewicht 0.80, 4 Signal(e)"
+  },
+  {
+    "rank": 13,
+    "collector": "cdc-nchs-deaths",
+    "domain": "mortality",
+    "signals": [
+      "bio.mortality.cdc_excess"
+    ],
+    "endpoints": [
+      "https://data.cdc.gov/resource/r8kw-7aab.json?$limit=5"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Resource-ID aus Erinnerung, nicht geprüft.",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort möglich; Historie: seit 2020; max. Gewicht 0.70, 1 Signal(e)"
+  },
+  {
+    "rank": 14,
+    "collector": "woah-wahis",
+    "domain": "animal",
+    "signals": [
+      "bio.animal.woah_events"
+    ],
+    "endpoints": [
+      "https://wahis.woah.org/#/dashboards/qd-dashboard"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Die Oberfläche nutzt eine nicht dokumentierte JSON-API; Ausbruchsmeldungen der Mitgliedsländer (Klasse B).; Lizenz: WOAH-Nutzungsbedingungen, unklar",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort möglich; Historie: seit 2005; max. Gewicht 0.55, 1 Signal(e)"
+  },
+  {
+    "rank": 15,
+    "collector": "bfarm-engpass",
+    "domain": "behaviour",
+    "signals": [
+      "bio.behaviour.bfarm_engpass"
+    ],
+    "endpoints": [
+      "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: CSV-Export der Meldungen mit Wirkstoff, Beginn, Ende. Zählreihe z. B. Antibiotika, Fiebersäfte, Oseltamivir.; Lizenz: unklar",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort möglich; Historie: aktuelle und beendete Meldungen; max. Gewicht 0.35, 1 Signal(e)"
+  },
+  {
+    "rank": 16,
+    "collector": "who-dg-statements",
+    "domain": "outbreaks",
+    "signals": [
+      "bio.outbreaks.who_pheic"
+    ],
+    "endpoints": [
+      "https://www.who.int/api/news/emergencycommittees"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Status ausgerufener Notlagen (PHEIC); Klasse C.; Lizenz: WHO-Nutzungsbedingungen",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort möglich; Historie: seit 2009; max. Gewicht 0.20, 1 Signal(e)"
+  },
+  {
+    "rank": 17,
+    "collector": "who-don-api",
+    "domain": "outbreaks",
+    "signals": [
+      "bio.outbreaks.who_don_new_pathogen",
+      "bio.outbreaks.who_don_rate"
+    ],
+    "endpoints": [
+      "https://www.who.int/api/news/diseaseoutbreaknews?$orderby=PublicationDateAndTime desc&$top=20"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: OData-Feed; Felder Title, PublicationDateAndTime, UrlName. Nicht prüfbar.; Lizenz: WHO-Nutzungsbedingungen, i. d. R. CC BY-NC-SA 3.0 IGO",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort möglich; Historie: seit 1996; max. Gewicht 0.20, 2 Signal(e)"
+  },
+  {
+    "rank": 18,
+    "collector": "auswaertiges-amt",
+    "domain": "behaviour",
+    "signals": [
+      "bio.behaviour.travel_warn"
+    ],
+    "endpoints": [
+      "https://www.auswaertiges-amt.de/opendata/travelwarning"
+    ],
+    "format": "json",
+    "history": false,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: JSON je Land, Felder lastModified, warning; Textinhalt Klasse C, Änderungsdatum zählbar.",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort möglich; keine API-Historie, Baseline muss erst wachsen; max. Gewicht 0.20, 1 Signal(e)"
+  },
+  {
+    "rank": 19,
+    "collector": "ncbi-eutils",
+    "domain": "genomic",
+    "signals": [
+      "bio.genomic.nextstrain_h5"
+    ],
+    "endpoints": [
+      "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=influenza+A+virus+H5N1[Organism]+AND+2026/10[PDAT]&rettype=count"
+    ],
+    "format": "xml",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Zahl neu hinterlegter Sequenzen je Zeitfenster (count).; Rate-Limit: 3 Req/s ohne Key",
+    "why": "ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: seit Archivbeginn; max. Gewicht 0.75, 1 Signal(e)"
+  },
+  {
+    "rank": 20,
+    "collector": "pango-alias-github",
+    "domain": "genomic",
+    "signals": [
+      "bio.genomic.pango_new_alias"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/cov-lineages/pango-designation/master/pango_designation/alias_key.json",
+      "https://raw.githubusercontent.com/cov-lineages/pango-designation/master/lineage_notes.txt"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "live": false,
+    "extends": null,
+    "uncertainty": "Messfeld laut Recherche: Schlüssel = Alias (z. B. XHE), Wert = Eltern-Linien. Anzahl der Schlüssel zählt neue Aliase; XHC/XHD/XHE aktuell.; raw-Dateien am 17.11.2026 abrufbar (HTTP 200, alias_key.json bis Alias XHE, lineage_notes.txt bis QW.2), aber ohne Datumsangabe; Aktualität daher nicht verifiziert.; Datei größer als 6000 Zeichen (0,1 bis 57 MB); Zeilenfilter und Spaltenauswahl im Collector.; Lizenz: unklar (keine LICENSE-Datei unter master gefunden)",
+    "why": "ohne Key, kostenlos; Antwort groß oder Zugang aufwändiger; Historie: vollständig seit 2020, 20 kB; max. Gewicht 0.60, 1 Signal(e)"
+  }
+]

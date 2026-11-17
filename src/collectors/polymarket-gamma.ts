@@ -5,15 +5,19 @@
 // Gemessen (je Lauf, Momentaufnahme): über alle gefundenen, offenen Märkte
 //   1. höchste Ja-Wahrscheinlichkeit in Prozent (Preis des Ergebnisses "Yes"),
 //   2. Summe des 24-Stunden-Handelsvolumens in US-Dollar (volume24hr); das Gesamtvolumen (volumeNum) steht in meta.
-// Gefunden wird per Textsuche (SEARCH_TERMS je Szenario, Datei-Konstante) und zusätzlich über den Fragetext gefiltert
-// (MATCH), weil die Volltextsuche auch Ereignisse mit nur teilweise passenden Märkten liefert.
+// Gefunden wird per Textsuche (Suchbegriffe je Szenario in src/collectors/config/<szenario>.ts, Feld polymarket) und zusätzlich über
+// den Fragetext gefiltert (match), weil die Volltextsuche auch Ereignisse mit nur teilweise passenden Märkten liefert.
 // Harmlose Ursachen für Ausschläge: wenige, dünn gehandelte Märkte (ein einzelner Großhändler bewegt den Preis),
 // Auslauf/Neuaufnahme eines Marktes (Sprung in der Zusammensetzung), virale Nachricht.
 // Echte Antworten (17.11.2026): Form events[].markets[] bestätigt, outcomes/outcomePrices sind JSON-Strings. Ein Ereignis mit
 // allen Märkten, Beschreibungen und Tags wiegt 8 bis 17 kB; mit limit_per_type=5 waren Antworten 29 bis 86 kB (zu groß für die
 // Prüf-Umgebung), daher limit_per_type=1 (nur der beste Treffer je Begriff; Nachteil: weitere passende Ereignisse fallen weg).
 // events_status=active filtert nicht zuverlässig: Treffer können archived=true/active=false sein (werden übersprungen).
-// Szenario war: eigene Suchbegriffe und eigener Fragetext-Filter (WAR_MATCH), Signale war.attention.prediction_markets_war (höchste
+// Größe: keep_closed_markets=0 (geschlossene Märkte eines Ereignisses entfallen, die der Parser ohnehin überspringt) sowie
+// search_tags=false und search_profiles=false (keine Tag- und Profil-Treffer) sollen die Antwort unter ca. 6 000 Zeichen halten;
+// die Parameter stehen in der Doku zu /public-search, ihre Wirkung auf die Größe ist ungeprüft. Ereignisse mit vielen offenen
+// Märkten (z. B. Datumsstaffeln) können trotzdem größer sein.
+// Szenario war: eigene Suchbegriffe und eigener Fragetext-Filter, Signale war.attention.prediction_markets_war (höchste
 // Ja-Wahrscheinlichkeit) und war.attention.prediction_volume_spike (24-Stunden-Volumen), nur Aggregat über Märkte, keine Konten.
 // Harmlose Ursachen (war): neue/auslaufende Märkte, Sportmärkte mit Ländernamen (Filter dagegen nur grob), dünne Liquidität.
 // VERIFIED: teilweise (17.11.2026: Parser gegen echte, vollständige Antwort geprüft; die Antworten mit limit_per_type=1 stehen
@@ -21,24 +25,22 @@
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';
+import { declare, scenarioEntries } from './_scenario.ts';
 
-/** Suchbegriffe je Szenario. Neues Szenario = neuer Eintrag. */
-export const SEARCH_TERMS: Record<string, string[]> = {
-  cyber: ['cyberattack', 'cyber attack', 'ransomware', 'hack', 'internet outage'],
-};
-/** Fragetext muss einen dieser Ausdrücke enthalten (je Szenario). */
-export const MATCH: Record<string, RegExp> = {
-  cyber: /cyber|ransomware|hack|outage|blackout|power grid|data breach/i,
-};
-export const SCENARIO = 'cyber';
-export const WAR_TERMS = ['world war 3', 'nuclear weapon', 'iran strike', 'strait of hormuz', 'taiwan invasion', 'russia nato'];
-/** Fragetext des Kriegs-Szenarios: Eskalationsbegriffe, oder Konfliktland zusammen mit einem Gewaltbegriff (filtert Sportmärkte). */
-export const WAR_MATCH = /world war|\bww3\b|nuclear (weapon|war|strike|test|attack)|hormuz|invade|invasion|blockade|\b(iran|israel|taiwan|china|russia|nato|ukraine|north korea)\b.*\b(strike|attack|war|conflict|invade|invasion|military|nuclear|blockade|troops)\b|\b(strike|attack|war|conflict|military|troops)\b.*\b(iran|israel|taiwan|china|russia|nato|ukraine|north korea)\b/i;
+/** Suchen aller Szenarien (src/collectors/config/<szenario>.ts, Feld polymarket). */
+const ENTRIES = scenarioEntries('polymarket');
+const SCENARIO_CFG = ENTRIES.map((e) => ({ scenario: e.scenario, terms: e.terms, match: e.match, yesId: e.yesSignal.id, volId: e.volumeSignal.id }));
+/** Suchbegriffe je Szenario (aus der Konfiguration). */
+export const SEARCH_TERMS: Record<string, string[]> = {};
+/** Fragetext-Filter je Szenario (aus der Konfiguration). */
+export const MATCH: Record<string, RegExp> = {};
+for (const e of ENTRIES) { (SEARCH_TERMS[e.scenario] ??= []).push(...e.terms); MATCH[e.scenario] ??= e.match; }
 
-const SCENARIO_CFG = [
-  { scenario: 'cyber', terms: SEARCH_TERMS.cyber, match: MATCH.cyber, yesId: 'cyber.markets.polymarket_cyber', volId: 'cyber.markets.market_volume_cyber' },
-  { scenario: 'war', terms: WAR_TERMS, match: WAR_MATCH, yesId: 'war.attention.prediction_markets_war', volId: 'war.attention.prediction_volume_spike' },
-];
+const DEFAULTS = {
+  kind: 'gauge' as const, manipulability: 'high' as const, independenceGroup: 'polymarket-gamma', intervalMinutes: 360, holdHours: 24,
+  baseline: { method: 'rolling' as const, windowDays: 56, minPoints: 14 },
+  license: 'Polymarket ToS; Nutzung in einigen Ländern eingeschränkt',
+};
 
 export interface Market { id: string; question: string; yes: number | null; volume24h: number; volumeTotal: number }
 
@@ -86,10 +88,10 @@ export function select(markets: Market[], match: RegExp): Market[] {
 }
 
 export function buildUrl(term: string): string {
-  return `https://gamma-api.polymarket.com/public-search?q=${encodeURIComponent(term)}&limit_per_type=1&events_status=active`;
+  return `https://gamma-api.polymarket.com/public-search?q=${encodeURIComponent(term)}&limit_per_type=1&events_status=active&keep_closed_markets=0&search_tags=false&search_profiles=false`;
 }
 export function fixtureName(term: string): string {
-  return `polymarket/search-${term.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase()}.json`;
+  return `polymarket/search-${term.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase()}-open.json`;
 }
 
 const collector: Collector = {
@@ -97,58 +99,23 @@ const collector: Collector = {
   title: 'Polymarket Gamma API',
   sourceUrl: 'https://docs.polymarket.com/',
   intervalMinutes: 360,
-  signals: [
-    {
-      id: 'cyber.markets.polymarket_cyber', scenarios: ['cyber'], domain: 'markets',
-      name: 'Prognosemarkt: höchste Ja-Wahrscheinlichkeit zu Cyberereignissen',
-      plain: 'Die höchste Wahrscheinlichkeit, die Wettende auf Polymarket einem Cyberangriff oder Großausfall geben (nur wenn ein passender Markt existiert).',
-      evidenceClass: 'A', direction: 'up', kind: 'gauge', weight: 0.35, manipulability: 'high',
-      independenceGroup: 'polymarket-gamma', unit: '%', intervalMinutes: 360, holdHours: 24,
-      baseline: { method: 'rolling', windowDays: 56, minPoints: 14 },
-      license: 'Polymarket ToS; Nutzung in einigen Ländern eingeschränkt',
-      banalCauses: ['Geringe Liquidität', 'Einzelne Großhändler', 'Wechsel der gefundenen Märkte'],
-    },
-    {
-      id: 'cyber.markets.market_volume_cyber', scenarios: ['cyber'], domain: 'markets',
-      name: 'Handelsvolumen in Cyber-Prognosemärkten (24 Stunden)',
-      plain: 'Wie viel in den letzten 24 Stunden auf Cyberangriffe und Großausfälle gewettet wurde.',
-      evidenceClass: 'A', direction: 'up', kind: 'gauge', weight: 0.2, manipulability: 'high',
-      independenceGroup: 'polymarket-gamma', unit: 'USD/24h', intervalMinutes: 360, holdHours: 24,
-      baseline: { method: 'rolling', windowDays: 56, minPoints: 14 },
-      license: 'Polymarket ToS; Nutzung in einigen Ländern eingeschränkt',
-      banalCauses: ['Virale Nachricht', 'Neuer Markt in der Trefferliste'],
-    },
-    {
-      id: 'war.attention.prediction_markets_war', scenarios: ['war'], domain: 'attention',
-      name: 'Prognosemärkte zu Krieg: höchste Ja-Wahrscheinlichkeit',
-      plain: 'Die höchste Wahrscheinlichkeit, die Wettende auf Polymarket einem Weltkrieg, Atomwaffeneinsatz, Angriff oder einer Blockade geben (nur wenn ein passender Markt existiert).',
-      evidenceClass: 'D', direction: 'both', kind: 'gauge', weight: 0.5, manipulability: 'high',
-      independenceGroup: 'polymarket-gamma', unit: '%', intervalMinutes: 360, holdHours: 24,
-      baseline: { method: 'rolling', windowDays: 56, minPoints: 14 },
-      license: 'Polymarket ToS; Nutzung in einigen Ländern eingeschränkt',
-      banalCauses: ['Geringe Liquidität', 'Einzelne Großhändler', 'Wechsel der gefundenen Märkte', 'Ablauf eines Marktes'],
-    },
-    {
-      id: 'war.attention.prediction_volume_spike', scenarios: ['war'], domain: 'attention',
-      name: 'Handelsvolumen in Kriegs-Prognosemärkten (24 Stunden)',
-      plain: 'Wie viel in den letzten 24 Stunden auf Krieg, Atomwaffen, Angriffe und Blockaden gewettet wurde; plötzliche Sprünge fallen auf.',
-      evidenceClass: 'D', direction: 'up', kind: 'gauge', weight: 0.35, manipulability: 'high',
-      independenceGroup: 'polymarket-gamma', unit: 'USD/24h', intervalMinutes: 360, holdHours: 24,
-      baseline: { method: 'rolling', windowDays: 56, minPoints: 14 },
-      license: 'Polymarket ToS; Nutzung in einigen Ländern eingeschränkt',
-      banalCauses: ['Medienereignisse', 'Neuer Markt in der Trefferliste'],
-    },
-  ],
+  signals: ENTRIES.flatMap((e) => [declare(DEFAULTS, e.scenario, e.yesSignal), declare(DEFAULTS, e.scenario, e.volumeSignal)]),
   async collect(ctx) {
     const ts = floorHour(ctx.now);
     const observations: Observation[] = [];
     let answered = 0;
+    // Ein Begriff in mehreren Szenarien wird je Lauf nur einmal abgefragt.
+    const cache = new Map<string, Promise<Market[]>>();
+    const search = (term: string) => {
+      if (!cache.has(term)) cache.set(term, ctx.http.json<Resp>(buildUrl(term), { fixture: fixtureName(term) }).then(parse));
+      return cache.get(term)!;
+    };
     for (const cfg of SCENARIO_CFG) {
       const all: Market[] = [];
       let ok = 0;
       for (const term of cfg.terms) {
         try {
-          all.push(...parse(await ctx.http.json<Resp>(buildUrl(term), { fixture: fixtureName(term) })));
+          all.push(...(await search(term)));
           ok++;
         } catch (e) {
           ctx.log(`Suchbegriff ${term} (${cfg.scenario}) fehlgeschlagen: ${(e as Error).message}`);

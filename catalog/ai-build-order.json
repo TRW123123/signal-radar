@@ -1,0 +1,407 @@
+[
+  {
+    "rank": 1,
+    "collector": "cisa-kev",
+    "domain": "supply_chain",
+    "signals": [
+      "ai.supply_chain.kev_ai_products"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": "cisa-kev",
+    "extendsAdd": "Neuaufnahmen nach vendorProject/product auf KI-Frameworks filtern (Langflow, Ray, Ollama, MLflow u. a.); Spiegel cisagov/kev-data auf raw.githubusercontent.com nutzbar; Signal ai.supply_chain.kev_ai_products",
+    "uncertainty": "Messfeld laut Recherche: Spiegel des CISA-KEV-Katalogs, 1,8 MB; Feld vulnerabilities[].vendorProject/product auf KI-Produkte filtern, Zählung nach dateAdded. Originalquelle: cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json.",
+    "why": "Quelle auf raw.githubusercontent.com, aktuell verifiziert (Spiegel cisagov/kev-data: dateReleased 13.11.2026, 1781 Einträge); erweitert bestehenden Collector cisa-kev; ohne Key, kostenlos; Antwort groß oder Format/Zugang aufwändiger; Historie: dateAdded je Eintrag (1781 Einträge); max. Gewicht 0.85, 1 Signal(e)"
+  },
+  {
+    "rank": 2,
+    "collector": "cvelist-delta",
+    "domain": "supply_chain",
+    "signals": [
+      "ai.supply_chain.cve_ai_keywords"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/deltaLog.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": "cvelist-delta",
+    "extendsAdd": "je CVE aus deltaLog.new[] die Einzeldatei laden und Titel/Beschreibung nach KI-Begriffen filtern (z. B. langchain, ollama, vllm, langflow, mlflow, pytorch, transformers, mcp); neue Signale ai.supply_chain.cve_ai_keywords",
+    "uncertainty": "Messfeld laut Recherche: deltaLog.new[].githubLink führt zur Einzeldatei (containers.cna.title und descriptions), dort nach KI-Begriffen filtern; Aufwand: eine Anfrage je neue CVE. Einzeldatei CVE-2025-3248 (Langflow RCE) am 17.11.2026 geprüft.; Rate-Limit: raw.githubusercontent.com",
+    "why": "Quelle auf raw.githubusercontent.com, aktuell verifiziert (deltaLog.json: fetchTime 16.11.2026 23:36 UTC); erweitert bestehenden Collector cvelist-delta; ohne Key, kostenlos; Antwort groß oder Format/Zugang aufwändiger; Historie: 30 Tage deltaLog; Einzeldatei je CVE mit Titel und Beschreibung; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 3,
+    "collector": "pypi",
+    "domain": "supply_chain",
+    "signals": [
+      "ai.supply_chain.pypi_ai_yanks_removals",
+      "ai.supply_chain.pypi_ai_maintainer_changes",
+      "ai.supply_chain.pypi_ai_name_typosquats",
+      "ai.supply_chain.pypi_ai_release_burst",
+      "ai.supply_chain.pypi_new_projects_rate",
+      "ai.supply_chain.pypi_serial_rate"
+    ],
+    "endpoints": [
+      "https://pypi.org/pypi/litellm/json",
+      "POST https://pypi.org/pypi  Body: <methodCall><methodName>changelog_last_serial</methodName></methodCall>",
+      "https://pypi.org/rss/packages.xml"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "extendsAdd": null,
+    "uncertainty": "Messfeld laut Recherche: Am 17.11.2026 geprüft: litellm mit 954 Releases, jeweils upload_time_iso_8601, yanked. Messwert: Releases pro Woche, Yanks, Maintainer-Wechsel.; XML-RPC ist ein POST mit XML-Body; Paket-JSON ist groß (litellm 2,4 MB).; Rate-Limit: unklar, Cache",
+    "why": "Quelle auf pypi.org, aktuell verifiziert (XML-RPC changelog_last_serial liefert 43761231 (0,2 kB); rss/packages.xml: neuester Eintrag 17.11.2026 00:59 GMT; pypi/litellm/json: letzter Upload 16.11.2026 21:57 UTC); ohne Key, kostenlos; kleine JSON-Antwort; Historie: Alle Releases mit upload_time_iso_8601 und yanked: sofortige Historie je Paket; max. Gewicht 0.80, 6 Signal(e)"
+  },
+  {
+    "rank": 4,
+    "collector": "npm-registry",
+    "domain": "supply_chain",
+    "signals": [
+      "ai.supply_chain.npm_ai_version_burst",
+      "ai.supply_chain.npm_ai_new_packages"
+    ],
+    "endpoints": [
+      "https://registry.npmjs.org/langchain",
+      "https://registry.npmjs.org/-/v1/search?text=keywords:mcp&size=250"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": null,
+    "extendsAdd": null,
+    "uncertainty": "Messfeld laut Recherche: Am 17.11.2026 geprüft: time-Objekt mit 485 Einträgen für langchain.; Rate-Limit: unklar, bei Massenabruf Sperre möglich",
+    "why": "Quelle auf registry.npmjs.org, aktuell verifiziert (Suche keywords:mcp mit size=3 (3,9 kB), updated 16.11.2026; Paket langchain: letzte Version 13.11.2026); ohne Key, kostenlos; kleine JSON-Antwort; Historie: Paket-JSON /<name> enthält time{version: Zeitstempel}: volle Release-Historie; max. Gewicht 0.65, 2 Signal(e)"
+  },
+  {
+    "rank": 5,
+    "collector": "polymarket-gamma",
+    "domain": "markets",
+    "signals": [
+      "ai.markets.prediction_ai_incident"
+    ],
+    "endpoints": [
+      "https://gamma-api.polymarket.com/public-search?q=AI"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "polymarket-gamma",
+    "extendsAdd": "Suchbegriffe für KI-Vorfälle ergänzen; Signal ai.markets.prediction_ai_incident",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Collector polymarket-gamma existiert (Cyber-Suchbegriffe); Suchbegriffe für KI ergänzen.",
+    "why": "erweitert bestehenden Collector polymarket-gamma; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Preisverlauf je Markt über CLOB-API prices-history; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 6,
+    "collector": "sans-isc",
+    "domain": "agents",
+    "signals": [
+      "ai.agents.honeypot_llm_probes"
+    ],
+    "endpoints": [
+      "https://isc.sans.edu/api/portdetails/11434?json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "sans-isc",
+    "extendsAdd": "portdetails für Ports typischer Modell-Server (z. B. 11434) ergänzen; Signal ai.agents.honeypot_llm_probes",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Je Port Zahl Reports, Quellen, Ziele. Collector sans-isc vorhanden. Port 11434 aus Kenntnis, nicht geprüft.; Lizenz: CC BY-NC-SA 3.0; Rate-Limit: 1 Anfrage/s",
+    "why": "erweitert bestehenden Collector sans-isc; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Verlauf der Quellen- und Zielzahlen je Port; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 7,
+    "collector": "first-epss",
+    "domain": "supply_chain",
+    "signals": [
+      "ai.supply_chain.epss_ai_cves"
+    ],
+    "endpoints": [
+      "https://api.first.org/data/v1/epss?cve=CVE-2025-3248"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "first-epss",
+    "extendsAdd": "EPSS-Wert und Perzentil für CVE-IDs mit KI-Bezug (aus cvelist-delta) abrufen; Signal ai.supply_chain.epss_ai_cves",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Feld epss, percentile. Collector first-epss vorhanden (Cyber).",
+    "why": "erweitert bestehenden Collector first-epss; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Historie je CVE per date-Parameter; max. Gewicht 0.55, 1 Signal(e)"
+  },
+  {
+    "rank": 8,
+    "collector": "sec-edgar",
+    "domain": "markets",
+    "signals": [
+      "ai.markets.ai_sec_8k"
+    ],
+    "endpoints": [
+      "https://efts.sec.gov/LATEST/search-index?q=%22autonomous%20agent%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-17"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "sec-edgar",
+    "extendsAdd": "Volltextsuche in 8-K/10-Q nach KI-Begriffen (z. B. \"autonomous agent\") ergänzen; Signal ai.markets.ai_sec_8k",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Collector sec-edgar vorhanden (Item 1.05). Ergänzbar um Stichwortsuche in 8-K und 10-Q. Nicht geprüft.; Rate-Limit: 10 Anfragen/s, User-Agent Pflicht",
+    "why": "erweitert bestehenden Collector sec-edgar; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Seit 2001; max. Gewicht 0.55, 1 Signal(e)"
+  },
+  {
+    "rank": 9,
+    "collector": "hn-algolia",
+    "domain": "attention",
+    "signals": [
+      "ai.attention.hn_ai_security_stories"
+    ],
+    "endpoints": [
+      "https://hn.algolia.com/api/v1/search_by_date?query=%22prompt%20injection%22&tags=story&hitsPerPage=100"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "hn-algolia",
+    "extendsAdd": "Suchbegriffe für KI-Sicherheit ergänzen (prompt injection, jailbreak, rogue agent u. a.); Signal ai.incidents.hn_ai_security_stories",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Collector hn-algolia vorhanden: Begriffe für KI ergänzen.; Lizenz: unklar; Rate-Limit: 10000 Anfragen/h",
+    "why": "erweitert bestehenden Collector hn-algolia; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Seit 2006; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 10,
+    "collector": "ransomware-live",
+    "domain": "markets",
+    "signals": [
+      "ai.markets.ai_ransomware_victims"
+    ],
+    "endpoints": [
+      "https://api.ransomware.live/v2/recentvictims"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "ransomware-live",
+    "extendsAdd": "Opfer mit KI-Bezug (Branche/Name) filtern; Signal ai.markets.ai_ransomware_victims",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Collector ransomware-live vorhanden; Filter auf Opfer mit KI-Bezug (Branche/Name) wäre neu.; Lizenz: CC BY-NC-SA bzw. siehe Seite",
+    "why": "erweitert bestehenden Collector ransomware-live; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Opferliste seit 2020; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 11,
+    "collector": "wikimedia-pageviews",
+    "domain": "attention",
+    "signals": [
+      "ai.attention.ai_attention_wiki"
+    ],
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Hugging_Face/daily/20260601/20261116"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "wikimedia-pageviews",
+    "extendsAdd": "Artikelliste um KI-Seiten (z. B. Hugging_Face) erweitern; Signal ai.attention.ai_attention_wiki",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Collector vorhanden, Artikelliste erweitern. Artikelname Hugging_Face aus Kenntnis, nicht geprüft.; Rate-Limit: 200 Anfragen/s",
+    "why": "erweitert bestehenden Collector wikimedia-pageviews; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Seit 2015; max. Gewicht 0.45, 1 Signal(e)"
+  },
+  {
+    "rank": 12,
+    "collector": "gdelt-doc",
+    "domain": "attention",
+    "signals": [
+      "ai.attention.ai_news_volume"
+    ],
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22AI%20agent%22%20(breach%20OR%20rogue)&mode=timelinevol&timespan=1m&format=json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "gdelt-doc",
+    "extendsAdd": "KI-Begriffe ergänzen (\"AI agent\" mit breach/rogue u. a.); Signal ai.incidents.ai_news_volume",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Collector gdelt-doc vorhanden (Cyber-Begriffe): Begriffe für KI ergänzen.; Rate-Limit: 1 Anfrage/5 s",
+    "why": "erweitert bestehenden Collector gdelt-doc; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Seit 2017; max. Gewicht 0.40, 1 Signal(e)"
+  },
+  {
+    "rank": 13,
+    "collector": "statuspage",
+    "domain": "platforms",
+    "signals": [
+      "ai.platforms.ai_provider_status_share",
+      "ai.platforms.hf_status_incidents",
+      "ai.platforms.model_registry_ci_status",
+      "ai.compute.cloud_ai_regional_status"
+    ],
+    "endpoints": [
+      "https://status.openai.com/api/v2/status.json",
+      "https://status.huggingface.co/api/v2/incidents.json",
+      "https://www.githubstatus.com/api/v2/incidents.json",
+      "https://www.cloudflarestatus.com/api/v2/status.json"
+    ],
+    "format": "json",
+    "history": false,
+    "verified": false,
+    "live": false,
+    "extends": "statuspage",
+    "extendsAdd": "status.huggingface.co in catalog/statuspage-hosts.json aufnehmen (Host-Typ ungeprüft, evtl. Instatus) und Kategorie ai für OpenAI/Anthropic (stehen schon in der Liste) einführen; Signale ai.platforms.* und ai.compute.cloud_ai_regional_status",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: status.openai.com und status.anthropic.com stehen schon in catalog/statuspage-hosts.json (aus der Bau-Umgebung nicht erreichbar, 000).; Lizenz: Je Anbieter unklar",
+    "why": "erweitert bestehenden Collector statuspage; ohne Key, kostenlos; kleine JSON-Antwort; keine API-Historie, Baseline muss erst wachsen; max. Gewicht 0.55, 4 Signal(e)"
+  },
+  {
+    "rank": 14,
+    "collector": "yahoo-chart",
+    "domain": "markets",
+    "signals": [
+      "ai.markets.cyber_stock_ai_events",
+      "ai.markets.ai_stock_volume"
+    ],
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=3mo&interval=1d"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "yahoo-chart",
+    "extendsAdd": "Symbolgruppe KI-Aktien (z. B. NVDA, CRWV) und Cyber-ETF (CIBR) ergänzen; Signale ai.markets.*_stock_*",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Collector yahoo-chart vorhanden; Symbole ergänzen.; Lizenz: Nutzungsbedingungen verbieten systematische Nutzung, Lizenz klären",
+    "why": "erweitert bestehenden Collector yahoo-chart; ohne Key, kostenlos; kleine JSON-Antwort; Historie: 3 Monate und mehr; max. Gewicht 0.40, 2 Signal(e)"
+  },
+  {
+    "rank": 15,
+    "collector": "cloudflare-radar",
+    "domain": "agents",
+    "signals": [
+      "ai.agents.ai_crawler_share",
+      "ai.agents.ai_crawl_to_refer",
+      "ai.agents.agent_ddos_layer7",
+      "ai.agents.bot_traffic_share_total",
+      "ai.compute.ai_traffic_domain_rank"
+    ],
+    "endpoints": [
+      "https://api.cloudflare.com/client/v4/radar/ai/bots/timeseries_groups/user_agent?dateRange=28d&aggInterval=1h",
+      "https://api.cloudflare.com/client/v4/radar/ai/bots/summary/crawl_purpose?dateRange=28d",
+      "https://api.cloudflare.com/client/v4/radar/attacks/layer7/timeseries?dateRange=28d",
+      "https://api.cloudflare.com/client/v4/radar/http/summary/bot_class?dateRange=28d",
+      "https://api.cloudflare.com/client/v4/radar/ranking/domain/chatgpt.com"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "cloudflare-radar",
+    "extendsAdd": "Endpunkte radar/ai/bots/* (Crawler-Anteil, Crawl-to-Refer) und Layer-7-Angriffe ergänzen; Key SR_CLOUDFLARE_KEY",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Antwort mit Zeitreihe je User-Agent-Gruppe. Key kostenlos, Lizenz nicht kommerziell. Nicht geprüft.; Lizenz: CC BY-NC 4.0 (nicht kommerziell); Rate-Limit: API-Token Radar Read",
+    "why": "erweitert bestehenden Collector cloudflare-radar; braucht Key/Konto; Antwort groß oder Format/Zugang aufwändiger; Historie: Zeitreihen mit Parametern dateRange, Historie über 1 Jahr; max. Gewicht 0.70, 5 Signal(e)"
+  },
+  {
+    "rank": 16,
+    "collector": "urlhaus",
+    "domain": "platforms",
+    "signals": [
+      "ai.platforms.hf_malware_hosting"
+    ],
+    "endpoints": [
+      "https://urlhaus-api.abuse.ch/v1/host/"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "urlhaus",
+    "extendsAdd": "Host-Abfrage für huggingface.co ergänzen; Key SR_ABUSECH_KEY; Signal ai.platforms.hf_malware_hosting",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: POST host=huggingface.co liefert url_count und Einträge: Schadsoftware auf der Plattform gehostet. Collector urlhaus existiert (Gesamtzahlen).; Rate-Limit: Auth-Key (kostenlos) seit 2025 erforderlich",
+    "why": "erweitert bestehenden Collector urlhaus; braucht Key/Konto; Antwort groß oder Format/Zugang aufwändiger; Historie: Einträge mit date_added; max. Gewicht 0.65, 1 Signal(e)"
+  },
+  {
+    "rank": 17,
+    "collector": "ercot",
+    "domain": "compute",
+    "signals": [
+      "ai.compute.datacenter_load_ercot"
+    ],
+    "endpoints": [
+      "https://www.ercot.com/api/1/services/read/dashboards/systemWideDemand.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsAdd": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Systemlast Texas, Standort vieler KI-Rechenzentren. Pfad nicht geprüft; ERCOT-Dashboard-Endpunkte ändern sich.",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: Archivdateien der Lastdaten seit mehreren Jahren; max. Gewicht 0.40, 1 Signal(e)"
+  },
+  {
+    "rank": 18,
+    "collector": "metr",
+    "domain": "incidents",
+    "signals": [
+      "ai.incidents.metr_agent_incidents"
+    ],
+    "endpoints": [
+      "https://metr.org/agent-incidents/incidents.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsAdd": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Pfad incidents.json laut Lagebild-Recherche, nicht selbst geprüft. Quellen sind Systemkarten der Anbieter, also Selbstauskunft.; Lizenz: unklar",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: Fortlaufend, Stand 19.05.2026 44 Einträge (laut Lagebild-Datei); max. Gewicht 0.20, 1 Signal(e)"
+  },
+  {
+    "rank": 19,
+    "collector": "mit-air",
+    "domain": "incidents",
+    "signals": [
+      "ai.incidents.mit_risk_repo_entries"
+    ],
+    "endpoints": [
+      "https://airisk.mit.edu/"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsAdd": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Risikokatalog, kein Echtzeit-Feed: nur Kontext (Klasse C/D).",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: Versionierte Tabelle; max. Gewicht 0.10, 1 Signal(e)"
+  },
+  {
+    "rank": 20,
+    "collector": "eia",
+    "domain": "compute",
+    "signals": [
+      "ai.compute.datacenter_load_pjm"
+    ],
+    "endpoints": [
+      "https://api.eia.gov/v2/electricity/rto/region-data/data/?frequency=hourly&data[0]=value&facets[type][]=D"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsAdd": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Stündliche Last je Regelzone (z. B. Virginia/PJM, ein Zentrum von Rechenzentren).",
+    "why": "braucht Key/Konto; Antwort groß oder Format/Zugang aufwändiger; Historie: Seit 2015; max. Gewicht 0.40, 1 Signal(e)"
+  }
+]

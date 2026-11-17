@@ -44,3 +44,14 @@ test('echte Form routing-status', () => {
   const real = { data: { visibility: { v4: { ris_peers_seeing: 320, total_ris_peers: 320 }, v6: { ris_peers_seeing: 302, total_ris_peers: 309 } }, resource: '3320' } };
   assert.equal(parseRoutingStatus(real), 1);
 });
+
+import { HISTORY_DAYS } from '../../src/collectors/ripe-stat.ts';
+import ripe from '../../src/collectors/ripe-stat.ts';
+test('Request: Länderstatistik über 20 Tage mit eigenem Fixture-Namen', async () => {
+  assert.equal(HISTORY_DAYS, 20);
+  const calls: [string, string][] = [];
+  const ctx = { now: new Date('2026-11-17T00:16:13Z'), key: () => undefined, log: () => {},
+    http: { text: async () => '', json: async (u: string, i: { fixture: string }) => { calls.push([u, i.fixture]); throw new Error('offline'); } } };
+  await ripe.collect(ctx as never);
+  assert.deepEqual(calls[0], ['https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2026-10-28&endtime=2026-11-16', 'ripe-stat/country-routing-stats-DE-20d.json']);
+});

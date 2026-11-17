@@ -76,3 +76,45 @@ test('incidentSeries: nur mit allen Antworten, volle Tage, getrennt major', () =
   const full = parseIncidents({ incidents: Array.from({ length: 50 }, () => inc('2026-11-15', 'minor')) });
   assert.equal(incidentSeries([a, full], now), null); // Historie nur 1 Tag
 });
+
+// --- Signale je Kategorie aus der Szenario-Konfiguration ---
+import { STATUS_SIGNALS, INCIDENT_SIGNALS, MIN_CATEGORY_RESPONDERS } from '../../src/collectors/statuspage.ts';
+
+test('aggregate: je Kategorie auch Anteil schwerer Störungen', () => {
+  const r: HostResult[] = [
+    { host: 'a', category: 'ai', indicator: 'major' }, { host: 'b', category: 'ai', indicator: 'minor' },
+    { host: 'c', category: 'ai', indicator: 'none' }, { host: 'd', category: 'ai', indicator: 'critical' },
+  ];
+  const a = aggregate(r, 4)!;
+  assert.equal(a.byCategory.ai.major, 2);
+  assert.equal(a.byCategory.ai.majorPct, 50);
+  assert.equal(a.byCategory.ai.pct, 75);
+});
+
+test('collect: Kategorie-Signale aus der Konfiguration (payment, cloud), Requests unabhängig von der Zahl der Signale', async () => {
+  assert.deepEqual(STATUS_SIGNALS.filter((e) => e.category).map((e) => [e.signal.id, e.category, e.measure]), [
+    ['cyber.finance.statuspage_payment_disruption', 'payment', 'disrupted-share'],
+    ['cyber.services.statuspage_cloud_disruption', 'cloud', 'disrupted-share'],
+  ]);
+  assert.equal(INCIDENT_SIGNALS.length, 2);
+  assert.equal(MIN_CATEGORY_RESPONDERS, 3);
+  const urls: string[] = [];
+  const ctx = {
+    now: new Date('2026-11-17T00:16:13Z'), key: () => undefined, log: () => {},
+    http: { text: async () => '', json: async (u: string) => {
+      urls.push(u);
+      if (u.endsWith('/incidents.json')) throw new Error('offline');
+      const h = HOSTS.find((x) => u.includes(x.host))!;
+      return { status: { indicator: h.category === 'cloud' ? 'major' : 'none' } };
+    } },
+  };
+  const r = await collector.collect(ctx as never);
+  assert.equal(urls.length, HOSTS.length + 8);
+  const cloud = r.observations.find((o) => o.signalId === 'cyber.services.statuspage_cloud_disruption')!;
+  assert.equal(cloud.value, 100);
+  assert.equal(r.observations.find((o) => o.signalId === 'cyber.finance.statuspage_payment_disruption')!.value, 0);
+  const cloudN = HOSTS.filter((h) => h.category === 'cloud').length;
+  assert.deepEqual(cloud.meta, { responders: cloudN, disrupted: cloudN });
+  assert.equal(r.observations.find((o) => o.signalId === 'cyber.services.statuspage_incident_rate')!.value, (100 * cloudN) / HOSTS.length);
+  assert.ok(!r.observations.some((o) => o.signalId.endsWith('_starts_day')));
+});

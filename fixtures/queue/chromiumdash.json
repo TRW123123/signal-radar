@@ -1,1 +1,7 @@
-[{"fixture": "chromiumdash/stable-windows.json", "url": "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=25", "maxChars": 20000}]
+[
+  {
+    "fixture": "chromiumdash/stable-windows-8.json",
+    "url": "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=8",
+    "maxChars": 5500
+  }
+]

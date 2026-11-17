@@ -26,3 +26,32 @@ test('Index echter Ausschnitt: Wochenstarts liegen auf ganzen Stunden, jüngster
   assert.ok(t.every((x) => x % H === 0));
   assert.equal(new Date(t[2]).toISOString(), '2026-11-15T23:00:00.000Z');
 });
+
+// --- Wochenanfänge ohne Index-Abruf ---
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import collector, { weekStarts } from '../../src/collectors/smard.ts';
+
+test('weekStarts: Montag 00:00 Europe/Berlin, stimmt mit dem echten Index (17.11.2026) überein, auch über Zeitumstellungen', () => {
+  const idx = parseIndex(JSON.parse(readFileSync(join(import.meta.dirname, '..', '..', 'fixtures', 'smard', 'index_hour.json'), 'utf8')));
+  const now = Date.UTC(2026, 10, 17, 0);
+  assert.deepEqual(weekStarts(now, 4), idx.slice(-4));
+  const year = weekStarts(now, 60);
+  assert.equal(year.length, 60);
+  assert.ok(year.every((t) => idx.includes(t)));
+  // Winterzeit: Montag 00:00 MEZ = Sonntag 23:00 UTC; eine Stunde davor gehört noch zur Vorwoche
+  assert.equal(weekStarts(Date.UTC(2026, 10, 15, 23, 0), 1)[0], Date.UTC(2026, 10, 15, 23, 0));
+  assert.equal(weekStarts(Date.UTC(2026, 10, 15, 22, 0), 1)[0], Date.UTC(2026, 10, 8, 23, 0));
+  // Sommerzeit: Montag 00:00 MESZ = Sonntag 22:00 UTC
+  assert.equal(weekStarts(Date.UTC(2026, 6, 13, 12), 1)[0], Date.UTC(2026, 6, 12, 22, 0));
+});
+
+test('collect: kein Index-Request, vier Wochendateien', async () => {
+  const urls: string[] = [];
+  const ctx = { now: new Date('2026-11-17T00:16:13Z'), key: () => undefined, log: () => {},
+    http: { text: async () => '', json: async (u: string) => { urls.push(u); return { series: [[1794783600000, 50000], [1794787200000, null]] }; } } };
+  const r = await collector.collect(ctx as never);
+  assert.equal(urls.length, 4);
+  assert.ok(urls.every((u) => /410_DE_hour_\d+\.json$/.test(u)));
+  assert.ok(r.observations.length >= 1);
+});

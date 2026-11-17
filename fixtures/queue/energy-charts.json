@@ -1,12 +1,12 @@
 [
- {
-  "fixture": "energy-charts/frequency.json",
-  "url": "https://api.energy-charts.info/frequency?country=de&start=2026-11-16T23%3A45Z&end=2026-11-17T00%3A00Z",
-  "maxChars": 22000
- },
- {
-  "fixture": "energy-charts/public_power.json",
-  "url": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16&end=2026-11-17",
-  "maxChars": 20000
- }
+  {
+    "fixture": "energy-charts/frequency-4m.json",
+    "url": "https://api.energy-charts.info/frequency?country=de&start=2026-11-16T23%3A56Z&end=2026-11-17T00%3A00Z",
+    "maxChars": 5500
+  },
+  {
+    "fixture": "energy-charts/public_power-6h.json",
+    "url": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16T18%3A00Z&end=2026-11-17T00%3A00Z",
+    "maxChars": 5000
+  }
 ]

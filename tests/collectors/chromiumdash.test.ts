@@ -44,3 +44,9 @@ test('echte Form: gleiche Zeitstempel zählen als ein Release-Schub', () => {
   assert.equal(o.find((x) => x.ts.startsWith('2026-11-12'))!.value, 1);
   assert.equal(o.find((x) => x.ts.startsWith('2026-11-11'))!.value, 1);
 });
+
+import { URL as CHROMIUM_URL, FIXTURE } from '../../src/collectors/chromiumdash.ts';
+test('Request: num=8 (ca. 600 Zeichen je Release), eigener Fixture-Name', () => {
+  assert.equal(CHROMIUM_URL, 'https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=8');
+  assert.equal(FIXTURE, 'chromiumdash/stable-windows-8.json');
+});

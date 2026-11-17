@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import collector, { parse, compute, buildUrl, fixtureName, SPECS } from '../../src/collectors/yahoo-chart.ts';
+import collector, { parse, compute, buildUrl, fixtureName, SPECS, REL_WINDOW } from '../../src/collectors/yahoo-chart.ts';
 
 // SAMPLE: nach bekannter Form der inoffiziellen Chart-API nachgebaut, keine echte Aufzeichnung.
 function sample(closes: (number | null)[], vols: (number | null)[], startDay = '2026-10-01') {
@@ -32,7 +32,8 @@ test('compute: Tagesrendite-Betrag, Schlusskurs, relatives Volumen', () => {
   const vols = Array.from({ length: 25 }, (_, i) => (i === 24 ? 300 : 100));
   const b = parse(sample(vols.map(() => 1), vols));
   const rel = compute('rel-volume-sum', [b, b]);
-  assert.equal(rel.size, 5);
+  assert.equal(REL_WINDOW, 10);
+  assert.equal(rel.size, 25 - REL_WINDOW);
   assert.equal([...rel.values()].at(-1), 3);
 });
 
@@ -55,9 +56,9 @@ test('collect: laufender Tag fehlt, fehlendes Symbol lässt nur betroffene Signa
   assert.ok(ids.has('cyber.markets.vix'));
   assert.ok(!ids.has('cyber.markets.cyber_etf_abs_return'));
   assert.ok(r.observations.every((o) => o.ts < '2026-11-17'));
-  assert.equal(buildUrl('^VIX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=3mo&interval=1d');
-  assert.equal(fixtureName('GC=F'), 'yahoo/GC_F-3mo-1d.json');
-  assert.ok(SPECS.every((s) => s.weight >= 0.2 && s.weight <= 0.5));
+  assert.equal(buildUrl('^VIX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=1mo&interval=1d');
+  assert.equal(fixtureName('GC=F'), 'yahoo/GC_F-1mo-1d.json');
+  assert.ok(collector.signals.every((s) => s.weight! >= 0.2 && s.weight! <= 0.5));
 });
 
 // Fehlerobjekt nach bekannter Yahoo-Form (nicht aufgezeichnet; echte Antworten bisher nur als Antwortbeginn vorhanden).
@@ -73,8 +74,8 @@ test('war: Symbole, Domain markets, Gewichte 0,2 bis 0,5, Gold und VIX zusätzli
   assert.equal(sigs.length, war.length);
   assert.ok(sigs.every((s) => s.domain === 'markets' && s.scenarios!.join() === 'war' && s.weight! >= 0.2 && s.weight! <= 0.5 && s.plain && s.name));
   assert.ok(sigs.some((s) => s.id === 'war.markets.gold_price') && SPECS.some((s) => s.signalId === 'cyber.markets.gold_abs_return'));
-  assert.equal(fixtureName('BZ=F'), 'yahoo/BZ_F-3mo-1d.json');
-  assert.equal(buildUrl('^OVX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EOVX?range=3mo&interval=1d');
+  assert.equal(fixtureName('BZ=F'), 'yahoo/BZ_F-1mo-1d.json');
+  assert.equal(buildUrl('^OVX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EOVX?range=1mo&interval=1d');
 });
 
 test('war: ein Symbol wird nur einmal geholt, ausgefallenes Symbol lässt nur sein Signal aus', async () => {

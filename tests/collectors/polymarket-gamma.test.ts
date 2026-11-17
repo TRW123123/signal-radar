@@ -42,7 +42,8 @@ test('collect: kein passender Markt meldet nichts; Teilausfall meldet nichts', a
   let n = 0;
   const partial = { ...base, http: { json: async () => { if (++n === 3) throw new Error('500'); return SAMPLE; }, text: async () => '' } };
   assert.equal((await collector.collect(partial as never)).observations.length, 0);
-  assert.equal(fixtureName('cyber attack'), 'polymarket/search-cyber-attack.json');
+  assert.equal(fixtureName('cyber attack'), 'polymarket/search-cyber-attack-open.json');
+  assert.equal(buildUrl('cyber attack'), 'https://gamma-api.polymarket.com/public-search?q=cyber%20attack&limit_per_type=1&events_status=active&keep_closed_markets=0&search_tags=false&search_profiles=false');
   assert.match(buildUrl('cyber attack'), /q=cyber%20attack/);
   assert.ok(SEARCH_TERMS.cyber.length <= 8);
 });
@@ -60,7 +61,8 @@ test('echte Antwort: archivierter Markt (active=false) wird übersprungen, URL n
 });
 
 // --- Szenario war (Beispiel nach Doku nachgebaut, keine echte Aufzeichnung) ---
-import { WAR_MATCH, WAR_TERMS } from '../../src/collectors/polymarket-gamma.ts';
+const WAR_MATCH = MATCH.war;
+const WAR_TERMS = SEARCH_TERMS.war;
 
 const WAR_SAMPLE = { events: [{ markets: [
   { id: 'w1', question: 'Will the US strike Iran by December 31?', outcomes: '["Yes","No"]', outcomePrices: '["0.21","0.79"]', volumeNum: 90000, volume24hr: 4000 },

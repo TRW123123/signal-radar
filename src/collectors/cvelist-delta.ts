@@ -11,6 +11,8 @@
 // Harmlose Ursachen: Massen-Updates einzelner CNAs (z. B. Metadaten-Korrekturen: tausende updated in einer Stunde),
 //   Reservierungs-Stapel vor Feiertagen, Pause des Abrufdienstes (Lücke, danach Nachholstapel), Wochenendrhythmus.
 // Hinweis: Der Abruf lädt 31 MB; intervalMinutes 360 hält die Last gering.
+// Kein Stichwort-Filter je Szenario: die Einträge in new[]/updated[] tragen nur cveId, cveOrgLink, githubLink und dateUpdated
+// (geprüft am Fixture, 3 225 Läufe), keinen Beschreibungstext; ein Filter bräuchte je CVE einen weiteren Abruf.
 // VERIFIED: ja (17.11.2026, echte Antwort)
 
 import type { Collector, Observation } from '../core/types.ts';

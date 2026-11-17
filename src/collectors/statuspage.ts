@@ -13,6 +13,9 @@
 // parsebar sind (eine abgeschnittene Antwort ist kein JSON) und der Zeitraum mindestens 14 volle Tage umfasst.
 // Harmlose Ursachen: ein einzelner großer Cloud-/CDN-Ausfall zieht viele Anbieter mit; Wartungsfenster werden als "none" gewertet;
 // Anbieter mit Statuspage-Kompatibilitätsschicht (z. B. incident.io) können abweichend melden; "maintenance" kommt vor (Chargebee, Zoom).
+// Signale je Szenario: src/collectors/config/<szenario>.ts (Feld statuspage): Anteil gestörter bzw. schwer gestörter Hosts, wahlweise je
+// Kategorie (Feld category der Host-Liste: cloud, payment, dev, saas, telecom, crypto, ai; mindestens 3 antwortende Hosts), oder
+// Störungs-Beginne pro Tag. Die Requests (alle Hosts, 8 incidents.json) fallen je Lauf nur einmal an, egal wie viele Signale.
 // Liste: catalog/statuspage-hosts.json. Höchstens 52 Requests pro Lauf (44 Hosts + 8 incidents.json, begründet durch die Zahl der Hosts).
 // VERIFIED: teilweise (status.json: ja, 17.11.2026, 44 echte Antworten, Replay liefert Werte; incidents.json: nein, Form nach Doku,
 // Fixtures statuspage-incidents/<host>.json stehen in der Queue; Antwortgröße ungeprüft, die Prüf-Umgebung kappt bei 24 000 Zeichen)
@@ -20,6 +23,7 @@
 import hosts from '../../catalog/statuspage-hosts.json' with { type: 'json' };
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, floorDay, isoDay, obs } from './_helpers.ts';
+import { declare, scenarioEntries } from './_scenario.ts';
 
 export type Indicator = 'none' | 'minor' | 'major' | 'critical';
 export interface HostDef { host: string; name: string; category: string }
@@ -43,7 +47,7 @@ export interface Aggregate {
   majorPct: number;
   disrupted: number;
   major: number;
-  byCategory: Record<string, { n: number; disrupted: number; pct: number }>;
+  byCategory: Record<string, { n: number; disrupted: number; major: number; pct: number; majorPct: number }>;
 }
 
 /** Returns null when fewer than 80 % of the listed hosts answered (a partial base would distort the share). */
@@ -54,11 +58,12 @@ export function aggregate(results: HostResult[], totalHosts: number): Aggregate 
   const major = results.filter((r) => r.indicator === 'major' || r.indicator === 'critical').length;
   const byCategory: Aggregate['byCategory'] = {};
   for (const r of results) {
-    const c = (byCategory[r.category] ??= { n: 0, disrupted: 0, pct: 0 });
+    const c = (byCategory[r.category] ??= { n: 0, disrupted: 0, major: 0, pct: 0, majorPct: 0 });
     c.n++;
     if (r.indicator !== 'none') c.disrupted++;
+    if (r.indicator === 'major' || r.indicator === 'critical') c.major++;
   }
-  for (const c of Object.values(byCategory)) c.pct = (100 * c.disrupted) / c.n;
+  for (const c of Object.values(byCategory)) { c.pct = (100 * c.disrupted) / c.n; c.majorPct = (100 * c.major) / c.n; }
   return { responders: n, disruptionPct: (100 * disrupted) / n, majorPct: (100 * major) / n, disrupted, major, byCategory };
 }
 
@@ -127,99 +132,79 @@ const COMMON = {
   banalCauses: ['Ein einzelner CDN-/Cloud-Ausfall betrifft viele Anbieter', 'Geplante Wartung'],
 };
 
-const MIN_CATEGORY_RESPONDERS = 3;
+export const MIN_CATEGORY_RESPONDERS = 3;
+
+/** Signale aller Szenarien (src/collectors/config/<szenario>.ts, Feld statuspage). */
+const ENTRIES = scenarioEntries('statuspage');
+export const STATUS_SIGNALS = ENTRIES.filter((e) => e.measure === 'major-share' || e.measure === 'disrupted-share');
+export const INCIDENT_SIGNALS = ENTRIES.filter((e) => e.measure === 'incident-starts' || e.measure === 'incident-major-starts');
 
 const collector: Collector = {
   id: 'statuspage',
   title: 'Atlassian-Statuspage-Anbieter (Sammelabfrage)',
   sourceUrl: 'https://developer.statuspage.io/',
   intervalMinutes: 15,
-  signals: [
-    {
-      ...COMMON, id: 'cyber.services.statuspage_incident_rate', scenarios: ['cyber'], domain: 'services', weight: 0.7,
-      name: 'Anteil der Anbieter mit schwerer Störung',
-      plain: 'Wie viel Prozent von rund 44 Cloud-, SaaS-, Zahlungs- und Krypto-Anbietern gerade eine schwere (major/critical) Störung melden.',
-    },
-    {
-      ...COMMON, id: 'cyber.services.statuspage_disruption_share', scenarios: ['cyber'], domain: 'services', weight: 0.5,
-      name: 'Anteil der Anbieter mit irgendeiner Störung',
-      plain: 'Wie viel Prozent der beobachteten Anbieter gerade irgendeine Störung melden, auch eine leichte.',
-    },
-    {
-      ...COMMON, id: 'cyber.finance.statuspage_payment_disruption', scenarios: ['cyber'], domain: 'finance', weight: 0.6,
-      name: 'Zahlungsdienste mit Störung',
-      plain: 'Wie viel Prozent der beobachteten Zahlungsdienste (Braintree, Mollie, Square u. a.) gerade eine Störung melden.',
-    },
-    {
-      ...COMMON, id: 'cyber.services.statuspage_cloud_disruption', scenarios: ['cyber'], domain: 'services', weight: 0.7,
-      name: 'Cloud- und CDN-Anbieter mit Störung',
-      plain: 'Wie viel Prozent der beobachteten Cloud- und CDN-Anbieter (Cloudflare, Fastly, DigitalOcean u. a.) gerade eine Störung melden.',
-    },
-    {
-      ...COMMON, id: 'cyber.services.statuspage_incident_starts_day', scenarios: ['cyber'], domain: 'services', weight: 0.4,
-      kind: 'count' as const, unit: 'Störungen pro Tag', intervalMinutes: 1440, holdHours: 36,
-      baseline: { method: 'rolling' as const, windowDays: 60, minPoints: 14 }, thresholds: { absFloor: 2 },
-      name: 'Neue Störungen pro Tag (8 Leitanbieter)',
-      plain: 'Wie viele neue Störungen (leicht bis kritisch) die acht großen Cloud-, Zahlungs- und Entwickler-Dienste gestern gemeldet haben.',
-    },
-    {
-      ...COMMON, id: 'cyber.services.statuspage_major_starts_day', scenarios: ['cyber'], domain: 'services', weight: 0.5,
-      kind: 'count' as const, unit: 'schwere Störungen pro Tag', intervalMinutes: 1440, holdHours: 36,
-      baseline: { method: 'rolling' as const, windowDays: 60, minPoints: 14 }, thresholds: { absFloor: 1 },
-      name: 'Neue schwere Störungen pro Tag (8 Leitanbieter)',
-      plain: 'Wie viele neue schwere (major/critical) Störungen die acht großen Cloud-, Zahlungs- und Entwickler-Dienste gestern gemeldet haben.',
-    },
-  ],
+  signals: ENTRIES.map((e) => declare(COMMON, e.scenario, e.signal)),
   async collect(ctx) {
-    const results: HostResult[] = [];
-    const BATCH = 10;
-    for (let i = 0; i < HOSTS.length; i += BATCH) {
-      const slice = HOSTS.slice(i, i + BATCH);
-      const settled = await Promise.all(slice.map(async (h) => {
+    const observations: Observation[] = [];
+    if (STATUS_SIGNALS.length) {
+      const results: HostResult[] = [];
+      const BATCH = 10;
+      for (let i = 0; i < HOSTS.length; i += BATCH) {
+        const slice = HOSTS.slice(i, i + BATCH);
+        const settled = await Promise.all(slice.map(async (h) => {
+          try {
+            const body = await ctx.http.json<StatusResp>(`https://${h.host}/api/v2/status.json`, { fixture: `statuspage/${h.host}.json` });
+            return { host: h.host, category: h.category, indicator: parseIndicator(body) } as HostResult;
+          } catch (e) {
+            ctx.log(`Host ${h.host} übersprungen: ${(e as Error).message}`);
+            return null;
+          }
+        }));
+        for (const r of settled) if (r) results.push(r);
+      }
+      const agg = aggregate(results, HOSTS.length);
+      if (!agg) {
+        ctx.log(`nur ${results.length} von ${HOSTS.length} Hosts antworten (< 80 %), kein Statuswert gemeldet`);
+      } else {
+        // 15-minute slot of the poll time
+        const ts = new Date(Math.floor(ctx.now.getTime() / 900_000) * 900_000);
+        const meta = { responders: agg.responders, hosts: HOSTS.length };
+        for (const e of STATUS_SIGNALS) {
+          const major = e.measure === 'major-share';
+          if (!e.category) {
+            observations.push(major
+              ? obs(e.signal.id, ts, agg.majorPct, { ...meta, major: agg.major })
+              : obs(e.signal.id, ts, agg.disruptionPct, { ...meta, disrupted: agg.disrupted }));
+            continue;
+          }
+          const c = agg.byCategory[e.category];
+          if (!c || c.n < MIN_CATEGORY_RESPONDERS) { ctx.log(`Kategorie ${e.category}: zu wenige antwortende Hosts (${c?.n ?? 0}), kein Wert`); continue; }
+          observations.push(major
+            ? obs(e.signal.id, ts, c.majorPct, { responders: c.n, major: c.major })
+            : obs(e.signal.id, ts, c.pct, { responders: c.n, disrupted: c.disrupted }));
+        }
+      }
+    }
+    if (INCIDENT_SIGNALS.length) {
+      const lists = await Promise.all(INCIDENT_HOSTS.map(async (h) => {
         try {
-          const body = await ctx.http.json<StatusResp>(`https://${h.host}/api/v2/status.json`, { fixture: `statuspage/${h.host}.json` });
-          return { host: h.host, category: h.category, indicator: parseIndicator(body) } as HostResult;
+          return parseIncidents(await ctx.http.json<IncidentsResp>(`https://${h}/api/v2/incidents.json`, { fixture: `statuspage-incidents/${h}.json` }));
         } catch (e) {
-          ctx.log(`Host ${h.host} übersprungen: ${(e as Error).message}`);
+          ctx.log(`incidents.json ${h} nicht nutzbar: ${(e as Error).message}`);
           return null;
         }
       }));
-      for (const r of settled) if (r) results.push(r);
+      const series = incidentSeries(lists, ctx.now);
+      if (series) {
+        for (const d of series) {
+          const t = `${d.day}T00:00:00Z`;
+          for (const e of INCIDENT_SIGNALS) {
+            observations.push(obs(e.signal.id, t, e.measure === 'incident-starts' ? d.all : d.major, { hosts: INCIDENT_HOSTS.length }));
+          }
+        }
+      } else ctx.log('incidents.json unvollständig oder Zeitraum zu kurz, kein Tageswert gemeldet');
     }
-    const observations: Observation[] = [];
-    const agg = aggregate(results, HOSTS.length);
-    if (!agg) {
-      ctx.log(`nur ${results.length} von ${HOSTS.length} Hosts antworten (< 80 %), kein Statuswert gemeldet`);
-    } else {
-      // 15-minute slot of the poll time
-      const ts = new Date(Math.floor(ctx.now.getTime() / 900_000) * 900_000);
-      const meta = { responders: agg.responders, hosts: HOSTS.length };
-      observations.push(
-        obs('cyber.services.statuspage_incident_rate', ts, agg.majorPct, { ...meta, major: agg.major }),
-        obs('cyber.services.statuspage_disruption_share', ts, agg.disruptionPct, { ...meta, disrupted: agg.disrupted }),
-      );
-      for (const [cat, id] of [['payment', 'cyber.finance.statuspage_payment_disruption'], ['cloud', 'cyber.services.statuspage_cloud_disruption']] as const) {
-        const c = agg.byCategory[cat];
-        if (c && c.n >= MIN_CATEGORY_RESPONDERS) observations.push(obs(id, ts, c.pct, { responders: c.n, disrupted: c.disrupted }));
-        else ctx.log(`Kategorie ${cat}: zu wenige antwortende Hosts (${c?.n ?? 0}), kein Wert`);
-      }
-    }
-    const lists = await Promise.all(INCIDENT_HOSTS.map(async (h) => {
-      try {
-        return parseIncidents(await ctx.http.json<IncidentsResp>(`https://${h}/api/v2/incidents.json`, { fixture: `statuspage-incidents/${h}.json` }));
-      } catch (e) {
-        ctx.log(`incidents.json ${h} nicht nutzbar: ${(e as Error).message}`);
-        return null;
-      }
-    }));
-    const series = incidentSeries(lists, ctx.now);
-    if (series) {
-      for (const d of series) {
-        const t = `${d.day}T00:00:00Z`;
-        observations.push(obs('cyber.services.statuspage_incident_starts_day', t, d.all, { hosts: INCIDENT_HOSTS.length }));
-        observations.push(obs('cyber.services.statuspage_major_starts_day', t, d.major, { hosts: INCIDENT_HOSTS.length }));
-      }
-    } else ctx.log('incidents.json unvollständig oder Zeitraum zu kurz, kein Tageswert gemeldet');
     return { observations };
   },
 };

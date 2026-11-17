@@ -62,7 +62,8 @@ test('collect: Summe nur bei vollständiger Länderliste', async () => {
 });
 
 // --- Szenario war ---
-import { WAR_COUNTRIES, GULF_COUNTRIES } from '../../src/collectors/ioda.ts';
+import { GROUPS, EVENT_LIMIT, eventsUrl, eventsFixture, fixtureName } from '../../src/collectors/ioda.ts';
+const WAR_CCS = GROUPS.filter((g) => g.signalId.startsWith('war.')).flatMap((g) => g.countries);
 
 function warCtx(fail: (url: string) => boolean) {
   const now = new Date('2026-11-17T00:00:00Z');
@@ -83,7 +84,8 @@ test('war: Länder, URL-Form unverändert (24 Stunden, datasource=bgp), Golf-Sum
   const { ctx, urls } = warCtx(() => false);
   const r = await collector.collect(ctx as never);
   const sec = 1794873600;
-  for (const cc of [...WAR_COUNTRIES.map((c) => c.cc), ...GULF_COUNTRIES]) {
+  assert.deepEqual(WAR_CCS, ['IR', 'IL', 'UA', 'RU', 'TW', 'SA', 'AE', 'QA']);
+  for (const cc of WAR_CCS) {
     assert.ok(urls.includes(`https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/${cc}?from=${sec - 86400}&until=${sec}&datasource=bgp`), cc);
   }
   const gulf = r.observations.filter((o) => o.signalId === 'war.connectivity.gulf_states_internet');
@@ -102,4 +104,40 @@ test('war: fehlt ein Golfland, entfällt nur die Summe; fehlt IR, nur das IR-Sig
   const ids = new Set(r.observations.map((o) => o.signalId));
   assert.ok(!ids.has('war.connectivity.gulf_states_internet') && !ids.has('war.connectivity.ioda_ir'));
   assert.ok(ids.has('war.connectivity.ioda_ua') && ids.has('cyber.outages.ioda_country_signals_de') && ids.has('cyber.outages.ioda_bgp_big_countries'));
+});
+
+test('Ereignisliste: vier 6-Stunden-Abschnitte des Vortags, limit 20, eigene Fixture-Namen', async () => {
+  assert.equal(EVENT_LIMIT, 20);
+  assert.equal(eventsUrl(1794787200, 1794808800), 'https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=1794787200&until=1794808800&entityType=country&limit=20&extendWindow=0');
+  assert.deepEqual([0, 1, 2, 3].map(eventsFixture), ['ioda/events-00h.json', 'ioda/events-06h.json', 'ioda/events-12h.json', 'ioda/events-18h.json']);
+  const day = 1794787200;
+  const fixtures: string[] = [];
+  const mk = (events: (from: number) => unknown[]) => ({
+    now: new Date('2026-11-17T00:16:13Z'), key: () => undefined, log: () => {},
+    http: { text: async () => '', json: async (url: string, init?: { fixture?: string }) => {
+      if (!url.includes('/outages/events')) throw new Error('nicht gebraucht');
+      fixtures.push(init!.fixture!);
+      return { data: events(Number(/from=(\d+)/.exec(url)![1])) };
+    } },
+  });
+  // je Abschnitt zwei Ereignisse mit Start im Abschnitt und eines, das vorher begann (zählt nicht doppelt)
+  const r = await collector.collect(mk((from) => [{ start: from + 10 }, { start: from + 20 }, { start: from - 100 }]) as never);
+  assert.deepEqual(r.observations.filter((o) => o.signalId === 'cyber.outages.ioda_outage_events_global').map((o) => [o.ts, o.value]),
+    [[new Date(day * 1000).toISOString(), 8]]);
+  assert.deepEqual(fixtures, [0, 1, 2, 3].map(eventsFixture));
+  // ein Abschnitt am Limit: Tageszahl unvollständig, kein Wert
+  const r2 = await collector.collect(mk((from) => Array.from({ length: from === day + 43200 ? EVENT_LIMIT : 1 }, () => ({ start: from + 1 }))) as never);
+  assert.ok(!r2.observations.some((o) => o.signalId === 'cyber.outages.ioda_outage_events_global'));
+});
+
+test('Länderreihen: jede (Land, Datenquelle) nur einmal je Lauf, Fixture-Namen unverändert, meta nur bei Summen', async () => {
+  assert.equal(fixtureName('DE', 'bgp'), 'ioda/country-DE.json');
+  assert.equal(fixtureName('DE', 'ping-slash24'), 'ioda/country-DE-ping.json');
+  const { ctx, urls } = warCtx(() => false);
+  const r = await collector.collect(ctx as never);
+  const series = urls.filter((u) => u.includes('/signals/raw/'));
+  assert.equal(series.length, new Set(series).size);
+  assert.equal(series.filter((u) => u.includes('/country/DE?')).length, 2); // bgp und ping
+  assert.equal(r.observations.find((o) => o.signalId === 'cyber.outages.ioda_bgp_big_countries')!.meta!.countries, 8);
+  assert.equal(r.observations.find((o) => o.signalId === 'war.connectivity.ioda_ir')!.meta, undefined);
 });

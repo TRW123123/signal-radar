@@ -1,0 +1,1347 @@
+[
+  {
+    "id": "ai-robots-txt",
+    "name": "ai.robots.txt (GitHub)",
+    "docUrl": "https://github.com/ai-robots-txt/ai.robots.txt",
+    "endpoints": [
+      "https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/main/robots.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "Git-Verlauf (Anzahl Einträge über Zeit)",
+    "rateLimit": "raw.githubusercontent.com",
+    "license": "MIT",
+    "verified": true,
+    "aliases": [],
+    "collector": "ai-robots-txt",
+    "signals": [
+      "ai.agents.ai_user_agent_new_entries"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "aiid",
+    "name": "AI Incident Database (GraphQL)",
+    "docUrl": "https://incidentdatabase.ai/apps/discover/",
+    "endpoints": [
+      "https://incidentdatabase.ai/api/graphql"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "Alle Vorfälle seit 2018 mit incident_id und date; wöchentliche Snapshots unter https://incidentdatabase.ai/research/snapshots/",
+    "rateLimit": "unklar",
+    "license": "CC BY-SA 4.0 (Datenbank)",
+    "verified": false,
+    "aliases": [],
+    "collector": "aiid",
+    "signals": [
+      "ai.attention.aiid_incident_count"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "arxiv",
+    "name": "arXiv API",
+    "docUrl": "https://info.arxiv.org/help/api/user-manual.html",
+    "endpoints": [
+      "https://export.arxiv.org/api/query?search_query=abs:%22sandbox+escape%22&max_results=1",
+      "https://export.arxiv.org/api/query?search_query=abs:%22prompt+injection%22&max_results=1",
+      "https://export.arxiv.org/api/query?search_query=abs:%22self-replication%22&max_results=1",
+      "https://export.arxiv.org/api/query?search_query=cat:cs.CR+AND+abs:%22language+model%22&max_results=1",
+      "https://export.arxiv.org/api/query?search_query=abs:%22scheming%22&max_results=1"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "Alle Papiere seit 1991, Filter submittedDate:[YYYYMMDD0000+TO+YYYYMMDD2359]",
+    "rateLimit": "1 Anfrage je 3 s",
+    "license": "Metadaten frei (CC0), Nutzung API-Bedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "arxiv",
+    "signals": [
+      "ai.attention.arxiv_agent_escape",
+      "ai.attention.arxiv_self_replication",
+      "ai.attention.arxiv_jailbreak",
+      "ai.attention.arxiv_ai_security_total",
+      "ai.attention.arxiv_deception_eval"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "cf-radar",
+    "name": "Cloudflare Radar API (AI Insights)",
+    "docUrl": "https://developers.cloudflare.com/radar/",
+    "endpoints": [
+      "https://api.cloudflare.com/client/v4/radar/ai/bots/timeseries_groups/user_agent?dateRange=28d&aggInterval=1h",
+      "https://api.cloudflare.com/client/v4/radar/ai/bots/summary/crawl_purpose?dateRange=28d",
+      "https://api.cloudflare.com/client/v4/radar/ai/bots/summary/user_agent?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/attacks/layer7/timeseries?dateRange=28d",
+      "https://api.cloudflare.com/client/v4/radar/http/summary/bot_class?dateRange=28d",
+      "https://api.cloudflare.com/client/v4/radar/ranking/domain/chatgpt.com"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Zeitreihen mit Parametern dateRange, Historie über 1 Jahr",
+    "rateLimit": "API-Token Radar Read",
+    "license": "CC BY-NC 4.0 (nicht kommerziell)",
+    "verified": false,
+    "aliases": [],
+    "collector": "cloudflare-radar",
+    "signals": [
+      "ai.agents.ai_crawler_share",
+      "ai.agents.ai_crawl_to_refer",
+      "ai.agents.agent_ddos_layer7",
+      "ai.agents.bot_traffic_share_total",
+      "ai.compute.ai_traffic_domain_rank"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "cisa-kev",
+    "name": "CISA KEV",
+    "docUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+    "endpoints": [
+      "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "dateAdded je Eintrag (1781 Einträge)",
+    "rateLimit": "unklar",
+    "license": "CC0 1.0 (Spiegel cisagov/kev-data)",
+    "verified": true,
+    "aliases": [],
+    "collector": "cisa-kev",
+    "signals": [
+      "ai.supply_chain.kev_ai_products"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "commoncrawl",
+    "name": "Common Crawl Index",
+    "docUrl": "https://commoncrawl.org/get-started",
+    "endpoints": [
+      "https://index.commoncrawl.org/collinfo.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Monate",
+    "history": "Alle Crawls seit 2008",
+    "rateLimit": "unklar",
+    "license": "Bedingungen Common Crawl",
+    "verified": false,
+    "aliases": [],
+    "collector": "commoncrawl",
+    "signals": [
+      "ai.attention.ai_commoncrawl_size"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "crtsh",
+    "name": "crt.sh / Certificate Transparency",
+    "docUrl": "https://crt.sh/",
+    "endpoints": [
+      "https://crt.sh/?q=%25.huggingface.co&output=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Alle Zertifikate seit 2013",
+    "rateLimit": "unklar, häufig 502",
+    "license": "Öffentliche CT-Daten",
+    "verified": false,
+    "aliases": [],
+    "collector": "crtsh",
+    "signals": [
+      "ai.platforms.hf_lookalike_certs"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "cvelist-v5",
+    "name": "CVEProject/cvelistV5 deltaLog + Einzeldateien",
+    "docUrl": "https://github.com/CVEProject/cvelistV5",
+    "endpoints": [
+      "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/deltaLog.json",
+      "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/3xxx/CVE-2025-3248.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "7 min",
+    "history": "30 Tage deltaLog; Einzeldatei je CVE mit Titel und Beschreibung",
+    "rateLimit": "raw.githubusercontent.com",
+    "license": "CVE Terms of Use",
+    "verified": true,
+    "aliases": [],
+    "collector": "cvelist-delta",
+    "signals": [
+      "ai.supply_chain.cve_ai_keywords"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "eia",
+    "name": "EIA Open Data (Strom stündlich)",
+    "docUrl": "https://www.eia.gov/opendata/",
+    "endpoints": [
+      "https://api.eia.gov/v2/electricity/rto/region-data/data/?frequency=hourly&data[0]=value&facets[type][]=D"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "1 h",
+    "history": "Seit 2015",
+    "rateLimit": "unklar",
+    "license": "Gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "eia",
+    "signals": [
+      "ai.compute.datacenter_load_pjm"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "ercot",
+    "name": "ERCOT Real-Time System Conditions",
+    "docUrl": "https://www.ercot.com/gridinfo/load",
+    "endpoints": [
+      "https://www.ercot.com/api/1/services/read/dashboards/systemWideDemand.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "Archivdateien der Lastdaten seit mehreren Jahren",
+    "rateLimit": "unklar",
+    "license": "Öffentliche Daten, ERCOT-Bedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "ercot",
+    "signals": [
+      "ai.compute.datacenter_load_ercot"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "eu-ai-office",
+    "name": "EU AI Office / Kalifornien OES",
+    "docUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+    "endpoints": [
+      "https://digital-strategy.ec.europa.eu/en/policies/ai-office"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Monate",
+    "history": "unklar",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "eu-ai-office",
+    "signals": [
+      "ai.incidents.mandatory_incident_reports"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "first-epss",
+    "name": "FIRST EPSS",
+    "docUrl": "https://www.first.org/epss/api",
+    "endpoints": [
+      "https://api.first.org/data/v1/epss?cve=CVE-2025-3248"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "Historie je CVE per date-Parameter",
+    "rateLimit": "unklar",
+    "license": "frei mit Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "first-epss",
+    "signals": [
+      "ai.supply_chain.epss_ai_cves"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "gdelt-doc",
+    "name": "GDELT DOC 2.0",
+    "docUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22AI%20agent%22%20(breach%20OR%20rogue)&mode=timelinevol&timespan=1m&format=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "Seit 2017",
+    "rateLimit": "1 Anfrage/5 s",
+    "license": "frei mit Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "gdelt-doc",
+    "signals": [
+      "ai.attention.ai_news_volume"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "gharchive",
+    "name": "GH Archive",
+    "docUrl": "https://www.gharchive.org/",
+    "endpoints": [
+      "https://data.gharchive.org/2026-11-16-12.json.gz"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 h",
+    "history": "Stundendateien seit 2011",
+    "rateLimit": "unklar",
+    "license": "CC-BY (siehe Seite)",
+    "verified": false,
+    "aliases": [],
+    "collector": "gharchive",
+    "signals": [
+      "ai.agents.github_bot_commits_share"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "ghsa",
+    "name": "GitHub Advisory Database REST",
+    "docUrl": "https://docs.github.com/en/rest/security-advisories/global-advisories",
+    "endpoints": [
+      "https://api.github.com/advisories?type=malware&ecosystem=pip&per_page=100"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Alle Advisories mit published_at",
+    "rateLimit": "60 Anfragen/h ohne Token, 5000 mit",
+    "license": "CC-BY 4.0 (Datenbank)",
+    "verified": false,
+    "aliases": [
+      "github-advisories"
+    ],
+    "collector": "github-advisories",
+    "signals": [
+      "ai.supply_chain.osv_malware_ai"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "github-rest",
+    "name": "GitHub Search API (Repositories)",
+    "docUrl": "https://docs.github.com/en/rest/search/search",
+    "endpoints": [
+      "https://api.github.com/search/repositories?q=topic:mcp-server+created:>2026-11-10&per_page=1",
+      "https://api.github.com/search/issues?q=author:app/copilot-swe-agent+type:pr+created:>2026-11-10&per_page=1",
+      "https://api.github.com/search/commits?q=%22Co-Authored-By:+Claude%22+committer-date:%3E2026-11-10&per_page=1"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Beliebige Zeitfenster per created:",
+    "rateLimit": "10 Anfragen/min ohne Token",
+    "license": "GitHub-Nutzungsbedingungen",
+    "verified": false,
+    "aliases": [
+      "github-search"
+    ],
+    "collector": "github-search",
+    "signals": [
+      "ai.supply_chain.mcp_repo_growth",
+      "ai.agents.github_agent_pr_rate",
+      "ai.agents.github_agent_coauthor_commits"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "greynoise",
+    "name": "GreyNoise Tags API",
+    "docUrl": "https://docs.greynoise.io/",
+    "endpoints": [
+      "https://api.greynoise.io/v3/tags"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free (Community, begrenzt)",
+    "updateLatency": "Stunden",
+    "history": "Neue Tags mit Datum",
+    "rateLimit": "begrenzt",
+    "license": "GreyNoise-Bedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "greynoise",
+    "signals": [
+      "ai.agents.greynoise_ai_tags"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "hf-blog",
+    "name": "Hugging Face Blog (RSS)",
+    "docUrl": "https://huggingface.co/blog",
+    "endpoints": [
+      "https://huggingface.co/blog/feed.xml"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Archiv",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "hf-blog",
+    "signals": [
+      "ai.platforms.hf_blog_security_policy",
+      "ai.context.context_release_calendar"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "hf-hub",
+    "name": "Hugging Face Hub API",
+    "docUrl": "https://huggingface.co/docs/hub/api",
+    "endpoints": [
+      "https://huggingface.co/api/models?sort=createdAt&direction=-1&limit=100",
+      "https://huggingface.co/api/datasets?sort=createdAt&direction=-1&limit=100",
+      "https://huggingface.co/api/spaces?sort=createdAt&direction=-1&limit=100",
+      "https://huggingface.co/api/models?sort=downloads&direction=-1&limit=100&expand[]=downloads&expand[]=createdAt",
+      "https://huggingface.co/api/models/<repo>?securityStatus=true"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "Nur Gegenwart; Historie aus createdAt-Feld der Einträge, Baseline per eigenem Speicher",
+    "rateLimit": "unklar, anonym gedrosselt",
+    "license": "Hub-Nutzungsbedingungen, Metadaten einsehbar",
+    "verified": false,
+    "aliases": [],
+    "collector": "hf-hub",
+    "signals": [
+      "ai.platforms.hf_unsafe_flags",
+      "ai.platforms.hf_new_account_share",
+      "ai.platforms.hf_new_models_rate",
+      "ai.platforms.hf_download_spike",
+      "ai.platforms.hf_new_datasets_rate",
+      "ai.platforms.hf_new_spaces_rate"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "hf-papers",
+    "name": "HF Daily Papers API",
+    "docUrl": "https://huggingface.co/papers",
+    "endpoints": [
+      "https://huggingface.co/api/daily_papers"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "Archiv taggenau",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "hf-papers",
+    "signals": [
+      "ai.attention.hf_daily_papers"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "hn-algolia",
+    "name": "Hacker News Algolia",
+    "docUrl": "https://hn.algolia.com/api",
+    "endpoints": [
+      "https://hn.algolia.com/api/v1/search_by_date?query=%22prompt%20injection%22&tags=story&hitsPerPage=100"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Seit 2006",
+    "rateLimit": "10000 Anfragen/h",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "hn-algolia",
+    "signals": [
+      "ai.attention.hn_ai_security_stories"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "kalshi",
+    "name": "Kalshi Public Market Data",
+    "docUrl": "https://docs.kalshi.com/",
+    "endpoints": [
+      "https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=100"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "Handelsverlauf je Markt",
+    "rateLimit": "unklar",
+    "license": "Kalshi-Bedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "kalshi",
+    "signals": [
+      "ai.markets.prediction_ai_incident"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "litellm-github",
+    "name": "LiteLLM Modell- und Preisliste (GitHub)",
+    "docUrl": "https://github.com/BerriAI/litellm",
+    "endpoints": [
+      "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "mehrmals täglich (Commits)",
+    "history": "Nur Gegenwart in der Datei; Git-Verlauf nicht geprüft",
+    "rateLimit": "unbekannt",
+    "license": "MIT",
+    "verified": true,
+    "aliases": [],
+    "collector": "litellm-github",
+    "signals": [
+      "ai.compute.inference_cost_listing"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "manifold",
+    "name": "Manifold Markets API",
+    "docUrl": "https://docs.manifold.markets/api",
+    "endpoints": [
+      "https://api.manifold.markets/v0/search-markets?term=AI%20incident&sort=liquidity&limit=20"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "Wahrscheinlichkeitsverlauf je Markt via /v0/bets",
+    "rateLimit": "500 Anfragen/min je IP",
+    "license": "Daten frei nutzbar, siehe Doku",
+    "verified": false,
+    "aliases": [],
+    "collector": "manifold",
+    "signals": [
+      "ai.markets.prediction_ai_incident"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "metaculus",
+    "name": "Metaculus API",
+    "docUrl": "https://www.metaculus.com/api/",
+    "endpoints": [
+      "https://www.metaculus.com/api/posts/?statuses=open&forecast_type=binary&search=AI"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Vorhersageverlauf je Frage",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "metaculus",
+    "signals": [
+      "ai.markets.prediction_ai_incident"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "metr",
+    "name": "METR Agent Incidents",
+    "docUrl": "https://metr.org/agent-incidents/",
+    "endpoints": [
+      "https://metr.org/agent-incidents/incidents.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Wochen",
+    "history": "Fortlaufend, Stand 19.05.2026 44 Einträge (laut Lagebild-Datei)",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "metr",
+    "signals": [
+      "ai.incidents.metr_agent_incidents"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "mit-air",
+    "name": "MIT AI Risk Repository und AI Incident Tracker",
+    "docUrl": "https://airisk.mit.edu/",
+    "endpoints": [
+      "https://airisk.mit.edu/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Monate",
+    "history": "Versionierte Tabelle",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "mit-air",
+    "signals": [
+      "ai.incidents.mit_risk_repo_entries"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "mitre-atlas",
+    "name": "MITRE ATLAS Daten (GitHub)",
+    "docUrl": "https://github.com/mitre-atlas/atlas-data",
+    "endpoints": [
+      "https://raw.githubusercontent.com/mitre-atlas/atlas-data/main/dist/ATLAS.yaml"
+    ],
+    "access": "download",
+    "format": "yaml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unregelmäßig",
+    "history": "Git-Verlauf",
+    "rateLimit": "raw.githubusercontent.com",
+    "license": "MIT",
+    "verified": true,
+    "aliases": [],
+    "collector": "mitre-atlas",
+    "signals": [
+      "ai.supply_chain.atlas_techniques"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "npm-registry",
+    "name": "npm Registry Search",
+    "docUrl": "https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md",
+    "endpoints": [
+      "https://registry.npmjs.org/-/v1/search?text=keywords:mcp&size=250",
+      "https://registry.npmjs.org/langchain"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Paket-JSON /<name> enthält time{version: Zeitstempel}: volle Release-Historie",
+    "rateLimit": "unklar, bei Massenabruf Sperre möglich",
+    "license": "npm-Nutzungsbedingungen",
+    "verified": true,
+    "aliases": [],
+    "collector": "npm-registry",
+    "signals": [
+      "ai.supply_chain.npm_ai_version_burst",
+      "ai.supply_chain.npm_ai_new_packages"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "nvd-cve-api",
+    "name": "NVD CVE API 2.0",
+    "docUrl": "https://nvd.nist.gov/developers/vulnerabilities",
+    "endpoints": [
+      "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=langchain&pubStartDate=2026-11-01T00:00:00.000&pubEndDate=2026-11-17T00:00:00.000"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Alle CVEs seit 1999 mit Datum",
+    "rateLimit": "5 Anfragen/30 s ohne Key, 50 mit Key",
+    "license": "Gemeinfrei",
+    "verified": false,
+    "aliases": [
+      "nvd"
+    ],
+    "collector": "nvd-cve",
+    "signals": [
+      "ai.supply_chain.cve_ai_keywords"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "oecd-aim",
+    "name": "OECD AI Incidents and Hazards Monitor",
+    "docUrl": "https://oecd.ai/en/incidents",
+    "endpoints": [
+      "https://oecd.ai/en/incidents"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Einträge mit Datum seit 2014; Export als CSV laut Seite angeboten",
+    "rateLimit": "unklar",
+    "license": "OECD-Nutzungsbedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "oecd-aim",
+    "signals": [
+      "ai.attention.oecd_aim_incidents",
+      "ai.attention.oecd_aim_hazard_share"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "openalex",
+    "name": "OpenAlex",
+    "docUrl": "https://docs.openalex.org/",
+    "endpoints": [
+      "https://api.openalex.org/works?search=agent%20sandbox%20escape&filter=from_publication_date:2026-10-01&group_by=publication_date"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "Alle Jahre, Gruppierung nach Datum",
+    "rateLimit": "100000 Anfragen/Tag mit polite pool (mailto)",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "openalex",
+    "signals": [
+      "ai.attention.arxiv_agent_escape"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "openrouter",
+    "name": "OpenRouter API",
+    "docUrl": "https://openrouter.ai/docs/api-reference/overview",
+    "endpoints": [
+      "https://openrouter.ai/api/v1/models"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Nur Gegenwart (Preise, Modelle); Rankings-Seite https://openrouter.ai/rankings zeigt Token-Volumen im Zeitverlauf",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "openrouter",
+    "signals": [
+      "ai.agents.llm_api_error_rate",
+      "ai.agents.openrouter_token_volume",
+      "ai.compute.inference_cost_listing"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "ossf-malicious",
+    "name": "OpenSSF malicious-packages (GitHub)",
+    "docUrl": "https://github.com/ossf/malicious-packages",
+    "endpoints": [
+      "https://raw.githubusercontent.com/ossf/malicious-packages/main/README.md"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Git-Verlauf mit Datum je Meldung; Dateien osv/malicious/<ökosystem>/<paket>/MAL-*.json",
+    "rateLimit": "raw.githubusercontent.com unauffällig",
+    "license": "Apache-2.0 bzw. CC0, siehe Repo",
+    "verified": true,
+    "aliases": [],
+    "collector": "ossf-malicious",
+    "signals": [
+      "ai.supply_chain.osv_malware_ai"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "osv",
+    "name": "OSV.dev",
+    "docUrl": "https://google.github.io/osv.dev/api/",
+    "endpoints": [
+      "https://api.osv.dev/v1/query (POST) bzw. https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Komplette Historie als Massen-Download je Ökosystem; IDs mit Präfix MAL- sind Schadpakete",
+    "rateLimit": "unklar",
+    "license": "CC0 bzw. je Quelldatenbank CC-BY",
+    "verified": false,
+    "aliases": [
+      "osv-dev"
+    ],
+    "collector": "osv",
+    "signals": [
+      "ai.supply_chain.osv_malware_ai"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "polymarket-gamma",
+    "name": "Polymarket Gamma API",
+    "docUrl": "https://docs.polymarket.com/",
+    "endpoints": [
+      "https://gamma-api.polymarket.com/public-search?q=AI"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "Preisverlauf je Markt über CLOB-API prices-history",
+    "rateLimit": "unklar",
+    "license": "Nutzungsbedingungen Polymarket",
+    "verified": false,
+    "aliases": [],
+    "collector": "polymarket-gamma",
+    "signals": [
+      "ai.markets.prediction_ai_incident"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "pypi",
+    "name": "PyPI JSON API",
+    "docUrl": "https://docs.pypi.org/api/json/",
+    "endpoints": [
+      "POST https://pypi.org/pypi  Body: <methodCall><methodName>changelog_last_serial</methodName></methodCall>",
+      "https://pypi.org/rss/packages.xml",
+      "https://pypi.org/pypi/litellm/json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Alle Releases mit upload_time_iso_8601 und yanked: sofortige Historie je Paket",
+    "rateLimit": "unklar, Cache",
+    "license": "PyPI-Nutzungsbedingungen",
+    "verified": true,
+    "aliases": [
+      "pypi-json",
+      "pypi-rss",
+      "pypi-xmlrpc"
+    ],
+    "collector": "pypi",
+    "signals": [
+      "ai.supply_chain.pypi_ai_yanks_removals",
+      "ai.supply_chain.pypi_ai_maintainer_changes",
+      "ai.supply_chain.pypi_ai_name_typosquats",
+      "ai.supply_chain.pypi_ai_release_burst",
+      "ai.supply_chain.pypi_new_projects_rate",
+      "ai.supply_chain.pypi_serial_rate"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "pypistats",
+    "name": "pypistats.org API",
+    "docUrl": "https://pypistats.org/api/",
+    "endpoints": [
+      "https://pypistats.org/api/packages/litellm/recent"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "180 Tage Historie",
+    "rateLimit": "unklar, gedrosselt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "pypistats",
+    "signals": [
+      "ai.agents.agent_framework_downloads"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "ransomware-live",
+    "name": "ransomware.live",
+    "docUrl": "https://www.ransomware.live/",
+    "endpoints": [
+      "https://api.ransomware.live/v2/recentvictims"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Opferliste seit 2020",
+    "rateLimit": "unklar",
+    "license": "CC BY-NC-SA bzw. siehe Seite",
+    "verified": false,
+    "aliases": [],
+    "collector": "ransomware-live",
+    "signals": [
+      "ai.markets.ai_ransomware_victims"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "reddit-json",
+    "name": "Reddit r/LocalLLaMA und r/ChatGPT (JSON)",
+    "docUrl": "https://www.reddit.com/dev/api/",
+    "endpoints": [
+      "https://www.reddit.com/r/LocalLLaMA/about.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Keine Historie",
+    "rateLimit": "OAuth-Limits",
+    "license": "Reddit-API-Bedingungen",
+    "verified": false,
+    "aliases": [
+      "reddit"
+    ],
+    "collector": "reddit",
+    "signals": [
+      "ai.attention.ai_local_community_activity"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "sans-isc",
+    "name": "SANS Internet Storm Center DShield API",
+    "docUrl": "https://isc.sans.edu/api/",
+    "endpoints": [
+      "https://isc.sans.edu/api/portdetails/11434?json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "Verlauf der Quellen- und Zielzahlen je Port",
+    "rateLimit": "1 Anfrage/s",
+    "license": "CC BY-NC-SA 3.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "sans-isc",
+    "signals": [
+      "ai.agents.honeypot_llm_probes"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "sec-edgar",
+    "name": "SEC EDGAR Volltextsuche",
+    "docUrl": "https://www.sec.gov/edgar/search/",
+    "endpoints": [
+      "https://efts.sec.gov/LATEST/search-index?q=%22autonomous%20agent%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-17"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Seit 2001",
+    "rateLimit": "10 Anfragen/s, User-Agent Pflicht",
+    "license": "Gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "sec-edgar",
+    "signals": [
+      "ai.markets.ai_sec_8k"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "shodan",
+    "name": "Shodan Count API",
+    "docUrl": "https://developer.shodan.io/api",
+    "endpoints": [
+      "https://api.shodan.io/shodan/host/count?key=KEY&query=product:Ollama&facets=country"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "paid",
+    "cost": "Konto (Mitgliedschaft ca. 49 USD einmalig, Stand Kenntnis)",
+    "updateLatency": "Tage",
+    "history": "Keine Historie, Verlauf nur durch eigene Abfragen",
+    "rateLimit": "1 Anfrage/s",
+    "license": "Shodan-Nutzungsbedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "shodan",
+    "signals": [
+      "ai.supply_chain.ai_exposed_servers"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "silicon-data",
+    "name": "Silicon Data H100 Rental Index",
+    "docUrl": "https://www.silicondata.com/",
+    "endpoints": [
+      "https://www.silicondata.com/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free (Index-Seite); API paid",
+    "updateLatency": "Tage",
+    "history": "Index mit Historie auf der Seite",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "silicon-data",
+    "signals": [
+      "ai.compute.gpu_rental_price"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "statuspage-hosts",
+    "name": "Statuspage Hugging Face",
+    "docUrl": "https://developer.statuspage.io/",
+    "endpoints": [
+      "https://status.huggingface.co/api/v2/incidents.json",
+      "https://status.openai.com/api/v2/status.json",
+      "https://www.githubstatus.com/api/v2/incidents.json",
+      "https://www.cloudflarestatus.com/api/v2/status.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 min",
+    "history": "Vergangene Incidents der letzten Wochen im Feed",
+    "rateLimit": "unklar",
+    "license": "Je Anbieter unklar",
+    "verified": false,
+    "aliases": [
+      "statuspage"
+    ],
+    "collector": "statuspage",
+    "signals": [
+      "ai.platforms.ai_provider_status_share",
+      "ai.platforms.hf_status_incidents",
+      "ai.platforms.model_registry_ci_status",
+      "ai.compute.cloud_ai_regional_status"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "tranco",
+    "name": "Tranco Domain-Ranking",
+    "docUrl": "https://tranco-list.eu/",
+    "endpoints": [
+      "https://tranco-list.eu/api/ranks/domain/huggingface.co"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "Tägliche Listen der letzten 30 Tage je Domain via API",
+    "rateLimit": "unklar",
+    "license": "CC BY-NC-SA / frei für Forschung",
+    "verified": false,
+    "aliases": [],
+    "collector": "tranco",
+    "signals": [
+      "ai.platforms.hf_domain_rank"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "urlhaus",
+    "name": "URLhaus Host-Abfrage",
+    "docUrl": "https://urlhaus-api.abuse.ch/",
+    "endpoints": [
+      "https://urlhaus-api.abuse.ch/v1/host/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Einträge mit date_added",
+    "rateLimit": "Auth-Key (kostenlos) seit 2025 erforderlich",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "urlhaus",
+    "signals": [
+      "ai.platforms.hf_malware_hosting"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "vast-ai",
+    "name": "Vast.ai Marktplatz",
+    "docUrl": "https://docs.vast.ai/",
+    "endpoints": [
+      "https://console.vast.ai/api/v0/bundles/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Keine Historie",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "vast-ai",
+    "signals": [
+      "ai.compute.gpu_rental_price",
+      "ai.compute.gpu_marketplace_availability"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "vendor-blogs",
+    "name": "Anbieter-Blogs (RSS)",
+    "docUrl": "https://openai.com/news/rss.xml",
+    "endpoints": [
+      "https://openai.com/news/rss.xml"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Archiv im Feed",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "vendor-blogs",
+    "signals": [
+      "ai.incidents.incident_vendor_reports"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "wikimedia-pageviews",
+    "name": "Wikimedia Pageviews",
+    "docUrl": "https://wikimedia.org/api/rest_v1/",
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Hugging_Face/daily/20260601/20261116"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "Seit 2015",
+    "rateLimit": "200 Anfragen/s",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "wikimedia-pageviews",
+    "signals": [
+      "ai.attention.ai_attention_wiki"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  },
+  {
+    "id": "yahoo-chart",
+    "name": "Yahoo Finance Chart (inoffiziell)",
+    "docUrl": "https://finance.yahoo.com/",
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CRWV?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=3mo&interval=1d"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "3 Monate und mehr",
+    "rateLimit": "unklar",
+    "license": "Nutzungsbedingungen verbieten systematische Nutzung, Lizenz klären",
+    "verified": false,
+    "aliases": [],
+    "collector": "yahoo-chart",
+    "signals": [
+      "ai.markets.cyber_stock_ai_events",
+      "ai.markets.ai_stock_volume"
+    ],
+    "scenarios": [
+      "ai"
+    ]
+  }
+]

@@ -25,6 +25,10 @@ Für jede Beobachtung wird eine Baseline **nur aus der Vergangenheit desselben S
 - Zentrum = Median, Streuung = MAD × 1,4826. Beides ist robust: ein alter Vorfall im Fenster verschiebt die Baseline kaum.
 - Untergrenzen für die Streuung: 5 % des Zentrums, bei Zählreihen √Zentrum (Poisson-Rauschen), sonst explodiert z bei
   flachen Reihen.
+- **Schiefe Reihen:** Stoßweise Reihen (Zählungen mit Sammelveröffentlichungen) liegen regelmäßig weit über dem Median.
+  Deshalb wird die Streuung je Seite um die Spanne des eigenen oberen bzw. unteren Zehntels erweitert
+  (`(q90 − Median) / 1,2816` nach oben, `(Median − q10) / 1,2816` nach unten). „Ungewöhnlich" heißt: mehr als diese
+  Reihe regelmäßig zeigt.
 - `z = (Wert − Zentrum) / Streuung`, gerichtet (`up`, `down`, `both`).
 - Anomalie `a` = weiche Rampe zwischen `z0` und `z1`. Profil `high` (aktuell): `z0 = 2,5`, `z1 = 7`, gelistet ab `z ≥ 2`.
   Profil `normal`: `z0 = 3,5`, `z1 = 8`.
@@ -58,6 +62,7 @@ Der Bereichswert ist ein Noisy-OR der Gruppen: `1 − Π(1 − Beitrag)`. Ein Be
 
 | abweichende Bereiche | Schranke | höchste erreichbare Stufe |
 |---|---|---|
+| 0 | 0,11 | 0 Ruhig (Unruhe unter der Grenze erreicht nie Stufe 1) |
 | 1 | 0,29 | 1 Leicht erhöht |
 | 2 | 0,54 | 2 Erhöht |
 | 3 | 0,77 | 3 Hoch |

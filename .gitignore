@@ -7,3 +7,6 @@ data-replay/
 fixtures/cvelist/deltaLog.json
 fixtures/ipsum/ipsum.txt
 fixtures/tweetfeed/month.csv
+fixtures/oref-github/israel-alerts-tail.csv
+fixtures/air-raid-sirens/volunteer_data_en_tail.csv
+fixtures/ukraine-losses/russia_losses_equipment.json

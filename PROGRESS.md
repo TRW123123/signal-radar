@@ -11,7 +11,7 @@ Fortschrittsprotokoll für nahtloses Weiterarbeiten. Neuester Stand oben. Ein ne
 | 1 | Cyber: Signal-Recherche (5 Teil-Domänen, 286 Kandidaten), Prior Art, Szenario-Relevanz | Recherche fertig, Konsolidierung läuft |
 | 2 | Cyber: Collectors mit echten Aufzeichnungen | offen |
 | 3 | Frontend nach elite-ui-ux, Deploy | Skizzen laufen |
-| 4 | Backtesting Cyber | offen |
+| 4 | Backtesting Cyber | Gerüst fertig (`src/backtest/`, `backtest/REPORT.md`); historische Abrufe offen (`backtest/history-queue.json`) |
 | 5+ | Weitere Szenarien: Krieg, Blackout, KI, Finanz, Nuklear, Bio | offen |
 
 ## Entscheidungen
@@ -38,3 +38,4 @@ Siehe `docs/OPEN-QUESTIONS.md`.
 - 2026-11-17 00:50 Welle 1 gestartet: 5 Recherche-Agents Cyber, Prior Art, Szenario-Relevanz.
 - 2026-11-17 01:00 Welle 0 fertig: Engine mit 16 Tests grün, committet.
 - 2026-11-17 01:05 Konsolidierung Cyber-Katalog und Frontend-Skizzen gestartet.
+- 2026-11-17 Backtest-Gerüst: `src/backtest/{lib,run,evaluate,history-queue}.ts`, `backtest/events.json` (9 historische Ereignisse, 3 aus Sekundärquelle für Nov. 2026, 3 Kontrollen), `backtest/history-queue.json` (59 Abrufe), Tests `tests/backtest.test.ts`. 30-Tage-Replay: 95 % der Zeit außerhalb von Ereignissen Stufe ≥ 1, alles ohne abweichenden Bereich. Engine-Befund: `CONVERGENCE_GATE[0] = 1` lässt unterschwellige Bereiche ungedeckelt durch (nicht geändert, Entscheidung offen).

@@ -34,3 +34,13 @@ export function round(x: number, digits = 3): number {
   const f = 10 ** digits;
   return Math.round(x * f) / f;
 }
+
+/** linear-interpolated quantile, q in 0..1 */
+export function quantile(xs: number[], q: number): number {
+  if (xs.length === 0) return NaN;
+  const s = [...xs].sort((a, b) => a - b);
+  const pos = (s.length - 1) * q;
+  const lo = Math.floor(pos);
+  const hi = Math.ceil(pos);
+  return s[lo] + (s[hi] - s[lo]) * (pos - lo);
+}

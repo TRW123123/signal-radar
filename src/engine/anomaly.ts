@@ -2,7 +2,7 @@
 // Robust (median/MAD) so that past incidents inside the baseline window do not hide new ones.
 
 import type { Observation, SignalDef } from '../core/types.ts';
-import { clamp01, mad, median, smoothstep } from './stats.ts';
+import { clamp01, mad, median, quantile, smoothstep } from './stats.ts';
 
 export interface Sensitivity {
   /** z where an anomaly starts to count */
@@ -21,7 +21,10 @@ export const SENSITIVITY: Record<'normal' | 'high', Sensitivity> = {
 
 export interface Baseline {
   center: number;
+  /** typical spread for upward deviations */
   scale: number;
+  /** typical spread for downward deviations (skewed series differ per side) */
+  scaleDown: number;
   n: number;
   mature: boolean;
 }
@@ -40,7 +43,7 @@ function bucket(method: SignalDef['baseline']['method'], t: number): number {
 export function baselineAt(def: SignalDef, series: Observation[], t: number): Baseline | null {
   const spec = def.baseline;
   if (spec.method === 'fixed' && spec.fixed) {
-    return { center: spec.fixed.center, scale: spec.fixed.scale, n: Infinity, mature: true };
+    return { center: spec.fixed.center, scale: spec.fixed.scale, scaleDown: spec.fixed.scale, n: Infinity, mature: true };
   }
   const from = t - spec.windowDays * DAY;
   const window: { t: number; v: number }[] = [];
@@ -65,11 +68,23 @@ export function baselineAt(def: SignalDef, series: Observation[], t: number): Ba
   if (def.kind === 'count') scale = Math.max(scale, Math.sqrt(Math.max(center, 1)));
   if (def.kind === 'binary') scale = Math.max(scale, 0.25);
   if (!(scale > 0)) scale = 1e-9;
-  return { center, scale, n: values.length, mature: values.length >= spec.minPoints };
+  // Heavy-tailed series (bursty counts, batch publications) routinely exceed median + k*MAD.
+  // The spread a series shows in its own top and bottom decile widens the scale per side, so that
+  // "unusual" means: beyond what this series regularly does, not beyond what a bell curve would do.
+  const tailBase = values.length >= 20 ? values : window.length >= 20 ? window.map((p) => p.v) : null;
+  let scaleUp = scale;
+  let scaleDown = scale;
+  if (tailBase) {
+    const c = tailBase === values ? center : median(tailBase);
+    scaleUp = Math.max(scale, (quantile(tailBase, 0.9) - c) / 1.2816);
+    scaleDown = Math.max(scale, (c - quantile(tailBase, 0.1)) / 1.2816);
+  }
+  return { center, scale: scaleUp, scaleDown, n: values.length, mature: values.length >= spec.minPoints };
 }
 
 export function directionalZ(def: SignalDef, value: number, b: Baseline): number {
-  const z = (value - b.center) / b.scale;
+  const d = value - b.center;
+  const z = d >= 0 ? d / b.scale : d / b.scaleDown;
   if (def.direction === 'up') return Math.max(z, 0);
   if (def.direction === 'down') return Math.max(-z, 0);
   return Math.abs(z);

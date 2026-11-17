@@ -68,14 +68,14 @@
     "repo": "PetroIvaniuk/2022-Ukraine-Russia-War-Dataset",
     "path": "main/data/russia_losses_equipment.json (und russia_losses_personnel.json)",
     "url": "https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment.json (und russia_losses_personnel.json)",
-    "what": "Tägliche kumulierte Verluste Russlands (Gerät nach Kategorien, Personal) nach Angaben des ukrainischen Generalstabs, Tag 1727.",
+    "what": "Tägliche kumulierte Verluste Russlands (Gerät nach Kategorien, Personal) nach Angaben des ukrainischen Generalstabs, Tag 1727. Collector github-ukraine-losses (Klasse C, Angabe einer Kriegspartei).",
     "updated": "2026-11-16 (geprüft 17.11.2026)",
     "cadence": "täglich",
     "license": "MIT (Repo); Quelldaten amtliche ukrainische Angaben",
     "scenarios": [
       "krieg"
     ],
-    "built": false
+    "built": true
   },
   {
     "repo": "cdcepi/FluSight-forecast-hub",
@@ -120,14 +120,14 @@
     "repo": "Vadimkin/ukrainian-air-raid-sirens-dataset",
     "path": "main/datasets/official_data_en.csv",
     "url": "https://raw.githubusercontent.com/Vadimkin/ukrainian-air-raid-sirens-dataset/main/datasets/official_data_en.csv",
-    "what": "Luftalarme in der Ukraine je Region mit Start und Ende. Nicht gebaut: letzte Zeile vom 07.09.2026, die Datei wird offenbar nicht mehr gepflegt.",
+    "what": "Luftalarme in der Ukraine je Region mit Start und Ende. Nicht gebaut: letzte Zeile vom 07.09.2026, die Datei wird offenbar nicht mehr gepflegt. Gebaut wurde stattdessen die aktuelle volunteer_data_en.csv (bis 16.11.2026) im Collector github-air-raid-sirens.",
     "updated": "2026-09-07 (letzte Zeile, geprüft 17.11.2026)",
     "cadence": "laut README täglich, tatsächlich veraltet",
     "license": "MIT",
     "scenarios": [
       "krieg"
     ],
-    "built": false
+    "built": true
   },
   {
     "repo": "drb-ra/C2IntelFeeds",
@@ -269,6 +269,167 @@
     "license": "MIT",
     "scenarios": [
       "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "dleshem/israel-alerts-data",
+    "path": "main/israel-alerts.csv",
+    "url": "https://raw.githubusercontent.com/dleshem/israel-alerts-data/main/israel-alerts.csv",
+    "what": "Alarme des israelischen Heimatfrontkommandos je Ortschaft seit 2014 (65 MB, Dateiende per Range-Abruf). Collector oref-github. Spiegel ruhig: letzter Alarm 08.11.2026, Lücken von 10 Tagen sind normal.",
+    "updated": "2026-11-08 (letzter Alarm, geprüft 17.11.2026)",
+    "cadence": "bei Alarmen fortgeschrieben",
+    "license": "unklar (keine Lizenzangabe im Repo)",
+    "scenarios": [
+      "krieg"
+    ],
+    "built": true
+  },
+  {
+    "repo": "cyterat/deepstate-map-data",
+    "path": "main/data/deepstatemap_data_<JJJJMMTT>.geojson",
+    "url": "https://raw.githubusercontent.com/cyterat/deepstate-map-data/main/data/deepstatemap_data_20261116.geojson",
+    "what": "Tägliches MultiPolygon der besetzten Gebiete der Ukraine (DeepStateMap), 77 kB je Tag; Flächenänderung als Frontsignal. Collector github-deepstate.",
+    "updated": "2026-11-16 (geprüft 17.11.2026)",
+    "cadence": "täglich gegen 03:00 UTC",
+    "license": "unklar",
+    "scenarios": [
+      "krieg"
+    ],
+    "built": true
+  },
+  {
+    "repo": "datasets/oil-prices",
+    "path": "main/data/brent-daily.csv (und wti-daily.csv)",
+    "url": "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv",
+    "what": "EIA-Spotpreise Brent und WTI als Tagesreihe seit 1986/87, 165 kB. Collector github-oil-prices. Verzug ca. 1 Woche.",
+    "updated": "2026-11-11 (letzter Wert, geprüft 17.11.2026)",
+    "cadence": "täglich, EIA-Verzug ca. 1 Woche",
+    "license": "ODC-PDDL-1.0",
+    "scenarios": [
+      "krieg",
+      "energie"
+    ],
+    "built": true
+  },
+  {
+    "repo": "datasets/natural-gas",
+    "path": "main/data/daily.csv",
+    "url": "https://raw.githubusercontent.com/datasets/natural-gas/main/data/daily.csv",
+    "what": "Henry-Hub-Erdgaspreis (EIA) als Tagesreihe seit 1997, 97 kB. Collector github-gas-henry-hub. Verzug ca. 1 Woche.",
+    "updated": "2026-11-11 (letzter Wert, geprüft 17.11.2026)",
+    "cadence": "täglich, EIA-Verzug ca. 1 Woche",
+    "license": "ODC-PDDL-1.0",
+    "scenarios": [
+      "energie",
+      "krieg"
+    ],
+    "built": true
+  },
+  {
+    "repo": "datasets/exchange-rates",
+    "path": "main/data/daily.csv",
+    "url": "https://raw.githubusercontent.com/datasets/exchange-rates/main/data/daily.csv",
+    "what": "Wechselkurse (US-Notenbank H.10) 22 Währungen, u. a. Taiwan-Dollar, Yen, Franken, Yuan. Nicht gebaut: 7,6 MB nach Land sortiert (kein Range-Abruf auf das Ende möglich), Russland und Ukraine fehlen.",
+    "updated": "2026-11-06 (letzter Wert, geprüft 17.11.2026)",
+    "cadence": "werktäglich, Verzug ca. 1 Woche",
+    "license": "ODC-PDDL-1.0 (Datensatz), Rohdaten US-Regierung",
+    "scenarios": [
+      "finanzkrise",
+      "krieg"
+    ],
+    "built": false
+  },
+  {
+    "repo": "robert-koch-institut/Abwassersurveillance_AMELAG",
+    "path": "main/amelag_aggregierte_kurve.tsv (auch amelag_einzelstandorte.tsv, 57 MB)",
+    "url": "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv",
+    "what": "Viruslast im Abwasser (SARS-CoV-2, Influenza A/B, RSV) bundesweit, wöchentlich, 138 kB. Starker Frühindikator für Pandemie/Atemwegswellen.",
+    "updated": "2026-11-04 (letzte Woche, geprüft 17.11.2026)",
+    "cadence": "wöchentlich",
+    "license": "nicht im Repo geprüft (RKI-Daten meist CC BY 4.0)",
+    "scenarios": [
+      "pandemie"
+    ],
+    "built": false
+  },
+  {
+    "repo": "robert-koch-institut/ARE-Konsultationsinzidenz",
+    "path": "main/ARE-Konsultationsinzidenz.tsv",
+    "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/main/ARE-Konsultationsinzidenz.tsv",
+    "what": "Arztbesuche wegen akuter Atemwegserkrankungen je Bundesland und Altersgruppe, wöchentlich (1 MB).",
+    "updated": "2026-W45 (letzte Woche, geprüft 17.11.2026)",
+    "cadence": "wöchentlich",
+    "license": "nicht im Repo geprüft",
+    "scenarios": [
+      "pandemie"
+    ],
+    "built": false
+  },
+  {
+    "repo": "robert-koch-institut/COVID-19_7-Tage-Inzidenz_in_Deutschland",
+    "path": "main/COVID-19-Faelle_7-Tage-Inzidenz_Deutschland.csv",
+    "url": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19_7-Tage-Inzidenz_in_Deutschland/main/COVID-19-Faelle_7-Tage-Inzidenz_Deutschland.csv",
+    "what": "Gemeldete COVID-19-Fälle und 7-Tage-Inzidenz je Altersgruppe, täglich (800 kB).",
+    "updated": "2026-11-15 (letzter Tag, geprüft 17.11.2026)",
+    "cadence": "täglich",
+    "license": "nicht im Repo geprüft",
+    "scenarios": [
+      "pandemie"
+    ],
+    "built": false
+  },
+  {
+    "repo": "datasets/s-and-p-500",
+    "path": "main/data/data.csv",
+    "url": "https://raw.githubusercontent.com/datasets/s-and-p-500/main/data/data.csv",
+    "what": "S&P 500 Monatswerte seit 1871. Nur monatlich (letzter Wert 09/2026), als Frühwarnsignal zu träge.",
+    "updated": "2026-09 (geprüft 17.11.2026)",
+    "cadence": "monatlich",
+    "license": "ODC-PDDL-1.0 (Shiller-Daten)",
+    "scenarios": [
+      "finanzkrise"
+    ],
+    "built": false
+  },
+  {
+    "repo": "datasets/gold-prices",
+    "path": "main/data/monthly.csv",
+    "url": "https://raw.githubusercontent.com/datasets/gold-prices/main/data/monthly.csv",
+    "what": "Goldpreis, Monatswerte. Nur monatlich (letzter Wert 10/2026), als Frühwarnsignal zu träge.",
+    "updated": "2026-10 (geprüft 17.11.2026)",
+    "cadence": "monatlich",
+    "license": "ODC-PDDL-1.0",
+    "scenarios": [
+      "finanzkrise",
+      "krieg"
+    ],
+    "built": false
+  },
+  {
+    "repo": "evatjanes/hormuz-feb2025-nov2026",
+    "path": "main/straits-transits.csv",
+    "url": "https://raw.githubusercontent.com/evatjanes/hormuz-feb2025-nov2026/main/straits-transits.csv",
+    "what": "Tägliche Schiffsdurchfahrten durch die Straße von Hormus (IMF PortWatch, Spalten date,n_total,n_tanker,n_cargo). Einmaliger Stand bis 08.11.2026, keine Fortschreibung erkennbar; Rechte bei IMF PortWatch/straits.live.",
+    "updated": "2026-11-08 (letzte Zeile, geprüft 17.11.2026)",
+    "cadence": "nicht fortgeschrieben (Auswertungsprojekt)",
+    "license": "MIT (Repo), Daten IMF PortWatch",
+    "scenarios": [
+      "krieg",
+      "energie"
+    ],
+    "built": false
+  },
+  {
+    "repo": "Phantom-Star829/hormuz-tracker",
+    "path": "main/data/vessel-counts.json",
+    "url": "https://raw.githubusercontent.com/Phantom-Star829/hormuz-tracker/main/data/vessel-counts.json",
+    "what": "AIS-Schiffszählung Hormus per GitHub Action. Nicht nutzbar: Reihe endet 22.10.2026, Messlücke im Quelltext vermerkt, Zählweise Eigenbau.",
+    "updated": "2026-10-22 (letzter Messwert, Datei am 16.11.2026 neu geschrieben)",
+    "cadence": "stündlich geplant, Daten lückenhaft",
+    "license": "unklar",
+    "scenarios": [
+      "krieg"
     ],
     "built": false
   }

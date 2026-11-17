@@ -22,7 +22,9 @@ export const DOMAIN_ACTIVE = 0.25;
  * Chosen so that the level is capped by the number of converging domains:
  * 1 domain -> at most "Leicht erhöht", 2 -> at most "Erhöht", 3 -> at most "Hoch", 4+ -> "Akut" possible.
  */
-export const CONVERGENCE_GATE = [1, 0.29, 0.54, 0.77, 1];
+// Index 0 (no domain beyond its threshold): sub-threshold unrest may never reach level 1 (found by the first backtest:
+// with an open gate the system sat on level 1 for 95 % of quiet time although no domain deviated).
+export const CONVERGENCE_GATE = [0.11, 0.29, 0.54, 0.77, 1];
 export const LEVEL_THRESHOLDS = [0.12, 0.3, 0.55, 0.78];
 export const LEVEL_LABELS = ['Ruhig', 'Leicht erhöht', 'Erhöht', 'Hoch', 'Akut'];
 

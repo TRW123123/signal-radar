@@ -47,3 +47,15 @@
 {"fixture":"statuspage/status.mailchimp.com.json","url":"https://status.mailchimp.com/api/v2/status.json","error":"UPSTREAM_HTTP","status":404}
 {"fixture":"statuspage/www.dropboxstatus.com.json","url":"https://www.dropboxstatus.com/api/v2/status.json","error":"DNS_FAILED","status":null}
 {"fixture":"statuspage/status.bitwarden.com.json","url":"https://status.bitwarden.com/api/v2/status.json","error":"UPSTREAM_HTTP","status":404}
+{"fixture":"statuspage/status.bitfinex.com.json","url":"https://status.bitfinex.com/api/v2/status.json","error":"DNS_FAILED","status":null}
+{"fixture":"gdelt/cyber-en-timelinevol-3m.json","url":"https://api.gdeltproject.org/api/v2/doc/doc?query=(%22cyber%20attack%22%20OR%20cyberattack%20OR%20ransomware%20OR%20%22data%20breach%22)%20sourcelang%3Aenglish&mode=timelinevol&format=json&timespan=3m","error":"TIMEOUT","status":null}
+{"fixture":"gdelt/cyber-de-timelinevol-3m.json","url":"https://api.gdeltproject.org/api/v2/doc/doc?query=(Cyberangriff%20OR%20Hackerangriff%20OR%20Ransomware%20OR%20Cyberattacke)%20sourcelang%3Agerman&mode=timelinevol&format=json&timespan=3m","error":"TIMEOUT","status":null}
+{"fixture":"polymarket/search-ransomware.json","url":"https://gamma-api.polymarket.com/public-search?q=ransomware&limit_per_type=5&events_status=active","error":"truncated","source_bytes":29456}
+{"fixture":"polymarket/search-hack.json","url":"https://gamma-api.polymarket.com/public-search?q=hack&limit_per_type=5&events_status=active","error":"truncated","source_bytes":85656}
+{"fixture":"polymarket/search-internet-outage.json","url":"https://gamma-api.polymarket.com/public-search?q=internet%20outage&limit_per_type=5&events_status=active","error":"truncated","source_bytes":35227}
+{"fixture":"yahoo/CIBR-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=6mo&interval=1d","error":"truncated","source_bytes":14719}
+{"fixture":"yahoo/HACK-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/HACK?range=6mo&interval=1d","error":"truncated","source_bytes":14893}
+{"fixture":"yahoo/BUG-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/BUG?range=6mo&interval=1d","error":"truncated","source_bytes":14956}
+{"fixture":"yahoo/VIX-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=6mo&interval=1d","error":"truncated","source_bytes":14786}
+{"fixture":"yahoo/GC_F-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?range=6mo&interval=1d","error":"truncated","source_bytes":12636}
+{"fixture":"yahoo/BTC_USD-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=6mo&interval=1d","error":"truncated","source_bytes":17696}

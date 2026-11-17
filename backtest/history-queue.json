@@ -1,0 +1,415 @@
+[
+  {
+    "fixture": "backtest/crowdstrike-2024-07/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2024-05-06&endDate=2024-07-24",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "crowdstrike-2024-07"
+  },
+  {
+    "fixture": "backtest/crowdstrike-2024-07/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1713225600&period2=1721865600&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "crowdstrike-2024-07"
+  },
+  {
+    "fixture": "backtest/crowdstrike-2024-07/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2024-05-20&endtime=2024-07-24",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "crowdstrike-2024-07"
+  },
+  {
+    "fixture": "backtest/crowdstrike-2024-07/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2024-05-11&until=2024-07-25&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "crowdstrike-2024-07"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2021-07-20&endDate=2021-10-07",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1625011200&period2=1633651200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2021-08-03&endtime=2021-10-07",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2021-07-25&until=2021-10-08&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/change-healthcare-2024-02/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2023-12-22&endDate=2024-03-10",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "change-healthcare-2024-02"
+  },
+  {
+    "fixture": "backtest/change-healthcare-2024-02/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1701475200&period2=1710115200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "change-healthcare-2024-02"
+  },
+  {
+    "fixture": "backtest/change-healthcare-2024-02/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2024-01-05&endtime=2024-03-10",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "change-healthcare-2024-02"
+  },
+  {
+    "fixture": "backtest/change-healthcare-2024-02/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2023-12-27&until=2024-03-11&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "change-healthcare-2024-02"
+  },
+  {
+    "fixture": "backtest/log4shell-2021-12/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2021-10-05&endDate=2021-12-23",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "log4shell-2021-12"
+  },
+  {
+    "fixture": "backtest/log4shell-2021-12/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1631664000&period2=1640304000&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "log4shell-2021-12"
+  },
+  {
+    "fixture": "backtest/log4shell-2021-12/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2021-10-19&endtime=2021-12-23",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "log4shell-2021-12"
+  },
+  {
+    "fixture": "backtest/log4shell-2021-12/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2021-10-10&until=2021-12-24&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "log4shell-2021-12"
+  },
+  {
+    "fixture": "backtest/moveit-2023-05/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2023-04-01&endDate=2023-06-19",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "moveit-2023-05"
+  },
+  {
+    "fixture": "backtest/moveit-2023-05/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1678579200&period2=1687219200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "moveit-2023-05"
+  },
+  {
+    "fixture": "backtest/moveit-2023-05/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2023-04-15&endtime=2023-06-19",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "moveit-2023-05"
+  },
+  {
+    "fixture": "backtest/moveit-2023-05/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2023-04-06&until=2023-06-20&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "moveit-2023-05"
+  },
+  {
+    "fixture": "backtest/colonial-pipeline-2021-05/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2021-02-28&endDate=2021-05-18",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "colonial-pipeline-2021-05"
+  },
+  {
+    "fixture": "backtest/colonial-pipeline-2021-05/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1612742400&period2=1621382400&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "colonial-pipeline-2021-05"
+  },
+  {
+    "fixture": "backtest/colonial-pipeline-2021-05/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2021-03-14&endtime=2021-05-18",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "colonial-pipeline-2021-05"
+  },
+  {
+    "fixture": "backtest/colonial-pipeline-2021-05/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2021-03-05&until=2021-05-19&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "colonial-pipeline-2021-05"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2022-04-24&endDate=2022-07-12",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1649030400&period2=1657670400&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2022-05-08&endtime=2022-07-12",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2022-04-29&until=2022-07-13&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/dyn-ddos-2016-10/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1468713600&period2=1477353600&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "dyn-ddos-2016-10"
+  },
+  {
+    "fixture": "backtest/dyn-ddos-2016-10/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2016-08-20&endtime=2016-10-24",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "dyn-ddos-2016-10"
+  },
+  {
+    "fixture": "backtest/dyn-ddos-2016-10/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2016-08-11&until=2016-10-25&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "dyn-ddos-2016-10"
+  },
+  {
+    "fixture": "backtest/notpetya-2017-06/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1490832000&period2=1499472000&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "notpetya-2017-06"
+  },
+  {
+    "fixture": "backtest/notpetya-2017-06/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2017-05-03&endtime=2017-07-07",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "notpetya-2017-06"
+  },
+  {
+    "fixture": "backtest/notpetya-2017-06/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2017-04-24&until=2017-07-08&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "notpetya-2017-06"
+  },
+  {
+    "fixture": "backtest/control-2019-08/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2019-06-03&endDate=2019-08-21",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "control-2019-08"
+  },
+  {
+    "fixture": "backtest/control-2019-08/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1557792000&period2=1566432000&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "control-2019-08"
+  },
+  {
+    "fixture": "backtest/control-2019-08/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2019-06-17&endtime=2019-08-21",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "control-2019-08"
+  },
+  {
+    "fixture": "backtest/control-2019-08/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2019-06-08&until=2019-08-22&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "control-2019-08"
+  },
+  {
+    "fixture": "backtest/control-2023-08/nyfed/sofr-last60.json",
+    "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2023-06-12&endDate=2023-08-30",
+    "maxChars": 20000,
+    "signal": "cyber.finance.sofr_tail",
+    "event": "control-2023-08"
+  },
+  {
+    "fixture": "backtest/control-2023-08/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1684800000&period2=1693440000&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.vix",
+    "event": "control-2023-08"
+  },
+  {
+    "fixture": "backtest/control-2023-08/ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2023-06-26&endtime=2023-08-30",
+    "maxChars": 20000,
+    "signal": "cyber.routing.country_prefix_visibility_de",
+    "event": "control-2023-08"
+  },
+  {
+    "fixture": "backtest/control-2023-08/ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2023-06-17&until=2023-08-31&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_us",
+    "event": "control-2023-08"
+  },
+  {
+    "fixture": "backtest/crowdstrike-2024-07/sec-edgar/item105-0.json",
+    "url": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2024-04-26&enddt=2024-07-25&from=0",
+    "maxChars": 20000,
+    "signal": "cyber.services.sec_8k_item105_daily_count",
+    "event": "crowdstrike-2024-07"
+  },
+  {
+    "fixture": "backtest/change-healthcare-2024-02/sec-edgar/item105-0.json",
+    "url": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2023-12-12&enddt=2024-03-11&from=0",
+    "maxChars": 20000,
+    "signal": "cyber.services.sec_8k_item105_daily_count",
+    "event": "change-healthcare-2024-02"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/tor-metrics/bandwidth.csv",
+    "url": "https://metrics.torproject.org/bandwidth.csv?start=2021-07-25&end=2021-10-05",
+    "maxChars": 8000,
+    "signal": "cyber.outages.tor_advertised_bandwidth",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ooni/web-connectivity-de-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=DE&test_name=web_connectivity&since=2021-07-25&until=2021-10-08&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_de",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/tor-metrics/bandwidth.csv",
+    "url": "https://metrics.torproject.org/bandwidth.csv?start=2022-04-29&end=2022-07-10",
+    "maxChars": 8000,
+    "signal": "cyber.outages.tor_advertised_bandwidth",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ooni/web-connectivity-de-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=DE&test_name=web_connectivity&since=2022-04-29&until=2022-07-13&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_de",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/dyn-ddos-2016-10/tor-metrics/bandwidth.csv",
+    "url": "https://metrics.torproject.org/bandwidth.csv?start=2016-08-11&end=2016-10-22",
+    "maxChars": 8000,
+    "signal": "cyber.outages.tor_advertised_bandwidth",
+    "event": "dyn-ddos-2016-10"
+  },
+  {
+    "fixture": "backtest/dyn-ddos-2016-10/ooni/web-connectivity-de-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=DE&test_name=web_connectivity&since=2016-08-11&until=2016-10-25&axis_x=measurement_start_day",
+    "maxChars": 20000,
+    "signal": "cyber.outages.ooni_anomaly_share_de",
+    "event": "dyn-ddos-2016-10"
+  },
+  {
+    "fixture": "backtest/crowdstrike-2024-07/yahoo/CIBR-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?period1=1713225600&period2=1721865600&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "crowdstrike-2024-07"
+  },
+  {
+    "fixture": "backtest/crowdstrike-2024-07/yahoo/HACK-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/HACK?period1=1713225600&period2=1721865600&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "crowdstrike-2024-07"
+  },
+  {
+    "fixture": "backtest/crowdstrike-2024-07/yahoo/BUG-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BUG?period1=1713225600&period2=1721865600&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "crowdstrike-2024-07"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/yahoo/CIBR-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?period1=1625011200&period2=1633651200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/yahoo/HACK-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/HACK?period1=1625011200&period2=1633651200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/yahoo/BUG-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BUG?period1=1625011200&period2=1633651200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/change-healthcare-2024-02/yahoo/CIBR-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?period1=1701475200&period2=1710115200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "change-healthcare-2024-02"
+  },
+  {
+    "fixture": "backtest/change-healthcare-2024-02/yahoo/HACK-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/HACK?period1=1701475200&period2=1710115200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "change-healthcare-2024-02"
+  },
+  {
+    "fixture": "backtest/change-healthcare-2024-02/yahoo/BUG-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BUG?period1=1701475200&period2=1710115200&interval=1d",
+    "maxChars": 20000,
+    "signal": "cyber.markets.cyber_etf_volume",
+    "event": "change-healthcare-2024-02"
+  }
+]

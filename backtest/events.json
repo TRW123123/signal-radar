@@ -1,0 +1,254 @@
+[
+  {
+    "id": "crowdstrike-2024-07",
+    "title": "CrowdStrike-Falcon-Update legt weltweit Windows-Rechner lahm",
+    "start": "2024-07-19T04:00:00Z",
+    "end": "2024-07-21T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "services",
+      "physical",
+      "finance",
+      "markets"
+    ],
+    "sources": [
+      "CrowdStrike: Preliminary Post Incident Review (Juli 2024)",
+      "Microsoft-Blog zum Vorfall (20.07.2024)",
+      "Wikipedia: 2024 CrowdStrike-related IT outages"
+    ],
+    "notes": "Kein Angriff, fehlerhaftes Inhalts-Update (Auslieferung ca. 04:09 UTC). Flugausfälle, Banken, Kliniken. Ende als Fenster-Ende gewählt, Nachwirkungen dauerten länger.",
+    "verified": true
+  },
+  {
+    "id": "facebook-bgp-2021-10",
+    "title": "Facebook/Meta verschwindet aus dem Internet (BGP-Rücknahme, DNS unerreichbar)",
+    "start": "2021-10-04T15:30:00Z",
+    "end": "2021-10-04T22:00:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "routing",
+      "dns_core",
+      "outages",
+      "services"
+    ],
+    "sources": [
+      "Meta Engineering: More details about the October 4 outage (05.10.2021)",
+      "Cloudflare-Blog: Understanding how Facebook disappeared from the Internet (04.10.2021)"
+    ],
+    "notes": "Kein Angriff, Konfigurationsfehler. Dauer rund sechs Stunden. Uhrzeiten auf halbe Stunden gerundet.",
+    "verified": true
+  },
+  {
+    "id": "change-healthcare-2024-02",
+    "title": "Ransomware-Angriff auf Change Healthcare (UnitedHealth)",
+    "start": "2024-02-21T00:00:00Z",
+    "end": "2024-03-07T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "services",
+      "threat"
+    ],
+    "sources": [
+      "UnitedHealth Group, Form 8-K Item 1.05 (eingereicht 22.02.2024)",
+      "Wikipedia: Change Healthcare ransomware attack"
+    ],
+    "notes": "Beginn = Tag der Entdeckung und Abschaltung. Fenster-Ende willkürlich nach gut zwei Wochen gesetzt, die Störung dauerte Wochen.",
+    "verified": true
+  },
+  {
+    "id": "log4shell-2021-12",
+    "title": "Log4Shell (CVE-2021-44228) wird öffentlich und massenhaft ausgenutzt",
+    "start": "2021-12-10T00:00:00Z",
+    "end": "2021-12-20T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "vuln",
+      "threat"
+    ],
+    "sources": [
+      "Apache Logging Services: Log4j Security Vulnerabilities (CVE-2021-44228)",
+      "CISA: Apache Log4j Vulnerability Guidance (Dezember 2021)"
+    ],
+    "notes": "Erste öffentliche Hinweise am Abend des 09.12.2021; CVE-Veröffentlichung 10.12.2021. CISA KEV hat den Eintrag ab 10.12.2021.",
+    "verified": true
+  },
+  {
+    "id": "moveit-2023-05",
+    "title": "MOVEit-Transfer-Lücke (CVE-2023-34362), Massenausnutzung durch Cl0p",
+    "start": "2023-05-31T00:00:00Z",
+    "end": "2023-06-16T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "vuln",
+      "threat",
+      "services"
+    ],
+    "sources": [
+      "Progress Software Security Advisory (31.05.2023)",
+      "CISA/FBI Advisory AA23-158A (07.06.2023)"
+    ],
+    "notes": "Beginn = Veröffentlichung des Herstellerhinweises; Ausnutzung begann laut späteren Analysen einige Tage früher (genaues Datum hier nicht übernommen). Fenster-Ende willkürlich.",
+    "verified": true
+  },
+  {
+    "id": "colonial-pipeline-2021-05",
+    "title": "Ransomware-Angriff auf Colonial Pipeline, Abschaltung der Pipeline",
+    "start": "2021-05-07T00:00:00Z",
+    "end": "2021-05-15T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "physical",
+      "services",
+      "threat"
+    ],
+    "sources": [
+      "Colonial Pipeline, Pressemitteilungen ab 08.05.2021",
+      "Wikipedia: Colonial Pipeline ransomware attack"
+    ],
+    "notes": "Abschaltung am 07.05.2021, Neustart ab 12.05.2021. Ende mit Normalisierung der Lieferungen grob gesetzt.",
+    "verified": true
+  },
+  {
+    "id": "rogers-2022-07",
+    "title": "Landesweiter Ausfall des Rogers-Netzes in Kanada (inkl. Interac)",
+    "start": "2022-07-08T08:00:00Z",
+    "end": "2022-07-09T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "routing",
+      "outages",
+      "finance",
+      "services"
+    ],
+    "sources": [
+      "CRTC: Untersuchung zum Rogers-Ausfall vom 08.07.2022",
+      "Wikipedia: 2022 Rogers Communications outage"
+    ],
+    "notes": "Kein Angriff, Wartungsfehler im Kernnetz. Beginn am frühen Morgen Ortszeit (ca. 08:45 UTC), hier auf 08:00 UTC abgerundet. Kein Collector misst Kanada direkt.",
+    "verified": true
+  },
+  {
+    "id": "dyn-ddos-2016-10",
+    "title": "DDoS-Angriff (Mirai) auf den DNS-Anbieter Dyn",
+    "start": "2016-10-21T11:00:00Z",
+    "end": "2016-10-21T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "dns_core",
+      "outages",
+      "services",
+      "threat"
+    ],
+    "sources": [
+      "Dyn: Statement zum Angriff vom 21.10.2016 (Dyn-Blog, 26.10.2016)",
+      "Wikipedia: 2016 Dyn cyberattack"
+    ],
+    "notes": "Drei Angriffswellen über den Tag (US-Ostküste zuerst). Uhrzeit des Beginns auf volle Stunde gerundet.",
+    "verified": true
+  },
+  {
+    "id": "notpetya-2017-06",
+    "title": "NotPetya-Wiper verbreitet sich weltweit (Maersk, Merck u. a.)",
+    "start": "2017-06-27T09:00:00Z",
+    "end": "2017-07-04T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "threat",
+      "services",
+      "physical",
+      "markets"
+    ],
+    "sources": [
+      "CERT-UA und ukrainische Regierung, Meldungen vom 27.06.2017",
+      "Wikipedia: 2017 cyberattacks on Ukraine"
+    ],
+    "notes": "Ausbreitung ab dem Vormittag des 27.06.2017 (Ukraine). Startzeit grob, Fenster-Ende willkürlich nach einer Woche.",
+    "verified": true
+  },
+  {
+    "id": "ms365-outage-2026-11",
+    "title": "Microsoft-365-Ausfall (Outlook, Teams) laut Sekundärquelle",
+    "start": "2026-11-12T00:00:00Z",
+    "end": "2026-11-14T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "services"
+    ],
+    "sources": [
+      "catalog/research/scenario-relevance.json (current_hooks: 12.11.2026 Microsoft-365-Ausfall)",
+      "/mnt/user-data/uploads/4b65fae6-attachment.txt (KI-Chatverlauf, nennt ZDNet: ca. 12. bis 14.11.)"
+    ],
+    "notes": "laut Sekundärquelle, nicht selbst verifiziert. Tage und Uhrzeiten unbekannt, daher ganze Tage. Laut Quelle Softwarefehler, kein Angriff.",
+    "verified": false
+  },
+  {
+    "id": "faa-ground-stop-2026-11-13",
+    "title": "Landesweiter FAA-Ground-Stop in den USA laut Sekundärquelle",
+    "start": "2026-11-13T00:00:00Z",
+    "end": "2026-11-13T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "physical"
+    ],
+    "sources": [
+      "/mnt/user-data/uploads/4b65fae6-attachment.txt (KI-Chatverlauf, nennt ABC News: Freitag, ca. 4 bis 5 Stunden, Router-Problem bei Wartung)"
+    ],
+    "notes": "laut Sekundärquelle, nicht selbst verifiziert. Uhrzeit unbekannt, daher ganzer Tag (UTC). Laut Quelle technischer Fehler, kein Angriff.",
+    "verified": false
+  },
+  {
+    "id": "us-banks-2026-11-16",
+    "title": "Störungen beim Online-Banking großer US-Banken laut Sekundärquelle",
+    "start": "2026-11-16T00:00:00Z",
+    "end": "2026-11-16T23:59:00Z",
+    "kind": "event",
+    "expectedDomains": [
+      "finance",
+      "services"
+    ],
+    "sources": [
+      "/mnt/user-data/uploads/4b65fae6-attachment.txt (KI-Chatverlauf, nennt Yahoo Finance: Chase, Bank of America, Wells Fargo; Chase bestätigt technisches Problem)"
+    ],
+    "notes": "laut Sekundärquelle, nicht selbst verifiziert. Uhrzeit unbekannt, daher ganzer Tag (UTC). Das Fenster reicht bis kurz vor den Aufzeichnungszeitpunkt 17.11.2026 00:16 UTC.",
+    "verified": false
+  },
+  {
+    "id": "control-2026-10-19",
+    "title": "Vergleichszeitraum ohne kuratiertes Großereignis (Okt./Nov. 2026)",
+    "start": "2026-10-19T00:00:00Z",
+    "end": "2026-11-04T23:59:00Z",
+    "kind": "control",
+    "expectedDomains": [],
+    "sources": [
+      "catalog/research/scenario-relevance.json enthält für diesen Zeitraum kein datiertes Cyber-Großereignis"
+    ],
+    "notes": "Ruhe nicht verifiziert: kleinere Vorfälle gibt es immer, und das Projekt hat nur eine Rechercheschicht. Ende vor 'Anfang 11/2026' (Sageworks-Vorfall ohne genaues Datum) gelegt, so gut es geht.",
+    "verified": false
+  },
+  {
+    "id": "control-2019-08",
+    "title": "Historischer Vergleichszeitraum August 2019",
+    "start": "2019-08-05T00:00:00Z",
+    "end": "2019-08-18T23:59:00Z",
+    "kind": "control",
+    "expectedDomains": [],
+    "sources": [
+      "keine kuratierte Liste enthält hier ein globales Cyber-Großereignis (eigene Auswahl)"
+    ],
+    "notes": "Ruhe nicht verifiziert; regionale Vorfälle (z. B. Ransomware bei US-Kommunen in diesem Sommer) sind möglich. Dient nur als grober Fehlalarm-Vergleich.",
+    "verified": false
+  },
+  {
+    "id": "control-2023-08",
+    "title": "Historischer Vergleichszeitraum August 2023",
+    "start": "2023-08-14T00:00:00Z",
+    "end": "2023-08-27T23:59:00Z",
+    "kind": "control",
+    "expectedDomains": [],
+    "sources": [
+      "keine kuratierte Liste enthält hier ein globales Cyber-Großereignis (eigene Auswahl)"
+    ],
+    "notes": "Ruhe nicht verifiziert; kleinere Vorfälle sind möglich. Februar 2023 wurde verworfen, weil dort die ESXiArgs-Ransomware-Welle lief. Dient nur als grober Fehlalarm-Vergleich.",
+    "verified": false
+  }
+]

@@ -178,3 +178,25 @@ test('catalogued but unbuilt signals do not lower confidence', () => {
   assert.ok(v.confidence > 0.99);
   assert.equal(v.coverage.planned, 1);
 });
+
+test('without any deviating domain the scenario stays at level 0, however many small ripples exist', () => {
+  // one weak signal per domain, each at full anomaly but below the domain threshold of 0.25
+  const doms = ['routing', 'finance', 'outages', 'physical'];
+  const sigs = doms.map((d) => sig(`cyber.${d}.w`, { weight: 0.2 }));
+  const v = run(sigs, sigs.map((s) => series(s.id, 100, 5)));
+  assert.equal(v.activeDomains, 0);
+  assert.equal(v.level, 0);
+});
+
+test('bursty series: routine bursts widen the scale, only an exceptional burst counts', () => {
+  const s = sig('cyber.routing.bursty', { kind: 'count' });
+  // base 5 with a routine burst to 80 every 9 hours
+  const mk = (last: number): Observation[] => {
+    const out: Observation[] = [];
+    for (let i = 20 * 24; i >= 0; i--) out.push({ signalId: s.id, ts: new Date(NOW - i * H).toISOString(), value: i % 9 === 4 ? 80 : 5 + (i % 3) });
+    out[out.length - 1].value = last;
+    return out;
+  };
+  assert.equal(evaluate(s, mk(80), NOW, SENSITIVITY.high).anomaly, 0, 'routine burst must not count');
+  assert.ok(evaluate(s, mk(600), NOW, SENSITIVITY.high).anomaly > 0.9, 'exceptional burst must count');
+});

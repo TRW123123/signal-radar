@@ -46,6 +46,12 @@ export interface SignalDef {
    * increase per hour between consecutive observations instead of the raw counter.
    */
   transform?: 'rate';
+  /**
+   * Oldest age of the latest observation that still counts as current, in hours. Set this for sources that
+   * publish with a delay (e.g. weekly statistics released a week late). Default: three times the larger of
+   * `intervalMinutes` and the series' own typical spacing.
+   */
+  maxAgeHours?: number;
   /** expected interval between observations in minutes (for freshness) */
   intervalMinutes: number;
   status: SignalStatus;

@@ -113,11 +113,20 @@ export function evaluate(def: SignalDef, series: Observation[], now: number, sen
   const last = sorted[sorted.length - 1];
   if (!last) return { value: null, ts: null, baseline: null, z: null, anomaly: 0, flagged: false, fresh: false };
   const lastT = Date.parse(last.ts);
-  const fresh = now - lastT <= Math.max(def.intervalMinutes * 3, 60) * 60_000;
+  // The series' own rhythm: a daily series stays current for days, a 5-minute series for minutes.
+  // Agents often declare the polling interval instead of the data cadence, so the data decides.
+  const recent = sorted.slice(-11).map((o) => Date.parse(o.ts));
+  const gaps = recent.slice(1).map((t, i) => t - recent[i]).filter((g) => g > 0).sort((a, b) => a - b);
+  const cadence = Math.max(def.intervalMinutes * 60_000, gaps.length ? gaps[gaps.length >> 1] : 0);
+  // daily and slower series get two extra days: business-day sources pause over the weekend
+  const maxAge = def.maxAgeHours ? def.maxAgeHours * HOUR : Math.max(cadence * 3 + (cadence >= 20 * HOUR ? 2 * DAY : 0), HOUR);
+  const fresh = now - lastT <= maxAge;
   const z0 = def.thresholds?.z0 ?? sens.z0;
   const z1 = def.thresholds?.z1 ?? sens.z1;
-  const hold = (def.holdHours ?? Math.max(6, (def.intervalMinutes / 60) * 2)) * HOUR;
+  const hold = (def.holdHours ?? Math.max(6, (cadence / HOUR) * 2)) * HOUR;
 
+  // Hold and decay run in "series time": the latest reading is the current state until the next one arrives.
+  // Otherwise a source that publishes yesterday's value today could never register an anomaly.
   let best = 0;
   let bestZ: number | null = null;
   let lastBaseline: Baseline | null = null;
@@ -125,14 +134,13 @@ export function evaluate(def: SignalDef, series: Observation[], now: number, sen
   for (let i = sorted.length - 1; i >= 0; i--) {
     const o = sorted[i];
     const t = Date.parse(o.ts);
-    const age = now - t;
-    if (age > hold && i !== sorted.length - 1) break;
+    const age = lastT - t;
+    if (age > hold) break;
     const b = baselineAt(def, sorted, t);
     if (i === sorted.length - 1) lastBaseline = b;
     if (!b) continue;
     const z = directionalZ(def, o.value, b);
     if (i === sorted.length - 1) lastZ = z;
-    if (age > hold) continue;
     const decay = 1 - 0.5 * clamp01(age / hold);
     const a = smoothstep(z0, z1, z) * decay;
     if (a > best) {

@@ -35,6 +35,13 @@ Helfer: `src/collectors/_helpers.ts` (`obs`, `num`, `expect`, `parseCsv`, `count
 12. **Kopfkommentar:** Quelle, Doku-URL, Lizenz, was gemessen wird, bekannte harmlose Ursachen für Ausschläge,
     und ob der Endpunkt gegen eine echte Antwort geprüft ist (`VERIFIED: ja/nein`).
 
+## Aktualität und Verzug
+
+`intervalMinutes` ist der **Abstand der Messwerte** (Tagesreihe: 1440), nicht das Abruf-Intervall. Die Engine
+erkennt den Rhythmus zusätzlich aus den Daten selbst und hält den letzten Wert für das Dreifache dieses Abstands für
+aktuell. Veröffentlicht eine Quelle mit Verzug (z. B. Wochenstatistik eine Woche später), setze `maxAgeHours`
+am Signal, sonst gilt die Reihe als veraltet und zählt nicht.
+
 ## Fixtures und Tests
 
 - Aufzeichnungs-Wunsch: `fixtures/queue/<collector>.json` mit `[{ "fixture": "<quelle>/<name>.json", "url": "<exakte URL>", "maxChars": 12000 }]`.

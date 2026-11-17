@@ -200,3 +200,20 @@ test('bursty series: routine bursts widen the scale, only an exceptional burst c
   assert.equal(evaluate(s, mk(80), NOW, SENSITIVITY.high).anomaly, 0, 'routine burst must not count');
   assert.ok(evaluate(s, mk(600), NOW, SENSITIVITY.high).anomaly > 0.9, 'exceptional burst must count');
 });
+
+test('a daily series published with a day of delay still counts as current', () => {
+  const s = sig('cyber.routing.daily', { intervalMinutes: 60 }); // declared too short on purpose
+  const D = 24 * H;
+  const data: Observation[] = [];
+  for (let i = 40; i >= 1; i--) data.push({ signalId: s.id, ts: new Date(NOW - 12 * H - i * D).toISOString(), value: 100 + (i % 5) });
+  data[data.length - 1].value = 400; // latest value: yesterday's, 36 hours old
+  const r = evaluate(s, data, NOW, SENSITIVITY.high);
+  assert.equal(r.fresh, true);
+  assert.ok(r.anomaly > 0.9, `anomaly ${r.anomaly}`);
+  // but a daily series whose last value is a week old is stale
+  const stale = data.map((o) => ({ ...o, ts: new Date(Date.parse(o.ts) - 7 * D).toISOString() }));
+  assert.equal(evaluate(s, stale, NOW, SENSITIVITY.high).fresh, false);
+  // unless the source is declared as lagging
+  const lagging = sig('cyber.routing.lag', { intervalMinutes: 60, maxAgeHours: 24 * 10 });
+  assert.equal(evaluate(lagging, stale.map((o) => ({ ...o, signalId: lagging.id })), NOW, SENSITIVITY.high).fresh, true);
+});

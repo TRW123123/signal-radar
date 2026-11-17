@@ -176,7 +176,7 @@
     ],
     "sources": [
       "catalog/research/scenario-relevance.json (current_hooks: 12.11.2026 Microsoft-365-Ausfall)",
-      "/mnt/user-data/uploads/4b65fae6-attachment.txt (KI-Chatverlauf, nennt ZDNet: ca. 12. bis 14.11.)"
+      "Sekundärquelle (KI-Chatverlauf, nennt ZDNet: ca. 12. bis 14.11.)"
     ],
     "notes": "laut Sekundärquelle, nicht selbst verifiziert. Tage und Uhrzeiten unbekannt, daher ganze Tage. Laut Quelle Softwarefehler, kein Angriff.",
     "verified": false
@@ -191,7 +191,7 @@
       "physical"
     ],
     "sources": [
-      "/mnt/user-data/uploads/4b65fae6-attachment.txt (KI-Chatverlauf, nennt ABC News: Freitag, ca. 4 bis 5 Stunden, Router-Problem bei Wartung)"
+      "Sekundärquelle (KI-Chatverlauf, nennt ABC News: Freitag, ca. 4 bis 5 Stunden, Router-Problem bei Wartung)"
     ],
     "notes": "laut Sekundärquelle, nicht selbst verifiziert. Uhrzeit unbekannt, daher ganzer Tag (UTC). Laut Quelle technischer Fehler, kein Angriff.",
     "verified": false
@@ -207,7 +207,7 @@
       "services"
     ],
     "sources": [
-      "/mnt/user-data/uploads/4b65fae6-attachment.txt (KI-Chatverlauf, nennt Yahoo Finance: Chase, Bank of America, Wells Fargo; Chase bestätigt technisches Problem)"
+      "Sekundärquelle (KI-Chatverlauf, nennt Yahoo Finance: Chase, Bank of America, Wells Fargo; Chase bestätigt technisches Problem)"
     ],
     "notes": "laut Sekundärquelle, nicht selbst verifiziert. Uhrzeit unbekannt, daher ganzer Tag (UTC). Das Fenster reicht bis kurz vor den Aufzeichnungszeitpunkt 17.11.2026 00:16 UTC.",
     "verified": false

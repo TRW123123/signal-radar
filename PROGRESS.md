@@ -43,7 +43,7 @@ Siehe `docs/OPEN-QUESTIONS.md`.
 
 ## Protokoll
 
-- 2026-11-17 00:45 Start. Kontext aus Supabase (claw.activity_log, hard-rules) gelesen: kein Push und kein Deploy ohne Freigabe; Netlify-Deploy wurde um 00:46 freigegeben.
+- 2026-11-17 00:45 Start. Netlify-Deploy wurde um 00:46 freigegeben.
 - 2026-11-17 00:50 Welle 1 gestartet: 5 Recherche-Agents Cyber, Prior Art, Szenario-Relevanz.
 - 2026-11-17 01:00 Welle 0 fertig: Engine mit 16 Tests grün, committet.
 - 2026-11-17 01:05 Konsolidierung Cyber-Katalog und Frontend-Skizzen gestartet.

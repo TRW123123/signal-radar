@@ -1,0 +1,534 @@
+[
+  {
+    "rank": 1,
+    "collector": "github-oil-prices",
+    "domain": "real_economy",
+    "domains": [
+      "real_economy"
+    ],
+    "signals": [
+      "finance.real_economy.oil_price"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": "github-oil-prices",
+    "extendsWhat": "Brent-Reihe ist abgedeckt; nur Signal finance.real_economy.oil_price mit Szenario finance eintragen",
+    "uncertainty": "Messfeld laut Recherche: Date,Price; letzter Stand 2026-11-11 92,14 USD",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (brent-daily.csv: letzte Zeile 11.11.2026); erweitert bestehenden Collector github-oil-prices; ohne Key, kostenlos; kleine CSV-Antwort; Historie: seit 1987; max. Gewicht 0.20, 1 Signal(e)"
+  },
+  {
+    "rank": 2,
+    "collector": "nyfed-markets",
+    "domain": "money_market",
+    "domains": [
+      "money_market"
+    ],
+    "signals": [
+      "finance.money_market.fed_standing_repo",
+      "finance.money_market.fx_swap_lines",
+      "finance.money_market.sofr_minus_iorb",
+      "finance.money_market.sofr_tail",
+      "finance.money_market.fed_reverse_repo"
+    ],
+    "endpoints": [
+      "https://markets.newyorkfed.org/api/rp/repo/all/results/last/30.json",
+      "https://markets.newyorkfed.org/api/fxs/all/latest.json",
+      "https://markets.newyorkfed.org/api/rates/secured/sofr/last/60.json",
+      "https://markets.newyorkfed.org/api/rp/reverserepo/propositions/search.json?startDate=2026-09-01&endDate=2026-11-17"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "nyfed-markets",
+    "extendsWhat": "SOFR-Perzentile (vorhanden) um IORB-Abstand, Reverse Repo und Swap-Linien (fx_swap_lines) ergänzen",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Repo-Operationen mit totalAmtAccepted",
+    "why": "erweitert bestehenden Collector nyfed-markets; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Historie per startDate/endDate; max. Gewicht 0.90, 5 Signal(e)"
+  },
+  {
+    "rank": 3,
+    "collector": "ecb-data",
+    "domain": "money_market",
+    "domains": [
+      "money_market",
+      "credit",
+      "banks",
+      "volatility"
+    ],
+    "signals": [
+      "finance.money_market.ecb_marginal_lending",
+      "finance.money_market.estr_spread",
+      "finance.money_market.ecb_excess_liquidity",
+      "finance.credit.btp_bund_spread",
+      "finance.credit.ecb_bank_cds_proxy",
+      "finance.credit.ecb_yield_curve_spread",
+      "finance.credit.sloos_tightening",
+      "finance.banks.target2_imbalances",
+      "finance.volatility.fx_vol"
+    ],
+    "endpoints": [
+      "https://data-api.ecb.europa.eu/service/data/ILM.W.U2.C.L050.U2.EUR?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.WT?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/ILM.W.U2.C.L020.U2.EUR?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/IRS/M.IT.L.L40.CI.0000.EUR.N.Z?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/MIR/M.U2.B.A2A.A.R.A.2240.EUR.N?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/BLS/Q.U2.ALL.O.E.Z.B3.ST.S.FNET?format=jsondata",
+      "https://data-api.ecb.europa.eu/service/data/TGB/M.U2.N.C.L.LE.DE.Z?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?format=jsondata&lastNObservations=60"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "ecb-data",
+    "extendsWhat": "Serien ergänzen: Spitzenrefinanzierung, Überschussliquidität, Euro-Renditeabstände, Referenzkurse CHF/JPY/USD, MIR-Zinsen, TARGET2",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Wochenwert Spitzenrefinanzierung aus Liquiditätsbilanz",
+    "why": "erweitert bestehenden Collector ecb-data; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Zeitreihe seit Beginn der Reihe; max. Gewicht 0.85, 9 Signal(e)"
+  },
+  {
+    "rank": 4,
+    "collector": "yahoo-chart",
+    "domain": "banks",
+    "domains": [
+      "credit",
+      "banks",
+      "volatility",
+      "crypto",
+      "real_economy",
+      "markets"
+    ],
+    "signals": [
+      "finance.credit.corp_bond_etf_discount",
+      "finance.banks.regional_bank_etf_return",
+      "finance.banks.single_bank_stress_set",
+      "finance.banks.eu_bank_index",
+      "finance.banks.regional_bank_volume",
+      "finance.volatility.move",
+      "finance.volatility.vix_term_structure",
+      "finance.volatility.skew",
+      "finance.volatility.vix",
+      "finance.crypto.btc_price_drop",
+      "finance.real_economy.copper_gold",
+      "finance.real_economy.baltic_dry",
+      "finance.markets.sp500_drawdown",
+      "finance.markets.ai_stock_stress",
+      "finance.markets.gold",
+      "finance.markets.safe_haven_fx"
+    ],
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/HYG?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/KRE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/DBK.DE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/EXV1.DE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^MOVE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^VIX9D?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^SKEW?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^VIX?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/HG=F?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BDRY?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^GSPC?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/SMH?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CHF=X?range=3mo&interval=1d"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "yahoo-chart",
+    "extendsWhat": "SPECS um Symbole ergänzen: KRE, IAT, EXV1.DE/SX7E, Einzelbanken, ^MOVE, ^VIX3M, ^SKEW, HYG/LQD, BTC-USD, GC=F, HG=F, ^GSPC, Fluchtwährungen",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Kurs; Inhaltswert (NAV) nicht im Endpunkt; Lizenz: unklar, ToS verbieten systematische Nutzung",
+    "why": "erweitert bestehenden Collector yahoo-chart; ohne Key, kostenlos; kleine JSON-Antwort; Historie: mehrere Jahre per range; max. Gewicht 0.80, 16 Signal(e)"
+  },
+  {
+    "rank": 5,
+    "collector": "defillama",
+    "domain": "crypto",
+    "domains": [
+      "crypto"
+    ],
+    "signals": [
+      "finance.crypto.stablecoin_depeg",
+      "finance.crypto.exchange_outflows",
+      "finance.crypto.stablecoin_supply",
+      "finance.crypto.defi_tvl"
+    ],
+    "endpoints": [
+      "https://stablecoins.llama.fi/stablecoins?includePrices=true",
+      "https://api.llama.fi/cexs",
+      "https://stablecoins.llama.fi/stablecoincharts/all",
+      "https://api.llama.fi/v2/historicalChainTvl"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "defillama",
+    "extendsWhat": "Stablecoin-Preise (Depeg), Umlauf, TVL und CEX-Abflüsse ergänzen",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: price je Coin",
+    "why": "erweitert bestehenden Collector defillama; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Historie vorhanden; max. Gewicht 0.60, 4 Signal(e)"
+  },
+  {
+    "rank": 6,
+    "collector": "polymarket-gamma",
+    "domain": "attention",
+    "domains": [
+      "attention"
+    ],
+    "signals": [
+      "finance.attention.polymarket_bank_failure",
+      "finance.attention.polymarket_recession"
+    ],
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?closed=false&limit=50&search=bank",
+      "https://gamma-api.polymarket.com/markets?closed=false&limit=50&search=recession"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "polymarket-gamma",
+    "extendsWhat": "Suchbegriffe ergänzen: recession, bank failure",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: outcomePrices; Lizenz: ToS Polymarket, lesend frei",
+    "why": "erweitert bestehenden Collector polymarket-gamma; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Preisverlauf per CLOB prices-history; max. Gewicht 0.60, 2 Signal(e)"
+  },
+  {
+    "rank": 7,
+    "collector": "sec-edgar",
+    "domain": "banks",
+    "domains": [
+      "banks"
+    ],
+    "signals": [
+      "finance.banks.sec_8k_item103",
+      "finance.banks.sec_8k_item202_bank"
+    ],
+    "endpoints": [
+      "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.03%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-17"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "sec-edgar",
+    "extendsWhat": "Volltextsuche auf weitere 8-K-Items umstellen (Item 1.03 Insolvenz, Item 2.02 bei Banken)",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Treffer-Zahl je Tag für Item 1.03; Finanzfirmen per SIC-Code 6021/6022 filtern; Rate-Limit: 10 Anfragen/s",
+    "why": "erweitert bestehenden Collector sec-edgar; ohne Key, kostenlos; kleine JSON-Antwort; Historie: ab 2001 (Volltext ab 2001); max. Gewicht 0.60, 2 Signal(e)"
+  },
+  {
+    "rank": 8,
+    "collector": "gdelt-doc",
+    "domain": "attention",
+    "domains": [
+      "banks",
+      "attention"
+    ],
+    "signals": [
+      "finance.banks.foreign_bank_failure_context",
+      "finance.attention.news_bank_run_volume"
+    ],
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22bank%20collapse%22&mode=timelinevol&format=json",
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22bank%20run%22%20OR%20%22bank%20collapse%22&mode=timelinevol&format=json&timespan=3months"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "gdelt-doc",
+    "extendsWhat": "Suchbegriffe ergänzen: \"bank run\", \"bank collapse\", \"bank failure\"",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Artikelvolumen",
+    "why": "erweitert bestehenden Collector gdelt-doc; ohne Key, kostenlos; kleine JSON-Antwort; Historie: 3 Monate rollierend, Archiv ab 2017; max. Gewicht 0.50, 2 Signal(e)"
+  },
+  {
+    "rank": 9,
+    "collector": "wikimedia-pageviews",
+    "domain": "attention",
+    "domains": [
+      "attention"
+    ],
+    "signals": [
+      "finance.attention.bank_wiki_views"
+    ],
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Bank_run/daily/20260901/20261117"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "wikimedia-pageviews",
+    "extendsWhat": "Artikel ergänzen: Bank run, Bank failure, Silicon Valley Bank, Credit Suisse, Liquiditätskrise",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Aufrufe pro Tag",
+    "why": "erweitert bestehenden Collector wikimedia-pageviews; ohne Key, kostenlos; kleine JSON-Antwort; Historie: seit 2015; max. Gewicht 0.45, 1 Signal(e)"
+  },
+  {
+    "rank": 10,
+    "collector": "statuspage",
+    "domain": "attention",
+    "domains": [
+      "attention"
+    ],
+    "signals": [
+      "finance.attention.bank_service_outages"
+    ],
+    "endpoints": [
+      "https://<host>/api/v2/summary.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "statuspage",
+    "extendsWhat": "Host-Liste um Fintech- und Bankdienstleister erweitern",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Zustand je Komponente",
+    "why": "erweitert bestehenden Collector statuspage; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Zeitreihe per Parameter; max. Gewicht 0.40, 1 Signal(e)"
+  },
+  {
+    "rank": 11,
+    "collector": "mempool-space",
+    "domain": "crypto",
+    "domains": [
+      "crypto"
+    ],
+    "signals": [
+      "finance.crypto.btc_fees"
+    ],
+    "endpoints": [
+      "https://mempool.space/api/v1/fees/recommended"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "mempool-space",
+    "extendsWhat": "Gebühren-Empfehlung als Stress-Signal für Krypto ergänzen",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: fastestFee sat/vB",
+    "why": "erweitert bestehenden Collector mempool-space; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Gebühren-Historie per Blockhöhe; max. Gewicht 0.30, 1 Signal(e)"
+  },
+  {
+    "rank": 12,
+    "collector": "fdic-bankfind",
+    "domain": "banks",
+    "domains": [
+      "banks"
+    ],
+    "signals": [
+      "finance.banks.fdic_failed_list",
+      "finance.banks.fdic_problem_banks",
+      "finance.banks.unrealized_losses"
+    ],
+    "endpoints": [
+      "https://banks.data.fdic.gov/api/failures?filters=FAILDATE%3A%5B2026-01-01%20TO%20*%5D&fields=NAME%2CFAILDATE%2CQBFASSET%2CQBFDEP%2CCOST&sort_by=FAILDATE&sort_order=DESC&limit=50",
+      "https://banks.data.fdic.gov/api/summary?filters=REPDTE%3A20260630&fields=REPDTE%2CASSET%2CNUMINST&limit=10",
+      "https://banks.data.fdic.gov/api/financials?filters=REPDTE%3A20260630&fields=CERT%2CNAME%2CSCAF%2CSCAA%2CASSET%2CDEP%2CUNINSUR&limit=100"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: JSON mit Name, Datum, Bilanzsumme, Einlagen, Kosten",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: Gescheiterte Banken seit 1934; max. Gewicht 0.90, 3 Signal(e)"
+  },
+  {
+    "rank": 13,
+    "collector": "fed-ddp",
+    "domain": "money_market",
+    "domains": [
+      "money_market",
+      "banks"
+    ],
+    "signals": [
+      "finance.money_market.fed_discount_window",
+      "finance.banks.h8_deposits"
+    ],
+    "endpoints": [
+      "https://www.federalreserve.gov/datadownload/Output.aspx?rel=H41&series=&lastobs=52&filetype=csv&from=&to=&layout=seriescolumn",
+      "https://www.federalreserve.gov/datadownload/Output.aspx?rel=H8&series=&lastobs=52&filetype=csv&layout=seriescolumn"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Spalten Primary credit, Secondary credit, Seasonal credit (Wochendurchschnitt und Mittwochsstand)",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: H.4.1 seit 1996 wöchentlich; max. Gewicht 0.90, 2 Signal(e)"
+  },
+  {
+    "rank": 14,
+    "collector": "bis-stats",
+    "domain": "money_market",
+    "domains": [
+      "money_market",
+      "credit"
+    ],
+    "signals": [
+      "finance.money_market.cross_currency_basis",
+      "finance.credit.bis_credit_gap"
+    ],
+    "endpoints": [
+      "https://data.bis.org",
+      "https://stats.bis.org/api/v2/data/WS_CREDIT_GAP/Q.DE.P.A.C?format=csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Keine freie Tagesreihe gefunden",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: Zeitreihen seit Jahrzehnten; max. Gewicht 0.80, 2 Signal(e)"
+  },
+  {
+    "rank": 15,
+    "collector": "fred-csv",
+    "domain": "credit",
+    "domains": [
+      "money_market",
+      "credit",
+      "markets"
+    ],
+    "signals": [
+      "finance.money_market.us_tbill_stress",
+      "finance.credit.hy_oas",
+      "finance.credit.us_curve_10y3m",
+      "finance.credit.us_curve_10y2y",
+      "finance.markets.us_10y_yield"
+    ],
+    "endpoints": [
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS1MO",
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BAMLH0A0HYM2",
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y3M",
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y2Y",
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: 1-Monats-Rendite US-Treasury; FRED-Reihen-IDs vor dem Einbau einzeln prüfen; ICE-BofA-Reihen liefern über FRED nur etwa 3 Jahre Historie",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: volle Historie; max. Gewicht 0.60, 5 Signal(e)"
+  },
+  {
+    "rank": 16,
+    "collector": "bundesbank-api",
+    "domain": "banks",
+    "domains": [
+      "banks"
+    ],
+    "signals": [
+      "finance.banks.bank_deposit_rates"
+    ],
+    "endpoints": [
+      "https://api.statistiken.bundesbank.de/rest/data/BBK01.SUD105?format=csv&lastNObservations=60"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Zinssatz Einlagen privater Haushalte (Key prüfen)",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: Zeitreihen seit Beginn; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 17,
+    "collector": "uscourts",
+    "domain": "real_economy",
+    "domains": [
+      "real_economy"
+    ],
+    "signals": [
+      "finance.real_economy.bankruptcies_us"
+    ],
+    "endpoints": [
+      "https://www.uscourts.gov/data-news/data-tables"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Quartals-/Monatsdaten",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: Zeitreihe per Parameter; max. Gewicht 0.35, 1 Signal(e)"
+  },
+  {
+    "rank": 18,
+    "collector": "alternative-me",
+    "domain": "attention",
+    "domains": [
+      "attention"
+    ],
+    "signals": [
+      "finance.attention.fear_greed_crypto"
+    ],
+    "endpoints": [
+      "https://api.alternative.me/fng/?limit=90"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: value 0-100",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: seit 2018; max. Gewicht 0.30, 1 Signal(e)"
+  },
+  {
+    "rank": 19,
+    "collector": "treasury-fiscal",
+    "domain": "money_market",
+    "domains": [
+      "money_market"
+    ],
+    "signals": [
+      "finance.money_market.us_tga_balance"
+    ],
+    "endpoints": [
+      "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/operating_cash_balance?sort=-record_date&page[size]=60"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: close_today_bal",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: Historie je Datensatz; max. Gewicht 0.30, 1 Signal(e)"
+  },
+  {
+    "rank": 20,
+    "collector": "github-cpi-us",
+    "domain": "real_economy",
+    "domains": [
+      "real_economy"
+    ],
+    "signals": [
+      "finance.real_economy.us_cpi"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/cpi-us/main/data/cpiai.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Messfeld laut Recherche: Date,Index,Inflation; letzter Stand 2026-09-01 336,94 (+0,59); Monatswerte, letzter Eintrag 2026-09 (geprüft 17.11.2026); Oktober-Wert noch nicht gespiegelt.",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: seit 1913; max. Gewicht 0.20, 1 Signal(e)"
+  }
+]

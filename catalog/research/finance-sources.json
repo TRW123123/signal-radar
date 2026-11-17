@@ -1,0 +1,989 @@
+[
+  {
+    "id": "alternative-me",
+    "name": "Alternative.me Fear & Greed API",
+    "docUrl": "https://alternative.me/crypto/fear-and-greed-index/",
+    "endpoints": [
+      "https://api.alternative.me/fng/?limit=90"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2018",
+    "rateLimit": "",
+    "license": "Nutzung mit Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "alternative-me",
+    "signals": [
+      "finance.attention.fear_greed_crypto"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "bis-stats",
+    "name": "BIS Data Portal API (SDMX)",
+    "docUrl": "https://data.bis.org/help/tools",
+    "endpoints": [
+      "https://data.bis.org",
+      "https://stats.bis.org/api/v2/data/WS_CREDIT_GAP/Q.DE.P.A.C?format=csv"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "quartalsweise/monatlich",
+    "history": "Zeitreihen seit Jahrzehnten",
+    "rateLimit": "",
+    "license": "BIS Terms, Quelle nennen",
+    "verified": false,
+    "aliases": [],
+    "collector": "bis-stats",
+    "signals": [
+      "finance.money_market.cross_currency_basis",
+      "finance.credit.bis_credit_gap"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "bundesbank-api",
+    "name": "Bundesbank Zeitreihen-API (SDMX)",
+    "docUrl": "https://api.statistiken.bundesbank.de/doc/index.html",
+    "endpoints": [
+      "https://api.statistiken.bundesbank.de/rest/data/BBK01.WT1010?format=csv&lastNObservations=60",
+      "https://api.statistiken.bundesbank.de/rest/data/BBK01.SUD105?format=csv&lastNObservations=60",
+      "https://api.statistiken.bundesbank.de/rest/data/BBK01.TARGET2?format=csv&lastNObservations=60"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich bis monatlich",
+    "history": "Zeitreihen seit Beginn",
+    "rateLimit": "",
+    "license": "Datenlizenz Deutschland, Quelle nennen",
+    "verified": false,
+    "aliases": [],
+    "collector": "bundesbank-api",
+    "signals": [
+      "finance.credit.btp_bund_spread",
+      "finance.banks.target2_imbalances",
+      "finance.banks.bank_deposit_rates"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "calendar",
+    "name": "Berechneter Kalender",
+    "docUrl": "https://www.cmegroup.com/trading/equity-index/",
+    "endpoints": [
+      "berechnet"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Zeitreihe per Parameter",
+    "rateLimit": "",
+    "license": "n/a",
+    "verified": false,
+    "aliases": [],
+    "collector": "calendar",
+    "signals": [
+      "finance.context.quarter_end"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "cboe",
+    "name": "CBOE Indexdaten",
+    "docUrl": "https://www.cboe.com/us/indices/dashboard/skew/",
+    "endpoints": [
+      "https://cdn.cboe.com/api/global/us_indices/daily_prices/SKEW_History.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1990",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "cboe",
+    "signals": [
+      "finance.volatility.skew"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "defillama",
+    "name": "DefiLlama API",
+    "docUrl": "https://defillama.com/docs/api",
+    "endpoints": [
+      "https://stablecoins.llama.fi/stablecoins?includePrices=true",
+      "https://stablecoins.llama.fi/stablecoincharts/all",
+      "https://api.llama.fi/v2/historicalChainTvl",
+      "https://api.llama.fi/cexs"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "Historie vorhanden",
+    "rateLimit": "",
+    "license": "frei, Quellenangabe",
+    "verified": false,
+    "aliases": [
+      "defillama-cex"
+    ],
+    "collector": "defillama",
+    "signals": [
+      "finance.crypto.stablecoin_depeg",
+      "finance.crypto.exchange_outflows",
+      "finance.crypto.stablecoin_supply",
+      "finance.crypto.defi_tvl"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "destatis",
+    "name": "Destatis GENESIS-Online",
+    "docUrl": "https://www-genesis.destatis.de/datenbank/online",
+    "endpoints": [
+      "https://www-genesis.destatis.de/genesisWS/rest/2020/data/tablefile?name=52411-0001&format=csv"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1990er",
+    "rateLimit": "",
+    "license": "dl-de/by-2-0",
+    "verified": false,
+    "aliases": [],
+    "collector": "destatis",
+    "signals": [
+      "finance.real_economy.destatis_insolvenzen"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "drewry",
+    "name": "Drewry WCI",
+    "docUrl": "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry",
+    "endpoints": [
+      "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (Do)",
+    "history": "Zeitreihe per Parameter",
+    "rateLimit": "",
+    "license": "Nutzungsbedingungen prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "drewry",
+    "signals": [
+      "finance.real_economy.freight_rates"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "ecb-data",
+    "name": "EZB Data Portal SDMX API",
+    "docUrl": "https://data.ecb.europa.eu/help/api/data",
+    "endpoints": [
+      "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.WT?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/ILM.W.U2.C.L050.U2.EUR?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/ILM.W.U2.C.L020.U2.EUR?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/IRS/M.IT.L.L40.CI.0000.EUR.N.Z?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/IRS/M.DE.L.L40.CI.0000.EUR.N.Z?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_3M?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/BLS/Q.U2.ALL.O.E.Z.B3.ST.S.FNET?format=jsondata",
+      "https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/EXR/D.JPY.EUR.SP00.A?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/MIR/M.U2.B.A2A.A.R.A.2240.EUR.N?format=jsondata&lastNObservations=60",
+      "https://data-api.ecb.europa.eu/service/data/TGB/M.U2.N.C.L.LE.DE.Z?format=jsondata&lastNObservations=60"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Zeitreihe seit Beginn der Reihe",
+    "rateLimit": "",
+    "license": "EZB-Datenpolitik, Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "ecb-data",
+    "signals": [
+      "finance.money_market.ecb_marginal_lending",
+      "finance.money_market.estr_spread",
+      "finance.money_market.ecb_excess_liquidity",
+      "finance.credit.btp_bund_spread",
+      "finance.credit.ecb_bank_cds_proxy",
+      "finance.credit.ecb_yield_curve_spread",
+      "finance.credit.sloos_tightening",
+      "finance.banks.target2_imbalances",
+      "finance.volatility.fx_vol"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "fdic-bankfind",
+    "name": "FDIC BankFind Suite API",
+    "docUrl": "https://banks.data.fdic.gov/docs/",
+    "endpoints": [
+      "https://banks.data.fdic.gov/api/failures?filters=FAILDATE%3A%5B2026-01-01%20TO%20*%5D&fields=NAME%2CFAILDATE%2CQBFASSET%2CQBFDEP%2CCOST&sort_by=FAILDATE&sort_order=DESC&limit=50",
+      "https://www.fdic.gov/bank-failures/failed-banks-list/download",
+      "https://banks.data.fdic.gov/api/summary?filters=REPDTE%3A20260630&fields=REPDTE%2CASSET%2CNUMINST&limit=10",
+      "https://banks.data.fdic.gov/api/financials?filters=REPDTE%3A20260630&fields=CERT%2CNAME%2CSCAF%2CSCAA%2CASSET%2CDEP%2CUNINSUR&limit=100"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich bis täglich",
+    "history": "Gescheiterte Banken seit 1934",
+    "rateLimit": "",
+    "license": "gemeinfrei (US Government)",
+    "verified": false,
+    "aliases": [
+      "fdic-csv"
+    ],
+    "collector": "fdic-bankfind",
+    "signals": [
+      "finance.banks.fdic_failed_list",
+      "finance.banks.fdic_problem_banks",
+      "finance.banks.unrealized_losses"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "fed-ddp",
+    "name": "Fed Data Download Program (H.4.1)",
+    "docUrl": "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H41",
+    "endpoints": [
+      "https://www.federalreserve.gov/datadownload/Output.aspx?rel=H41&series=&lastobs=52&filetype=csv&from=&to=&layout=seriescolumn",
+      "https://www.federalreserve.gov/datadownload/Output.aspx?rel=H8&series=&lastobs=52&filetype=csv&layout=seriescolumn"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (Do 16:30 ET)",
+    "history": "H.4.1 seit 1996 wöchentlich",
+    "rateLimit": "",
+    "license": "gemeinfrei (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "fed-ddp",
+    "signals": [
+      "finance.money_market.fed_discount_window",
+      "finance.banks.h8_deposits"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "fhlb-office",
+    "name": "FHLB Office of Finance",
+    "docUrl": "https://www.fhlb-of.com/ofweb_userWeb/pageBuilder/financial-reports-5",
+    "endpoints": [
+      "https://www.fhlb-of.com/ofweb_userWeb/pageBuilder/financial-reports-5"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "quartalsweise",
+    "history": "Zeitreihe per Parameter",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "fhlb-office",
+    "signals": [
+      "finance.banks.fhlb_advances"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "fred",
+    "name": "FRED API (St. Louis Fed)",
+    "docUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+    "endpoints": [
+      "https://api.stlouisfed.org/fred/series/observations?series_id=WLCFLPCL&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=WLCFLL&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLH0A0HYM2&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLC0A0CM&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLH0A3HYC&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLHE00EHYIOAS&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLEC0A0RMEY&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=DRTSCILM&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=DPSACBW027SBOG&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=DPSSCBW027SBOG&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=BORROW&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=ICSA&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=DRCCLACBS&file_type=json&api_key=<KEY>",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=DRCRELEXFACBS&file_type=json&api_key=<KEY>"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Historie je nach Reihe, teils seit 1950er",
+    "rateLimit": "120 Anfragen/min",
+    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "verified": false,
+    "aliases": [],
+    "collector": "fred",
+    "signals": [
+      "finance.money_market.fed_discount_window",
+      "finance.money_market.fed_btfp_other_credit",
+      "finance.credit.eur_ig_financial_oas",
+      "finance.credit.eur_hy_oas",
+      "finance.credit.hy_oas",
+      "finance.credit.ig_oas",
+      "finance.credit.ccc_oas",
+      "finance.credit.sloos_tightening",
+      "finance.banks.h8_deposits",
+      "finance.banks.h8_borrowings",
+      "finance.real_economy.cre_delinq",
+      "finance.real_economy.consumer_credit_delinq",
+      "finance.real_economy.jobless_claims"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "fred-csv",
+    "name": "FRED Graph CSV (ohne Key)",
+    "docUrl": "https://fred.stlouisfed.org/",
+    "endpoints": [
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS1MO",
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BAMLH0A0HYM2",
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y2Y",
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y3M",
+      "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "volle Historie",
+    "rateLimit": "",
+    "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+    "verified": false,
+    "aliases": [],
+    "collector": "fred-csv",
+    "signals": [
+      "finance.money_market.us_tbill_stress",
+      "finance.credit.hy_oas",
+      "finance.credit.us_curve_10y3m",
+      "finance.credit.us_curve_10y2y",
+      "finance.markets.us_10y_yield"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "gdelt-doc",
+    "name": "GDELT DOC 2.0 API",
+    "docUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22bank%20run%22%20OR%20%22bank%20collapse%22&mode=timelinevol&format=json&timespan=3months",
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22bank%20collapse%22&mode=timelinevol&format=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "3 Monate rollierend, Archiv ab 2017",
+    "rateLimit": "",
+    "license": "frei, Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "gdelt-doc",
+    "signals": [
+      "finance.banks.foreign_bank_failure_context",
+      "finance.attention.news_bank_run_volume"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-bond-yields-us-10y",
+    "name": "datasets/bond-yields-us-10y (GitHub-Spiegel)",
+    "docUrl": "https://github.com/datasets/bond-yields-us-10y",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/bond-yields-us-10y/main/data/monthly.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Spiegel, Lauf täglich bis wöchentlich",
+    "history": "seit 1953",
+    "rateLimit": "",
+    "license": "ODC PDDL / öffentlich (datasets.io)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-bond-yields-us-10y",
+    "signals": [
+      "finance.markets.us_10y_yield"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-cpi-us",
+    "name": "datasets/cpi-us (GitHub-Spiegel)",
+    "docUrl": "https://github.com/datasets/cpi-us",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/cpi-us/main/data/cpiai.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Spiegel, Lauf täglich bis wöchentlich",
+    "history": "seit 1913",
+    "rateLimit": "",
+    "license": "ODC PDDL / öffentlich (datasets.io)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-cpi-us",
+    "signals": [
+      "finance.real_economy.us_cpi"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-exchange-rates",
+    "name": "datasets/exchange-rates (GitHub-Spiegel)",
+    "docUrl": "https://github.com/datasets/exchange-rates",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/exchange-rates/main/data/daily.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Spiegel, Lauf täglich bis wöchentlich",
+    "history": "seit 1971",
+    "rateLimit": "",
+    "license": "ODC PDDL / öffentlich (datasets.io)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-exchange-rates",
+    "signals": [
+      "finance.volatility.fx_vol"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-finance-vix",
+    "name": "datasets/finance-vix (GitHub-Spiegel)",
+    "docUrl": "https://github.com/datasets/finance-vix",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/finance-vix/main/data/vix-daily.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Spiegel, Lauf täglich bis wöchentlich",
+    "history": "seit 1990",
+    "rateLimit": "",
+    "license": "ODC PDDL / öffentlich (datasets.io)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-finance-vix",
+    "signals": [
+      "finance.volatility.vix"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-fng",
+    "name": "cryptonequity/crypto-fear-greed-historical-dataset-2018-2026",
+    "docUrl": "https://github.com/cryptonequity/crypto-fear-greed-historical-dataset-2018-2026",
+    "endpoints": [
+      "https://github.com/cryptonequity/crypto-fear-greed-historical-dataset-2018-2026"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Zeitreihe per Parameter",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "github-fng",
+    "signals": [
+      "finance.attention.fear_greed_crypto"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-gold-prices",
+    "name": "datasets/gold-prices (GitHub-Spiegel)",
+    "docUrl": "https://github.com/datasets/gold-prices",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/gold-prices/main/data/monthly.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Spiegel, Lauf täglich bis wöchentlich",
+    "history": "seit 1833",
+    "rateLimit": "",
+    "license": "ODC PDDL / öffentlich (datasets.io)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-gold-prices",
+    "signals": [
+      "finance.real_economy.copper_gold"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-investor-flow",
+    "name": "datasets/investor-flow-of-funds-us",
+    "docUrl": "https://github.com/datasets/investor-flow-of-funds-us",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/investor-flow-of-funds-us/main/data/weekly.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Zeitreihe per Parameter",
+    "rateLimit": "",
+    "license": "ODC PDDL",
+    "verified": false,
+    "aliases": [],
+    "collector": "github-investor-flow",
+    "signals": [
+      "finance.markets.fund_flows"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-oil-prices",
+    "name": "datasets/oil-prices (GitHub-Spiegel)",
+    "docUrl": "https://github.com/datasets/oil-prices",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv",
+      "https://raw.githubusercontent.com/datasets/oil-prices/main/data/wti-daily.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Spiegel, Lauf täglich bis wöchentlich",
+    "history": "seit 1987",
+    "rateLimit": "",
+    "license": "ODC PDDL / öffentlich (datasets.io)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-oil-prices",
+    "signals": [
+      "finance.real_economy.oil_price"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "github-s-and-p-500",
+    "name": "datasets/s-and-p-500 (GitHub-Spiegel)",
+    "docUrl": "https://github.com/datasets/s-and-p-500",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/s-and-p-500/main/data/data.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Spiegel, Lauf täglich bis wöchentlich",
+    "history": "seit 1871",
+    "rateLimit": "",
+    "license": "ODC PDDL / öffentlich (datasets.io)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-s-and-p-500",
+    "signals": [
+      "finance.markets.sp500_drawdown"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "kalshi",
+    "name": "Kalshi Trade API (öffentliche Marktdaten)",
+    "docUrl": "https://docs.kalshi.com/",
+    "endpoints": [
+      "https://api.elections.kalshi.com/trade-api/v2/markets?status=open&series_ticker=KXRECSSNBER"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "Candlesticks je Markt",
+    "rateLimit": "",
+    "license": "Kalshi ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "kalshi",
+    "signals": [
+      "finance.attention.polymarket_recession"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "mempool-space",
+    "name": "mempool.space API",
+    "docUrl": "https://mempool.space/docs/api/rest",
+    "endpoints": [
+      "https://mempool.space/api/v1/fees/recommended"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "Gebühren-Historie per Blockhöhe",
+    "rateLimit": "",
+    "license": "frei (AGPL-Software)",
+    "verified": false,
+    "aliases": [],
+    "collector": "mempool-space",
+    "signals": [
+      "finance.crypto.btc_fees"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "nyfed-markets",
+    "name": "NY Fed Markets API",
+    "docUrl": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+    "endpoints": [
+      "https://markets.newyorkfed.org/api/rates/secured/sofr/last/60.json",
+      "https://markets.newyorkfed.org/api/rp/repo/all/results/last/30.json",
+      "https://markets.newyorkfed.org/api/rp/reverserepo/propositions/search.json?startDate=2026-09-01&endDate=2026-11-17",
+      "https://markets.newyorkfed.org/api/fxs/all/latest.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "werktäglich",
+    "history": "Historie per startDate/endDate",
+    "rateLimit": "",
+    "license": "öffentlich (NY Fed Terms)",
+    "verified": false,
+    "aliases": [],
+    "collector": "nyfed-markets",
+    "signals": [
+      "finance.money_market.fed_standing_repo",
+      "finance.money_market.fx_swap_lines",
+      "finance.money_market.sofr_minus_iorb",
+      "finance.money_market.sofr_tail",
+      "finance.money_market.fed_reverse_repo"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "polymarket-gamma",
+    "name": "Polymarket Gamma API",
+    "docUrl": "https://docs.polymarket.com/",
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?closed=false&limit=50&search=recession",
+      "https://gamma-api.polymarket.com/markets?closed=false&limit=50&search=bank"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "Preisverlauf per CLOB prices-history",
+    "rateLimit": "",
+    "license": "ToS Polymarket, lesend frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "polymarket-gamma",
+    "signals": [
+      "finance.attention.polymarket_bank_failure",
+      "finance.attention.polymarket_recession"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "sec-edgar",
+    "name": "SEC EDGAR Volltextsuche",
+    "docUrl": "https://www.sec.gov/edgar/search/",
+    "endpoints": [
+      "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.03%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-17"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2001 (Volltext ab 2001)",
+    "rateLimit": "10 Anfragen/s",
+    "license": "gemeinfrei, User-Agent mit Kontakt Pflicht",
+    "verified": false,
+    "aliases": [],
+    "collector": "sec-edgar",
+    "signals": [
+      "finance.banks.sec_8k_item103",
+      "finance.banks.sec_8k_item202_bank"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "statuspage",
+    "name": "Statuspage-Hosts bekannter Fintech/Banken",
+    "docUrl": "https://www.atlassian.com/software/statuspage",
+    "endpoints": [
+      "https://<host>/api/v2/summary.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 min",
+    "history": "Zeitreihe per Parameter",
+    "rateLimit": "",
+    "license": "öffentlich",
+    "verified": false,
+    "aliases": [],
+    "collector": "statuspage",
+    "signals": [
+      "finance.attention.bank_service_outages"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "treasury-fiscal",
+    "name": "US Treasury Fiscal Data API",
+    "docUrl": "https://fiscaldata.treasury.gov/api-documentation/",
+    "endpoints": [
+      "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&page[size]=30",
+      "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/operating_cash_balance?sort=-record_date&page[size]=60",
+      "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/daily_treasury_yield_curve?sort=-record_date",
+      "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/deposits_withdrawals_operating_cash?sort=-record_date&page[size]=5"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Historie je Datensatz",
+    "rateLimit": "",
+    "license": "gemeinfrei (US Government)",
+    "verified": false,
+    "aliases": [],
+    "collector": "treasury-fiscal",
+    "signals": [
+      "finance.money_market.us_tbill_stress",
+      "finance.money_market.us_tga_balance",
+      "finance.credit.us_curve_10y2y",
+      "finance.real_economy.jobless_claims"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "uscourts",
+    "name": "US Courts Bankruptcy Statistics",
+    "docUrl": "https://www.uscourts.gov/statistics-reports/analysis-reports/bankruptcy-filings-statistics",
+    "endpoints": [
+      "https://www.uscourts.gov/data-news/data-tables"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "quartalsweise",
+    "history": "Zeitreihe per Parameter",
+    "rateLimit": "",
+    "license": "gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "uscourts",
+    "signals": [
+      "finance.real_economy.bankruptcies_us"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "wikimedia-pageviews",
+    "name": "Wikimedia Pageviews API",
+    "docUrl": "https://wikimedia.org/api/rest_v1/",
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Bank_run/daily/20260901/20261117",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Bank_failure/daily/20260901/20261117"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2015",
+    "rateLimit": "",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "wikimedia-pageviews",
+    "signals": [
+      "finance.attention.bank_wiki_views"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  },
+  {
+    "id": "yahoo-chart",
+    "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+    "docUrl": "https://finance.yahoo.com/",
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/HYG?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/LQD?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/KRE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/KBE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/XLF?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/EXV1.DE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^SX7E?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/DBK.DE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CBK.DE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/UBSG.SW?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^VIX?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^VIX9D?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^VIX3M?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^MOVE?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^SKEW?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/EURUSD=X?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BDRY?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/HG=F?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GLD?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CHF=X?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/JPY=X?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/^GSPC?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/SMH?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=3mo&interval=1d"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min verzögert / Tagesschluss",
+    "history": "mehrere Jahre per range",
+    "rateLimit": "",
+    "license": "unklar, ToS verbieten systematische Nutzung",
+    "verified": false,
+    "aliases": [],
+    "collector": "yahoo-chart",
+    "signals": [
+      "finance.credit.corp_bond_etf_discount",
+      "finance.banks.regional_bank_etf_return",
+      "finance.banks.single_bank_stress_set",
+      "finance.banks.eu_bank_index",
+      "finance.banks.regional_bank_volume",
+      "finance.volatility.move",
+      "finance.volatility.vix_term_structure",
+      "finance.volatility.fx_vol",
+      "finance.volatility.skew",
+      "finance.volatility.vix",
+      "finance.crypto.btc_price_drop",
+      "finance.real_economy.copper_gold",
+      "finance.real_economy.baltic_dry",
+      "finance.markets.sp500_drawdown",
+      "finance.markets.ai_stock_stress",
+      "finance.markets.gold",
+      "finance.markets.safe_haven_fx"
+    ],
+    "scenarios": [
+      "finance"
+    ]
+  }
+]

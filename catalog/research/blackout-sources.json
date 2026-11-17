@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "agsi",
+    "name": "GIE AGSI+ (Gasspeicher)",
+    "docUrl": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
+    "endpoints": [
+      "https://agsi.gie.eu/api?country=DE&from=2026-09-01&to=2026-11-17&size=300",
+      "https://agsi.gie.eu/api?type=eu&from=2026-09-01&to=2026-11-17",
+      "https://agsi.gie.eu/api?country=DE&from=2026-11-01&to=2026-11-17",
+      "https://agsi.gie.eu/api?country=DE&company=21X000000001160J&from=2026-11-01"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich (ca. 19:30 UTC, Korrekturen am Folgetag)",
+    "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
+    "rateLimit": "60 Anfragen/min",
+    "license": "GIE, Quellenangabe",
+    "verified": false,
+    "aliases": [
+      "gie-agsi"
+    ],
+    "collector": "agsi",
+    "signals": [
+      "blackout.gas.storage_fill_de",
+      "blackout.gas.storage_withdrawal_rate",
+      "blackout.gas.storage_by_site_critical"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "alsi",
+    "name": "GIE ALSI (LNG-Terminals)",
+    "docUrl": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
+    "endpoints": [
+      "https://alsi.gie.eu/api?country=DE&from=2026-11-01&to=2026-11-17",
+      "https://alsi.gie.eu/api?type=eu&from=2026-10-01&to=2026-11-17"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich (ca. 19:30 UTC, Korrekturen am Folgetag)",
+    "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
+    "rateLimit": "60 Anfragen/min",
+    "license": "GIE, Quellenangabe",
+    "verified": false,
+    "aliases": [
+      "gie-alsi"
+    ],
+    "collector": "alsi",
+    "signals": [
+      "blackout.gas.lng_terminal_sendout",
+      "blackout.gas.lng_inventory_eu"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "bmwk",
+    "name": "BMWK Notfallplan Gas",
+    "docUrl": "https://www.bmwk.de/Redaktion/DE/Artikel/Energie/gas-notfallplan-gas.html",
+    "endpoints": [
+      "https://www.bmwk.de/Redaktion/DE/Artikel/Energie/gas-notfallplan-gas.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ereignisabhängig",
+    "history": "keine",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "bmwk",
+    "signals": [
+      "blackout.gas.bnetza_early_warning_level"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "bnetza-gas",
+    "name": "Bundesnetzagentur Gasversorgung Lage und Verbrauch",
+    "docUrl": "https://www.bundesnetzagentur.de/DE/Gasversorgung/aktuelle_gasversorgung/start.html",
+    "endpoints": [
+      "https://www.bundesnetzagentur.de/DE/Gasversorgung/aktuelle_gasversorgung/_svg/Gasverbrauch_Gesamt/Gasverbrauch_Gesamt.html"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "ab 2018",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "bnetza-gas",
+    "signals": [
+      "blackout.gas.consumption_industry_bnetza"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "bnetza-kraftwerke",
+    "name": "Bundesnetzagentur Kraftwerksliste",
+    "docUrl": "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Versorgungssicherheit/Erzeugungskapazitaeten/Kraftwerksliste/start.html",
+    "endpoints": [
+      "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Versorgungssicherheit/Erzeugungskapazitaeten/Kraftwerksliste/start.html"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "halbjährlich",
+    "history": "ab 2012",
+    "rateLimit": "unklar",
+    "license": "DL-DE",
+    "verified": false,
+    "aliases": [],
+    "collector": "bnetza-kraftwerke",
+    "signals": [
+      "blackout.plants.installed_capacity_changes"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "bright-sky",
+    "name": "Bright Sky (DWD-Daten)",
+    "docUrl": "https://brightsky.dev/docs/",
+    "endpoints": [
+      "https://api.brightsky.dev/alerts?lat=52.5&lon=13.4",
+      "https://api.brightsky.dev/current_weather?lat=52.5&lon=13.4"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "Vergangenheit per date/last_date",
+    "rateLimit": "unklar",
+    "license": "DWD GeoNutzV / Open Source API",
+    "verified": false,
+    "aliases": [],
+    "collector": "bright-sky",
+    "signals": [
+      "blackout.weather.dwd_measured_conditions",
+      "blackout.weather.storm_warnings_dwd"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "cf-radar",
+    "name": "Cloudflare Radar API",
+    "docUrl": "https://developers.cloudflare.com/api/resources/radar/",
+    "endpoints": [
+      "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "ab 2022",
+    "rateLimit": "unklar",
+    "license": "CC BY-NC 4.0",
+    "verified": false,
+    "aliases": [
+      "cloudflare-radar"
+    ],
+    "collector": "cloudflare-radar",
+    "signals": [
+      "blackout.outages.cloudflare_radar_outages"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "cisa-ics",
+    "name": "CISA ICS Advisories",
+    "docUrl": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+    "endpoints": [
+      "https://www.cisa.gov/cybersecurity-advisories/all.xml"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Jahre",
+    "rateLimit": "unklar",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "cisa-ics",
+    "signals": [
+      "blackout.grid.ics_advisories_energy"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "dso-portals",
+    "name": "Störungsmelder Westnetz, Stromnetz Berlin, Netze BW, Bayernwerk",
+    "docUrl": "https://www.westnetz.de/de/stoerungen.html",
+    "endpoints": [
+      "https://www.westnetz.de/de/stoerungen.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "keine",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "dso-portals",
+    "signals": [
+      "blackout.outages.dso_fault_portals_de"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "dwd-opendata",
+    "name": "DWD Open Data Warnungen",
+    "docUrl": "https://opendata.dwd.de/",
+    "endpoints": [
+      "https://opendata.dwd.de/weather/alerts/cap/DISTRICT_CELLS_STAT/"
+    ],
+    "access": "download",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "eingeschränkt",
+    "rateLimit": "unklar",
+    "license": "GeoNutzV",
+    "verified": false,
+    "aliases": [],
+    "collector": "dwd-opendata",
+    "signals": [
+      "blackout.weather.storm_warnings_dwd"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "edf-remit",
+    "name": "EDF REMIT Verfügbarkeit (via ODRÉ / RTE)",
+    "docUrl": "https://www.edf.fr/en/the-edf-group/producing-a-climate-friendly-energy/nuclear-energy/nuclear-availability",
+    "endpoints": [
+      "https://www.edf.fr/en/the-edf-group/producing-a-climate-friendly-energy/nuclear-energy/nuclear-availability"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ereignisabhängig",
+    "history": "eingeschränkt",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "edf-remit",
+    "signals": [
+      "blackout.plants.france_nuclear_availability"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "eex",
+    "name": "EEX Marktdaten",
+    "docUrl": "https://www.eex.com/en/market-data",
+    "endpoints": [
+      "https://www.eex.com/en/market-data/natural-gas/spot"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2007",
+    "rateLimit": "unklar",
+    "license": "EEX-Bedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "eex",
+    "signals": [
+      "blackout.prices.gas_hub_ttf_spread"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "eex-transparency",
+    "name": "EEX Transparency Platform",
+    "docUrl": "https://www.eex-transparency.com/",
+    "endpoints": [
+      "https://www.eex-transparency.com/power/germany/production/availability"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ereignisabhängig",
+    "history": "ab 2015",
+    "rateLimit": "unklar",
+    "license": "EEX Transparenz-Bedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "eex-transparency",
+    "signals": [
+      "blackout.plants.entsoe_unavailability_gen"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "elexon",
+    "name": "Elexon BMRS Insights API",
+    "docUrl": "https://bmrs.elexon.co.uk/api-documentation",
+    "endpoints": [
+      "https://data.elexon.co.uk/bmrs/api/v1/datasets/FREQ?format=json",
+      "https://data.elexon.co.uk/bmrs/api/v1/datasets/SYSWARN?format=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "mehrere Jahre",
+    "rateLimit": "unklar",
+    "license": "Elexon Open Licence",
+    "verified": false,
+    "aliases": [],
+    "collector": "elexon",
+    "signals": [
+      "blackout.grid.frequency_cross_check_gb_nordic",
+      "blackout.grid.gb_system_margin"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "energy-charts",
+    "name": "Energy-Charts API (Fraunhofer ISE)",
+    "docUrl": "https://api.energy-charts.info/",
+    "endpoints": [
+      "https://api.energy-charts.info/frequency?country=de&start=2026-11-17T10:00+01:00&end=2026-11-17T10:15+01:00",
+      "https://api.energy-charts.info/total_power?country=de&start=2026-11-16&end=2026-11-17",
+      "https://api.energy-charts.info/public_power?country=de&start=2026-11-16&end=2026-11-17",
+      "https://api.energy-charts.info/cbet?country=de&start=2026-11-16&end=2026-11-17",
+      "https://api.energy-charts.info/signal?country=de",
+      "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-16&end=2026-11-18",
+      "https://api.energy-charts.info/price?bzn=FR&start=2026-11-16&end=2026-11-18",
+      "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-01&end=2026-11-18",
+      "https://api.energy-charts.info/public_power?country=fr&start=2026-11-16&end=2026-11-17"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden bis Minuten",
+    "history": "Sekundenreihe, Fenster per start/end",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+    "verified": true,
+    "aliases": [],
+    "collector": "energy-charts",
+    "signals": [
+      "blackout.grid.frequency_de_deviation",
+      "blackout.grid.cross_border_flows_de",
+      "blackout.grid.energy_charts_signal",
+      "blackout.grid.gas_coal_fossil_ramp_de",
+      "blackout.grid.net_load_de",
+      "blackout.grid.wind_solar_infeed_de",
+      "blackout.prices.day_ahead_de",
+      "blackout.prices.day_ahead_spread_neighbors",
+      "blackout.prices.negative_price_hours",
+      "blackout.plants.nuclear_generation_fr_measured",
+      "blackout.plants.pumped_storage_hydro_de"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "entsoe",
+    "name": "ENTSO-E Transparency Platform",
+    "docUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+    "endpoints": [
+      "https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001A1001A83F&out_Domain=10YFR-RTE------C&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A01&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A84&processType=A16&controlArea_Domain=10Y1001A1001A83F&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202611160000&periodEnd=202611180000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A85&controlArea_Domain=10Y1001A1001A83F&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10Y1001A1001A82H&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10YFR-RTE------C&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "15 min bis Stunden",
+    "history": "ab 2015",
+    "rateLimit": "400 Anfragen/min je Token",
+    "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "entsoe",
+    "signals": [
+      "blackout.grid.balancing_energy_activation",
+      "blackout.grid.cross_border_flows_de",
+      "blackout.grid.generation_forecast_gap",
+      "blackout.prices.imbalance_price_rebap",
+      "blackout.prices.day_ahead_de",
+      "blackout.plants.entsoe_unavailability_gen",
+      "blackout.plants.nuclear_generation_fr_measured"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "entsog",
+    "name": "ENTSOG Transparency Platform API",
+    "docUrl": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+    "endpoints": [
+      "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&pointDirection=lng&periodType=day&from=2026-11-01&to=2026-11-17&limit=200",
+      "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&periodType=day&from=2026-11-10&to=2026-11-17&limit=500",
+      "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&pointDirection=de&periodType=day&from=2026-11-10&to=2026-11-17&limit=500",
+      "https://transparency.entsog.eu/api/v1/interruptions?from=2026-11-01&to=2026-11-17&limit=200",
+      "https://transparency.entsog.eu/api/v1/operationalData?indicator=Nomination&periodType=day&from=2026-11-10&to=2026-11-17&limit=300"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "ab 2017",
+    "rateLimit": "unklar",
+    "license": "ENTSOG, Quellenangabe, unklar im Detail",
+    "verified": false,
+    "aliases": [],
+    "collector": "entsog",
+    "signals": [
+      "blackout.gas.pipeline_flows_entry",
+      "blackout.gas.entsog_interruptions",
+      "blackout.gas.lng_terminal_sendout",
+      "blackout.gas.interconnector_reverse_flows",
+      "blackout.gas.norwegian_flow_nominations"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "fingrid",
+    "name": "Fingrid Open Data (Dataset 177 Frequenz)",
+    "docUrl": "https://data.fingrid.fi/en/instructions",
+    "endpoints": [
+      "https://data.fingrid.fi/api/datasets/177/data?pageSize=100"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "3 Minuten",
+    "history": "ab 2012",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "fingrid",
+    "signals": [
+      "blackout.grid.frequency_cross_check_gb_nordic"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "gassco",
+    "name": "Gassco UMM (Urgent Market Messages)",
+    "docUrl": "https://umm.gassco.no/",
+    "endpoints": [
+      "https://umm.gassco.no/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ereignisabhängig",
+    "history": "ab 2015 (Archiv über Plattform)",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "gassco",
+    "signals": [
+      "blackout.gas.norway_outages_gassco"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "gdelt-doc",
+    "name": "GDELT DOC 2.0 API",
+    "docUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=(Stromausfall%20OR%20Blackout%20OR%20Gasmangellage)%20sourcelang:german&mode=timelinevol&format=json&timespan=30d"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "3 Monate je Anfrage",
+    "rateLimit": "unklar",
+    "license": "GDELT, frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "gdelt-doc",
+    "signals": [
+      "blackout.attention.gdelt_blackout_news"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "gie-remit",
+    "name": "GIE Inside Information Platform (REMIT)",
+    "docUrl": "https://iip.gie.eu/",
+    "endpoints": [
+      "https://iip.gie.eu/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ereignisabhängig",
+    "history": "mehrere Jahre",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "gie-remit",
+    "signals": [
+      "blackout.gas.norway_outages_gassco"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "github-gas-henry-hub",
+    "name": "datasets/natural-gas (GitHub-Spiegel EIA)",
+    "docUrl": "https://github.com/datasets/natural-gas",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/natural-gas/main/data/daily.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ca. 1 Woche Verzug",
+    "history": "ab 1997",
+    "rateLimit": "unklar",
+    "license": "ODC-PDDL-1.0",
+    "verified": true,
+    "aliases": [
+      "github-natural-gas"
+    ],
+    "collector": "github-gas-henry-hub",
+    "signals": [
+      "blackout.markets.henry_hub_gas"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "github-oil-prices",
+    "name": "datasets/oil-prices (GitHub-Spiegel EIA)",
+    "docUrl": "https://github.com/datasets/oil-prices",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ca. 1 Woche Verzug",
+    "history": "ab 1987",
+    "rateLimit": "unklar",
+    "license": "ODC-PDDL-1.0",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-oil-prices",
+    "signals": [
+      "blackout.markets.brent_oil"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "iaea-pris",
+    "name": "IAEA PRIS",
+    "docUrl": "https://pris.iaea.org/PRIS/",
+    "endpoints": [
+      "https://pris.iaea.org/PRIS/CountryStatistics/CountryDetails.aspx?current=FR"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1950er",
+    "rateLimit": "unklar",
+    "license": "IAEA Nutzungsbedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "iaea-pris",
+    "signals": [
+      "blackout.plants.nuclear_status_pris"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "ioda",
+    "name": "IODA (Georgia Tech)",
+    "docUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+    "endpoints": [
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Jahre",
+    "rateLimit": "unklar",
+    "license": "unklar (akademisch, nicht-kommerziell)",
+    "verified": false,
+    "aliases": [],
+    "collector": "ioda",
+    "signals": [
+      "blackout.outages.ioda_country_internet"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "nager-date",
+    "name": "Nager.Date Feiertags-API",
+    "docUrl": "https://date.nager.at/Api",
+    "endpoints": [
+      "https://date.nager.at/api/v3/PublicHolidays/2026/DE"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "statisch",
+    "history": "mehrere Jahre",
+    "rateLimit": "unklar",
+    "license": "MIT",
+    "verified": false,
+    "aliases": [],
+    "collector": "nager-date",
+    "signals": [
+      "blackout.context.public_holidays_calendar"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "netzfrequenzmessung",
+    "name": "netzfrequenzmessung.de",
+    "docUrl": "https://netzfrequenzmessung.de/",
+    "endpoints": [
+      "https://netzfrequenzmessung.de/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "Tagesdateien (Struktur unklar)",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "netzfrequenzmessung",
+    "signals": [
+      "blackout.grid.frequency_de_deviation"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "netztransparenz",
+    "name": "Netztransparenz.de (4 ÜNB)",
+    "docUrl": "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung/Redispatch",
+    "endpoints": [
+      "https://ds.netztransparenz.de/api/v1/data/NrvSaldo/Qualitaetsgesichert/2026-11-01T00:00:00/2026-11-17T00:00:00",
+      "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung/Redispatch",
+      "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung",
+      "https://ds.netztransparenz.de/api/v1/data/IdIndex3?dateFrom=2026-11-01T00:00:00&dateTo=2026-11-17T00:00:00",
+      "https://ds.netztransparenz.de/api/v1/data/ReBAP/2026-11-01T00:00:00/2026-11-17T00:00:00"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich bis monatlich",
+    "history": "ab 2013",
+    "rateLimit": "unklar",
+    "license": "Quellenangabe, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "netztransparenz",
+    "signals": [
+      "blackout.grid.balancing_energy_activation",
+      "blackout.grid.system_security_measures",
+      "blackout.grid.redispatch_volume",
+      "blackout.prices.imbalance_price_rebap",
+      "blackout.prices.intraday_price_index"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "nina-mowas",
+    "name": "NINA / MoWaS Warn-API",
+    "docUrl": "https://nina.api.bund.dev/",
+    "endpoints": [
+      "https://warnung.bund.de/api31/mowas/mapData.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "nur Live",
+    "rateLimit": "unklar",
+    "license": "Datenlizenz Deutschland",
+    "verified": false,
+    "aliases": [],
+    "collector": "nina-mowas",
+    "signals": [
+      "blackout.outages.mowas_power_warnings"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "noaa-swpc",
+    "name": "NOAA SWPC",
+    "docUrl": "https://www.swpc.noaa.gov/",
+    "endpoints": [
+      "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "3 h / Minuten",
+    "history": "30 Tage",
+    "rateLimit": "unklar",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "noaa-swpc",
+    "signals": [
+      "blackout.weather.geomagnetic_storm"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "nve",
+    "name": "NVE Magasinstatistikk (Norwegen)",
+    "docUrl": "https://api.nve.no/doc/magasinstatistikk/",
+    "endpoints": [
+      "https://biapi.nve.no/magasinstatistikk/api/Magasinstatistikk/HentOffentligData"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "ab 1995",
+    "rateLimit": "unklar",
+    "license": "NLOD (Norwegian Licence for Open Government Data)",
+    "verified": false,
+    "aliases": [],
+    "collector": "nve",
+    "signals": [
+      "blackout.plants.hydro_reservoir_nordic_alps"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "open-meteo",
+    "name": "Open-Meteo",
+    "docUrl": "https://open-meteo.com/en/docs",
+    "endpoints": [
+      "https://api.open-meteo.com/v1/forecast?latitude=54.2,52.5,48.5&longitude=7.9,10.5,11.5&hourly=wind_speed_100m,shortwave_radiation,cloud_cover&forecast_days=10",
+      "https://api.open-meteo.com/v1/forecast?latitude=52.5&longitude=13.4&hourly=temperature_2m&daily=temperature_2m_min&forecast_days=14",
+      "https://ensemble-api.open-meteo.com/v1/ensemble?latitude=52.5&longitude=13.4&hourly=temperature_2m&models=icon_seamless",
+      "https://seasonal-api.open-meteo.com/v1/seasonal?latitude=52.5&longitude=13.4&six_hourly=temperature_2m_anomaly&forecast_days=92",
+      "https://api.open-meteo.com/v1/forecast?latitude=54.2&longitude=8.5&hourly=wind_gusts_10m&forecast_days=7",
+      "https://api.open-meteo.com/v1/forecast?latitude=51.9&longitude=7.6&hourly=precipitation,freezing_level_height,temperature_2m&forecast_days=3",
+      "https://flood-api.open-meteo.com/v1/flood?latitude=48.1&longitude=11.6&daily=river_discharge&forecast_days=30",
+      "https://api.open-meteo.com/v1/forecast?latitude=48.9,52.2,59.9&longitude=2.4,21.0,10.7&daily=temperature_2m_min&forecast_days=10"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "Vorhersage 16 Tage; Archiv ERA5 ab 1940 über archive-api.open-meteo.com",
+    "rateLimit": "10 000 Aufrufe/Tag nicht-kommerziell",
+    "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+    "verified": false,
+    "aliases": [],
+    "collector": "open-meteo",
+    "signals": [
+      "blackout.weather.dunkelflaute_wind_pv_forecast",
+      "blackout.weather.cold_wave_temperature",
+      "blackout.weather.ensemble_cold_risk",
+      "blackout.weather.icing_snow_load",
+      "blackout.weather.storm_wind_gusts_forecast",
+      "blackout.weather.seasonal_outlook",
+      "blackout.weather.heat_drought_summer"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "pegelonline",
+    "name": "Pegelonline (WSV)",
+    "docUrl": "https://www.pegelonline.wsv.de/webservice/dokuRestapi",
+    "endpoints": [
+      "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/KAUB/W/measurements.json?start=P30D",
+      "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/DRESDEN/W/measurements.json?start=P30D",
+      "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/FRANKFURT-OSTHAFEN/W/measurements.json?start=P30D",
+      "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/KAUB/WT/measurements.json?start=P30D"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "30 Tage per API (start=P30D), Stationsdaten länger über /W.json?start=",
+    "rateLimit": "unklar",
+    "license": "Datenlizenz Deutschland Namensnennung 2.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "pegelonline",
+    "signals": [
+      "blackout.plants.rhine_gauge_kaub",
+      "blackout.plants.river_temperature_cooling"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "polymarket-gamma",
+    "name": "Polymarket Gamma API",
+    "docUrl": "https://docs.polymarket.com/",
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?limit=50&active=true&closed=false&order=volume&ascending=false"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "je Markt",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "polymarket"
+    ],
+    "collector": "polymarket-gamma",
+    "signals": [
+      "blackout.attention.polymarket_energy_bets"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "poweroutage-us",
+    "name": "PowerOutage.us",
+    "docUrl": "https://poweroutage.us/",
+    "endpoints": [
+      "https://poweroutage.us/api/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "paid",
+    "cost": "paid",
+    "updateLatency": "Minuten",
+    "history": "ab 2017",
+    "rateLimit": "unklar",
+    "license": "kommerziell",
+    "verified": false,
+    "aliases": [],
+    "collector": "poweroutage-us",
+    "signals": [
+      "blackout.outages.us_outage_counts_eaglei"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "pse",
+    "name": "PSE Raporty (Polen)",
+    "docUrl": "https://api.raporty.pse.pl/",
+    "endpoints": [
+      "https://api.raporty.pse.pl/api/kse-load?$first=5"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "mehrere Jahre",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "pse",
+    "signals": [
+      "blackout.grid.poland_pse_load_reserve"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "ree",
+    "name": "REData API (Red Eléctrica)",
+    "docUrl": "https://www.ree.es/en/apidatos",
+    "endpoints": [
+      "https://apidatos.ree.es/en/datos/demanda/evolucion?start_date=2026-11-16T00:00&end_date=2026-11-17T00:00&time_trunc=hour"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "ab 2014",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "ree",
+    "signals": [
+      "blackout.grid.spain_ree_system"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "regelleistung",
+    "name": "regelleistung.net Datencenter",
+    "docUrl": "https://www.regelleistung.net/",
+    "endpoints": [
+      "https://www.regelleistung.net/apps/datacenter/tenders/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2007",
+    "rateLimit": "unklar",
+    "license": "Quellenangabe, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "regelleistung",
+    "signals": [
+      "blackout.grid.reserve_prices_fcr_afrr"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "ripe-atlas",
+    "name": "RIPE Atlas",
+    "docUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+    "endpoints": [
+      "https://atlas.ripe.net/api/v2/probes/?country_code=DE&status=1&page_size=1"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Jahre",
+    "rateLimit": "unklar",
+    "license": "RIPE Atlas Terms",
+    "verified": false,
+    "aliases": [],
+    "collector": "ripe-atlas",
+    "signals": [
+      "blackout.outages.rtt_internet_probe_dach"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "rte-eco2mix",
+    "name": "RTE éCO2mix via ODRÉ (Open Data Réseaux Énergies)",
+    "docUrl": "https://odre.opendatasoft.com/explore/dataset/eco2mix-national-tr/",
+    "endpoints": [
+      "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=5&order_by=date_heure%20desc"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "ab 2012 (konsolidiert)",
+    "rateLimit": "unklar",
+    "license": "Licence Ouverte Etalab 2.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "rte-eco2mix",
+    "signals": [
+      "blackout.plants.france_nuclear_availability"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "smard",
+    "name": "SMARD (Bundesnetzagentur)",
+    "docUrl": "https://www.smard.de/",
+    "endpoints": [
+      "https://www.smard.de/app/chart_data/410/DE/index_hour.json",
+      "https://www.smard.de/app/chart_data/4359/DE/index_hour.json",
+      "https://www.smard.de/app/chart_data/4071/DE/index_hour.json",
+      "https://www.smard.de/app/chart_data/4169/DE/index_hour.json",
+      "https://www.smard.de/app/chart_data/4070/DE/index_hour.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "ab 2015 (Wochendateien über Index)",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0 (Bundesnetzagentur | SMARD.de)",
+    "verified": true,
+    "aliases": [],
+    "collector": "smard",
+    "signals": [
+      "blackout.grid.generation_forecast_gap",
+      "blackout.grid.residual_load_de",
+      "blackout.grid.gas_coal_fossil_ramp_de",
+      "blackout.grid.net_load_de",
+      "blackout.prices.day_ahead_de",
+      "blackout.plants.pumped_storage_hydro_de"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "stoerungsauskunft",
+    "name": "StörungsAuskunft.de",
+    "docUrl": "https://www.stoerungsauskunft.de/",
+    "endpoints": [
+      "https://www.stoerungsauskunft.de/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "keine",
+    "rateLimit": "unklar",
+    "license": "unklar, Nutzungsbedingungen prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "stoerungsauskunft",
+    "signals": [
+      "blackout.outages.dso_fault_portals_de"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "swissgrid",
+    "name": "Swissgrid Netzdaten",
+    "docUrl": "https://www.swissgrid.ch/en/home/operation/grid-data.html",
+    "endpoints": [
+      "https://www.swissgrid.ch/en/home/operation/grid-data/current-data.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "eingeschränkt",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "swissgrid",
+    "signals": [
+      "blackout.grid.synchronous_time_deviation"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "the",
+    "name": "Trading Hub Europe Transparenz",
+    "docUrl": "https://www.tradinghub.eu/de-de/Publikationen/Transparenz",
+    "endpoints": [
+      "https://www.tradinghub.eu/de-de/Publikationen/Transparenz"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2021",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "the",
+    "signals": [
+      "blackout.gas.the_balancing_prices"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "ukpn",
+    "name": "UK Power Networks Open Data",
+    "docUrl": "https://ukpowernetworks.opendatasoft.com/explore/dataset/ukpn-live-faults/",
+    "endpoints": [
+      "https://ukpowernetworks.opendatasoft.com/api/explore/v2.1/catalog/datasets/ukpn-live-faults/records?limit=20"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "eingeschränkt",
+    "rateLimit": "unklar",
+    "license": "UKPN Open Data Licence",
+    "verified": false,
+    "aliases": [],
+    "collector": "ukpn",
+    "signals": [
+      "blackout.outages.ukpn_enedis_open_data"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "ukrenergo",
+    "name": "Ukrenergo",
+    "docUrl": "https://ua.energy/",
+    "endpoints": [
+      "https://ua.energy/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "keine",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "ukrenergo",
+    "signals": [
+      "blackout.outages.ukraine_grid_restrictions"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "wikimedia-pageviews",
+    "name": "Wikimedia Pageviews API",
+    "docUrl": "https://doc.wikimedia.org/generated-rest-api/",
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stromausfall/daily/20261001/20261117",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notstromaggregat/daily/20261001/20261117"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 Tag",
+    "history": "ab 2015",
+    "rateLimit": "unklar",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "wikimedia-pageviews",
+    "signals": [
+      "blackout.attention.wikipedia_pageviews_blackout"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  },
+  {
+    "id": "yahoo-chart",
+    "name": "Yahoo Finance Chart API",
+    "docUrl": "https://query1.finance.yahoo.com/",
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/KRBN?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/TTF=F?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/RWE.DE?range=3mo&interval=1d"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min Verzug",
+    "history": "Jahre",
+    "rateLimit": "unklar",
+    "license": "Nutzungsbedingungen Yahoo, privat",
+    "verified": false,
+    "aliases": [
+      "yahoo"
+    ],
+    "collector": "yahoo-chart",
+    "signals": [
+      "blackout.prices.carbon_eua",
+      "blackout.markets.ttf_front_month",
+      "blackout.markets.energy_equities"
+    ],
+    "scenarios": [
+      "blackout"
+    ]
+  }
+]

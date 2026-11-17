@@ -1,0 +1,44 @@
+{
+  "id": "finance",
+  "order": 5,
+  "title": "Finanzkrise und Bankenstress",
+  "question": "Bahnt sich eine Finanzkrise oder ein Ansturm auf Banken an?",
+  "tagline": "Geldmarkt, Kreditaufschläge, Banken, Schwankungen, Krypto, Insolvenzen",
+  "domains": {
+    "money_market": {
+      "title": "Geldmarkt",
+      "weight": 1,
+      "plain": "Was sich Banken untereinander und bei Zentralbanken zum Tagesgeld leihen müssen"
+    },
+    "credit": {
+      "title": "Kreditaufschläge",
+      "weight": 1,
+      "plain": "Aufpreise für riskante Kredite, Staatsanleihen-Abstände, Zinskurve"
+    },
+    "banks": {
+      "title": "Banken",
+      "weight": 1,
+      "plain": "Bankaktien, Pleiten, Einlagen, Pflichtmeldungen"
+    },
+    "volatility": {
+      "title": "Schwankungen",
+      "weight": 0.8,
+      "plain": "Angstbarometer an Aktien-, Anleihe- und Devisenmärkten"
+    },
+    "crypto": {
+      "title": "Krypto",
+      "weight": 0.5,
+      "plain": "Stablecoins, Abflüsse, Gebühren"
+    },
+    "real_economy": {
+      "title": "Realwirtschaft",
+      "weight": 0.6,
+      "plain": "Insolvenzen, Arbeitslosenanträge, Frachtraten, Metallpreise"
+    },
+    "markets": {
+      "title": "Märkte",
+      "weight": 0.5,
+      "plain": "Wettmärkte, Gold, Fluchtwährungen"
+    }
+  }
+}

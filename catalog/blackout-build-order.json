@@ -1,0 +1,505 @@
+[
+  {
+    "rank": 1,
+    "collector": "github-gas-henry-hub",
+    "domain": "markets",
+    "domains": [
+      "markets"
+    ],
+    "signals": [
+      "blackout.markets.henry_hub_gas"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/natural-gas/main/data/daily.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": "github-gas-henry-hub",
+    "extendsWhat": "Nur Signal-Deklaration ergänzen (blackout.markets.henry_hub_gas, scenarios blackout); Abruf unverändert.",
+    "uncertainty": "Messfeld laut Recherche: Date,Price (USD/MMBtu); letzter Wert 2026-11-11 (geprüft 17.11.2026).",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (datasets/natural-gas daily.csv: letzte Zeile 11.11.2026); erweitert bestehenden Collector github-gas-henry-hub; ohne Key, kostenlos; kleine CSV-Antwort; Historie: ab 1997; max. Gewicht 0.30, 1 Signal(e)"
+  },
+  {
+    "rank": 2,
+    "collector": "github-oil-prices",
+    "domain": "markets",
+    "domains": [
+      "markets"
+    ],
+    "signals": [
+      "blackout.markets.brent_oil"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": "github-oil-prices",
+    "extendsWhat": "Nur Signal-Deklaration ergänzen (blackout.markets.brent_oil, scenarios blackout); Abruf unverändert.",
+    "uncertainty": "Messfeld laut Recherche: Date,Price (USD/bbl); letzter Wert 2026-11-11: 92,14 (geprüft 17.11.2026).",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (datasets/oil-prices brent-daily.csv: letzte Zeile 11.11.2026); erweitert bestehenden Collector github-oil-prices; ohne Key, kostenlos; kleine CSV-Antwort; Historie: ab 1987; max. Gewicht 0.30, 1 Signal(e)"
+  },
+  {
+    "rank": 3,
+    "collector": "cisa-ics",
+    "domain": "grid",
+    "domains": [
+      "grid"
+    ],
+    "signals": [
+      "blackout.grid.ics_advisories_energy"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/changes.csv"
+    ],
+    "format": "xml",
+    "history": true,
+    "verified": true,
+    "live": true,
+    "extends": "cisa-ics",
+    "extendsWhat": "Filter ergänzen: Advisories von Energie-Herstellern (Siemens Energy, Schneider, ABB, GE Vernova, Hitachi Energy) aus changes.csv und den JSON-Advisories.",
+    "uncertainty": "Messfeld laut Recherche: Advisories filtern auf Siemens, Schneider, ABB (Energie).",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (cisagov/CSAF OT/white/changes.csv: letzter Eintrag 12.11.2026); erweitert bestehenden Collector cisa-ics; ohne Key, kostenlos; kleine XML-Antwort; Historie: Jahre; max. Gewicht 0.20, 1 Signal(e)"
+  },
+  {
+    "rank": 4,
+    "collector": "energy-charts",
+    "domain": "grid",
+    "domains": [
+      "grid",
+      "plants",
+      "prices"
+    ],
+    "signals": [
+      "blackout.grid.frequency_de_deviation",
+      "blackout.grid.cross_border_flows_de",
+      "blackout.grid.energy_charts_signal",
+      "blackout.grid.gas_coal_fossil_ramp_de",
+      "blackout.grid.wind_solar_infeed_de",
+      "blackout.prices.day_ahead_de",
+      "blackout.prices.day_ahead_spread_neighbors",
+      "blackout.prices.negative_price_hours",
+      "blackout.plants.nuclear_generation_fr_measured"
+    ],
+    "endpoints": [
+      "https://api.energy-charts.info/frequency?country=de&start=2026-11-17T10:00+01:00&end=2026-11-17T10:15+01:00",
+      "https://api.energy-charts.info/cbet?country=de&start=2026-11-16&end=2026-11-17",
+      "https://api.energy-charts.info/signal?country=de",
+      "https://api.energy-charts.info/public_power?country=de&start=2026-11-16&end=2026-11-17",
+      "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-16&end=2026-11-18",
+      "https://api.energy-charts.info/price?bzn=FR&start=2026-11-16&end=2026-11-18",
+      "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-01&end=2026-11-18",
+      "https://api.energy-charts.info/public_power?country=fr&start=2026-11-16&end=2026-11-17"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "live": false,
+    "extends": "energy-charts",
+    "extendsWhat": "Endpunkte ergänzen: /price (Day-Ahead DE und Nachbarländer), /public_power (Grenzflüsse, Gas/Kohle, Pumpspeicher, Kernkraft FR mit country=fr), /signal (Versorgungsampel); Frequenz und Wind+Solar liefert er schon.",
+    "uncertainty": "Messfeld laut Recherche: { unix_seconds, data } in Sekunden; Fenster klein halten (3 h waren 204 kB). Messwert data in Hz.",
+    "why": "erweitert bestehenden Collector energy-charts; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Sekundenreihe, Fenster per start/end; max. Gewicht 0.90, 9 Signal(e)"
+  },
+  {
+    "rank": 5,
+    "collector": "ioda",
+    "domain": "outages",
+    "domains": [
+      "outages"
+    ],
+    "signals": [
+      "blackout.outages.ioda_country_internet"
+    ],
+    "endpoints": [
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "ioda",
+    "extendsWhat": "Länder ergänzen: DE, FR, PL, NL, ES, UA (Länder-Signale im Routing und Ping).",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Signale bgp, ping-slash24, merit-nt je Land.; Lizenz: unklar (akademisch, nicht-kommerziell)",
+    "why": "erweitert bestehenden Collector ioda; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Jahre; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 6,
+    "collector": "smard",
+    "domain": "grid",
+    "domains": [
+      "grid",
+      "plants"
+    ],
+    "signals": [
+      "blackout.grid.generation_forecast_gap",
+      "blackout.grid.residual_load_de",
+      "blackout.grid.net_load_de",
+      "blackout.plants.pumped_storage_hydro_de"
+    ],
+    "endpoints": [
+      "https://www.smard.de/app/chart_data/410/DE/index_hour.json",
+      "https://www.smard.de/app/chart_data/4359/DE/index_hour.json",
+      "https://www.smard.de/app/chart_data/4070/DE/index_hour.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "live": false,
+    "extends": "smard",
+    "extendsWhat": "Filter ergänzen: Residuallast, Prognose gegen Ist, Pumpspeicher; Netzlast liefert er schon.",
+    "uncertainty": "Messfeld laut Recherche: Ist-Last, Prognose-Abgleich über Filter 411 (Prognostizierter Verbrauch, im Collector nicht geprüft)",
+    "why": "erweitert bestehenden Collector smard; ohne Key, kostenlos; kleine JSON-Antwort; Historie: ab 2015 (Wochendateien über Index); max. Gewicht 0.60, 4 Signal(e)"
+  },
+  {
+    "rank": 7,
+    "collector": "ripe-atlas",
+    "domain": "outages",
+    "domains": [
+      "outages"
+    ],
+    "signals": [
+      "blackout.outages.rtt_internet_probe_dach"
+    ],
+    "endpoints": [
+      "https://atlas.ripe.net/api/v2/probes/?country_code=DE&status=1&page_size=1"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "ripe-atlas",
+    "extendsWhat": "Länder ergänzen: FR, PL, NL, AT, CH neben DE (Probe-Zahl status=1).",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Feld count der verbundenen Probes in DE.",
+    "why": "erweitert bestehenden Collector ripe-atlas; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Jahre; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 8,
+    "collector": "noaa-swpc",
+    "domain": "weather",
+    "domains": [
+      "weather"
+    ],
+    "signals": [
+      "blackout.weather.geomagnetic_storm"
+    ],
+    "endpoints": [
+      "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "noaa-swpc",
+    "extendsWhat": "Nur Signal-Deklaration ergänzen (blackout.weather.geomagnetic_storm, Kp aus bestehendem Abruf).",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Planetary K-Index.",
+    "why": "erweitert bestehenden Collector noaa-swpc; ohne Key, kostenlos; kleine JSON-Antwort; Historie: 30 Tage; max. Gewicht 0.40, 1 Signal(e)"
+  },
+  {
+    "rank": 9,
+    "collector": "yahoo-chart",
+    "domain": "markets",
+    "domains": [
+      "markets",
+      "prices"
+    ],
+    "signals": [
+      "blackout.prices.carbon_eua",
+      "blackout.markets.ttf_front_month",
+      "blackout.markets.energy_equities"
+    ],
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/KRBN?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/TTF=F?range=3mo&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/RWE.DE?range=3mo&interval=1d"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "yahoo-chart",
+    "extendsWhat": "Symbole ergänzen: TTF=F (Gas-Frontmonat), RWE.DE, EOAN.DE, ENR.DE, VER.VI, EUA-Proxy KRBN.",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: KRBN ist ETF auf Kohlenstoffzertifikate; Tickerstellvertreter, Aussagekraft begrenzt.",
+    "why": "erweitert bestehenden Collector yahoo-chart; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Jahre; max. Gewicht 0.40, 3 Signal(e)"
+  },
+  {
+    "rank": 10,
+    "collector": "cloudflare-radar",
+    "domain": "outages",
+    "domains": [
+      "outages"
+    ],
+    "signals": [
+      "blackout.outages.cloudflare_radar_outages"
+    ],
+    "endpoints": [
+      "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": "cloudflare-radar",
+    "extendsWhat": "Ausfallmeldungen (outages) nach Ursache Stromausfall filtern, Länder DE, FR, PL, ES, UA; braucht Key.",
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: annotations[{locations, outage.outageCause, startDate}]; Lizenz: CC BY-NC 4.0; braucht Key/Konto",
+    "why": "erweitert bestehenden Collector cloudflare-radar; braucht Key/Konto; Format/Zugang aufwändiger; Historie: ab 2022; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 11,
+    "collector": "entsog",
+    "domain": "gas",
+    "domains": [
+      "gas"
+    ],
+    "signals": [
+      "blackout.gas.pipeline_flows_entry",
+      "blackout.gas.entsog_interruptions",
+      "blackout.gas.lng_terminal_sendout",
+      "blackout.gas.interconnector_reverse_flows",
+      "blackout.gas.norwegian_flow_nominations"
+    ],
+    "endpoints": [
+      "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&periodType=day&from=2026-11-10&to=2026-11-17&limit=500",
+      "https://transparency.entsog.eu/api/v1/interruptions?from=2026-11-01&to=2026-11-17&limit=200",
+      "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&pointDirection=lng&periodType=day&from=2026-11-01&to=2026-11-17&limit=200",
+      "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&pointDirection=de&periodType=day&from=2026-11-10&to=2026-11-17&limit=500",
+      "https://transparency.entsog.eu/api/v1/operationalData?indicator=Nomination&periodType=day&from=2026-11-10&to=2026-11-17&limit=300"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Felder pointKey, directionKey, value (kWh/d); Punkte filtern auf Emden, Dornum, Dunkerque, Zeebrugge, Oberkappel; Lizenz: ENTSOG, Quellenangabe, unklar im Detail",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: ab 2017; max. Gewicht 0.80, 5 Signal(e)"
+  },
+  {
+    "rank": 12,
+    "collector": "netztransparenz",
+    "domain": "grid",
+    "domains": [
+      "grid",
+      "prices"
+    ],
+    "signals": [
+      "blackout.grid.balancing_energy_activation",
+      "blackout.grid.system_security_measures",
+      "blackout.grid.redispatch_volume",
+      "blackout.prices.imbalance_price_rebap",
+      "blackout.prices.intraday_price_index"
+    ],
+    "endpoints": [
+      "https://ds.netztransparenz.de/api/v1/data/NrvSaldo/Qualitaetsgesichert/2026-11-01T00:00:00/2026-11-17T00:00:00",
+      "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung",
+      "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung/Redispatch",
+      "https://ds.netztransparenz.de/api/v1/data/ReBAP/2026-11-01T00:00:00/2026-11-17T00:00:00",
+      "https://ds.netztransparenz.de/api/v1/data/IdIndex3?dateFrom=2026-11-01T00:00:00&dateTo=2026-11-17T00:00:00"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: NRV-Saldo (Netzregelverbund) in MW; OAuth-Client-Credentials nötig, Endpunktname nicht live geprüft.; Lizenz: Quellenangabe, unklar",
+    "why": "ohne Key, kostenlos (3 Signal(e) der Quelle brauchen Key); kleine CSV-Antwort; Historie: ab 2013; max. Gewicht 0.80, 5 Signal(e)"
+  },
+  {
+    "rank": 13,
+    "collector": "open-meteo",
+    "domain": "weather",
+    "domains": [
+      "weather"
+    ],
+    "signals": [
+      "blackout.weather.dunkelflaute_wind_pv_forecast",
+      "blackout.weather.cold_wave_temperature",
+      "blackout.weather.ensemble_cold_risk",
+      "blackout.weather.icing_snow_load",
+      "blackout.weather.storm_wind_gusts_forecast",
+      "blackout.weather.seasonal_outlook",
+      "blackout.weather.heat_drought_summer"
+    ],
+    "endpoints": [
+      "https://api.open-meteo.com/v1/forecast?latitude=54.2,52.5,48.5&longitude=7.9,10.5,11.5&hourly=wind_speed_100m,shortwave_radiation,cloud_cover&forecast_days=10",
+      "https://api.open-meteo.com/v1/forecast?latitude=52.5&longitude=13.4&hourly=temperature_2m&daily=temperature_2m_min&forecast_days=14",
+      "https://ensemble-api.open-meteo.com/v1/ensemble?latitude=52.5&longitude=13.4&hourly=temperature_2m&models=icon_seamless",
+      "https://api.open-meteo.com/v1/forecast?latitude=51.9&longitude=7.6&hourly=precipitation,freezing_level_height,temperature_2m&forecast_days=3",
+      "https://api.open-meteo.com/v1/forecast?latitude=54.2&longitude=8.5&hourly=wind_gusts_10m&forecast_days=7",
+      "https://seasonal-api.open-meteo.com/v1/seasonal?latitude=52.5&longitude=13.4&six_hourly=temperature_2m_anomaly&forecast_days=92",
+      "https://flood-api.open-meteo.com/v1/flood?latitude=48.1&longitude=11.6&daily=river_discharge&forecast_days=30"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Stündliche Wind- und Strahlungswerte je Punkt; mehrere Punkte mitteln (Nordsee, Mitte, Süd); Lizenz: CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz); Rate-Limit: 10 000 Aufrufe/Tag nicht-kommerziell",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: Vorhersage 16 Tage; Archiv ERA5 ab 1940 über archive-api.open-meteo.com; max. Gewicht 0.80, 7 Signal(e)"
+  },
+  {
+    "rank": 14,
+    "collector": "elexon",
+    "domain": "grid",
+    "domains": [
+      "grid"
+    ],
+    "signals": [
+      "blackout.grid.frequency_cross_check_gb_nordic",
+      "blackout.grid.gb_system_margin"
+    ],
+    "endpoints": [
+      "https://data.elexon.co.uk/bmrs/api/v1/datasets/FREQ?format=json",
+      "https://data.elexon.co.uk/bmrs/api/v1/datasets/SYSWARN?format=json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Netzfrequenz GB, Feld frequency in Hz; Parameter laut Doku, nicht geprüft.",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: mehrere Jahre; max. Gewicht 0.70, 2 Signal(e)"
+  },
+  {
+    "rank": 15,
+    "collector": "rte-eco2mix",
+    "domain": "plants",
+    "domains": [
+      "plants"
+    ],
+    "signals": [
+      "blackout.plants.france_nuclear_availability"
+    ],
+    "endpoints": [
+      "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=5&order_by=date_heure%20desc"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Feld nucleaire (MW) liefert Ist-Erzeugung Kernkraft; nicht geprüft.",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: ab 2012 (konsolidiert); max. Gewicht 0.70, 1 Signal(e)"
+  },
+  {
+    "rank": 16,
+    "collector": "bright-sky",
+    "domain": "weather",
+    "domains": [
+      "weather"
+    ],
+    "signals": [
+      "blackout.weather.dwd_measured_conditions",
+      "blackout.weather.storm_warnings_dwd"
+    ],
+    "endpoints": [
+      "https://api.brightsky.dev/current_weather?lat=52.5&lon=13.4",
+      "https://api.brightsky.dev/alerts?lat=52.5&lon=13.4"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: weather.temperature, wind_speed, solar_60 pro Station; kostenlos, 1 Anfrage",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: Vergangenheit per date/last_date; max. Gewicht 0.60, 2 Signal(e)"
+  },
+  {
+    "rank": 17,
+    "collector": "pegelonline",
+    "domain": "plants",
+    "domains": [
+      "plants"
+    ],
+    "signals": [
+      "blackout.plants.rhine_gauge_kaub",
+      "blackout.plants.river_temperature_cooling"
+    ],
+    "endpoints": [
+      "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/KAUB/W/measurements.json?start=P30D",
+      "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/KAUB/WT/measurements.json?start=P30D"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Messwert value in cm, Zeitreihe zeitlich getaktet, Station KAUB (Rhein km 546)",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: 30 Tage per API (start=P30D), Stationsdaten länger über /W.json?start=; max. Gewicht 0.60, 2 Signal(e)"
+  },
+  {
+    "rank": 18,
+    "collector": "pse",
+    "domain": "grid",
+    "domains": [
+      "grid"
+    ],
+    "signals": [
+      "blackout.grid.poland_pse_load_reserve"
+    ],
+    "endpoints": [
+      "https://api.raporty.pse.pl/api/kse-load?$first=5"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: OData-API ohne Key; Datasetname und Feldnamen nicht live geprüft.; Lizenz: unklar",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: mehrere Jahre; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 19,
+    "collector": "regelleistung",
+    "domain": "grid",
+    "domains": [
+      "grid"
+    ],
+    "signals": [
+      "blackout.grid.reserve_prices_fcr_afrr"
+    ],
+    "endpoints": [
+      "https://www.regelleistung.net/apps/datacenter/tenders/"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Excel/CSV-Export der Ausschreibungsergebnisse (Leistungspreise, Mengen); Download-Pfad nicht geprüft.; Lizenz: Quellenangabe, unklar",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: ab 2007; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 20,
+    "collector": "bnetza-gas",
+    "domain": "gas",
+    "domains": [
+      "gas"
+    ],
+    "signals": [
+      "blackout.gas.consumption_industry_bnetza"
+    ],
+    "endpoints": [
+      "https://www.bundesnetzagentur.de/DE/Gasversorgung/aktuelle_gasversorgung/_svg/Gasverbrauch_Gesamt/Gasverbrauch_Gesamt.html"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "live": false,
+    "extends": null,
+    "extendsWhat": null,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Verbrauchsdaten Tabelle/Grafik; Datei-URL nicht geprüft.; Lizenz: unklar",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: ab 2018; max. Gewicht 0.50, 1 Signal(e)"
+  }
+]

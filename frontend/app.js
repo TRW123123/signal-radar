@@ -167,6 +167,12 @@ class LadeFehler extends Error { constructor(grund) { super(grund); this.grund =
 
 async function laden() {
   if (demo != null && !DEMOS.includes(demo)) throw new LadeFehler(L.fehler.grund.demo);
+  // Einzeldatei-Fassung (scripts/build_single.py): der Snapshot ist in die Seite eingebettet, kein Abruf nötig.
+  const eingebettet = !demo && globalThis.__SR_SNAPSHOT__;
+  if (eingebettet) {
+    if (eingebettet.schema !== 1 || !Array.isArray(eingebettet.scenarios) || !eingebettet.scenarios.length) throw new LadeFehler(L.fehler.grund.format);
+    return eingebettet;
+  }
   const url = demo ? `data/demo-${demo}.json` : 'data/snapshot.json';
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 15000);

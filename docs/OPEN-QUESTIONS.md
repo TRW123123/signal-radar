@@ -10,6 +10,10 @@ nicht über die Bridge verbunden. Umgehen wurde nicht versucht.
 **Nötig:** einmal Deploy vom eigenen Rechner (`netlify deploy --prod --dir frontend`) oder Repo mit Netlify verbinden.
 Anleitung: `docs/DEPLOY.md`.
 
+**Vorschau bis dahin:** `dist/signal-radar.html` ist das komplette Dashboard als eine Datei (Schrift, Code und
+Momentaufnahme eingebettet, keine Netzwerk-Anfragen), gebaut mit `python3 -I scripts/build_single.py`. Das
+Veröffentlichen als Claude-Artifact wurde von der Berechtigungsprüfung der Umgebung abgelehnt und nicht umgangen.
+
 ## 2. Privates GitHub-Repo
 
 Geplant ist ein privates Repo. Aus der Bau-Umgebung lassen sich keine neuen Repos anlegen (nur bestehende anhängen),
@@ -29,3 +33,17 @@ Siehe `docs/KEYS-NEEDED.md`. Collectors für Key-Quellen sind gebaut und werden 
 ## 5. Lizenzen
 
 Siehe `docs/LICENSE-TODO.md` (Quellen mit ungeklärter Lizenz) und offene Projekt-Lizenz für die spätere Veröffentlichung.
+
+## 6. Aufzeichnung echter Antworten ist in der Bau-Umgebung eng begrenzt
+
+Echte Antworten der Quellen ließen sich nur über ein einzelnes Abruf-Werkzeug holen (ratenbegrenzt, höchstens
+24 000 Zeichen, große Antworten nicht verlustfrei übertragbar). Direkt erreichbar war nur `raw.githubusercontent.com`.
+Folge: Collectors mit großen Antworten (z. B. IODA, Yahoo, Ransomware.live, ADS-B) sind gebaut, aber nicht gegen eine
+vollständige echte Antwort geprüft. `docs/STATUS.md` führt je Collector den Prüfstand. **Nötig:** nach dem ersten
+Live-Lauf (GitHub Actions oder lokal `node src/cli.ts run`) die Fehlerliste ansehen; ein Folge-Lauf kann die
+betroffenen Parser dann gegen echte Antworten reparieren.
+
+## 7. Punkt-Messungen brauchen Sammelzeit
+
+Rund 20 gebaute Messreihen liefern pro Abruf nur den aktuellen Stand (z. B. Statusseiten, Blocklisten-Größen,
+Mempool, RIPE-Atlas-Sonden). Sie haben erst nach einigen Tagen Live-Betrieb einen Normalwert und zählen bis dahin nicht.

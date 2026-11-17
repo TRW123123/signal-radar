@@ -1,0 +1,44 @@
+{
+  "id": "blackout",
+  "order": 3,
+  "title": "Blackout und Energiekrise",
+  "question": "Droht ein großer Stromausfall oder eine Energie-Notlage?",
+  "tagline": "Netzfrequenz, Gasspeicher, Strompreise, Kälte, Kraftwerksausfälle, Pegelstände",
+  "domains": {
+    "grid": {
+      "title": "Stromnetz",
+      "weight": 1,
+      "plain": "Netzfrequenz, Last, Erzeugung, Reserve und Engpässe im Stromnetz"
+    },
+    "gas": {
+      "title": "Gasversorgung",
+      "weight": 1,
+      "plain": "Gasspeicher, Gasflüsse, LNG-Lieferungen und Ausspeicherrate"
+    },
+    "prices": {
+      "title": "Energiepreise",
+      "weight": 0.8,
+      "plain": "Börsenstrompreise, Preisspitzen, negative Preise und Regelenergiekosten"
+    },
+    "weather": {
+      "title": "Wetter",
+      "weight": 0.9,
+      "plain": "Kälte, Dunkelflaute, Sturm, Eis und Sonnenstürme"
+    },
+    "plants": {
+      "title": "Kraftwerke und Pegel",
+      "weight": 0.9,
+      "plain": "Ungeplante Kraftwerksausfälle, französische Atomkraft, Flusspegel und Wasserspeicher"
+    },
+    "outages": {
+      "title": "Gemessene Stromausfälle",
+      "weight": 1,
+      "plain": "Gemeldete Stromausfälle, Störungsportale und Internet-Ausfälle als Folge"
+    },
+    "markets": {
+      "title": "Märkte",
+      "weight": 0.6,
+      "plain": "Gas- und Ölpreise, Energieaktien, Wetten"
+    }
+  }
+}

@@ -20,7 +20,7 @@ async function seite(url, opt = {}) {
   return { ctx, page, err, fremd };
 }
 
-const states = ['calm', 'rumor', 'single', 'elevated', 'acute', 'multi'];
+const states = ['calm', 'rumor', 'single', 'elevated', 'acute', 'multi', 'sparse'];
 for (const cs of ['light', 'dark']) for (const w of [1440, 390, 320]) for (const s of states) {
   const { ctx, page, err, fremd } = await seite(`${B}?demo=${s}`, { w, h: 800, cs, bypass: !!AXE });
   const ov = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -60,9 +60,9 @@ for (const cs of ['light', 'dark']) for (const w of [1440, 390, 320]) for (const
 }
 // Hash beim Laden
 {
-  const { ctx, page } = await seite(`${B}?demo=multi#finanz`, { w: 1440 });
+  const { ctx, page } = await seite(`${B}?demo=multi#finance`, { w: 1440 });
   const sel = await page.getAttribute('[aria-selected="true"]', 'id');
-  log(sel === 'tab-finanz', `#finanz beim Laden gewählt: ${sel}`);
+  log(sel === 'tab-finance', `#finance beim Laden gewählt: ${sel}`);
   const lbl = await page.$$eval('.spurliste .spur-knopf', (bs) => bs.slice(0, 2).map((b) => b.getAttribute('aria-label')));
   log(lbl.every((l) => /: (Ausschlag|normal)/.test(l)), `aria-label der Spuren: ${lbl.join(' / ')}`);
   await ctx.close();
@@ -108,6 +108,53 @@ for (const s of ['elevated', 'multi']) {
   const m = await b.page.evaluate(() => document.getAnimations().length);
   console.log(`     ohne Einschränkung: ${m} Animationen (Spuren schreiben sich einmal)`);
   await b.ctx.close();
+}
+// 8 Szenarien: Desktop eine Zeile, Handy waagerecht verschiebbar, „In Vorbereitung“ nach id
+{
+  const multi = JSON.parse(readFileSync(new URL('../../data/demo-multi.json', import.meta.url)));
+  const ids = ['cyber', 'war', 'blackout', 'ai', 'finance', 'nuclear', 'bio', 'space'];
+  const scs = ids.map((id, i) => ({ ...multi.scenarios[i % multi.scenarios.length], id, title: { cyber: 'Cyberangriff', war: 'Kriegseskalation', blackout: 'Blackout / Energie', ai: 'KI-Vorfall', finance: 'Finanzkrise', nuclear: 'Nuklear', bio: 'Pandemie', space: 'Weltraumwetter' }[id] }));
+  const body = JSON.stringify({ ...multi, scenarios: scs });
+  for (const w of [1440, 390, 320]) {
+    const { ctx, page, err } = await seite(B, { w, route: (r) => r.fulfill({ status: 200, contentType: 'application/json', body }) });
+    const r = await page.evaluate(() => {
+      const tabs = [...document.querySelectorAll('[role=tab]')];
+      const wahl = document.querySelector('.wahl');
+      return { reihen: new Set(tabs.map((t) => t.offsetTop)).size, n: tabs.length, scroll: wahl.scrollWidth > wahl.clientWidth, kommend: !!document.querySelector('.wahl-kommend'), ov: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+    });
+    const ok = r.n === 8 && r.reihen === 1 && !r.kommend && r.ov <= 0 && !err.length && (w === 1440 ? !r.scroll : r.scroll);
+    log(ok, `8 Szenarien bei ${w}: ${r.reihen} Zeile, verschiebbar ${r.scroll}, „In Vorbereitung“ ${r.kommend}, Überlauf ${r.ov}`);
+    await ctx.close();
+  }
+}
+// Zwillings-Pegel im Gerücht-Fall über der Falz (390 × 844)
+{
+  const { ctx, page } = await seite(`${B}?demo=rumor`, { w: 390, h: 844 });
+  const b = await page.evaluate(() => document.querySelector('.zw-att').getBoundingClientRect().bottom);
+  const wort = await page.textContent('.zw-att .zw-wort');
+  log(b < 844, `Gerücht 390: Gerede-Pegel endet bei ${Math.round(b)} px (Falz 844), Wort „${wort}“`);
+  await ctx.close();
+}
+// Kontext-Abschnitt und Dämpfung (multi, cyber)
+{
+  const { ctx, page } = await seite(`${B}?demo=multi`, { w: 1440 });
+  const k = await page.$$eval('.kontext li', (l) => l.length);
+  const d = await page.$$eval('.mr-daempf', (l) => l.map((x) => x.textContent));
+  log(k === 2 && d.some((t) => t.startsWith('Zählt weniger, weil:')), `Kontext ${k} Meldungen, Dämpfung: ${d[0]}`);
+  await ctx.close();
+  const c = await seite(`${B}?demo=calm`, { w: 1440 });
+  log(!(await c.page.$('.kontext')), 'Kontext-Abschnitt fehlt bei leerem context');
+  await c.ctx.close();
+}
+// Dünne Daten: Lücken benannt
+{
+  const { ctx, page } = await seite(`${B}?demo=sparse`, { w: 390 });
+  await page.$$eval('.spur-knopf', (bs) => bs.forEach((b) => b.click()));
+  const t = await page.textContent('#inhalt');
+  const muss = ['noch keine Messreihe', 'keine frischen Daten', 'wird noch gelernt (bisher 11 Vergleichswerte)', 'noch nicht bewertbar', 'Noch keine Daten', 'NaN', 'undefined', 'null'];
+  const r = muss.map((m) => [m, t.includes(m)]);
+  log(r.slice(0, 5).every(([, x]) => x) && r.slice(5).every(([, x]) => !x), `sparse: ${r.map(([m, x]) => `${m}=${x}`).join(', ')}`);
+  await ctx.close();
 }
 await browser.close();
 console.log(fails.length ? `\n${fails.length} Prüfungen fehlgeschlagen` : '\nAlle Prüfungen bestanden');

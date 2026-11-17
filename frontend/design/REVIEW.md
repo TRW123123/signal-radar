@@ -7,13 +7,29 @@ Stand 17.11.2026. Skill `elite-ui-ux`, Repo-Stand f8acb28. Prüfer: derselbe Bui
 | Datei | SHA-256 |
 |---|---|
 | index.html | f9557bc5af2da9dd7757fab90eee30621c5ce485a5198dcd18dcf219929fa5a3 |
-| app.css | 58995928ef9a258f7e61e80a3915f8b84773dfa5f0db796d973aef044477183e |
-| app.js | dcbbf74e80c3df7ec291102d895137f469199f5d15bafd534e36baaebcb2ed99 |
+| app.css | 95629ea629a4772d302ee7d96cc6cbb45e7bbf06546324b45ad306ae8a6a8235 |
+| app.js | af57c3451604fa722610137d13c2ed3e42b3489c0222444a31118023b47d5462 |
 | favicon.svg | 3269c9ac4116ee41ab86ba13ddd8edaa08f0ce9ec409368d22a20cefb3c9c1c4 |
-| data/demo-multi.json | 88841e54a7cc8a339b6c6c06083db5f50b5519612ac9660ce1799188a6759f9c |
+| data/demo-sparse.json | 998db83db5352a43bc9d7d3a1452124a831ac7e839e9c7c982216282f318f9c8 |
+| data/demo-multi.json | 3352d3b1eca93ee99a080540382fe1a8a6fc399971a11527577b25c731a663b5 |
 | scripts/shoot.mjs | bdd257d8750b308cecc1e6d90e1d40ca8fe68168ec95358c786bc0cef9eadb9e |
 
 Schriften: siehe `assets/HERKUNFT.md`. Jede spätere Änderung an diesen Dateien macht die Aufnahmen unten ungültig.
+
+## Nacharbeit 2 (nach Durchsicht der Kontaktbögen)
+
+- Spuren zeigen unter der Grenze die Unruhe (`history[].u`): Spurwert = max(0,25 × u, d); Legende ergänzt.
+- Zwillings-Pegel „Messung“ / „Gerede im Netz“ direkt unter dem Satz; im Gerücht-Fall bei 390 × 844 unten bei ≈ 480 px (geprüft).
+- Jetzt-Markierung auf dem Handy 12 px bei Ausschlag.
+- `demo-sparse.json` (werkzeug/demo-sparse.mjs): 4 Bereiche ohne Daten, `baseline: null`, unreifer Normalwert, `value: null`,
+  fehlende Einheit, kurzer/leerer Verlauf, langer Name. Lücken heißen „noch keine Messreihe“, „keine frischen Daten“,
+  „Normalwert wird noch gelernt (bisher n Vergleichswerte)“, Abweichung „noch nicht bewertbar“; kein „NaN/undefined/null“ (geprüft).
+  Bei unreifem Normalwert zeichnet die Sparkline keine Normallinie.
+- „In Vorbereitung“ nach Szenario-id (`war`, `blackout`, `ai`, `finance`, `nuclear`, `bio`); 8 Szenarien: Desktop eine Zeile ohne
+  Verschieben, Handy waagerecht verschiebbar, kein Seitenüberlauf (geprüft mit umgeleitetem Snapshot).
+- Dämpfung: „Zählt weniger, weil: …“. Offizielle Meldungen als eigener gestrichelter Abschnitt unter den Belegen, nur wenn vorhanden
+  (Demo: zwei erfundene Meldungen in `demo-multi.json`, Szenario Cyberangriff).
+- Prüfskript jetzt 90 Prüfungen inkl. `sparse`, alle bestanden; alle Aufnahmen und beide Kontaktbögen neu.
 
 ## Was geprüft wurde
 
@@ -24,7 +40,7 @@ Kontaktbögen: `kontakt-hell.png` (Desktop elevated, Handy calm/rumor/elevated),
 Angesehen wurden die Bögen sowie Einzelbilder (elevated Desktop/390 hell, acute Desktop dunkel, multi 320 dunkel,
 multi-ki Desktop dunkel, rumor 390 hell, Fehler 390 hell, veraltet 390 hell).
 
-**Automatisch** (`design/werkzeug/pruefen.mjs`, 73 Prüfungen, alle bestanden):
+**Automatisch** (`design/werkzeug/pruefen.mjs`, zuletzt 90 Prüfungen, alle bestanden; Zahlen unten aus Runde 1, Zustände inzwischen inkl. `sparse`):
 - 36 Ladevorgänge (6 Demo-Zustände × 1440/390/320 × hell/dunkel): keine Konsolenfehler, keine Anfrage außer an
   localhost, kein waagerechter Überlauf (auch nicht bei 320 px).
 - axe-core 4.14.1 (WCAG 2.0/2.1/2.2 A und AA) bei 1440 und 320, hell und dunkel, mit allen Spuren aufgeklappt: keine Verstöße.
@@ -48,10 +64,10 @@ multi-ki Desktop dunkel, rumor 390 hell, Fehler 390 hell, veraltet 390 hell).
 
 ## Offene Einwände (nicht gelöst)
 
-1. **Der jetzige Ausschlag ist schmal.** In den Demo-Daten beginnt er 6 h vor jetzt; auf 14 Tagen sind das 1,8 % der Breite.
+1. **Der jetzige Ausschlag ist schmal** (entschärft durch 12-px-Jetzt-Rand auf dem Handy). In den Demo-Daten beginnt er 6 h vor jetzt; auf 14 Tagen sind das 1,8 % der Breite.
    Die Jetzt-Spalte (Desktop) bzw. der farbige rechte Rand (Handy) tragen die Aussage, die Spur selbst kaum. Eine Lupe
    „letzte 48 Stunden“ wäre zu prüfen; mit echten Daten kann sich das Verhältnis ändern.
-2. **Gerücht-Fall auf dem Handy:** Die Aufmerksamkeits-Spur liegt bei 390 px erst bei ≈ 1.900 px. Der Satz oben und der
+2. **Gerücht-Fall auf dem Handy:** gelöst über den Zwillings-Pegel über der Falz; die Aufmerksamkeits-Spur selbst liegt bei 390 px erst bei ≈ 1.900 px. Der Satz oben und der
    Link entschärfen das, aber das Gerücht-Motiv bleibt in H3 schwächer als in H2 (bekannt aus den Skizzen).
 3. **Neun Spuren sind auf dem Handy lang** (≈ 80 px je Spur). Kompaktere Spuren würden Tippziele verkleinern.
 4. **Martian Mono zeichnet die Null mit Punkt** („0“ wirkt fast wie „Ø“). Für Laien bei Stufe 0 eventuell irritierend.
@@ -62,6 +78,8 @@ multi-ki Desktop dunkel, rumor 390 hell, Fehler 390 hell, veraltet 390 hell).
 7. **Belege doppelt:** Ausschlagende Messreihen stehen unter „Was gerade ausschlägt“ offen und erscheinen beim Aufklappen
    der Spur ein zweites Mal. Bewusst, damit die Spuren-Grafik zusammenhängend bleibt.
 8. Rohdaten-Links der Demo zeigen auf `example.org/demo`.
+9. Die Unruhe liegt im unteren Viertel der Spur und ist entsprechend flach; bei echten Daten prüfen, ob das Rauschen lesbar bleibt.
+10. Der Zwillings-Pegel zeigt `score` und `attention` als Balkenlänge 0–1; beide sind keine Prozent-Aussage, das steht nirgends ausdrücklich.
 
 ## Grenzen dieser Prüfung
 

@@ -19,22 +19,28 @@ for (const d of cyber.domains) for (const s of d.signals) {
   if (s.id === 'cyber.services.demo_8k') s.damp = { factor: 0.5, reason: 'Demo: Quartalsende, an dem viele Firmen gesammelt melden' };
 }
 
+// Zwei offizielle Meldungen (erfunden, als Demo gekennzeichnet), um den Kontext-Abschnitt zu prüfen.
+cyber.context = [
+  { scenario: 'cyber', ts: '2026-11-17T04:30:00.000Z', title: 'Demo: Beispiel einer Behördenmeldung zu einer Störung', source: 'Demo-Quelle', url: 'https://example.org/demo-meldung-1' },
+  { scenario: 'cyber', ts: '2026-11-16T21:10:00.000Z', title: 'Demo: Beispiel einer Unternehmensmitteilung', source: 'Demo-Quelle', url: 'https://example.org/demo-meldung-2' },
+];
+
 const blackout = take('calm', {
   id: 'blackout', title: 'Blackout / Energie', question: 'Droht gerade ein großer Stromausfall?',
   tagline: 'Demo-Platzhalter: Bereiche aus der Cyber-Demo',
 });
 const krieg = take('rumor', {
-  id: 'krieg', title: 'Kriegseskalation', question: 'Eskaliert gerade ein bewaffneter Konflikt?',
+  id: 'war', title: 'Kriegseskalation', question: 'Eskaliert gerade ein bewaffneter Konflikt?',
   tagline: 'Demo-Platzhalter: Bereiche aus der Cyber-Demo',
 });
 const finanz = take('acute', {
-  id: 'finanz', title: 'Finanzkrise', question: 'Bahnt sich gerade eine Finanzkrise an?',
+  id: 'finance', title: 'Finanzkrise', question: 'Bahnt sich gerade eine Finanzkrise an?',
   tagline: 'Demo-Platzhalter: Bereiche aus der Cyber-Demo',
 });
 
 // Zu wenig Daten: nur zwei Bereiche liefern frische Messwerte, alle übrigen bleiben leer.
 const ki = take('calm', {
-  id: 'ki', title: 'KI-Vorfall', question: 'Läuft gerade ein schwerer Vorfall mit KI-Systemen?',
+  id: 'ai', title: 'KI-Vorfall', question: 'Läuft gerade ein schwerer Vorfall mit KI-Systemen?',
   tagline: 'Demo-Platzhalter: Bereiche aus der Cyber-Demo',
 });
 const keep = new Set(['routing', 'outages']);
@@ -45,10 +51,10 @@ for (const d of ki.domains) {
     if (keep.has(d.id)) { fresh += 1; continue; }
     Object.assign(s, { value: null, ts: null, fresh: false, baseline: null, z: null, anomaly: 0, contribution: 0, spark: [], sparkStart: null, sparkEnd: null });
   }
-  if (!keep.has(d.id)) { d.score = 0; d.active = false; }
+  if (!keep.has(d.id)) { d.score = 0; d.active = false; d.unrest = 0; }
 }
 for (const h of ki.history) {
-  for (const id of Object.keys(h.d)) if (!keep.has(id)) h.d[id] = 0;
+  for (const id of Object.keys(h.d)) if (!keep.has(id)) { h.d[id] = 0; if (h.u) h.u[id] = 0; }
   h.activeDomains = Object.entries(h.d).filter(([id, v]) => keep.has(id) && v >= 0.25).length;
   h.level = Math.min(h.level, h.activeDomains);
   h.score = h.activeDomains ? h.score : 0;

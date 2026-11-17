@@ -22,7 +22,17 @@ const T = {
     },
     szenarien: 'Szenario wählen',
     inVorbereitung: (liste) => `In Vorbereitung: ${liste}.`,
-    kommend: ['Kriegseskalation', 'Blackout / Energie', 'KI-Vorfall', 'Finanzkrise', 'Nuklear', 'Pandemie'],
+    kommend: { war: 'Kriegseskalation', blackout: 'Blackout / Energie', ai: 'KI-Vorfall', finance: 'Finanzkrise', nuclear: 'Nuklear', bio: 'Pandemie' },
+    zwilling: {
+      label: 'Messung und Gerede im Vergleich',
+      messung: 'Messung',
+      gerede: 'Gerede im Netz',
+      messWort: (lvl, name) => (lvl === 0 ? 'ruhig' : name.toLowerCase()),
+      geredeWort: (a) => (a >= 0.35 ? 'viel' : a >= 0.1 ? 'etwas' : 'wenig'),
+      keineDaten: 'keine Daten',
+      hinweis: 'Gerede zählt nicht als Beleg.',
+      zurSpur: 'Zur Gerede-Spur',
+    },
     stufen: ['Ruhig', 'Leicht erhöht', 'Erhöht', 'Hoch', 'Akut'],
     stufe: (n) => `Stufe ${n}`,
     stufeKurz: (n, name) => `Stufe ${n} · ${name}`,
@@ -58,6 +68,7 @@ const T = {
     gleichzeitigLabel: (jetzt, max) => `Gleichzeitig abweichende Bereiche: jetzt ${jetzt}, höchstens ${max} in den letzten 14 Tagen.`,
     legende: {
       grenze: 'Ausschlag-Grenze: darüber zählt ein Bereich als abweichend.',
+      unruhe: 'Unter der Grenze: normales Schwanken. Je näher an der Linie, desto unruhiger.',
       farbe: 'Farbe: die Stufe, die zu diesem Zeitpunkt galt. Grau heißt Stufe 0.',
       tippen: 'Spur antippen: Messreihen mit Rohdaten.',
     },
@@ -78,7 +89,9 @@ const T = {
     wertJetzt: 'Jetzt',
     wertNormal: 'Normal',
     wertAbw: 'Abweichung',
-    normalImAufbau: (n) => `noch im Aufbau (${n} Messpunkte)`,
+    normalImAufbau: (n) => (n ? `wird noch gelernt (bisher ${n} Vergleichswerte)` : 'wird noch gelernt'),
+    normalFehlt: 'wird noch gelernt',
+    abwNichtBewertbar: 'noch nicht bewertbar, weil der Normalwert noch gelernt wird',
     abw: {
       mal: (f) => `${f}-mal so viel wie normal`,
       weniger: (p) => `${p} % weniger als normal`,
@@ -90,8 +103,8 @@ const T = {
       ruhig: 'im Rahmen der üblichen Schwankung',
       vielfach: (n) => `${n}-mal so weit vom Normalwert wie üblich`,
     },
-    verlauf: (von, bis) => `Verlauf ${von} bis ${bis}. Gestrichelt: Normalwert.`,
-    gedaempft: (grund) => `Abgeschwächt gewertet: ${grund}`,
+    verlauf: (von, bis, normal) => `Verlauf ${von} bis ${bis}.${normal ? ' Gestrichelt: Normalwert.' : ''}`,
+    gedaempft: (grund) => `Zählt weniger, weil: ${grund}`,
     rohdaten: (quelle) => `Rohdaten: ${quelle}`,
     externHinweis: '(externe Seite)',
     nichtFrisch: (zeit) => (zeit ? `Keine frischen Daten, letzter Wert vom ${zeit}.` : 'Noch keine Daten.'),
@@ -111,9 +124,10 @@ const T = {
       vorsorgeTitel: 'Für den Ernstfall',
       vorsorge: 'Es gilt die allgemeine Vorsorge-Empfehlung des Bundesamts für Bevölkerungsschutz und Katastrophenhilfe (BBK). Hamsterkäufe sind nicht nötig.',
       vorsorgeLink: 'Vorsorge-Hinweise beim BBK',
-      kontext: 'Offizielle Mitteilungen (zählen nicht als Beleg)',
       projekt: 'Signal Radar ist ein Open-Source-Projekt im Aufbau. Name vorläufig.',
     },
+    kontext: 'Offizielle Meldungen (zählen nicht als Beleg)',
+    kontextErkl: 'Was Behörden und Unternehmen selbst sagen. Steht hier zur Einordnung und fließt nicht in die Stufe ein.',
     ansageWahl: (titel, stufe) => `${titel}: ${stufe}`,
   },
 };
@@ -122,7 +136,7 @@ const L = T.de;
 const LOCALE = 'de-DE';
 const DOMAIN_ACTIVE = 0.25; // src/engine/score.ts
 const ATT_HIGH = 0.35; // src/engine/score.ts, Gerede-Lücke
-const DEMOS = ['calm', 'rumor', 'single', 'elevated', 'acute', 'multi'];
+const DEMOS = ['calm', 'rumor', 'single', 'elevated', 'acute', 'multi', 'sparse'];
 const STALE_H = 3;
 
 // ---------- Formatierung ----------
@@ -141,6 +155,7 @@ const tagFmt = new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'numeric
 const zeit = (iso) => (iso ? zeitFmt.format(new Date(iso)) : '–');
 const kurz = (iso) => (iso ? kurzFmt.format(new Date(iso)) : '–');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const mitEinheitRoh = (v, unit) => `${nf(v)}${unit && unit !== 'x normal' ? ' ' + unit : unit === 'x normal' ? '-fach' : ''}`;
 const mitEinheit = (v, unit) => `${nf(v)}${unit && unit !== 'x normal' ? ' ' + esc(unit) : unit === 'x normal' ? '-fach' : ''}`;
 
 // ---------- Laden ----------
@@ -213,6 +228,7 @@ function rasterSvg(ax) {
 
 /** Stufen-Treppe: der Wert eines Punktes gilt für das Intervall, das an ihm endet. */
 function spurSvg(history, ax, wert, opt = {}) {
+  // wert(h) liefert den Spurwert 0..1; für Bereiche max(0,25 × Unruhe, Score)
   const grenze = opt.grenze ?? DOMAIN_ACTIVE;
   const y = (v) => H - (Math.min(Math.max(v, 0), 1) * (H - PAD));
   let rects = '';
@@ -264,20 +280,22 @@ function sparkSvg(sig) {
   if (!s || s.length < 2) return '';
   const w = 240;
   const h = 48;
-  const vals = s.concat(sig.baseline ? [sig.baseline.center] : []);
+  const reif = !!sig.baseline?.mature;
+  const vals = s.concat(reif ? [sig.baseline.center] : []);
   let lo = Math.min(...vals);
   let hi = Math.max(...vals);
   if (hi === lo) { hi += 1; lo -= 1; }
   const x = (i) => (i / (s.length - 1)) * (w - 6) + 1;
   const y = (v) => h - 4 - ((v - lo) / (hi - lo)) * (h - 8);
   const d = s.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(' ');
-  const base = sig.baseline ? `<line class="spark-normal" x1="0" x2="${w}" y1="${y(sig.baseline.center).toFixed(1)}" y2="${y(sig.baseline.center).toFixed(1)}"/>` : '';
+  const base = reif ? `<line class="spark-normal" x1="0" x2="${w}" y1="${y(sig.baseline.center).toFixed(1)}" y2="${y(sig.baseline.center).toFixed(1)}"/>` : '';
   return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true" focusable="false">${base}<path class="spark-linie" d="${d}"/><circle class="spark-punkt" cx="${x(s.length - 1).toFixed(1)}" cy="${y(s[s.length - 1]).toFixed(1)}" r="3"/></svg>`;
 }
 
 // ---------- Messreihen ----------
 function abweichung(sig) {
-  if (!sig.baseline || sig.value == null) return L.abw.unbekannt;
+  if (!sig.baseline || !sig.baseline.mature) return L.abwNichtBewertbar;
+  if (sig.value == null) return L.abw.unbekannt;
   const c = sig.baseline.center;
   if (!c) return L.abw.unbekannt;
   const f = sig.value / c;
@@ -289,7 +307,7 @@ function abweichung(sig) {
 }
 
 function schwankung(sig) {
-  if (sig.z == null) return '';
+  if (sig.z == null || !sig.baseline || !sig.baseline.mature) return '';
   const z = Math.abs(sig.z);
   return z < 2 ? L.schwankung.ruhig : L.schwankung.vielfach(nf(Math.round(z), 0));
 }
@@ -300,19 +318,19 @@ function messreihe(sig, stufe) {
   let werte;
   if (sig.fresh && sig.value != null) {
     const normal = sig.baseline
-      ? (sig.baseline.mature ? mitEinheit(sig.baseline.center, sig.unit) : L.normalImAufbau(sig.baseline.n))
-      : '–';
+      ? (sig.baseline.mature ? mitEinheitRoh(sig.baseline.center, sig.unit) : L.normalImAufbau(sig.baseline.n))
+      : L.normalFehlt;
     const schw = schwankung(sig);
     werte = `<dl class="mr-werte">
         <div><dt>${L.wertJetzt}</dt><dd class="zahl-mono">${mitEinheit(sig.value, sig.unit)}</dd></div>
-        <div><dt>${L.wertNormal}</dt><dd class="zahl-mono">${normal}</dd></div>
+        <div><dt>${L.wertNormal}</dt><dd class="${sig.baseline?.mature ? 'zahl-mono' : 'mr-lernt'}">${esc(normal)}</dd></div>
         <div class="mr-abw"><dt>${L.wertAbw}</dt><dd>${esc(abweichung(sig))}${schw ? `<span class="mr-schw">${esc(schw)}</span>` : ''}</dd></div>
       </dl>`;
   } else {
     werte = `<p class="mr-alt">${esc(L.nichtFrisch(sig.ts ? kurz(sig.ts) : ''))}</p>`;
   }
   const spark = sparkSvg(sig);
-  const verlauf = spark ? `<figure class="mr-verlauf">${spark}<figcaption>${esc(L.verlauf(kurz(sig.sparkStart), kurz(sig.sparkEnd)))}</figcaption></figure>` : '';
+  const verlauf = spark ? `<figure class="mr-verlauf">${spark}<figcaption>${esc(L.verlauf(kurz(sig.sparkStart), kurz(sig.sparkEnd), !!sig.baseline?.mature))}</figcaption></figure>` : '';
   const daempf = sig.damp ? `<p class="mr-daempf">${esc(L.gedaempft(sig.damp.reason))}</p>` : '';
   const quelle = sig.sourceUrl
     ? `<p class="mr-quelle"><a href="${esc(sig.sourceUrl)}" rel="noopener noreferrer external">${esc(L.rohdaten(sig.sourceName || sig.sourceUrl))}<span class="nur-vorleser"> ${L.externHinweis}</span></a></p>`
@@ -370,8 +388,8 @@ function miniPegel(sc) {
 function renderWahl(snap) {
   const nav = $('wahl');
   nav.hidden = false;
-  const titel = new Set(snap.scenarios.map((s) => s.title));
-  const kommend = L.kommend.filter((k) => !titel.has(k));
+  const ids = new Set(snap.scenarios.map((s) => s.id));
+  const kommend = Object.entries(L.kommend).filter(([id]) => !ids.has(id)).map(([, name]) => name);
   nav.innerHTML = `<div class="wahl" role="tablist" aria-label="${esc(L.szenarien)}">
       ${snap.scenarios.map((sc) => {
         const wenig = wenigDaten(sc);
@@ -431,12 +449,29 @@ function aussage(sc) {
       <p class="stufe"><span class="stufe-nr">${esc(wenig ? L.wenigDatenStufe : L.stufe(sc.level))}</span><span class="stufe-name">${esc(wenig ? L.wenigDaten : stufeName(sc))}</span></p>
       <p class="satz">${esc(sc.verdict)}</p>
       ${wenig ? `<p class="wenig-text">${esc(L.wenigDatenText)}</p>` : ''}
+      ${zwilling(sc, wenig, gap)}
       <div class="pegel" role="img" aria-label="${esc(wenig ? L.wenigDaten : L.pegelLabel(sc.level))}">
         ${[1, 2, 3, 4].map((k) => `<span class="pegel-feld${!wenig && sc.level >= k ? ` an f-bg-l${sc.level}` : ''}"><i></i><b>${k}</b><small>${esc(L.stufen[k])}</small></span>`).join('')}
       </div>
       <p class="pegel-erkl">${esc(L.pegelErkl)}</p>
-      ${gap ? `<p class="gerede-satz"><a href="#att-titel">${esc(gap)}</a></p>` : ''}
+
       <p class="frage">${esc(sc.question)}</p>
+    </div>`;
+}
+
+function zwilling(sc, wenig, gap) {
+  const Z = L.zwilling;
+  const attDaten = (sc.attentionSignals ?? []).some((s) => s.status === 'active' && s.fresh);
+  const m = wenig ? 0 : Math.max(0, Math.min(1, sc.score));
+  const a = attDaten ? Math.max(0, Math.min(1, sc.attention)) : 0;
+  const mWort = wenig ? Z.keineDaten : Z.messWort(sc.level, stufeName(sc));
+  const aWort = attDaten ? Z.geredeWort(sc.attention) : Z.keineDaten;
+  return `<div class="zwilling">
+      <dl class="zwilling-liste" aria-label="${esc(Z.label)}">
+        <div class="zw-zeile zw-mess"><dt>${Z.messung}</dt><dd><span class="zw-bahn" aria-hidden="true"><span class="zw-wert f-bg-l${wenig ? 0 : sc.level}" data-w="${(m * 100).toFixed(1)}"></span></span><span class="zw-wort">${esc(mWort)}</span></dd></div>
+        <div class="zw-zeile zw-att"><dt>${Z.gerede}</dt><dd><span class="zw-bahn" aria-hidden="true"><span class="zw-wert" data-w="${(a * 100).toFixed(1)}"></span></span><span class="zw-wort">${esc(aWort)}</span></dd></div>
+      </dl>
+      <p class="zw-hinweis">${gap && sc.rumorGap !== 'talk-no-data' ? `${esc(gap)} ` : ''}${Z.hinweis} <a href="#att-titel">${Z.zurSpur}</a></p>
     </div>`;
 }
 
@@ -461,7 +496,7 @@ function spur(d, sc, ax) {
   const sub = [g ? L.reihen(g) : '', geplant ? L.geplant(geplant) : ''].filter(Boolean).join(' · ');
   const offen = zustand.offen.has(d.id);
   const lvl = sc.level;
-  const bahn = daten && ax ? spurSvg(sc.history, ax, (h) => h.d?.[d.id]) : leerSvg(ax);
+  const bahn = daten && ax ? spurSvg(sc.history, ax, (h) => Math.max(DOMAIN_ACTIVE * (h.u?.[d.id] ?? 0), h.d?.[d.id] ?? 0)) : leerSvg(ax);
   return `<li class="spur${d.active ? ` aus s-l${lvl}` : ''}${daten ? '' : ' leer'}">
       <button type="button" class="spur-knopf" aria-expanded="${offen}" aria-controls="mr-${esc(d.id)}" aria-label="${esc(L.spurLabel(d.title, zust, g ? L.reihen(g) : L.keineReihe))}">
         <span class="spur-name"><span class="spur-titel">${esc(d.title)}<i class="pfeil" aria-hidden="true"></i></span><span class="spur-sub">${esc(sub)}</span></span>
@@ -490,6 +525,7 @@ function summe(sc, ax) {
 function legende() {
   return `<ul class="legende">
       <li><svg viewBox="0 0 28 10" aria-hidden="true"><line class="grenze" x1="0" x2="28" y1="5" y2="5"/></svg>${esc(L.legende.grenze)}</li>
+      <li><svg viewBox="0 0 28 10" aria-hidden="true"><path class="linie" d="M0 9 L5 9 L5 6 L10 6 L10 8 L16 8 L16 4 L21 4 L21 9 L28 9"/></svg>${esc(L.legende.unruhe)}</li>
       <li><span class="legende-farben" aria-hidden="true"><i class="f-bg-l0"></i><i class="f-bg-l1"></i><i class="f-bg-l2"></i><i class="f-bg-l3"></i><i class="f-bg-l4"></i></span>${esc(L.legende.farbe)}</li>
       <li class="legende-tippen">${esc(L.legende.tippen)}</li>
     </ul>`;
@@ -535,6 +571,16 @@ function belege(sc) {
   return `<section class="belege" aria-labelledby="belege-titel"><h2 id="belege-titel" class="abschnitt">${L.belege}</h2>${inhalt}</section>`;
 }
 
+function kontext(sc) {
+  const items = sc.context ?? [];
+  if (!items.length) return '';
+  return `<section class="kontext" aria-labelledby="kontext-titel">
+      <h2 id="kontext-titel" class="abschnitt">${esc(L.kontext)}</h2>
+      <p class="kontext-erkl">${esc(L.kontextErkl)}</p>
+      <ul>${items.map((c) => `<li><a href="${esc(c.url)}" rel="noopener noreferrer external">${esc(c.title)}<span class="nur-vorleser"> ${L.externHinweis}</span></a><span class="kontext-meta">${esc(c.source)} · ${esc(kurz(c.ts))}</span></li>`).join('')}</ul>
+    </section>`;
+}
+
 function renderLage() {
   const sc = aktuellesSzenario();
   const ax = sc.history && sc.history.length > 1 ? zeitachse(sc.history) : null;
@@ -553,8 +599,10 @@ function renderLage() {
         ${aufmerksamkeit(sc, ax)}
       </section>
       ${belege(sc)}
+      ${kontext(sc)}
     </div>`;
   for (const t of main.querySelectorAll('.tick')) t.style.left = `${t.dataset.pos}%`;
+  for (const w of main.querySelectorAll('.zw-wert')) w.style.width = `${Math.max(Number(w.dataset.w), 1.5)}%`;
   for (const b of main.querySelectorAll('.spur-knopf')) b.addEventListener('click', () => umschalten(b));
 }
 
@@ -572,9 +620,6 @@ function renderFuss() {
   const snap = zustand.snap;
   const sc = aktuellesSzenario();
   const F = L.fuss;
-  const kontext = (sc.context ?? []).length
-    ? `<div class="fuss-block"><h2 class="fuss-titel">${F.kontext}</h2><ul class="kontext">${sc.context.map((c) => `<li><a href="${esc(c.url)}" rel="noopener noreferrer external">${esc(c.title)}</a> <span>${esc(c.source)}, ${esc(kurz(c.ts))}</span></li>`).join('')}</ul></div>`
-    : '';
   $('fuss').innerHTML = `
     <div class="fuss-raster">
       <div class="fuss-block">
@@ -594,7 +639,6 @@ function renderFuss() {
         <p>${esc(F.vorsorge)}</p>
         <p><a href="https://www.bbk.bund.de/" rel="noopener noreferrer external">${F.vorsorgeLink}<span class="nur-vorleser"> ${L.externHinweis}</span></a></p>
       </div>
-      ${kontext}
     </div>
     <p class="fuss-projekt">${esc(F.projekt)}</p>`;
 }

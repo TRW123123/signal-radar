@@ -64,6 +64,17 @@ anders gezeichnete Spur unter einem Trenner, mit dem Etikett „zählt nicht als
   Schwankung in Alltagssprache („46-mal so weit vom Normalwert wie üblich“), Sparkline mit Zeitraum, Dämpfungsgrund,
   Rohdaten-Link, Evidenzklasse als Wort. Geplante Messreihen nur als Zahl.
 
+## Ergänzungen (Nacharbeit 2)
+
+- **Unruhe:** Spurwert = max(0,25 × `history[].u[bereich]`, `history[].d[bereich]`). Unter der Grenze feine Tintenspur mit
+  heller Füllung (normales Schwanken), darüber Stufenfarbe. Reine Anzeige, zählt nicht.
+- **Zwillings-Pegel** unter dem Satz: „Messung“ (Balken aus `score`, Stufenfarbe, Wort = Stufenname bzw. „ruhig“) und
+  „Gerede im Netz“ (Balken aus `attention`, violett schraffiert, Wort „wenig“ < 0,1 ≤ „etwas“ < 0,35 ≤ „viel“).
+- **Jetzt-Rand Handy:** 12 px in Stufenfarbe bei Ausschlag, sonst 2 px Tinte.
+- **Lücken:** „noch keine Messreihe“, „keine frischen Daten“, „Normalwert wird noch gelernt (bisher n Vergleichswerte)“,
+  „noch nicht bewertbar“; keine Normallinie in der Sparkline bei unreifem Normalwert.
+- **Offizielle Meldungen:** eigener Abschnitt mit gestricheltem Rahmen unter den Belegen, nur wenn `context` nicht leer.
+
 ## Bewegung
 
 Einzige Bewegung: beim ersten Laden schreiben sich die Spuren einmal von links nach rechts (`clip-path`, 900 ms,

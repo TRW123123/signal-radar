@@ -44,7 +44,7 @@ const catalog = activate(loadCatalog(root), collectors, process.env);
 if (cmd === 'run' || cmd === 'collect') {
   const http = createHttp({ fixturesDir, mode, minHostIntervalMs: mode === 'replay' ? 0 : 1000 });
   const reports = await runCollectors(collectors, store, {
-    now, http, env: process.env, only: opt('only')?.split(','), log: (m) => console.error(m),
+    now, http, env: process.env, only: opt('only')?.split(','), respectIntervals: flag('respect-intervals'), log: (m) => console.error(m),
   });
   for (const r of reports) {
     const state = r.skipped ? `übersprungen (${r.skipped})` : r.ok ? `ok, ${r.observations} Werte, ${r.added} neu` : `FEHLER ${r.error}`;

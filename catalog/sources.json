@@ -1,0 +1,5320 @@
+[
+  {
+    "id": "abuse-ipdb",
+    "name": "AbuseIPDB",
+    "docUrl": "https://docs.abuseipdb.com/",
+    "endpoints": [
+      "https://api.abuseipdb.com/api/v2/blacklist"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Eingeschränkt",
+    "rateLimit": "5 Blacklist-Abrufe/Tag frei",
+    "license": "CC BY-NC 4.0 (laut Seite)",
+    "verified": false,
+    "aliases": [],
+    "collector": "abuse-ipdb",
+    "signals": [
+      "cyber.threat.new_ddos_botnet_ips"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "adsb-lol",
+    "name": "adsb.lol API und Historie",
+    "docUrl": "https://api.adsb.lol/docs",
+    "endpoints": [
+      "https://api.adsb.lol/v2/mil"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "Tagesdumps auf github.com/adsblol/globe_history",
+    "rateLimit": "unbekannt",
+    "license": "ODbL / frei (Community)",
+    "verified": false,
+    "aliases": [],
+    "collector": "adsb-lol",
+    "signals": [
+      "cyber.physical.continuity_aircraft",
+      "cyber.physical.bizjet_nz_aggregate",
+      "cyber.physical.bizjet_remote_havens"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "adyen-status",
+    "name": "Adyen Status",
+    "docUrl": "https://status.adyen.com/",
+    "endpoints": [
+      "https://status.adyen.com/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Webseite",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "adyen-status",
+    "signals": [
+      "cyber.finance.payment_providers"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "adzuna",
+    "name": "Adzuna API",
+    "docUrl": "https://developer.adzuna.com/",
+    "endpoints": [
+      "https://api.adzuna.com/v1/api/jobs/de/search/1?app_id=ID&app_key=KEY&what=incident%20response"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "aktueller Bestand",
+    "rateLimit": "unbekannt",
+    "license": "Adzuna ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "adzuna",
+    "signals": [
+      "cyber.attention.incident_response_postings"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "agsi",
+    "name": "AGSI+ Gas Infrastructure Europe",
+    "docUrl": "https://agsi.gie.eu/api",
+    "endpoints": [
+      "https://agsi.gie.eu/api?country=DE&from=2024-01-01"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2011",
+    "rateLimit": "unklar",
+    "license": "GIE Nutzungsbedingungen, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "agsi",
+    "signals": [
+      "cyber.physical.storage_level_anomaly_eu"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "aisstream",
+    "name": "AISStream.io",
+    "docUrl": "https://aisstream.io/documentation",
+    "endpoints": [
+      "wss://stream.aisstream.io/v0/stream (Bounding Box um Kabeltrasse)",
+      "wss://stream.aisstream.io/v0/stream"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "keine (Live-Stream)",
+    "rateLimit": "Fair use",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "ais",
+      "ais-agg"
+    ],
+    "collector": "aisstream",
+    "signals": [
+      "cyber.physical.ais_position_jumps",
+      "cyber.physical.port_congestion",
+      "cyber.attention.ship_ais_aggregate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "alphavantage",
+    "name": "Alpha Vantage",
+    "docUrl": "https://www.alphavantage.co/documentation/",
+    "endpoints": [
+      "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=HACK&apikey=KEY",
+      "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=AKAM&apikey=KEY"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Tagesende",
+    "history": "20+ Jahre Tageswerte",
+    "rateLimit": "25 Anfragen/Tag im Free-Tier",
+    "license": "ToS Alpha Vantage, nur eigene Nutzung",
+    "verified": false,
+    "aliases": [],
+    "collector": "alphavantage",
+    "signals": [
+      "cyber.markets.cyber_etf_volume",
+      "cyber.markets.cdn_cloud_stress"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "alsi",
+    "name": "ALSI+ LNG Storage",
+    "docUrl": "https://alsi.gie.eu/api",
+    "endpoints": [
+      "https://alsi.gie.eu/api?country=DE"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "mehrjährig",
+    "rateLimit": "unklar",
+    "license": "GIE Nutzungsbedingungen, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "alsi",
+    "signals": [
+      "cyber.physical.lng_sendout_anomaly"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "amsix",
+    "name": "AMS-IX Statistiken",
+    "docUrl": "https://stats.ams-ix.net/",
+    "endpoints": [
+      "https://stats.ams-ix.net/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "Graphen mehrjährig",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "amsix",
+    "signals": [
+      "cyber.outages.amsix_linx_traffic"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "apnic",
+    "name": "APNIC Labs Statistiken",
+    "docUrl": "https://stats.labs.apnic.net/",
+    "endpoints": [
+      "https://stats.labs.apnic.net/ipv6/DE"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit ca. 2010",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "apnic",
+    "signals": [
+      "cyber.outages.ipv6_share_shift"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "apple-rss",
+    "name": "Apple iTunes Customer Reviews RSS (Banking-Apps)",
+    "docUrl": "https://rss.applemarketingtools.com/",
+    "endpoints": [
+      "https://itunes.apple.com/de/rss/customerreviews/id=<APP_ID>/sortby=mostrecent/json",
+      "https://rss.applemarketingtools.com/api/v2/de/apps/top-free/100/apps.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten bis Stunden",
+    "history": "letzte ca. 500 Reviews je Land",
+    "rateLimit": "unbekannt",
+    "license": "Apple ToS, nur Aggregate",
+    "verified": false,
+    "aliases": [
+      "itunes-reviews",
+      "itunes-rss"
+    ],
+    "collector": "apple-rss",
+    "signals": [
+      "cyber.attention.bank_app_review_spike",
+      "cyber.attention.app_store_survival_apps"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "apwg",
+    "name": "APWG Phishing Activity Trends",
+    "docUrl": "https://apwg.org/trendsreports/",
+    "endpoints": [
+      "https://apwg.org/trendsreports/"
+    ],
+    "access": "download",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "quartalsweise",
+    "history": "Reports seit 2004",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "apwg",
+    "signals": [
+      "cyber.threat.apwg_quarterly"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "artemis",
+    "name": "Artemis Cyber Cat Bonds",
+    "docUrl": "https://www.artemis.bm/",
+    "endpoints": [
+      "https://www.artemis.bm/deal-directory/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Deal-Verzeichnis",
+    "rateLimit": "unbekannt",
+    "license": "urheberrechtlich geschützt",
+    "verified": false,
+    "aliases": [],
+    "collector": "artemis",
+    "signals": [
+      "cyber.markets.cat_bond_cyber"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "autobahn-api",
+    "name": "Autobahn App API",
+    "docUrl": "https://autobahn.api.bund.dev/",
+    "endpoints": [
+      "https://verkehr.autobahn.de/o/autobahn/A1/services/warning"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "nur Live",
+    "rateLimit": "unklar",
+    "license": "Datenlizenz Deutschland, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "autobahn-api",
+    "signals": [
+      "cyber.attention.traffic_lights_outage"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "aws-health",
+    "name": "AWS Health/Status",
+    "docUrl": "https://health.aws.amazon.com/health/status",
+    "endpoints": [
+      "https://health.aws.amazon.com/public/currentevents",
+      "https://status.aws.amazon.com/rss/all.rss"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "nur aktuell, RSS-Archiv",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "aws-health-rss",
+      "status-aws"
+    ],
+    "collector": "aws-health",
+    "signals": [
+      "cyber.services.hyperscaler_incidents"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "azure-status",
+    "name": "Azure Status RSS",
+    "docUrl": "https://azure.status.microsoft/en-us/status/feed/",
+    "endpoints": [
+      "https://azure.status.microsoft/en-us/status/feed/"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Feed mit jüngsten Events",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "azure-status-rss",
+      "status-azure"
+    ],
+    "collector": "azure-status",
+    "signals": [
+      "cyber.services.hyperscaler_incidents"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "bafin-dd",
+    "name": "BaFin Eigengeschaefte von Fuehrungskraeften",
+    "docUrl": "https://portal.mvp.bafin.de/database/DealingsInfo/",
+    "endpoints": [
+      "https://portal.mvp.bafin.de/database/DealingsInfo/sucheForm.do"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Datenbank ab 2016 mit CSV-Export",
+    "rateLimit": "unbekannt",
+    "license": "Datenlizenz Deutschland? unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "bafin-dd",
+    "signals": [
+      "cyber.markets.bafin_dealings"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "bcb-pix",
+    "name": "Banco Central do Brasil Open Data Pix",
+    "docUrl": "https://dadosabertos.bcb.gov.br/dataset/pix",
+    "endpoints": [
+      "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasTransacoesPix(Database=@Database)?@Database='202610'&$format=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "ab 2020",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0 (BCB Dados Abertos)",
+    "verified": false,
+    "aliases": [],
+    "collector": "bcb-pix",
+    "signals": [
+      "cyber.finance.pix_upi_volumes"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "bgptools",
+    "name": "bgp.tools",
+    "docUrl": "https://bgp.tools/kb/api",
+    "endpoints": [
+      "https://bgp.tools/stats"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "begrenzt",
+    "rateLimit": "strenges Limit, UA mit Kontakt Pflicht",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "bgptools",
+    "signals": [
+      "cyber.routing.visible_prefixes_v4_v6"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "binance-public",
+    "name": "Binance Public API (ping/time)",
+    "docUrl": "https://developers.binance.com/docs/binance-spot-api-docs/rest-api",
+    "endpoints": [
+      "https://api.binance.com/api/v3/ping"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "keine (selbst mitschreiben)",
+    "rateLimit": "1 Anfrage/min genügt",
+    "license": "Binance API ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "binance-public",
+    "signals": [
+      "cyber.finance.exchange_api_availability"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "bitnodes",
+    "name": "Bitnodes API",
+    "docUrl": "https://bitnodes.io/api/",
+    "endpoints": [
+      "https://bitnodes.io/api/v1/snapshots/latest/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "~10 min",
+    "history": "Snapshot-Historie per /snapshots/",
+    "rateLimit": "begrenzt ohne Key",
+    "license": "öffentlich, Nutzungsbedingungen unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "bitnodes",
+    "signals": [
+      "cyber.finance.bitcoin_network_nodes"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "blockchain-charts",
+    "name": "Blockchain.com Charts API",
+    "docUrl": "https://www.blockchain.com/explorer/api/charts",
+    "endpoints": [
+      "https://api.blockchain.info/charts/n-transactions?timespan=1year&format=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2009",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "blockchain-charts",
+    "signals": [
+      "cyber.finance.mempool_fee_spike"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "bluesky-jetstream",
+    "name": "Bluesky Jetstream",
+    "docUrl": "https://github.com/bluesky-social/jetstream",
+    "endpoints": [
+      "wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "nur Live, selbst zählen",
+    "rateLimit": "unbekannt",
+    "license": "öffentliche Firehose, Nutzerinhalte; nur Aggregat zählen",
+    "verified": false,
+    "aliases": [],
+    "collector": "bluesky-jetstream",
+    "signals": [
+      "cyber.attention.bluesky_mastodon_keywords"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "bnetza",
+    "name": "Bundesnetzagentur Breitbandmessung / Netzstoerungen",
+    "docUrl": "https://www.bundesnetzagentur.de/",
+    "endpoints": [
+      "https://www.bundesnetzagentur.de/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unregelmäßig",
+    "history": "kaum",
+    "rateLimit": "-",
+    "license": "dl-de/by-2-0 (unklar je Datensatz)",
+    "verified": false,
+    "aliases": [],
+    "collector": "bnetza",
+    "signals": [
+      "cyber.services.bnetza_disruption_reports"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "boe-chaps-payuk",
+    "name": "Bank of England RTGS/CHAPS und Pay.UK (Bacs, Faster Payments) Status",
+    "docUrl": "https://www.bankofengland.co.uk/payment-and-settlement/rtgs-renewal-programme",
+    "endpoints": [
+      "https://www.bankofengland.co.uk/payment-and-settlement/chaps"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "gering",
+    "rateLimit": "unbekannt",
+    "license": "Bö Copyright / OGL",
+    "verified": false,
+    "aliases": [],
+    "collector": "boe-chaps-payuk",
+    "signals": [
+      "cyber.finance.uk_chaps_faster_payments"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "bundesagentur-jobsuche",
+    "name": "Bundesagentur fuer Arbeit Jobsuche API",
+    "docUrl": "https://jobsuche.api.bund.dev/",
+    "endpoints": [
+      "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobs?was=Incident%20Response&size=1"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "nur aktueller Bestand, Historie selbst archivieren",
+    "rateLimit": "unbekannt",
+    "license": "bund.dev, offene Nutzung; Bedingungen prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "bundesagentur-jobsuche",
+    "signals": [
+      "cyber.attention.incident_response_postings"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "bundesanzeiger",
+    "name": "Bundesanzeiger Veroeffentlichungen",
+    "docUrl": "https://www.bundesanzeiger.de/",
+    "endpoints": [
+      "https://www.bundesanzeiger.de/pub/de/to_nlp_start"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "mehrjähriges Archiv",
+    "rateLimit": "unbekannt",
+    "license": "unklar; Nutzungsbedingungen prüfen, automatisierter Abruf ggf. eingeschränkt",
+    "verified": false,
+    "aliases": [],
+    "collector": "bundesanzeiger",
+    "signals": [
+      "cyber.services.eqs_adhoc_cyber"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ca-ag-breach",
+    "name": "California AG Data Security Breach Reports",
+    "docUrl": "https://oag.ca.gov/privacy/databreach/list",
+    "endpoints": [
+      "https://oag.ca.gov/privacy/databreach/list"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "ab 2012",
+    "rateLimit": "unbekannt",
+    "license": "öffentliche Behördendaten",
+    "verified": false,
+    "aliases": [],
+    "collector": "ca-ag-breach",
+    "signals": [
+      "cyber.services.state_ag_notifications"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cboe",
+    "name": "Cboe Indizes CSV",
+    "docUrl": "https://www.cboe.com/tradable_products/vix/vix_historical_data/",
+    "endpoints": [
+      "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+      "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX9D_History.csv",
+      "https://cdn.cboe.com/resources/options/volume_and_call_put_ratios/totalpc.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tagesende",
+    "history": "ab 1990",
+    "rateLimit": "unbekannt",
+    "license": "Cboe Nutzungsbedingungen",
+    "verified": false,
+    "aliases": [
+      "cboe-pcr",
+      "cboe-vix",
+      "cboe-vix9d"
+    ],
+    "collector": "cboe",
+    "signals": [
+      "cyber.markets.putcall_ratio",
+      "cyber.markets.vix_spike",
+      "cyber.markets.vix_term_structure"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "celestrak",
+    "name": "CelesTrak GP-Daten",
+    "docUrl": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+    "endpoints": [
+      "https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ca. täglich",
+    "history": "aktuell (selbst archivieren), Space-Track für Historie",
+    "rateLimit": "wenige Abrufe/Tag",
+    "license": "frei, Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "celestrak",
+    "signals": [
+      "cyber.physical.starlink_fleet_count"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "censys",
+    "name": "Censys Search/Open Data",
+    "docUrl": "https://search.censys.io/api",
+    "endpoints": [
+      "https://search.censys.io/api/v2/hosts/aggregate",
+      "https://search.censys.io/api/v2/hosts/search?q=services.service_name%3AMODBUS"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "eingeschränkt",
+    "rateLimit": "unbekannt",
+    "license": "ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "censys",
+    "signals": [
+      "cyber.vuln.exposed_ot_protocols",
+      "cyber.vuln.shodan_exposed_service_trend"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cert-bund",
+    "name": "CERT-Bund / BSI WID RSS",
+    "docUrl": "https://wid.cert-bund.de/",
+    "endpoints": [
+      "https://wid.cert-bund.de/content/public/securityAdvisory/rss"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Feed-Fenster begrenzt",
+    "rateLimit": "unbekannt",
+    "license": "DL-DE (unklar)",
+    "verified": false,
+    "aliases": [
+      "bsi-cert",
+      "cert-bund-rss"
+    ],
+    "collector": "cert-bund",
+    "signals": [
+      "cyber.vuln.cert_bund_critical"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cert-eu",
+    "name": "CERT-EU Advisories RSS",
+    "docUrl": "https://cert.europa.eu/publications/security-advisories/",
+    "endpoints": [
+      "https://cert.europa.eu/publications/security-advisories-rss"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "begrenzt",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "cert-eu",
+    "signals": [
+      "cyber.vuln.cert_bund_critical"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "certstream",
+    "name": "CertStream/CT-Logs",
+    "docUrl": "https://certstream.calidog.io/",
+    "endpoints": [
+      "wss://certstream.calidog.io/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "keine",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "certstream",
+    "signals": [
+      "cyber.dns_core.lookalike_issuance_gov_banks"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cf-radar",
+    "name": "Cloudflare Radar API",
+    "docUrl": "https://developers.cloudflare.com/radar/",
+    "endpoints": [
+      "https://api.cloudflare.com/client/v4/radar/bgp/hijacks/events?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/bgp/leaks/events?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/bgp/routes/stats",
+      "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&limit=100",
+      "https://api.cloudflare.com/client/v4/radar/traffic_anomalies?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/http/timeseries?location=DE&dateRange=7d&aggInterval=1h",
+      "https://api.cloudflare.com/client/v4/radar/quality/iqi/timeseries?metric=latency&location=DE&dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/dns/timeseries_groups/response_code?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/dns/timeseries?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/dns/timeseries_groups/dnssec?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/ranking/top?limit=100",
+      "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=30d&limit=100",
+      "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/bot_class?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/attacks/layer3/timeseries?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/attacks/layer7/timeseries?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/http_protocol?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/tls_version?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/ip_version?location=DE&dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/http/timeseries_groups/device_type?location=DE&dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/http/timeseries?dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/ranking/top?limit=100&dateRange=7d",
+      "https://api.cloudflare.com/client/v4/radar/netflows/timeseries?location=DE"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "ca. 15 min bis 1h",
+    "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+    "rateLimit": "gem. Cloudflare-API-Limits",
+    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung prüfen)",
+    "verified": false,
+    "aliases": [
+      "cloudflare-radar",
+      "cloudflare-radar-dns"
+    ],
+    "collector": "cf-radar",
+    "signals": [
+      "cyber.routing.hijack_events",
+      "cyber.routing.route_leaks",
+      "cyber.routing.rpki_invalid_share",
+      "cyber.dns_core.servfail_rate",
+      "cyber.dns_core.dnssec_failures",
+      "cyber.dns_core.cf_query_volume_and_nxdomain",
+      "cyber.dns_core.top_domain_rank_volatility",
+      "cyber.outages.cf_radar_outages",
+      "cyber.outages.traffic_anomalies",
+      "cyber.outages.cf_http_error_rates",
+      "cyber.outages.cf_traffic_de",
+      "cyber.outages.cf_outage_cause_cable",
+      "cyber.outages.cf_iqi_quality",
+      "cyber.outages.ipv6_share_shift",
+      "cyber.outages.mix_protocol_shift",
+      "cyber.outages.mobile_vs_desktop_shift",
+      "cyber.threat.cloudflare_l3_attacks",
+      "cyber.threat.cloudflare_l7_attacks",
+      "cyber.threat.targets_by_country",
+      "cyber.attention.cloudflare_domain_rankings"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "chromiumdash",
+    "name": "Chromium Dash Releases",
+    "docUrl": "https://chromiumdash.appspot.com/releases",
+    "endpoints": [
+      "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=50"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "mehrere Jahre",
+    "rateLimit": "unbekannt",
+    "license": "BSD/Chromium; API inoffiziell",
+    "verified": false,
+    "aliases": [],
+    "collector": "chromiumdash",
+    "signals": [
+      "cyber.vuln.emergency_releases"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cisa-ics",
+    "name": "CISA ICS Advisories RSS",
+    "docUrl": "https://www.cisa.gov/news-events/cybersecurity-advisories?f%5B0%5D=advisory_type%3A95",
+    "endpoints": [
+      "https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/changes.csv",
+      "https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Archiv der Advisories im Web",
+    "rateLimit": "unklar",
+    "license": "US-Regierungsdaten, gemeinfrei",
+    "verified": false,
+    "aliases": [
+      "ics-cert"
+    ],
+    "collector": "cisa-ics",
+    "signals": [
+      "cyber.threat.ics_malware",
+      "cyber.vuln.cisa_ics_advisories"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cisa-kev",
+    "name": "CISA Known Exploited Vulnerabilities",
+    "docUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+    "endpoints": [
+      "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "werktäglich",
+    "history": "Komplettes Archiv seit 2021-11 mit dateAdded je Eintrag",
+    "rateLimit": "unbekannt",
+    "license": "CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprüft)",
+    "verified": false,
+    "aliases": [
+      "cisa-kev-csv",
+      "kev"
+    ],
+    "collector": "cisa-kev",
+    "signals": [
+      "cyber.vuln.kev_additions_rate",
+      "cyber.vuln.kev_network_edge_share",
+      "cyber.vuln.kev_ransomware_flag",
+      "cyber.vuln.kev_due_date_short",
+      "cyber.vuln.kev_ot_additions"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cloudflarestatus",
+    "name": "Cloudflare Status (Statuspage)",
+    "docUrl": "https://www.cloudflarestatus.com/api",
+    "endpoints": [
+      "https://www.cloudflarestatus.com/api/v2/summary.json",
+      "https://www.cloudflarestatus.com/api/v2/incidents.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "ca. letzte 50 Incidents",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "status-cf"
+    ],
+    "collector": "statuspage",
+    "signals": [
+      "cyber.services.cdn_dns_providers",
+      "cyber.services.statuspage_incident_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "coingecko",
+    "name": "CoinGecko API",
+    "docUrl": "https://docs.coingecko.com/",
+    "endpoints": [
+      "https://api.coingecko.com/api/v3/simple/price?ids=tether,usd-coin&vs_currencies=usd",
+      "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365",
+      "https://api.coingecko.com/api/v3/coins/tether/market_chart?vs_currency=usd&days=365"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "1-2 min",
+    "history": "Demo-Plan 1 Jahr, market_chart/range",
+    "rateLimit": "Demo ca. 30 req/min",
+    "license": "CoinGecko ToS, Attribution",
+    "verified": false,
+    "aliases": [],
+    "collector": "coingecko",
+    "signals": [
+      "cyber.finance.stablecoin_peg_deviation",
+      "cyber.markets.bitcoin_vs_gold_divergence"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "confs-tech",
+    "name": "confs.tech",
+    "docUrl": "https://confs.tech/",
+    "endpoints": [
+      "https://github.com/tech-conferences/conference-data"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unregelmäßig",
+    "history": "GitHub-Historie",
+    "rateLimit": "unbekannt",
+    "license": "MIT",
+    "verified": false,
+    "aliases": [],
+    "collector": "confs-tech",
+    "signals": [
+      "cyber.attention.conference_cancellations"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cowrie-community",
+    "name": "Cowrie Community-Daten (z. B. SANS/DShield, BitNinja)",
+    "docUrl": "https://github.com/cowrie/cowrie",
+    "endpoints": [
+      "https://isc.sans.edu/api/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unbekannt",
+    "history": "unbekannt",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "cowrie-community",
+    "signals": [
+      "cyber.threat.cowrie_ssh_telnet"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "crtsh",
+    "name": "crt.sh",
+    "docUrl": "https://crt.sh/",
+    "endpoints": [
+      "https://crt.sh/?q=<domain>&output=json",
+      "https://crt.sh/?q=%25sparkasse%25&output=json",
+      "https://crt.sh/?q=%25bank%25&output=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "alle CT-Logeinträge seit 2013",
+    "rateLimit": "oft ueberlastet, schonend nutzen",
+    "license": "frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "crtsh",
+    "signals": [
+      "cyber.dns_core.mass_revocation",
+      "cyber.dns_core.lookalike_issuance_gov_banks",
+      "cyber.threat.brand_domains_nrd"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ct-logs",
+    "name": "Certificate Transparency Log STH",
+    "docUrl": "https://certificate.transparency.dev/",
+    "endpoints": [
+      "https://ct.googleapis.com/logs/us1/<log>/ct/v1/get-sth",
+      "https://www.gstatic.com/ct/log_list/v3/log_list.json",
+      "https://ct.googleapis.com/logs/us1/argon2026h2/ct/v1/get-sth"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "nur Zählerstand, Differenz selbst archivieren",
+    "rateLimit": "unbekannt",
+    "license": "öffentlich",
+    "verified": false,
+    "aliases": [
+      "ctlog"
+    ],
+    "collector": "ct-logs",
+    "signals": [
+      "cyber.dns_core.issuance_volume",
+      "cyber.dns_core.log_availability"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "cvelist-v5",
+    "name": "CVE Project cvelistV5 (GitHub)",
+    "docUrl": "https://github.com/CVEProject/cvelistV5",
+    "endpoints": [
+      "https://github.com/CVEProject/cvelistV5/tree/main/cves"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "~10 min",
+    "history": "Git-Historie komplett",
+    "rateLimit": "unbekannt",
+    "license": "CVE Terms of Use (frei)",
+    "verified": false,
+    "aliases": [],
+    "collector": "cvelist-v5",
+    "signals": [
+      "cyber.vuln.nvd_cve_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "db-timetables",
+    "name": "DB API Marketplace Timetables / StaDa",
+    "docUrl": "https://developers.deutschebahn.com/db-api-marketplace/apis/",
+    "endpoints": [
+      "https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/fchg/8000105"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "ca. 1 min",
+    "history": "nur Live; Archivierung nötig",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0 (laut DB), prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "db-timetables",
+    "signals": [
+      "cyber.physical.db_cancellation_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "decix",
+    "name": "DE-CIX Verkehrsstatistik",
+    "docUrl": "https://www.de-cix.net/en/locations/frankfurt/statistics",
+    "endpoints": [
+      "https://www.de-cix.net/en/locations/frankfurt/statistics"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "Graphen bis zu mehrjährig",
+    "rateLimit": "kein API, Scrapen schonend",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "decix",
+    "signals": [
+      "cyber.outages.decix_frankfurt_traffic"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "defillama",
+    "name": "DefiLlama Stablecoins API",
+    "docUrl": "https://defillama.com/docs/api",
+    "endpoints": [
+      "https://stablecoins.llama.fi/stablecoins?includePrices=true",
+      "https://api.llama.fi/protocols (CEX-Daten ueber Webseite /cexs, API-Pfad ungeprueft)",
+      "https://api.llama.fi/v2/historicalChainTvl"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Zeitreihen je Coin (stablecoincharts)",
+    "rateLimit": "unbekannt",
+    "license": "frei, Quellenangabe",
+    "verified": false,
+    "aliases": [
+      "defillama-cex",
+      "defillama-stablecoins",
+      "defillama-tvl"
+    ],
+    "collector": "defillama",
+    "signals": [
+      "cyber.finance.stablecoin_peg_deviation",
+      "cyber.finance.defi_tvl_drop",
+      "cyber.finance.exchange_reserves_outflow"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "dnsoarc",
+    "name": "DNS-OARC / root-servers.org",
+    "docUrl": "https://www.root-servers.org/",
+    "endpoints": [
+      "https://root-servers.org/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "nur aktuelle Instanzzahlen",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "dnsoarc",
+    "signals": [
+      "cyber.dns_core.root_instance_count"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "downdetector",
+    "name": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
+    "docUrl": "https://downdetector.com/",
+    "endpoints": [
+      "https://downdetector.com/",
+      "https://downdetector.com/status/vodafone-germany/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "keine offene API",
+    "rateLimit": "unklar",
+    "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+    "verified": false,
+    "aliases": [
+      "downdet",
+      "vendor-status"
+    ],
+    "collector": "downdetector",
+    "signals": [
+      "cyber.attention.crowd_outage_aggregators",
+      "cyber.attention.mobile_outage_crowd",
+      "cyber.attention.stoerungsmelder_card_banking",
+      "cyber.attention.eu_outage_reports_crowd",
+      "cyber.attention.gsmr_outage"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "dwd-opendata",
+    "name": "DWD Open Data Wetterwarnungen",
+    "docUrl": "https://opendata.dwd.de/",
+    "endpoints": [
+      "https://opendata.dwd.de/weather/alerts/cap/"
+    ],
+    "access": "download",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "eingeschränkt",
+    "rateLimit": "unklar",
+    "license": "GeoNutzV / DWD Open Data",
+    "verified": false,
+    "aliases": [],
+    "collector": "dwd-opendata",
+    "signals": [
+      "cyber.context.dwd_weather_alerts"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ebaclearing",
+    "name": "EBA Clearing RT1/STEP2 Status und Statistik",
+    "docUrl": "https://www.ebaclearing.eu/",
+    "endpoints": [
+      "https://www.ebaclearing.eu/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten bis Tage",
+    "history": "Statistiken ab 2017",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "ebaclearing",
+    "signals": [
+      "cyber.finance.sepa_instant_rt1"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ecb-data",
+    "name": "ECB Data Portal API",
+    "docUrl": "https://data.ecb.europa.eu/help/api/overview",
+    "endpoints": [
+      "https://data-api.ecb.europa.eu/service/data/TGT?lastNObservations=30&format=csvdata",
+      "https://data-api.ecb.europa.eu/service/data/ILM/W.U2.C.L010000.U2.EUR?lastNObservations=52&format=csvdata",
+      "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.WT?lastNObservations=30&format=csvdata",
+      "https://www.ecb.europa.eu/mopo/liq_ops/html/index.en.html",
+      "https://data-api.ecb.europa.eu/service/data/ILM/W.U2.C.L010000.Z5.EUR?format=csvdata",
+      "https://data-api.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?format=csvdata"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "ab 1999",
+    "rateLimit": "unbekannt",
+    "license": "ECB Reuse Policy (Quellenangabe)",
+    "verified": false,
+    "aliases": [
+      "ecb-data-tgt",
+      "ecb-estr",
+      "ecb-ilm-banknotes",
+      "ecb-liquidity"
+    ],
+    "collector": "ecb-data",
+    "signals": [
+      "cyber.finance.target_daily_volume",
+      "cyber.finance.estr_percentile_spread",
+      "cyber.finance.ecb_marginal_lending",
+      "cyber.finance.banknotes_in_circulation",
+      "cyber.markets.safe_haven_fx"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ecb-target-status",
+    "name": "ECB TARGET Services Betriebsstatus",
+    "docUrl": "https://www.ecb.europa.eu/paym/target/html/index.en.html",
+    "endpoints": [
+      "https://www.ecb.europa.eu/paym/target/target-professional-use-documents-links/tips/html/index.en.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten bis Stunden",
+    "history": "Incident-Berichte als PDF",
+    "rateLimit": "unbekannt",
+    "license": "ECB Copyright, Nutzung mit Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "ecb-target-status",
+    "signals": [
+      "cyber.finance.target_services_status"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "eia",
+    "name": "EIA Open Data (Hourly Grid Monitor)",
+    "docUrl": "https://www.eia.gov/opendata/",
+    "endpoints": [
+      "https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=KEY&frequency=hourly&data[0]=value&facets[respondent][]=PJM",
+      "https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=KEY&frequency=hourly"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "~1 h",
+    "history": "ab 2015",
+    "rateLimit": "unbekannt",
+    "license": "US-Public-Domain",
+    "verified": false,
+    "aliases": [
+      "eia-930",
+      "eia-grid"
+    ],
+    "collector": "eia",
+    "signals": [
+      "cyber.physical.us_demand_balancing_authorities"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "eirgrid",
+    "name": "EirGrid Smart Grid Dashboard",
+    "docUrl": "https://www.smartgriddashboard.com/",
+    "endpoints": [
+      "https://www.smartgriddashboard.com/DashboardService.svc/data?area=demandactual&region=ALL&datefrom=15-Nov-2026+00:00&dateto=16-Nov-2026+23:59"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "ab 2014",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "eirgrid",
+    "signals": [
+      "cyber.physical.irish_datacenter_load"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "energy-charts",
+    "name": "Energy-Charts API (Fraunhofer ISE)",
+    "docUrl": "https://api.energy-charts.info/",
+    "endpoints": [
+      "https://api.energy-charts.info/frequency?country=de",
+      "https://api.energy-charts.info/public_power?country=de",
+      "https://api.energy-charts.info/price?bzn=DE-LU"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten bis Stunden",
+    "history": "Zeitreihe per start/end Parameter",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0 (laut Seite, prüfen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "energy-charts",
+    "signals": [
+      "cyber.physical.frequency_deviation_de",
+      "cyber.physical.frequency_rocof",
+      "cyber.physical.load_vs_forecast_de",
+      "cyber.physical.solar_wind_feedin_sudden_drop",
+      "cyber.physical.price_spike_de"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "entsoe",
+    "name": "ENTSO-E Transparency Platform",
+    "docUrl": "https://transparency.entsoe.eu/",
+    "endpoints": [
+      "https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F",
+      "https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=202611150000&periodEnd=202611160000&securityToken=TOKEN",
+      "https://web-api.tp.entsoe.eu/api?documentType=A80&in_Domain=10Y1001A1001A83F&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001A1001A83F&out_Domain=10YFR-RTE------C&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY",
+      "https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "seit 2015",
+    "rateLimit": "400 req/min",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [
+      "entsoe-tp"
+    ],
+    "collector": "entsoe",
+    "signals": [
+      "cyber.physical.generation_unit_outages_eu",
+      "cyber.physical.cross_border_flow_anomaly",
+      "cyber.physical.solar_wind_feedin_sudden_drop",
+      "cyber.physical.grid_load_germany"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "entsog",
+    "name": "ENTSOG Transparency Platform API",
+    "docUrl": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+    "endpoints": [
+      "https://transparency.entsog.eu/api/v1/operationalData?limit=5&indicator=Physical%20Flow"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "ab 2017",
+    "rateLimit": "unklar",
+    "license": "ENTSOG, Namensnennung, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "entsog",
+    "signals": [
+      "cyber.physical.cross_border_flow_drop"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "epa-sdwis",
+    "name": "EPA SDWIS / ECHO",
+    "docUrl": "https://echo.epa.gov/tools/web-services",
+    "endpoints": [
+      "https://echodata.epa.gov/echo/sdw_rest_services.get_systems"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Wochen",
+    "history": "mehrjährig",
+    "rateLimit": "unklar",
+    "license": "gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "epa-sdwis",
+    "signals": [
+      "cyber.physical.water_utility_alerts"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "eqs-news",
+    "name": "EQS-News / EQS Group Ad-hoc und Pflichtmitteilungen (Feeds)",
+    "docUrl": "https://www.eqs-news.com/",
+    "endpoints": [
+      "https://www.eqs-news.com/feed/ (Feed-Pfade je Kategorie, Ad-hoc-Filter ueber Webseite pruefen)"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "nur Feed-Fenster; Archiv als HTML",
+    "rateLimit": "unbekannt",
+    "license": "unklar (Pressetexte der Emittenten; nur Metadaten nutzen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "eqs-news",
+    "signals": [
+      "cyber.services.eqs_adhoc_cyber"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "esas-dora",
+    "name": "ESAs/EBA/ECB Statistiken zu IKT-Vorfaellen (DORA, TIBER)",
+    "docUrl": "https://www.eiopa.europa.eu/digital-operational-resilience-act-dora_en",
+    "endpoints": [
+      "https://www.bafin.de/DE/Aufsicht/DORA/dora_node.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "jährlich",
+    "history": "ab 2025",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "esas-dora",
+    "signals": [
+      "cyber.services.dora_ico_incident_stats"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "eurocontrol",
+    "name": "Eurocontrol Network Manager / Aviation Intelligence",
+    "docUrl": "https://www.eurocontrol.int/dashboard/aviation-intelligence-portal",
+    "endpoints": [
+      "https://www.eurocontrol.int/Economics/DailyTrafficVariation-States.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2019 in Dashboards",
+    "rateLimit": "unklar",
+    "license": "Eurocontrol Nutzungsbedingungen, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "eurocontrol",
+    "signals": [
+      "cyber.physical.eurocontrol_delays_it"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "exploit-db",
+    "name": "Exploit-DB (GitLab CSV)",
+    "docUrl": "https://gitlab.com/exploit-database/exploitdb",
+    "endpoints": [
+      "https://gitlab.com/exploit-database/exploitdb/-/raw/main/files_exploits.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Komplette Historie seit 2000er, Feld date_published",
+    "rateLimit": "unbekannt",
+    "license": "GPLv2 (Repo)",
+    "verified": false,
+    "aliases": [],
+    "collector": "exploit-db",
+    "signals": [
+      "cyber.vuln.exploitdb_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "faa-nas",
+    "name": "FAA NAS Status",
+    "docUrl": "https://nasstatus.faa.gov/",
+    "endpoints": [
+      "https://nasstatus.faa.gov/api/airport-status-information"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ca. 1-5 min",
+    "history": "nur Live, eigene Archivierung nötig",
+    "rateLimit": "unklar",
+    "license": "US-Regierungsdaten, gemeinfrei (typisch)",
+    "verified": false,
+    "aliases": [],
+    "collector": "faa-nas",
+    "signals": [
+      "cyber.physical.us_ground_stops"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "faa-notam",
+    "name": "FAA NOTAM API",
+    "docUrl": "https://api.faa.gov/s/",
+    "endpoints": [
+      "https://external-api.faa.gov/notamapi/v1/notams?icaoLocation=KJFK"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "eingeschränkt",
+    "rateLimit": "unklar",
+    "license": "US-Regierungsdaten, gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "faa-notam",
+    "signals": [
+      "cyber.physical.notam_gps_interference"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "fastly-status",
+    "name": "Fastly Status (Statuspage API)",
+    "docUrl": "https://status.fastly.com/api",
+    "endpoints": [
+      "https://status.fastly.com/api/v2/summary.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1-5 min",
+    "history": "Incident-Historie",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "status-fastly"
+    ],
+    "collector": "statuspage",
+    "signals": [
+      "cyber.services.cdn_dns_providers"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "fca-nsm",
+    "name": "FCA National Storage Mechanism (UK RNS-Pflichtmitteilungen)",
+    "docUrl": "https://data.fca.org.uk/#/nsm/nationalstoragemechanism",
+    "endpoints": [
+      "https://api.data.fca.org.uk/search?index=fca-nsm-searchdata"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "mehrjährig",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "fca-nsm",
+    "signals": [
+      "cyber.services.uk_rns_cyber"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "fcc-dirs",
+    "name": "FCC DIRS Summary",
+    "docUrl": "https://www.fcc.gov/disaster-information-reporting-system-dirs-0",
+    "endpoints": [
+      "https://www.fcc.gov/disaster-information-reporting-system-dirs-0"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich bei Aktivierung",
+    "history": "Archiv zu Ereignissen",
+    "rateLimit": "unklar",
+    "license": "gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "fcc-dirs",
+    "signals": [
+      "cyber.physical.fcc_dirs_reports"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "fcc-psap",
+    "name": "FCC 911 Outage Reports",
+    "docUrl": "https://www.fcc.gov/",
+    "endpoints": [
+      "https://www.fcc.gov/public-safety-and-homeland-security/policy-and-licensing-division/9-1-1-reliability"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Wochen",
+    "history": "Archiv",
+    "rateLimit": "unklar",
+    "license": "gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "fcc-psap",
+    "signals": [
+      "cyber.physical.emergency_number_outage"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "fema-ipaws",
+    "name": "FEMA IPAWS Archived Alerts",
+    "docUrl": "https://www.fema.gov/about/openfema/data-sets",
+    "endpoints": [
+      "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$top=5&$orderby=sent desc"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "ab 2012",
+    "rateLimit": "unklar",
+    "license": "OpenFEMA, gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "fema-ipaws",
+    "signals": [
+      "cyber.physical.ipaws_test_vs_actual"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "feodo",
+    "name": "abuse.ch Feodo Tracker",
+    "docUrl": "https://feodotracker.abuse.ch/",
+    "endpoints": [
+      "https://feodotracker.abuse.ch/downloads/ipblocklist.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "Nur aktuelle Liste, Historie selbst archivieren",
+    "rateLimit": "unbekannt",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "feodo",
+    "signals": [
+      "cyber.threat.feodo_c2_count",
+      "cyber.threat.c2_hosting_concentration"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "finra-short",
+    "name": "FINRA Short Interest / Daily Short Volume",
+    "docUrl": "https://www.finra.org/finra-data/browse-catalog/short-sale-volume-data",
+    "endpoints": [
+      "https://cdn.finra.org/equity/regsho/daily/CNMSshvol20261116.txt"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2009",
+    "rateLimit": "unbekannt",
+    "license": "FINRA Nutzungsbedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "finra-short",
+    "signals": [
+      "cyber.markets.short_interest_cyber"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "first-epss",
+    "name": "FIRST EPSS API",
+    "docUrl": "https://www.first.org/epss/api",
+    "endpoints": [
+      "https://api.first.org/data/v1/epss?cve=CVE-2024-3400&scope=time-series",
+      "https://epss.cyentia.com/epss_scores-current.csv.gz"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Zeitreihe ueber scope=time-series, Daten seit 2021-04",
+    "rateLimit": "unbekannt",
+    "license": "frei nutzbar mit Quellenangabe (laut FIRST)",
+    "verified": true,
+    "aliases": [
+      "first-epss-csv"
+    ],
+    "collector": "first-epss",
+    "signals": [
+      "cyber.vuln.epss_jumps",
+      "cyber.vuln.epss_high_count"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "flightaware",
+    "name": "FlightAware AeroAPI",
+    "docUrl": "https://www.flightaware.com/commercial/aeroapi/",
+    "endpoints": [
+      "https://aeroapi.flightaware.com/aeroapi/disruption_counts/origin"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "paid",
+    "cost": "paid",
+    "updateLatency": "Minuten",
+    "history": "Tage",
+    "rateLimit": "unklar",
+    "license": "kommerziell",
+    "verified": false,
+    "aliases": [],
+    "collector": "flightaware",
+    "signals": [
+      "cyber.physical.cancellation_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "frb-services-stats",
+    "name": "FRBservices Fedwire/FedACH/FedNow Volumen",
+    "docUrl": "https://www.frbservices.org/resources/financial-services/wires/volume-value-stats",
+    "endpoints": [
+      "https://www.frbservices.org/resources/financial-services/wires/volume-value-stats"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich/quartalsweise",
+    "history": "ab 1990er",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "frb-services-stats",
+    "signals": [
+      "cyber.finance.fed_services_status"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "frbservices-status",
+    "name": "Federal Reserve Financial Services Status (Fedwire, FedACH, FedNow)",
+    "docUrl": "https://www.frbservices.org/",
+    "endpoints": [
+      "https://www.frbservices.org/ (Statusbereich), FedNow: https://www.frbservices.org/financial-services/fednow"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "gering",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "frbservices-status",
+    "signals": [
+      "cyber.finance.fed_services_status"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "fred",
+    "name": "FRED API (St. Louis Fed)",
+    "docUrl": "https://fred.stlouisfed.org/docs/api/fred/",
+    "endpoints": [
+      "https://api.stlouisfed.org/fred/series/observations?series_id=CURRCIR&api_key=<KEY>&file_type=json",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=VIXCLS&api_key=KEY&file_type=json",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=VXVCLS&api_key=KEY&file_type=json",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=WCURCIR&api_key=KEY&file_type=json",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=STLFSI4&api_key=KEY&file_type=json",
+      "https://api.stlouisfed.org/fred/series/observations?series_id=DEXSZUS&api_key=KEY&file_type=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich/wöchentlich",
+    "history": "vollständige Historie",
+    "rateLimit": "120 Anfragen/min",
+    "license": "FRED Terms of Use (Drittanbieter-Serien teils eingeschränkt)",
+    "verified": false,
+    "aliases": [
+      "fred-currcir"
+    ],
+    "collector": "fred",
+    "signals": [
+      "cyber.finance.banknotes_in_circulation",
+      "cyber.markets.financial_stress_index",
+      "cyber.markets.vix_spike",
+      "cyber.markets.vix_term_structure",
+      "cyber.markets.safe_haven_fx"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "gcp-status",
+    "name": "Google Cloud Status incidents.json",
+    "docUrl": "https://status.cloud.google.com/",
+    "endpoints": [
+      "https://status.cloud.google.com/incidents.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Incident-Historie seit ca. 2019 im Feed",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "status-gcp"
+    ],
+    "collector": "gcp-status",
+    "signals": [
+      "cyber.services.hyperscaler_incidents"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "gdelt-doc",
+    "name": "GDELT DOC 2.0 API",
+    "docUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22cyber%20attack%22%20bank&mode=timelinevol&format=json&timespan=30d",
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22cyber%20attack%22%20sourcelang:eng&mode=timelinevol&format=json&timespan=1y"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "rollierend ca. 3 Monate, GKG-Dateien ab 2015",
+    "rateLimit": "1 Anfrage/5 s empfohlen",
+    "license": "frei nutzbar mit Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "gdelt-doc",
+    "signals": [
+      "cyber.attention.gdelt_cyber_bank_volume",
+      "cyber.attention.gdelt_cyber_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "gharchive",
+    "name": "GH Archive",
+    "docUrl": "https://www.gharchive.org/",
+    "endpoints": [
+      "https://data.gharchive.org/2026-11-16-15.json.gz"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "~1 h",
+    "history": "stündliche Dateien seit 2011",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0 für Archiv, Inhalte unterliegen Autorenrechten",
+    "verified": false,
+    "aliases": [],
+    "collector": "gharchive",
+    "signals": [
+      "cyber.outages.github_push_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ghsa",
+    "name": "GitHub Advisory Database",
+    "docUrl": "https://github.com/github/advisory-database",
+    "endpoints": [
+      "https://api.github.com/advisories?type=malware&per_page=1"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Git-Historie komplett",
+    "rateLimit": "60/h ohne Token",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "ghsa",
+    "signals": [
+      "cyber.threat.osv_malware_advisories",
+      "cyber.vuln.advisory_volume",
+      "cyber.vuln.github_security_issue_spike"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "github-rest",
+    "name": "GitHub REST API",
+    "docUrl": "https://docs.github.com/en/rest",
+    "endpoints": [
+      "https://api.github.com/repos/torvalds/linux/commits?per_page=100"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "gesamte Git-Historie",
+    "rateLimit": "60/h anonym, 5000/h mit Token",
+    "license": "GitHub ToS, Commit-Metadaten öffentlich",
+    "verified": false,
+    "aliases": [],
+    "collector": "github-rest",
+    "signals": [
+      "cyber.attention.security_repo_commit_hours"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "githubstatus",
+    "name": "GitHub Status (Atlassian Statuspage)",
+    "docUrl": "https://www.githubstatus.com/api",
+    "endpoints": [
+      "https://www.githubstatus.com/api/v2/summary.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "incidents.json liefert ca. letzte 50 Incidents",
+    "rateLimit": "Statuspage: Limits nicht dokumentiert, 1/min pro Host ist verlässig",
+    "license": "unklar (Statuspage-API öffentlich, ToS prüfen)",
+    "verified": true,
+    "aliases": [],
+    "collector": "statuspage",
+    "signals": [
+      "cyber.services.statuspage_incident_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "google-trends-unofficial",
+    "name": "Google Trends (pytrends, inoffiziell)",
+    "docUrl": "https://github.com/GeneralMills/pytrends",
+    "endpoints": [
+      "https://trends.google.com/trends/api/widgetdata/multiline?req=...(via pytrends build_payload)"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich/stündlich (7 Tage)",
+    "history": "ab 2004 (relativ 0-100)",
+    "rateLimit": "unbekannt",
+    "license": "Google ToS verbieten automatisierte Abfragen; keine offene Lizenz",
+    "verified": false,
+    "aliases": [],
+    "collector": "google-trends-unofficial",
+    "signals": [
+      "cyber.attention.google_trends_crisis"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "gpsjam",
+    "name": "GPSJam",
+    "docUrl": "https://gpsjam.org/",
+    "endpoints": [
+      "https://gpsjam.org/",
+      "https://gpsjam.org/data/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2022 als Tageskarten",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "gpsjam",
+    "signals": [
+      "cyber.physical.gnss_interference"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "greynoise",
+    "name": "GreyNoise Community/Trends",
+    "docUrl": "https://docs.greynoise.io/",
+    "endpoints": [
+      "https://api.greynoise.io/v3/community/<ip>",
+      "https://api.greynoise.io/v3/community/<IP>",
+      "https://api.greynoise.io/v3/community/1.1.1.1"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "Trends/Tags im Visualizer 90 Tage, voll nur bezahlt",
+    "rateLimit": "unbekannt",
+    "license": "Community-API eingeschränkt, ToS",
+    "verified": false,
+    "aliases": [
+      "gn"
+    ],
+    "collector": "greynoise",
+    "signals": [
+      "cyber.threat.greynoise_cve_tag_ips",
+      "cyber.threat.dshield_port_scan_spike",
+      "cyber.threat.port_scanning_ot_protocols",
+      "cyber.threat.greynoise_noise_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "grip",
+    "name": "GRIP BGP-Event-Feed (Georgia Tech)",
+    "docUrl": "https://api.grip.inetintel.cc.gatech.edu/json/events",
+    "endpoints": [
+      "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas",
+      "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=defcon"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Events mit Historie (Zeitparameter)",
+    "rateLimit": "fair use",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "grip",
+    "signals": [
+      "cyber.routing.hijack_events",
+      "cyber.routing.route_leaks"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "gsc-galileo",
+    "name": "GSC Galileo Notices",
+    "docUrl": "https://www.gsc-europa.eu/system-service-status/constellation-information",
+    "endpoints": [
+      "https://www.gsc-europa.eu/system-service-status/constellation-information"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Archiv",
+    "rateLimit": "unklar",
+    "license": "EU, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "gsc-galileo",
+    "signals": [
+      "cyber.physical.galileo_service_status"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "gtfs-rt",
+    "name": "GTFS-Realtime Feeds (z.B. gtfs.de)",
+    "docUrl": "https://gtfs.de/",
+    "endpoints": [
+      "https://realtime.gtfs.de/realtime-free.pb"
+    ],
+    "access": "download",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ca. 30 s",
+    "history": "nur Live",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0 (gtfs.de), prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "gtfs-rt",
+    "signals": [
+      "cyber.physical.gtfsrt_feed_availability",
+      "cyber.physical.db_cancellation_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "hhs-ocr-breach",
+    "name": "HHS OCR Breach Portal (Wall of Shame)",
+    "docUrl": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+    "endpoints": [
+      "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf (CSV-Export-Button)"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage bis Wochen",
+    "history": "ab 2009",
+    "rateLimit": "unbekannt",
+    "license": "US-Regierungsdaten",
+    "verified": false,
+    "aliases": [],
+    "collector": "hhs-ocr-breach",
+    "signals": [
+      "cyber.services.hhs_ocr_hacking_incidents"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "hn-algolia",
+    "name": "Hacker News Algolia API",
+    "docUrl": "https://hn.algolia.com/api",
+    "endpoints": [
+      "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&numericFilters=created_at_i>1",
+      "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&hitsPerPage=100"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "vollständig seit 2006 (numericFilters=created_at_i)",
+    "rateLimit": "10000 Anfragen/h",
+    "license": "Daten öffentlich, ToS Algolia/HN beachten",
+    "verified": false,
+    "aliases": [
+      "hn"
+    ],
+    "collector": "hn-algolia",
+    "signals": [
+      "cyber.attention.hackernews_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "iana",
+    "name": "IANA Root-Zone / TLD-Daten",
+    "docUrl": "https://www.iana.org/domains/root/files",
+    "endpoints": [
+      "https://data.iana.org/TLD/tlds-alpha-by-domain.txt"
+    ],
+    "access": "download",
+    "format": "txt",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "laufend",
+    "history": "Änderungen per Diff nachvollziehbar",
+    "rateLimit": "-",
+    "license": "frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "iana",
+    "signals": [
+      "cyber.dns_core.root_zone_changes"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ico-trends",
+    "name": "UK ICO Data security incident trends",
+    "docUrl": "https://ico.org.uk/action-weve-taken/data-security-incident-trends/",
+    "endpoints": [
+      "https://ico.org.uk/action-weve-taken/data-security-incident-trends/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "quartalsweise",
+    "history": "ab 2019",
+    "rateLimit": "unbekannt",
+    "license": "Open Government Licence (vermutet)",
+    "verified": false,
+    "aliases": [],
+    "collector": "ico-trends",
+    "signals": [
+      "cyber.services.dora_ico_incident_stats"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "internic",
+    "name": "InterNIC Root Zone File",
+    "docUrl": "https://www.internic.net/domain/root.zone",
+    "endpoints": [
+      "https://www.internic.net/domain/root.zone"
+    ],
+    "access": "download",
+    "format": "txt",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "2x täglich",
+    "history": "nur aktuell (selbst archivieren)",
+    "rateLimit": "-",
+    "license": "frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "internic",
+    "signals": [
+      "cyber.dns_core.root_zone_changes"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ioda",
+    "name": "IODA (Georgia Tech)",
+    "docUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+    "endpoints": [
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/3320?from=-86400&until=now",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now&datasource=bgp",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=-86400&until=now&entityType=country",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/alerts?from=-86400&until=now",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/14593?from=-86400&until=now",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=1700000000&until=1700086400"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ca. 5-10 min",
+    "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+    "rateLimit": "fair use",
+    "license": "frei für Forschung, Bedingungen auf Website",
+    "verified": false,
+    "aliases": [],
+    "collector": "ioda",
+    "signals": [
+      "cyber.routing.country_prefix_visibility_de",
+      "cyber.routing.asn_visibility_critical_de",
+      "cyber.outages.ioda_outage_events_global",
+      "cyber.outages.ioda_country_signals_de",
+      "cyber.outages.traffic_anomalies",
+      "cyber.physical.ioda_starlink_asn"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "isdown-statusgator",
+    "name": "StatusGator / IsDown (Aggregation von Statusseiten)",
+    "docUrl": "https://statusgator.com/",
+    "endpoints": [
+      "https://isdown.app/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "paid",
+    "cost": "paid ab ca. 20 USD/Monat",
+    "updateLatency": "Minuten",
+    "history": "StatusGator-Historie in Bezahlplänen",
+    "rateLimit": "unbekannt",
+    "license": "kommerziell, ToS prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "isdown-statusgator",
+    "signals": [
+      "cyber.attention.crowd_outage_aggregators"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ivena",
+    "name": "IVENA / Leitstellen-Abmeldungen",
+    "docUrl": "https://www.ivena.de/",
+    "endpoints": [
+      "https://www.ivena.de/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "keine",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "ivena",
+    "signals": [
+      "cyber.physical.hospital_it_outage"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "kalshi",
+    "name": "Kalshi Trade API",
+    "docUrl": "https://docs.kalshi.com/",
+    "endpoints": [
+      "https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=100"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "Candlesticks je Markt",
+    "rateLimit": "unbekannt",
+    "license": "Kalshi API Terms",
+    "verified": false,
+    "aliases": [],
+    "collector": "kalshi",
+    "signals": [
+      "cyber.markets.polymarket_cyber"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "le",
+    "name": "Let's Encrypt Statistiken und Status",
+    "docUrl": "https://letsencrypt.org/stats/",
+    "endpoints": [
+      "https://letsencrypt.org/stats/",
+      "https://community.letsencrypt.org/c/incidents/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Zeitreihen seit 2015",
+    "rateLimit": "-",
+    "license": "frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "le",
+    "signals": [
+      "cyber.dns_core.mass_revocation",
+      "cyber.dns_core.issuance_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "linx",
+    "name": "LINX Statistiken",
+    "docUrl": "https://portal.linx.net/stats",
+    "endpoints": [
+      "https://portal.linx.net/stats"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "Graphen mehrjährig",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "linx",
+    "signals": [
+      "cyber.outages.amsix_linx_traffic"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "maine-ag-breach",
+    "name": "Maine AG Data Breach Notifications",
+    "docUrl": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html",
+    "endpoints": [
+      "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "ab ca. 2009",
+    "rateLimit": "unbekannt",
+    "license": "öffentliche Behördendaten",
+    "verified": false,
+    "aliases": [],
+    "collector": "maine-ag-breach",
+    "signals": [
+      "cyber.services.state_ag_notifications"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "malwarebazaar",
+    "name": "abuse.ch MalwareBazaar",
+    "docUrl": "https://bazaar.abuse.ch/api/",
+    "endpoints": [
+      "https://bazaar.abuse.ch/export/csv/recent/",
+      "https://mb-api.abuse.ch/api/v1/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "Voll-Dump verfügbar",
+    "rateLimit": "unbekannt",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [
+      "mb-tag-wiper"
+    ],
+    "collector": "malwarebazaar",
+    "signals": [
+      "cyber.threat.wiper_reports",
+      "cyber.threat.malwarebazaar_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "manifold",
+    "name": "Manifold Markets API",
+    "docUrl": "https://docs.manifold.markets/api",
+    "endpoints": [
+      "https://api.manifold.markets/v0/search-markets?term=cyberattack&limit=20"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "Wetten-Historie per /v0/bets",
+    "rateLimit": "unbekannt",
+    "license": "Manifold ToS, Daten offen",
+    "verified": false,
+    "aliases": [],
+    "collector": "manifold",
+    "signals": [
+      "cyber.attention.metaculus_manifold"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "manrs",
+    "name": "MANRS Observatory",
+    "docUrl": "https://observatory.manrs.org/",
+    "endpoints": [
+      "https://observatory.manrs.org/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "mehrjährig",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "manrs",
+    "signals": [
+      "cyber.routing.manrs_adoption"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "marsh-cyber-pricing",
+    "name": "Marsh Global Insurance Market Index (Cyber-Preise)",
+    "docUrl": "https://www.marsh.com/en/services/global-insurance-market-index.html",
+    "endpoints": [
+      "https://www.marsh.com/en/services/global-insurance-market-index.html"
+    ],
+    "access": "download",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "quartalsweise",
+    "history": "ab 2017",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "marsh-cyber-pricing",
+    "signals": [
+      "cyber.markets.cyber_premium_index"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "mastercard-dev-status",
+    "name": "Mastercard Developers Status",
+    "docUrl": "https://developer.mastercard.com/",
+    "endpoints": [
+      "https://status.developer.mastercard.com/api/v2/summary.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "ca. 50 Incidents",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "statuspage",
+    "signals": [
+      "cyber.finance.payment_providers"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "mastodon-trends",
+    "name": "Mastodon Trends API",
+    "docUrl": "https://docs.joinmastodon.org/methods/trends/",
+    "endpoints": [
+      "https://mastodon.social/api/v1/trends/tags?limit=20"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "7 Tage je Tag (history[])",
+    "rateLimit": "unbekannt",
+    "license": "je Instanz, offen",
+    "verified": false,
+    "aliases": [],
+    "collector": "mastodon-trends",
+    "signals": [
+      "cyber.attention.bluesky_mastodon_keywords"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "mempool-space",
+    "name": "mempool.space REST API",
+    "docUrl": "https://mempool.space/docs/api/rest",
+    "endpoints": [
+      "https://mempool.space/api/v1/fees/recommended"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "/api/v1/mining/... und Fee-Statistiken je Block",
+    "rateLimit": "faire Nutzung",
+    "license": "AGPL-Software, API frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "mempool-space",
+    "signals": [
+      "cyber.finance.mempool_fee_spike"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "meshtastic-map",
+    "name": "Meshtastic Public Map (liamcottle)",
+    "docUrl": "https://meshtastic.liamcottle.net/",
+    "endpoints": [
+      "https://meshtastic.liamcottle.net/api/v1/nodes"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "nur Live; selbst archivieren",
+    "rateLimit": "unbekannt",
+    "license": "Community, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "meshtastic-map",
+    "signals": [
+      "cyber.attention.meshtastic_nodes"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "metaculus",
+    "name": "Metaculus API",
+    "docUrl": "https://www.metaculus.com/api/",
+    "endpoints": [
+      "https://www.metaculus.com/api/posts/?search=cyber&order_by=-hotness"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Community-Prediction-Historie je Frage",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0 für Fragen (laut Metaculus; prüfen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "metaculus",
+    "signals": [
+      "cyber.attention.metaculus_manifold"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "metasploit-commits",
+    "name": "Metasploit Framework Commits/Releases",
+    "docUrl": "https://github.com/rapid7/metasploit-framework",
+    "endpoints": [
+      "https://api.github.com/repos/rapid7/metasploit-framework/commits?path=modules/exploits&per_page=30"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "komplette Git-Historie",
+    "rateLimit": "60/h ohne Token",
+    "license": "BSD-3 (Repo)",
+    "verified": false,
+    "aliases": [],
+    "collector": "metasploit-commits",
+    "signals": [
+      "cyber.vuln.metasploit_modules"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "misp-circl",
+    "name": "CIRCL OSINT Feed (MISP)",
+    "docUrl": "https://www.circl.lu/doc/misp/feed-osint/",
+    "endpoints": [
+      "https://www.circl.lu/doc/misp/feed-osint/manifest.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden bis Tage",
+    "history": "Manifest enthält komplette Event-Historie",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0 / Open Data",
+    "verified": false,
+    "aliases": [],
+    "collector": "misp-circl",
+    "signals": [
+      "cyber.threat.threatfox_ioc_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "mlab",
+    "name": "M-Lab NDT (BigQuery/Open Data)",
+    "docUrl": "https://www.measurementlab.net/data/",
+    "endpoints": [
+      "bigquery: measurement-lab.ndt.unified_downloads"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2009",
+    "rateLimit": "BigQuery-Freikontingent",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "mlab",
+    "signals": [
+      "cyber.outages.mlab_ndt_throughput"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ms-graph-service-health",
+    "name": "Microsoft Graph serviceAnnouncement (M365 Service Health)",
+    "docUrl": "https://learn.microsoft.com/graph/api/serviceannouncement-list-issues",
+    "endpoints": [
+      "https://graph.microsoft.com/v1.0/admin/serviceAnnouncement/issues"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "ca. 30 Tage",
+    "rateLimit": "unbekannt",
+    "license": "Microsoft APIs ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "ms-graph-service-health",
+    "signals": [
+      "cyber.services.saas_identity_m365"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "msrc-cvrf",
+    "name": "Microsoft MSRC Security Update Guide API",
+    "docUrl": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+    "endpoints": [
+      "https://api.msrc.microsoft.com/cvrf/v3.0/updates"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich plus OOB",
+    "history": "alle Monate seit 2016",
+    "rateLimit": "unbekannt",
+    "license": "Microsoft ToS",
+    "verified": false,
+    "aliases": [
+      "msrc"
+    ],
+    "collector": "msrc-cvrf",
+    "signals": [
+      "cyber.vuln.msrc_out_of_band",
+      "cyber.vuln.emergency_releases",
+      "cyber.vuln.msrc_zero_day_count",
+      "cyber.context.patch_tuesday_calendar"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "nasdaqtrader-halts",
+    "name": "Nasdaq Trader Trading Halts RSS",
+    "docUrl": "https://www.nasdaqtrader.com/Trader.aspx?id=TradeHalts",
+    "endpoints": [
+      "http://www.nasdaqtrader.com/rss.aspx?feed=tradehalts"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden bis Minuten",
+    "history": "Tageslisten, Archiv als Download",
+    "rateLimit": "unbekannt",
+    "license": "Nasdaq ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "nasdaqtrader-halts",
+    "signals": [
+      "cyber.markets.nasdaq_nyse_halts"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "navarea",
+    "name": "NGA Maritime Safety Information",
+    "docUrl": "https://msi.nga.mil/",
+    "endpoints": [
+      "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=active"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "aktive plus Archiv",
+    "rateLimit": "unklar",
+    "license": "US-Regierungsdaten, gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "navarea",
+    "signals": [
+      "cyber.physical.navarea_warnings"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "navcen-nanu",
+    "name": "USCG NAVCEN GPS Status/NANU",
+    "docUrl": "https://www.navcen.uscg.gov/gps-constellation-status",
+    "endpoints": [
+      "https://www.navcen.uscg.gov/gps-constellation-status"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "NANU-Archiv ab 1990er",
+    "rateLimit": "unklar",
+    "license": "US-Regierungsdaten, gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "navcen-nanu",
+    "signals": [
+      "cyber.physical.gps_nanu_count"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "netscout-radar",
+    "name": "NETSCOUT Cyber Threat Horizon",
+    "docUrl": "https://horizon.netscout.com/",
+    "endpoints": [
+      "https://horizon.netscout.com/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "keine API-Historie bekannt",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "netscout-radar",
+    "signals": [
+      "cyber.threat.cloudflare_l3_attacks"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "netzfrequenz",
+    "name": "Netzfrequenzmessung.de",
+    "docUrl": "https://www.netzfrequenzmessung.de/",
+    "endpoints": [
+      "https://www.netzfrequenzmessung.de/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "1 s",
+    "history": "Verlauf im Web",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "netzfrequenz",
+    "signals": [
+      "cyber.physical.frequency_deviation_de",
+      "cyber.physical.frequency_rocof"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "nina-mowas",
+    "name": "NINA / MoWaS Warn-API (BBK)",
+    "docUrl": "https://nina.api.bund.dev/",
+    "endpoints": [
+      "https://warnung.bund.de/api31/mowas/mapData.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "nur Live; Archiv via bund.dev/eigener Mitschnitt",
+    "rateLimit": "unklar",
+    "license": "Datenlizenz Deutschland, unklar im Detail",
+    "verified": false,
+    "aliases": [],
+    "collector": "nina-mowas",
+    "signals": [
+      "cyber.physical.emergency_number_outage",
+      "cyber.context.mowas_alert_count"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "noaa-swpc",
+    "name": "NOAA SWPC Products",
+    "docUrl": "https://services.swpc.noaa.gov/products/",
+    "endpoints": [
+      "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json",
+      "https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "3 h",
+    "history": "ca. 7 Tage Live, länger via NCEI",
+    "rateLimit": "unklar",
+    "license": "US-Regierungsdaten, gemeinfrei",
+    "verified": false,
+    "aliases": [
+      "swpc"
+    ],
+    "collector": "noaa-swpc",
+    "signals": [
+      "cyber.context.geomagnetic_storm",
+      "cyber.context.ionosphere_scintillation",
+      "cyber.context.xray_flux"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "npm-downloads",
+    "name": "npm Download Counts API",
+    "docUrl": "https://github.com/npm/registry/blob/main/docs/download-counts.md",
+    "endpoints": [
+      "https://api.npmjs.org/downloads/range/2025-11-01:2026-11-16/express"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "18 Monate",
+    "rateLimit": "unbekannt",
+    "license": "npm ToS; Daten offen",
+    "verified": false,
+    "aliases": [],
+    "collector": "npm-downloads",
+    "signals": [
+      "cyber.outages.package_downloads_npm_pypi"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "npm-registry",
+    "name": "npm Registry Security Advisories",
+    "docUrl": "https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities",
+    "endpoints": [
+      "https://registry.npmjs.org/-/npm/v1/security/advisories/bulk"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "eingeschränkt",
+    "rateLimit": "unbekannt",
+    "license": "npm ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "npm-registry",
+    "signals": [
+      "cyber.threat.npm_pypi_takedowns"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ntppool",
+    "name": "NTP Pool Project",
+    "docUrl": "https://www.ntppool.org/",
+    "endpoints": [
+      "https://www.ntppool.org/zone/de",
+      "https://www.ntppool.org/scores/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Score-Historie je Server (CSV)",
+    "rateLimit": "fair use",
+    "license": "frei",
+    "verified": false,
+    "aliases": [
+      "dcf77"
+    ],
+    "collector": "ntppool",
+    "signals": [
+      "cyber.dns_core.ntp_pool_health_de"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "nuclei-templates",
+    "name": "ProjectDiscovery nuclei-templates",
+    "docUrl": "https://github.com/projectdiscovery/nuclei-templates",
+    "endpoints": [
+      "https://api.github.com/repos/projectdiscovery/nuclei-templates/commits?path=http/cves&per_page=30"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Git-Historie",
+    "rateLimit": "unbekannt",
+    "license": "MIT (Repo)",
+    "verified": false,
+    "aliases": [],
+    "collector": "nuclei-templates",
+    "signals": [
+      "cyber.vuln.nuclei_templates"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "nvd-cve-api",
+    "name": "NVD CVE API 2.0",
+    "docUrl": "https://nvd.nist.gov/developers/vulnerabilities",
+    "endpoints": [
+      "https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-11-01T00:00:00.000&pubEndDate=2026-11-15T00:00:00.000&resultsPerPage=1"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "~2 h",
+    "history": "alle CVEs seit 1999",
+    "rateLimit": "5 Req/30 s ohne Key, 50 mit Key",
+    "license": "US Gov, frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "nvd-cve-api",
+    "signals": [
+      "cyber.vuln.nvd_critical_share",
+      "cyber.vuln.nvd_cve_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "nyfed-markets-api",
+    "name": "NY Fed Markets API (SOFR)",
+    "docUrl": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+    "endpoints": [
+      "https://markets.newyorkfed.org/api/rates/secured/sofr/last/5.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich ca. 08:00 ET",
+    "history": "ab April 2018; /search.json mit startDate",
+    "rateLimit": "unbekannt",
+    "license": "NY Fed Terms of Use (frei mit Quelle)",
+    "verified": true,
+    "aliases": [],
+    "collector": "nyfed-markets-api",
+    "signals": [
+      "cyber.finance.sofr_tail"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "nyfed-repo",
+    "name": "NY Fed Repo/Reverse-Repo Operations Results",
+    "docUrl": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+    "endpoints": [
+      "https://markets.newyorkfed.org/api/rp/all/all/results/last/5.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2013",
+    "rateLimit": "unbekannt",
+    "license": "NY Fed Terms of Use",
+    "verified": false,
+    "aliases": [],
+    "collector": "nyfed-repo",
+    "signals": [
+      "cyber.finance.fed_repo_facility_usage"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "nyse-halts",
+    "name": "NYSE Trading Halts",
+    "docUrl": "https://www.nyse.com/trade-halts",
+    "endpoints": [
+      "https://www.nyse.com/trade-halts"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "Tageslisten",
+    "rateLimit": "unbekannt",
+    "license": "NYSE ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "nyse-halts",
+    "signals": [
+      "cyber.markets.nasdaq_nyse_halts"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "okta-status",
+    "name": "Okta Trust Status",
+    "docUrl": "https://status.okta.com/",
+    "endpoints": [
+      "https://status.okta.com/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Incident-Historie auf Webseite",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "okta-status",
+    "signals": [
+      "cyber.services.saas_identity_m365"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ookla",
+    "name": "Ookla Open Data",
+    "docUrl": "https://registry.opendata.aws/speedtest-global-performance/",
+    "endpoints": [
+      "s3://ookla-open-data/parquet/performance/type=fixed/year=2026/quarter=3/"
+    ],
+    "access": "download",
+    "format": "parquet",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "quartalsweise",
+    "history": "seit 2019",
+    "rateLimit": "-",
+    "license": "CC BY-NC-SA 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "ookla",
+    "signals": [
+      "cyber.outages.speedtest_open_data"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ooni",
+    "name": "OONI API",
+    "docUrl": "https://docs.ooni.org/api/",
+    "endpoints": [
+      "https://api.ooni.io/api/v1/aggregation?probe_cc=DE&since=<date>&axis_x=measurement_start_day"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten-Stunden",
+    "history": "Messungen seit 2012",
+    "rateLimit": "fair use",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "ooni",
+    "signals": [
+      "cyber.attention.ooni_anomalies"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "openbanking-uk",
+    "name": "Open Banking UK API Performance",
+    "docUrl": "https://www.openbanking.org.uk/api-performance/",
+    "endpoints": [
+      "https://www.openbanking.org.uk/api-performance/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "mehrjährig",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "openbanking-uk",
+    "signals": [
+      "cyber.finance.open_banking_uk"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "openintel",
+    "name": "OpenINTEL",
+    "docUrl": "https://www.openintel.nl/",
+    "endpoints": [
+      "https://openintel.nl/data/"
+    ],
+    "access": "download",
+    "format": "parquet",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2015",
+    "rateLimit": "Zugang auf Antrag",
+    "license": "CC BY 4.0 (unklar je Datensatz)",
+    "verified": false,
+    "aliases": [],
+    "collector": "openintel",
+    "signals": [
+      "cyber.dns_core.dnssec_failures",
+      "cyber.dns_core.openintel_dns_dependency"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "openphish",
+    "name": "OpenPhish Community Feed",
+    "docUrl": "https://openphish.com/phishing_feeds.html",
+    "endpoints": [
+      "https://openphish.com/feed.txt"
+    ],
+    "access": "download",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "12 h",
+    "history": "nur aktuell, selbst archivieren",
+    "rateLimit": "unbekannt",
+    "license": "nur nicht-kommerziell (Community)",
+    "verified": false,
+    "aliases": [],
+    "collector": "openphish",
+    "signals": [
+      "cyber.threat.openphish_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "opensky",
+    "name": "OpenSky Network API",
+    "docUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
+    "endpoints": [
+      "https://opensky-network.org/api/flights/arrival?airport=NZQN&begin=1763000000&end=1763080000",
+      "https://opensky-network.org/api/states/all?lamin=45&lomin=5&lamax=55&lomax=15",
+      "https://opensky-network.org/api/states/all?lamin=47&lomin=5&lamax=55&lomax=15"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Flug-Historie bis ca. 30 Tage per REST, länger via Trino (Forschungskonto)",
+    "rateLimit": "4000 Credits/Tag mit Konto",
+    "license": "CC BY-NC (nur nichtkommerziell)",
+    "verified": false,
+    "aliases": [
+      "opensky-states"
+    ],
+    "collector": "opensky",
+    "signals": [
+      "cyber.physical.airline_it_ground_stops",
+      "cyber.physical.opensky_flight_count",
+      "cyber.physical.adsb_coverage_loss",
+      "cyber.physical.bizjet_nz_aggregate",
+      "cyber.physical.bizjet_remote_havens"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ossf-malicious",
+    "name": "OpenSSF malicious-packages",
+    "docUrl": "https://github.com/ossf/malicious-packages",
+    "endpoints": [
+      "https://github.com/ossf/malicious-packages/tree/main/osv/malicious"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Git-Historie",
+    "rateLimit": "unbekannt",
+    "license": "Apache-2.0 (Repo)",
+    "verified": false,
+    "aliases": [],
+    "collector": "ossf-malicious",
+    "signals": [
+      "cyber.threat.osv_malware_advisories"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "osv",
+    "name": "OSV.dev API",
+    "docUrl": "https://google.github.io/osv.dev/api/",
+    "endpoints": [
+      "https://api.osv.dev/v1/query"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Datenbank-Dumps gs://osv-vulnerabilities",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0 / Datenquellen je Ökosystem",
+    "verified": false,
+    "aliases": [],
+    "collector": "osv",
+    "signals": [
+      "cyber.threat.osv_malware_advisories",
+      "cyber.vuln.advisory_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "otx",
+    "name": "AlienVault OTX",
+    "docUrl": "https://otx.alienvault.com/api",
+    "endpoints": [
+      "https://otx.alienvault.com/api/v1/pulses/subscribed?modified_since=2026-11-01"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Pulses mit Zeitstempel",
+    "rateLimit": "unbekannt",
+    "license": "ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "otx",
+    "signals": [
+      "cyber.threat.wiper_reports",
+      "cyber.threat.ics_malware",
+      "cyber.threat.threatfox_ioc_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "peeringdb",
+    "name": "PeeringDB API",
+    "docUrl": "https://www.peeringdb.com/apidocs/",
+    "endpoints": [
+      "https://www.peeringdb.com/api/netixlan?ix_id=<id>"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "aktuell, Snapshots archiviert",
+    "rateLimit": "anonym gedrosselt",
+    "license": "CC0 / AUP",
+    "verified": false,
+    "aliases": [],
+    "collector": "peeringdb",
+    "signals": [
+      "cyber.routing.member_port_changes"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "phishtank",
+    "name": "PhishTank",
+    "docUrl": "https://phishtank.org/developer_info.php",
+    "endpoints": [
+      "http://data.phishtank.com/data/online-valid.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "nur aktuell",
+    "rateLimit": "unbekannt",
+    "license": "CC BY-SA (laut Seite)",
+    "verified": false,
+    "aliases": [],
+    "collector": "phishtank",
+    "signals": [
+      "cyber.threat.openphish_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "poc-in-github",
+    "name": "nomi-sec PoC-in-GitHub",
+    "docUrl": "https://github.com/nomi-sec/PoC-in-GitHub",
+    "endpoints": [
+      "https://raw.githubusercontent.com/nomi-sec/PoC-in-GitHub/master/2026/CVE-2026-0001.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Verzeichnisse je Jahr seit 1999",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "poc-in-github",
+    "signals": [
+      "cyber.attention.poc_github"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "polygon",
+    "name": "Polygon.io Options",
+    "docUrl": "https://polygon.io/docs/options",
+    "endpoints": [
+      "https://api.polygon.io/v2/aggs/ticker/O:CRWD261218C00400000/range/1/day/2026-10-01/2026-11-16?apiKey=KEY"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "15 min (Free: EOD)",
+    "history": "2 Jahre im Bezahlplan",
+    "rateLimit": "5 Anfragen/min",
+    "license": "Polygon ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "polygon",
+    "signals": [
+      "cyber.markets.single_name_options"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "polymarket-gamma",
+    "name": "Polymarket Gamma API",
+    "docUrl": "https://docs.polymarket.com/",
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?limit=100&closed=false"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "Preishistorie per CLOB /prices-history",
+    "rateLimit": "unbekannt",
+    "license": "Polymarket ToS; Nutzung in einigen Ländern eingeschränkt",
+    "verified": true,
+    "aliases": [],
+    "collector": "polymarket-gamma",
+    "signals": [
+      "cyber.markets.polymarket_cyber",
+      "cyber.markets.market_volume_cyber"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "potaroo",
+    "name": "Potaroo / CIDR Report BGP Table",
+    "docUrl": "https://bgp.potaroo.net/",
+    "endpoints": [
+      "https://bgp.potaroo.net/as2.0/bgp-active.txt"
+    ],
+    "access": "download",
+    "format": "txt",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1989",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "potaroo",
+    "signals": [
+      "cyber.routing.visible_prefixes_v4_v6"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "poweroutage-us",
+    "name": "PowerOutage.us",
+    "docUrl": "https://poweroutage.us/",
+    "endpoints": [
+      "https://poweroutage.us/area/state/Texas"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "Daten-API kostenpflichtig, unklar",
+    "updateLatency": "ca. 10 min",
+    "history": "kostenpflichtige API",
+    "rateLimit": "unklar",
+    "license": "Nutzung laut ToS eingeschränkt",
+    "verified": false,
+    "aliases": [],
+    "collector": "poweroutage-us",
+    "signals": [
+      "cyber.physical.us_outage_customers"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "pskreporter",
+    "name": "PSKReporter",
+    "docUrl": "https://pskreporter.info/pskdev.html",
+    "endpoints": [
+      "https://retrieve.pskreporter.info/query?flowStartSeconds=-900&rronly=1&noactive=1"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "kurz; Langzeit selbst archivieren",
+    "rateLimit": "unbekannt",
+    "license": "unklar, Fair Use",
+    "verified": false,
+    "aliases": [],
+    "collector": "pskreporter",
+    "signals": [
+      "cyber.attention.ham_radio_activity"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "pypistats",
+    "name": "pypistats.org API",
+    "docUrl": "https://pypistats.org/api/",
+    "endpoints": [
+      "https://pypistats.org/api/packages/requests/overall"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "180 Tage (BigQuery für mehr)",
+    "rateLimit": "unbekannt",
+    "license": "CC0? unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "pypistats",
+    "signals": [
+      "cyber.outages.package_downloads_npm_pypi"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ransomware-live",
+    "name": "ransomware.live API",
+    "docUrl": "https://www.ransomware.live/api",
+    "endpoints": [
+      "https://api.ransomware.live/v2/recentvictims"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten bis Stunden",
+    "history": "Opfer seit 2020 ueber /v2/victims und /v2/groups",
+    "rateLimit": "unbekannt",
+    "license": "CC BY-NC-SA (laut Seite, prüfen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "ransomware-live",
+    "signals": [
+      "cyber.threat.simultaneous_victims",
+      "cyber.threat.victims_critical_sector",
+      "cyber.threat.leak_posts_daily",
+      "cyber.threat.victims_by_country_de",
+      "cyber.threat.group_activity_new"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ransomwatch",
+    "name": "ransomwatch (GitHub)",
+    "docUrl": "https://github.com/joshhighet/ransomwatch",
+    "endpoints": [
+      "https://raw.githubusercontent.com/joshhighet/ransomwatch/main/posts.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "posts.json seit 2021 (Pflege prüfen)",
+    "rateLimit": "unbekannt",
+    "license": "MIT (Repo), Daten unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "ransomwatch",
+    "signals": [
+      "cyber.threat.leak_posts_daily"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "reddit-json",
+    "name": "Reddit about.json",
+    "docUrl": "https://www.reddit.com/dev/api/",
+    "endpoints": [
+      "https://www.reddit.com/r/sysadmin/about.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "nur Live",
+    "rateLimit": "unbekannt",
+    "license": "Reddit Data API Terms, kommerziell eingeschränkt",
+    "verified": false,
+    "aliases": [],
+    "collector": "reddit-json",
+    "signals": [
+      "cyber.attention.reddit_sysadmin_activity"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ripe-atlas",
+    "name": "RIPE Atlas API",
+    "docUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+    "endpoints": [
+      "https://atlas.ripe.net/api/v2/probes/?country_code=DE&status=1&page_size=1",
+      "https://atlas.ripe.net/api/v2/measurements/1001/results/?start=<unix>&stop=<unix>",
+      "https://atlas.ripe.net/api/v2/measurements/10001/results/?start=<unix>&stop=<unix>",
+      "https://atlas.ripe.net/api/v2/measurements/ (eigene oeffentliche DNS-Messung gegen a.nic.de; Anlegen braucht Key+Credits)",
+      "https://atlas.ripe.net/api/v2/measurements/?status=2&type=ping"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "ab 2010",
+    "rateLimit": "unklar",
+    "license": "RIPE Atlas Nutzungsbedingungen, offen",
+    "verified": false,
+    "aliases": [
+      "atlas",
+      "ripedocs"
+    ],
+    "collector": "ripe-atlas",
+    "signals": [
+      "cyber.dns_core.root_atlas_reachability",
+      "cyber.dns_core.tld_nameserver_reachability",
+      "cyber.outages.atlas_probe_connectivity",
+      "cyber.outages.atlas_ping_global",
+      "cyber.outages.latency_shift_regional"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ripe-stat",
+    "name": "RIPEstat Data API",
+    "docUrl": "https://stat.ripe.net/docs/02.data-api/",
+    "endpoints": [
+      "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS3320",
+      "https://stat.ripe.net/data/routing-status/data.json?resource=AS3320",
+      "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE",
+      "https://stat.ripe.net/data/rpki-validation/data.json?resource=AS3320&prefix=<prefix>",
+      "https://stat.ripe.net/data/as-path-length/data.json?resource=AS3320",
+      "https://stat.ripe.net/data/bgp-updates/data.json?resource=<prefix>"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5-15 min",
+    "history": "teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage)",
+    "rateLimit": "ca. 8 parallele Anfragen, fair use",
+    "license": "RIPE NCC Terms, frei nutzbar",
+    "verified": false,
+    "aliases": [],
+    "collector": "ripe-stat",
+    "signals": [
+      "cyber.routing.bgp_withdrawals_global",
+      "cyber.routing.visible_prefixes_v4_v6",
+      "cyber.routing.country_prefix_visibility_de",
+      "cyber.routing.asn_visibility_critical_de",
+      "cyber.routing.ddos_scrubbing_diversions",
+      "cyber.routing.as_path_length_shift",
+      "cyber.routing.rpki_invalid_share"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ris-live",
+    "name": "RIPE RIS Live (WebSocket)",
+    "docUrl": "https://ris-live.ripe.net/manual/",
+    "endpoints": [
+      "wss://ris-live.ripe.net/v1/ws/?client=signalradar (subscribe type=UPDATE, Auswertung withdrawals)",
+      "wss://ris-live.ripe.net/v1/ws/ (type=UPDATE)",
+      "wss://ris-live.ripe.net/v1/ws/ (path[-1] Origin je prefix auswerten)"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "keine (nur Live-Stream; Archiv ueber RIS-MRT-Dumps)",
+    "rateLimit": "fair use",
+    "license": "RIPE NCC, frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "ris-live",
+    "signals": [
+      "cyber.routing.bgp_withdrawals_global",
+      "cyber.routing.bgp_update_rate",
+      "cyber.routing.new_origin_asn_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ris-mrt",
+    "name": "RIPE RIS Raw Data (MRT-Dumps)",
+    "docUrl": "https://ris.ripe.net/docs/mrt/",
+    "endpoints": [
+      "https://data.ris.ripe.net/rrc00/YYYY.MM/"
+    ],
+    "access": "download",
+    "format": "mrt",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min Updates, 8h RIB",
+    "history": "Archiv seit 1999",
+    "rateLimit": "kein Limit bekannt",
+    "license": "RIPE NCC, frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "ris-mrt",
+    "signals": [
+      "cyber.routing.as_path_length_shift"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "routeviews",
+    "name": "RouteViews Archive",
+    "docUrl": "https://www.routeviews.org/routeviews/",
+    "endpoints": [
+      "https://archive.routeviews.org/route-views.eqix/bgpdata/YYYY.MM/UPDATES/"
+    ],
+    "access": "download",
+    "format": "mrt",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min Updates, 2h RIB",
+    "history": "Archiv seit 2001",
+    "rateLimit": "kein Limit bekannt",
+    "license": "frei (Univ. Oregon)",
+    "verified": false,
+    "aliases": [],
+    "collector": "routeviews",
+    "signals": [
+      "cyber.routing.bgp_update_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "rpkimon",
+    "name": "NIST RPKI Monitor / Routinator VRP",
+    "docUrl": "https://rpki-monitor.antd.nist.gov/",
+    "endpoints": [
+      "https://rpki-monitor.antd.nist.gov/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "mehrjährig",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "rpkimon",
+    "signals": [
+      "cyber.routing.rpki_repository_health"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "rssac",
+    "name": "RSSAC002 Daten (Root-Server-Operatoren)",
+    "docUrl": "https://github.com/rssac-caucus/RSSAC002-data",
+    "endpoints": [
+      "https://github.com/rssac-caucus/RSSAC002-data (z. B. <letter>/<year>/<month>/traffic-volume-YYYYMMDD.yaml)"
+    ],
+    "access": "download",
+    "format": "yaml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit ca. 2016",
+    "rateLimit": "GitHub-Limits",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "rssac",
+    "signals": [
+      "cyber.dns_core.root_rssac002_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "sam-gov",
+    "name": "SAM.gov Opportunities API",
+    "docUrl": "https://open.gsa.gov/api/get-opportunities-public-api/",
+    "endpoints": [
+      "https://api.sam.gov/opportunities/v2/search?api_key=KEY&postedFrom=11/01/2026&postedTo=11/16/2026&ptype=a&ncode=541512"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "mehrere Jahre",
+    "rateLimit": "1000/Tag (Key)",
+    "license": "US-Public-Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "sam-gov",
+    "signals": [
+      "cyber.services.sam_gov_justifications"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "sans-isc",
+    "name": "SANS ISC / DShield API",
+    "docUrl": "https://isc.sans.edu/api/",
+    "endpoints": [
+      "https://isc.sans.edu/api/topports/records/10?json",
+      "https://isc.sans.edu/api/infocon?json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Endpunkte mit Datum, z. B. /api/dailysummary/<von>/<bis>",
+    "rateLimit": "max 1 Req/s, User-Agent mit Kontakt",
+    "license": "CC BY-NC-SA (laut ISC, prüfen)",
+    "verified": false,
+    "aliases": [
+      "isc",
+      "isc-infocon"
+    ],
+    "collector": "sans-isc",
+    "signals": [
+      "cyber.threat.dshield_port_scan_spike",
+      "cyber.threat.port_scanning_ot_protocols",
+      "cyber.threat.isc_infocon"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "schneider-cert",
+    "name": "Schneider Electric Security Notifications",
+    "docUrl": "https://www.se.com/ww/en/work/support/cybersecurity/security-notifications.jsp",
+    "endpoints": [
+      "https://www.se.com/ww/en/work/support/cybersecurity/security-notifications.jsp"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "Archiv",
+    "rateLimit": "unklar",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "schneider-cert",
+    "signals": [
+      "cyber.vuln.vendor_advisories"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "sec-edgar",
+    "name": "SEC EDGAR",
+    "docUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+    "endpoints": [
+      "https://efts.sec.gov/LatestSearch/rest/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-11-01&enddt=2026-11-17",
+      "https://data.sec.gov/submissions/CIK0000320193.json",
+      "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=8-K&company=&dateb=&owner=include&count=100&output=atom",
+      "https://www.sec.gov/Archives/edgar/daily-index/2026/QTR4/form.20261116.idx",
+      "https://www.sec.gov/Archives/edgar/daily-index/form.20261116.idx",
+      "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2026q3_form345.zip",
+      "https://efts.sec.gov/LATEST/search-index?q=%22Chief%20Information%20Security%20Officer%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-16",
+      "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-16"
+    ],
+    "access": "download",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Form 4 binnen 2 Geschäftstagen",
+    "history": "Daily/Full-Index seit 1993",
+    "rateLimit": "10 Anfragen/s",
+    "license": "US-Public-Domain; faire Nutzung, User-Agent mit Kontakt Pflicht",
+    "verified": false,
+    "aliases": [
+      "sec-edgar-atom",
+      "sec-edgar-daily-index",
+      "sec-edgar-fts",
+      "sec-edgar-submissions",
+      "sec-efts",
+      "sec-insider-datasets"
+    ],
+    "collector": "sec-edgar",
+    "signals": [
+      "cyber.services.sec_8k_item105_same_vendor_cluster",
+      "cyber.services.sec_8k_item105_daily_count",
+      "cyber.services.sec_8k_financial_sector",
+      "cyber.services.sec_8k_keywords_outage",
+      "cyber.services.sec_8k_item105_amendments",
+      "cyber.services.8k_ciso_departures",
+      "cyber.markets.form4_cyber_cloud",
+      "cyber.markets.form144_planned_sales",
+      "cyber.markets.form4_banks"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "shadowserver",
+    "name": "Shadowserver Dashboard",
+    "docUrl": "https://dashboard.shadowserver.org/",
+    "endpoints": [
+      "https://dashboard.shadowserver.org/statistics/combined/time-series/?date_range=30&geo=DE",
+      "https://dashboard.shadowserver.org/statistics/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Zeitreihen seit Jahren",
+    "rateLimit": "-",
+    "license": "CC BY 4.0 (unklar)",
+    "verified": false,
+    "aliases": [
+      "shadow",
+      "shadowserver-dash"
+    ],
+    "collector": "shadowserver",
+    "signals": [
+      "cyber.threat.shadowserver_reflectors",
+      "cyber.vuln.shadowserver_exposed",
+      "cyber.vuln.exposed_ot_protocols",
+      "cyber.vuln.vulnerable_host_decay"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "shodan",
+    "name": "Shodan Trends / Search API",
+    "docUrl": "https://developer.shodan.io/api",
+    "endpoints": [
+      "https://api.shodan.io/shodan/host/count?key=<KEY>&query=<q>",
+      "https://api.shodan.io/shodan/host/count?query=port:502&key=KEY"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "paid",
+    "cost": "ab ca. 49 USD einmalig/Monat, unklar",
+    "updateLatency": "Tage",
+    "history": "Trends ab 2017 (kostenpflichtig)",
+    "rateLimit": "unklar",
+    "license": "Shodan ToS",
+    "verified": false,
+    "aliases": [
+      "shodan-trends"
+    ],
+    "collector": "shodan",
+    "signals": [
+      "cyber.vuln.exposed_ot_protocols",
+      "cyber.vuln.shodan_exposed_service_trend",
+      "cyber.vuln.vulnerable_host_decay"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "siemens-cert",
+    "name": "Siemens ProductCERT CSAF Feed",
+    "docUrl": "https://www.siemens.com/global/en/products/services/cert.html",
+    "endpoints": [
+      "https://cert-portal.siemens.com/productcert/csaf/ssa-feed-tlp-white.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "Archiv",
+    "rateLimit": "unklar",
+    "license": "TLP:CLEAR",
+    "verified": false,
+    "aliases": [],
+    "collector": "siemens-cert",
+    "signals": [
+      "cyber.vuln.vendor_advisories"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "sip-status",
+    "name": "CTA/UTP SIP Systemstatus",
+    "docUrl": "https://www.ctaplan.com/",
+    "endpoints": [
+      "https://www.utpplan.com/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Notices-Archiv",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "sip-status",
+    "signals": [
+      "cyber.markets.sip_feed_status"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "smard",
+    "name": "SMARD (Bundesnetzagentur)",
+    "docUrl": "https://smard.de/page/home/downloadcenter/download-marktdaten",
+    "endpoints": [
+      "https://www.smard.de/app/chart_data/410/DE/410_DE_hour_1731542400000.json",
+      "https://www.smard.de/app/chart_data/410/DE/index_hour.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "ab 2015",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "smard",
+    "signals": [
+      "cyber.physical.load_vs_forecast_de",
+      "cyber.physical.grid_load_germany"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "socket-feed",
+    "name": "Socket.dev Blog/Threat-Feed",
+    "docUrl": "https://socket.dev/blog",
+    "endpoints": [
+      "https://socket.dev/blog/rss.xml"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "Archiv",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "socket-feed",
+    "signals": [
+      "cyber.threat.npm_pypi_takedowns"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "space-track",
+    "name": "Space-Track.org API",
+    "docUrl": "https://www.space-track.org/documentation",
+    "endpoints": [
+      "https://www.space-track.org/basicspacedata/query/class/decay/orderby/DECAY_EPOCH%20desc/limit/10/format/json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "ab 1957",
+    "rateLimit": "unklar",
+    "license": "Space-Track ToS, keine Weitergabe roher Daten",
+    "verified": false,
+    "aliases": [],
+    "collector": "space-track",
+    "signals": [
+      "cyber.physical.starlink_fleet_count",
+      "cyber.physical.satellite_decay_events"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "spamhaus",
+    "name": "Spamhaus DROP/BGPCC Listen",
+    "docUrl": "https://www.spamhaus.org/drop/",
+    "endpoints": [
+      "https://www.spamhaus.org/drop/drop.txt"
+    ],
+    "access": "download",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "selbst archivieren",
+    "rateLimit": "unbekannt",
+    "license": "frei für nicht-kommerziell",
+    "verified": false,
+    "aliases": [],
+    "collector": "spamhaus",
+    "signals": [
+      "cyber.threat.new_ddos_botnet_ips",
+      "cyber.threat.spam_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "sslbl",
+    "name": "abuse.ch SSLBL",
+    "docUrl": "https://sslbl.abuse.ch/",
+    "endpoints": [
+      "https://sslbl.abuse.ch/blacklist/sslipblacklist.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "stündlich",
+    "history": "nur aktuelle Liste",
+    "rateLimit": "unbekannt",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "sslbl",
+    "signals": [
+      "cyber.threat.feodo_c2_count"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "statuspage-hosts",
+    "name": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
+    "docUrl": "https://developer.statuspage.io/",
+    "endpoints": [
+      "https://bugzilla.mozilla.org/rest/bug?component=CA%20Certificate%20Compliance&product=CA%20Program",
+      "https://www.githubstatus.com/api/v2/summary.json",
+      "https://<host>/api/v2/summary.json | /api/v2/incidents.json | /api/v2/components.json | /api/v2/status.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "incidents.json: letzte ca. 50; Historie selbst mitschreiben",
+    "rateLimit": "1 Abruf/min/Host reicht",
+    "license": "je Anbieter unklar",
+    "verified": false,
+    "aliases": [
+      "status-misc"
+    ],
+    "collector": "statuspage",
+    "signals": [
+      "cyber.dns_core.ca_incidents_and_root_removals",
+      "cyber.finance.payment_providers",
+      "cyber.finance.crypto_exchange_statuspages",
+      "cyber.services.cdn_dns_providers",
+      "cyber.services.saas_identity_m365",
+      "cyber.services.statuspage_incident_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "steam-players",
+    "name": "Steam Web API (Gleichzeitige Spieler)",
+    "docUrl": "https://partner.steamgames.com/doc/webapi/ISteamUserStats",
+    "endpoints": [
+      "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=730"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "nur Live, Historie selbst archivieren (steamcharts)",
+    "rateLimit": "unbekannt",
+    "license": "Steam Web API Terms",
+    "verified": false,
+    "aliases": [],
+    "collector": "steam-players",
+    "signals": [
+      "cyber.attention.steam_twitch_activity"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "stoerungsmelder",
+    "name": "Stoerungsmelder / allestoerungen.de Crowd-Meldungen",
+    "docUrl": "https://stoerungsmelder.de/",
+    "endpoints": [
+      "https://allestoerungen.de/stoerung/<dienst>/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Verlaufsgrafik auf Seite",
+    "rateLimit": "unbekannt",
+    "license": "unklar, ToS verbieten ggf. Scraping",
+    "verified": false,
+    "aliases": [],
+    "collector": "stoerungsmelder",
+    "signals": [
+      "cyber.attention.stoerungsmelder_card_banking"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "stooq",
+    "name": "Stooq historische Kurse (CSV)",
+    "docUrl": "https://stooq.com/db/h/",
+    "endpoints": [
+      "https://stooq.com/q/d/l/?s=^sx7e&i=d",
+      "https://stooq.com/q/d/l/?s=cibr.us&i=d",
+      "https://stooq.com/q/d/l/?s=crwd.us&i=d",
+      "https://stooq.com/q/d/l/?s=net.us&i=d",
+      "https://stooq.com/q/d/l/?s=bez.uk&i=d",
+      "https://stooq.com/q/d/l/?s=xauusd&i=d"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tagesende, ggf. verzögert",
+    "history": "Jahrzehnte",
+    "rateLimit": "unbekannt",
+    "license": "unklar (privater Dienst)",
+    "verified": false,
+    "aliases": [],
+    "collector": "stooq",
+    "signals": [
+      "cyber.markets.cyber_etf_volume",
+      "cyber.markets.cyber_pureplay_volume",
+      "cyber.markets.cdn_cloud_stress",
+      "cyber.markets.cyber_insurer_prices",
+      "cyber.markets.bank_equity_index",
+      "cyber.markets.gold"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "stripe-status",
+    "name": "Stripe Status",
+    "docUrl": "https://docs.stripe.com/api/",
+    "endpoints": [
+      "https://status.stripe.com/current"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Historie ueber /history-Seiten",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "stripe-status",
+    "signals": [
+      "cyber.finance.payment_providers"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "subcable",
+    "name": "TeleGeography Submarine Cable Map",
+    "docUrl": "https://www.submarinecablemap.com/",
+    "endpoints": [
+      "https://www.submarinecablemap.com/api/v3/cable/cable-geo.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unregelmäßig",
+    "history": "aktueller Stand",
+    "rateLimit": "-",
+    "license": "CC BY-NC-SA 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "subcable",
+    "signals": [
+      "cyber.physical.map_inventory"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "swift-status",
+    "name": "SWIFT Operational Status",
+    "docUrl": "https://www.swift.com/",
+    "endpoints": [
+      "https://www.swift.com/about-us/status"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "gering",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "swift-status",
+    "signals": [
+      "cyber.finance.swift_status"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "talos-reputation",
+    "name": "Talos Reputation Center",
+    "docUrl": "https://talosintelligence.com/reputation",
+    "endpoints": [
+      "https://talosintelligence.com/reputation"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "gering",
+    "rateLimit": "unbekannt",
+    "license": "ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "talos-reputation",
+    "signals": [
+      "cyber.threat.spam_volume"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "tankerkoenig",
+    "name": "Tankerkoenig API",
+    "docUrl": "https://creativecommons.tankerkoenig.de/",
+    "endpoints": [
+      "https://creativecommons.tankerkoenig.de/json/list.php?lat=51.4&lng=7.5&rad=5&sort=dist&type=all&apikey=KEY"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Preis-Historie als CSV-Dump",
+    "rateLimit": "unklar",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "tankerkoenig",
+    "signals": [
+      "cyber.attention.fuel_station_outage"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "ted",
+    "name": "TED Search API (EU Ausschreibungen)",
+    "docUrl": "https://docs.ted.europa.eu/api/latest/index.html",
+    "endpoints": [
+      "https://api.ted.europa.eu/v3/notices/search"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2014 (eForms ab 2023)",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "ted",
+    "signals": [
+      "cyber.services.ted_emergency_it"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "telecom-statuspages",
+    "name": "Telekom/CPaaS Statuspages (Twilio, Vonage, Bandwidth, Sinch)",
+    "docUrl": "https://status.twilio.com/",
+    "endpoints": [
+      "https://status.twilio.com/api/v2/summary.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "ca. 50 Incidents",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "statuspage",
+    "signals": [
+      "cyber.services.cpaas_telecom"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "tg-ixp",
+    "name": "Packet Clearing House IXP-Statistiken",
+    "docUrl": "https://www.pch.net/ixp/dir",
+    "endpoints": [
+      "https://www.pch.net/ixp/dir"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "mehrjährig",
+    "rateLimit": "-",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "tg-ixp",
+    "signals": [
+      "cyber.routing.pch_global_counts"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "thousandeyes",
+    "name": "ThousandEyes Internet Report",
+    "docUrl": "https://www.thousandeyes.com/",
+    "endpoints": [
+      "https://www.thousandeyes.com/blog/internet-report"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "ca. 5-10 min",
+    "history": "Zeitreihen seit 2011 (BGP/Active Probing/Darknet)",
+    "rateLimit": "fair use",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "thousandeyes",
+    "signals": [
+      "cyber.outages.thousandeyes_internet_report"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "threatfox",
+    "name": "abuse.ch ThreatFox",
+    "docUrl": "https://threatfox.abuse.ch/api/",
+    "endpoints": [
+      "https://threatfox.abuse.ch/export/json/recent/"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "Export-Dumps",
+    "rateLimit": "unbekannt",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "threatfox",
+    "signals": [
+      "cyber.threat.threatfox_ioc_volume",
+      "cyber.threat.c2_hosting_concentration"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "tor-metrics",
+    "name": "Tor Metrics",
+    "docUrl": "https://metrics.torproject.org/stats.html",
+    "endpoints": [
+      "https://metrics.torproject.org/userstats-relay-country.csv?start=2026-01-01&end=2026-11-17&country=de&events=off",
+      "https://onionoo.torproject.org/summary?limit=1",
+      "https://metrics.torproject.org/bandwidth.csv",
+      "https://metrics.torproject.org/userstats-relay-country.csv?start=2025-01-01&end=2026-11-16&country=de&events=off"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich, ~2 Tage Verzug",
+    "history": "ab 2011",
+    "rateLimit": "unbekannt",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [
+      "tor"
+    ],
+    "collector": "tor-metrics",
+    "signals": [
+      "cyber.outages.users_de",
+      "cyber.outages.relay_count_bandwidth"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "urlhaus",
+    "name": "abuse.ch URLhaus",
+    "docUrl": "https://urlhaus.abuse.ch/api/",
+    "endpoints": [
+      "https://urlhaus.abuse.ch/downloads/csv_recent/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "5 min",
+    "history": "Voll-Dump csv.zip; API mit Auth-Key",
+    "rateLimit": "unbekannt",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "urlhaus",
+    "signals": [
+      "cyber.threat.urlhaus_volume",
+      "cyber.threat.c2_hosting_concentration"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "usgs",
+    "name": "USGS Earthquake Feed",
+    "docUrl": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php",
+    "endpoints": [
+      "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "ab 1900 via FDSN",
+    "rateLimit": "unklar",
+    "license": "gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "usgs",
+    "signals": [
+      "cyber.context.earthquakes"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "virustotal",
+    "name": "VirusTotal Public API",
+    "docUrl": "https://docs.virustotal.com/reference/overview",
+    "endpoints": [
+      "https://www.virustotal.com/api/v3/popular_threat_categories"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "gering",
+    "rateLimit": "4 Req/min, 500/Tag",
+    "license": "Public-API nur nicht-kommerziell",
+    "verified": false,
+    "aliases": [],
+    "collector": "virustotal",
+    "signals": [
+      "cyber.attention.vt_malware_stats"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "vulncheck-kev",
+    "name": "VulnCheck KEV",
+    "docUrl": "https://vulncheck.com/kev",
+    "endpoints": [
+      "https://api.vulncheck.com/v3/index/vulncheck-kev"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "ab 2021",
+    "rateLimit": "unbekannt",
+    "license": "Community-Tier ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "vulncheck-kev",
+    "signals": [
+      "cyber.vuln.kev_additions_rate"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "wa-ag-breach",
+    "name": "Washington AG Data Breach Notifications",
+    "docUrl": "https://www.atg.wa.gov/data-breach-notifications",
+    "endpoints": [
+      "https://www.atg.wa.gov/data-breach-notifications"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "mehrjährig",
+    "rateLimit": "unbekannt",
+    "license": "öffentliche Behördendaten",
+    "verified": false,
+    "aliases": [],
+    "collector": "wa-ag-breach",
+    "signals": [
+      "cyber.services.state_ag_notifications"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "whoisds",
+    "name": "WhoisDS Newly Registered Domains",
+    "docUrl": "https://www.whoisds.com/newly-registered-domains",
+    "endpoints": [
+      "https://www.whoisds.com/whois-database/newly-registered-domains/",
+      "https://whoisds.com/whois-database/newly-registered-domains/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Archiv je Tag",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "whoisds",
+    "signals": [
+      "cyber.threat.brand_domains_nrd",
+      "cyber.attention.domain_registrations_crisis_terms"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "wikimedia-eventstreams",
+    "name": "Wikimedia EventStreams recentchange",
+    "docUrl": "https://stream.wikimedia.org/?doc",
+    "endpoints": [
+      "https://stream.wikimedia.org/v2/stream/recentchange"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "nur Live; Dumps/Historie separat",
+    "rateLimit": "unbekannt",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "wikimedia-eventstreams",
+    "signals": [
+      "cyber.attention.wikipedia_edit_rate_outage_pages"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "wikimedia-pageviews",
+    "name": "Wikimedia Pageviews REST API",
+    "docUrl": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Internet/daily/20261101/20261117",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Cyberangriff/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Blackout/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notvorrat/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Bargeld/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notgepäck/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/de.wikipedia/all-access/user/daily/20250101/20261116"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich (stündlich nur ueber Dumps)",
+    "history": "ab Juli 2015",
+    "rateLimit": "200 Anfragen/s, User-Agent Pflicht",
+    "license": "CC0 für Daten",
+    "verified": true,
+    "aliases": [
+      "wikimedia-aggregate",
+      "wm"
+    ],
+    "collector": "wikimedia-pageviews",
+    "signals": [
+      "cyber.attention.hackernews_volume",
+      "cyber.attention.wikipedia_cyber_terms",
+      "cyber.attention.wikipedia_cash_prep",
+      "cyber.attention.wikipedia_traffic_baseline"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "xetra-status",
+    "name": "Deutsche Boerse Xetra Marktstatus / Handelsunterbrechungen",
+    "docUrl": "https://www.xetra.com/xetra-de/handel/handelsinformationen",
+    "endpoints": [
+      "https://www.xetra.com/xetra-de/handel/handelsinformationen"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "gering",
+    "rateLimit": "unbekannt",
+    "license": "Deutsche Börse ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "xetra-status",
+    "signals": [
+      "cyber.markets.xetra_market_status"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  },
+  {
+    "id": "yahoo-chart",
+    "name": "Yahoo Finance Chart (inoffizielle API)",
+    "docUrl": "https://finance.yahoo.com",
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CRWD?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NET?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BEZ.L?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/MUV2.DE?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/V?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/EXV1.DE?range=2y&interval=1d"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min verzögert, Tagesende",
+    "history": "Tageskerzen mehrere Jahre bis Jahrzehnte",
+    "rateLimit": "unbekannt",
+    "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "yahoo-chart",
+    "signals": [
+      "cyber.markets.cyber_etf_volume",
+      "cyber.markets.cyber_pureplay_volume",
+      "cyber.markets.cdn_cloud_stress",
+      "cyber.markets.cyber_insurer_prices",
+      "cyber.markets.bank_stocks",
+      "cyber.markets.bitcoin_vs_gold_divergence",
+      "cyber.markets.gold"
+    ],
+    "scenarios": [
+      "cyber"
+    ]
+  }
+]

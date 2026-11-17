@@ -1,0 +1,858 @@
+[
+  {
+    "rank": 1,
+    "collector": "frb-services-stats",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.fed_services_status"
+    ],
+    "endpoints": [
+      "https://www.frbservices.org/resources/financial-services/wires/volume-value-stats"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Monatsvolumen/Wert Fedwire; lagging.; Lizenz: unklar; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie per API: ab 1990er; max. Gewicht 0.85, 1 Signal(e)"
+  },
+  {
+    "rank": 2,
+    "collector": "ioda",
+    "domain": "outages",
+    "signals": [
+      "cyber.outages.ioda_outage_events_global",
+      "cyber.outages.ioda_country_signals_de",
+      "cyber.outages.traffic_anomalies",
+      "cyber.physical.ioda_starlink_asn"
+    ],
+    "endpoints": [
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/3320?from=-86400&until=now",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now&datasource=bgp",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=-86400&until=now&entityType=country",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/alerts?from=-86400&until=now",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/14593?from=-86400&until=now",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=1700000000&until=1700086400"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: events[] mit Score, Dauer; Rate-Limit: fair use",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Zeitreihen seit 2011 (BGP/Active Probing/Darknet); max. Gewicht 0.85, 4 Signal(e)"
+  },
+  {
+    "rank": 3,
+    "collector": "ripe-stat",
+    "domain": "routing",
+    "signals": [
+      "cyber.routing.bgp_withdrawals_global",
+      "cyber.routing.visible_prefixes_v4_v6",
+      "cyber.routing.country_prefix_visibility_de",
+      "cyber.routing.asn_visibility_critical_de",
+      "cyber.routing.ddos_scrubbing_diversions",
+      "cyber.routing.as_path_length_shift",
+      "cyber.routing.rpki_invalid_share"
+    ],
+    "endpoints": [
+      "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS3320",
+      "https://stat.ripe.net/data/routing-status/data.json?resource=AS3320",
+      "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE",
+      "https://stat.ripe.net/data/rpki-validation/data.json?resource=AS3320&prefix=<prefix>",
+      "https://stat.ripe.net/data/as-path-length/data.json?resource=AS3320",
+      "https://stat.ripe.net/data/bgp-updates/data.json?resource=<prefix>"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Update-/Withdrawal-Zähler je Resource in Zeitfenstern; Lizenz: RIPE NCC Terms, frei nutzbar; Rate-Limit: ca. 8 parallele Anfragen, fair use",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage); max. Gewicht 0.85, 7 Signal(e)"
+  },
+  {
+    "rank": 4,
+    "collector": "sec-edgar",
+    "domain": "services",
+    "signals": [
+      "cyber.services.sec_8k_item105_same_vendor_cluster",
+      "cyber.services.sec_8k_item105_daily_count",
+      "cyber.services.sec_8k_financial_sector",
+      "cyber.services.sec_8k_keywords_outage",
+      "cyber.services.sec_8k_item105_amendments",
+      "cyber.services.8k_ciso_departures",
+      "cyber.markets.form4_cyber_cloud",
+      "cyber.markets.form144_planned_sales",
+      "cyber.markets.form4_banks"
+    ],
+    "endpoints": [
+      "https://efts.sec.gov/LatestSearch/rest/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-11-01&enddt=2026-11-17",
+      "https://data.sec.gov/submissions/CIK0000320193.json",
+      "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=8-K&company=&dateb=&owner=include&count=100&output=atom",
+      "https://www.sec.gov/Archives/edgar/daily-index/2026/QTR4/form.20261116.idx",
+      "https://www.sec.gov/Archives/edgar/daily-index/form.20261116.idx",
+      "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2026q3_form345.zip",
+      "https://efts.sec.gov/LATEST/search-index?q=%22Chief%20Information%20Security%20Officer%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-16",
+      "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-16"
+    ],
+    "format": "html",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: hits.total.value = Trefferzahl; hits.hits[]._source mit ciks, display_names, file_date, items. Inoffizielle (undokumentierte) JSON-Schnittstelle der Websuche; beim Abruf in dieser Recherche rate-limitiert, daher ungeprüft.; Rate-Limit: 10 Anfragen/s",
+    "why": "ohne Key, kostenlos; kleine HTML-Antwort; Historie per API: Daily/Full-Index seit 1993; max. Gewicht 0.85, 9 Signal(e)"
+  },
+  {
+    "rank": 5,
+    "collector": "malwarebazaar",
+    "domain": "threat",
+    "signals": [
+      "cyber.threat.wiper_reports",
+      "cyber.threat.malwarebazaar_volume"
+    ],
+    "endpoints": [
+      "https://bazaar.abuse.ch/export/csv/recent/",
+      "https://mb-api.abuse.ch/api/v1/"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: POST query=get_taginfo&tag=wiper; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie per API: Voll-Dump verfügbar; max. Gewicht 0.80, 2 Signal(e)"
+  },
+  {
+    "rank": 6,
+    "collector": "ripe-atlas",
+    "domain": "outages",
+    "signals": [
+      "cyber.dns_core.root_atlas_reachability",
+      "cyber.dns_core.tld_nameserver_reachability",
+      "cyber.outages.atlas_probe_connectivity",
+      "cyber.outages.atlas_ping_global",
+      "cyber.outages.latency_shift_regional"
+    ],
+    "endpoints": [
+      "https://atlas.ripe.net/api/v2/probes/?country_code=DE&status=1&page_size=1",
+      "https://atlas.ripe.net/api/v2/measurements/1001/results/?start=<unix>&stop=<unix>",
+      "https://atlas.ripe.net/api/v2/measurements/10001/results/?start=<unix>&stop=<unix>",
+      "https://atlas.ripe.net/api/v2/measurements/ (eigene oeffentliche DNS-Messung gegen a.nic.de; Anlegen braucht Key+Credits)",
+      "https://atlas.ripe.net/api/v2/measurements/?status=2&type=ping"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: DNS-Built-in zu Root-Servern, IDs 1001-1016 Ping, 10001-10016 DNS (Zuordnung prüfen)",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: ab 2010; max. Gewicht 0.80, 5 Signal(e)"
+  },
+  {
+    "rank": 7,
+    "collector": "statuspage",
+    "domain": "services",
+    "signals": [
+      "cyber.dns_core.ca_incidents_and_root_removals",
+      "cyber.finance.crypto_exchange_statuspages",
+      "cyber.services.cdn_dns_providers",
+      "cyber.services.saas_identity_m365",
+      "cyber.services.statuspage_incident_rate",
+      "cyber.services.cpaas_telecom"
+    ],
+    "endpoints": [
+      "https://bugzilla.mozilla.org/rest/bug?component=CA%20Certificate%20Compliance&product=CA%20Program",
+      "https://www.githubstatus.com/api/v2/summary.json",
+      "https://<host>/api/v2/summary.json | /api/v2/incidents.json | /api/v2/components.json | /api/v2/status.json",
+      "https://www.cloudflarestatus.com/api/v2/summary.json",
+      "https://www.cloudflarestatus.com/api/v2/incidents.json",
+      "https://status.twilio.com/api/v2/summary.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "uncertainty": "Messfeld laut Recherche: Bugs mit Datum; Lizenz: je Anbieter unklar; Rate-Limit: 1 Abruf/min/Host reicht",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: incidents.json: letzte ca. 50; Historie selbst mitschreiben; max. Gewicht 0.80, 6 Signal(e)"
+  },
+  {
+    "rank": 8,
+    "collector": "stripe-status",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.payment_providers"
+    ],
+    "endpoints": [
+      "https://status.stripe.com/current"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Eigene JSON-Schnittstelle von Stripe (kein Atlassian). Pfad nicht geprüft.; Lizenz: unklar; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Historie ueber /history-Seiten; max. Gewicht 0.80, 1 Signal(e)"
+  },
+  {
+    "rank": 9,
+    "collector": "cisa-ics",
+    "domain": "threat",
+    "signals": [
+      "cyber.threat.ics_malware",
+      "cyber.vuln.cisa_ics_advisories"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/changes.csv",
+      "https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml"
+    ],
+    "format": "xml",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: changes.csv mit Datum je Advisory; Pfad nicht geprüft",
+    "why": "ohne Key, kostenlos; kleine XML-Antwort; Historie per API: Archiv der Advisories im Web; max. Gewicht 0.75, 2 Signal(e)"
+  },
+  {
+    "rank": 10,
+    "collector": "msrc-cvrf",
+    "domain": "vuln",
+    "signals": [
+      "cyber.vuln.msrc_out_of_band",
+      "cyber.vuln.msrc_zero_day_count",
+      "cyber.context.patch_tuesday_calendar"
+    ],
+    "endpoints": [
+      "https://api.msrc.microsoft.com/cvrf/v3.0/updates"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: CVRF-Dokumente; OOB-Updates und Anzahl Zero-Days (ExploitStatus); Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: alle Monate seit 2016; max. Gewicht 0.75, 3 Signal(e)"
+  },
+  {
+    "rank": 11,
+    "collector": "ransomware-live",
+    "domain": "threat",
+    "signals": [
+      "cyber.threat.simultaneous_victims",
+      "cyber.threat.victims_critical_sector",
+      "cyber.threat.leak_posts_daily",
+      "cyber.threat.victims_by_country_de",
+      "cyber.threat.group_activity_new"
+    ],
+    "endpoints": [
+      "https://api.ransomware.live/v2/recentvictims"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Tool-Abruf 429, nicht verifiziert; Feld discovered/attackdate zählen; Lizenz: CC BY-NC-SA (laut Seite, prüfen); Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Opfer seit 2020 ueber /v2/victims und /v2/groups; max. Gewicht 0.75, 5 Signal(e)"
+  },
+  {
+    "rank": 12,
+    "collector": "chromiumdash",
+    "domain": "vuln",
+    "signals": [
+      "cyber.vuln.emergency_releases"
+    ],
+    "endpoints": [
+      "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=50"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: time, version; Notfall-Zero-Day-Updates außerhalb Rhythmus; Lizenz: BSD/Chromium; API inoffiziell; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: mehrere Jahre; max. Gewicht 0.70, 1 Signal(e)"
+  },
+  {
+    "rank": 13,
+    "collector": "first-epss",
+    "domain": "vuln",
+    "signals": [
+      "cyber.vuln.epss_jumps",
+      "cyber.vuln.epss_high_count"
+    ],
+    "endpoints": [
+      "https://api.first.org/data/v1/epss?cve=CVE-2024-3400&scope=time-series",
+      "https://epss.cyentia.com/epss_scores-current.csv.gz"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "uncertainty": "Messfeld laut Recherche: Antwort enthält cve, epss, percentile, date; Basisabruf 2026-11-16 geprüft (total 406741); Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Zeitreihe ueber scope=time-series, Daten seit 2021-04; max. Gewicht 0.70, 2 Signal(e)"
+  },
+  {
+    "rank": 14,
+    "collector": "grip",
+    "domain": "routing",
+    "signals": [
+      "cyber.routing.hijack_events",
+      "cyber.routing.route_leaks"
+    ],
+    "endpoints": [
+      "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas",
+      "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=defcon"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Events mit Score; Lizenz: unklar; Rate-Limit: fair use",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Events mit Historie (Zeitparameter); max. Gewicht 0.70, 2 Signal(e)"
+  },
+  {
+    "rank": 15,
+    "collector": "cisa-kev",
+    "domain": "vuln",
+    "signals": [
+      "cyber.vuln.kev_additions_rate",
+      "cyber.vuln.kev_network_edge_share",
+      "cyber.vuln.kev_ransomware_flag",
+      "cyber.vuln.kev_due_date_short",
+      "cyber.vuln.kev_ot_additions"
+    ],
+    "endpoints": [
+      "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Feld vulnerabilities[].dateAdded zählen; Abruf-Test: BODY_LIMIT beim Tool (Datei groß), per curl abrufbar; Lizenz: CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprüft); Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Komplettes Archiv seit 2021-11 mit dateAdded je Eintrag; max. Gewicht 0.65, 5 Signal(e)"
+  },
+  {
+    "rank": 16,
+    "collector": "sans-isc",
+    "domain": "threat",
+    "signals": [
+      "cyber.threat.dshield_port_scan_spike",
+      "cyber.threat.port_scanning_ot_protocols",
+      "cyber.threat.isc_infocon"
+    ],
+    "endpoints": [
+      "https://isc.sans.edu/api/topports/records/10?json",
+      "https://isc.sans.edu/api/infocon?json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Test /api/infocon?json: MIME_BLOCKED im Tool; Endpunkte nicht verifiziert; Lizenz: CC BY-NC-SA (laut ISC, prüfen); Rate-Limit: max 1 Req/s, User-Agent mit Kontakt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Endpunkte mit Datum, z. B. /api/dailysummary/<von>/<bis>; max. Gewicht 0.65, 3 Signal(e)"
+  },
+  {
+    "rank": 17,
+    "collector": "crtsh",
+    "domain": "dns_core",
+    "signals": [
+      "cyber.dns_core.mass_revocation",
+      "cyber.dns_core.lookalike_issuance_gov_banks",
+      "cyber.threat.brand_domains_nrd"
+    ],
+    "endpoints": [
+      "https://crt.sh/?q=<domain>&output=json",
+      "https://crt.sh/?q=%25sparkasse%25&output=json",
+      "https://crt.sh/?q=%25bank%25&output=json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Einträge je Domain; Rate-Limit: oft ueberlastet, schonend nutzen",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: alle CT-Logeinträge seit 2013; max. Gewicht 0.60, 3 Signal(e)"
+  },
+  {
+    "rank": 18,
+    "collector": "ecb-data",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.target_daily_volume",
+      "cyber.finance.estr_percentile_spread",
+      "cyber.finance.ecb_marginal_lending",
+      "cyber.finance.banknotes_in_circulation",
+      "cyber.markets.safe_haven_fx"
+    ],
+    "endpoints": [
+      "https://data-api.ecb.europa.eu/service/data/TGT?lastNObservations=30&format=csvdata",
+      "https://data-api.ecb.europa.eu/service/data/ILM/W.U2.C.L010000.U2.EUR?lastNObservations=52&format=csvdata",
+      "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.WT?lastNObservations=30&format=csvdata",
+      "https://www.ecb.europa.eu/mopo/liq_ops/html/index.en.html",
+      "https://data-api.ecb.europa.eu/service/data/ILM/W.U2.C.L010000.Z5.EUR?format=csvdata",
+      "https://data-api.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?format=csvdata"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Volumen und Wert der Zahlungen. Dataset-Key und Frequenz ungeprüft.; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie per API: ab 1999; max. Gewicht 0.60, 5 Signal(e)"
+  },
+  {
+    "rank": 19,
+    "collector": "fca-nsm",
+    "domain": "services",
+    "signals": [
+      "cyber.services.uk_rns_cyber"
+    ],
+    "endpoints": [
+      "https://api.data.fca.org.uk/search?index=fca-nsm-searchdata"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Interne JSON-Suche der NSM-Weboberfläche (POST); Struktur nicht geprüft.; Lizenz: unklar; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: mehrjährig; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 20,
+    "collector": "openbanking-uk",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.open_banking_uk"
+    ],
+    "endpoints": [
+      "https://www.openbanking.org.uk/api-performance/"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Verfügbarkeit und Antwortzeiten der Bank-APIs (CMA9) als Berichte; lagging.; Lizenz: unklar; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie per API: mehrjährig; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 21,
+    "collector": "energy-charts",
+    "domain": "physical",
+    "signals": [
+      "cyber.physical.frequency_deviation_de",
+      "cyber.physical.frequency_rocof",
+      "cyber.physical.solar_wind_feedin_sudden_drop",
+      "cyber.physical.price_spike_de"
+    ],
+    "endpoints": [
+      "https://api.energy-charts.info/frequency?country=de",
+      "https://api.energy-charts.info/public_power?country=de",
+      "https://api.energy-charts.info/price?bzn=DE-LU"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Netzfrequenz-Zeitreihe in Hz; Lizenz: CC BY 4.0 (laut Seite, prüfen)",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Zeitreihe per start/end Parameter; max. Gewicht 0.55, 4 Signal(e)"
+  },
+  {
+    "rank": 22,
+    "collector": "hn-algolia",
+    "domain": "attention",
+    "signals": [
+      "cyber.attention.hackernews_volume"
+    ],
+    "endpoints": [
+      "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&numericFilters=created_at_i>1",
+      "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&hitsPerPage=100"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: nbHits für Zeitfenster = Themenvolumen. Test lief in Rate-Limit (429), nicht bestätigt; Rate-Limit: 10000 Anfragen/h",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: vollständig seit 2006 (numericFilters=created_at_i); max. Gewicht 0.55, 1 Signal(e)"
+  },
+  {
+    "rank": 23,
+    "collector": "nyfed-markets-api",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.sofr_tail"
+    ],
+    "endpoints": [
+      "https://markets.newyorkfed.org/api/rates/secured/sofr/last/5.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "uncertainty": "Messfeld laut Recherche: Geprüft (HTTP 200): refRates[].percentRate, percentPercentile1/25/75/99, volumeInBillions. Tail (P99 minus Median) und Volumen als Stressindikatoren.; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: ab April 2018; /search.json mit startDate; max. Gewicht 0.55, 1 Signal(e)"
+  },
+  {
+    "rank": 24,
+    "collector": "osv",
+    "domain": "threat",
+    "signals": [
+      "cyber.threat.osv_malware_advisories",
+      "cyber.vuln.advisory_volume"
+    ],
+    "endpoints": [
+      "https://api.osv.dev/v1/query"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: POST-Abfrage; Dump zum Zählen neuer Advisories/MAL-Einträge; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Datenbank-Dumps gs://osv-vulnerabilities; max. Gewicht 0.55, 2 Signal(e)"
+  },
+  {
+    "rank": 25,
+    "collector": "polymarket-gamma",
+    "domain": "markets",
+    "signals": [
+      "cyber.markets.polymarket_cyber",
+      "cyber.markets.market_volume_cyber"
+    ],
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?limit=100&closed=false"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "uncertainty": "Messfeld laut Recherche: Antwort ist JSON-Liste mit question, outcomePrices, volume, liquidity. Erreichbarkeit geprüft; tag_slug-Filter lieferte im Test nicht gefilterte Treffer: Cyber-Märkte per Textsuche/Event-Slug selektieren; Lizenz: Polymarket ToS; Nutzung in einigen Ländern eingeschränkt; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Preishistorie per CLOB /prices-history; max. Gewicht 0.55, 2 Signal(e)"
+  },
+  {
+    "rank": 26,
+    "collector": "wikimedia-pageviews",
+    "domain": "attention",
+    "signals": [
+      "cyber.attention.wikipedia_cyber_terms",
+      "cyber.attention.wikipedia_cash_prep",
+      "cyber.attention.wikipedia_traffic_baseline"
+    ],
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Internet/daily/20261101/20261117",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Cyberangriff/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Blackout/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notvorrat/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Bargeld/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notgepäck/daily/20250101/20261116",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/de.wikipedia/all-access/user/daily/20250101/20261116"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "uncertainty": "Messfeld laut Recherche: items[].views. Für 'Cyberangriff' Test erfolgreich (daily views); Rate-Limit: 200 Anfragen/s, User-Agent Pflicht",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: ab Juli 2015; max. Gewicht 0.55, 3 Signal(e)"
+  },
+  {
+    "rank": 27,
+    "collector": "bcb-pix",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.pix_upi_volumes"
+    ],
+    "endpoints": [
+      "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasTransacoesPix(Database=@Database)?@Database='202610'&$format=json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Monatliche Transaktionsstatistik; Parameter und Feldnamen ungeprüft. UPI analog: npci.org.in/statistics.; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: ab 2020; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 28,
+    "collector": "defillama",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.stablecoin_peg_deviation",
+      "cyber.finance.defi_tvl_drop",
+      "cyber.finance.exchange_reserves_outflow"
+    ],
+    "endpoints": [
+      "https://stablecoins.llama.fi/stablecoins?includePrices=true",
+      "https://api.llama.fi/protocols (CEX-Daten ueber Webseite /cexs, API-Pfad ungeprueft)",
+      "https://api.llama.fi/v2/historicalChainTvl"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: stablecoins[].price (Abweichung von 1.00) und circulating je Chain.; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Zeitreihen je Coin (stablecoincharts); max. Gewicht 0.50, 3 Signal(e)"
+  },
+  {
+    "rank": 29,
+    "collector": "gdelt-doc",
+    "domain": "attention",
+    "signals": [
+      "cyber.attention.gdelt_cyber_bank_volume",
+      "cyber.attention.gdelt_cyber_volume"
+    ],
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22cyber%20attack%22%20bank&mode=timelinevol&format=json&timespan=30d",
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22cyber%20attack%22%20sourcelang:eng&mode=timelinevol&format=json&timespan=1y"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: timeline[].value = Anteil der Artikel am globalen Volumen. Evidenzklasse D (Medienaufmerksamkeit).; Rate-Limit: 1 Anfrage/5 s empfohlen",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: rollierend ca. 3 Monate, GKG-Dateien ab 2015; max. Gewicht 0.50, 2 Signal(e)"
+  },
+  {
+    "rank": 30,
+    "collector": "hhs-ocr-breach",
+    "domain": "services",
+    "signals": [
+      "cyber.services.hhs_ocr_hacking_incidents"
+    ],
+    "endpoints": [
+      "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf (CSV-Export-Button)"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Spalten: Covered Entity, State, Individuals Affected, Breach Submission Date, Type of Breach (Hacking/IT Incident).; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie per API: ab 2009; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 31,
+    "collector": "mastodon-trends",
+    "domain": "attention",
+    "signals": [
+      "cyber.attention.bluesky_mastodon_keywords"
+    ],
+    "endpoints": [
+      "https://mastodon.social/api/v1/trends/tags?limit=20"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: history[].uses, accounts; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: 7 Tage je Tag (history[]); max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 32,
+    "collector": "ntppool",
+    "domain": "dns_core",
+    "signals": [
+      "cyber.dns_core.ntp_pool_health_de"
+    ],
+    "endpoints": [
+      "https://www.ntppool.org/zone/de",
+      "https://www.ntppool.org/scores/"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: aktive Server/Score, auch JSON /scores/<ip>/json; Rate-Limit: fair use",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Score-Historie je Server (CSV); max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 33,
+    "collector": "ooni",
+    "domain": "attention",
+    "signals": [
+      "cyber.attention.ooni_anomalies"
+    ],
+    "endpoints": [
+      "https://api.ooni.io/api/v1/aggregation?probe_cc=DE&since=<date>&axis_x=measurement_start_day"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: anomaly_count, confirmed_count, ok_count; Rate-Limit: fair use",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Messungen seit 2012; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 34,
+    "collector": "poc-in-github",
+    "domain": "attention",
+    "signals": [
+      "cyber.attention.poc_github"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/nomi-sec/PoC-in-GitHub/master/2026/CVE-2026-0001.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Beispiel-URL ist Platzhalter; Anzahl PoC-Repos je CVE; Lizenz: unklar; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Verzeichnisse je Jahr seit 1999; max. Gewicht 0.50, 1 Signal(e)"
+  },
+  {
+    "rank": 35,
+    "collector": "smard",
+    "domain": "physical",
+    "signals": [
+      "cyber.physical.load_vs_forecast_de",
+      "cyber.physical.grid_load_germany"
+    ],
+    "endpoints": [
+      "https://www.smard.de/app/chart_data/410/DE/410_DE_hour_1731542400000.json",
+      "https://www.smard.de/app/chart_data/410/DE/index_hour.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Stromverbrauch/-erzeugung DE; Zeitstempel-Index, dann Datei laden; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: ab 2015; max. Gewicht 0.50, 2 Signal(e)"
+  },
+  {
+    "rank": 36,
+    "collector": "adsb-lol",
+    "domain": "physical",
+    "signals": [
+      "cyber.physical.continuity_aircraft",
+      "cyber.physical.bizjet_nz_aggregate",
+      "cyber.physical.bizjet_remote_havens"
+    ],
+    "endpoints": [
+      "https://api.adsb.lol/v2/mil"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie ueber Tagesarchive; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Tagesdumps auf github.com/adsblol/globe_history; max. Gewicht 0.45, 3 Signal(e)"
+  },
+  {
+    "rank": 37,
+    "collector": "bitnodes",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.bitcoin_network_nodes"
+    ],
+    "endpoints": [
+      "https://bitnodes.io/api/v1/snapshots/latest/"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: total_nodes, nodes{} mit Land/ASN-Feldern; Lizenz: öffentlich, Nutzungsbedingungen unklar; Rate-Limit: begrenzt ohne Key",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Snapshot-Historie per /snapshots/; max. Gewicht 0.45, 1 Signal(e)"
+  },
+  {
+    "rank": 38,
+    "collector": "eirgrid",
+    "domain": "physical",
+    "signals": [
+      "cyber.physical.irish_datacenter_load"
+    ],
+    "endpoints": [
+      "https://www.smartgriddashboard.com/DashboardService.svc/data?area=demandactual&region=ALL&datefrom=15-Nov-2026+00:00&dateto=16-Nov-2026+23:59"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Rows[].Value = MW (Irland: ~20 % Last durch Rechenzentren); Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: ab 2014; max. Gewicht 0.45, 1 Signal(e)"
+  },
+  {
+    "rank": 39,
+    "collector": "google-trends-unofficial",
+    "domain": "attention",
+    "signals": [
+      "cyber.attention.google_trends_crisis"
+    ],
+    "endpoints": [
+      "https://trends.google.com/trends/api/widgetdata/multiline?req=...(via pytrends build_payload)"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Relative Suchinteresse-Indexwerte; instabil, Rate-Limits/429; Lizenz: Google ToS verbieten automatisierte Abfragen; keine offene Lizenz; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: ab 2004 (relativ 0-100); max. Gewicht 0.45, 1 Signal(e)"
+  },
+  {
+    "rank": 40,
+    "collector": "nyfed-repo",
+    "domain": "finance",
+    "signals": [
+      "cyber.finance.fed_repo_facility_usage"
+    ],
+    "endpoints": [
+      "https://markets.newyorkfed.org/api/rp/all/all/results/last/5.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Teilnahme am Standing Repo Facility und RRP je Tag; Feldnamen ungeprüft.; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: ab 2013; max. Gewicht 0.45, 1 Signal(e)"
+  },
+  {
+    "rank": 41,
+    "collector": "yahoo-chart",
+    "domain": "markets",
+    "signals": [
+      "cyber.markets.cyber_etf_volume",
+      "cyber.markets.cyber_pureplay_volume",
+      "cyber.markets.cdn_cloud_stress",
+      "cyber.markets.cyber_insurer_prices",
+      "cyber.markets.bank_stocks",
+      "cyber.markets.bitcoin_vs_gold_divergence",
+      "cyber.markets.gold"
+    ],
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CRWD?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NET?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BEZ.L?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/MUV2.DE?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/V?range=2y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/EXV1.DE?range=2y&interval=1d"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: chart.result[0].indicators.quote[0].close und .volume; Lizenz: inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: Tageskerzen mehrere Jahre bis Jahrzehnte; max. Gewicht 0.45, 7 Signal(e)"
+  },
+  {
+    "rank": 42,
+    "collector": "tor-metrics",
+    "domain": "outages",
+    "signals": [
+      "cyber.outages.users_de",
+      "cyber.outages.relay_count_bandwidth"
+    ],
+    "endpoints": [
+      "https://metrics.torproject.org/userstats-relay-country.csv?start=2026-01-01&end=2026-11-17&country=de&events=off",
+      "https://onionoo.torproject.org/summary?limit=1",
+      "https://metrics.torproject.org/bandwidth.csv",
+      "https://metrics.torproject.org/userstats-relay-country.csv?start=2025-01-01&end=2026-11-16&country=de&events=off"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: users je Tag; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie per API: ab 2011; max. Gewicht 0.40, 2 Signal(e)"
+  },
+  {
+    "rank": 43,
+    "collector": "bafin-dd",
+    "domain": "markets",
+    "signals": [
+      "cyber.markets.bafin_dealings"
+    ],
+    "endpoints": [
+      "https://portal.mvp.bafin.de/database/DealingsInfo/sucheForm.do"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Meldungen nach Art. 19 MAR: Emittent, Kauf/Verkauf, Volumen; Lizenz: Datenlizenz Deutschland? unklar; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie per API: Datenbank ab 2016 mit CSV-Export; max. Gewicht 0.35, 1 Signal(e)"
+  },
+  {
+    "rank": 44,
+    "collector": "peeringdb",
+    "domain": "routing",
+    "signals": [
+      "cyber.routing.member_port_changes"
+    ],
+    "endpoints": [
+      "https://www.peeringdb.com/api/netixlan?ix_id=<id>"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: speed, asn je Port; Rate-Limit: anonym gedrosselt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie per API: aktuell, Snapshots archiviert; max. Gewicht 0.20, 1 Signal(e)"
+  },
+  {
+    "rank": 45,
+    "collector": "ct-logs",
+    "domain": "dns_core",
+    "signals": [
+      "cyber.dns_core.issuance_volume",
+      "cyber.dns_core.log_availability"
+    ],
+    "endpoints": [
+      "https://ct.googleapis.com/logs/us1/<log>/ct/v1/get-sth",
+      "https://www.gstatic.com/ct/log_list/v3/log_list.json",
+      "https://ct.googleapis.com/logs/us1/argon2026h2/ct/v1/get-sth"
+    ],
+    "format": "json",
+    "history": false,
+    "verified": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: tree_size regelmäßig abfragen und Differenz bilden; Rate-Limit: unbekannt",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; keine API-Historie, Baseline muss erst wachsen; max. Gewicht 0.45, 2 Signal(e)"
+  }
+]

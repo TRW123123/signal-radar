@@ -51,7 +51,10 @@ export function createHttp(opts: HttpOptions): HttpClient {
           signal: AbortSignal.timeout(init?.timeoutMs ?? 20_000),
           redirect: 'follow',
         });
-        if (res.status === 429 || res.status >= 500) throw new Error(`HTTP ${res.status} ${url}`);
+        if (res.status === 429 || res.status >= 500) {
+          const ra = Number(res.headers.get('retry-after'));
+          throw Object.assign(new Error(`HTTP ${res.status} ${url}`), { retryAfterMs: res.status === 429 ? (Number.isFinite(ra) && ra > 0 ? Math.min(ra, 30) * 1000 : 6000) : undefined });
+        }
         if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status} ${url}`), { fatal: true });
         const body = await res.text();
         if (opts.mode === 'record') {
@@ -62,7 +65,7 @@ export function createHttp(opts: HttpOptions): HttpClient {
       } catch (e) {
         lastErr = e;
         if ((e as { fatal?: boolean }).fatal) break;
-        await new Promise((r) => setTimeout(r, 1500));
+        await new Promise((r) => setTimeout(r, (e as { retryAfterMs?: number }).retryAfterMs ?? 1500));
       }
     }
     throw lastErr;

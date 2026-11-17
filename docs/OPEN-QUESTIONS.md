@@ -2,46 +2,45 @@
 
 Gesammelt statt einzeln nachgefragt (Vorgabe Nachtlauf 17.11.2026). Reihenfolge nach Dringlichkeit.
 
-## 1. Netlify-Deploy konnte aus der Bau-Umgebung nicht ausgeführt werden
+## 1. Erledigt am 17.11.2026: Netlify, GitHub, Live-Betrieb
 
-Freigabe liegt vor (17.11., 00:46). Die Cloud-Umgebung blockiert aber ausgehende Verbindungen zu Netlify
-(`api.netlify.com`, `netlify-mcp.netlify.app`: Antwort 403 vom Ausgangs-Proxy). Der Rechner des Auftraggebers war
-nicht über die Bridge verbunden. Umgehen wurde nicht versucht.
-**Nötig:** einmal Deploy vom eigenen Rechner (`netlify deploy --prod --dir frontend`) oder Repo mit Netlify verbinden.
-Anleitung: `docs/DEPLOY.md`.
+Frontend live unter https://signal-radar.netlify.app (noindex), Repo `TRW123123/signal-radar` ist öffentlich, GitHub Actions `collect`
+läuft alle 15 Minuten, der Snapshot kommt von `raw.githubusercontent.com`. Einzelheiten und Begründung: `docs/DEPLOY.md`.
 
-**Vorschau bis dahin:** `dist/signal-radar.html` ist das komplette Dashboard als eine Datei (Schrift, Code und
-Momentaufnahme eingebettet, keine Netzwerk-Anfragen), gebaut mit `python3 -I scripts/build_single.py`. Das
-Veröffentlichen als Claude-Artifact wurde von der Berechtigungsprüfung der Umgebung abgelehnt und nicht umgangen.
+## 2. Offen: Netlify-Plakette und Tarif
 
-## 2. Privates GitHub-Repo
+Auf dem Gratis-Tarif blendet Netlify eine Plakette ein, die die strenge CSP blockiert. Sie ist über die Site-Einstellung
+`built_with_badge_enabled=false` abgeschaltet (per API, ohne Zusatzkosten). Sollte Netlify das Verhalten ändern, kehren 4 Konsolenfehler
+zurück; dann Einstellung prüfen. **Zu prüfen:** zählt Netlify die übersprungenen Builds (Daten-Commits) auf das Kontingent?
 
-Geplant ist ein privates Repo. Aus der Bau-Umgebung lassen sich keine neuen Repos anlegen (nur bestehende anhängen),
-und Push braucht laut Hard Rule eine ausdrückliche Freigabe. Der Stand liegt als lokales Git-Repo mit Commits vor
-und wird als Archiv übergeben. **Nötig:** leeres privates Repo `signal-radar` anlegen und Push freigeben.
+## 3. Offen: GDELT drosselt
 
-## 3. Live-Betrieb der Collectors
+GDELT antwortet langsam (12 bis 23 s) und begrenzt Abrufe, vor allem von GitHub-Läufern aus. Je Lauf fallen einzelne Ströme mit HTTP 429
+aus und werden beim nächsten Lauf nachgeholt (Abstand 5,5 s, Wartezeit nach 429 sechs Sekunden). Bleibt es bei mehr als der Hälfte Ausfällen:
+Intervall von `gdelt-doc` erhöhen oder Ströme auf weniger Begriffe kürzen.
 
-Collectors brauchen eine Laufzeit mit Internetzugang. Vorbereitet: GitHub Actions (alle 15 Minuten, Daten als Commits)
-und Netlify Scheduled Functions. Beides startet erst nach Punkt 1 bzw. 2. Bis dahin zeigt das Dashboard eine
-Momentaufnahme aus aufgezeichneten echten Antworten.
+## 3a. Offen: ransomware.live
+
+Die kostenlose API `api.ransomware.live/v2/recentvictims` liefert seit 11/2026 nur noch 404; die Pro-API (`api-pro.ransomware.live`) verlangt einen Key.
+Der Collector liest jetzt das öffentliche Jahresarchiv `data.ransomware.live/<Jahr>-victims.json` (ca. 7 MB je Abruf, alle 6 Stunden).
+Lizenz laut Seite CC BY-NC-SA (nicht kommerziell), Einzelheiten in `docs/LICENSE-TODO.md`. Bei Jahreswechsel liegt in den ersten Tagen
+wenig im neuen Jahresarchiv; die Reihe baut sich über den Speicher auf.
 
 ## 4. API-Keys
 
-Siehe `docs/KEYS-NEEDED.md`. Collectors für Key-Quellen sind gebaut und werden ohne Key übersprungen.
+Siehe `docs/KEYS-NEEDED.md`. Vier Collectors laufen ohne Key nicht und werden übersprungen: `cloudflare-radar` (`SR_CLOUDFLARE_KEY`) sowie
+`threatfox`, `urlhaus`, `malwarebazaar` (`SR_ABUSECH_KEY`, abuse.ch verlangt ein Konto). Ihr Parser ist nie gegen eine echte Antwort geprüft.
+`SR_SEC_USER_AGENT` ist als GitHub-Secret gesetzt.
 
 ## 5. Lizenzen
 
 Siehe `docs/LICENSE-TODO.md` (Quellen mit ungeklärter Lizenz) und offene Projekt-Lizenz für die spätere Veröffentlichung.
 
-## 6. Aufzeichnung echter Antworten ist in der Bau-Umgebung eng begrenzt
+## 6. Erledigt am 17.11.2026: Parser gegen echte Antworten
 
-Echte Antworten der Quellen ließen sich nur über ein einzelnes Abruf-Werkzeug holen (ratenbegrenzt, höchstens
-24 000 Zeichen, große Antworten nicht verlustfrei übertragbar). Direkt erreichbar war nur `raw.githubusercontent.com`.
-Folge: Collectors mit großen Antworten (z. B. IODA, Yahoo, Ransomware.live, ADS-B) sind gebaut, aber nicht gegen eine
-vollständige echte Antwort geprüft. `docs/STATUS.md` führt je Collector den Prüfstand. **Nötig:** nach dem ersten
-Live-Lauf (GitHub Actions oder lokal `node src/cli.ts run`) die Fehlerliste ansehen; ein Folge-Lauf kann die
-betroffenen Parser dann gegen echte Antworten reparieren.
+Der erste Live-Lauf hat 24 bisher ungeprüfte Collectors gegen echte Antworten geprüft; `docs/STATUS.md` führt je Collector den Stand
+(50 ja, 4 teilweise, 4 nein). Repariert: ransomware-live (Quelle gewechselt), polymarket-gamma (Nulltreffer), sans-isc (topports als Objekt),
+treasury-fiscal (Schlusstand in `open_today_bal`), Wikimedia (User-Agent), GDELT (Abstand und Zeitlimit).
 
 ## 7. Punkt-Messungen brauchen Sammelzeit
 

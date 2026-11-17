@@ -1,6 +1,6 @@
 # Status
 
-Automatisch erzeugt von `scripts/status_report.py` am 2026-11-17 10:10 UTC. Nicht von Hand ändern; neu erzeugen mit `python3 -I scripts/status_report.py`.
+Automatisch erzeugt von `scripts/status_report.py` am 2026-11-17 10:21 UTC. Nicht von Hand ändern; neu erzeugen mit `python3 -I scripts/status_report.py`.
 
 Quellen der Zahlen: `catalog/scenarios.json`, `catalog/signals/*.json`, die geladenen Collectors (`src/collectors/*.ts`) und deren Kopfkommentar (`VERIFIED:`). Aufgezeichnete echte Antworten unter `fixtures/` stammen vom 2026-11-17T00:16:13Z.
 

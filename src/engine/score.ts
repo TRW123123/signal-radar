@@ -92,11 +92,18 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
 
   // --- measured risk: classes A and B, grouped by domain, de-duplicated by independence group ---
   const domainViews: DomainView[] = [];
+  const drivers = new Map<string, string | null>();
   for (const [domainId, meta] of Object.entries(scenario.domains)) {
     const inDomain = views.filter((v) => v.domain === domainId && (v.evidenceClass === 'A' || v.evidenceClass === 'B'));
     const byGroup = new Map<string, number>();
-    for (const v of inDomain) byGroup.set(v.def.independenceGroup, Math.max(byGroup.get(v.def.independenceGroup) ?? 0, v.contribution));
+    for (const v of inDomain) {
+      const g = v.def.upstream ?? v.def.independenceGroup;
+      byGroup.set(g, Math.max(byGroup.get(g) ?? 0, v.contribution));
+    }
     const score = noisyOr([...byGroup.values()]);
+    // the group that drives this domain; used to keep one shared upstream from activating several domains
+    const driver = [...byGroup.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+    drivers.set(domainId, driver);
     const z0 = sens.z0;
     const unrest = inDomain.reduce((m, v) => (v.fresh && v.z !== null && !v.damp ? Math.max(m, clamp01(v.z / (v.def.thresholds?.z0 ?? z0))) : m), 0);
     domainViews.push({
@@ -104,7 +111,15 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
       signals: inDomain.sort((a, b) => b.contribution - a.contribution || b.anomaly - a.anomaly).map(strip),
     });
   }
-  const activeDomains = domainViews.filter((d) => d.active).length;
+  // Convergence counts independent evidence: active domains driven by the same upstream count once.
+  const usedDrivers = new Set<string>();
+  let activeDomains = 0;
+  for (const d of [...domainViews].filter((x) => x.active).sort((a, b) => b.score - a.score)) {
+    const drv = drivers.get(d.id);
+    if (drv && usedDrivers.has(drv)) continue;
+    if (drv) usedDrivers.add(drv);
+    activeDomains++;
+  }
   const combined = noisyOr(domainViews.map((d) => d.score * clamp01(scenario.domains[d.id].weight)));
   const gate = CONVERGENCE_GATE[Math.min(activeDomains, CONVERGENCE_GATE.length - 1)];
   const score = clamp01(combined * gate);

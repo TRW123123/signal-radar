@@ -31,7 +31,7 @@ function series(id: string, level: number, spike = 1, spikeHours = 3, days = 20)
 
 const scenario: ScenarioDef = {
   id: 'cyber', order: 1, title: 'Cyber', question: '?', tagline: '',
-  domains: { routing: { title: 'R', weight: 1 }, finance: { title: 'F', weight: 1 }, outages: { title: 'O', weight: 1 }, physical: { title: 'P', weight: 1 } },
+  domains: { routing: { title: 'R', weight: 1 }, finance: { title: 'F', weight: 1 }, outages: { title: 'O', weight: 1 }, physical: { title: 'P', weight: 1 }, threat: { title: 'T', weight: 1 } },
 };
 
 function run(signals: SignalDef[], data: Observation[][], rules: BanalRule[] = [], now = NOW) {
@@ -169,7 +169,7 @@ test('fewer than three fed domains means: not enough data to say anything', () =
   const v = run([a], [series(a.id, 100)]);
   assert.match(v.verdict, /zu wenig Messdaten/);
   assert.equal(v.coverage.domainsWithData, 1);
-  assert.equal(v.coverage.domainsTotal, 4);
+  assert.equal(v.coverage.domainsTotal, 5);
 });
 
 test('catalogued but unbuilt signals do not lower confidence', () => {
@@ -216,4 +216,22 @@ test('a daily series published with a day of delay still counts as current', () 
   // unless the source is declared as lagging
   const lagging = sig('cyber.routing.lag', { intervalMinutes: 60, maxAgeHours: 24 * 10 });
   assert.equal(evaluate(lagging, stale.map((o) => ({ ...o, signalId: lagging.id })), NOW, SENSITIVITY.high).fresh, true);
+});
+
+test('one shared upstream cannot make two domains count as convergence', () => {
+  const a = sig('cyber.routing.a', { upstream: 'bgp-ris' });
+  const b = sig('cyber.outages.bgp', { upstream: 'bgp-ris' });
+  const c = sig('cyber.finance.a');
+  const shared = run([a, b, c], [series(a.id, 100, 5), series(b.id, 50, 5), series(c.id, 10)]);
+  assert.equal(shared.activeDomains, 1, 'same upstream in two domains is one piece of evidence');
+  const indep = run([a, sig('cyber.outages.ping'), c], [series(a.id, 100, 5), series('cyber.outages.ping', 50, 5), series(c.id, 10)]);
+  assert.equal(indep.activeDomains, 2);
+  assert.ok(indep.level > shared.level);
+});
+
+test('signals sharing an upstream count once inside a domain', () => {
+  const a = sig('cyber.threat.list_a', { upstream: 'firehol', weight: 0.5, independenceGroup: 'a' });
+  const b = sig('cyber.threat.list_b', { upstream: 'firehol', weight: 0.5, independenceGroup: 'b' });
+  const v = run([a, b], [series(a.id, 100, 5), series(b.id, 100, 5)]);
+  assert.ok(v.domains.find((d) => d.id === 'threat') === undefined || v.domains[0].score <= 0.5);
 });

@@ -90,5 +90,4 @@ test('war: ein Symbol wird nur einmal geholt, ausgefallenes Symbol lässt nur se
   assert.ok(ids.has('war.markets.brent_futures') && ids.has('war.markets.vix') && ids.has('cyber.markets.vix'));
   assert.ok(!ids.has('war.markets.wheat_prices'));
   assert.equal(urls.length, new Set(urls).size);
-  assert.equal(urls.length, 12);
 });

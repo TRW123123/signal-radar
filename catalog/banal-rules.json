@@ -1,12 +1,159 @@
 [
-  { "id": "patch-tuesday", "type": "nth-weekday", "appliesTo": ["cyber.vuln.*", "cyber.threat.*advis*"], "factor": 0.4,
-    "reason": "Patch-Dienstag: Hersteller veröffentlichen heute planmäßig viele Sicherheitsupdates.", "params": { "weekday": 2, "n": 2, "spillDays": 2 } },
-  { "id": "fema-eas-test-2026", "type": "date-range", "appliesTo": ["*.attention.*", "cyber.physical.*alert*", "cyber.physical.*warn*"], "factor": 0.5,
-    "reason": "Angekündigter landesweiter US-Warntest (FEMA/FCC) am 17.11.2026.", "params": { "from": "2026-11-17T00:00:00Z", "to": "2026-11-18T12:00:00Z" } },
-  { "id": "month-end-payments", "type": "day-of-month", "appliesTo": ["cyber.finance.*volume*", "cyber.finance.*repo*", "cyber.finance.*sofr*", "cyber.finance.*estr*"], "factor": 0.5,
-    "reason": "Monatswechsel: Zahlungsvolumen und Geldmarktsätze schwanken dann regelmäßig.", "params": { "days": [1, 2, 28, 29, 30, 31] } },
-  { "id": "geomagnetic-storm", "type": "signal-condition", "appliesTo": ["cyber.physical.*gnss*", "cyber.physical.*gps*", "cyber.physical.*satell*", "cyber.physical.*hf*"], "factor": 0.3,
-    "reason": "Starker geomagnetischer Sturm: Störungen bei GPS, Funk und Satelliten sind dann natürlich erklärbar.", "params": { "signal": "cyber.context.geomagnetic_kp", "gte": 7 } },
-  { "id": "weekend-status", "type": "weekday", "appliesTo": ["cyber.services.*maintenance*"], "factor": 0.5,
-    "reason": "Wochenende: Anbieter legen Wartungsfenster bevorzugt auf Samstag und Sonntag.", "params": { "days": [0, 6] } }
+  {
+    "id": "patch-tuesday",
+    "type": "nth-weekday",
+    "appliesTo": [
+      "cyber.vuln.*",
+      "cyber.threat.*advis*"
+    ],
+    "factor": 0.4,
+    "reason": "Patch-Dienstag: Hersteller veröffentlichen heute planmäßig viele Sicherheitsupdates.",
+    "params": {
+      "weekday": 2,
+      "n": 2,
+      "spillDays": 2
+    }
+  },
+  {
+    "id": "fema-eas-test-2026",
+    "type": "date-range",
+    "appliesTo": [
+      "*.attention.*",
+      "cyber.physical.*alert*",
+      "cyber.physical.*warn*"
+    ],
+    "factor": 0.5,
+    "reason": "Angekündigter landesweiter US-Warntest (FEMA/FCC) am 17.11.2026.",
+    "params": {
+      "from": "2026-11-17T00:00:00Z",
+      "to": "2026-11-18T12:00:00Z"
+    }
+  },
+  {
+    "id": "month-end-payments",
+    "type": "day-of-month",
+    "appliesTo": [
+      "cyber.finance.*volume*",
+      "cyber.finance.*repo*",
+      "cyber.finance.*sofr*",
+      "cyber.finance.*estr*"
+    ],
+    "factor": 0.5,
+    "reason": "Monatswechsel: Zahlungsvolumen und Geldmarktsätze schwanken dann regelmäßig.",
+    "params": {
+      "days": [
+        1,
+        2,
+        28,
+        29,
+        30,
+        31
+      ]
+    }
+  },
+  {
+    "id": "geomagnetic-storm",
+    "type": "signal-condition",
+    "appliesTo": [
+      "cyber.physical.*gnss*",
+      "cyber.physical.*gps*",
+      "cyber.physical.*satell*",
+      "cyber.physical.*hf*"
+    ],
+    "factor": 0.3,
+    "reason": "Starker geomagnetischer Sturm: Störungen bei GPS, Funk und Satelliten sind dann natürlich erklärbar.",
+    "params": {
+      "signal": "cyber.context.geomagnetic_kp",
+      "gte": 7
+    }
+  },
+  {
+    "id": "weekend-status",
+    "type": "weekday",
+    "appliesTo": [
+      "cyber.services.*maintenance*"
+    ],
+    "factor": 0.5,
+    "reason": "Wochenende: Anbieter legen Wartungsfenster bevorzugt auf Samstag und Sonntag.",
+    "params": {
+      "days": [
+        0,
+        6
+      ]
+    }
+  },
+  {
+    "id": "oracle-cpu",
+    "type": "date-range",
+    "appliesTo": [
+      "cyber.vuln.*",
+      "ai.supply_chain.*"
+    ],
+    "factor": 0.5,
+    "reason": "Quartals-Patchtag von Oracle (Critical Patch Update): an diesem Tag erscheinen planmäßig sehr viele neue Schwachstellen.",
+    "params": {
+      "from": "2027-01-19T00:00:00Z",
+      "to": "2027-01-20T23:59:59Z"
+    },
+    "note": "Termine nach der Regel 'Dienstag nächst dem 17. Jan/Apr/Jul/Okt' berechnet, vor Ablauf fortschreiben: 2027-04-20, 2027-07-20, 2027-10-19"
+  },
+  {
+    "id": "oracle-cpu-2027-04",
+    "type": "date-range",
+    "appliesTo": [
+      "cyber.vuln.*",
+      "ai.supply_chain.*"
+    ],
+    "factor": 0.5,
+    "reason": "Quartals-Patchtag von Oracle (Critical Patch Update).",
+    "params": {
+      "from": "2027-04-20T00:00:00Z",
+      "to": "2027-04-21T23:59:59Z"
+    }
+  },
+  {
+    "id": "quarter-end-2026-q4",
+    "type": "date-range",
+    "appliesTo": [
+      "*.finance.*sofr*",
+      "*.finance.*estr*",
+      "*.money_market.*",
+      "*.finance.*repo*"
+    ],
+    "factor": 0.4,
+    "reason": "Quartals- und Jahresultimo: Banken verkleinern zum Stichtag ihre Bilanzen, Geldmarktsätze und Volumina springen dann regelmäßig.",
+    "params": {
+      "from": "2026-12-29T00:00:00Z",
+      "to": "2027-01-05T23:59:59Z"
+    }
+  },
+  {
+    "id": "quarter-end-2027-q1",
+    "type": "date-range",
+    "appliesTo": [
+      "*.finance.*sofr*",
+      "*.finance.*estr*",
+      "*.money_market.*",
+      "*.finance.*repo*"
+    ],
+    "factor": 0.4,
+    "reason": "Quartalsultimo: Banken verkleinern zum Stichtag ihre Bilanzen, Geldmarktsätze und Volumina springen dann regelmäßig.",
+    "params": {
+      "from": "2027-03-29T00:00:00Z",
+      "to": "2027-04-02T23:59:59Z"
+    }
+  },
+  {
+    "id": "holiday-reporting-2026",
+    "type": "date-range",
+    "appliesTo": [
+      "bio.*"
+    ],
+    "factor": 0.4,
+    "reason": "Feiertage um den Jahreswechsel: Meldungen fallen erst künstlich ab und springen danach durch Nachmeldungen nach oben.",
+    "params": {
+      "from": "2026-12-21T00:00:00Z",
+      "to": "2027-01-17T23:59:59Z"
+    }
+  }
 ]

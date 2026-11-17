@@ -1,0 +1,8 @@
+[
+  { "id": "bgp-ris-routeviews", "reason": "RIPEstat, GRIP und die BGP-Signale von IODA werten dieselben Route-Collectoren von RIPE RIS und RouteViews aus. Ein Routing-Ereignis erscheint dort dreimal, ist aber nur ein Beleg.",
+    "appliesTo": ["cyber.routing.*", "*.ioda_country_signals_*", "*.ioda_bgp_*"] },
+  { "id": "firehol-attackers", "reason": "firehol_level2 und firehol_abusers_1d enthalten blocklist_de, greensnow und bruteforceblocker als Teilmengen. Derselbe Anstieg darf nicht mehrfach zählen.",
+    "appliesTo": ["*.firehol_blocklist_de_entries", "*.firehol_greensnow_entries", "*.firehol_bruteforceblocker_entries", "*.firehol_level2_entries", "*.firehol_abusers_1d_entries"] },
+  { "id": "statuspage-shared-cloud", "reason": "Die beobachteten Statusseiten laufen überwiegend bei denselben Cloud- und CDN-Anbietern. Ein Ausfall dort färbt viele Statusseiten gleichzeitig, auch über Bereiche hinweg (Dienste, Zahlungsverkehr, KI).",
+    "appliesTo": ["*.statuspage_*"] }
+]

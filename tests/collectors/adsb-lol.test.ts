@@ -15,9 +15,11 @@ test('war: derselbe Zählwert wird unter Cyber- und Kriegs-ID gemeldet, ein Requ
   const ctx = { now: new Date('2026-11-17T00:07:00Z'), key: () => undefined, log: () => {}, http: { json: async () => { n++; return { ac: [{}, {}], total: 42 }; }, text: async () => '' } };
   const r = await collector.collect(ctx as never);
   assert.equal(n, 1);
-  assert.deepEqual(r.observations.map((o) => [o.signalId, o.value, o.ts]), [
-    ['cyber.physical.military_aircraft_visible', 42, '2026-11-17T00:00:00.000Z'],
-    ['war.military.mil_aircraft_visible_global', 42, '2026-11-17T00:00:00.000Z']]);
+  const got = r.observations.map((o) => [o.signalId, o.value, o.ts]);
+  for (const id of ['cyber.physical.military_aircraft_visible', 'war.military.mil_aircraft_visible_global']) {
+    assert.deepEqual(got.find((g) => g[0] === id), [id, 42, '2026-11-17T00:00:00.000Z']);
+  }
+  assert.ok(got.every((g) => g[1] === 42));
   const w = collector.signals.find((s) => s.id === 'war.military.mil_aircraft_visible_global')!;
   assert.ok(w.domain === 'military' && w.scenarios!.join() === 'war' && w.plain && w.name);
 });

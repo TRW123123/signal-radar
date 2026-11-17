@@ -34,6 +34,11 @@ export interface SignalDef {
   manipulability: Manipulability;
   /** signals sharing an upstream source share a group; only the strongest one counts per domain */
   independenceGroup: string;
+  /**
+   * Shared upstream across collectors and domains (catalog/upstreams.json). Signals with the same upstream count
+   * once per domain, and one upstream can make at most one domain count towards convergence.
+   */
+  upstream?: string;
   collector: string;
   unit?: string;
   baseline: BaselineSpec;
@@ -130,6 +135,12 @@ export interface ScenarioDef {
   /** per-domain weight and display title */
   domains: Record<string, { title: string; weight: number; plain?: string }>;
   order: number;
+}
+
+export interface UpstreamRule {
+  id: string;
+  reason: string;
+  appliesTo: string[];
 }
 
 export interface BanalRule {

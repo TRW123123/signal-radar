@@ -14,13 +14,15 @@ const SCENARIOS = ['cyber', 'war', 'blackout', 'ai', 'finance', 'nuclear', 'bio'
 const LISTS = ['wikipedia', 'hackerNews', 'gdelt', 'polymarket', 'yahoo', 'iodaCountries', 'iodaEvents', 'ooni', 'statuspage', 'adsb'] as const;
 const SHARED = ['wikimedia-pageviews', 'hn-algolia', 'gdelt-doc', 'polymarket-gamma', 'yahoo-chart', 'ioda', 'ooni', 'statuspage', 'adsb-lol'];
 
-test('sieben Szenario-Dateien, Reihenfolge, Platzhalter leer und vollständig', () => {
+test('sieben Szenario-Dateien, Reihenfolge, Listen vollständig, IDs im eigenen Szenario', () => {
   assert.deepEqual(SCENARIO_CONFIGS.map((c) => c.scenario), SCENARIOS);
   const files = readdirSync(join(ROOT, 'src', 'collectors', 'config')).filter((f) => !f.startsWith('_') && f !== 'index.ts');
   assert.deepEqual(files.map((f) => f.replace(/\.ts$/, '')).sort(), [...SCENARIOS].sort());
   for (const c of SCENARIO_CONFIGS) for (const k of LISTS) assert.ok(Array.isArray(c[k]), `${c.scenario}.${k}`);
-  for (const c of SCENARIO_CONFIGS.filter((x) => !['cyber', 'war'].includes(x.scenario))) {
-    for (const k of LISTS) assert.equal(c[k].length, 0, `${c.scenario}.${k}`);
+  // Szenario-Dateien werden laufend befüllt: jede Signal-ID muss zum eigenen Szenario gehören
+  for (const c of SCENARIO_CONFIGS) {
+    const ids = JSON.stringify(c).match(/"(?:signalId|id)":"([a-z_]+)\./g) ?? [];
+    for (const m of ids) assert.ok(m.includes(`"${c.scenario}.`) || m.includes('"cyber.') && c.scenario === 'cyber', `${c.scenario}: ${m}`);
   }
 });
 

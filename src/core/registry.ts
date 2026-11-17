@@ -4,7 +4,7 @@ import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import type { Catalog } from './catalog.ts';
-import { normalizeSignal } from './catalog.ts';
+import { applyUpstreams, normalizeSignal } from './catalog.ts';
 import type { Collector, SignalDef } from './types.ts';
 
 /** Loads every src/collectors/*.ts that default-exports a Collector (files starting with _ are helpers). */
@@ -47,5 +47,5 @@ export function activate(catalog: Catalog, collectors: Collector[], env: Record<
       byId.set(decl.id, merged);
     }
   }
-  return { ...catalog, signals: [...byId.values()] };
+  return { ...catalog, signals: applyUpstreams([...byId.values()], catalog.upstreams ?? []) };
 }

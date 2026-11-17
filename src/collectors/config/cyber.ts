@@ -41,7 +41,8 @@ export default {
         weight: 0.4,
         banalCauses: ['Einzelner viraler Beitrag', 'Großausfall eines bekannten Dienstes', 'Konferenzwochen'],
       },
-      terms: ['outage', 'cyberattack', 'ransomware', 'breach', '"is down"'],
+      // "is down" entfernt (Methodik-Review 17.11.2026): trifft auch "inflation is down" u. Ä.
+      terms: ['outage', 'cyberattack', 'ransomware', 'breach'],
       fixturePrefix: '',
     },
   ],

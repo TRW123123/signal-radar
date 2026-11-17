@@ -3,12 +3,22 @@
 
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import type { BanalRule, ScenarioDef, SignalDef } from './types.ts';
+import type { BanalRule, ScenarioDef, SignalDef, UpstreamRule } from './types.ts';
+import { globMatch } from '../engine/banal.ts';
 
 export interface Catalog {
   scenarios: ScenarioDef[];
   signals: SignalDef[];
   rules: BanalRule[];
+  upstreams: UpstreamRule[];
+}
+
+/** Assigns the shared upstream from catalog/upstreams.json to every matching signal. */
+export function applyUpstreams(signals: SignalDef[], upstreams: UpstreamRule[]): SignalDef[] {
+  return signals.map((s) => {
+    const u = upstreams.find((r) => r.appliesTo.some((p) => globMatch(p, s.id)));
+    return u ? { ...s, upstream: u.id } : s;
+  });
 }
 
 const DEFAULT_BASELINE = { method: 'rolling', windowDays: 28, minPoints: 14 } as const;
@@ -51,5 +61,7 @@ export function loadCatalog(root: string): Catalog {
   }
   const rulesFile = join(dir, 'banal-rules.json');
   const rules = existsSync(rulesFile) ? (JSON.parse(readFileSync(rulesFile, 'utf8')) as BanalRule[]) : [];
-  return { scenarios: scenarios.sort((a, b) => a.order - b.order), signals, rules };
+  const upFile = join(dir, 'upstreams.json');
+  const upstreams = existsSync(upFile) ? (JSON.parse(readFileSync(upFile, 'utf8')) as UpstreamRule[]) : [];
+  return { scenarios: scenarios.sort((a, b) => a.order - b.order), signals, rules, upstreams };
 }

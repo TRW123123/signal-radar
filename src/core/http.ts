@@ -10,7 +10,10 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import type { HttpClient, HttpInit } from './types.ts';
 
-export const USER_AGENT = 'SignalRadar/0.1 (+open-source early warning dashboard; passive read-only)';
+export const USER_AGENT = 'SignalRadar/0.1 (+https://github.com/TRW123123/signal-radar; passive read-only)';
+
+// Mindestabstand je Host in ms, wo die Quelle ihn ausdrücklich verlangt (sonst HTTP 429). Standard: minHostIntervalMs bzw. 1000.
+const HOST_INTERVAL_MS: Record<string, number> = { 'api.gdeltproject.org': 5500 };
 
 export interface HttpOptions {
   fixturesDir: string;
@@ -37,7 +40,7 @@ export function createHttp(opts: HttpOptions): HttpClient {
       return readFileSync(file, 'utf8');
     }
     const host = new URL(url).hostname;
-    const wait = (lastHit.get(host) ?? 0) + (opts.minHostIntervalMs ?? 1000) - Date.now();
+    const wait = (lastHit.get(host) ?? 0) + Math.max(opts.minHostIntervalMs ?? 1000, HOST_INTERVAL_MS[host] ?? 0) - Date.now();
     if (wait > 0) await new Promise((r) => setTimeout(r, wait));
     let lastErr: unknown;
     for (let attempt = 0; attempt < 2; attempt++) {

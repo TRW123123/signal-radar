@@ -20,19 +20,18 @@ jobs:
         with:
           node-version: 22
       - name: Collect and score
-        run: node src/cli.ts run --respect-intervals
+        run: node src/cli.ts run --respect-intervals --prune-days 120
         env:
           SR_SENSITIVITY: high
+          # Nur Variablen, die ein Collector tatsächlich liest. Ohne Wert wird der Collector übersprungen (kein Fehler).
           SR_CLOUDFLARE_KEY: ${{ secrets.SR_CLOUDFLARE_KEY }}
-          SR_NVD_KEY: ${{ secrets.SR_NVD_KEY }}
-          SR_FRED_KEY: ${{ secrets.SR_FRED_KEY }}
-          SR_ENTSOE_KEY: ${{ secrets.SR_ENTSOE_KEY }}
-          SR_ACLED_KEY: ${{ secrets.SR_ACLED_KEY }}
-          SR_OPENSKY_KEY: ${{ secrets.SR_OPENSKY_KEY }}
+          SR_ABUSECH_KEY: ${{ secrets.SR_ABUSECH_KEY }}
+          SR_SEC_USER_AGENT: ${{ secrets.SR_SEC_USER_AGENT }}
       - name: Commit data
         run: |
           git config user.name "signal-radar-bot"
           git config user.email "signal-radar-bot@users.noreply.github.com"
           git add data frontend/data/snapshot.json
           git diff --cached --quiet || git commit -m "data: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase --autostash
           git push

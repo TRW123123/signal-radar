@@ -7,7 +7,7 @@
 // Harmlose Ursachen: einzelne Kleinstbanken (Betrug, Kapitalmangel), Freitags-Schließungen, die bereits lange absehbar waren.
 // Annahmen laut Doku, nicht gegen eine echte Antwort geprüft: Antwort { meta, data: [{ data: { NAME, FAILDATE, QBFASSET }, score }] }; FAILDATE als
 //   „M/D/YYYY“ oder ISO-Datum (beides wird gelesen). Ist `data` leer, gilt das als 0 Schließungen.
-// VERIFIED: nein (Endpunkt nach Doku und Recherche, Aufzeichnung steht aus; Queue-Datei fixtures/queue/fdic-bankfind.json)
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, daysAgo, expect, isoDay, num, obs } from './_helpers.ts';

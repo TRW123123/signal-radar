@@ -14,7 +14,7 @@
 // Filter: OData `$filter=InitialReleaseDate gt <Datum>` (Fenster + 30 Tage) schließt die täglich überschriebenen Mariner-Dokumente aus und
 //   hält die Antwort klein. Ob die API genau diesen Filter akzeptiert, ist noch nicht aufgezeichnet; der Parser filtert zusätzlich selbst.
 //   Einzel-CVE-Dokumente (ID "CVE-...") kamen im echten Ausschnitt nicht vor; das zweite Signal bleibt, liefert ggf. nur Nullen.
-// VERIFIED: teilweise (17.11.2026, Feldnamen am echten Ausschnitt geprüft; Antwort mit neuem Filter wartet auf neue Aufzeichnung).
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, isoDay, obs } from './_helpers.ts';

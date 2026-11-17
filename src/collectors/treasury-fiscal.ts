@@ -8,14 +8,15 @@
 // Annahmen laut Doku, nicht gegen eine echte Antwort geprüft: { data: [{ record_date, account_type, close_today_bal }] }, Zahlen als Text,
 //   Konto „Treasury General Account (TGA) Closing Balance“ (älteres Schema) bzw. „Treasury General Account (TGA)“ (neueres Schema).
 //   Daten sind am Folgetag verfügbar; der Tageswert des laufenden Tages wird nicht gemeldet.
-// VERIFIED: nein (Endpunkt nach Doku und Recherche, Aufzeichnung steht aus; Queue-Datei fixtures/queue/treasury-fiscal.json)
+// Echte Antwort (17.11.2026): Schlusstand 2026-11-13 = 924618 Mio. USD (in open_today_bal der Zeile "... Closing Balance"), close_today_bal = "null".
+// VERIFIED: ja (17.11.2026, echte Antwort)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, isoDay, num, obs } from './_helpers.ts';
 
 const SIG = 'finance.money_market.us_tga_balance';
 const URL_TGA = 'https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/operating_cash_balance'
-  + '?fields=record_date,account_type,close_today_bal'
+  + '?fields=record_date,account_type,open_today_bal,close_today_bal'
   + '&filter=account_type:in:(Treasury%20General%20Account%20(TGA)%20Closing%20Balance,Treasury%20General%20Account%20(TGA))'
   + '&sort=-record_date&page[size]=45';
 
@@ -26,7 +27,8 @@ export function parseTga(body: unknown, today: string): Observation[] {
   for (const r of rows) {
     const day = String(r.record_date ?? '');
     const type = String(r.account_type ?? '');
-    const v = num(r.close_today_bal);
+    // Neues Schema (echte Antwort 17.11.2026): Das Feld close_today_bal ist der Text "null"; der Schlusstand der Zeile "Closing Balance" steht in open_today_bal.
+    const v = num(r.close_today_bal) ?? (/Closing Balance/i.test(type) ? num(r.open_today_bal) : null);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || day >= today || v === null || !/Treasury General Account/i.test(type)) continue;
     perDay.set(day, v);
   }

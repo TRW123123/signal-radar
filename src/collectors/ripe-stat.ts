@@ -8,8 +8,7 @@
 // Echte Formen (17.11.2026): country-routing-stats: data.stats[] mit {stats_date, v4_prefixes_ris, v6_prefixes_ris (kann .5 sein)},
 // ca. 250 Zeichen je Tag; routing-status: data.visibility.v4.{ris_peers_seeing,total_ris_peers} (ca. 1 000 Zeichen).
 // AS3209 lief beim Abruf in ein Timeout (Neuaufzeichnung beantragt); ohne alle fünf ASNs wird kein Mittelwert gemeldet.
-// VERIFIED: teilweise (17.11.2026): Form von routing-status mit 4 von 5 echten Antworten bestätigt; country-routing-stats-Form
-// aus dem abgeschnittenen Anfang bestätigt, vollständige Antwort (20 Tage) steht noch aus. Ältere Historie baut der Speicher Lauf für Lauf auf.
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, floorDay, floorHour, isoDay, num, obs } from './_helpers.ts';

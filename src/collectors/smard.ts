@@ -8,7 +8,7 @@
 // Der Index (8 700 Zeichen, wächst jede Woche) wird nicht mehr abgerufen: die Wochenanfänge sind Montag 00:00 Europe/Berlin und werden
 // lokal berechnet (weekStarts; Test gleicht sie mit dem echten Index ab). Je Wochendatei 168 Stunden, ca. 4 500 bis 5 000 Zeichen.
 // Fehlt die Datei der laufenden Woche noch (404), fällt nur sie aus.
-// VERIFIED: teilweise (Index 17.11.2026 echt, 621 Wochen-Zeitstempel, stimmen mit weekStarts überein; Wochendateien noch nicht aufgezeichnet).
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';

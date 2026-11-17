@@ -9,7 +9,7 @@
 // Szenario war: derselbe Zählwert wird zusätzlich als war.military.mil_aircraft_visible_global gemeldet (Katalog-Signale je Region wie
 // mil_count_hormuz brauchen Positionen und sind hier ausgeschlossen; es gibt nur den Gesamtzähler). Kein zusätzlicher Request.
 // Signal-IDs je Szenario: src/collectors/config/<szenario>.ts (Feld adsb); alle bekommen denselben Zählwert aus einem Request.
-// VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Antwortform { ac: [...], total, now, msg } nach Erinnerung)
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';

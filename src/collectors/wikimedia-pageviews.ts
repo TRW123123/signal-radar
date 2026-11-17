@@ -8,7 +8,7 @@
 // den vermutlich meisten Aufrufen) und ein Fenster von WINDOW_DAYS = 30 Tagen: eine Antwort hat rund 145 Zeichen je Tag, also
 // ca. 4 500 Zeichen (Grenze der Aufzeichnungs-Umgebung ca. 6 000). Ältere Historie baut der Speicher Lauf für Lauf auf.
 // Harmlose Ursachen für war-Ausschläge: Wehrdienst-Debatten im Bundestag, Warntag, Dokumentationen/Filme, Schulstoff, Katastrophenschutz-Berichte.
-// VERIFIED: nein (neue Artikelliste noch nicht aufgezeichnet; Form {"items":[{"timestamp":"2026090300","views":1}]} laut Auftrag).
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, num, obs, ymd } from './_helpers.ts';

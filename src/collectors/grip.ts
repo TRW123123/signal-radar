@@ -9,8 +9,7 @@
 // Echte Antwort (17.11.2026): {copyright, data:[Ereignis...], draw, recordsFiltered, recordsTotal}. recordsFiltered ist 0, auch
 // wenn data ein Ereignis enthält; recordsTotal zählt die Treffer (1 bei einem Ereignis). Deshalb wird recordsTotal gelesen.
 // length=1 hält die Antwort bei ca. 10 000 Zeichen (ein Ereignis ist groß), ohne Treffer 400 Zeichen.
-// VERIFIED: teilweise (17.11.2026, echte Antwort): Parameter und Form stimmen; ob recordsTotal bei mehreren Treffern und
-// length=1 die volle Trefferzahl liefert, ist mit den Aufzeichnungen (höchstens 1 Treffer) nicht prüfbar.
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';

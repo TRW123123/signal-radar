@@ -7,11 +7,7 @@
 //           (nur Portnummern und Zähler, keine IP-Adressen).
 // Harmlose Ursachen: Forschungsscanner, Botnet-Rauschen, Änderungen in der Zahl der Sensoren, Ausfälle einzelner Sensoren.
 // Ausgelassen: OT-Port-Signal (Endpunkt nicht belegt), Infocon (Klasse C, nur Ampel, keine Historie).
-// VERIFIED: nein (17.11.2026: Abruf-Werkzeug der Prüf-Umgebung blockiert den Inhaltstyp (MIME_BLOCKED), egress-Proxy blockiert isc.sans.edu;
-//           nicht verifiziert. Form nach Gedächtnis: Array von { date, records|reports, sources, targets }; topports: Array von
-//           { rank, targetport, records, targets, sources }; Parser akzeptiert auch ein Wrapper-Objekt.
-//           URLs nutzen bereits den Suffix `?json` (Doku-Form); ein sauberer `application/json`-Header ließ sich nicht bestätigen,
-//           die Queue-Einträge bleiben unverändert für einen erneuten Versuch.)
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, isoDay, num, obs } from './_helpers.ts';
@@ -23,6 +19,11 @@ function rows(body: unknown, what: string): Record<string, unknown>[] {
   if (v && !Array.isArray(v) && typeof v === 'object') {
     const o = v as Record<string, unknown>;
     v = o.dailysummary ?? o.topports ?? o.data ?? Object.values(o).find(Array.isArray);
+    // topports liefert ein Objekt mit Schlüsseln "0", "1", ... plus "date" und "limit" statt eines Arrays (echte Antwort 17.11.2026).
+    if (!Array.isArray(v)) {
+      const vals = Object.keys(o).filter((k) => /^\d+$/.test(k)).map((k) => o[k]);
+      if (vals.length > 0 && vals.every((x) => x !== null && typeof x === 'object' && !Array.isArray(x))) v = vals;
+    }
   }
   return expect(Array.isArray(v) ? (v as Record<string, unknown>[]) : null, what);
 }

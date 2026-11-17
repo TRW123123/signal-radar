@@ -20,8 +20,8 @@
 // Szenario war: eigene Suchbegriffe und eigener Fragetext-Filter, Signale war.attention.prediction_markets_war (höchste
 // Ja-Wahrscheinlichkeit) und war.attention.prediction_volume_spike (24-Stunden-Volumen), nur Aggregat über Märkte, keine Konten.
 // Harmlose Ursachen (war): neue/auslaufende Märkte, Sportmärkte mit Ländernamen (Filter dagegen nur grob), dünne Liquidität.
-// VERIFIED: teilweise (17.11.2026: Parser gegen echte, vollständige Antwort geprüft; die Antworten mit limit_per_type=1 stehen
-// noch zur Aufzeichnung aus, nur "cyber attack" (1 irrelevanter, archivierter Treffer) und "cyberattack" (0 Treffer) liegen vor).
+// Nulltreffer-Antwort (17.11.2026, echt): {"pagination":{"hasMore":false,"totalResults":0}} ohne `events`, gilt als leeres Ergebnis.
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';
@@ -48,7 +48,7 @@ interface RawMarket {
   id?: unknown; question?: unknown; outcomes?: unknown; outcomePrices?: unknown;
   volumeNum?: unknown; volume?: unknown; volume24hr?: unknown; closed?: unknown; active?: unknown; archived?: unknown;
 }
-interface Resp { events?: { markets?: RawMarket[] }[] }
+interface Resp { events?: { markets?: RawMarket[] }[]; pagination?: { totalResults?: number } }
 
 function jsonArray(x: unknown): unknown[] | null {
   if (Array.isArray(x)) return x;
@@ -58,6 +58,8 @@ function jsonArray(x: unknown): unknown[] | null {
 
 /** Offene Märkte aus einer public-search-Antwort. */
 export function parse(body: Resp): Market[] {
+  // Ohne Treffer fehlt `events` ganz, die Antwort lautet {"pagination":{"hasMore":false,"totalResults":0}} (echte Antwort 17.11.2026).
+  if (body.events === undefined && body.pagination?.totalResults === 0) return [];
   const events = expect(body.events, 'events');
   const out: Market[] = [];
   for (const ev of events) {

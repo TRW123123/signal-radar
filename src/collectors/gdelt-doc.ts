@@ -12,8 +12,8 @@
 // Timeouts): Iran/Hormus, Ukraine/NATO, Taiwan getrennt, dazu Anteil "World War III"/"nuclear war". Nur englischsprachige Quellen.
 // Harmlose Ursachen (war): Sport/Kultur-Berichte mit Ländernamen (Iran, Taiwan), Wahlen, Jahrestage, Wochentagsrhythmus, Änderungen der GDELT-Abdeckung.
 // Ströme je Szenario: src/collectors/config/<szenario>.ts (Feld gdelt), je Strom eine Anfrage und ein Signal.
-// VERIFIED: nein (noch keine echte Antwort: beide Abrufe liefen in TIMEOUT, neue leichtere Anfrage steht zur Aufzeichnung aus; Form {timeline:[{series, data:[{date:"YYYYMMDDTHHMMSSZ", value}]}]} nach Kenntnis).
-// Unsicher: Sprachfilter-Schreibweise sourcelang:english / sourcelang:german (alternativ 3-Buchstaben-Code eng/ger).
+// VERIFIED: teilweise (17.11.2026, echte Antwort aus Node und curl): Form { timeline: [{ series, data: [{ date, value }] }] } stimmt, Sprachfilter sourcelang:english / sourcelang:german gilt.
+//   GDELT antwortet langsam (12 bis 23 s) und begrenzt auf einen Abruf je 5 Sekunden (HTTP 429 sonst); der Client hält 5,5 s Abstand und wartet bis 60 s. Einzelne Ströme können dennoch ausfallen und werden dann übersprungen.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, isoDay, num, obs } from './_helpers.ts';
@@ -75,7 +75,7 @@ const collector: Collector = {
     let ok = 0;
     for (const s of STREAMS) {
       try {
-        const days = parse(await ctx.http.json<Resp>(buildUrl(s.query), { fixture: s.fixture }));
+        const days = parse(await ctx.http.json<Resp>(buildUrl(s.query), { fixture: s.fixture, timeoutMs: 60_000 }));
         for (const [day, v] of days) {
           if (day >= today) continue; // laufender Tag unvollständig
           observations.push(obs(s.signalId, `${day}T00:00:00Z`, v));

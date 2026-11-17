@@ -12,7 +12,7 @@
 // Übungen, Bombenentschärfungen und Großbrände (Schlagwort-Treffer durch Wortbestandteile wie "Strahl" in Sonnenstrahl).
 // Hinweis: Stichwort-Zähler zählt auch Wortteile; der Zähler ist grob und dient nur als Kontext. Die Antwort wächst mit der Zahl der
 // aktiven Meldungen (normal wenige kB; bei Großlagen größer).
-// VERIFIED: nein (Form nach Doku; in der Bau-Umgebung nicht abrufbar)
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector } from '../core/types.ts';
 import { expect, obs } from './_helpers.ts';

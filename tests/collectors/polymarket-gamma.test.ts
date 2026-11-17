@@ -20,6 +20,7 @@ test('Normalfall: offene Märkte, Ja-Preis auch bei vertauschter Reihenfolge', (
 test('leere Antwort und fehlendes Feld', () => {
   assert.deepEqual(parse({ events: [] }), []);
   assert.throws(() => parse({}), /events fehlt/);
+  assert.deepEqual(parse({ pagination: { totalResults: 0 } }), []); // echte Nulltreffer-Antwort
   const m = parse({ events: [{ markets: [{ id: '9', question: 'cyber?', outcomes: 'kaputt', outcomePrices: '[1' }] }] });
   assert.equal(m[0].yes, null);
   assert.equal(m[0].volume24h, 0);

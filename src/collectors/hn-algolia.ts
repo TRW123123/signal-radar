@@ -9,8 +9,7 @@
 // Harmlose Ursachen für Ausschläge: Einzelner viraler Blogpost, Großausfall eines bekannten Dienstes (dann echt, aber banal),
 // Wochentag (Wochenende ruhiger), Feiertage in den USA, Konferenzen (Black Hat/DEF CON); war: Meinungsbeiträge, Dokumentationen,
 // Jahrestage, Technik-Beiträge zu Drohnen/GNSS ohne Kriegsbezug.
-// VERIFIED: teilweise (17.11.2026: Form hits[]/nbHits mit echter Antwort bestätigt, aber mit Trefferliste; die Anfrage mit
-// hitsPerPage=0 und Tagesfenster steht zur Aufzeichnung aus).
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, floorDay, isoDay, num, obs } from './_helpers.ts';

@@ -173,7 +173,31 @@ async function laden() {
     if (eingebettet.schema !== 1 || !Array.isArray(eingebettet.scenarios) || !eingebettet.scenarios.length) throw new LadeFehler(L.fehler.grund.format);
     return eingebettet;
   }
-  const url = demo ? `data/demo-${demo}.json` : 'data/snapshot.json';
+  // Live-Seite: den Snapshot direkt aus dem Repo laden (raw.githubusercontent.com), damit die 15-Minuten-Daten-Commits
+  // keinen Netlify-Deploy auslösen. Fällt die Quelle aus, gilt die mitgelieferte Kopie derselben Seite. Lokal und in Demos nur eigene Dateien.
+  const lokal = ['localhost', '127.0.0.1', '[::1]', ''].includes(location.hostname);
+  const quellen = demo ? [`data/demo-${demo}.json`] : lokal ? ['data/snapshot.json'] : [SNAPSHOT_REMOTE, 'data/snapshot.json'];
+  let snap;
+  let letzter;
+  for (const url of quellen) {
+    try {
+      snap = await holeJson(url);
+      if (pruefeSnapshot(snap)) break;
+      letzter = new LadeFehler(L.fehler.grund.format);
+    } catch (e) {
+      letzter = e;
+    }
+    snap = undefined;
+  }
+  if (!snap) throw letzter;
+  return snap;
+}
+
+const SNAPSHOT_REMOTE = 'https://raw.githubusercontent.com/TRW123123/signal-radar/master/frontend/data/snapshot.json';
+
+const pruefeSnapshot = (snap) => !!snap && snap.schema === 1 && Array.isArray(snap.scenarios) && snap.scenarios.length > 0 && !!snap.generatedAt;
+
+async function holeJson(url) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 15000);
   let res;
@@ -185,12 +209,7 @@ async function laden() {
     clearTimeout(timer);
   }
   if (!res.ok) throw new LadeFehler(L.fehler.grund.http(res.status));
-  let snap;
-  try { snap = await res.json(); } catch { throw new LadeFehler(L.fehler.grund.format); }
-  if (!snap || snap.schema !== 1 || !Array.isArray(snap.scenarios) || !snap.scenarios.length || !snap.generatedAt) {
-    throw new LadeFehler(L.fehler.grund.format);
-  }
-  return snap;
+  try { return await res.json(); } catch { throw new LadeFehler(L.fehler.grund.format); }
 }
 
 // ---------- Ableitungen ----------

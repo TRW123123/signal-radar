@@ -22,7 +22,7 @@
 // weil jedes Symbol nur einmal geholt wird; die Zahl folgt aus der Signalliste). Metrik für war: Schlusskurs-Stand (Preise/Indizes).
 // Brent/WTI heißen hier war.markets.brent_futures/wti_futures, weil github-oil-prices die Katalog-IDs brent_price/wti_price (EIA-Tagesreihe) schon belegt.
 // Harmlose Ursachen (war): OPEC+-Entscheidungen, Lagerdaten, Quartalszahlen (Rheinmetall), Ernte/Wetter (Weizen), Zinsentscheide (Gold, VIX), Kontraktwechsel bei Futures.
-// VERIFIED: teilweise (Form bestätigt, aber noch keine vollständige echte Antwort für den Replay; Aufzeichnung mit range=1mo steht aus).
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, isoDay, num, obs } from './_helpers.ts';

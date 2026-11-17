@@ -5,7 +5,7 @@
 // Harmlose Ursachen: Mindestreserve-Perioden, EZB-Zinsentscheide, Monats-/Quartals-/Jahresende (Volumen und Streuung springen).
 // Nicht gebaut: TARGET-Zahlungsstatistik (Flow TGT; Tagesreihe nicht belegt), Banknotenumlauf (wöchentlich, saisonal).
 // Abruf: eine Serie je Request (Sammelabfrage mit '+' lief in den Timeout), je lastNObservations=90, format=csvdata, detail=dataonly (ca. 5 kB).
-// VERIFIED: nein (Aufzeichnung der drei Einzelabrufe steht aus; Schlüssel EST.B.EU000A2X2A25.{VL,R25,R75} aus der Dataset-Übersicht des Portals, Antwort nicht gesehen).
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, num, obs, parseCsv } from './_helpers.ts';

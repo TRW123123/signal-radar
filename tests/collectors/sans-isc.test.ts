@@ -34,3 +34,9 @@ test('Signal-ID und Klasse', () => {
   assert.equal(collector.signals[0].id, 'cyber.threat.dshield_port_scan_spike');
   assert.equal(collector.needsKey, undefined);
 });
+
+// echte Form von topports (17.11.2026): Objekt mit Schlüsseln "0", "1", ... statt Array
+test('echte Form: topports als Objekt mit Zahlenschlüsseln', () => {
+  const real = { 0: { rank: 1, targetport: 23, records: 823896, targets: 293, sources: 7771 }, 1: { rank: 2, targetport: 22, records: 472231, targets: 293, sources: 8629 }, date: '2026-11-16', limit: 2 };
+  assert.deepEqual(parseTopPorts(real), [{ port: 23, records: 823896 }, { port: 22, records: 472231 }]);
+});

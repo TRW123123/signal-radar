@@ -44,3 +44,13 @@ test('echte Form: ISO-Zeitstempel mit Offset', () => {
   const o = parse(REAL, NOW);
   assert.deepEqual(o.filter((x) => x.signalId === 'cyber.threat.leak_posts_daily').map((x) => [x.ts.slice(0, 10), x.value]), [['2026-11-15', 1], ['2026-11-16', 1]]);
 });
+
+// echte Form des Jahresarchivs data.ransomware.live/<Jahr>-victims.json (17.11.2026): Feld group_name statt group
+test('echte Form: group_name wird gelesen', () => {
+  const real = [
+    { post_title: 'x', group_name: 'Aurora', discovered: '2026-11-15T09:09:52.992697+00:00', country: 'IT', post_url: '' },
+    { post_title: 'y', group_name: 'aurora', discovered: '2026-11-16T09:00:00.000000+00:00' },
+    { post_title: 'z', group_name: 'Other', discovered: '2026-11-16T10:00:00.000000+00:00' },
+  ];
+  assert.deepEqual(parseVictims(real).map((v) => v.group), ['aurora', 'aurora', 'other']);
+});

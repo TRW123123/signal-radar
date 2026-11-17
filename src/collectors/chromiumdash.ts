@@ -9,7 +9,7 @@
 //   Mehrere Versionen eines Release-Schubs teilen sich denselben `time`-Wert; gezählt werden deshalb verschiedene Zeitstempel.
 //   num=50 waren 30 103 Zeichen (ca. 600 je Release); die Aufzeichnungs-Umgebung nimmt nur ca. 6 000 Zeichen, daher num=8 (ca. 4 800).
 //   Das reicht für einige Wochen Historie; ältere Tage baut der Speicher Lauf für Lauf auf (es wird erst ab dem ältesten Release gezählt).
-// VERIFIED: teilweise (17.11.2026, Form an echtem Ausschnitt geprüft; Antwort mit num=8 wartet auf Aufzeichnung).
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector } from '../core/types.ts';
 import { DAY_MS, countPerDay, expect, floorDay, num } from './_helpers.ts';

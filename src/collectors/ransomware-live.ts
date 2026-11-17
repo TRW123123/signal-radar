@@ -1,6 +1,6 @@
 // ransomware.live: neu auf Leak-Seiten veröffentlichte Opfer pro Tag und Zahl aktiver Gruppen (Klasse B: Selbstauskunft der Täter).
-// Quelle: https://api.ransomware.live/v2/recentvictims (Liste der zuletzt entdeckten Opfer)
-// Doku: https://www.ransomware.live/apidocs (Repo: https://github.com/JMousqueton/api.ransomware.live)
+// Quelle: https://data.ransomware.live/<Jahr>-victims.json (Jahresarchiv aller Opfer; die freie API /v2/recentvictims ist seit 11/2026 weg, 404)
+// Doku: https://data.ransomware.live/ (Datensatz-Downloads)
 // Lizenz: laut Seite CC BY-NC-SA (nicht-kommerziell, Namensnennung: ransomware.live). Vor kommerzieller Nutzung prüfen.
 // Datenschutz: es werden ausschließlich Zählwerte gespeichert. Opfer- und Gruppennamen landen weder in Observations
 //              noch in `meta`; Gruppen werden nur im Speicher für die Zählung unterschieden.
@@ -9,10 +9,9 @@
 //           vollständig in der Antwort liegen (nach dem ältesten Tag, vor heute). Die Historie baut sich so über Läufe auf.
 // Harmlose Ursachen: Wochenmuster, Gruppen-Rebranding, Abrechnungswellen, Aufholen der Datenbank nach Ausfällen.
 // Ausgelassen: Sektor-/Länder-Signale (Sektorfeld uneinheitlich, kleine Zahlen), Opfer-Cluster nach Software.
-// Echte Form (17.11.2026, abgeschnittener Anfang): Array mit {activity, attackdate, claim_url, country, data_size, discovered
-//   "2026-11-16T19:36:14.075930+00:00", domain, group, press, ransom, screenshot, victim}. Parser passt (T-Trenner und +00:00 werden toleriert).
-//   Die vollständige Antwort ist 103 481 Zeichen groß; ein Parameter zum Verkleinern ist nicht bekannt (limit wurde nicht geprüft).
-// VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Feldnamen am echten Ausschnitt bestätigt).
+// Echte Form (17.11.2026, echte Antwort): Array mit {post_title, group_name, discovered "2026-11-16T19:36:14.075930+00:00", published, website, country, activity, description, post_url}.
+//   Das Jahresarchiv ist ca. 7 MB groß; gelesen werden nur `discovered` und `group_name`. Die Datei enthält Opfernamen, gespeichert wird nichts davon.
+// VERIFIED: ja (17.11.2026, echte Antwort)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, obs } from './_helpers.ts';
@@ -40,7 +39,7 @@ export function parseVictims(body: unknown): VictimStamp[] {
     const rec = (v ?? {}) as Record<string, unknown>;
     const ts = parseUtc(rec.discovered);
     if (ts === null) continue;
-    out.push({ ts, group: typeof rec.group === 'string' && rec.group !== '' ? rec.group.toLowerCase() : null });
+    out.push({ ts, group: (() => { const g = rec.group_name ?? rec.group; return typeof g === 'string' && g !== '' ? g.toLowerCase() : null; })() });
   }
   return out;
 }
@@ -72,8 +71,8 @@ export function parse(body: unknown, now: Date): Observation[] {
 
 const collector: Collector = {
   id: 'ransomware-live',
-  title: 'ransomware.live (recentvictims)',
-  sourceUrl: 'https://www.ransomware.live/apidocs',
+  title: 'ransomware.live (Jahresarchiv)',
+  sourceUrl: 'https://data.ransomware.live/',
   intervalMinutes: 360,
   signals: [
     {
@@ -94,7 +93,8 @@ const collector: Collector = {
     },
   ],
   async collect(ctx) {
-    const body = await ctx.http.json<unknown>('https://api.ransomware.live/v2/recentvictims', {
+    const year = ctx.now.getUTCFullYear();
+    const body = await ctx.http.json<unknown>(`https://data.ransomware.live/${year}-victims.json`, {
       fixture: 'ransomware-live/recentvictims.json',
     });
     return { observations: parse(body, ctx.now) };

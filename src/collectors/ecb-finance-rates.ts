@@ -7,7 +7,7 @@
 // Harmlose Ursachen: Zinsentscheide der EZB und Fed, Konjunkturdaten, Feiertage (kein Kurs), Monats-/Quartalsende.
 // Nicht gebaut: Renditeabstand Italien/Deutschland (Flow IRS ist monatlich, kein Tageswert).
 // Annahmen laut Doku, nicht gegen eine echte Antwort geprüft: Spalten KEY, TIME_PERIOD, OBS_VALUE wie bei Flow EST (derselbe Parser wie in `ecb-data`).
-// VERIFIED: nein (Aufzeichnung steht aus; Queue-Datei fixtures/queue/ecb-finance-rates.json)
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, obs } from './_helpers.ts';

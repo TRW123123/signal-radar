@@ -26,3 +26,21 @@ test('rate transform turns a counter into increase per hour and drops resets and
   const out = applyTransform(def, [at(0, 100), at(1, 160), at(3, 280), at(4, 10), at(5, 40), at(40, 5000)]);
   assert.deepEqual(out.map((o) => o.value), [60, 60, 30]);
 });
+
+test('pruneAll cuts old values but keeps what a long baseline window needs', async () => {
+  const { mkdtempSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { pruneAll, SeriesStore } = await import('../src/core/store.ts');
+  const dir = mkdtempSync(join(tmpdir(), 'sr-prune-'));
+  const series = new SeriesStore(join(dir, 'series'));
+  const now = Date.parse('2026-11-17T00:00:00Z');
+  const day = (n: number) => new Date(now - n * 86400_000).toISOString();
+  series.append([
+    { signalId: 'a.short', ts: day(10), value: 1 }, { signalId: 'a.short', ts: day(200), value: 2 },
+    { signalId: 'a.long', ts: day(10), value: 1 }, { signalId: 'a.long', ts: day(200), value: 2 }, { signalId: 'a.long', ts: day(400), value: 3 },
+  ]);
+  const n = pruneAll(dir, 120, (id) => (id === 'a.long' ? 365 : 0), now);
+  assert.equal(n, 2);
+  assert.equal(series.read('a.short').length, 1);
+  assert.equal(series.read('a.long').length, 2);
+});

@@ -1,15 +1,18 @@
 # Netlify: nur das statische Frontend ausliefern. Kein Build, keine Functions.
 # Anleitung und Prüfschritte: docs/DEPLOY.md
-# Die CSP entspricht der <meta>-Policy in frontend/index.html (keine Fremd-Quellen) und ergänzt frame-ancestors,
-# das nur als HTTP-Header wirkt.
+# Die CSP entspricht der <meta>-Policy in frontend/index.html und ergänzt frame-ancestors, das nur als HTTP-Header wirkt.
+# Einzige Fremd-Quelle: connect-src erlaubt raw.githubusercontent.com, von dort lädt die Seite den Snapshot (siehe docs/DEPLOY.md).
 
 [build]
   publish = "frontend"
+  # Daten-Commits (alle 15 Minuten) ändern nur frontend/data/snapshot.json und sollen keinen Deploy auslösen:
+  # Exit 0 = Build überspringen. Die Seite lädt den Snapshot ohnehin zur Laufzeit aus dem Repo.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- frontend ':!frontend/data/snapshot.json' netlify.toml"
 
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://raw.githubusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "no-referrer"
 

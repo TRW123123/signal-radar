@@ -19,3 +19,14 @@ test('leere Antwort und fehlendes Feld', () => {
   assert.throws(() => parseTga({}, '2026-11-17'), /data/);
   assert.deepEqual(parseTga({ data: [{ record_date: '2026-11-13', account_type: 'Treasury General Account (TGA)', close_today_bal: 'null' }] }, '2026-11-17'), []);
 });
+
+// echte Form (17.11.2026): neues Schema, Schlusstand steht in open_today_bal, close_today_bal ist der Text "null"
+test('echte Form: Schlusstand aus open_today_bal', () => {
+  const real = [
+    { record_date: '2026-11-13', account_type: 'Treasury General Account (TGA) Closing Balance', open_today_bal: '924618', close_today_bal: 'null' },
+    { record_date: '2026-11-13', account_type: 'Treasury General Account (TGA) Opening Balance', open_today_bal: '933127', close_today_bal: 'null' },
+  ];
+  const o = parseTga({ data: real }, '2026-11-17');
+  assert.equal(o.length, 1);
+  assert.equal(o[0].value, 924618);
+});

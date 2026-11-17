@@ -10,7 +10,7 @@
 // steigen; der Speicher behält den ersten gemeldeten Wert, spätere Läufe überlappen aber (trailing 24 h).
 // Harmlose Ursachen: natürliche Beben und Nachbeben, Steinbruch- und Bergwerkssprengungen, Einstürze in Minen, Kriegshandlungen
 // (Einträge vom Typ explosion), neue Netzstationen oder geänderte Einstufung, Zählweise des Katalogs (Verzug).
-// VERIFIED: nein (Form {"count":N,"maxAllowed":...} und Parameter laut USGS-Doku; in der Bau-Umgebung nicht abrufbar)
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';

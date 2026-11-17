@@ -100,3 +100,18 @@ export class SeriesStore {
     writeFileSync(this.file(signalId), keep.map((o) => JSON.stringify({ t: o.ts, v: o.value, ...(o.meta ? { m: o.meta } : {}) })).join('\n') + (keep.length ? '\n' : ''));
   }
 }
+
+/**
+ * Prunes every stored series to `keepDays`, but never below what the signal's baseline needs (`minDays(id)`, e.g. its windowDays),
+ * so a long baseline is not cut by a short retention. Returns the number of series that actually shrank.
+ */
+export function pruneAll(dir: string, keepDays: number, minDays: (signalId: string) => number = () => 0, now = Date.now()): number {
+  const series = new SeriesStore(join(dir, 'series'));
+  let changed = 0;
+  for (const id of series.ids()) {
+    const before = series.read(id).length;
+    series.prune(id, Math.max(keepDays, minDays(id)), now);
+    if (series.read(id).length < before) changed++;
+  }
+  return changed;
+}

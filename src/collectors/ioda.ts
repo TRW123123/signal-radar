@@ -20,8 +20,7 @@
 // und die Golfstaaten SA, AE, QA (Summe als Signal gulf_states_internet; nur wenn alle drei antworten). Neue Fixture-Namen ioda/country-<CC>.json
 // (kein Überschneiden mit den Cyber-Ländern). 8 weitere Requests, je Land ein Signal. Harmlose Ursachen (war): Stromausfälle, staatlich angeordnete
 // Abschaltungen und Prüfungsabschaltungen, Messausfall einzelner BGP-Quellen, Seekabelbrüche. Die Cyber-Anfragen und ihre Fixture-Namen sind unverändert.
-// VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Formen aus dem abgeschnittenen Anfang bestätigt, die verkleinerten
-// Requests und ob extendWindow=0 gilt sind noch nicht aufgezeichnet).
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';

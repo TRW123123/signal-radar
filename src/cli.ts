@@ -4,6 +4,7 @@
 //   node src/cli.ts collect    only collect
 //   node src/cli.ts snapshot   only rebuild the snapshot from stored series
 // Options: --only id1,id2   --now 2026-11-17T01:00:00Z   --now-from-fixtures   --out path   --data dir
+//          --prune-days N   after collecting, drop raw values older than N days (never below a signal's baseline window)
 // Env: SR_FIXTURES=replay|record   SR_SENSITIVITY=normal|high   SR_<SERVICE>_KEY=...
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -12,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { loadCatalog } from './core/catalog.ts';
 import { createHttp } from './core/http.ts';
 import { activate, discoverCollectors } from './core/registry.ts';
-import { fileStore } from './core/store.ts';
+import { fileStore, pruneAll } from './core/store.ts';
 import { runCollectors } from './pipeline/collect.ts';
 import { buildSnapshot } from './pipeline/snapshot.ts';
 
@@ -65,6 +66,14 @@ if (cmd === 'run' || cmd === 'collect') {
   }
   const failed = reports.filter((r) => !r.ok).length;
   console.log(`\n${reports.length} Collectors, ${failed} Fehler`);
+}
+
+if ((cmd === 'run' || cmd === 'collect') && opt('prune-days')) {
+  const days = Number(opt('prune-days'));
+  if (!Number.isFinite(days) || days <= 0) throw new Error('--prune-days braucht eine positive Zahl');
+  const need = new Map(catalog.signals.map((s) => [s.id, s.baseline?.windowDays ?? 0]));
+  const n = pruneAll(dataDir, days, (id) => need.get(id) ?? 0, now.getTime());
+  console.log(`Kürzen auf ${days} Tage: ${n} Reihen verkleinert`);
 }
 
 if (cmd === 'run' || cmd === 'snapshot') {

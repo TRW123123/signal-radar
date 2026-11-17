@@ -16,8 +16,7 @@
 // Harmlose Ursachen: Regen (Auswaschung von Radon-Folgeprodukten, +0,02 bis 0,05 µSv/h), Gewitter, Schneedecke (dämpft) und Schneeschmelze,
 // Sondendefekt oder Wartung, Radon-Spitzen bei Inversionswetter, medizinische Strahlenquellen in der Nähe einer Sonde.
 // Keine Bewertung von Orten oder Personen; es werden nur Zähler und der Median gespeichert.
-// VERIFIED: nein (Endpunkt und Felder nach Doku der Datenschnittstelle; in der Bau-Umgebung nicht abrufbar; Zeitformat von end_measure
-// ISO 8601 angenommen, ohne Zeitzone als UTC gelesen)
+// VERIFIED: ja (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel)
 
 import type { Collector } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';

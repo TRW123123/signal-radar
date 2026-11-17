@@ -66,7 +66,7 @@
     "sourceName": "RIPEstat Data API",
     "sourceUrl": "https://stat.ripe.net/docs/02.data-api/",
     "license": "RIPE NCC Terms, frei nutzbar",
-    "rationale": "Globale Tabellengrösse bricht bei großflächigem Ausfall oder Filterfehler ein.",
+    "rationale": "Globale Tabellengröße bricht bei großflächigem Ausfall oder Filterfehler ein.",
     "banalCauses": [
       "Aggregationsänderungen",
       "Bereinigung durch Großprovider"
@@ -286,7 +286,7 @@
     ],
     "domain": "routing",
     "name": "BGP-Umleitung zu DDoS-Scrubbing",
-    "plain": "Wie viele Netze nehmen gleichzeitig Schutzdienste in Anspruch (Umleitung ueber Cloudflare, Akamai Prolexic u. a.).",
+    "plain": "Wie viele Netze nehmen gleichzeitig Schutzdienste in Anspruch (Umleitung über Cloudflare, Akamai Prolexic u. a.).",
     "evidenceClass": "A",
     "direction": "up",
     "kind": "count",
@@ -562,7 +562,7 @@
     ],
     "domain": "routing",
     "name": "PCH-IXP-Verzeichnis",
-    "plain": "Weltweite Zahl und Grösse der IXPs.",
+    "plain": "Weltweite Zahl und Größe der IXPs.",
     "evidenceClass": "B",
     "direction": "down",
     "kind": "count",
@@ -787,7 +787,7 @@
     "verified": false,
     "leadTime": "hours",
     "format": "json",
-    "notes": "Messfeld laut Recherche: Verteilung NÖRROR/NXDOMAIN/SERVFAIL"
+    "notes": "Messfeld laut Recherche: Verteilung NOERROR/NXDOMAIN/SERVFAIL"
   },
   {
     "id": "cyber.dns_core.mass_revocation",
@@ -1478,7 +1478,7 @@
     ],
     "domain": "outages",
     "name": "DE-CIX Frankfurt Verkehr",
-    "plain": "Datenmenge am grössten deutschen Austauschknoten.",
+    "plain": "Datenmenge am größten deutschen Austauschknoten.",
     "evidenceClass": "A",
     "direction": "down",
     "kind": "gauge",
@@ -1618,7 +1618,7 @@
     "sourceName": "RIPE Atlas API",
     "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
     "license": "RIPE NCC, frei",
-    "rationale": "Verlustanstieg oder Latenzsprung zeigt Ueberlastung, Umleitungen oder Kabelausfall.",
+    "rationale": "Verlustanstieg oder Latenzsprung zeigt Überlastung, Umleitungen oder Kabelausfall.",
     "banalCauses": [
       "Lastspitzen",
       "Routing-Änderungen"
@@ -1828,7 +1828,7 @@
     "verified": false,
     "leadTime": "hours",
     "format": "csv",
-    "notes": "VPN-Nachfrage zusätzlich ueber Wikipedia/Trends. Zusammengeführt aus: cyber.attention.tor_vpn_demand. Messfeld laut Recherche: users je Tag"
+    "notes": "VPN-Nachfrage zusätzlich über Wikipedia/Trends. Zusammengeführt aus: cyber.attention.tor_vpn_demand. Messfeld laut Recherche: users je Tag"
   },
   {
     "id": "cyber.outages.github_push_volume",
@@ -1837,7 +1837,7 @@
     ],
     "domain": "outages",
     "name": "GitHub-Push-Volumen (GH Archive)",
-    "plain": "Wie viele Code-Uebertragungen pro Stunde.",
+    "plain": "Wie viele Code-Übertragungen pro Stunde.",
     "evidenceClass": "A",
     "direction": "down",
     "kind": "count",
@@ -2173,7 +2173,7 @@
     "license": "CC0",
     "rationale": "Wiper sind Marker für destruktive statt finanzieller Absicht.",
     "banalCauses": [
-      "Uebertreibung in Blogs"
+      "Übertreibung in Blogs"
     ],
     "endpoint": "https://mb-api.abuse.ch/api/v1/",
     "auth": "free-key",
@@ -2815,7 +2815,7 @@
     "verified": false,
     "leadTime": "days",
     "format": "json",
-    "notes": "Nicht verifiziert, Quelle teils indirekt Messfeld laut Recherche: Kein zentrales offenes Cowrie-API bekannt; ueber DShield-Sensor-Daten zugänglich"
+    "notes": "Nicht verifiziert, Quelle teils indirekt Messfeld laut Recherche: Kein zentrales offenes Cowrie-API bekannt; über DShield-Sensor-Daten zugänglich"
   },
   {
     "id": "cyber.threat.feodo_c2_count",
@@ -3224,31 +3224,31 @@
     "kind": "count",
     "weight": 0.3,
     "manipulability": "medium",
-    "independenceGroup": "spamhaus",
-    "collector": "spamhaus",
+    "independenceGroup": "talos-reputation",
+    "collector": "talos-reputation",
     "unit": "Anzahl",
     "baseline": {
-      "method": "day-of-week",
-      "windowDays": 56,
-      "minPoints": 21
+      "method": "hour-of-week",
+      "windowDays": 28,
+      "minPoints": 48
     },
-    "intervalMinutes": 1440,
+    "intervalMinutes": 60,
     "status": "planned",
-    "sourceName": "Spamhaus DROP/BGPCC Listen",
-    "sourceUrl": "https://www.spamhaus.org/drop/",
-    "license": "frei fuer nicht-kommerziell",
+    "sourceName": "Talos Reputation Center",
+    "sourceUrl": "https://talosintelligence.com/reputation",
+    "license": "ToS",
     "rationale": "Plötzlicher Anstieg durch Botnet-Aktivierung.",
     "banalCauses": [
       "Botnet-Zyklen"
     ],
-    "endpoint": "https://www.spamhaus.org/drop/drop.txt",
+    "endpoint": "https://talosintelligence.com/reputation",
     "auth": "none",
-    "history": "selbst archivieren",
+    "history": "gering",
     "priority": 4,
     "verified": false,
     "leadTime": "days",
     "format": "html",
-    "notes": "Alternative Quellen: talos-reputation. Messfeld laut Recherche: Netzblöcke unter Kriminellen-Kontrolle"
+    "notes": "Alternative Quellen: spamhaus. Messfeld laut Recherche: Spam-Volumen Weltweit"
   },
   {
     "id": "cyber.threat.apwg_quarterly",
@@ -4249,31 +4249,31 @@
     "kind": "binary",
     "weight": 0.85,
     "manipulability": "low",
-    "independenceGroup": "frb-services-stats",
-    "collector": "frb-services-stats",
+    "independenceGroup": "frbservices-status",
+    "collector": "frbservices-status",
     "unit": "0/1",
     "baseline": {
-      "method": "rolling",
-      "windowDays": 1825,
-      "minPoints": 12
+      "method": "hour-of-week",
+      "windowDays": 28,
+      "minPoints": 48
     },
-    "intervalMinutes": 129600,
-    "status": "planned",
-    "sourceName": "FRBservices Fedwire/FedACH/FedNow Volumen",
-    "sourceUrl": "https://www.frbservices.org/resources/financial-services/wires/volume-value-stats",
+    "intervalMinutes": 15,
+    "status": "license-unclear",
+    "sourceName": "Federal Reserve Financial Services Status (Fedwire, FedACH, FedNow)",
+    "sourceUrl": "https://www.frbservices.org/",
     "license": "unklar",
     "rationale": "Gleiches Prinzip wie TARGET.",
     "banalCauses": [
       "Wartung"
     ],
-    "endpoint": "https://www.frbservices.org/resources/financial-services/wires/volume-value-stats",
+    "endpoint": "https://www.frbservices.org/ (Statusbereich), FedNow: https://www.frbservices.org/financial-services/fednow",
     "auth": "none",
-    "history": "ab 1990er",
+    "history": "gering",
     "priority": 3,
     "verified": false,
     "leadTime": "coincident",
-    "format": "csv",
-    "notes": "Alternative Quellen: frbservices-status. Messfeld laut Recherche: Monatsvolumen/Wert Fedwire; lagging."
+    "format": "html",
+    "notes": "Alternative Quellen: frb-services-stats. Messfeld laut Recherche: Konkreter Status-Endpunkt nicht belegt; möglicherweise nur für Kunden. Aufwand hoch."
   },
   {
     "id": "cyber.finance.swift_status",
@@ -4361,7 +4361,7 @@
     ],
     "domain": "finance",
     "name": "Statusseiten der Zahlungsdienste",
-    "plain": "Meldungen von Stripe, Adyen, Braintree, Mollie, Mastercard u. a. ueber Ausfälle.",
+    "plain": "Meldungen von Stripe, Adyen, Braintree, Mollie, Mastercard u. a. über Ausfälle.",
     "evidenceClass": "B",
     "direction": "up",
     "kind": "count",
@@ -4852,7 +4852,7 @@
     },
     "intervalMinutes": 1440,
     "status": "planned",
-    "sourceName": "ECB Liquiditaetsbedingungen (Einlage-/Spitzenrefinanzierungsfazilitaet)",
+    "sourceName": "ECB Liquiditätsbedingungen (Einlage-/Spitzenrefinanzierungsfazilität)",
     "sourceUrl": "https://www.ecb.europa.eu/mopo/liq_ops/html/index.en.html",
     "license": "ECB Reuse Policy",
     "rationale": "Banken greifen zur teuren Fazilität, wenn Interbank versagt.",
@@ -4969,7 +4969,7 @@
     },
     "intervalMinutes": 60,
     "status": "planned",
-    "sourceName": "Boersen-Reserven (DefiLlama CEX Transparency / CryptoQuant)",
+    "sourceName": "Börsen-Reserven (DefiLlama CEX Transparency / CryptoQuant)",
     "sourceUrl": "https://defillama.com/cexs",
     "license": "unklar",
     "rationale": "Selbstverwahrung steigt bei Misstrauen.",
@@ -5024,7 +5024,7 @@
     "verified": false,
     "leadTime": "weeks",
     "format": "csv",
-    "notes": "Wöchentliche Daten, tägliche Auswertung möglich ueber Eurosystem. Saison herausrechnen. Zusammengeführt aus: cyber.market.cash_in_circulation. Alternative Quellen: fred. Messfeld laut Recherche: Banknotenumlauf in Mio EUR (Reihenschlüssel ungeprüft). Bundesbank: api.statistiken.bundesbank.de/rest."
+    "notes": "Wöchentliche Daten, tägliche Auswertung möglich über Eurosystem. Saison herausrechnen. Zusammengeführt aus: cyber.market.cash_in_circulation. Alternative Quellen: fred. Messfeld laut Recherche: Banknotenumlauf in Mio EUR (Reihenschlüssel ungeprüft). Bundesbank: api.statistiken.bundesbank.de/rest."
   },
   {
     "id": "cyber.finance.mempool_fee_spike",
@@ -5267,7 +5267,7 @@
     "verified": false,
     "leadTime": "days",
     "format": "json",
-    "notes": "Baseline ab 18.12.2023 per startdt-Parameter. Nur Item-Zählung, Firmenname ist Organisation. SEC verlangt User-Agent mit Kontaktadresse. Ueberschneidung mit anderen Agents (Meldungen). Hier als Aggregat-Verhalten. Zusammengeführt aus: cyber.insider.8k_item105_filings. Messfeld laut Recherche: hits.total.value = Trefferzahl; hits.hits[]._source mit ciks, display_names, file_date, items. Inoffizielle (undokumentierte) JSON-Schnittstelle der Websuche; beim Abruf in dieser Recherche rate-limitiert, daher ungeprüft."
+    "notes": "Baseline ab 18.12.2023 per startdt-Parameter. Nur Item-Zählung, Firmenname ist Organisation. SEC verlangt User-Agent mit Kontaktadresse. Überschneidung mit anderen Agents (Meldungen). Hier als Aggregat-Verhalten. Zusammengeführt aus: cyber.insider.8k_item105_filings. Messfeld laut Recherche: hits.total.value = Trefferzahl; hits.hits[]._source mit ciks, display_names, file_date, items. Inoffizielle (undokumentierte) JSON-Schnittstelle der Websuche; beim Abruf in dieser Recherche rate-limitiert, daher ungeprüft."
   },
   {
     "id": "cyber.services.sec_8k_financial_sector",
@@ -5306,7 +5306,7 @@
     "verified": false,
     "leadTime": "days",
     "format": "json",
-    "notes": "SIC-Codes 6021, 6022, 6199, 7389, 6211 ueber Suchfilter bzw. company_tickers; Zuordnung CIK-SIC via submissions-API (sic Feld). Messfeld laut Recherche: filings.recent.items enthält pro Filing die 8-K Item-Nummern (z. B. 1.05) und filingDate, so lassen sich Item-1.05-Filings je CIK filtern."
+    "notes": "SIC-Codes 6021, 6022, 6199, 7389, 6211 über Suchfilter bzw. company_tickers; Zuordnung CIK-SIC via submissions-API (sic Feld). Messfeld laut Recherche: filings.recent.items enthält pro Filing die 8-K Item-Nummern (z. B. 1.05) und filingDate, so lassen sich Item-1.05-Filings je CIK filtern."
   },
   {
     "id": "cyber.services.statuspage_incident_rate",
@@ -5314,8 +5314,8 @@
       "cyber"
     ],
     "domain": "services",
-    "name": "Statuspage-Incidents (kritisch/major) ueber viele Dienste",
-    "plain": "Zahl der offenen schweren Störungen ueber eine feste Liste von Cloud-, SaaS-, Zahlungs- und Krypto-Anbietern.",
+    "name": "Statuspage-Incidents (kritisch/major) über viele Dienste",
+    "plain": "Zahl der offenen schweren Störungen über eine feste Liste von Cloud-, SaaS-, Zahlungs- und Krypto-Anbietern.",
     "evidenceClass": "B",
     "direction": "up",
     "kind": "rate",
@@ -5473,7 +5473,7 @@
     ],
     "domain": "services",
     "name": "UK RNS Pflichtmitteilungen mit Cyberbezug",
-    "plain": "Meldungen börsennotierter UK-Firmen ueber IT-Vorfälle.",
+    "plain": "Meldungen börsennotierter UK-Firmen über IT-Vorfälle.",
     "evidenceClass": "B",
     "direction": "up",
     "kind": "count",
@@ -5528,7 +5528,7 @@
     },
     "intervalMinutes": 60,
     "status": "license-unclear",
-    "sourceName": "Bundesnetzagentur Breitbandmessung / Netzstoerungen",
+    "sourceName": "Bundesnetzagentur Breitbandmessung / Netzstörungen",
     "sourceUrl": "https://www.bundesnetzagentur.de/",
     "license": "dl-de/by-2-0 (unklar je Datensatz)",
     "rationale": "Pflichtmeldungen belegen Ausfälle, kommen aber verspätet.",
@@ -5551,7 +5551,7 @@
     ],
     "domain": "services",
     "name": "HHS Breach Portal: Hacking-Vorfälle im Gesundheitswesen",
-    "plain": "Meldungen ueber Datenpannen mit IT-Angriff bei Gesundheitsorganisationen in den USA.",
+    "plain": "Meldungen über Datenpannen mit IT-Angriff bei Gesundheitsorganisationen in den USA.",
     "evidenceClass": "B",
     "direction": "up",
     "kind": "count",
@@ -5920,7 +5920,7 @@
     },
     "intervalMinutes": 15,
     "status": "planned",
-    "sourceName": "Deutsche Boerse Xetra Marktstatus / Handelsunterbrechungen",
+    "sourceName": "Deutsche Börse Xetra Marktstatus / Handelsunterbrechungen",
     "sourceUrl": "https://www.xetra.com/xetra-de/handel/handelsinformationen",
     "license": "Deutsche Boerse ToS",
     "rationale": "Direkt sichtbar.",
@@ -6006,7 +6006,7 @@
     "banalCauses": [
       "Index-Rebalancing",
       "Quartalsende",
-      "Nachrichten ueber einzelne Hacks",
+      "Nachrichten über einzelne Hacks",
       "Dividenden-/Verfallstermine"
     ],
     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=2y&interval=1d",
@@ -6044,7 +6044,7 @@
     "sourceName": "Yahoo Finance Chart (inoffizielle API)",
     "sourceUrl": "https://finance.yahoo.com",
     "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
-    "rationale": "Einzelwerte reagieren früher/stärker als ETFs; Aggregat ueber Korb reduziert Rauschen.",
+    "rationale": "Einzelwerte reagieren früher/stärker als ETFs; Aggregat über Korb reduziert Rauschen.",
     "banalCauses": [
       "Quartalszahlen",
       "Analystenupgrades",
@@ -6057,7 +6057,7 @@
     "verified": false,
     "leadTime": "hours",
     "format": "json",
-    "notes": "Korb als Median-Z-Score ueber 8-10 Titel. Alternative Quellen: stooq. Messfeld laut Recherche: chart.result[0].indicators.quote[0].close und .volume"
+    "notes": "Korb als Median-Z-Score über 8-10 Titel. Alternative Quellen: stooq. Messfeld laut Recherche: chart.result[0].indicators.quote[0].close und .volume"
   },
   {
     "id": "cyber.markets.market_volume_cyber",
@@ -6066,7 +6066,7 @@
     ],
     "domain": "markets",
     "name": "Handelsvolumen in Cyber-Prognosemärkten",
-    "plain": "Wie intensiv ueber Cyberangriff gewettet wird.",
+    "plain": "Wie intensiv über Cyberangriff gewettet wird.",
     "evidenceClass": "A",
     "direction": "up",
     "kind": "count",
@@ -6167,7 +6167,7 @@
     "rationale": "Ungewöhnliche Verkaufswellen außerhalb geplanter Programme bei vielen Firmen gleichzeitig. Nur Summen, keine Personenprofile.",
     "banalCauses": [
       "10b5-1-Pläne",
-      "Aktienvergaben und Steuerverkaeufe",
+      "Aktienvergaben und Steuerverkäufe",
       "Lockup-Ende"
     ],
     "endpoint": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2026q3_form345.zip",
@@ -6242,7 +6242,7 @@
     },
     "intervalMinutes": 1440,
     "status": "planned",
-    "sourceName": "BaFin Eigengeschaefte von Fuehrungskraeften",
+    "sourceName": "BaFin Eigengeschäfte von Führungskräften",
     "sourceUrl": "https://portal.mvp.bafin.de/database/DealingsInfo/",
     "license": "Datenlizenz Deutschland? unklar",
     "rationale": "Europäisches Gegenstück: Kauf-/Verkaufsmuster als Korb.",
@@ -6964,7 +6964,7 @@
     "license": "unklar",
     "rationale": "Ransomware trifft Kliniken häufig.",
     "banalCauses": [
-      "Ueberlastung"
+      "Überlastung"
     ],
     "endpoint": "https://www.ivena.de/",
     "auth": "none",
@@ -7080,7 +7080,7 @@
     "sourceName": "Energy-Charts API (Fraunhofer ISE)",
     "sourceUrl": "https://api.energy-charts.info/",
     "license": "CC BY 4.0 (laut Seite, pruefen)",
-    "rationale": "Angriffe auf Leitwarten, Erzeugung oder Laststeuerung (vgl. Ukraine 2015/16) würden Erzeugung und Last abrupt ändern; Frequenz ist die schnellste unabhängige Messgrösse.",
+    "rationale": "Angriffe auf Leitwarten, Erzeugung oder Laststeuerung (vgl. Ukraine 2015/16) würden Erzeugung und Last abrupt ändern; Frequenz ist die schnellste unabhängige Messgröße.",
     "banalCauses": [
       "Kraftwerks-/Leitungsausfall",
       "Handelsviertelstunden-Sprung",
@@ -7203,7 +7203,7 @@
     "sourceName": "PowerOutage.us",
     "sourceUrl": "https://poweroutage.us/",
     "license": "Nutzung laut ToS eingeschraenkt",
-    "rationale": "Ein ueberregionaler Anstieg ohne Unwetter würde auf Angriffe hindeuten.",
+    "rationale": "Ein überregionaler Anstieg ohne Unwetter würde auf Angriffe hindeuten.",
     "banalCauses": [
       "Unwetter",
       "Hitzewelle"
@@ -7385,7 +7385,7 @@
     ],
     "domain": "physical",
     "name": "Staatliche Führungs-/Kommandoflugzeuge (E-4B, E-6B) in der Luft",
-    "plain": "Wie oft bekannte Regierungs-Führungsflugzeuege ungewöhnlich fliegen.",
+    "plain": "Wie oft bekannte Regierungs-Führungsflugzeuge ungewöhnlich fliegen.",
     "evidenceClass": "A",
     "direction": "up",
     "kind": "count",
@@ -7406,7 +7406,7 @@
     "license": "ODbL / frei (Community)",
     "rationale": "Staatliche Flugzeuge (keine Privatpersonen) zeigen Alarmbereitschaft; Selbstblocking möglich.",
     "banalCauses": [
-      "Uebungen",
+      "Übungen",
       "Wartung"
     ],
     "endpoint": "https://api.adsb.lol/v2/mil",
@@ -7416,7 +7416,7 @@
     "verified": false,
     "leadTime": "hours",
     "format": "json",
-    "notes": "Nur Flugzeugtyp-Aggregat. Nicht alle Flüge sichtbar (Transponder aus). Messfeld laut Recherche: ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie ueber Tagesarchive"
+    "notes": "Nur Flugzeugtyp-Aggregat. Nicht alle Flüge sichtbar (Transponder aus). Messfeld laut Recherche: ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie über Tagesarchive"
   },
   {
     "id": "cyber.physical.cross_border_flow_anomaly",
@@ -7543,7 +7543,7 @@
     ],
     "domain": "physical",
     "name": "Flugbewegungen Aggregat",
-    "plain": "Anzahl der Flugzeuge in der Luft ueber einem Gebiet.",
+    "plain": "Anzahl der Flugzeuge in der Luft über einem Gebiet.",
     "evidenceClass": "A",
     "direction": "down",
     "kind": "count",
@@ -7727,7 +7727,7 @@
     "license": "unklar",
     "rationale": "Zunahme nahe Rechenzentren/Europa kann Zeitsynchronisation und Kommunikationsdienste stören; auch Konfliktproxy.",
     "banalCauses": [
-      "Militärische Uebungen",
+      "Militärische Übungen",
       "Konflikte",
       "Militärische Konflikte",
       "Schutzmaßnahmen von Staaten"
@@ -7899,7 +7899,7 @@
     "verified": false,
     "leadTime": "coincident",
     "format": "json",
-    "notes": "Messfeld laut Recherche: Verstösse"
+    "notes": "Messfeld laut Recherche: Verstöße"
   },
   {
     "id": "cyber.physical.ais_position_jumps",
@@ -8020,7 +8020,7 @@
     "verified": false,
     "leadTime": "weeks",
     "format": "json",
-    "notes": "Strikt Aggregat; keine Registrierungs-/Halterabfragen. Alternative Quellen: opensky. Messfeld laut Recherche: ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie ueber Tagesarchive"
+    "notes": "Strikt Aggregat; keine Registrierungs-/Halterabfragen. Alternative Quellen: opensky. Messfeld laut Recherche: ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie über Tagesarchive"
   },
   {
     "id": "cyber.physical.bizjet_remote_havens",
@@ -8060,7 +8060,7 @@
     "verified": false,
     "leadTime": "weeks",
     "format": "json",
-    "notes": "Alternative Quellen: opensky. Messfeld laut Recherche: ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie ueber Tagesarchive"
+    "notes": "Alternative Quellen: opensky. Messfeld laut Recherche: ac[] mit t (Typcode), hex, lat, lon; Live-Snapshot, Historie über Tagesarchive"
   },
   {
     "id": "cyber.physical.lng_sendout_anomaly",
@@ -8149,7 +8149,7 @@
       "cyber"
     ],
     "domain": "physical",
-    "name": "Starlink-Flottengrösse und Bahnabsenkungen",
+    "name": "Starlink-Flottengröße und Bahnabsenkungen",
     "plain": "Zahl der Starlink-Satelliten im Orbit und ihre Bahnhöhen.",
     "evidenceClass": "A",
     "direction": "down",
@@ -8190,7 +8190,7 @@
       "cyber"
     ],
     "domain": "physical",
-    "name": "Gasspeicher-Fuellstand und Ausspeicherung",
+    "name": "Gasspeicher-Füllstand und Ausspeicherung",
     "plain": "Wie voll die Gasspeicher sind und wie schnell sie sich leeren.",
     "evidenceClass": "B",
     "direction": "up",
@@ -8222,7 +8222,7 @@
     "verified": false,
     "leadTime": "days",
     "format": "json",
-    "notes": "Messfeld laut Recherche: Speicherfuellstand, Ein-/Ausspeicherung je Land"
+    "notes": "Messfeld laut Recherche: Speicherfüllstand, Ein-/Ausspeicherung je Land"
   },
   {
     "id": "cyber.physical.ipaws_test_vs_actual",
@@ -8291,7 +8291,7 @@
     "license": "US-Regierungsdaten, gemeinfrei",
     "rationale": "Zunahme zeigt Störungen oder Tests; Kontext-Layer.",
     "banalCauses": [
-      "Militärische Uebungen",
+      "Militärische Übungen",
       "Tests"
     ],
     "endpoint": "https://external-api.faa.gov/notamapi/v1/notams?icaoLocation=KJFK",
@@ -8411,7 +8411,7 @@
     "license": "US-Regierungsdaten, gemeinfrei",
     "rationale": "Kontext für Störungen.",
     "banalCauses": [
-      "Uebungen"
+      "Übungen"
     ],
     "endpoint": "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=active",
     "auth": "none",
@@ -8562,7 +8562,7 @@
       "minPoints": 48
     },
     "intervalMinutes": 15,
-    "status": "planned",
+    "status": "needs-key",
     "sourceName": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
     "sourceUrl": "https://downdetector.com/",
     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
@@ -8572,13 +8572,13 @@
       "Bugs"
     ],
     "endpoint": "https://downdetector.com/status/vodafone-germany/",
-    "auth": "none",
+    "auth": "paid",
     "history": "keine offene API",
     "priority": 3,
     "verified": false,
     "leadTime": "coincident",
     "format": "html",
-    "notes": "Messfeld laut Recherche: Crowd-Störmeldungen, Klasse D"
+    "notes": "Daten nur über kostenpflichtige API; Nutzungsbedingungen verbieten Scraping (laut Recherche). Messfeld laut Recherche: Crowd-Störmeldungen, Klasse D"
   },
   {
     "id": "cyber.attention.reddit_sysadmin_activity",
@@ -8642,7 +8642,7 @@
     },
     "intervalMinutes": 15,
     "status": "license-unclear",
-    "sourceName": "Stoerungsmelder / allestoerungen.de Crowd-Meldungen",
+    "sourceName": "Störungsmelder / allestörungen.de Crowd-Meldungen",
     "sourceUrl": "https://stoerungsmelder.de/",
     "license": "unklar, ToS verbieten ggf. Scraping",
     "rationale": "Frühe Rückmeldung bei Kartenterminal-/Online-Banking-Ausfall.",
@@ -8840,7 +8840,7 @@
       "minPoints": 48
     },
     "intervalMinutes": 15,
-    "status": "planned",
+    "status": "needs-key",
     "sourceName": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
     "sourceUrl": "https://downdetector.com/",
     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
@@ -8850,13 +8850,13 @@
       "Sturm"
     ],
     "endpoint": "https://downdetector.com/status/vodafone-germany/",
-    "auth": "none",
+    "auth": "paid",
     "history": "keine offene API",
     "priority": 4,
     "verified": false,
     "leadTime": "coincident",
     "format": "html",
-    "notes": "Messfeld laut Recherche: Crowd-Störmeldungen, Klasse D"
+    "notes": "Daten nur über kostenpflichtige API; Nutzungsbedingungen verbieten Scraping (laut Recherche). Messfeld laut Recherche: Crowd-Störmeldungen, Klasse D"
   },
   {
     "id": "cyber.attention.gdelt_cyber_bank_volume",
@@ -8886,7 +8886,7 @@
     "license": "frei nutzbar mit Quellenangabe",
     "rationale": "Kontext-Layer: bestätigt, ob die Öffentlichkeit eine Welle wahrnimmt; beweist nichts.",
     "banalCauses": [
-      "Berichterstattung ueber Einzelereignisse",
+      "Berichterstattung über Einzelereignisse",
       "Jahresberichte"
     ],
     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22cyber%20attack%22%20bank&mode=timelinevol&format=json&timespan=30d",
@@ -8905,7 +8905,7 @@
     ],
     "domain": "attention",
     "name": "GDELT-Themenvolumen Cyberangriff/Ausfall",
-    "plain": "Anteil der Nachrichten ueber Cyberangriffe.",
+    "plain": "Anteil der Nachrichten über Cyberangriffe.",
     "evidenceClass": "D",
     "direction": "up",
     "kind": "count",
@@ -9158,7 +9158,7 @@
       "minPoints": 48
     },
     "intervalMinutes": 15,
-    "status": "planned",
+    "status": "needs-key",
     "sourceName": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
     "sourceUrl": "https://downdetector.com/",
     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
@@ -9167,13 +9167,13 @@
       "Kabeldiebstahl"
     ],
     "endpoint": "https://downdetector.com/status/vodafone-germany/",
-    "auth": "none",
+    "auth": "paid",
     "history": "keine offene API",
     "priority": 4,
     "verified": false,
     "leadTime": "coincident",
     "format": "html",
-    "notes": "Messfeld laut Recherche: Crowd-Störmeldungen, Klasse D"
+    "notes": "Daten nur über kostenpflichtige API; Nutzungsbedingungen verbieten Scraping (laut Recherche). Messfeld laut Recherche: Crowd-Störmeldungen, Klasse D"
   },
   {
     "id": "cyber.attention.vt_malware_stats",
@@ -9221,7 +9221,7 @@
     ],
     "domain": "attention",
     "name": "Wikipedia-Bearbeitungsrate in Ausfall-Artikeln",
-    "plain": "Wie schnell Aktuelle-Ereignisse-Seiten ueberarbeitet werden.",
+    "plain": "Wie schnell Aktuelle-Ereignisse-Seiten überarbeitet werden.",
     "evidenceClass": "D",
     "direction": "up",
     "kind": "rate",
@@ -9395,7 +9395,7 @@
     },
     "intervalMinutes": 15,
     "status": "needs-key",
-    "sourceName": "Tankerkoenig API",
+    "sourceName": "Tankerkönig API",
     "sourceUrl": "https://creativecommons.tankerkoenig.de/",
     "license": "CC BY 4.0",
     "rationale": "Colonial-Pipeline-Angriff 2021 führte zu leeren Tankstellen.",
@@ -9536,7 +9536,7 @@
     ],
     "domain": "attention",
     "name": "Ampel-/Verkehrsleitsysteme",
-    "plain": "Meldungen ueber ausgefallene Ampeln.",
+    "plain": "Meldungen über ausgefallene Ampeln.",
     "evidenceClass": "D",
     "direction": "up",
     "kind": "gauge",
@@ -9670,7 +9670,7 @@
     },
     "intervalMinutes": 1440,
     "status": "needs-key",
-    "sourceName": "Bundesagentur fuer Arbeit Jobsuche API",
+    "sourceName": "Bundesagentur für Arbeit Jobsuche API",
     "sourceUrl": "https://jobsuche.api.bund.dev/",
     "license": "bund.dev, offene Nutzung; Bedingungen pruefen",
     "rationale": "Aufbau von Reaktionskapazität.",
@@ -9732,7 +9732,7 @@
     ],
     "domain": "attention",
     "name": "Kabelleger und Schiffsaggregate",
-    "plain": "Aggregierte Schiffsbewegungen ueber Kabeltrassen (nur Flottensumme, keine Personen).",
+    "plain": "Aggregierte Schiffsbewegungen über Kabeltrassen (nur Flottensumme, keine Personen).",
     "evidenceClass": "D",
     "direction": "up",
     "kind": "count",
@@ -9751,7 +9751,7 @@
     "sourceName": "AISStream.io",
     "sourceUrl": "https://aisstream.io/documentation",
     "license": "unklar",
-    "rationale": "Ungewöhnliche Ankeraktivität ueber Trassen kann Vorlauf zu Schäden sein.",
+    "rationale": "Ungewöhnliche Ankeraktivität über Trassen kann Vorlauf zu Schäden sein.",
     "banalCauses": [
       "Fischerei",
       "Wetter"

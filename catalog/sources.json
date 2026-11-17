@@ -128,7 +128,7 @@
   },
   {
     "id": "aisstream",
-    "name": "AISStream.io",
+    "name": "aisstream.io",
     "docUrl": "https://aisstream.io/documentation",
     "endpoints": [
       "wss://stream.aisstream.io/v0/stream (Bounding Box um Kabeltrasse)",
@@ -261,7 +261,7 @@
   },
   {
     "id": "apple-rss",
-    "name": "Apple iTunes Customer Reviews RSS (Banking-Apps)",
+    "name": "Apple Marketing Tools RSS",
     "docUrl": "https://rss.applemarketingtools.com/",
     "endpoints": [
       "https://itunes.apple.com/de/rss/customerreviews/id=<APP_ID>/sortby=mostrecent/json",
@@ -366,7 +366,7 @@
   },
   {
     "id": "aws-health",
-    "name": "AWS Health/Status",
+    "name": "AWS Health Dashboard",
     "docUrl": "https://health.aws.amazon.com/health/status",
     "endpoints": [
       "https://health.aws.amazon.com/public/currentevents",
@@ -395,7 +395,7 @@
   },
   {
     "id": "azure-status",
-    "name": "Azure Status RSS",
+    "name": "Azure Status",
     "docUrl": "https://azure.status.microsoft/en-us/status/feed/",
     "endpoints": [
       "https://azure.status.microsoft/en-us/status/feed/"
@@ -423,7 +423,7 @@
   },
   {
     "id": "bafin-dd",
-    "name": "BaFin Eigengeschaefte von Fuehrungskraeften",
+    "name": "BaFin Eigengeschäfte von Führungskräften",
     "docUrl": "https://portal.mvp.bafin.de/database/DealingsInfo/",
     "endpoints": [
       "https://portal.mvp.bafin.de/database/DealingsInfo/sucheForm.do"
@@ -598,7 +598,7 @@
   },
   {
     "id": "bnetza",
-    "name": "Bundesnetzagentur Breitbandmessung / Netzstoerungen",
+    "name": "Bundesnetzagentur Breitbandmessung / Netzstörungen",
     "docUrl": "https://www.bundesnetzagentur.de/",
     "endpoints": [
       "https://www.bundesnetzagentur.de/"
@@ -635,7 +635,7 @@
     "updateLatency": "Minuten",
     "history": "gering",
     "rateLimit": "unbekannt",
-    "license": "Bö Copyright / OGL",
+    "license": "BoE Copyright / OGL",
     "verified": false,
     "aliases": [],
     "collector": "boe-chaps-payuk",
@@ -648,7 +648,7 @@
   },
   {
     "id": "bundesagentur-jobsuche",
-    "name": "Bundesagentur fuer Arbeit Jobsuche API",
+    "name": "Bundesagentur für Arbeit Jobsuche API",
     "docUrl": "https://jobsuche.api.bund.dev/",
     "endpoints": [
       "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobs?was=Incident%20Response&size=1"
@@ -673,7 +673,7 @@
   },
   {
     "id": "bundesanzeiger",
-    "name": "Bundesanzeiger Veroeffentlichungen",
+    "name": "Bundesanzeiger Veröffentlichungen",
     "docUrl": "https://www.bundesanzeiger.de/",
     "endpoints": [
       "https://www.bundesanzeiger.de/pub/de/to_nlp_start"
@@ -723,7 +723,7 @@
   },
   {
     "id": "cboe",
-    "name": "Cboe Indizes CSV",
+    "name": "Cboe Index- und Optionsstatistiken (CSV)",
     "docUrl": "https://www.cboe.com/tradable_products/vix/vix_historical_data/",
     "endpoints": [
       "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
@@ -808,7 +808,7 @@
   },
   {
     "id": "cert-bund",
-    "name": "CERT-Bund / BSI WID RSS",
+    "name": "CERT-Bund / BSI WID",
     "docUrl": "https://wid.cert-bund.de/",
     "endpoints": [
       "https://wid.cert-bund.de/content/public/securityAdvisory/rss"
@@ -917,7 +917,7 @@
     "auth": "free-key",
     "cost": "free",
     "updateLatency": "ca. 15 min bis 1h",
-    "history": "Zeitreihen ueber dateRange (bis ca. 1 Jahr+, je Endpunkt)",
+    "history": "Zeitreihen über dateRange (bis ca. 1 Jahr+, je Endpunkt)",
     "rateLimit": "gem. Cloudflare-API-Limits",
     "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung prüfen)",
     "verified": false,
@@ -979,20 +979,20 @@
   },
   {
     "id": "cisa-ics",
-    "name": "CISA ICS Advisories RSS",
-    "docUrl": "https://www.cisa.gov/news-events/cybersecurity-advisories?f%5B0%5D=advisory_type%3A95",
+    "name": "CISA ICS Advisories (CSAF auf GitHub)",
+    "docUrl": "https://github.com/cisagov/CSAF",
     "endpoints": [
       "https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/changes.csv",
       "https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml"
     ],
-    "access": "rss",
-    "format": "xml",
+    "access": "download",
+    "format": "csv",
     "auth": "none",
     "cost": "free",
-    "updateLatency": "Stunden",
-    "history": "Archiv der Advisories im Web",
-    "rateLimit": "unklar",
-    "license": "US-Regierungsdaten, gemeinfrei",
+    "updateLatency": "wöchentlich",
+    "history": "Historie seit 2010er",
+    "rateLimit": "unbekannt",
+    "license": "Public Domain (US Gov)",
     "verified": false,
     "aliases": [
       "ics-cert"
@@ -1161,7 +1161,7 @@
     "cost": "free",
     "updateLatency": "Minuten",
     "history": "alle CT-Logeinträge seit 2013",
-    "rateLimit": "oft ueberlastet, schonend nutzen",
+    "rateLimit": "oft überlastet, schonend nutzen",
     "license": "frei",
     "verified": false,
     "aliases": [],
@@ -1282,7 +1282,7 @@
   },
   {
     "id": "defillama",
-    "name": "DefiLlama Stablecoins API",
+    "name": "DefiLlama API",
     "docUrl": "https://defillama.com/docs/api",
     "endpoints": [
       "https://stablecoins.llama.fi/stablecoins?includePrices=true",
@@ -1340,7 +1340,7 @@
   },
   {
     "id": "downdetector",
-    "name": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
+    "name": "Downdetector",
     "docUrl": "https://downdetector.com/",
     "endpoints": [
       "https://downdetector.com/",
@@ -1348,12 +1348,12 @@
     ],
     "access": "scrape",
     "format": "html",
-    "auth": "none",
-    "cost": "free",
+    "auth": "paid",
+    "cost": "paid",
     "updateLatency": "Minuten",
-    "history": "keine offene API",
-    "rateLimit": "unklar",
-    "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+    "history": "API kostenpflichtig",
+    "rateLimit": "-",
+    "license": "kommerz. ToS",
     "verified": false,
     "aliases": [
       "downdet",
@@ -1487,7 +1487,7 @@
   },
   {
     "id": "eia",
-    "name": "EIA Open Data (Hourly Grid Monitor)",
+    "name": "US EIA Open Data (Hourly Electric Grid Monitor)",
     "docUrl": "https://www.eia.gov/opendata/",
     "endpoints": [
       "https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=KEY&frequency=hourly&data[0]=value&facets[respondent][]=PJM",
@@ -1681,7 +1681,7 @@
   },
   {
     "id": "esas-dora",
-    "name": "ESAs/EBA/ECB Statistiken zu IKT-Vorfaellen (DORA, TIBER)",
+    "name": "ESAs/EBA/ECB Statistiken zu IKT-Vorfällen (DORA, TIBER)",
     "docUrl": "https://www.eiopa.europa.eu/digital-operational-resilience-act-dora_en",
     "endpoints": [
       "https://www.bafin.de/DE/Aufsicht/DORA/dora_node.html"
@@ -1995,7 +1995,7 @@
     "auth": "none",
     "cost": "free",
     "updateLatency": "täglich",
-    "history": "Zeitreihe ueber scope=time-series, Daten seit 2021-04",
+    "history": "Zeitreihe über scope=time-series, Daten seit 2021-04",
     "rateLimit": "unbekannt",
     "license": "frei nutzbar mit Quellenangabe (laut FIRST)",
     "verified": true,
@@ -3653,7 +3653,7 @@
   },
   {
     "id": "opensky",
-    "name": "OpenSky Network API",
+    "name": "OpenSky States",
     "docUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
     "endpoints": [
       "https://opensky-network.org/api/flights/arrival?airport=NZQN&begin=1763000000&end=1763080000",
@@ -3662,12 +3662,12 @@
     ],
     "access": "api",
     "format": "json",
-    "auth": "free-key",
+    "auth": "none",
     "cost": "free",
-    "updateLatency": "Minuten",
-    "history": "Flug-Historie bis ca. 30 Tage per REST, länger via Trino (Forschungskonto)",
-    "rateLimit": "4000 Credits/Tag mit Konto",
-    "license": "CC BY-NC (nur nichtkommerziell)",
+    "updateLatency": "10 s",
+    "history": "nur Live",
+    "rateLimit": "400 Credits/Tag anonym",
+    "license": "CC BY-NC",
     "verified": false,
     "aliases": [
       "opensky-states"
@@ -4000,7 +4000,7 @@
     "auth": "none",
     "cost": "free",
     "updateLatency": "Minuten bis Stunden",
-    "history": "Opfer seit 2020 ueber /v2/victims und /v2/groups",
+    "history": "Opfer seit 2020 über /v2/victims und /v2/groups",
     "rateLimit": "unbekannt",
     "license": "CC BY-NC-SA (laut Seite, prüfen)",
     "verified": false,
@@ -4153,7 +4153,7 @@
     "auth": "none",
     "cost": "free",
     "updateLatency": "Sekunden",
-    "history": "keine (nur Live-Stream; Archiv ueber RIS-MRT-Dumps)",
+    "history": "keine (nur Live-Stream; Archiv über RIS-MRT-Dumps)",
     "rateLimit": "fair use",
     "license": "RIPE NCC, frei",
     "verified": false,
@@ -4351,8 +4351,8 @@
   },
   {
     "id": "sec-edgar",
-    "name": "SEC EDGAR",
-    "docUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+    "name": "SEC EDGAR (Full-Text Search, Submissions-API, Feeds, Indizes)",
+    "docUrl": "https://www.sec.gov/edgar/search/",
     "endpoints": [
       "https://efts.sec.gov/LatestSearch/rest/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-11-01&enddt=2026-11-17",
       "https://data.sec.gov/submissions/CIK0000320193.json",
@@ -4363,14 +4363,14 @@
       "https://efts.sec.gov/LATEST/search-index?q=%22Chief%20Information%20Security%20Officer%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-16",
       "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-16"
     ],
-    "access": "download",
-    "format": "html",
+    "access": "api",
+    "format": "json",
     "auth": "none",
     "cost": "free",
-    "updateLatency": "Form 4 binnen 2 Geschäftstagen",
-    "history": "Daily/Full-Index seit 1993",
-    "rateLimit": "10 Anfragen/s",
-    "license": "US-Public-Domain; faire Nutzung, User-Agent mit Kontakt Pflicht",
+    "updateLatency": "ca. 1 min bis wenige Minuten nach Veröffentlichung",
+    "history": "Volltext ab 2001, 8-K Item 1.05 erst seit 18.12.2023",
+    "rateLimit": "max 10 Anfragen/s laut SEC Fair Access",
+    "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
     "verified": false,
     "aliases": [
       "sec-edgar-atom",
@@ -4398,7 +4398,7 @@
   },
   {
     "id": "shadowserver",
-    "name": "Shadowserver Dashboard",
+    "name": "Shadowserver Dashboard / API",
     "docUrl": "https://dashboard.shadowserver.org/",
     "endpoints": [
       "https://dashboard.shadowserver.org/statistics/combined/time-series/?date_range=30&geo=DE",
@@ -4639,7 +4639,7 @@
   },
   {
     "id": "statuspage-hosts",
-    "name": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
+    "name": "Atlassian-Statuspage-Hosts (diverse Anbieter)",
     "docUrl": "https://developer.statuspage.io/",
     "endpoints": [
       "https://bugzilla.mozilla.org/rest/bug?component=CA%20Certificate%20Compliance&product=CA%20Program",
@@ -4698,7 +4698,7 @@
   },
   {
     "id": "stoerungsmelder",
-    "name": "Stoerungsmelder / allestoerungen.de Crowd-Meldungen",
+    "name": "Störungsmelder / allestörungen.de Crowd-Meldungen",
     "docUrl": "https://stoerungsmelder.de/",
     "endpoints": [
       "https://allestoerungen.de/stoerung/<dienst>/"
@@ -4768,7 +4768,7 @@
     "auth": "none",
     "cost": "free",
     "updateLatency": "Minuten",
-    "history": "Historie ueber /history-Seiten",
+    "history": "Historie über /history-Seiten",
     "rateLimit": "unbekannt",
     "license": "unklar",
     "verified": false,
@@ -4858,7 +4858,7 @@
   },
   {
     "id": "tankerkoenig",
-    "name": "Tankerkoenig API",
+    "name": "Tankerkönig API",
     "docUrl": "https://creativecommons.tankerkoenig.de/",
     "endpoints": [
       "https://creativecommons.tankerkoenig.de/json/list.php?lat=51.4&lng=7.5&rad=5&sort=dist&type=all&apikey=KEY"
@@ -5233,7 +5233,7 @@
     "format": "json",
     "auth": "none",
     "cost": "free",
-    "updateLatency": "täglich (stündlich nur ueber Dumps)",
+    "updateLatency": "täglich (stündlich nur über Dumps)",
     "history": "ab Juli 2015",
     "rateLimit": "200 Anfragen/s, User-Agent Pflicht",
     "license": "CC0 für Daten",
@@ -5255,7 +5255,7 @@
   },
   {
     "id": "xetra-status",
-    "name": "Deutsche Boerse Xetra Marktstatus / Handelsunterbrechungen",
+    "name": "Deutsche Börse Xetra Marktstatus / Handelsunterbrechungen",
     "docUrl": "https://www.xetra.com/xetra-de/handel/handelsinformationen",
     "endpoints": [
       "https://www.xetra.com/xetra-de/handel/handelsinformationen"

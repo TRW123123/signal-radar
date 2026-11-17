@@ -7,24 +7,24 @@ Automatisch erzeugt von `scripts/consolidate_cyber.py`. Aufgenommen: Lizenz laut
 | AbuseIPDB | api | CC BY-NC 4.0 (laut Seite) | https://docs.abuseipdb.com/ |
 | Adyen Status | scrape (Status license-unclear) | unklar | https://status.adyen.com/ |
 | AGSI+ Gas Infrastructure Europe | api | GIE Nutzungsbedingungen, unklar | https://agsi.gie.eu/api |
-| AISStream.io | api | unklar | https://aisstream.io/documentation |
+| aisstream.io | api | unklar | https://aisstream.io/documentation |
 | ALSI+ LNG Storage | api | GIE Nutzungsbedingungen, unklar | https://alsi.gie.eu/api |
 | AMS-IX Statistiken | scrape (Status license-unclear) | unklar | https://stats.ams-ix.net/ |
 | APNIC Labs Statistiken | download | unklar | https://stats.labs.apnic.net/ |
 | APWG Phishing Activity Trends | download | unklar | https://apwg.org/trendsreports/ |
 | Artemis Cyber Cat Bonds | scrape | urheberrechtlich geschützt | https://www.artemis.bm/ |
 | Autobahn App API | api | Datenlizenz Deutschland, unklar | https://autobahn.api.bund.dev/ |
-| AWS Health/Status | api | unklar | https://health.aws.amazon.com/health/status |
-| Azure Status RSS | rss | unklar | https://azure.status.microsoft/en-us/status/feed/ |
-| BaFin Eigengeschaefte von Fuehrungskraeften | download | Datenlizenz Deutschland? unklar | https://portal.mvp.bafin.de/database/DealingsInfo/ |
+| AWS Health Dashboard | api | unklar | https://health.aws.amazon.com/health/status |
+| Azure Status | rss | unklar | https://azure.status.microsoft/en-us/status/feed/ |
+| BaFin Eigengeschäfte von Führungskräften | download | Datenlizenz Deutschland? unklar | https://portal.mvp.bafin.de/database/DealingsInfo/ |
 | bgp.tools | scrape (Status license-unclear) | unklar | https://bgp.tools/kb/api |
 | Binance Public API (ping/time) | api | Binance API ToS | https://developers.binance.com/docs/binance-spot-api-docs/rest-api |
 | Bitnodes API | api | öffentlich, Nutzungsbedingungen unklar | https://bitnodes.io/api/ |
 | Blockchain.com Charts API | api | unklar | https://www.blockchain.com/explorer/api/charts |
-| Bundesnetzagentur Breitbandmessung / Netzstoerungen | scrape (Status license-unclear) | dl-de/by-2-0 (unklar je Datensatz) | https://www.bundesnetzagentur.de/ |
-| Bundesagentur fuer Arbeit Jobsuche API | api | bund.dev, offene Nutzung; Bedingungen prüfen | https://jobsuche.api.bund.dev/ |
-| Bundesanzeiger Veroeffentlichungen | scrape (Status license-unclear) | unklar; Nutzungsbedingungen prüfen, automatisierter Abruf ggf. eingeschränkt | https://www.bundesanzeiger.de/ |
-| CERT-Bund / BSI WID RSS | rss | DL-DE (unklar) | https://wid.cert-bund.de/ |
+| Bundesnetzagentur Breitbandmessung / Netzstörungen | scrape (Status license-unclear) | dl-de/by-2-0 (unklar je Datensatz) | https://www.bundesnetzagentur.de/ |
+| Bundesagentur für Arbeit Jobsuche API | api | bund.dev, offene Nutzung; Bedingungen prüfen | https://jobsuche.api.bund.dev/ |
+| Bundesanzeiger Veröffentlichungen | scrape (Status license-unclear) | unklar; Nutzungsbedingungen prüfen, automatisierter Abruf ggf. eingeschränkt | https://www.bundesanzeiger.de/ |
+| CERT-Bund / BSI WID | rss | DL-DE (unklar) | https://wid.cert-bund.de/ |
 | CERT-EU Advisories RSS | rss | unklar | https://cert.europa.eu/publications/security-advisories/ |
 | CertStream/CT-Logs | api | unklar | https://certstream.calidog.io/ |
 | Cloudflare Radar API | api | CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung prüfen) | https://developers.cloudflare.com/radar/ |
@@ -35,12 +35,12 @@ Automatisch erzeugt von `scripts/consolidate_cyber.py`. Aufgenommen: Lizenz laut
 | DB API Marketplace Timetables / StaDa | api | CC BY 4.0 (laut DB), prüfen | https://developers.deutschebahn.com/db-api-marketplace/apis/ |
 | DE-CIX Verkehrsstatistik | scrape (Status license-unclear) | unklar | https://www.de-cix.net/en/locations/frankfurt/statistics |
 | DNS-OARC / root-servers.org | scrape (Status license-unclear) | unklar | https://www.root-servers.org/ |
-| Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen) | scrape | Downdetector ToS, kein Scraping; nur Crowd-Signal | https://downdetector.com/ |
+| Downdetector | scrape | kommerz. ToS | https://downdetector.com/ |
 | EBA Clearing RT1/STEP2 Status und Statistik | scrape (Status license-unclear) | unklar | https://www.ebaclearing.eu/ |
 | Energy-Charts API (Fraunhofer ISE) | api | CC BY 4.0 (laut Seite, prüfen) | https://api.energy-charts.info/ |
 | ENTSOG Transparency Platform API | api | ENTSOG, Namensnennung, unklar | https://transparency.entsog.eu/api/archiveDirectory/swagger/ |
 | EQS-News / EQS Group Ad-hoc und Pflichtmitteilungen (Feeds) | rss | unklar (Pressetexte der Emittenten; nur Metadaten nutzen) | https://www.eqs-news.com/ |
-| ESAs/EBA/ECB Statistiken zu IKT-Vorfaellen (DORA, TIBER) | scrape (Status license-unclear) | unklar | https://www.eiopa.europa.eu/digital-operational-resilience-act-dora_en |
+| ESAs/EBA/ECB Statistiken zu IKT-Vorfällen (DORA, TIBER) | scrape (Status license-unclear) | unklar | https://www.eiopa.europa.eu/digital-operational-resilience-act-dora_en |
 | Eurocontrol Network Manager / Aviation Intelligence | scrape (Status license-unclear) | Eurocontrol Nutzungsbedingungen, unklar | https://www.eurocontrol.int/dashboard/aviation-intelligence-portal |
 | Fastly Status (Statuspage API) | api | unklar | https://status.fastly.com/api |
 | FCA National Storage Mechanism (UK RNS-Pflichtmitteilungen) | api | unklar | https://data.fca.org.uk/#/nsm/nationalstoragemechanism |
@@ -73,7 +73,7 @@ Automatisch erzeugt von `scripts/consolidate_cyber.py`. Aufgenommen: Lizenz laut
 | Open Banking UK API Performance | download | unklar | https://www.openbanking.org.uk/api-performance/ |
 | OpenINTEL | download | CC BY 4.0 (unklar je Datensatz) | https://www.openintel.nl/ |
 | OpenPhish Community Feed | download | nur nicht-kommerziell (Community) | https://openphish.com/phishing_feeds.html |
-| OpenSky Network API | api | CC BY-NC (nur nichtkommerziell) | https://openskynetwork.github.io/opensky-api/rest.html |
+| OpenSky States | api | CC BY-NC | https://openskynetwork.github.io/opensky-api/rest.html |
 | nomi-sec PoC-in-GitHub | download | unklar | https://github.com/nomi-sec/PoC-in-GitHub |
 | Polymarket Gamma API | api | Polymarket ToS; Nutzung in einigen Ländern eingeschränkt | https://docs.polymarket.com/ |
 | Potaroo / CIDR Report BGP Table | download | unklar | https://bgp.potaroo.net/ |
@@ -90,12 +90,12 @@ Automatisch erzeugt von `scripts/consolidate_cyber.py`. Aufgenommen: Lizenz laut
 | RSSAC002 Daten (Root-Server-Operatoren) | download | unklar | https://github.com/rssac-caucus/RSSAC002-data |
 | SANS ISC / DShield API | api | CC BY-NC-SA (laut ISC, prüfen) | https://isc.sans.edu/api/ |
 | Schneider Electric Security Notifications | scrape (Status license-unclear) | unklar | https://www.se.com/ww/en/work/support/cybersecurity/security-notifications.jsp |
-| Shadowserver Dashboard | api | CC BY 4.0 (unklar) | https://dashboard.shadowserver.org/ |
+| Shadowserver Dashboard / API | api | CC BY 4.0 (unklar) | https://dashboard.shadowserver.org/ |
 | CTA/UTP SIP Systemstatus | scrape (Status license-unclear) | unklar | https://www.ctaplan.com/ |
 | Socket.dev Blog/Threat-Feed | rss | unklar | https://socket.dev/blog |
 | Spamhaus DROP/BGPCC Listen | download | frei für nicht-kommerziell | https://www.spamhaus.org/drop/ |
-| Atlassian Statuspage Standard-API (Host-Liste in notes) | api | je Anbieter unklar | https://developer.statuspage.io/ |
-| Stoerungsmelder / allestoerungen.de Crowd-Meldungen | scrape (Status license-unclear) | unklar, ToS verbieten ggf. Scraping | https://stoerungsmelder.de/ |
+| Atlassian-Statuspage-Hosts (diverse Anbieter) | api | je Anbieter unklar | https://developer.statuspage.io/ |
+| Störungsmelder / allestörungen.de Crowd-Meldungen | scrape (Status license-unclear) | unklar, ToS verbieten ggf. Scraping | https://stoerungsmelder.de/ |
 | Stooq historische Kurse (CSV) | api | unklar (privater Dienst) | https://stooq.com/db/h/ |
 | Stripe Status | api | unklar | https://docs.stripe.com/api/ |
 | TeleGeography Submarine Cable Map | download | CC BY-NC-SA 4.0 | https://www.submarinecablemap.com/ |

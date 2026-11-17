@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Skizze H1 – Die Antwort zuerst</title>
+<style>
+/* Low-Fi: nur Geometrie und Hierarchie. Graustufen, Systemschrift, keine Radien, keine Dekoration. */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; color: #111; background: #fff; line-height: 1.4; }
+a { color: #111; }
+:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+.sk-states { font-size: 12px; color: #666; padding: 8px 24px; border-top: 1px dashed #bbb; }
+.mode { display: flex; gap: 16px; align-items: baseline; padding: 8px 24px; border-bottom: 1px solid #ccc; font-size: 13px; }
+.mode b { border: 1px solid #111; padding: 0 6px; }
+.mode .stand { margin-left: auto; color: #555; }
+
+.shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 40px); }
+.fragen { border-right: 1px solid #ccc; padding: 24px; }
+.fragen h2, .sec h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #555; margin: 0 0 12px; font-weight: 600; }
+.fragen ol { list-style: none; margin: 0; padding: 0; }
+.fragen li { border-top: 1px solid #ddd; }
+.fragen a, .fragen span { display: block; padding: 10px 0; font-size: 14px; text-decoration: none; }
+.fragen .akt a { font-weight: 700; }
+.fragen .akt a::before { content: '▸ '; }
+.fragen .folgt span { color: #888; }
+.fragen .folgt small { display: block; font-size: 11px; }
+
+main { padding: 32px 48px 48px; max-width: 1180px; }
+.frage { font-size: 15px; color: #555; margin: 0 0 8px; }
+
+/* Variante a: Satz links, Pegel rechts */
+.antwort-a { display: grid; grid-template-columns: 1fr 260px; gap: 48px; align-items: start; }
+.satz { font-size: 56px; line-height: 1.08; font-weight: 700; margin: 0; letter-spacing: -.01em; }
+.pegel { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column-reverse; border-left: 1px solid #111; }
+.pegel li { padding: 6px 10px; font-size: 13px; color: #777; border-bottom: 1px solid #e5e5e5; }
+.pegel li.on { background: #222; color: #fff; font-weight: 700; }
+.pegel li.unter { background: #ddd; color: #333; }
+
+/* Variante b: Satz steht in der Zeile seiner Stufe */
+.skala { border-top: 1px solid #111; }
+.skala .zeile { display: grid; grid-template-columns: 150px 1fr; border-bottom: 1px solid #ddd; min-height: 34px; align-items: center; }
+.skala .zeile .lab { font-size: 13px; color: #888; padding: 6px 0; }
+.skala .zeile.on { min-height: 0; padding: 14px 0; border-bottom: 2px solid #111; }
+.skala .zeile.on .lab { color: #111; font-weight: 700; font-size: 15px; }
+.skala .zeile.on .satz { font-size: 52px; }
+.skala .zeile .leer { border-left: 1px dotted #ccc; height: 100%; }
+
+.vertrauen { display: flex; gap: 32px; font-size: 13px; color: #333; margin-top: 18px; flex-wrap: wrap; }
+.vertrauen b { font-size: 18px; display: block; color: #111; }
+.hinweis { font-size: 13px; color: #555; max-width: 70ch; margin: 12px 0 0; }
+
+.sec { margin-top: 48px; }
+.darum { list-style: none; padding: 0; margin: 0; }
+.darum li { display: grid; grid-template-columns: 260px 1fr 70px; gap: 16px; align-items: center; padding: 10px 0; border-top: 1px solid #ddd; }
+.darum .bar { height: 10px; background: #eee; position: relative; }
+.darum .bar i { position: absolute; inset: 0 auto 0 0; background: #222; }
+.darum .bar .grenze { position: absolute; top: -4px; bottom: -4px; width: 1px; background: #888; }
+.darum small { color: #666; display: block; }
+.ruhig-liste { font-size: 14px; color: #444; border-top: 1px solid #ddd; padding-top: 10px; }
+.gerede { margin-top: 12px; padding: 10px 12px; border: 1px dashed #999; font-size: 14px; }
+
+.belege { width: 100%; border-collapse: collapse; font-size: 14px; }
+.belege th { text-align: left; font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; padding: 6px 8px 6px 0; border-bottom: 1px solid #111; }
+.belege td { padding: 10px 8px 10px 0; border-bottom: 1px solid #e5e5e5; vertical-align: top; }
+.belege td small { display: block; color: #666; }
+.belege .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+details { margin-top: 12px; }
+summary { cursor: pointer; font-size: 14px; padding: 8px 0; }
+footer.fuss { margin-top: 48px; font-size: 13px; color: #555; border-top: 1px solid #ccc; padding-top: 12px; }
+
+/* Handy: Frage-Leiste wandert unter die Antwort, Pegel wird waagerecht, Belege werden Karten */
+@media (max-width: 760px) {
+  .mode { padding: 6px 16px; font-size: 12px; flex-wrap: wrap; gap: 6px 12px; }
+  .mode .stand { margin-left: 0; }
+  .shell { display: flex; flex-direction: column; }
+  .fragen { order: 2; border-right: 0; border-top: 1px solid #111; padding: 16px; }
+  main { order: 1; padding: 20px 16px 8px; }
+  .antwort-a { grid-template-columns: 1fr; gap: 16px; }
+  .satz { font-size: 34px; }
+  .pegel { flex-direction: row; border-left: 0; border-top: 1px solid #111; }
+  .pegel li { flex: 1; font-size: 10px; padding: 6px 2px; text-align: center; border-bottom: 0; border-right: 1px solid #fff; }
+  .skala .zeile { grid-template-columns: 1fr; }
+  .skala .zeile:not(.on) { min-height: 0; grid-template-columns: 1fr; }
+  .skala .zeile:not(.on) .leer { display: none; }
+  .skala .zeile:not(.on) .lab { padding: 3px 0; font-size: 11px; }
+  .skala .zeile.on .satz { font-size: 32px; }
+  .skala .zeile.on .lab { font-size: 12px; }
+  .vertrauen { gap: 16px; }
+  .sec { margin-top: 32px; }
+  .darum li { grid-template-columns: 1fr 52px; }
+  .darum .bar { grid-column: 1 / -1; grid-row: 2; }
+  .belege thead { display: none; }
+  .belege, .belege tbody, .belege tr, .belege td { display: block; width: 100%; }
+  .belege tr { border-bottom: 1px solid #ccc; padding: 10px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+  .belege td { border: 0; padding: 0; }
+  .belege td.name { grid-column: 1 / -1; }
+  .belege td.verl { grid-column: 1 / -1; }
+  .belege td.verl svg { width: 100%; }
+  .belege .num { text-align: left; }
+  .belege td[data-l]::before { content: attr(data-l); display: block; font-size: 11px; color: #666; }
+}
+</style>
+</head>
+<body>
+<div id="app"><p style="padding:24px">Daten werden geladen …</p></div>
+<script src="gemeinsam.js"></script>
+<script>
+// Variante b (Satz in der Zeile seiner Stufe) ist nach der Herausforderung die Standardfassung; ?v=a zeigt die erste Fassung.
+const V = SR.variant || 'b';
+const { T, esc, nf, pct, spark, abweichung } = SR;
+
+function render(snap) {
+  const sc = snap.scenarios[0];
+  const abw = sc.domains.filter((d) => d.active);
+  const ruhig = sc.domains.filter((d) => !d.active);
+  const messSig = sc.domains.flatMap((d) => d.signals.map((s) => ({ ...s, dTitle: d.title })));
+  const belege = sc.anomalies.filter((s) => s.domain !== 'attention').map((s) => ({ ...s, dTitle: (sc.domains.find((d) => d.id === s.domain) || {}).title }));
+
+  const pegelA = `<ol class="pegel" aria-label="Stufe ${sc.level} von 4">${T.levels.map((l, i) => `<li class="${i === sc.level ? 'on' : i < sc.level ? 'unter' : ''}">${i} ${l}</li>`).join('')}</ol>`;
+
+  const satz = `<p class="satz">${esc(sc.verdict)}</p>`;
+  const antwort = V === 'a'
+    ? `<div class="antwort-a"><div>${satz}</div><div>${pegelA}</div></div>`
+    : `<div class="skala" role="img" aria-label="Stufe ${sc.level} von 4: ${esc(sc.levelLabel)}">${T.levels.map((l, i) => i === sc.level
+        ? `<div class="zeile on"><div class="lab">Stufe ${i}<br>${l}</div>${satz}</div>`
+        : `<div class="zeile"><div class="lab">${i} ${l}</div><div class="leer"></div></div>`).join('')}</div>`;
+
+  const vertrauen = `<div class="vertrauen">
+      <div><b>${pct(sc.confidence)}</b>Vertrauen</div>
+      <div><b>${sc.coverage.fresh} von ${sc.coverage.total}</b>Messreihen mit frischen Daten${sc.coverage.planned ? `, ${sc.coverage.planned} geplant` : ''}</div>
+      <div><b>${sc.activeDomains} von ${sc.domains.length}</b>Bereichen weichen ab</div>
+    </div>
+    <p class="hinweis">${T.keineWahrscheinlichkeit}</p>`;
+
+  const gerede = sc.attention >= SR.GAP.attention
+    ? `<p class="gerede"><b>Aufmerksamkeit im Netz: ${pct(sc.attention)}.</b> ${sc.rumorGap === 'talk-no-data' ? 'Viel Gerede, die Messwerte sind ruhig.' : 'Gerede und Messwerte sind beide auffällig.'} Aufmerksamkeit zählt nicht als Beleg. ${sc.attentionSignals.map((s) => `<a href="${esc(s.sourceUrl)}">${esc(s.name)}</a>`).join(', ')}</p>`
+    : '';
+
+  const darum = `<section class="sec"><h2>Darum</h2>
+    ${abw.length ? `<ul class="darum">${abw.map((d) => `<li><div><b>${esc(d.title)}</b><small>${esc(d.plain || '')}</small></div><div class="bar"><i style="width:${d.score * 100}%"></i><span class="grenze" style="left:25%" title="ab hier zählt ein Bereich"></span></div><div class="num">${pct(d.score)}</div></li>`).join('')}</ul>` : ''}
+    <p class="ruhig-liste">${abw.length ? `Im Normalbereich (${ruhig.length}): ` : `Kein Bereich weicht ab. Geprüft (${ruhig.length}): `}${ruhig.map((d) => esc(d.title)).join(' · ')}</p>
+    ${gerede}
+  </section>`;
+
+  const zeile = (s) => `<tr>
+      <td class="name"><b>${esc(s.name)}</b><small>${esc(s.plain)} · ${esc(s.dTitle)}</small></td>
+      <td class="num" data-l="Jetzt">${nf(s.value)} ${esc(s.unit || '')}</td>
+      <td class="num" data-l="Normal">${s.baseline ? nf(s.baseline.center) : '–'}</td>
+      <td class="num" data-l="Abweichung">${abweichung(s)}${s.damp ? `<small>gedämpft: ${esc(s.damp.reason)}</small>` : ''}</td>
+      <td class="verl">${spark(s, 180, 30)}</td>
+      <td data-l="Quelle"><a href="${esc(s.sourceUrl)}">${esc(s.sourceName)}</a></td>
+    </tr>`;
+  const thead = '<thead><tr><th>Messreihe</th><th class="num">Jetzt</th><th class="num">Normal</th><th class="num">Abweichung</th><th>Verlauf</th><th>Rohdaten</th></tr></thead>';
+  const belegSec = `<section class="sec"><h2>Belege</h2>
+    ${belege.length ? `<table class="belege">${thead}<tbody>${belege.map(zeile).join('')}</tbody></table>` : '<p class="ruhig-liste">Keine Messreihe weicht ab.</p>'}
+    <details><summary>Alle ${messSig.length} Messreihen ansehen</summary><table class="belege">${thead}<tbody>${messSig.map(zeile).join('')}</tbody></table></details>
+  </section>`;
+
+  const fragen = `<nav class="fragen" aria-label="Szenarien"><h2>Fragen</h2><ol>
+    ${snap.scenarios.map((s) => `<li class="akt"><a href="#" aria-current="true">${esc(s.question)}</a></li>`).join('')}
+    ${SR.KOMMEND.map((k) => `<li class="folgt"><span>${esc(k.question)}<small>${esc(k.title)} · ${T.folgt}</small></span></li>`).join('')}
+  </ol></nav>`;
+
+  document.getElementById('app').innerHTML = `
+    <div class="mode"><b>${esc(T.modes[snap.mode])}</b><span>${esc(snap.note || '')}</span><span class="stand">Stand ${SR.zeit(snap.generatedAt)}</span></div>
+    <div class="shell">
+      ${fragen}
+      <main>
+        <p class="frage">${esc(sc.question)}</p>
+        ${antwort}
+        ${vertrauen}
+        ${darum}
+        ${belegSec}
+        <footer class="fuss">${T.vorsorge}</footer>
+      </main>
+    </div>
+    ${SR.stateBar()}`;
+}
+
+SR.load().then(render).catch(() => { document.getElementById('app').innerHTML = `<p style="padding:24px">${SR.T.fehler}</p>`; });
+</script>
+</body>
+</html>

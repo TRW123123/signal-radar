@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Skizze H2 – Gerede gegen Messung</title>
+<style>
+/* Low-Fi: nur Geometrie und Hierarchie. Graustufen, Systemschrift, keine Radien, keine Dekoration. */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; color: #111; background: #fff; line-height: 1.4; }
+a { color: #111; }
+button { font: inherit; }
+:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+.sk-states { font-size: 12px; color: #666; padding: 8px 24px; border-top: 1px dashed #bbb; }
+.mode { display: flex; gap: 16px; align-items: baseline; padding: 8px 24px; border-bottom: 1px solid #ccc; font-size: 13px; }
+.mode b { border: 1px solid #111; padding: 0 6px; }
+.mode .stand { margin-left: auto; color: #555; }
+h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #555; margin: 0 0 12px; font-weight: 600; }
+main { padding: 24px 40px 48px; max-width: 1360px; margin: 0 auto; }
+
+/* Oberer Teil: links das Feld (oder die Gegen-Skalen), rechts die Erklärung */
+.oben { display: grid; grid-template-columns: minmax(0, 620px) 1fr; grid-template-areas: 'feld erkl' 'szen erkl'; gap: 0 48px; align-items: start; }
+.oben > .feld { grid-area: feld; } .oben > .erkl { grid-area: erkl; } .oben > .szen { grid-area: szen; }
+.oben > div:first-child:not(.feld) { grid-area: feld; }
+.feld svg { width: 100%; height: auto; display: block; }
+.feld text { font-family: system-ui, sans-serif; }
+.erkl .zone { font-size: 40px; font-weight: 700; line-height: 1.1; margin: 0 0 12px; }
+.erkl .satz { font-size: 20px; margin: 0 0 20px; }
+.ableitung { border-top: 1px solid #111; padding-top: 12px; font-size: 14px; }
+.ableitung .stufe { font-size: 28px; font-weight: 700; display: block; }
+.vertrauen { display: flex; gap: 28px; font-size: 13px; margin-top: 16px; flex-wrap: wrap; }
+.vertrauen b { font-size: 18px; display: block; }
+.hinweis { font-size: 13px; color: #555; margin: 12px 0 0; max-width: 62ch; }
+.frage { font-size: 15px; color: #555; margin: 0 0 6px; }
+
+/* Szenarien */
+.szen { margin-top: 20px; }
+.szen ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0 16px; }
+.szen li { border-top: 1px solid #ddd; padding: 8px 0; font-size: 14px; }
+.szen li.folgt { color: #888; }
+.szen li.akt { font-weight: 700; }
+
+/* Variante b: gegeneinander gestellte Skalen, eine Zeile pro Szenario */
+.gegen { width: 100%; }
+.gegen .kopf, .gegen .row { display: grid; grid-template-columns: 1fr 150px 1fr; align-items: center; }
+.gegen .kopf { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: .06em; padding-bottom: 6px; border-bottom: 1px solid #111; }
+.gegen .kopf span:first-child { text-align: right; padding-right: 8px; }
+.gegen .kopf span:last-child { padding-left: 8px; }
+.gegen .row { border-bottom: 1px solid #e3e3e3; min-height: 40px; }
+.gegen .row.akt { min-height: 72px; }
+.gegen .l, .gegen .r { position: relative; height: 22px; }
+.gegen .l i, .gegen .r i { position: absolute; top: 0; bottom: 0; background: #222; }
+.gegen .l i { right: 0; background: repeating-linear-gradient(45deg, #444 0 4px, #bbb 4px 8px); }
+.gegen .r i { left: 0; }
+.gegen .l .grenze, .gegen .r .grenze { position: absolute; top: -6px; bottom: -6px; width: 1px; background: #888; }
+.gegen .mitte { text-align: center; font-size: 13px; padding: 4px 6px; border-left: 1px solid #111; border-right: 1px solid #111; align-self: stretch; display: flex; align-items: center; justify-content: center; }
+.gegen .row.akt .mitte { font-weight: 700; font-size: 15px; }
+.gegen .row.folgt .mitte { color: #888; }
+.gegen .row.folgt .l, .gegen .row.folgt .r { border-top: 1px dotted #ccc; height: 0; }
+.gegen .ticks { display: grid; grid-template-columns: 1fr 150px 1fr; font-size: 11px; color: #666; }
+.gegen .ticks .tr { position: relative; height: 16px; }
+.gegen .ticks .tr span { position: absolute; transform: translateX(-50%); }
+
+/* Gegenüberstellung unten: Gerede links, Messung rechts, an einer Mittelachse */
+.gegenueber { margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #111; }
+.gegenueber > section { padding: 16px 24px 0; }
+.gegenueber > section:first-child { border-right: 2px solid #111; text-align: right; }
+.sig { padding: 10px 0; border-bottom: 1px solid #e5e5e5; }
+.sig small { color: #666; display: block; }
+.sig .zahlen { font-size: 13px; font-variant-numeric: tabular-nums; margin-top: 4px; }
+.dom { margin: 0 0 8px; padding-top: 10px; }
+.dom h3 { font-size: 15px; margin: 0; }
+.dom h3 span { font-weight: 400; color: #555; font-size: 13px; }
+.ruhig-liste { font-size: 14px; color: #444; padding-top: 10px; }
+.umschalter { display: none; }
+footer.fuss { margin-top: 40px; font-size: 13px; color: #555; border-top: 1px solid #ccc; padding-top: 12px; }
+
+@media (max-width: 760px) {
+  .mode { padding: 6px 16px; font-size: 12px; flex-wrap: wrap; gap: 4px 12px; }
+  .mode .stand { margin-left: 0; }
+  main { padding: 12px 12px 32px; }
+  .oben { grid-template-columns: 1fr; grid-template-areas: 'feld' 'erkl' 'szen'; gap: 12px; }
+  .erkl .zone { font-size: 28px; }
+  .erkl .satz { font-size: 17px; }
+  .gegen .kopf, .gegen .row, .gegen .ticks { grid-template-columns: 1fr 92px 1fr; }
+  .gegen .mitte { font-size: 11px; }
+  .gegen .row.akt .mitte { font-size: 12px; }
+  /* Handy: die beiden Spalten werden umschaltbar statt gestapelt */
+  .umschalter { display: grid; grid-template-columns: 1fr 1fr; margin-top: 28px; border: 1px solid #111; position: sticky; top: 0; background: #fff; z-index: 2; }
+  .umschalter button { padding: 12px; border: 0; background: #fff; }
+  .umschalter button[aria-pressed="true"] { background: #222; color: #fff; font-weight: 700; }
+  .gegenueber { grid-template-columns: 1fr; margin-top: 0; border-top: 0; }
+  .gegenueber > section { padding: 12px 4px 0; }
+  .gegenueber > section:first-child { border-right: 0; text-align: left; }
+  .gegenueber > section[hidden-m] { display: none; }
+  .szen ul { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div id="app"><p style="padding:24px">Daten werden geladen …</p></div>
+<script src="gemeinsam.js"></script>
+<script>
+// Standard nach der Herausforderung: Variante a (Feld mit vier Zonen) blieb stärker.
+// ?v=b zeigt die Herausforderung (gegeneinander gestellte Skalen, eine Zeile je Szenario).
+const V = SR.variant || 'a';
+const { T, esc, nf, pct, spark, abweichung, GAP, LEVEL_THRESHOLDS } = SR;
+
+const ZONEN = {
+  none: ['Ruhig', 'Wenig Gerede, Messwerte normal.'],
+  'talk-no-data': ['Gerede ohne Messung', 'Viel Aufmerksamkeit, aber die Instrumente zeigen nichts Ungewöhnliches.'],
+  'data-no-talk': ['Messung ohne Gerede', 'Die Instrumente schlagen aus, kaum jemand spricht darüber.'],
+  both: ['Gerede und Messung', 'Viel Aufmerksamkeit, und die Instrumente schlagen ebenfalls aus.'],
+};
+function zoneOf(sc) {
+  // Zonen-Text für die Zwischenfälle, die rumorGap 'none' nennt, aber nicht ruhig sind
+  if (sc.rumorGap !== 'none') return ZONEN[sc.rumorGap];
+  if (sc.score >= GAP.score) return ZONEN['data-no-talk'];
+  if (sc.score > 0) return ['Ruhig, ein Ausschlag', 'Wenig Gerede, ein einzelner Messbereich weicht ab.'];
+  return ZONEN.none;
+}
+
+function feld(sc) {
+  const m = innerWidth < 760;
+  const W = m ? 370 : 620, H = m ? 330 : 520, P = { l: m ? 26 : 56, r: 4, t: 8, b: 64 };
+  const fs = m ? 13 : 15, fs2 = m ? 11 : 12;
+  const iw = W - P.l - P.r, ih = H - P.t - P.b;
+  const x = (s) => P.l + s * iw, y = (a) => P.t + (1 - a) * ih;
+  const gx = x(GAP.score), gy = y(GAP.attention);
+  const zl = (tx, ty, a, t, b) => `<text x="${tx}" y="${ty}" text-anchor="${a}" font-size="${fs}" font-weight="700" fill="#333">${t}</text><text x="${tx}" y="${ty + 16}" text-anchor="${a}" font-size="${fs2}" fill="#666">${b}</text>`;
+  const hist = sc.history;
+  const pts = hist.map((h) => [x(h.score), y(h.attention)]);
+  const pfad = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const levels = [0, ...LEVEL_THRESHOLDS, 1];
+  const bands = levels.slice(0, -1).map((v, i) => `<rect x="${x(v)}" y="${H - P.b + 30}" width="${x(levels[i + 1]) - x(v)}" height="14" fill="${i === sc.level ? '#222' : i % 2 ? '#ddd' : '#eee'}"/><text x="${(x(v) + x(levels[i + 1])) / 2}" y="${H - P.b + 41}" text-anchor="middle" font-size="10" fill="${i === sc.level ? '#fff' : '#444'}">${i}</text>`).join('');
+  const last = pts[pts.length - 1];
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Aufmerksamkeit ${pct(sc.attention)} gegen Messwerte ${pct(sc.score)}">
+    <rect x="${gx}" y="${P.t}" width="${x(1) - gx}" height="${gy - P.t}" fill="#e6e6e6"/>
+    <rect x="${P.l}" y="${P.t}" width="${gx - P.l}" height="${gy - P.t}" fill="#f4f4f4"/>
+    <rect x="${gx}" y="${gy}" width="${x(1) - gx}" height="${y(0) - gy}" fill="#efefef"/>
+    <line x1="${gx}" x2="${gx}" y1="${P.t}" y2="${y(0)}" stroke="#888" stroke-dasharray="4 4"/>
+    <line x1="${P.l}" x2="${x(1)}" y1="${gy}" y2="${gy}" stroke="#888" stroke-dasharray="4 4"/>
+    <rect x="${P.l}" y="${P.t}" width="${iw}" height="${ih}" fill="none" stroke="#111"/>
+    ${zl(P.l + 8, P.t + 20, 'start', 'Gerede ohne Messung', m ? 'Messwerte ruhig' : 'viel Aufmerksamkeit, Messwerte ruhig')}
+    ${zl(x(1) - 8, P.t + 20, 'end', 'Gerede und Messung', 'beides auffällig')}
+    ${zl(P.l + 10, y(0) - 26, 'start', 'Ruhig', m ? 'Messwerte normal' : 'wenig Gerede, Messwerte normal')}
+    ${zl(x(1) - 8, y(0) - 26, 'end', 'Messung ohne Gerede', 'Instrumente schlagen aus')}
+    <text x="${P.l + iw / 2}" y="${H - P.b + 20}" text-anchor="middle" font-size="${fs2}" fill="#333">Messwerte → (wie ungewöhnlich)</text>
+    ${bands}
+    <text x="${P.l}" y="${H - P.b + 58}" font-size="10" fill="#444">Stufe 0–4 ergibt sich aus der Lage auf der Messachse</text>
+    <text transform="translate(${m ? 14 : 18} ${P.t + ih / 2}) rotate(-90)" text-anchor="middle" font-size="${fs2}" fill="#333">Aufmerksamkeit im Netz →</text>
+    <path d="${pfad}" fill="none" stroke="#777" stroke-width="1.5" stroke-dasharray="3 3"/>
+    ${pts.slice(0, -1).map((p) => `<circle cx="${p[0]}" cy="${p[1]}" r="2" fill="#999"/>`).join('')}
+    <circle cx="${last[0]}" cy="${last[1]}" r="9" fill="#111"/>
+    <text x="${last[0] + (last[0] > x(0.7) ? -14 : 14)}" y="${last[1] + (last[1] > y(0.1) ? -14 : 5)}" text-anchor="${last[0] > x(0.7) ? 'end' : 'start'}" font-size="14" font-weight="700">${esc(sc.title)} · jetzt</text>
+    <text x="${x(1)}" y="${H - 2}" text-anchor="end" font-size="10" fill="#666">gestrichelt: Spur der letzten 14 Tage</text>
+  </svg>`;
+}
+
+function gegen(snap) {
+  const tick = (v, l) => `<span style="left:${v * 100}%">${l}</span>`;
+  const row = (sc) => `<div class="row akt">
+      <div class="l" title="Aufmerksamkeit ${pct(sc.attention)}"><span class="grenze" style="right:${GAP.attention * 100}%"></span><i style="width:${sc.attention * 100}%"></i></div>
+      <div class="mitte">${esc(sc.title)}<br>${pct(sc.attention)} | ${pct(sc.score)}</div>
+      <div class="r" title="Messwerte ${pct(sc.score)}"><span class="grenze" style="left:${GAP.score * 100}%"></span><i style="width:${sc.score * 100}%"></i></div>
+    </div>`;
+  const leer = (k) => `<div class="row folgt"><div class="l"></div><div class="mitte">${esc(k.title)} · ${T.folgt}</div><div class="r"></div></div>`;
+  return `<div class="gegen" role="group" aria-label="Szenarien: Aufmerksamkeit gegen Messwerte">
+    <div class="kopf"><span>← Gerede (Aufmerksamkeit)</span><span></span><span>Messung (Abweichung) →</span></div>
+    ${snap.scenarios.map(row).join('')}
+    ${SR.KOMMEND.map(leer).join('')}
+    <div class="ticks"><div class="tr">${tick(1 - GAP.attention, 'viel Gerede ab hier')}</div><div></div><div class="tr">${[0, ...LEVEL_THRESHOLDS].map((v, i) => tick(v + 0.04, 'S' + i)).join('')}</div></div>
+  </div>`;
+}
+
+function render(snap) {
+  const sc = snap.scenarios[0];
+  const [zName, zText] = zoneOf(sc);
+  const abw = sc.domains.filter((d) => d.active);
+  const ruhig = sc.domains.filter((d) => !d.active);
+
+  const sigZeile = (s) => `<div class="sig"><b>${esc(s.name)}</b><small>${esc(s.plain)}</small>
+      <div class="zahlen">jetzt ${nf(s.value)} ${esc(s.unit || '')} · normal ${s.baseline ? nf(s.baseline.center) : '–'} · ${abweichung(s)}</div>
+      ${spark(s, 220, 30)}<br><a href="${esc(s.sourceUrl)}">Rohdaten: ${esc(s.sourceName)}</a></div>`;
+
+  const links = `<section id="col-gerede"><h2>Gerede · zählt nicht als Beleg</h2>
+      <p style="font-size:28px;font-weight:700;margin:0">${pct(sc.attention)}</p>
+      <p class="hinweis" style="margin:0 0 0 auto">Aufmerksamkeit im Netz, getrennt von den Messwerten geführt.</p>
+      ${sc.attentionSignals.map(sigZeile).join('')}</section>`;
+  const rechts = `<section id="col-messung"><h2>Messung · ${sc.activeDomains} von ${sc.domains.length} Bereichen weichen ab</h2>
+      <p style="font-size:28px;font-weight:700;margin:0">${pct(sc.score)}</p>
+      <p class="hinweis" style="margin:0">Unabhängige Messreihen, jede gegen ihren eigenen Normalwert.</p>
+      ${abw.map((d) => `<div class="dom"><h3>${esc(d.title)} <span>${pct(d.score)}</span></h3>${d.signals.map(sigZeile).join('')}</div>`).join('')}
+      <p class="ruhig-liste">${abw.length ? 'Im Normalbereich' : 'Alle Bereiche im Normalbereich'} (${ruhig.length}): ${ruhig.map((d) => esc(d.title)).join(' · ')}</p>
+      <details><summary>Alle Messreihen der ruhigen Bereiche</summary>${ruhig.flatMap((d) => d.signals).map(sigZeile).join('')}</details></section>`;
+
+  const erkl = `<div class="erkl">
+      <p class="frage">${esc(sc.question)}</p>
+      <p class="zone">${esc(zName)}</p>
+      <p class="satz">${esc(sc.verdict)}</p>
+      <div class="ableitung">Daraus folgt
+        <span class="stufe">Stufe ${sc.level} · ${esc(sc.levelLabel)}</span>
+        Messwerte ${pct(sc.score)}, ${sc.activeDomains} unabhängige Bereiche weichen ab. Die Aufmerksamkeit (${pct(sc.attention)}) verschiebt die Stufe nicht.</div>
+      <div class="vertrauen"><div><b>${pct(sc.confidence)}</b>Vertrauen</div><div><b>${sc.coverage.fresh} von ${sc.coverage.total}</b>Messreihen frisch${sc.coverage.planned ? `, ${sc.coverage.planned} geplant` : ''}</div></div>
+      <p class="hinweis">${T.keineWahrscheinlichkeit}</p>
+    </div>`;
+
+  const szenListe = `<div class="szen"><h2>Szenarien</h2><ul>${snap.scenarios.map((s) => `<li class="akt">${esc(s.title)}</li>`).join('')}${SR.KOMMEND.map((k) => `<li class="folgt">${esc(k.title)} · ${T.folgt}</li>`).join('')}</ul></div>`;
+
+  const oben = V === 'a'
+    ? `<div class="oben"><div class="feld">${feld(sc)}</div>${erkl}${szenListe}</div>`
+    : `<div class="oben"><div>${gegen(snap)}</div>${erkl}</div>`;
+
+  document.getElementById('app').innerHTML = `
+    <div class="mode"><b>${esc(T.modes[snap.mode])}</b><span>${esc(snap.note || '')}</span><span class="stand">Stand ${SR.zeit(snap.generatedAt)}</span></div>
+    <main>
+      ${oben}
+      <div class="umschalter" role="group" aria-label="Spalte wählen"><button data-col="messung" aria-pressed="true">Messung ${pct(sc.score)}</button><button data-col="gerede" aria-pressed="false">Gerede ${pct(sc.attention)}</button></div>
+      <div class="gegenueber">${links}${rechts}</div>
+      <footer class="fuss">${T.vorsorge}</footer>
+    </main>
+    ${SR.stateBar()}`;
+
+  // Handy: nur eine Spalte sichtbar, umschaltbar
+  const setCol = (c) => {
+    document.querySelectorAll('.umschalter button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.col === c)));
+    document.getElementById('col-gerede').toggleAttribute('hidden-m', c !== 'gerede');
+    document.getElementById('col-messung').toggleAttribute('hidden-m', c !== 'messung');
+  };
+  document.querySelectorAll('.umschalter button').forEach((b) => b.addEventListener('click', () => setCol(b.dataset.col)));
+  setCol(sc.rumorGap === 'talk-no-data' ? 'gerede' : 'messung');
+}
+
+SR.load().then(render).catch((e) => { console.error(e); document.getElementById('app').innerHTML = `<p style="padding:24px">${SR.T.fehler}</p>`; });
+</script>
+</body>
+</html>

@@ -1,0 +1,1132 @@
+{
+ "projects": [
+  {
+   "name": "bilawalsidhu/gods-eye-view",
+   "url": "https://github.com/bilawalsidhu/gods-eye-view",
+   "what": "3D-Globus (Node/Browser, lokal) fuer Flugzeuge, Schiffe, Satelliten, Erdbeben, Feuer, Kameras, GDELT-Konflikte mit Sprachsteuerung.",
+   "data_sources": [
+    "OpenSky (anon/OAuth)",
+    "adsb.lol",
+    "AISStream",
+    "CelesTrak",
+    "USGS",
+    "NASA FIRMS",
+    "GDELT",
+    "GPSJam-Aggregation",
+    "NOAA/ECMWF"
+   ],
+   "license": "MIT (LICENSE geprueft); gebuendelte Teildaten (z.B. Nepal-Flutszene) nur non-commercial, siehe DATA_SOURCES.md",
+   "reuse": "code",
+   "relevance": 4,
+   "scenarios": [
+    "war",
+    "nuclear",
+    "blackout"
+   ],
+   "notes": "Lehren: jede Ebene ein eigenes Modul; Server-Proxy mit SSRF-Schutz und Antwort-Limits fuer Keys; Request-Budgets (OpenSky Credit Governor); Ampel-Status pro Quelle (gruen/gelb/rot nach Key-Pflicht); ehrliche Kennzeichnung geschaetzter Layer; GNSS-Anomalien ausdruecklich nicht als bestaetigte Stoerung deklariert. Reines Visualisierungs-Tool, keine Baselines/Anomalie-Scoring."
+  },
+  {
+   "name": "koala73/worldmonitor",
+   "url": "https://github.com/koala73/worldmonitor",
+   "what": "Echtzeit-Dashboard (TypeScript) mit News-KI, 3D-Globus/deck.gl, Cross-Stream-Korrelation und Country Instability Index (CII) fuer 31 Laender.",
+   "data_sources": [
+    "RSS/News",
+    "Militaerflug-ADS-B",
+    "AIS",
+    "Maerkte",
+    "Konflikt",
+    "Cyber",
+    "Klima",
+    "Prognosemaerkte"
+   ],
+   "license": "AGPL-3.0-only (LICENSE geprueft); Name/Branding nur mit Erlaubnis; kommerzielle Alternativlizenz angeboten",
+   "reuse": "ideas",
+   "relevance": 5,
+   "scenarios": [
+    "cyber",
+    "war",
+    "nuclear",
+    "bio",
+    "ai",
+    "blackout",
+    "finance"
+   ],
+   "notes": "Naechster Konkurrent/Vorbild. Stack: Vercel Edge, Redis (Upstash) 3-Tier-Cache, Tauri, Docker-Selfhost, CLI, SDKs (Py/Ruby/Go), MCP-Server. AGPL: Code nicht in permissiv lizenziertes Projekt uebernehmen; Konzepte (CII, Korrelation, Varianten, MCP/SDK-Surface) frei nutzbar. Differenzierung: wir liefern Basislinien-Anomalien statt News-Aggregation."
+  },
+  {
+   "name": "uhrichsam4/gods-eye-view",
+   "url": "https://github.com/uhrichsam4/gods-eye-view",
+   "what": "Fork von God's Eye View mit ca. 5.200 Weltkameras in 20 Laendern und Kartenlabels.",
+   "data_sources": [
+    "oeffentliche Kamera-Feeds"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "none",
+   "relevance": 2,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Kameras sind fuer passive Datenreihen kaum nutzbar."
+  },
+  {
+   "name": "Syntax-Error-1337/radar",
+   "url": "https://github.com/Syntax-Error-1337/radar",
+   "what": "Geospatiale Echtzeit-Plattform fuer Luft, See, Cyber, OSINT und GPS-Stoerung.",
+   "data_sources": [
+    "ADS-B",
+    "AIS",
+    "Cyber-Feeds",
+    "GPS-Interferenz"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "war",
+    "cyber"
+   ],
+   "notes": "Quellenmix als Checkliste nutzbar; Qualitaet nicht geprueft."
+  },
+  {
+   "name": "carbon-evolution/osiris",
+   "url": "https://github.com/carbon-evolution/osiris",
+   "what": "Globale OSINT-Karte mit Fluegen, Highway-CCTV, Erdbeben, Waldbraenden, Konfliktzonen.",
+   "data_sources": [
+    "Flugdaten",
+    "USGS",
+    "FIRMS",
+    "Konfliktzonen"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "war",
+    "nuclear"
+   ],
+   "notes": "Klein, aktiv (Nov 2026); Quellenliste ansehen."
+  },
+  {
+   "name": "0xhav0c/ARGUS",
+   "url": "https://github.com/0xhav0c/ARGUS",
+   "what": "OSINT-Dashboard mit 3D-Globus, Multi-Domain-Threat-Feeds und KI-Analyse.",
+   "data_sources": [
+    "Threat-Feeds",
+    "News"
+   ],
+   "license": "AGPL-3.0 (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "cyber",
+    "war"
+   ],
+   "notes": "AGPL, nur Ideen."
+  },
+  {
+   "name": "lmolinario/osint-threat-radar",
+   "url": "https://github.com/lmolinario/osint-threat-radar",
+   "what": "OSINT-Radar aus ADS-B, Satelliten und Internet-Infrastruktur.",
+   "data_sources": [
+    "ADS-B",
+    "Satelliten",
+    "Internet-Infrastruktur"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "war",
+    "cyber"
+   ],
+   "notes": "Klein; Quellenmix."
+  },
+  {
+   "name": "AfterPacket/partially.online",
+   "url": "https://github.com/AfterPacket/partially.online",
+   "what": "Weltweites Dashboard fuer Internet-Ausfaelle und Zensur aus IODA, OONI und Cloudflare.",
+   "data_sources": [
+    "IODA",
+    "OONI",
+    "Cloudflare Radar"
+   ],
+   "license": "AGPL-3.0 (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 4,
+   "scenarios": [
+    "cyber",
+    "war",
+    "blackout"
+   ],
+   "notes": "Genau unsere Kombination IODA+OONI+Cloudflare; zeigt wie man die drei APIs normalisiert. AGPL, daher nur Architektur lernen."
+  },
+  {
+   "name": "cyanheads/ioda-outages-mcp-server",
+   "url": "https://github.com/cyanheads/ioda-outages-mcp-server",
+   "what": "MCP-Server (TypeScript) fuer IODA-Events, -Alerts und Konnektivitaets-Signale.",
+   "data_sources": [
+    "IODA API"
+   ],
+   "license": "Apache-2.0 (LICENSE geprueft)",
+   "reuse": "code",
+   "relevance": 4,
+   "scenarios": [
+    "cyber",
+    "blackout"
+   ],
+   "notes": "Kompakter TS-Client fuer IODA, direkt als Vorlage fuer unseren Adapter wiederverwendbar."
+  },
+  {
+   "name": "InetIntel/ioda-api",
+   "url": "https://github.com/InetIntel/ioda-api",
+   "what": "Offizielle IODA-API-Software (Georgia Tech / CAIDA): Signale (BGP, Active Probing, Darknet), Alerts, Events.",
+   "data_sources": [
+    "BGP",
+    "Active Probing",
+    "Darknet/Telescope",
+    "Google Transparency"
+   ],
+   "license": "BSD-artig (UC Regents, LICENSE geprueft; Wortlaut nicht klassifiziert)",
+   "reuse": "ideas",
+   "relevance": 5,
+   "scenarios": [
+    "cyber",
+    "blackout",
+    "war"
+   ],
+   "notes": "Primaerquelle fuer Laender-/ASN-Ausfaelle, kostenlose API; Datenlizenz separat pruefen. Zugehoeriges CAIDA/ioda-geo-polygons ist nur fuer Forschung/Non-Profit lizenziert, nicht uebernehmen."
+  },
+  {
+   "name": "shyamkkhadka/ioda (Python-Wrapper)",
+   "url": "https://github.com/shyamkkhadka/ioda",
+   "what": "Python-Wrapper fuer die IODA-API.",
+   "data_sources": [
+    "IODA API"
+   ],
+   "license": "MIT (laut GitHub-Metadaten, LICENSE nicht separat geprueft)",
+   "reuse": "ideas",
+   "relevance": 1,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "Nur Beispiel fuer Endpunkt-Nutzung."
+  },
+  {
+   "name": "ooni/probe-cli",
+   "url": "https://github.com/ooni/probe-cli",
+   "what": "OONI Probe Engine/CLI zur Messung von Zensur und Netzstoerung; Messdaten oeffentlich ueber OONI API.",
+   "data_sources": [
+    "OONI Messungen"
+   ],
+   "license": "GPL (LICENSE geprueft, Version nicht geprueft)",
+   "reuse": "data",
+   "relevance": 4,
+   "scenarios": [
+    "cyber",
+    "war"
+   ],
+   "notes": "Wir nutzen nur die oeffentliche OONI-API/Open Data (passiv), nicht den Probe. Aggregierte Anomalie-Zaehler sind ein starkes Tagessignal."
+  },
+  {
+   "name": "ooni/probe",
+   "url": "https://github.com/ooni/probe",
+   "what": "OONI-Hauptrepo/Doku zu Zensurmessung.",
+   "data_sources": [
+    "OONI"
+   ],
+   "license": "BSD-3-Clause (GitHub-Metadaten; LICENSE.md vorhanden)",
+   "reuse": "none",
+   "relevance": 2,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "Orientierung/Doku."
+  },
+  {
+   "name": "nttgin/BGPalerter",
+   "url": "https://github.com/nttgin/BGPalerter",
+   "what": "BGP/RPKI-Monitoring in Echtzeit: Sichtbarkeitsverlust, Hijacks, ROA-Fehler.",
+   "data_sources": [
+    "RIPE RIS Live",
+    "RPKI"
+   ],
+   "license": "BSD-3-Clause (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 4,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "Kein Prefix-Besitz bei uns noetig: Regeln wie 'Sichtbarkeit fuer Land X faellt' uebertragbar; RIS Live Websocket als Quelle."
+  },
+  {
+   "name": "FORTH-ICS-INSPIRE/artemis",
+   "url": "https://github.com/FORTH-ICS-INSPIRE/artemis",
+   "what": "ARTEMIS: Echtzeit-Erkennung und Mitigation von BGP-Prefix-Hijacks.",
+   "data_sources": [
+    "RIPE RIS",
+    "BGPStream",
+    "ExaBGP"
+   ],
+   "license": "BSD-3-Clause (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "Fuer Betreiber eigener Prefixe; seit 2023 ohne Updates. Nur Konzepte."
+  },
+  {
+   "name": "CAIDA/libbgpstream",
+   "url": "https://github.com/CAIDA/libbgpstream",
+   "what": "BGPStream-Bibliothek/CLI fuer Live- und historische BGP-Daten (RouteViews, RIS).",
+   "data_sources": [
+    "RouteViews",
+    "RIPE RIS"
+   ],
+   "license": "BSD (LICENSE geprueft, 2-Klausel laut GitHub)",
+   "reuse": "code",
+   "relevance": 3,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "C-Bibliothek, fuer Serverless unpraktisch; besser RIS Live direkt oder Cloudflare Radar."
+  },
+  {
+   "name": "CAIDA/pybgpstream",
+   "url": "https://github.com/CAIDA/pybgpstream",
+   "what": "Python-Bindings fuer BGPStream.",
+   "data_sources": [
+    "RouteViews",
+    "RIPE RIS"
+   ],
+   "license": "BSD (laut GitHub-Metadaten, LICENSE vorhanden)",
+   "reuse": "code",
+   "relevance": 2,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "Nur fuer Offline-Backtests sinnvoll."
+  },
+  {
+   "name": "RalfKoch/CloudflareRadarKit",
+   "url": "https://github.com/RalfKoch/CloudflareRadarKit",
+   "what": "Typisierter Swift-Client fuer die Cloudflare-Radar-API (Traffic, Ausfaelle, Protokolle).",
+   "data_sources": [
+    "Cloudflare Radar API"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "cyber",
+    "blackout"
+   ],
+   "notes": "Zeigt Endpunkte; kein TS-Client gefunden. Cloudflare-Radar-Datenlizenz (CC BY-NC nach unserer Erinnerung) vor kommerzieller Nutzung pruefen: unklar."
+  },
+  {
+   "name": "RIPE-NCC/ripe-atlas-tools",
+   "url": "https://github.com/RIPE-NCC/ripe-atlas-tools",
+   "what": "Offizieller CLI-Client fuer RIPE Atlas.",
+   "data_sources": [
+    "RIPE Atlas"
+   ],
+   "license": "GPL (LICENSE geprueft, Version nicht geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "Oeffentliche Atlas-Messungen lesbar; Rate-Limits beachten."
+  },
+  {
+   "name": "JMousqueton/ransomware.live",
+   "url": "https://github.com/JMousqueton/ransomware.live",
+   "what": "Ransomware-Gruppen- und Opfer-Tracker mit API.",
+   "data_sources": [
+    "Leak-Sites",
+    "ransomware.live API"
+   ],
+   "license": "Unlicense (LICENSE geprueft)",
+   "reuse": "data",
+   "relevance": 4,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "Opferzahlen pro Tag/Region sind ein sauberes Zaehlsignal; Daten stammen von Leak-Sites, Weitergabe-Bedingungen der API separat pruefen."
+  },
+  {
+   "name": "Alexdlc5/Hack-Tracker",
+   "url": "https://github.com/Alexdlc5/Hack-Tracker",
+   "what": "Desktop-App fuer weltweite Cyber-Vorfaelle aus RSS und freien APIs.",
+   "data_sources": [
+    "RSS",
+    "freie APIs"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 1,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "Klein."
+  },
+  {
+   "name": "CISA KEV (dr12hes/cisa-kev-mirror)",
+   "url": "https://github.com/dr12hes/cisa-kev-mirror",
+   "what": "Taeglicher Mirror des CISA Known-Exploited-Vulnerabilities-JSON.",
+   "data_sources": [
+    "CISA KEV"
+   ],
+   "license": "unklar (nicht geprueft)",
+   "reuse": "data",
+   "relevance": 3,
+   "scenarios": [
+    "cyber"
+   ],
+   "notes": "KEV-Neuzugaenge/Woche als Basislinien-Zeitreihe; offizielle CISA-Quelle direkt nutzen."
+  },
+  {
+   "name": "alex9smith/gdelt-doc-api",
+   "url": "https://github.com/alex9smith/gdelt-doc-api",
+   "what": "Python-Client fuer GDELT 2.0 DOC API (Timelines, Artikel).",
+   "data_sources": [
+    "GDELT DOC 2.0"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Timeline-Endpunkt liefert direkt Volumen-Zeitreihen pro Query, ideal fuer Anomalie-Scoring."
+  },
+  {
+   "name": "blazeiburgess/gdelt-ts-client",
+   "url": "https://github.com/blazeiburgess/gdelt-ts-client",
+   "what": "TypeScript-Client fuer GDELT.",
+   "data_sources": [
+    "GDELT"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "code",
+   "relevance": 3,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Passt zu unserem TS-Stack; Reife/Tests vor Uebernahme pruefen (2 Sterne)."
+  },
+  {
+   "name": "RBozydar/py-gdelt",
+   "url": "https://github.com/RBozydar/py-gdelt",
+   "what": "Umfassende Python-Bibliothek fuer GDELT-Familie.",
+   "data_sources": [
+    "GDELT Events/GKG/DOC"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Endpunkt-Uebersicht."
+  },
+  {
+   "name": "GDELT Project (Daten)",
+   "url": "https://www.gdeltproject.org/",
+   "what": "Oeffentliche Ereignis-/Medien-Datenbank, alle 15 Minuten aktualisiert.",
+   "data_sources": [
+    "Weltpresse"
+   ],
+   "license": "unklar (GDELT-Nutzungsbedingungen: Zitierpflicht, nicht per LICENSE-Datei geprueft)",
+   "reuse": "data",
+   "relevance": 5,
+   "scenarios": [
+    "war",
+    "cyber",
+    "bio",
+    "finance"
+   ],
+   "notes": "Medienvolumen ist verzerrt (Nachrichtenzyklus); als Bestaetigungssignal, nicht als Primaersensor."
+  },
+  {
+   "name": "ACLED (Daten/API)",
+   "url": "https://acleddata.com/",
+   "what": "Kuratierte Konfliktereignisse weltweit.",
+   "data_sources": [
+    "ACLED API"
+   ],
+   "license": "unklar (Registrierung, eigene Nutzungsbedingungen; kommerzielle Nutzung eingeschraenkt)",
+   "reuse": "data",
+   "relevance": 4,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Hohe Qualitaet, aber Lizenz/Latenz (woechentlich) beschraenkt Echtzeit; Bedingungen vor Einsatz lesen."
+  },
+  {
+   "name": "elor79/global-fault-lines",
+   "url": "https://github.com/elor79/global-fault-lines",
+   "what": "3D-Atlas von 16 Konflikt-Hotspots mit VIEWS-Prognosen, GDELT-Momentum und Polymarket-Quoten.",
+   "data_sources": [
+    "VIEWS",
+    "GDELT",
+    "Polymarket"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "war",
+    "finance"
+   ],
+   "notes": "Gutes Beispiel, wie Prognosemarkt + Medien-Momentum kombiniert werden."
+  },
+  {
+   "name": "views-platform/views-hydranet",
+   "url": "https://github.com/views-platform/views-hydranet",
+   "what": "VIEWS Konfliktprognose-Modell (CNN-LSTM).",
+   "data_sources": [
+    "UCDP",
+    "ACLED",
+    "VIEWS"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Forschungsmodelle zeigen Benchmarks fuer Backtest; fuer uns zu schwer."
+  },
+  {
+   "name": "elliott-diy/PentagonPizza",
+   "url": "https://github.com/elliott-diy/PentagonPizza",
+   "what": "Verfolgt Pizza-Bestellaktivitaet um Regierungsgebaeude in DC.",
+   "data_sources": [
+    "Google Popular Times (vermutlich)"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Aktiv (Nov 2026). Datenquelle ist Scraping/proprietaer: nicht mit 'nur offene Daten' vereinbar."
+  },
+  {
+   "name": "PIZZINT (pizzint.watch)",
+   "url": "https://www.pizzint.watch/about",
+   "what": "Kommerzielle Pentagon-Pizza-Index-Seite mit DOUGHCON-Stufen, API-Zugang.",
+   "data_sources": [
+    "Google Popular Times",
+    "Foot-Traffic",
+    "Social-OSINT"
+   ],
+   "license": "unklar (Open-Source-Status auf About-Seite nicht genannt)",
+   "reuse": "none",
+   "relevance": 2,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Formel nicht veroeffentlicht; Popular-Times-Scraping verletzt vermutlich Google-AGB. Als Warnung: Satire/Meme-Indikator mit schwacher Evidenz, nur optional und klar gekennzeichnet."
+  },
+  {
+   "name": "42Analyst/Pentagon-Pizza-Index---Proxy-Strategy",
+   "url": "https://github.com/42Analyst/Pentagon-Pizza-Index---Proxy-Strategy",
+   "what": "Quant-Pipeline, die testet, ob GDELT-Spannungsspitzen Verteidigungsaktien vorhersagen.",
+   "data_sources": [
+    "GDELT",
+    "Aktienkurse"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "war",
+    "finance"
+   ],
+   "notes": "Methodik fuer Lead-Lag-Backtest uebertragbar."
+  },
+  {
+   "name": "boxlegs/pentagonPizzaParty",
+   "url": "https://github.com/boxlegs/pentagonPizzaParty",
+   "what": "Pollt regelmaessig Pizzeria-Daten nahe dem Pentagon.",
+   "data_sources": [
+    "Popular Times"
+   ],
+   "license": "GPL (LICENSE geprueft)",
+   "reuse": "none",
+   "relevance": 1,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "GPL, Scraping."
+  },
+  {
+   "name": "mattbierner/MinutesToMidnight",
+   "url": "https://github.com/mattbierner/MinutesToMidnight",
+   "what": "Node-Bibliothek fuer die Doomsday-Clock-Zeit.",
+   "data_sources": [
+    "Bulletin of the Atomic Scientists (manuell gepflegt)"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "code",
+   "relevance": 2,
+   "scenarios": [
+    "nuclear"
+   ],
+   "notes": "Doomsday Clock ist jaehrlich, kein Echtzeitsignal; hoechstens als Kontextwert/Hintergrund."
+  },
+  {
+   "name": "renemarc/countdoom",
+   "url": "https://github.com/renemarc/countdoom",
+   "what": "Doomsday-Clock-Client und Python-Paket.",
+   "data_sources": [
+    "Bulletin-Webseite"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 1,
+   "scenarios": [
+    "nuclear"
+   ],
+   "notes": "Scraping der Webseite; Pflegestand 2023."
+  },
+  {
+   "name": "stevegroundhog/ontas",
+   "url": "https://github.com/stevegroundhog/ontas",
+   "what": "Offenes Nuklear- und Konflikt-Awareness-Dashboard mit inoffiziellem DEFCON-Wert aus Public Data.",
+   "data_sources": [
+    "oeffentliche Daten"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "nuclear",
+    "war"
+   ],
+   "notes": "Sehr nah an unserem Ziel (Ampel statt DEFCON-Behauptung); zeigt, wie man 'unofficial' sauber labelt."
+  },
+  {
+   "name": "ESDN83/ha-radiation-watch",
+   "url": "https://github.com/ESDN83/ha-radiation-watch",
+   "what": "Home-Assistant-Integration fuer Dosisleistungsstationen (BfS, EURDEP) mit windbasierter Fruehwarnung.",
+   "data_sources": [
+    "BfS ODL",
+    "EURDEP"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "code",
+   "relevance": 4,
+   "scenarios": [
+    "nuclear"
+   ],
+   "notes": "Zeigt den Zugriff auf BfS/EURDEP-Daten und Stationsauswahl; Basis fuer unseren Strahlungs-Adapter."
+  },
+  {
+   "name": "Safecast API / Daten",
+   "url": "https://github.com/Safecast/safecastapi",
+   "what": "Backend von api.safecast.org; Crowd-Strahlungsmessungen.",
+   "data_sources": [
+    "Safecast Messwerte"
+   ],
+   "license": "Daten: CC0 (laut safecast.org geprueft); Code-Repo: unklar (keine LICENSE gefunden)",
+   "reuse": "data",
+   "relevance": 4,
+   "scenarios": [
+    "nuclear"
+   ],
+   "notes": "CC0-Daten, API ohne Anmeldung, Voll-Dump als CSV: ideal fuer Hintergrundstrahlung-Basislinien. Abdeckung in Japan stark, sonst lueckig."
+  },
+  {
+   "name": "fractalxaos/radmon",
+   "url": "https://github.com/fractalxaos/radmon",
+   "what": "DIY-Hintergrundstrahlungsmonitor.",
+   "data_sources": [
+    "Geigerzaehler"
+   ],
+   "license": "LGPL (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 1,
+   "scenarios": [
+    "nuclear"
+   ],
+   "notes": "Hardware-Projekt, nur Hintergrund."
+  },
+  {
+   "name": "EURDEP / BfS ODL (Daten)",
+   "url": "https://remap.jrc.ec.europa.eu/",
+   "what": "Europaeisches Strahlungs-Datenaustauschsystem (JRC) und deutsches ODL-Messnetz.",
+   "data_sources": [
+    "EURDEP",
+    "BfS ODL"
+   ],
+   "license": "unklar (Nutzungsbedingungen JRC/BfS nicht abschliessend geprueft)",
+   "reuse": "data",
+   "relevance": 4,
+   "scenarios": [
+    "nuclear"
+   ],
+   "notes": "Kritische Primaerquelle fuer Europa; BfS bietet WFS-Dienst mit Open-Data-Lizenz (muss verifiziert werden)."
+  },
+  {
+   "name": "adsblol/api + globe_history",
+   "url": "https://github.com/adsblol/api",
+   "what": "adsb.lol: offene ADS-B-Live-API; taegliche Historie aller Flugspuren.",
+   "data_sources": [
+    "adsb.lol Feeder"
+   ],
+   "license": "API-Code BSD (LICENSE geprueft); Historiendaten laut GitHub ODbL-1.0 (LICENSE-Datei nicht gefunden: unklar)",
+   "reuse": "data",
+   "relevance": 4,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Historie ermoeglicht Backtests (Luftverkehrsdichte, Militaer-/Notfall-Squawks, Luftraumsperrungen)."
+  },
+  {
+   "name": "openskynetwork/opensky-api",
+   "url": "https://github.com/openskynetwork/opensky-api",
+   "what": "Offizielle Python/Java-Bindings fuer die OpenSky REST API.",
+   "data_sources": [
+    "OpenSky Network"
+   ],
+   "license": "GPL (LICENSE geprueft, Version nicht geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "REST selbst ansprechen statt GPL-Code einbinden; Credit-Limits beachten, Nutzung nur Forschung/Nicht-kommerziell nach AGB pruefen."
+  },
+  {
+   "name": "xSNOWM4Nx/react-flight-tracker",
+   "url": "https://github.com/xSNOWM4Nx/react-flight-tracker",
+   "what": "React/TS-Flugtracker auf OpenSky-Daten.",
+   "data_sources": [
+    "OpenSky"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 1,
+   "scenarios": [
+    "war"
+   ],
+   "notes": "Nur UI-Beispiel."
+  },
+  {
+   "name": "electricitymaps/electricitymaps-contrib",
+   "url": "https://github.com/electricitymaps/electricitymaps-contrib",
+   "what": "Parser fuer Strommix/-Fluesse vieler Netze.",
+   "data_sources": [
+    "ENTSO-E",
+    "nationale TSOs"
+   ],
+   "license": "AGPL-3.0 (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 4,
+   "scenarios": [
+    "blackout"
+   ],
+   "notes": "Zeigt, wie viele Netz-Datenquellen vereinheitlicht werden; AGPL, nur Quellenliste/Parser-Idee."
+  },
+  {
+   "name": "Hexagon/entsoe-api-client",
+   "url": "https://github.com/Hexagon/entsoe-api-client",
+   "what": "Deno/TS-Client fuer die ENTSO-E Transparency Platform.",
+   "data_sources": [
+    "ENTSO-E"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "code",
+   "relevance": 4,
+   "scenarios": [
+    "blackout",
+    "finance"
+   ],
+   "notes": "TS-Client fuer Last, Erzeugung, Preise; Preisspitzen und Frequenz-Proxy fuer Blackout-Risiko."
+  },
+  {
+   "name": "exxamalte/python-aio-georss-gdacs",
+   "url": "https://github.com/exxamalte/python-aio-georss-gdacs",
+   "what": "Client fuer GDACS-Katastrophenalarme (GeoRSS).",
+   "data_sources": [
+    "GDACS"
+   ],
+   "license": "Apache-2.0 (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "blackout",
+    "nuclear"
+   ],
+   "notes": "GDACS-Feed ist einfaches RSS, eigener Parser reicht."
+  },
+  {
+   "name": "datadesk/nasa-wildfires",
+   "url": "https://github.com/datadesk/nasa-wildfires",
+   "what": "Laedt NASA-FIRMS-Hotspots herunter.",
+   "data_sources": [
+    "NASA FIRMS"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "war",
+    "blackout"
+   ],
+   "notes": "Thermische Anomalien (z.B. Raffinerien/Kriegsgebiete) als Signal."
+  },
+  {
+   "name": "reliefweb/api-php-client",
+   "url": "https://github.com/reliefweb/api-php-client",
+   "what": "Client fuer die ReliefWeb-API (OCHA).",
+   "data_sources": [
+    "ReliefWeb"
+   ],
+   "license": "CC0-1.0 (laut GitHub-Metadaten; LICENSE-Datei vorhanden)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "war",
+    "bio"
+   ],
+   "notes": "ReliefWeb meldet Krisen/Seuchen; API offen mit appname."
+  },
+  {
+   "name": "mattravenhall/outbreaker",
+   "url": "https://github.com/mattravenhall/outbreaker",
+   "what": "CLI-Browser fuer den WHO Disease Outbreak News Feed.",
+   "data_sources": [
+    "WHO DON"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "bio"
+   ],
+   "notes": "DON-Meldungen selten (wenige pro Monat): als Ereigniszaehler, nicht als Frequenzsignal."
+  },
+  {
+   "name": "realJerryKing/global-epidemic-tracker",
+   "url": "https://github.com/realJerryKing/global-epidemic-tracker",
+   "what": "Seuchenmonitor mit WHO-API, 53 Krankheiten, 151 Laendern und News-Kreuzvalidierung.",
+   "data_sources": [
+    "WHO",
+    "News"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "bio"
+   ],
+   "notes": "Kreuzvalidierung mit News reduziert Fehlalarme: Muster uebernehmen."
+  },
+  {
+   "name": "Lungfish-science/wastewater-dashboard",
+   "url": "https://github.com/Lungfish-science/wastewater-dashboard",
+   "what": "Dashboard fuer SARS-CoV-2-Abwasserdaten.",
+   "data_sources": [
+    "Abwasser-Surveillance"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 3,
+   "scenarios": [
+    "bio"
+   ],
+   "notes": "Abwasser (CDC NWSS, AMELAG, EU-WISH) ist das beste Fruehsignal fuer Erreger; AMELAG (RKI) pruefen."
+  },
+  {
+   "name": "responsible-ai-collaborative/aiid",
+   "url": "https://github.com/responsible-ai-collaborative/aiid",
+   "what": "AI Incident Database: Katalog realer KI-Vorfaelle (Web-App und Daten).",
+   "data_sources": [
+    "AIID Reports"
+   ],
+   "license": "Code Apache-2.0 (LICENSE.txt geprueft); Datenlizenz unklar",
+   "reuse": "data",
+   "relevance": 4,
+   "scenarios": [
+    "ai"
+   ],
+   "notes": "Incident-IDs als Wahrheitsmenge fuer Backtest; Snapshot-Download vorhanden, Datenlizenz vorher klaeren."
+  },
+  {
+   "name": "OECD AI Incidents and Hazards Monitor",
+   "url": "https://oecd.ai/en/incidents-methodology",
+   "what": "Taeglich automatisch aus Event-Registry-News per LLM klassifizierte KI-Vorfaelle (ca. 30 pro Tag).",
+   "data_sources": [
+    "Event Registry",
+    "LLM-Pipeline"
+   ],
+   "license": "unklar (OECD Terms; Download laut Methodikseite nicht genannt)",
+   "reuse": "ideas",
+   "relevance": 4,
+   "scenarios": [
+    "ai"
+   ],
+   "notes": "Methodik (LLM-Filter, Embedding-Clustering) direkt nachbaubar. Selbst Zaehler: Tagesrate Vorfaelle als Zeitreihe."
+  },
+  {
+   "name": "Continuum-AI-Corp/Orca-AI-Incident-Archive",
+   "url": "https://github.com/Continuum-AI-Corp/Orca-AI-Incident-Archive",
+   "what": "Offene Datenbank realer Agenten-Vorfaelle.",
+   "data_sources": [
+    "manuelle Kuratierung"
+   ],
+   "license": "CC BY 4.0 (LICENSE geprueft)",
+   "reuse": "data",
+   "relevance": 3,
+   "scenarios": [
+    "ai"
+   ],
+   "notes": "Neuer Datensatz (Nov 2026), Qualitaet ungeprueft; passt zu KI-Agenten-Vorfaellen."
+  },
+  {
+   "name": "MIT AI Risk Repository (+ anatolikalysch/MCP-AI-risk)",
+   "url": "https://github.com/anatolikalysch/MCP-AI-risk",
+   "what": "MCP-Server auf dem MIT AI Risk Repository (Taxonomie von KI-Risiken).",
+   "data_sources": [
+    "MIT AI Risk Repository"
+   ],
+   "license": "MIT fuer Wrapper (LICENSE geprueft); Original-Datenlizenz unklar",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "ai"
+   ],
+   "notes": "Taxonomie fuer unsere Szenario-Kategorien nutzbar; kein Echtzeit-Signal."
+  },
+  {
+   "name": "sushmit-gujar/loadsafe",
+   "url": "https://github.com/sushmit-gujar/loadsafe",
+   "what": "Statischer Scanner fuer ML-Modell-Dateien (Pickle, PyTorch, ONNX, safetensors).",
+   "data_sources": [
+    "Modell-Artefakte"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "ideas",
+   "relevance": 2,
+   "scenarios": [
+    "ai",
+    "cyber"
+   ],
+   "notes": "Lieferkette: Signal 'neue boesartige Modelle auf Hugging Face' eher ueber Hub-API/JFrog/Protect-AI-Berichte; Scanner selbst ist aktive Pruefung, daher ausserhalb unseres passiven Scopes."
+  },
+  {
+   "name": "giriaryan694-a11y/argus-ml",
+   "url": "https://github.com/giriaryan694-a11y/argus-ml",
+   "what": "KI-Lieferketten-Scanner gegen boesartige Payloads in Modellen.",
+   "data_sources": [
+    "Modell-Artefakte"
+   ],
+   "license": "Apache-2.0 (LICENSE geprueft)",
+   "reuse": "none",
+   "relevance": 1,
+   "scenarios": [
+    "ai",
+    "cyber"
+   ],
+   "notes": "Aktiver Scan, nicht passiv."
+  },
+  {
+   "name": "awesomedata/awesome-public-datasets",
+   "url": "https://github.com/awesomedata/awesome-public-datasets",
+   "what": "Themenliste hochwertiger offener Datensaetze.",
+   "data_sources": [
+    "Katalog"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "data",
+   "relevance": 3,
+   "scenarios": [
+    "cyber",
+    "war",
+    "nuclear",
+    "bio",
+    "ai",
+    "blackout",
+    "finance"
+   ],
+   "notes": "Katalog fuer Kategorien Klima, Gesundheit, Netz, Energie."
+  },
+  {
+   "name": "bytewax/awesome-public-real-time-datasets",
+   "url": "https://github.com/bytewax/awesome-public-real-time-datasets",
+   "what": "Liste oeffentlicher Echtzeit-Datensaetze.",
+   "data_sources": [
+    "Katalog"
+   ],
+   "license": "CC0-1.0 (LICENSE geprueft)",
+   "reuse": "data",
+   "relevance": 4,
+   "scenarios": [
+    "cyber",
+    "war",
+    "nuclear",
+    "bio",
+    "ai",
+    "blackout",
+    "finance"
+   ],
+   "notes": "Direkt als Kandidatenliste fuer Live-Feeds (Erdbeben, Flug, Wetter, Krypto)."
+  },
+  {
+   "name": "public-apis/public-apis",
+   "url": "https://github.com/public-apis/public-apis",
+   "what": "Liste freier APIs nach Kategorien.",
+   "data_sources": [
+    "Katalog"
+   ],
+   "license": "MIT (LICENSE geprueft)",
+   "reuse": "data",
+   "relevance": 3,
+   "scenarios": [
+    "cyber",
+    "war",
+    "nuclear",
+    "bio",
+    "ai",
+    "blackout",
+    "finance"
+   ],
+   "notes": "Auth/HTTPS/CORS-Spalten helfen bei Auswahl; Qualitaet der Eintraege schwankt."
+  },
+  {
+   "name": "jivoi/awesome-osint",
+   "url": "https://github.com/jivoi/awesome-osint",
+   "what": "Kuratierte OSINT-Liste.",
+   "data_sources": [
+    "Katalog"
+   ],
+   "license": "CC BY-SA 4.0 (LICENSE.txt geprueft)",
+   "reuse": "data",
+   "relevance": 3,
+   "scenarios": [
+    "cyber",
+    "war"
+   ],
+   "notes": "Listen-Inhalte nur verlinken, nicht kopieren (ShareAlike)."
+  },
+  {
+   "name": "ColinEberhardt/awesome-public-streaming-datasets",
+   "url": "https://github.com/ColinEberhardt/awesome-public-streaming-datasets",
+   "what": "Liste freier Streaming-Datensaetze.",
+   "data_sources": [
+    "Katalog"
+   ],
+   "license": "unklar (keine LICENSE gefunden)",
+   "reuse": "data",
+   "relevance": 2,
+   "scenarios": [
+    "cyber",
+    "war",
+    "nuclear",
+    "bio",
+    "ai",
+    "blackout",
+    "finance"
+   ],
+   "notes": "Nur als Anregung verlinken."
+  },
+  {
+   "name": "opensanctions/opensanctions",
+   "url": "https://github.com/opensanctions/opensanctions",
+   "what": "Offene Datenbank zu Sanktionen und PEPs.",
+   "data_sources": [
+    "Sanktionslisten"
+   ],
+   "license": "MIT Code (LICENSE geprueft); Daten CC BY-NC (nach unserem Kenntnisstand, nicht geprueft: unklar)",
+   "reuse": "data",
+   "relevance": 2,
+   "scenarios": [
+    "war",
+    "finance"
+   ],
+   "notes": "Anzahl neuer Sanktionen als Eskalationsindikator."
+  }
+ ],
+ "libraries": [
+  {
+   "name": "simple-statistics",
+   "url": "https://github.com/simple-statistics/simple-statistics",
+   "purpose": "Median, MAD, Quantile, z-Score, lineare Regression in TS/JS ohne Abhaengigkeiten",
+   "license": "ISC (LICENSE geprueft)"
+  },
+  {
+   "name": "jayhaluska/isolation-forest-js",
+   "url": "https://github.com/jayhaluska/isolation-forest-js",
+   "purpose": "Isolation Forest fuer mehrdimensionale Ausreisser",
+   "license": "MIT (LICENSE geprueft)"
+  },
+  {
+   "name": "mathew-kurian/BayesianChangePointJS",
+   "url": "https://github.com/mathew-kurian/BayesianChangePointJS",
+   "purpose": "Bayessche Changepoint-Erkennung in TS/JS",
+   "license": "unklar (keine LICENSE gefunden)"
+  },
+  {
+   "name": "Kanaries/ml",
+   "url": "https://github.com/Kanaries/ml",
+   "purpose": "Scikit-learn-artige ML-Bibliothek in TS (u.a. Ausreisser)",
+   "license": "MIT (LICENSE geprueft)"
+  },
+  {
+   "name": "Marcnuth/AnomalyDetection",
+   "url": "https://github.com/Marcnuth/AnomalyDetection",
+   "purpose": "Reine Python-Portierung von Twitters AnomalyDetection (S-H-ESD), Referenz fuer eigene TS-Portierung",
+   "license": "Apache-2.0 (LICENSE geprueft)"
+  },
+  {
+   "name": "twitter/AnomalyDetection",
+   "url": "https://github.com/twitter/AnomalyDetection",
+   "purpose": "Original S-H-ESD (R)",
+   "license": "GPL (LICENSE geprueft; Copyleft, nicht in TS kopieren, nur Algorithmus aus Paper)"
+  },
+  {
+   "name": "zrnsm/pyculiarity",
+   "url": "https://github.com/zrnsm/pyculiarity",
+   "purpose": "Python-Port AnomalyDetection",
+   "license": "GPL (LICENSE geprueft)"
+  },
+  {
+   "name": "Hexagon/entsoe-api-client",
+   "url": "https://github.com/Hexagon/entsoe-api-client",
+   "purpose": "ENTSO-E-Client fuer TS/Deno",
+   "license": "MIT (LICENSE geprueft)"
+  },
+  {
+   "name": "blazeiburgess/gdelt-ts-client",
+   "url": "https://github.com/blazeiburgess/gdelt-ts-client",
+   "purpose": "GDELT-Client fuer TS",
+   "license": "MIT (LICENSE geprueft)"
+  },
+  {
+   "name": "alex9smith/gdelt-doc-api",
+   "url": "https://github.com/alex9smith/gdelt-doc-api",
+   "purpose": "GDELT-DOC-API-Referenzimplementierung",
+   "license": "MIT (LICENSE geprueft)"
+  }
+ ],
+ "lessons": [
+  "Robuste Basis zuerst: Median/MAD-z-Score mit Wochentags-/Saison-Baseline (STL oder Wochenprofil) in eigener TS-Funktion auf simple-statistics statt schwerer ML; Twitter-S-H-ESD nur als Algorithmus aus dem Paper nachbauen (GPL-Code nicht kopieren).",
+  "Jede Quelle bekommt einen Status (live / Key noetig / paid / ausgefallen) wie bei God's Eye View und eine Ehrlichkeits-Kennzeichnung: 'Anomalie', nicht 'bestaetigter Vorfall' (z.B. GNSS-Anomalien).",
+  "Keys und Upstream-Aufrufe nur ueber einen serverseitigen Proxy mit Antwort-Limit, SSRF-Schutz und Request-Budget pro Quelle (OpenSky-Credit-Governor-Muster).",
+  "Konvergenz statt Einzelsignal: Alarm erst, wenn mehrere unabhaengige Ebenen (Netz, Luft, Strahlung, Medien, Markt) gleichzeitig abweichen; so macht es der Cross-Stream-Ansatz von worldmonitor, das reduziert Fehlalarme.",
+  "Medienvolumen (GDELT) nur als Bestaetigungs-/Kontextsignal verwenden; Primaersensoren sind IODA, OONI, BGP, Strahlung, ENTSO-E, ADS-B.",
+  "Lizenzdisziplin: AGPL-Projekte (worldmonitor, electricitymaps, ARGUS, partially.online) nur als Ideengeber, keinen Code uebernehmen; ioda-geo-polygons ist nur Non-Profit/Forschung. Datenlizenz pro Quelle in unserem Katalog als eigenes Feld fuehren.",
+  "Strahlung: Safecast (CC0) und BfS/EURDEP kombinieren; Wind/Wetter als Erklaerungsvariable (ha-radiation-watch) einbeziehen, sonst Regen-Fehlalarme.",
+  "Abwasser (CDC NWSS, RKI AMELAG, EU-WISH) ist fuer Seuchen das beste offene Fruehsignal; WHO DON ist zu selten fuer Frequenzstatistik, nur als Ereignisbestaetigung.",
+  "KI-Vorfaelle: eigenen Tageszaehler bauen nach OECD-AIM-Methode (Nachrichten, LLM-Filter, Embedding-Clustering) und mit AIID-Historie backtesten.",
+  "Pentagon-Pizza und Doomsday Clock hoechstens als klar markierte Kuriositaeten: Pizza-Daten stammen aus Popular-Times-Scraping (proprietaer, keine Formel veroeffentlicht), Doomsday Clock ist jaehrlich.",
+  "Backtests mit offenen Historien: adsb.lol globe_history (ODbL, Lizenzdatei pruefen), IODA/OONI-Archive, Safecast-Dump, AIID-Snapshot; Metrik: Vorlaufzeit und Fehlalarme pro Monat, nicht Genauigkeit.",
+  "Auslieferungsflaeche wie worldmonitor: Web, CLI, SDK und MCP-Server; fuer IODA existiert bereits ein MCP-Server (cyanheads) als Muster.",
+  "Namen und Marken respektieren: worldmonitor schuetzt Name/Wortmarke; unser Projekt eigenstaendig benennen.",
+  "Aktive Scanner (ML-Modell-Scanner, Pizza-Scraping, RIPE-Atlas-Probes) sind ausserhalb 'nur passive Beobachtung'; fuer Modell-Lieferketten stattdessen oeffentliche Hub-Metadaten und Sicherheitsberichte zaehlen."
+ ]
+}

@@ -68,6 +68,17 @@ ALIAS = {
 # bewusste Korrekturen an Quell-Metadaten (mit Begründung in notes)
 AUTH_OVERRIDE = {
     'ripe-atlas': ('none', 'Ergebnisse öffentlicher Messungen sind ohne Key lesbar; Key/Credits nur für eigene Messungen.'),
+    'downdetector': ('paid', 'Daten nur über kostenpflichtige API; Nutzungsbedingungen verbieten Scraping (laut Recherche).'),
+}
+# Hauptquelle explizit festlegen, wo die mechanische Wahl (bester Zugang) fachlich nicht passt
+MAIN = {'fed_services_status': 'frbservices-status', 'spam_volume': 'talos-reputation'}
+# Anzeigenamen für zusammengelegte Quellen
+SOURCE_NAME = {
+    'sec-edgar': 'SEC EDGAR (Full-Text Search, Submissions-API, Feeds, Indizes)', 'ecb-data': 'ECB Data Portal API',
+    'shadowserver': 'Shadowserver Dashboard / API', 'downdetector': 'Downdetector', 'apple-rss': 'Apple Marketing Tools RSS',
+    'aisstream': 'aisstream.io', 'defillama': 'DefiLlama API', 'eia': 'US EIA Open Data (Hourly Electric Grid Monitor)',
+    'cert-bund': 'CERT-Bund / BSI WID', 'aws-health': 'AWS Health Dashboard', 'azure-status': 'Azure Status',
+    'statuspage-hosts': 'Atlassian-Statuspage-Hosts (diverse Anbieter)', 'cboe': 'Cboe Index- und Optionsstatistiken (CSV)',
 }
 # mehrere Quellen, ein Collector
 COLLECTOR = {s: 'statuspage' for s in ['githubstatus', 'cloudflarestatus', 'fastly-status', 'statuspage-hosts',
@@ -252,10 +263,12 @@ NO_WEEKLY = {'stablecoin_peg_deviation', 'mempool_fee_spike', 'exchange_reserves
 UMLAUT_KEEP = {'aktuell', 'aktuelle', 'aktuellen', 'aktueller', 'zuerst', 'israel', 'michael', 'cboe',
                'maersk', 'queenstown', 'tuesday', 'issues', 'issue', 'true', 'value', 'values', 'due',
                'duedate', 'suez', 'fuel', 'does', 'goes', 'poet', 'boeing', 'aerospace', 'virtuell',
-               'manuell', 'eventuell', 'individuell', 'sexuell', 'continue', 'revenue', 'venue', 'queue'}
+               'manuell', 'eventuell', 'individuell', 'sexuell', 'continue', 'revenue', 'venue', 'queue',
+               'boe', 'noerror'}
 WORD_FIX = {'faroer': 'Färöer', 'plotzlicher': 'Plötzlicher', 'plotzlich': 'plötzlich',
-            'positionssprunge': 'Positionssprünge', 'positionssprungen': 'Positionssprüngen'}
-SZ = [('gross', 'groß'), ('heisst', 'heißt'), ('ausmass', 'ausmaß'), ('ausserhalb', 'außerhalb'),
+            'positionssprunge': 'Positionssprünge', 'positionssprungen': 'Positionssprüngen',
+            'fuehrungsflugzeuege': 'Führungsflugzeuge'}
+SZ = [('grösse', 'größe'), ('grösst', 'größt'), ('verstösse', 'verstöße'), ('gross', 'groß'), ('heisst', 'heißt'), ('ausmass', 'ausmaß'), ('ausserhalb', 'außerhalb'),
       ('ausserplanm', 'außerplanm'), ('aussergew', 'außergew'), ('ausser', 'außer'), ('aussen', 'außen'),
       ('mässig', 'mäßig'), ('massnahm', 'maßnahm'), ('verstoss', 'verstoß'), ('fussball', 'fußball')]
 
@@ -272,15 +285,15 @@ def fix_word(w):
     if lw in WORD_FIX:
         out = WORD_FIX[lw]
         return out if w[:1].isupper() else out.lower()
-    if lw in UMLAUT_KEEP or lw.startswith(('blue', 'quel', 'steuer', 'aero')):
+    if lw in UMLAUT_KEEP or lw.startswith(('blue', 'aero')):
         out = w
     else:
         def rep(m):
             a, b = m.group(1), m.group(2)
-            prev = m.string[m.start() - 1].lower() if m.start() > 0 else ''
+            prev = m.string[m.start() - 1].lower() if m.start() > 0 else '#'
             if a.lower() == 'u' and prev in 'qaeä':      # que, aue, eue (neue, Steuer, Dauer)
                 return a + b
-            if a.lower() == 'u' and m.string[m.end():m.end() + 2].lower() == 'll':  # aktuell, manuell
+            if a.lower() == 'u' and prev in 'tnxd' and m.string[m.end():m.end() + 2].lower() == 'll':  # aktuell, manuell
                 return a + b
             if a.lower() == 'a' and prev == 'r' and m.string[m.end():m.end() + 1].lower() == 'l':  # Israel
                 return a + b
@@ -494,7 +507,10 @@ for sl, s in by_slug.items():
         dom = DOMAIN_DEFAULT[rdom]
     # Hauptquelle: bester Zugang, bei Gleichstand Reihenfolge der Recherche
     srcs = s['_sources']
-    main = min(enumerate(srcs), key=lambda x: (access_score(x[1]), x[0]))[1]
+    if sl in MAIN:
+        main = next(x for x in srcs if x['source_id'] == MAIN[sl])
+    else:
+        main = min(enumerate(srcs), key=lambda x: (access_score(x[1]), x[0]))[1]
     alt = []
     for src in srcs:
         if src['source_id'] != main['source_id'] and src['source_id'] not in alt:
@@ -547,7 +563,7 @@ for sl, s in by_slug.items():
         ('baseline', baseline_for(iv, dom, sl)),
         ('intervalMinutes', iv),
         ('status', status),
-        ('sourceName', main.get('name')),
+        ('sourceName', de(main.get('name'))),
         ('sourceUrl', main.get('doc_url')),
         ('license', lic),
         ('rationale', de(s.get('rationale'))),
@@ -577,10 +593,10 @@ sources = []
 for sid in sorted(variants):
     vs = variants[sid]
     exact = [v for v in vs if v['_orig_id'] == sid]
-    best = min(exact or vs, key=access_score)
+    best = min(vs, key=lambda v: (access_score(v), v.get('format') not in ('json', 'csv'), v not in exact))
     eps = list(dict.fromkeys(v['endpoint'] for v in vs if v.get('endpoint')))
     sources.append(OrderedDict([
-        ('id', sid), ('name', best.get('name')), ('docUrl', best.get('doc_url')), ('endpoints', eps),
+        ('id', sid), ('name', SOURCE_NAME.get(sid, de(best.get('name')))), ('docUrl', best.get('doc_url')), ('endpoints', eps),
         ('access', best.get('access')), ('format', best.get('format')), ('auth', best.get('auth')),
         ('cost', best.get('cost')), ('updateLatency', de(best.get('update_latency'))),
         ('history', de(best.get('history'))), ('rateLimit', de(best.get('rate_limit'))),
@@ -612,9 +628,11 @@ for cid, c in coll.items():
                 and not is_stream(m) and is_free(m) for m in mains)
     hist = any(has_history(m) for m in mains)
     dom = c['domains'].most_common(1)[0][0] if c['domains'] else 'context'
+    # Quellen, deren Bedingungen automatisierten Abruf laut Recherche verbieten, nach hinten
+    forbid = any(re.search(r'verbiet|kein scrap', m.get('license') or '', re.I) for m in mains)
     rows.append({'collector': cid, 'domain': dom, 'keyfree': c['keyfree'], 'small': small, 'hist': hist,
                  'value': c['maxw'], 'c': c,
-                 'key': (not c['keyfree'], not small, not hist, -c['maxw'], cid)})
+                 'key': (not c['keyfree'], forbid, not small, not hist, -c['maxw'], cid)})
 rows.sort(key=lambda r: r['key'])
 
 chosen = []

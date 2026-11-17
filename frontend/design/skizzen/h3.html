@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Skizze H3 – Konvergenz-Streifen</title>
+<style>
+/* Low-Fi: nur Geometrie und Hierarchie. Graustufen, Systemschrift, keine Radien, keine Dekoration. */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; color: #111; background: #fff; line-height: 1.4; }
+a { color: #111; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+.sk-states { font-size: 12px; color: #666; padding: 8px 24px; border-top: 1px dashed #bbb; }
+.mode { display: flex; gap: 16px; align-items: baseline; padding: 8px 24px; border-bottom: 1px solid #ccc; font-size: 13px; }
+.mode b { border: 1px solid #111; padding: 0 6px; }
+.mode .stand { margin-left: auto; color: #555; }
+h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #555; margin: 0 0 8px; font-weight: 600; }
+
+.tabs { display: flex; gap: 0; border-bottom: 1px solid #111; padding: 0 24px; overflow-x: auto; }
+.tabs button { border: 0; background: none; padding: 10px 14px; font-size: 14px; white-space: nowrap; border-bottom: 3px solid transparent; }
+.tabs button[aria-selected="true"] { font-weight: 700; border-bottom-color: #111; }
+.tabs button:disabled { color: #999; }
+
+.flaeche { display: grid; grid-template-columns: 1fr 340px; gap: 0; }
+.spuren { padding: 16px 24px 24px; border-right: 1px solid #ccc; min-width: 0; }
+.frage { font-size: 15px; color: #555; margin: 0 0 12px; }
+
+.spur { display: grid; grid-template-columns: 210px 1fr 96px; align-items: stretch; border-bottom: 1px solid #e3e3e3; }
+.spur > button { display: contents; text-align: left; cursor: pointer; }
+.spur .name { padding: 6px 8px 6px 0; font-size: 14px; }
+.spur .name small { display: block; color: #777; font-size: 11px; }
+.spur .bahn { position: relative; min-height: 44px; }
+.spur .bahn svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.spur .jetzt { border-left: 2px solid #111; display: flex; align-items: center; justify-content: center; font-size: 12px; padding: 0 4px; text-align: center; }
+.spur.aus .jetzt { background: #111; color: #fff; font-weight: 700; }
+.spur.aus .name { font-weight: 700; }
+.spur .detail { grid-column: 1 / -1; padding: 4px 0 12px; }
+.spur .detail[hidden] { display: none; }
+.achse { display: grid; grid-template-columns: 210px 1fr 96px; font-size: 11px; color: #555; padding-top: 4px; }
+.achse .t { display: flex; justify-content: space-between; }
+.achse .j { text-align: center; font-weight: 700; color: #111; }
+.trenner { margin: 18px 0 6px; font-size: 12px; color: #555; border-top: 1px dashed #999; padding-top: 6px; }
+.spur.gerede .bahn { background: repeating-linear-gradient(90deg, transparent 0 6px, #f2f2f2 6px 7px); }
+.spur.gerede.aus .jetzt { background: repeating-linear-gradient(45deg, #444 0 4px, #999 4px 8px); }
+.belege { margin-top: 28px; }
+.summe .bahn { min-height: 70px; }
+.summe .jetzt { font-size: 28px; font-weight: 800; }
+
+table.sig { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.sig td { padding: 6px 8px 6px 0; border-top: 1px solid #eee; vertical-align: top; }
+table.sig td small { display: block; color: #666; }
+table.sig .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.seite { padding: 16px 24px; }
+.zaehler { display: grid; grid-template-columns: auto 1fr; gap: 0 14px; align-items: center; border-bottom: 1px solid #111; padding-bottom: 14px; }
+.zaehler .zahl { font-size: 96px; font-weight: 800; line-height: .9; }
+.zaehler .txt { font-size: 15px; }
+.zaehler .txt b { display: block; font-size: 22px; }
+.kaesten { display: flex; gap: 4px; margin: 12px 0 0; grid-column: 1 / -1; }
+.kaesten span { flex: 1; height: 14px; border: 1px solid #111; }
+.kaesten span.on { background: #111; }
+.kaesten-lab { grid-column: 1 / -1; font-size: 11px; color: #555; margin-top: 4px; }
+.satz { font-size: 22px; font-weight: 600; margin: 16px 0; line-height: 1.25; }
+.vertrauen { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px; }
+.vertrauen b { display: block; font-size: 18px; }
+.hinweis { font-size: 12px; color: #555; margin: 12px 0 0; }
+footer.fuss { font-size: 12px; color: #555; border-top: 1px solid #ccc; margin-top: 16px; padding-top: 10px; }
+
+@media (max-width: 760px) {
+  .mode { padding: 6px 12px; font-size: 12px; flex-wrap: wrap; gap: 4px 12px; }
+  .mode .stand { margin-left: 0; }
+  .tabs { padding: 0 8px; }
+  /* Handy: die Antwort aus dem Bild (Zähler) steht als Kopfleiste über den Spuren, Satz direkt darunter */
+  .flaeche { display: flex; flex-direction: column; }
+  .seite { order: -1; padding: 0; }
+  .seite .zaehler { position: sticky; top: 0; background: #fff; z-index: 3; padding: 10px 12px; grid-template-columns: auto 1fr; }
+  .zaehler .zahl { font-size: 56px; }
+  .zaehler .txt b { font-size: 17px; }
+  .kaesten { margin-top: 6px; }
+  .seite .rest { padding: 0 12px; }
+  .satz { font-size: 18px; margin: 10px 0; }
+  .spuren { padding: 8px 12px 16px; border-right: 0; }
+  .spur { grid-template-columns: 1fr 64px; }
+  .spur .name { grid-column: 1 / -1; padding: 8px 0 2px; }
+  .spur .bahn { min-height: 34px; }
+  .achse { grid-template-columns: 1fr 64px; }
+  .achse > span:first-child { display: none; }
+  .summe .jetzt { font-size: 20px; }
+  table.sig tr { display: grid; grid-template-columns: 1fr 1fr; }
+  table.sig td:first-child { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+<div id="app"><p style="padding:24px">Daten werden geladen …</p></div>
+<script src="gemeinsam.js"></script>
+<script>
+// Standard nach der Herausforderung: Variante b (Spuren nach Zustand jetzt sortiert, darunter eine Summenspur,
+// die je Zeitpunkt zählt, wie viele Spuren gleichzeitig ausschlagen). ?v=a zeigt die erste Fassung (feste Reihenfolge, keine Summenspur).
+const V = SR.variant || 'b';
+const { T, esc, nf, pct, spark, abweichung, zs } = SR;
+const ZMAX = 12;
+
+/** je Verlaufspunkt die größte Abweichung (Normal-Einheiten) über die Signale eines Bereichs */
+function bahnWerte(signals) {
+  const reihen = signals.map(zs);
+  const n = Math.max(...reihen.map((r) => r.length));
+  return Array.from({ length: n }, (_, i) => Math.max(0, ...reihen.map((r) => r[i] ?? 0)));
+}
+
+function bahnSvg(werte, z0, istJetzt) {
+  const W = 1000, H = 100, n = werte.length;
+  const x = (i) => (i / n) * W;
+  const y = (z) => H - 4 - Math.min(z, ZMAX) / ZMAX * (H - 10);
+  const area = 'M0 ' + (H - 4) + ' ' + werte.map((z, i) => `L${x(i)} ${y(z)} L${x(i + 1)} ${y(z)}`).join(' ') + ` L${W} ${H - 4} Z`;
+  const marks = werte.map((z, i) => z >= z0 ? `<rect x="${x(i)}" y="${H - 16}" width="${W / n + 0.5}" height="12" fill="#111"/>` : '').join('');
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="0" x2="${W}" y1="${H - 4}" y2="${H - 4}" stroke="#bbb" vector-effect="non-scaling-stroke"/>
+    <line x1="0" x2="${W}" y1="${y(z0)}" y2="${y(z0)}" stroke="#888" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>
+    <path d="${area}" fill="#ccc" stroke="#555" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    ${marks}
+  </svg>`;
+}
+
+function summeSvg(zaehl, max) {
+  const W = 1000, H = 100, n = zaehl.length;
+  const x = (i) => (i / n) * W;
+  const y = (c) => H - 2 - (c / max) * (H - 8);
+  const bars = zaehl.map((c, i) => c ? `<rect x="${x(i) + 1}" y="${y(c)}" width="${W / n - 2}" height="${H - 2 - y(c)}" fill="#111"/>` : '').join('');
+  const lines = Array.from({ length: max + 1 }, (_, c) => `<line x1="0" x2="${W}" y1="${y(c)}" y2="${y(c)}" stroke="#e3e3e3" vector-effect="non-scaling-stroke"/>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${lines}${bars}</svg>`;
+}
+
+function render(snap) {
+  const sc = snap.scenarios[0];
+  const z0 = SR.SENS[snap.sensitivity].z0;
+  let doms = sc.domains.map((d, i) => ({ ...d, werte: bahnWerte(d.signals), ord: i }));
+  if (V === 'b') doms.sort((a, b) => (b.active - a.active) || (b.score - a.score) || (a.ord - b.ord));
+  const gerede = { id: 'attention', title: 'Aufmerksamkeit im Netz', plain: 'zählt nicht als Beleg', active: sc.attention >= SR.GAP.attention, signals: sc.attentionSignals, werte: bahnWerte(sc.attentionSignals) };
+  const n = doms[0].werte.length;
+  // Zahl der Spuren im Ausschlag je Zeitpunkt; der letzte Punkt folgt der Bewertung der Engine (d.active)
+  const zaehl = Array.from({ length: n }, (_, i) => i === n - 1 ? doms.filter((d) => d.active).length : doms.filter((d) => d.werte[i] >= z0).length);
+
+  const sigTab = (sigs) => `<table class="sig">${sigs.map((s) => `<tr>
+      <td><b>${esc(s.name)}</b><small>${esc(s.plain)}</small></td>
+      <td class="num">jetzt ${nf(s.value)} ${esc(s.unit || '')}<small>normal ${s.baseline ? nf(s.baseline.center) : '–'}</small></td>
+      <td class="num">${abweichung(s)}${s.damp ? `<small>gedämpft: ${esc(s.damp.reason)}</small>` : ''}</td>
+      <td>${spark(s, 140, 26)}</td>
+      <td><a href="${esc(s.sourceUrl)}">Rohdaten</a><small>${esc(s.sourceName)}</small></td></tr>`).join('')}</table>`;
+
+  const spur = (d, cls = '') => `<div class="spur ${d.active ? 'aus' : ''} ${cls}">
+      <button aria-expanded="false" aria-controls="det-${d.id}">
+        <span class="name">${esc(d.title)}<small>${d.signals.length} Messreihe${d.signals.length === 1 ? '' : 'n'}${d.plain && cls ? ' · ' + esc(d.plain) : ''}</small></span>
+        <span class="bahn">${bahnSvg(d.werte, z0)}</span>
+        <span class="jetzt">${d.active ? 'Ausschlag' : 'normal'}</span>
+      </button>
+      <div class="detail" id="det-${d.id}" hidden>${sigTab(d.signals)}</div>
+    </div>`;
+
+  const aus = sc.activeDomains;
+  const belege = doms.filter((d) => d.active).flatMap((d) => d.signals);
+  const seite = `<aside class="seite">
+      <div class="zaehler" aria-live="polite">
+        <div class="zahl">${aus}</div>
+        <div class="txt">von ${doms.length} Spuren schlagen jetzt gleichzeitig aus<b>Stufe ${sc.level} · ${esc(sc.levelLabel)}</b></div>
+        <div class="kaesten" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<span class="${aus >= k ? 'on' : ''}"></span>`).join('')}</div>
+        <div class="kaesten-lab">1 Spur höchstens Stufe 1 · 2 höchstens 2 · 3 höchstens 3 · ab 4 Stufe 4 möglich</div>
+      </div>
+      <div class="rest">
+        <p class="satz">${esc(sc.verdict)}</p>
+        <div class="vertrauen"><div><b>${pct(sc.confidence)}</b>Vertrauen</div><div><b>${sc.coverage.fresh} von ${sc.coverage.total}</b>Messreihen frisch${sc.coverage.planned ? `, ${sc.coverage.planned} geplant` : ''}</div></div>
+        <p class="hinweis">${T.keineWahrscheinlichkeit}</p>
+        <p class="hinweis">Ausschlag: Messwert liegt mehr als ${String(z0).replace('.', ',')} typische Schwankungen vom eigenen Normalwert entfernt (Empfindlichkeit „${snap.sensitivity === 'high' ? 'hoch' : 'normal'}“).</p>
+        <footer class="fuss">${T.vorsorge}</footer>
+      </div>
+    </aside>`;
+
+  const summe = V === 'b' ? `<div class="spur summe"><span class="name"><b>Gleichzeitig</b><small>Spuren im Ausschlag je Zeitpunkt</small></span><span class="bahn">${summeSvg(zaehl, doms.length)}</span><span class="jetzt">${aus}</span></div>` : '';
+
+  document.getElementById('app').innerHTML = `
+    <div class="mode"><b>${esc(T.modes[snap.mode])}</b><span>${esc(snap.note || '')}</span><span class="stand">Stand ${SR.zeit(snap.generatedAt)}</span></div>
+    <div class="tabs" role="tablist" aria-label="Szenarien">
+      ${snap.scenarios.map((s) => `<button role="tab" aria-selected="true">${esc(s.title)}</button>`).join('')}
+      ${SR.KOMMEND.map((k) => `<button role="tab" aria-selected="false" disabled>${esc(k.title)} · ${T.folgt}</button>`).join('')}
+    </div>
+    <div class="flaeche">
+      <section class="spuren" aria-label="Spuren der unabhängigen Bereiche">
+        <p class="frage">${esc(sc.question)}</p>
+        ${doms.map((d) => spur(d)).join('')}
+        ${summe}
+        <div class="achse"><span></span><span class="t"><span>← ${n} Messpunkte je Reihe zurück</span><span>gestrichelt: Ausschlag-Grenze</span></span><span class="j">jetzt</span></div>
+        <p class="trenner">Getrennt geführt, verschiebt die Stufe nicht:</p>
+        ${spur(gerede, 'gerede')}
+        <section class="belege"><h2>Belege der ausschlagenden Spuren</h2>
+          ${belege.length ? sigTab(belege) : '<p class="hinweis">Keine Spur im Ausschlag. Jede Spur lässt sich antippen und zeigt ihre Messreihen mit Rohdaten-Link.</p>'}
+        </section>
+      </section>
+      ${seite}
+    </div>
+    ${SR.stateBar()}`;
+
+  document.querySelectorAll('.spur > button').forEach((b) => b.addEventListener('click', () => {
+    const det = document.getElementById(b.getAttribute('aria-controls'));
+    const open = det.hidden;
+    det.hidden = !open;
+    b.setAttribute('aria-expanded', String(open));
+  }));
+}
+
+SR.load().then(render).catch((e) => { console.error(e); document.getElementById('app').innerHTML = `<p style="padding:24px">${SR.T.fehler}</p>`; });
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{"fixture":"adsb-lol/mil.json","url":"https://api.adsb.lol/v2/mil","error":"TIMEOUT","status":null,"body":"Total fetch deadline exceeded."}
+{"fixture":"chromiumdash/stable-windows.json","url":"https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=50","error":"truncated","source_bytes":30103}
+{"fixture":"cisa-ics/changes.csv","url":"https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/changes.csv","error":"truncated","source_bytes":232313}
+{"fixture":"cisa-kev/known_exploited_vulnerabilities.json","url":"https://raw.githubusercontent.com/cisagov/kev-data/main/known_exploited_vulnerabilities.json","error":"BODY_LIMIT","status":null,"body":"Upstream content length exceeds policy."}
+{"fixture":"cloudflare-radar/attacks-l3-timeseries.json","url":"https://api.cloudflare.com/client/v4/radar/attacks/layer3/timeseries?dateRange=12w&aggInterval=1d&normalization=MIN0_MAX&format=json","error":"UPSTREAM_HTTP","status":400}
+{"fixture":"ecb/est.csv","url":"https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.VL+R25+R75?lastNObservations=45&detail=dataonly&format=csvdata","error":"TIMEOUT","status":null,"body":"Total fetch deadline exceeded."}
+{"fixture":"energy-charts/frequency.json","url":"https://api.energy-charts.info/frequency?country=de&start=2026-11-16T21%3A00Z&end=2026-11-17T00%3A00Z","error":"truncated","source_bytes":203953}
+{"fixture":"ioda/country-DE.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=1794700800&until=1794873600","error":"truncated","source_bytes":142637}
+{"fixture":"malwarebazaar/export-csv-recent.csv","url":"https://bazaar.abuse.ch/export/csv/recent/","error":"UPSTREAM_HTTP","status":410}
+{"fixture":"msrc-cvrf/updates.json","url":"https://api.msrc.microsoft.com/cvrf/v3.0/updates?$filter=CurrentReleaseDate%20gt%202026-08-17T00:00:00Z","error":"truncated","source_bytes":29312}
+{"fixture":"ransomware-live/recentvictims.json","url":"https://api.ransomware.live/v2/recentvictims","error":"truncated","source_bytes":103481}
+{"fixture":"ripe-stat/country-routing-stats-DE.json","url":"https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2026-09-03&endtime=2026-11-16","error":"truncated","source_bytes":19023}
+{"fixture":"sans-isc/dailysummary.json","url":"https://isc.sans.edu/api/dailysummary/2026-09-18/2026-11-16?json","error":"MIME_BLOCKED","status":null,"body":"Unsupported or absent content type."}
+{"fixture":"threatfox/export-json-recent.json","url":"https://threatfox.abuse.ch/export/json/recent/","error":"UPSTREAM_HTTP","status":410}
+{"fixture":"urlhaus/csv-recent.csv","url":"https://urlhaus.abuse.ch/downloads/csv_recent/","error":"UPSTREAM_HTTP","status":410}
+{"fixture":"cloudflare-radar/attacks-l7-timeseries.json","url":"https://api.cloudflare.com/client/v4/radar/attacks/layer7/timeseries?dateRange=12w&aggInterval=1d&normalization=MIN0_MAX&format=json","error":"UPSTREAM_HTTP","status":400}
+{"fixture":"cloudflare-radar/netflows-de.json","url":"https://api.cloudflare.com/client/v4/radar/netflows/timeseries?location=DE&dateRange=7d&aggInterval=1h&normalization=MIN0_MAX&format=json","error":"UPSTREAM_HTTP","status":400}
+{"fixture":"cloudflare-radar/netflows-us.json","url":"https://api.cloudflare.com/client/v4/radar/netflows/timeseries?location=US&dateRange=7d&aggInterval=1h&normalization=MIN0_MAX&format=json","error":"UPSTREAM_HTTP","status":400}
+{"fixture":"cloudflare-radar/outages.json","url":"https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&limit=100&format=json","error":"UPSTREAM_HTTP","status":400}
+{"fixture":"cloudflare-radar/bgp-hijacks-24h.json","url":"https://api.cloudflare.com/client/v4/radar/bgp/hijacks/events?dateRange=1d&per_page=1&format=json","error":"UPSTREAM_HTTP","status":400}
+{"fixture":"cloudflare-radar/bgp-leaks-24h.json","url":"https://api.cloudflare.com/client/v4/radar/bgp/leaks/events?dateRange=1d&per_page=1&format=json","error":"UPSTREAM_HTTP","status":400}
+{"fixture":"ct-logs/oak-sth.json","url":"https://oak.ct.letsencrypt.org/2026h2/ct/v1/get-sth","error":"DNS_FAILED","status":null,"body":"Public A-record resolution failed."}
+{"fixture":"ioda/country-US.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/US?from=1794700800&until=1794873600","error":"truncated","source_bytes":147921}
+{"fixture":"ioda/country-GB.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/GB?from=1794700800&until=1794873600","error":"truncated","source_bytes":147201}
+{"fixture":"ioda/country-FR.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/FR?from=1794700800&until=1794873600","error":"truncated","source_bytes":141243}
+{"fixture":"ioda/country-NL.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/NL?from=1794700800&until=1794873600","error":"truncated","source_bytes":145048}
+{"fixture":"ioda/country-JP.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/JP?from=1794700800&until=1794873600","error":"truncated","source_bytes":140807}
+{"fixture":"ioda/country-IN.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IN?from=1794700800&until=1794873600","error":"truncated","source_bytes":140115}
+{"fixture":"ioda/country-BR.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/BR?from=1794700800&until=1794873600","error":"truncated","source_bytes":141894}
+{"fixture":"ioda/events.json","url":"https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=1793059200&until=1794873600&entityType=country","error":"truncated","source_bytes":113300}
+{"fixture":"nyfed/srf-search.json","url":"https://markets.newyorkfed.org/api/rp/repo/all/results/search.json?startDate=2026-09-18&endDate=2026-11-16","error":"UPSTREAM_HTTP","status":400}
+{"fixture":"ripe-stat/routing-status-AS3209.json","url":"https://stat.ripe.net/data/routing-status/data.json?resource=AS3209","error":"TIMEOUT","status":null,"body":"Total fetch deadline exceeded."}
+{"fixture":"sans-isc/topports.json","url":"https://isc.sans.edu/api/topports/records/10/2026-11-16?json","error":"MIME_BLOCKED","status":null}
+{"fixture":"smard/410_DE_hour_1793836800000.json","url":"https://www.smard.de/app/chart_data/410/DE/410_DE_hour_1793836800000.json","error":"UPSTREAM_HTTP","status":404}
+{"fixture":"smard/410_DE_hour_1794441600000.json","url":"https://www.smard.de/app/chart_data/410/DE/410_DE_hour_1794441600000.json","error":"UPSTREAM_HTTP","status":404}
+{"fixture":"statuspage/status.docker.com.json","url":"https://status.docker.com/api/v2/status.json","error":"BODY_LIMIT","status":null}
+{"fixture":"statuspage/status.datadoghq.com.json","url":"https://status.datadoghq.com/api/v2/status.json","error":"UPSTREAM_HTTP","status":403}
+{"fixture":"statuspage/status.pagerduty.com.json","url":"https://status.pagerduty.com/api/v2/status.json","error":"UPSTREAM_HTTP","status":404}

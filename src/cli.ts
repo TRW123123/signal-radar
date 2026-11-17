@@ -6,7 +6,7 @@
 // Options: --only id1,id2   --now 2026-11-17T01:00:00Z   --now-from-fixtures   --out path   --data dir
 // Env: SR_FIXTURES=replay|record   SR_SENSITIVITY=normal|high   SR_<SERVICE>_KEY=...
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadCatalog } from './core/catalog.ts';
@@ -40,6 +40,19 @@ const sensitivity = process.env.SR_SENSITIVITY === 'normal' ? 'normal' : 'high';
 const store = fileStore(dataDir);
 const collectors = await discoverCollectors(root);
 const catalog = activate(loadCatalog(root), collectors, process.env);
+
+// Seed series (e.g. history reconstructed from a dataset's git log): data-seed/<signalId>.jsonl with {t, v} lines.
+const seedDir = resolve(opt('seed') ?? join(root, 'data-seed'));
+if (existsSync(seedDir) && cmd !== 'snapshot') {
+  let seeded = 0;
+  for (const f of readdirSync(seedDir).filter((x) => x.endsWith('.jsonl'))) {
+    const id = f.slice(0, -6);
+    const obs = readFileSync(join(seedDir, f), 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l) as { t: string; v: number })
+      .map((l) => ({ signalId: id, ts: l.t, value: l.v }));
+    seeded += await store.append(obs);
+  }
+  if (seeded) console.error(`${seeded} Werte aus data-seed übernommen`);
+}
 
 if (cmd === 'run' || cmd === 'collect') {
   const http = createHttp({ fixturesDir, mode, minHostIntervalMs: mode === 'replay' ? 0 : 1000 });

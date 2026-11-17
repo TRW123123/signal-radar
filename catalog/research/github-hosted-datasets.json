@@ -1,0 +1,275 @@
+[
+  {
+    "repo": "CVEProject/cvelistV5",
+    "path": "main/cves/deltaLog.json",
+    "url": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/deltaLog.json",
+    "what": "Abruf-Läufe der offiziellen CVE-Liste mit neuen und geänderten CVE-IDs, 30 Tage (31 MB). Collector cvelist-delta.",
+    "updated": "2026-11-16T23:36Z (geprüft 17.11.2026)",
+    "cadence": "ca. alle 7 Minuten",
+    "license": "CVE Program Terms of Use (frei nutzbar)",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": true
+  },
+  {
+    "repo": "firehol/blocklist-ipsets",
+    "path": "master/<liste> (blocklist_de.ipset, greensnow.ipset, bruteforceblocker.ipset, cybercrime.ipset, firehol_level2.netset, firehol_abusers_1d.netset, tor_exits.ipset)",
+    "url": "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/<liste> (blocklist_de.ipset, greensnow.ipset, bruteforceblocker.ipset, cybercrime.ipset, firehol_level2.netset, firehol_abusers_1d.netset, tor_exits.ipset)",
+    "what": "IP-Sperrlisten mit Größe und Dateidatum in den Kopfzeilen. Collector firehol-blocklists. Veraltet bzw. ungeeignet: feodo (03/2026), et_compromised und spamhaus_drop (14.11.), dshield (konstant 5120), ciarmy (bei 15000 gedeckelt), sslbl (fehlt). Git-Verlauf der master-Branch auf einen Commit zusammengestrichen (Backfill nicht möglich).",
+    "updated": "2026-11-16T08:28Z (geprüft 17.11.2026)",
+    "cadence": "je Liste 5 Minuten bis 12 Stunden",
+    "license": "unklar, je Liste unterschiedlich",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": true
+  },
+  {
+    "repo": "stamparm/ipsum",
+    "path": "master/ipsum.txt",
+    "url": "https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt",
+    "what": "Tägliche Liste verdächtiger IPs mit Zahl der Sperrlisten je IP. Collector ipsum. Git-Verlauf auf einen Commit zusammengestrichen.",
+    "updated": "2026-11-16T02:00Z (Last update 03:00 +0100)",
+    "cadence": "täglich",
+    "license": "Unlicense (Public Domain)",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": true
+  },
+  {
+    "repo": "SecOps-Institute/Tor-IP-Addresses",
+    "path": "master/tor-exit-nodes.lst (+ Last-Checked-At)",
+    "url": "https://raw.githubusercontent.com/SecOps-Institute/Tor-IP-Addresses/master/tor-exit-nodes.lst (+ Last-Checked-At)",
+    "what": "Stündlich gepflegte Liste der Tor-Ausgangsknoten (IPv4 und IPv6, ca. 2150 Zeilen). Collector tor-relays-github zählt IPv4.",
+    "updated": "2026-11-16T23:30Z (Last-Checked-At in IST, geprüft 17.11.2026)",
+    "cadence": "stündlich",
+    "license": "MIT (Repo), Daten aus öffentlichen Tor-Informationen",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": true
+  },
+  {
+    "repo": "0xDanielLopez/TweetFeed",
+    "path": "master/month.csv (auch today.csv, week.csv, year.csv)",
+    "url": "https://raw.githubusercontent.com/0xDanielLopez/TweetFeed/master/month.csv (auch today.csv, week.csv, year.csv)",
+    "what": "Von Sicherheitsforschern auf X gemeldete IOCs (Phishing, Malware, C2) mit Zeitstempel und Tags, ohne Kopfzeile, 30 Tage. Collector tweetfeed. Zeilen können bis 48 h verspätet eintreffen. Repo-Verlauf wird täglich auf einen Commit zurückgesetzt.",
+    "updated": "2026-11-17T00:04Z (geprüft 17.11.2026)",
+    "cadence": "alle 15 Minuten",
+    "license": "CC0 1.0",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": true
+  },
+  {
+    "repo": "PetroIvaniuk/2022-Ukraine-Russia-War-Dataset",
+    "path": "main/data/russia_losses_equipment.json (und russia_losses_personnel.json)",
+    "url": "https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment.json (und russia_losses_personnel.json)",
+    "what": "Tägliche kumulierte Verluste Russlands (Gerät nach Kategorien, Personal) nach Angaben des ukrainischen Generalstabs, Tag 1727.",
+    "updated": "2026-11-16 (geprüft 17.11.2026)",
+    "cadence": "täglich",
+    "license": "MIT (Repo); Quelldaten amtliche ukrainische Angaben",
+    "scenarios": [
+      "krieg"
+    ],
+    "built": false
+  },
+  {
+    "repo": "cdcepi/FluSight-forecast-hub",
+    "path": "main/target-data/target-hospital-admissions.csv",
+    "url": "https://raw.githubusercontent.com/cdcepi/FluSight-forecast-hub/main/target-data/target-hospital-admissions.csv",
+    "what": "Wöchentliche Krankenhauseinweisungen wegen Influenza je US-Bundesstaat (Zielwerte des FluSight-Prognose-Hubs).",
+    "updated": "2026-11-07 (letzte Woche in der Datei, geprüft 17.11.2026)",
+    "cadence": "wöchentlich",
+    "license": "MIT",
+    "scenarios": [
+      "pandemie"
+    ],
+    "built": false
+  },
+  {
+    "repo": "cisagov/kev-data",
+    "path": "develop/known_exploited_vulnerabilities.json",
+    "url": "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json",
+    "what": "Spiegel des CISA-KEV-Katalogs (1781 Einträge). Doppelt zum vorhandenen Collector cisa-kev, der die Quelle direkt abruft.",
+    "updated": "2026-11-13T20:24Z (dateReleased)",
+    "cadence": "unregelmäßig, mehrmals pro Woche",
+    "license": "CC0 1.0",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "fkie-cad/nvd-json-data-feeds",
+    "path": "main/ (CVE-<Jahr>.json.xz, Releases)",
+    "url": "https://raw.githubusercontent.com/fkie-cad/nvd-json-data-feeds/main/ (CVE-<Jahr>.json.xz, Releases)",
+    "what": "NVD-Daten als JSON, Spiegel mit Zeitstempeln im README. Nicht gebaut: README nennt Sync alle 2 Stunden, letzter Stand aber 13.11.2026 (veraltet), Daten komprimiert.",
+    "updated": "2026-11-13T03:18Z (README, geprüft 17.11.2026)",
+    "cadence": "laut README alle 2 Stunden, tatsächlich veraltet",
+    "license": "unklar (keine LICENSE-Datei gefunden)",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "Vadimkin/ukrainian-air-raid-sirens-dataset",
+    "path": "main/datasets/official_data_en.csv",
+    "url": "https://raw.githubusercontent.com/Vadimkin/ukrainian-air-raid-sirens-dataset/main/datasets/official_data_en.csv",
+    "what": "Luftalarme in der Ukraine je Region mit Start und Ende. Nicht gebaut: letzte Zeile vom 07.09.2026, die Datei wird offenbar nicht mehr gepflegt.",
+    "updated": "2026-09-07 (letzte Zeile, geprüft 17.11.2026)",
+    "cadence": "laut README täglich, tatsächlich veraltet",
+    "license": "MIT",
+    "scenarios": [
+      "krieg"
+    ],
+    "built": false
+  },
+  {
+    "repo": "drb-ra/C2IntelFeeds",
+    "path": "master/feeds/IPC2s-30day.csv (und domainC2s.csv)",
+    "url": "https://raw.githubusercontent.com/drb-ra/C2IntelFeeds/master/feeds/IPC2s-30day.csv (und domainC2s.csv)",
+    "what": "Automatisch erzeugte Listen vermuteter C2-Server (Cobalt Strike u. a.), 222 IPs der letzten 30 Tage. Nicht gebaut: keine Zeitstempel in der Datei, Aktualität nicht prüfbar, Lizenz CC BY-NC-SA 4.0 (nicht kommerziell).",
+    "updated": "nicht prüfbar (keine Datumszeile)",
+    "cadence": "laut README automatisch, wohl täglich",
+    "license": "CC BY-NC-SA 4.0",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "Phishing-Database/Phishing.Database",
+    "path": "master/phishing-domains-ACTIVE.txt (README mit Zählern)",
+    "url": "https://raw.githubusercontent.com/Phishing-Database/Phishing.Database/master/phishing-domains-ACTIVE.txt (README mit Zählern)",
+    "what": "Phishing-Domains und -Links. Nicht gebaut: Zähler im README stammen vom 02.10.2026 (veraltet), die 11-MB-Datei trägt kein Datum.",
+    "updated": "2026-10-02 (README-Zähler)",
+    "cadence": "laut README regelmäßig",
+    "license": "MIT",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "joshhighet/ransomwatch",
+    "path": "main/posts.json",
+    "url": "https://raw.githubusercontent.com/joshhighet/ransomwatch/main/posts.json",
+    "what": "Opferlisten von Ransomware-Leak-Seiten (16072 Einträge). Nicht nutzbar: letzter Eintrag 16.06.2025.",
+    "updated": "2025-06-16 (letzter Eintrag, geprüft 17.11.2026)",
+    "cadence": "eingestellt",
+    "license": "unklar",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "montysecurity/C2-Tracker",
+    "path": "main/data/all.txt",
+    "url": "https://raw.githubusercontent.com/montysecurity/C2-Tracker/main/data/all.txt",
+    "what": "C2-IP-Listen aus Shodan-Suchen. Nicht nutzbar: Projekt archiviert, data/ entfernt (404).",
+    "updated": "archiviert",
+    "cadence": "eingestellt",
+    "license": "unklar",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "spydisec/spydithreatintel",
+    "path": "main/",
+    "url": "https://raw.githubusercontent.com/spydisec/spydithreatintel/main/",
+    "what": "IP- und C2-Feeds. Nicht gebaut: README kündigt Abschaltung der öffentlichen Feeds an.",
+    "updated": "nicht geprüft",
+    "cadence": "wird eingestellt",
+    "license": "unklar",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "owid/covid-19-data",
+    "path": "master/public/data/latest/owid-covid-latest.csv",
+    "url": "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.csv",
+    "what": "COVID-19-Kennzahlen je Land. Nicht nutzbar: letztes Update 2024-08-14.",
+    "updated": "2024-08-14 (geprüft 17.11.2026)",
+    "cadence": "eingestellt",
+    "license": "CC BY 4.0 laut OWID (nicht im Repo geprüft)",
+    "scenarios": [
+      "pandemie"
+    ],
+    "built": false
+  },
+  {
+    "repo": "ory/status",
+    "path": "master/history/summary.json (Upptime)",
+    "url": "https://raw.githubusercontent.com/ory/status/master/history/summary.json (Upptime)",
+    "what": "Beispiel einer Upptime-Statusseite (Uptime je Dienst, Tag, Woche, Monat). Große Dienste mit Upptime fanden sich nicht; Upptime-Repos liefern sonst api/<slug>/uptime.json und history/*.yml.",
+    "updated": "nicht geprüft (kein Zeitstempel in der Datei)",
+    "cadence": "laut Upptime alle 5 Minuten",
+    "license": "MIT (Upptime-Vorlage)",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "InternetHealthReport/rpki-history",
+    "path": "main/ (README, Daten über https://www.ihr.live/rpki-history/api)",
+    "url": "https://raw.githubusercontent.com/InternetHealthReport/rpki-history/main/ (README, Daten über https://www.ihr.live/rpki-history/api)",
+    "what": "Historie validierter ROA-Payloads (RPKI) aus RPKIviews. Daten liegen hinter einer API, nicht als Datei auf GitHub.",
+    "updated": "nicht geprüft",
+    "cadence": "täglich (laut Projekt)",
+    "license": "GPL-3.0 (Code)",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "X4BNet/lists_vpn",
+    "path": "main/output/vpn/ipv4.txt",
+    "url": "https://raw.githubusercontent.com/X4BNet/lists_vpn/main/output/vpn/ipv4.txt",
+    "what": "Listen bekannter VPN-Netze (CIDR). Aktualität nicht prüfbar (keine Datumszeile); als Lagewert schwach.",
+    "updated": "nicht prüfbar",
+    "cadence": "laut Projekt regelmäßig",
+    "license": "unklar",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  },
+  {
+    "repo": "BerriAI/litellm",
+    "path": "main/model_prices_and_context_window.json",
+    "url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "what": "Preis- und Modelllisten von KI-Anbietern, neue Modelle erscheinen als Einträge (z. B. azure/gpt-realtime-2.1-2026-07-07).",
+    "updated": "Datei abrufbar, Änderungsdatum nicht geprüft",
+    "cadence": "mehrmals täglich (Commits)",
+    "license": "MIT",
+    "scenarios": [
+      "ki"
+    ],
+    "built": false
+  },
+  {
+    "repo": "projectdiscovery/nuclei-templates",
+    "path": "main/cves.json",
+    "url": "https://raw.githubusercontent.com/projectdiscovery/nuclei-templates/main/cves.json",
+    "what": "Index der Nuclei-Erkennungsvorlagen je CVE (4648 Zeilen). Zahl der Vorlagen für neue CVEs zeigt, wie schnell Ausnutzung gebaut wird; keine Datumsfelder, nur über Git-Verlauf zeitlich auswertbar.",
+    "updated": "Datei abrufbar (CVE-2026-Einträge), kein Datum",
+    "cadence": "täglich",
+    "license": "MIT",
+    "scenarios": [
+      "cyber"
+    ],
+    "built": false
+  }
+]

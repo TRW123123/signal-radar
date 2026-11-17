@@ -4,3 +4,6 @@ data-replay/
 .env
 .env.*
 .netlify/
+fixtures/cvelist/deltaLog.json
+fixtures/ipsum/ipsum.txt
+fixtures/tweetfeed/month.csv

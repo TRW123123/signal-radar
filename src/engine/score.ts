@@ -95,8 +95,10 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
     const byGroup = new Map<string, number>();
     for (const v of inDomain) byGroup.set(v.def.independenceGroup, Math.max(byGroup.get(v.def.independenceGroup) ?? 0, v.contribution));
     const score = noisyOr([...byGroup.values()]);
+    const z0 = sens.z0;
+    const unrest = inDomain.reduce((m, v) => (v.fresh && v.z !== null && !v.damp ? Math.max(m, clamp01(v.z / (v.def.thresholds?.z0 ?? z0))) : m), 0);
     domainViews.push({
-      id: domainId, title: meta.title, plain: meta.plain, score: round(score), active: score >= DOMAIN_ACTIVE,
+      id: domainId, title: meta.title, plain: meta.plain, score: round(score), unrest: round(unrest), active: score >= DOMAIN_ACTIVE,
       signals: inDomain.sort((a, b) => b.contribution - a.contribution || b.anomaly - a.anomaly).map(strip),
     });
   }

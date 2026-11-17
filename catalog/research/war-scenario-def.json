@@ -1,0 +1,44 @@
+{
+  "id": "war",
+  "order": 2,
+  "title": "Kriegseskalation",
+  "question": "Spitzt sich gerade irgendwo ein Krieg gefährlich zu?",
+  "tagline": "Militärflüge, Meerengen, Luftalarme, Internet-Ausfälle, Ölpreis, Reisewarnungen",
+  "domains": {
+    "military": {
+      "title": "Militär in Luft, See und All",
+      "weight": 1,
+      "plain": "Militärflugzeuge, Satelliten, GPS-Störungen und gesperrter Luftraum"
+    },
+    "conflict": {
+      "title": "Gemessene Kampfhandlungen",
+      "weight": 1,
+      "plain": "Luftalarme, Brände per Satellit, Explosionen in Erdbebendaten"
+    },
+    "shipping": {
+      "title": "Schifffahrt und Meerengen",
+      "weight": 0.9,
+      "plain": "Schiffe durch Hormus, Rotes Meer und Taiwanstraße, Frachtraten, Versicherungen"
+    },
+    "connectivity": {
+      "title": "Internet und Strom in Konfliktgebieten",
+      "weight": 0.9,
+      "plain": "Fallen Internet, Mobilfunk oder Strom in betroffenen Ländern aus?"
+    },
+    "government": {
+      "title": "Verhalten von Staaten",
+      "weight": 0.8,
+      "plain": "Reisewarnungen, Botschaftsabzüge, Sanktionen, Sondersitzungen des UN-Sicherheitsrats"
+    },
+    "energy": {
+      "title": "Energieversorgung",
+      "weight": 0.6,
+      "plain": "Gasspeicher, Gasflüsse, Ölreserven und Strompreise"
+    },
+    "markets": {
+      "title": "Märkte und Wetten",
+      "weight": 0.6,
+      "plain": "Öl, Gold, Rüstungsaktien, Währungen der Konfliktparteien"
+    }
+  }
+}

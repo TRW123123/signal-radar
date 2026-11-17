@@ -1,0 +1,27 @@
+[
+  {
+    "fixture": "polymarket/search-cyberattack.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=cyberattack&limit_per_type=5&events_status=active",
+    "maxChars": 40000
+  },
+  {
+    "fixture": "polymarket/search-cyber-attack.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=cyber%20attack&limit_per_type=5&events_status=active",
+    "maxChars": 40000
+  },
+  {
+    "fixture": "polymarket/search-ransomware.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=ransomware&limit_per_type=5&events_status=active",
+    "maxChars": 40000
+  },
+  {
+    "fixture": "polymarket/search-hack.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=hack&limit_per_type=5&events_status=active",
+    "maxChars": 40000
+  },
+  {
+    "fixture": "polymarket/search-internet-outage.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=internet%20outage&limit_per_type=5&events_status=active",
+    "maxChars": 40000
+  }
+]

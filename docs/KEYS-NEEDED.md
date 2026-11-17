@@ -48,3 +48,35 @@ Automatisch erzeugt von `scripts/consolidate_cyber.py`. Collectors ohne Key werd
 | VirusTotal Public API | VirusTotal Einreichungsstatistik | free (kostenloser Key/Konto) | https://docs.virustotal.com/reference/overview | `SR_VIRUSTOTAL_KEY` | 1 |
 | VulnCheck KEV | nur Alternativquelle für: kev_additions_rate | free (kostenloser Key/Konto) | https://vulncheck.com/kev | `SR_VULNCHECK_KEV_KEY` | 0 (+1 als Alternative) |
 | WhoisDS Newly Registered Domains | Neu registrierte Domains mit Krisenbegriffen | free (kostenloser Key/Konto) | https://www.whoisds.com/newly-registered-domains | `SR_WHOISDS_KEY` | 1 (+1 als Alternative) |
+
+## Szenario Kriegseskalation
+
+Automatisch erzeugt von `scripts/consolidate_war.py`. Gleiche Spalten wie oben; Dienste, die schon im Cyber-Abschnitt stehen, nutzen dieselbe Umgebungsvariable.
+
+| Dienst | Wofür | Kosten | Link | Umgebungsvariable | Betroffene Signale |
+|---|---|---|---|---|---|
+| ACLED API | ACLED: Ereignisse und Todesopfer pro Woche | free (kostenloser Key/Konto) | https://acleddata.com/acled-api-documentation | `SR_ACLED_KEY` | 1 |
+| AGSI+ Gas Infrastructure Europe | EU-Gasspeicher-Füllstand | free (kostenloser Key/Konto) | https://agsi.gie.eu/api | `SR_AGSI_KEY` | 1 |
+| AISHub / MarineTraffic / Datalastic AIS | nur Alternativquelle für: hormuz_transits, baltic_dark_vessels | free (kostenloser Key/Konto) | https://www.aishub.net/api | `SR_AISHUB_KEY` | 0 (+2 als Alternative) |
+| aisstream.io | nur Alternativquelle für: baltic_ais_traffic | free (kostenloser Key/Konto) | https://aisstream.io/documentation | `SR_AISSTREAM_KEY` | 0 (+1 als Alternative) |
+| alerts.in.ua API | nur Alternativquelle für: ua_air_alerts, baltic_drone_warnings | free (kostenloser Key/Konto) | https://devs.alerts.in.ua/ | `SR_ALERTS_IN_UA_KEY` | 0 (+2 als Alternative) |
+| ALSI+ LNG Storage | LNG-Terminal-Sendout und Füllstand | free (kostenloser Key/Konto) | https://alsi.gie.eu/api | `SR_ALSI_KEY` | 1 (+1 als Alternative) |
+| Baltic Exchange (BDI, BDTI, BCTI) | Baltic Dry und Tankerraten | Index-Daten kostenpflichtig, BDI-Schlusswert oeffentlich (bezahlt) | https://www.balticexchange.com/ | `SR_BALTIC_EXCHANGE_KEY` | 1 |
+| Cloudflare Radar API | Datenverkehr je Land und Netz (Mobilfunk, Rechenzentren) | free (kostenloser Key/Konto) | https://developers.cloudflare.com/radar/ | `SR_CF_RADAR_KEY` | 1 (+7 als Alternative) |
+| Copernicus Data Space (Sentinel-1/2 STAC/OData) | Satellitenbilder Flugplätze | free (kostenloser Key/Konto) | https://documentation.dataspace.copernicus.eu/APIs.html | `SR_COPERNICUS_CDSE_KEY` | 1 |
+| DIP Bundestag API | nur Alternativquelle für: mobilization_registers | free (kostenloser Key/Konto) | https://dip.bundestag.de/%C3%BCber-dip/hilfen/api | `SR_DIP_BUNDESTAG_KEY` | 0 (+1 als Alternative) |
+| US EIA Open Data (Hourly Electric Grid Monitor) | US-Strategische Ölreserve und Lager | free (kostenloser Key/Konto) | https://www.eia.gov/opendata/ | `SR_EIA_KEY` | 1 (+1 als Alternative) |
+| ENTSO-E Transparency Platform | Stromflüsse Ukraine, Baltikum, Moldau (ENTSO-E) | free (kostenloser Key/Konto) | https://transparency.entsoe.eu/ | `SR_ENTSOE_KEY` | 1 (+1 als Alternative) |
+| FAA NOTAM API | Luftraum-Beschränkungen (NOTAM) an Brennpunkten | free (kostenloser Key/Konto) | https://api.faa.gov/s/ | `SR_FAA_NOTAM_KEY` | 1 (+1 als Alternative) |
+| UN Comtrade / Eurostat Munition Handel | Munitions-Außenhandel | free (kostenloser Key/Konto) | https://comtradeapi.un.org/ | `SR_FR_AIS_KEY` | 1 |
+| FRED API (St. Louis Fed) | OVX Öl-Volatilität; Inflationserwartung (Breakeven); Kreditspreads Unternehmensanleihen; US-Rendite 10 Jahre | free (kostenloser Key/Konto) | https://fred.stlouisfed.org/docs/api/fred/ | `SR_FRED_KEY` | 4 (+10 als Alternative) |
+| Global Fishing Watch APIs (Events/4Wings) | AIS-Abschaltungen Golfregion; Dunkle Schiffe Ostsee | free (kostenloser Key/Konto) | https://globalfishingwatch.org/our-apis/ | `SR_GFW_KEY` | 2 (+1 als Alternative) |
+| Metaculus API | nur Alternativquelle für: prediction_markets_war | free (kostenloser Key/Konto) | https://www.metaculus.com/api/ | `SR_METACULUS_KEY` | 0 (+1 als Alternative) |
+| NASA FIRMS Area API | Hitzepunkte Golf-Energieanlagen; Hotspots Korea (Grenze); Satelliten-Hitzepunkte an Energie- und Militäranlagen; Wärmequellen entlang der Front … | free (kostenloser Key/Konto) | https://firms.modaps.eosdis.nasa.gov/api/area/ | `SR_NASA_FIRMS_KEY` | 5 |
+| OpenSky States | Luftraumsperrungen und Flugstreichungen in Konfliktregionen; Evakuierungs- und Rückholflüge (Sonderflüge) | free (kostenloser Key/Konto) | https://openskynetwork.github.io/opensky-api/rest.html | `SR_OPENSKY_KEY` | 0 (+6 als Alternative) |
+| Google Places API (Live-Auslastung) | Pizza-Index: Lieferandrang an Militärstandorten (schwache Idee) | kostenpflichtig (bezahlt) | https://developers.google.com/maps/documentation/places/web-service/overview | `SR_PLACES_API_KEY` | 1 |
+| ReliefWeb API v2 | ReliefWeb: Lagemeldungen je Land und Tag; Schulschließungen in Konfliktgebieten | free (kostenloser Key/Konto) | https://apidoc.reliefweb.int/ | `SR_RELIEFWEB_KEY` | 2 |
+| SAM.gov Opportunities API | nur Alternativquelle für: defense_procurement | free (kostenloser Key/Konto) | https://open.gsa.gov/api/get-opportunities-public-api/ | `SR_SAM_GOV_KEY` | 0 (+1 als Alternative) |
+| Space-Track.org API | nur Alternativquelle für: sat_maneuvers | free (kostenloser Key/Konto) | https://www.space-track.org/documentation | `SR_SPACE_TRACK_KEY` | 0 (+1 als Alternative) |
+| UCDP Candidate Events API | UCDP Candidate Events: Todesopfer je Land | free (kostenloser Key/Konto) | https://ucdp.uu.se/apidocs/ | `SR_UCDP_KEY` | 1 (+1 als Alternative) |
+| IRIS/CTBTO IMS Infraschall (IDC, vDEC) | nur Alternativquelle für: explosions | free (kostenloser Key/Konto) | https://www.ctbto.org/our-work/international-monitoring-system | `SR_USGS_INFRASOUND_KEY` | 0 (+1 als Alternative) |

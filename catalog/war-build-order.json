@@ -1,0 +1,632 @@
+[
+  {
+    "rank": 1,
+    "collector": "oref-github",
+    "domain": "conflict",
+    "signals": [
+      "war.conflict.israel_oref"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/dleshem/israel-alerts-data/main/israel-alerts.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "extends": null,
+    "github": true,
+    "uncertainty": "Messfeld laut Recherche: Spalten date,time,category(1=Raketen),data(Ortschaften); Messwert = Alarme je Tag/Kategorie; Lizenz: unklar",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (israel-alerts.csv: letzter Eintrag 08.11.2026); ohne Key, kostenlos; kleine CSV-Antwort; Historie: Seit 2014-07; max. Gewicht 0.80, 1 Signal(e)"
+  },
+  {
+    "rank": 2,
+    "collector": "github-air-raid-sirens",
+    "domain": "conflict",
+    "signals": [
+      "war.conflict.ua_air_alerts"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/Vadimkin/ukrainian-air-raid-sirens-dataset/main/datasets/volunteer_data_en.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": true,
+    "extends": null,
+    "github": true,
+    "uncertainty": "Messfeld laut Recherche: Spalten region,started_at,finished_at,naive. Letzte Zeile im Test: 2026-11-16 05:07 UTC. Zählung Alarme und Dauer je Tag und Oblast. Offizielle Datei official_data_en.csv hat seit Dez 2025 Raion-Ebene.; official_data_en.csv endet 07.09.2026; volunteer_data_en.csv ist aktuell.; Lizenz: unklar (Lizenzdatei nicht geprüft)",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (volunteer_data_en.csv: letzter Alarm 16.11.2026); ohne Key, kostenlos; kleine CSV-Antwort; Historie: seit 2022-02-25 (Volunteer), offiziell seit 2022-03-15; offizielle Datei endet im Test bei 2026-09-07 (veraltet); max. Gewicht 0.75, 1 Signal(e)"
+  },
+  {
+    "rank": 3,
+    "collector": "github-deepstate",
+    "domain": "attention",
+    "signals": [
+      "war.attention.frontline_area_change"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/cyterat/deepstate-map-data/main/data/deepstatemap_data_20261116.geojson"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "extends": null,
+    "github": true,
+    "uncertainty": "Messfeld laut Recherche: MultiPolygon der besetzten Gebiete je Tag; Flächendifferenz = Frontbewegung. Datei vom 2026-11-16 per curl erreichbar (77 KB).; Lizenz: unklar (Quelle DeepStateMap, Repo-Lizenz prüfen)",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (Tagesdatei 20261116 abrufbar (HTTP 200)); ohne Key, kostenlos; kleine JSON-Antwort; Historie: Tagesdateien seit 2024-07, gesamt als deepstate-map-data.geojson.gz; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 4,
+    "collector": "github-ukraine-losses",
+    "domain": "conflict",
+    "signals": [
+      "war.conflict.ua_losses_reported",
+      "war.conflict.ukraine_drone_missile_daily"
+    ],
+    "endpoints": [
+      "https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_personnel.json",
+      "https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "extends": null,
+    "github": true,
+    "uncertainty": "Messfeld laut Recherche: Selbstangaben des ukrainischen Generalstabs. Letzter Eintrag im Test 2026-11-16 (Tag 1727). Differenzen = Tageswerte. Ergänzend russia_losses_equipment.json (Felder drone, cruise missiles).; Lizenz: unklar (Repo-Lizenz prüfen)",
+    "why": "raw.githubusercontent.com, aktuell verifiziert (russia_losses_*.json: letzter Eintrag 16.11.2026); ohne Key, kostenlos; kleine JSON-Antwort; Historie: kumulativ seit 2022-02-24; max. Gewicht 0.20, 2 Signal(e)"
+  },
+  {
+    "rank": 5,
+    "collector": "ioda",
+    "domain": "connectivity",
+    "signals": [
+      "war.connectivity.ioda_ir",
+      "war.connectivity.ioda_tw",
+      "war.connectivity.ioda_il",
+      "war.connectivity.ioda_ua",
+      "war.connectivity.gulf_states_internet",
+      "war.connectivity.ioda_ru"
+    ],
+    "endpoints": [
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=-7d&until=now&datasource=bgp",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/TW?from=-7d&until=now&datasource=bgp",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IL?from=-7d&until=now&datasource=bgp",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/UA?from=-7d&until=now&datasource=bgp",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/AE?from=-7d&until=now&datasource=bgp",
+      "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/RU?from=-7d&until=now&datasource=bgp"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "ioda",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Abfall unter 10-Tage-Baseline. Datenquellen bgp, ping-slash24, ucsd-nt. Endpunktschema aus Erinnerung, Doku-Suche ergab keinen Treffer.; Rate-Limit: fair use",
+    "why": "erweitert bestehenden Collector ioda um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Zeitreihen seit 2011 (BGP/Active Probing/Darknet); max. Gewicht 0.85, 6 Signal(e)"
+  },
+  {
+    "rank": 6,
+    "collector": "polymarket-gamma",
+    "domain": "attention",
+    "signals": [
+      "war.attention.prediction_markets_war",
+      "war.attention.prediction_volume_spike"
+    ],
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?closed=false&limit=100&order=volume24hr&ascending=false"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "polymarket-gamma",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: outcomePrices = Wahrscheinlichkeit, volume24hr; Lizenz: Polymarket ToS; Nutzung in einigen Ländern eingeschränkt",
+    "why": "erweitert bestehenden Collector polymarket-gamma um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Preishistorie per CLOB /prices-history; max. Gewicht 0.60, 2 Signal(e)"
+  },
+  {
+    "rank": 7,
+    "collector": "ripe-stat",
+    "domain": "connectivity",
+    "signals": [
+      "war.connectivity.undersea_cables_baltic"
+    ],
+    "endpoints": [
+      "https://stat.ripe.net/data/country-routing-stats/data.json?resource=FI"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "ripe-stat",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Abfall der Präfixzahl zeigt Routing-Verlust; Feldname aus Erinnerung.; Lizenz: RIPE NCC Terms, frei nutzbar; Rate-Limit: ca. 8 parallele Anfragen, fair use",
+    "why": "erweitert bestehenden Collector ripe-stat um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: teils Historie je Endpoint (routing-history ab ~1999, bgp-update-activity Stunden/Tage); max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 8,
+    "collector": "gdelt-doc",
+    "domain": "attention",
+    "signals": [
+      "war.attention.baltic_drone_warnings",
+      "war.attention.gdelt_tone_volume_hotspots",
+      "war.attention.gdelt_coverage_share",
+      "war.attention.gdelt_energy_tone"
+    ],
+    "endpoints": [
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22air%20defense%22&mode=timelinevol&format=json",
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=Hormuz&mode=TimelineVol&timespan=3months&format=json",
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=%22World%20War%20III%22%20OR%20%22nuclear%20war%22&mode=TimelineVol&timespan=3months&format=json",
+      "https://api.gdeltproject.org/api/v2/doc/doc?query=hormuz&mode=timelinevol&format=json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "gdelt-doc",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Messwert = Anteil Artikelvolumen; Rate-Limit: 1 Anfrage/5 s empfohlen",
+    "why": "erweitert bestehenden Collector gdelt-doc um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: rollierend ca. 3 Monate, GKG-Dateien ab 2015; max. Gewicht 0.50, 4 Signal(e)"
+  },
+  {
+    "rank": 9,
+    "collector": "wikimedia-pageviews",
+    "domain": "attention",
+    "signals": [
+      "war.attention.wiki_civil_protection",
+      "war.attention.wiki_conscription",
+      "war.attention.wiki_hotspot_articles",
+      "war.attention.wiki_ww3"
+    ],
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kaliumiodid/daily/20150701/20261117",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Wehrpflicht/daily/20150701/20261117",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Straße_von_Hormus/daily/20150701/20261117",
+      "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Dritter_Weltkrieg/daily/20150701/20261117"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": true,
+    "extends": "wikimedia-pageviews",
+    "github": false,
+    "uncertainty": "Messfeld laut Recherche: Kaliumiodid. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage).; Rate-Limit: 200 Anfragen/s, User-Agent Pflicht",
+    "why": "erweitert bestehenden Collector wikimedia-pageviews um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: ab Juli 2015; max. Gewicht 0.50, 4 Signal(e)"
+  },
+  {
+    "rank": 10,
+    "collector": "hn-algolia",
+    "domain": "attention",
+    "signals": [
+      "war.attention.hackernews_mentions"
+    ],
+    "endpoints": [
+      "https://hn.algolia.com/api/v1/search_by_date?query=world%20war%20III&tags=story"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "hn-algolia",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: nbHits je Zeitfenster = Story-Zählung. Nicht ausgeführt.; Rate-Limit: 10000 Anfragen/h",
+    "why": "erweitert bestehenden Collector hn-algolia um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: vollständig seit 2006 (numericFilters=created_at_i); max. Gewicht 0.35, 1 Signal(e)"
+  },
+  {
+    "rank": 11,
+    "collector": "sec-edgar",
+    "domain": "markets",
+    "signals": [
+      "war.markets.insider_form4_defense"
+    ],
+    "endpoints": [
+      "https://data.sec.gov/submissions/CIK0000936468.json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "sec-edgar",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: filings.recent: form=4, filingDate; CIK Beispiel Lockheed; Rate-Limit: max 10 Anfragen/s laut SEC Fair Access",
+    "why": "erweitert bestehenden Collector sec-edgar um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Volltext ab 2001, 8-K Item 1.05 erst seit 18.12.2023; max. Gewicht 0.35, 1 Signal(e)"
+  },
+  {
+    "rank": 12,
+    "collector": "ecb-data",
+    "domain": "markets",
+    "signals": [
+      "war.markets.safe_haven_chf",
+      "war.markets.bund_yield_spread",
+      "war.markets.safe_haven_jpy"
+    ],
+    "endpoints": [
+      "https://data-api.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?format=csvdata&startPeriod=2020-01-01",
+      "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y?format=csvdata&startPeriod=2020-01-01",
+      "https://data-api.ecb.europa.eu/service/data/EXR/D.JPY.EUR.SP00.A?format=csvdata&startPeriod=2020-01-01"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "extends": "ecb-data",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: OBS_VALUE = CHF je EUR; Fall = CHF stark",
+    "why": "erweitert bestehenden Collector ecb-data um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine CSV-Antwort; Historie: ab 1999; max. Gewicht 0.30, 3 Signal(e)"
+  },
+  {
+    "rank": 13,
+    "collector": "energy-charts",
+    "domain": "energy",
+    "signals": [
+      "war.energy.power_prices"
+    ],
+    "endpoints": [
+      "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-10-01&end=2026-11-15"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "energy-charts",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: price[] EUR/MWh Day-Ahead; Lizenz: CC BY 4.0 (laut Seite, prüfen)",
+    "why": "erweitert bestehenden Collector energy-charts um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Zeitreihe per start/end Parameter; max. Gewicht 0.30, 1 Signal(e)"
+  },
+  {
+    "rank": 14,
+    "collector": "defillama",
+    "domain": "markets",
+    "signals": [
+      "war.markets.crypto_stablecoin_flows"
+    ],
+    "endpoints": [
+      "https://stablecoins.llama.fi/stablecoins?includePrices=true"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "defillama",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Umlauf USDT je Chain (z. B. Tron)",
+    "why": "erweitert bestehenden Collector defillama um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Zeitreihen je Coin (stablecoincharts); max. Gewicht 0.25, 1 Signal(e)"
+  },
+  {
+    "rank": 15,
+    "collector": "adsb-lol",
+    "domain": "military",
+    "signals": [
+      "war.military.tanker_count",
+      "war.military.mil_count_hormuz",
+      "war.military.airlift_c17",
+      "war.military.isr_recon",
+      "war.military.mil_count_baltic",
+      "war.military.mil_count_taiwan",
+      "war.military.drone_hale",
+      "war.military.gov_leadership_flights",
+      "war.military.mil_dark_ratio"
+    ],
+    "endpoints": [
+      "https://api.adsb.lol/v2/type/K35R",
+      "https://api.adsb.lol/v2/mil",
+      "https://api.adsb.lol/v2/type/C17",
+      "https://api.adsb.lol/v2/type/P8",
+      "https://api.adsb.lol/v2/type/Q4",
+      "https://api.adsb.lol/v2/type/E6"
+    ],
+    "format": "json",
+    "history": false,
+    "verified": false,
+    "extends": "adsb-lol",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Zahl sichtbarer Flugzeuge mit ICAO-Typ K35R; Aggregat je Region",
+    "why": "erweitert bestehenden Collector adsb-lol um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; keine API-Historie, Baseline muss erst wachsen; max. Gewicht 0.70, 9 Signal(e)"
+  },
+  {
+    "rank": 16,
+    "collector": "yahoo-chart",
+    "domain": "markets",
+    "signals": [
+      "war.markets.brent_price",
+      "war.markets.brent_term_structure",
+      "war.markets.gas_ttf",
+      "war.markets.defense_stocks_eu",
+      "war.markets.tanker_equities",
+      "war.markets.defense_etf_us",
+      "war.markets.wti_price",
+      "war.markets.container_liner_equities",
+      "war.markets.defense_stocks_us",
+      "war.markets.gas_henry_vs_ttf",
+      "war.markets.wheat_prices",
+      "war.markets.gold_price",
+      "war.markets.gvz_and_move",
+      "war.markets.vix"
+    ],
+    "endpoints": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/BZ=F?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/TTF=F?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/RHM.DE?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/FRO?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/ITA?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/MAERSK-B.CO?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/LMT?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NG=F?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/ZW=F?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/%5EMOVE?range=5y&interval=1d",
+      "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=5y&interval=1d"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "yahoo-chart",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Feld chart.result[0].indicators.quote[0].close = Tageskurs; Lizenz: inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+    "why": "erweitert bestehenden Collector yahoo-chart um Kriegs-Länder/-Symbole/-Begriffe; ohne Key, kostenlos; kleine JSON-Antwort; Historie: Tageskerzen mehrere Jahre bis Jahrzehnte; max. Gewicht 0.55, 14 Signal(e)"
+  },
+  {
+    "rank": 17,
+    "collector": "cloudflare-radar",
+    "domain": "connectivity",
+    "signals": [
+      "war.connectivity.traffic_by_network"
+    ],
+    "endpoints": [
+      "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": "cloudflare-radar",
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR.; Lizenz: CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung prüfen); Rate-Limit: gem. Cloudflare-API-Limits",
+    "why": "erweitert bestehenden Collector cloudflare-radar um Kriegs-Länder/-Symbole/-Begriffe; braucht Key/Konto; Format/Zugang aufwändiger; Historie: Zeitreihen über dateRange (bis ca. 1 Jahr+, je Endpunkt); max. Gewicht 0.55, 1 Signal(e)"
+  },
+  {
+    "rank": 18,
+    "collector": "imf-portwatch",
+    "domain": "shipping",
+    "signals": [
+      "war.shipping.hormuz_transits",
+      "war.shipping.chokepoint_taiwan_strait",
+      "war.shipping.chokepoint_suez_babelmandeb",
+      "war.shipping.chokepoint_bosporus_blacksea",
+      "war.shipping.port_activity_gulf_baltic",
+      "war.shipping.panama_suez_substitution"
+    ],
+    "endpoints": [
+      "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&f=json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Tageszahlen Durchfahrten je Meerenge/Hafen, Aufteilung nach Schiffstyp (n_tanker, n_container, n_total); Lizenz: IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung prüfen",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: seit 2019 Tagesreihe; max. Gewicht 0.90, 6 Signal(e)"
+  },
+  {
+    "rank": 19,
+    "collector": "eurocontrol",
+    "domain": "military",
+    "signals": [
+      "war.military.avoidance_iran_gulf",
+      "war.military.avoidance_black_sea",
+      "war.military.civ_count_ukraine_edge",
+      "war.military.drone_airport_closures_eu",
+      "war.military.russia_missile_ranges"
+    ],
+    "endpoints": [
+      "https://www.eurocontrol.int/dashboard/rnd-data-archive",
+      "https://ansperformance.eu/"
+    ],
+    "format": "html",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Flüge je Tag/Land/Flughafen; Messwert = Flüge über Baltikum/Schwarzmeer; Lizenz: Eurocontrol Nutzungsbedingungen, unklar",
+    "why": "ohne Key, kostenlos; kleine HTML-Antwort; Historie: ab 2019 in Dashboards; max. Gewicht 0.85, 5 Signal(e)"
+  },
+  {
+    "rank": 20,
+    "collector": "usgs",
+    "domain": "conflict",
+    "signals": [
+      "war.conflict.nk_test_site",
+      "war.conflict.novaya_zemlya",
+      "war.conflict.explosions_ukraine"
+    ],
+    "endpoints": [
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=explosion&starttime=2026-01-01"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: features[].properties.type='explosion'; Messwert = Zahl Events je Region",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: ab 1900 via FDSN; max. Gewicht 0.85, 3 Signal(e)"
+  },
+  {
+    "rank": 21,
+    "collector": "celestrak",
+    "domain": "military",
+    "signals": [
+      "war.military.asat_debris",
+      "war.military.sat_maneuvers",
+      "war.military.cosmos_launches"
+    ],
+    "endpoints": [
+      "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=json"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Orbit-Elemente; Messwert = Änderungen von Inklination/Periode je Objekt, Neuzugänge im SATCAT; Rate-Limit: wenige Abrufe/Tag",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: aktuell (selbst archivieren), Space-Track für Historie; max. Gewicht 0.60, 3 Signal(e)"
+  },
+  {
+    "rank": 22,
+    "collector": "entsog",
+    "domain": "energy",
+    "signals": [
+      "war.energy.gas_flows_entsog"
+    ],
+    "endpoints": [
+      "https://transparency.entsog.eu/api/v1/operationaldatas?indicator=Physical%20Flow&periodType=day&from=2026-10-01&to=2026-11-15&limit=1000"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: value in kWh/d je Interconnection-Punkt; Lizenz: ENTSOG, Namensnennung, unklar",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: ab 2017; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 23,
+    "collector": "gpsjam",
+    "domain": "military",
+    "signals": [
+      "war.military.jamming_east_asia",
+      "war.military.jamming_gulf",
+      "war.military.jamming_baltic",
+      "war.military.gnss_interference",
+      "war.military.jamming_black_sea"
+    ],
+    "endpoints": [
+      "https://gpsjam.org/data/",
+      "https://gpsjam.org/"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: H3-Zellen mit Anteil Flugzeuge mit schlechter NIC/NACp; Messwert = Zellen > 10 % je Region; Lizenz: unklar",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: ab 2022 als Tageskarten; max. Gewicht 0.60, 5 Signal(e)"
+  },
+  {
+    "rank": 24,
+    "collector": "rada-open",
+    "domain": "government",
+    "signals": [
+      "war.government.mobilization_registers"
+    ],
+    "endpoints": [
+      "https://data.rada.gov.ua/open/data/bills-skl9"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Gesetzentwürfe mit Stichwort Mobilisierung; Pfad aus Erinnerung.; Lizenz: unklar",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: seit 1990; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 25,
+    "collector": "uk-fcdo-travel",
+    "domain": "government",
+    "signals": [
+      "war.government.uk_fcdo_changes"
+    ],
+    "endpoints": [
+      "https://www.gov.uk/api/content/foreign-travel-advice/iran"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: details.change_description, details.alert_status, public_updated_at. Feldnamen aus Erinnerung.; Lizenz: Open Government Licence v3.0",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: Felder public_updated_at und change_history je Land; max. Gewicht 0.60, 1 Signal(e)"
+  },
+  {
+    "rank": 26,
+    "collector": "gdelt-events",
+    "domain": "attention",
+    "signals": [
+      "war.attention.gdelt_fight_events",
+      "war.attention.gdelt_goldstein",
+      "war.attention.gdelt_mass_violence"
+    ],
+    "endpoints": [
+      "http://data.gdeltproject.org/gdeltv2/lastupdate.txt"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Spalten: EventRootCode (19 = Fight, 20 = Unconventional mass violence), GoldsteinScale, NumMentions, ActionGeo_CountryCode, AvgTone. Zählung je Land und Tag selbst aggregieren; BigQuery-Variante gdelt-bq.gdeltv2.events (Konto nötig).",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: Dateiarchiv 15-Min-Takt seit Feb 2015, masterfilelist.txt; max. Gewicht 0.55, 3 Signal(e)"
+  },
+  {
+    "rank": 27,
+    "collector": "launchlibrary2",
+    "domain": "military",
+    "signals": [
+      "war.military.ballistic_launches_log",
+      "war.military.launches_by_country"
+    ],
+    "endpoints": [
+      "https://ll.thespacedevs.com/2.2.0/launch/?mode=list&limit=10&ordering=-net"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: results[].net, status, pad; Messwert = Starts je Land/Woche; Lizenz: Free-Tier mit Limit, Bedingungen prüfen; Rate-Limit: 15 Anfragen/h ohne Key",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: Starts seit 1950er; max. Gewicht 0.50, 2 Signal(e)"
+  },
+  {
+    "rank": 28,
+    "collector": "ofac-sdn",
+    "domain": "government",
+    "signals": [
+      "war.government.sanctions_ofac_rate",
+      "war.government.sanctions_delistings"
+    ],
+    "endpoints": [
+      "https://www.treasury.gov/ofac/downloads/sdn.csv"
+    ],
+    "format": "csv",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Einträge je Programm (z. B. IRAN, RUSSIA-EO14024); Differenz zwischen Snapshots = neue Listungen.",
+    "why": "ohne Key, kostenlos; kleine CSV-Antwort; Historie: Delta-Dateien und Recent Actions; Archiv über Snapshots; max. Gewicht 0.50, 2 Signal(e)"
+  },
+  {
+    "rank": 29,
+    "collector": "navarea",
+    "domain": "military",
+    "signals": [
+      "war.military.navarea_warnings"
+    ],
+    "endpoints": [
+      "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=active&navArea=IX"
+    ],
+    "format": "json",
+    "history": true,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Aktive Warnungen; Messwert = Zahl Warnungen mit Gunnery/Missile",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; Historie: aktive plus Archiv; max. Gewicht 0.45, 1 Signal(e)"
+  },
+  {
+    "rank": 30,
+    "collector": "digitraffic",
+    "domain": "shipping",
+    "signals": [
+      "war.shipping.baltic_ais_traffic"
+    ],
+    "endpoints": [
+      "https://meri.digitraffic.fi/api/ais/v1/locations"
+    ],
+    "format": "json",
+    "history": false,
+    "verified": false,
+    "extends": null,
+    "github": false,
+    "uncertainty": "Endpunkt aus der Recherche, nicht geprüft (verified=false); Messfeld laut Recherche: Positionen im Finnischen Golf; Aggregate zählen",
+    "why": "ohne Key, kostenlos; kleine JSON-Antwort; keine API-Historie, Baseline muss erst wachsen; max. Gewicht 0.45, 1 Signal(e)"
+  }
+]

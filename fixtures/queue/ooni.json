@@ -1,0 +1,27 @@
+[
+  {
+    "fixture": "ooni/web-connectivity-de-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=DE&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ooni/web-connectivity-us-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=US&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ooni/web-connectivity-gb-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=GB&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ooni/web-connectivity-fr-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=FR&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ooni/web-connectivity-nl-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=NL&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 12000
+  }
+]

@@ -1,0 +1,2906 @@
+{
+ "subdomain": "Staaten, Ereignisdaten, Regionale Lage, Aufmerksamkeit (Kriegseskalation)",
+ "generated": "2026-11-17",
+ "signals": [
+  {
+   "id": "war.government.aa_warning_count",
+   "name_de": "Reisewarnungen Auswärtiges Amt: Zahl der Länder",
+   "plain_de": "Zählt, für wie viele Länder das Auswärtige Amt eine volle oder teilweise Reisewarnung ausspricht.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Behörden eskalieren Warnstufen oft vor sichtbarer Eskalation; Länderzahl und tägliche Änderungen sind eine maschinenlesbare Zeitreihe statt Pressetext.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Terroranschlag",
+    "Naturkatastrophe",
+    "Pandemie",
+    "Wahlen und Unruhen",
+    "Routinerevision"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "aa-opendata",
+     "name": "Auswärtiges Amt OpenData travelwarning",
+     "doc_url": "https://www.auswaertiges-amt.de/opendata/travelwarning",
+     "endpoint": "https://www.auswaertiges-amt.de/opendata/travelwarning",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung, Feed-lastModified",
+     "history": "keine; Snapshot-Archivierung nötig (täglich abspeichern, Diff bilden)",
+     "rate_limit": "",
+     "license": "unklar (AA-Opendata-Seite prüfen)",
+     "verified": true,
+     "sample_note": "response.<id>.warning/partialWarning (bool), effective, lastModified (Unix), countryCode. Per WebFetch am 2026-11-17 abgerufen, Struktur bestätigt (nicht per curl)."
+    },
+    {
+     "source_id": "wayback-cdx",
+     "name": "Internet Archive CDX API",
+     "doc_url": "https://archive.org/developers/wayback-cdx-server.html",
+     "endpoint": "https://web.archive.org/cdx/search/cdx?url=travel.state.gov/content/travel/en/traveladvisories/*&output=json&from=2026&limit=5",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden bis Tage",
+     "history": "seit 1996",
+     "rate_limit": "",
+     "license": "Archivdaten, Nutzungsbedingungen IA",
+     "verified": false,
+     "sample_note": "Snapshot-Zähler als Proxy für Änderungsaktivität; ersetzt fehlende Historie von Feeds."
+    }
+   ],
+   "notes": "Historie nur durch eigene tägliche Snapshots oder Wayback. Hotspot-Länder: IR, IQ, LB, IL, TW, UA, RU, BY."
+  },
+  {
+   "id": "war.government.aa_hotspot_changes",
+   "name_de": "Warnungsänderungen Auswärtiges Amt in Hotspot-Ländern",
+   "plain_de": "Erkennt, wann das Auswärtige Amt für Iran, Golfstaaten, Israel, Taiwan, Baltikum oder Moldau seine Hinweise ändert.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Änderung von effective oder lastModified je Land ist ein Zeitstempel behördlicher Neubewertung; Häufung in mehreren Ländern deutet auf Regionallage.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routinepflege",
+    "Textkorrekturen",
+    "Feiertags-Hinweise"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "aa-opendata",
+     "name": "Auswärtiges Amt OpenData travelwarning",
+     "doc_url": "https://www.auswaertiges-amt.de/opendata/travelwarning",
+     "endpoint": "https://www.auswaertiges-amt.de/opendata/travelwarning",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung, Feed-lastModified",
+     "history": "keine; Snapshot-Archivierung nötig (täglich abspeichern, Diff bilden)",
+     "rate_limit": "",
+     "license": "unklar (AA-Opendata-Seite prüfen)",
+     "verified": true,
+     "sample_note": "response.<id>.warning/partialWarning (bool), effective, lastModified (Unix), countryCode. Per WebFetch am 2026-11-17 abgerufen, Struktur bestätigt (nicht per curl)."
+    }
+   ],
+   "notes": "Nicht den Inhalt, nur Änderungsrate und Warnflagwechsel zählen."
+  },
+  {
+   "id": "war.government.us_level4_count",
+   "name_de": "US-Reisewarnungen: Zahl der Länder in Stufe 4",
+   "plain_de": "Zählt, für wie viele Länder die USA 'Reisen verboten' (Stufe 4) aussprechen.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Stufenwechsel einzelner Länder (Golfstaaten, Taiwan) wären harte Verhaltensdaten des US-Außenministeriums; die Summe über Wochen zeigt Trend.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Pandemie",
+    "Gewaltkriminalität",
+    "Routine-Neubewertung"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "us-travel-advisories",
+     "name": "US State Department Travel Advisories (RSS)",
+     "doc_url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html",
+     "endpoint": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung",
+     "history": "keine; Snapshots selbst archivieren (oder Wayback)",
+     "rate_limit": "",
+     "license": "US-Regierungswerk, gemeinfrei",
+     "verified": false,
+     "sample_note": "Titel enthält 'Level 1-4'; Zählung je Stufe und tägliche Änderungen. Endpunkt aus Erinnerung."
+    },
+    {
+     "source_id": "wayback-cdx",
+     "name": "Internet Archive CDX API",
+     "doc_url": "https://archive.org/developers/wayback-cdx-server.html",
+     "endpoint": "https://web.archive.org/cdx/search/cdx?url=travel.state.gov/content/travel/en/traveladvisories/*&output=json&from=2026&limit=5",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden bis Tage",
+     "history": "seit 1996",
+     "rate_limit": "",
+     "license": "Archivdaten, Nutzungsbedingungen IA",
+     "verified": false,
+     "sample_note": "Snapshot-Zähler als Proxy für Änderungsaktivität; ersetzt fehlende Historie von Feeds."
+    }
+   ],
+   "notes": "Feed-Endpunkt nicht geprüft."
+  },
+  {
+   "id": "war.government.uk_fcdo_changes",
+   "name_de": "UK FCDO Reisehinweise: Änderungen pro Tag",
+   "plain_de": "Zählt täglich, wie viele britische Reisehinweise geändert wurden und welche Warnstufe gilt.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Die GOV.UK-API liefert Änderungsbeschreibung und Datum je Land samt Historie; Anstieg regionaler Änderungen im selben Fenster ist ein Brotkrümel.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Feiertage",
+    "Sammelrevisionen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "uk-fcdo-travel",
+     "name": "UK GOV.UK Content API (Foreign travel advice)",
+     "doc_url": "https://content-api.publishing.service.gov.uk/",
+     "endpoint": "https://www.gov.uk/api/content/foreign-travel-advice/iran",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung",
+     "history": "Felder public_updated_at und change_history je Land",
+     "rate_limit": "",
+     "license": "Open Government Licence v3.0",
+     "verified": false,
+     "sample_note": "details.change_description, details.alert_status, public_updated_at. Feldnamen aus Erinnerung."
+    }
+   ],
+   "notes": "Historie laut Erinnerung eingebaut (change_history)."
+  },
+  {
+   "id": "war.government.ordered_departure",
+   "name_de": "Abzug nichtessenzieller Botschaftsmitarbeiter (Ordered Departure)",
+   "plain_de": "Beobachtet, ob Staaten Familien oder Personal ihrer Botschaften aus einem Land abziehen lassen.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Ordered/Authorized Departure und Botschaftsschließungen gelten als klassischer Vorläufer (Ukraine 2022, Irak, Libanon).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Terrorlage",
+    "Unruhen",
+    "Naturkatastrophe"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "us-embassy-alerts",
+     "name": "US Travel Advisories (Stichwortfilter Departure)",
+     "doc_url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html",
+     "endpoint": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung",
+     "history": "keine",
+     "rate_limit": "",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Stichwortfilter 'Ordered Departure', 'Authorized Departure'."
+    }
+   ],
+   "notes": "Keine strukturierten Felder, nur Stichwortsuche im Text."
+  },
+  {
+   "id": "war.government.sanctions_ofac_rate",
+   "name_de": "Neue US-Sanktionslistungen pro Tag (Iran, Russland, China)",
+   "plain_de": "Zählt täglich neu in die OFAC-Liste aufgenommene Personen und Firmen je Programm.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Beschleunigte Sanktionierung (Schattenflotte, Rüstungsbeschaffer) zeigt politische Eskalation; Differenz zwischen Tagesdateien ergibt die Rate.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routine-Listungen",
+    "Haushaltsjahr-Taktung",
+    "Gerichtsentscheidungen"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ofac-sdn",
+     "name": "OFAC Sanctions List Service (SDN)",
+     "doc_url": "https://ofac.treasury.gov/sanctions-list-service",
+     "endpoint": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Aktualisierung (mehrmals pro Woche)",
+     "history": "Delta-Dateien und Recent Actions; Archiv über Snapshots",
+     "rate_limit": "",
+     "license": "US-Regierungswerk, gemeinfrei",
+     "verified": false,
+     "sample_note": "Einträge je Programm (z. B. IRAN, RUSSIA-EO14024); Differenz zwischen Snapshots = neue Listungen."
+    },
+    {
+     "source_id": "opensanctions",
+     "name": "OpenSanctions (aggregiert, Deltas)",
+     "doc_url": "https://www.opensanctions.org/docs/bulk/",
+     "endpoint": "https://data.opensanctions.org/datasets/latest/sanctions/entities.ftm.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Versionsarchiv je Tag",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (kommerziell kostenpflichtig)",
+     "verified": false,
+     "sample_note": "Einheitliches Format über OFAC/EU/UK/UN; first_seen/last_change je Entität. Repo opensanctions/opensanctions per curl erreichbar (nur README geprüft), Datenendpunkt nicht."
+    }
+   ],
+   "notes": "OpenSanctions bietet Tagesversionen und first_seen je Entität."
+  },
+  {
+   "id": "war.government.sanctions_eu_uk",
+   "name_de": "Neue EU- und UK-Sanktionen pro Woche",
+   "plain_de": "Zählt neue Einträge und Rechtsakte der EU und Großbritanniens gegen Russland, Iran, Belarus, China.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Sanktionspakete und Einzelbeschlüsse laufen koordiniert mit Eskalationsschritten.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Turnus-Verlängerungen (alle 6 Monate)",
+    "Gerichtsbedingte Streichungen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "eu-fsf",
+     "name": "EU Financial Sanctions Files (FSF)",
+     "doc_url": "https://webgate.ec.europa.eu/fsd/fsf",
+     "endpoint": "https://webgate.ec.europa.eu/fsd/fsf/public/files/xmlFullSanctionsList_1_1/content?token=dG9rZW4tMjAxNw",
+     "access": "download",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Aktualisierung",
+     "history": "keine; Snapshots",
+     "rate_limit": "",
+     "license": "EU-Daten, Wiederverwendung mit Quellenangabe (prüfen)",
+     "verified": false,
+     "sample_note": "Token laut öffentlicher Doku aus Erinnerung; Endpunkt nicht geprüft."
+    },
+    {
+     "source_id": "uk-sanctions-list",
+     "name": "UK Sanctions List (FCDO) / OFSI Consolidated List",
+     "doc_url": "https://www.gov.uk/government/publications/the-uk-sanctions-list",
+     "endpoint": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.xml",
+     "access": "download",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Aktualisierung",
+     "history": "Snapshots",
+     "rate_limit": "",
+     "license": "Open Government Licence v3.0",
+     "verified": false,
+     "sample_note": "LastUpdated je Eintrag; Zählung je Regime."
+    },
+    {
+     "source_id": "eur-lex-cellar",
+     "name": "EUR-Lex / Cellar SPARQL (Rechtsakte)",
+     "doc_url": "https://eur-lex.europa.eu/content/help/data-reuse/linked-data-sparql.html",
+     "endpoint": "https://publications.europa.eu/webapi/rdf/sparql",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "vollständig",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Zählung neuer GASP-Beschlüsse und Verordnungen (Sanktionen) je Woche."
+    },
+    {
+     "source_id": "opensanctions",
+     "name": "OpenSanctions (aggregiert, Deltas)",
+     "doc_url": "https://www.opensanctions.org/docs/bulk/",
+     "endpoint": "https://data.opensanctions.org/datasets/latest/sanctions/entities.ftm.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Versionsarchiv je Tag",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (kommerziell kostenpflichtig)",
+     "verified": false,
+     "sample_note": "Einheitliches Format über OFAC/EU/UK/UN; first_seen/last_change je Entität. Repo opensanctions/opensanctions per curl erreichbar (nur README geprüft), Datenendpunkt nicht."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.government.sanctions_delistings",
+   "name_de": "Streichungen von Sanktionen (Entspannungssignal)",
+   "plain_de": "Zählt entfernte Einträge auf Sanktionslisten als Gegenstück zur Eskalation.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Verhandlungen zeigen sich zuerst als Delistings und Lizenzen; Gegenindikator zum Eskalationsbild.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Gerichtsurteile",
+    "Verstorbene Personen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ofac-sdn",
+     "name": "OFAC Sanctions List Service (SDN)",
+     "doc_url": "https://ofac.treasury.gov/sanctions-list-service",
+     "endpoint": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Aktualisierung (mehrmals pro Woche)",
+     "history": "Delta-Dateien und Recent Actions; Archiv über Snapshots",
+     "rate_limit": "",
+     "license": "US-Regierungswerk, gemeinfrei",
+     "verified": false,
+     "sample_note": "Einträge je Programm (z. B. IRAN, RUSSIA-EO14024); Differenz zwischen Snapshots = neue Listungen."
+    },
+    {
+     "source_id": "opensanctions",
+     "name": "OpenSanctions (aggregiert, Deltas)",
+     "doc_url": "https://www.opensanctions.org/docs/bulk/",
+     "endpoint": "https://data.opensanctions.org/datasets/latest/sanctions/entities.ftm.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Versionsarchiv je Tag",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (kommerziell kostenpflichtig)",
+     "verified": false,
+     "sample_note": "Einheitliches Format über OFAC/EU/UK/UN; first_seen/last_change je Entität. Repo opensanctions/opensanctions per curl erreichbar (nur README geprüft), Datenendpunkt nicht."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.government.unsc_emergency_meetings",
+   "name_de": "UN-Sicherheitsrat: Dringlichkeitssitzungen",
+   "plain_de": "Zählt kurzfristig einberufene Sitzungen des UN-Sicherheitsrats zu den Konfliktherden.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Dringlichkeitssitzungen werden binnen Stunden angesetzt und stehen für akute Zuspitzung (Iran, Ukraine, Taiwan, Nahost).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Routine-Briefings",
+    "Verfahrenssitzungen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "unsc-meetings",
+     "name": "UN Digital Library Security Council Meeting Records",
+     "doc_url": "https://digitallibrary.un.org/collection/Security%20Council%20Meeting%20Records",
+     "endpoint": "https://digitallibrary.un.org/search?cc=Meeting+Records&of=xm&rg=100&sf=year&so=d",
+     "access": "scrape",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "seit 1946",
+     "rate_limit": "",
+     "license": "UN-Bedingungen",
+     "verified": false,
+     "sample_note": "Sitzungsprotokolle (S/PV.nnnn) je Tag; Dringlichkeitssitzungen zu Iran, Ukraine, Taiwan zählen. Ergänzend securitycouncilreport.org."
+    }
+   ],
+   "notes": "Programme of Work vs. tatsächliche Sitzungen unterscheiden."
+  },
+  {
+   "id": "war.government.unsc_vetoes",
+   "name_de": "UN-Sicherheitsrat: Vetos und gescheiterte Resolutionen",
+   "plain_de": "Zählt Vetos der Ständigen Mitglieder zu Konfliktresolutionen.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Blockierte Diplomatie ist Begleiter von Eskalation; Zählreihe in UN-Abstimmungsdaten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Routine-Blockaden"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "unsc-meetings",
+     "name": "UN Digital Library Security Council Meeting Records",
+     "doc_url": "https://digitallibrary.un.org/collection/Security%20Council%20Meeting%20Records",
+     "endpoint": "https://digitallibrary.un.org/search?cc=Meeting+Records&of=xm&rg=100&sf=year&so=d",
+     "access": "scrape",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "seit 1946",
+     "rate_limit": "",
+     "license": "UN-Bedingungen",
+     "verified": false,
+     "sample_note": "Sitzungsprotokolle (S/PV.nnnn) je Tag; Dringlichkeitssitzungen zu Iran, Ukraine, Taiwan zählen. Ergänzend securitycouncilreport.org."
+    }
+   ],
+   "notes": "Seltenes Ereignis, schwache Frequenz."
+  },
+  {
+   "id": "war.government.export_controls",
+   "name_de": "Exportkontroll-Änderungen (Dual-Use, Halbleiter, Rüstung)",
+   "plain_de": "Beobachtet neue Ausfuhrbeschränkungen der USA für militärisch nutzbare Güter.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Neue Ausfuhrregeln und Entity-List-Ergänzungen zeigen Einschätzung steigender Konfliktgefahr, v. a. Taiwan-Szenario.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Handelspolitik",
+    "Technologiewettbewerb"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "federal-register",
+     "name": "Federal Register API (BIS-Regeln)",
+     "doc_url": "https://www.federalregister.gov/developers/documentation/api/v1",
+     "endpoint": "https://www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=industry-and-security-bureau&order=newest",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 1994",
+     "rate_limit": "",
+     "license": "gemeinfrei (US-Regierung)",
+     "verified": false,
+     "sample_note": "Zählung BIS-Dokumente je Woche; Titelfilter Entity List."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.government.defense_procurement",
+   "name_de": "Staatliche Beschaffung von Munition und Luftabwehr",
+   "plain_de": "Zählt öffentliche Ausschreibungen und Zuschläge für Munition, Drohnenabwehr und Feldlazarette.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Beschaffungsregister sind Pflichtveröffentlichungen; Häufung bei Notfallvergaben (Verfahren ohne Wettbewerb) deutet auf Eile.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Aufrüstungsbudget",
+    "Haushaltsjahresende"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ted-eu",
+     "name": "TED (EU-Ausschreibungen) API v3",
+     "doc_url": "https://docs.ted.europa.eu/api/latest/index.html",
+     "endpoint": "https://api.ted.europa.eu/v3/notices/search",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (laut Erinnerung)",
+     "verified": false,
+     "sample_note": "CPV 35xxx Verteidigung, Dringlichkeitsverfahren. POST mit Expertenquery."
+    },
+    {
+     "source_id": "usaspending",
+     "name": "USAspending API",
+     "doc_url": "https://api.usaspending.gov/",
+     "endpoint": "https://api.usaspending.gov/api/v2/search/spending_by_award_count/",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2008",
+     "rate_limit": "",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "DoD-Verträge nach Warengruppe; Zuschlagswerte je Tag."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.government.mobilization_registers",
+   "name_de": "Einberufungs- und Reservisten-Rechtsakte",
+   "plain_de": "Zählt neue Wehrpflicht-, Mobilisierungs- und Reservistengesetze in Parlamentsregistern.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Rechtsakte zu Einberufung und Wehrpflichtalter sind amtlich und datierbar (Ukraine, Russland, Baltikum, Taiwan, Deutschland).",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Routine-Wehrübungen",
+    "Reform der Wehrpflicht (Deutschland)"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "dip-bundestag",
+     "name": "DIP Bundestag API",
+     "doc_url": "https://dip.bundestag.de/%C3%BCber-dip/hilfen/api",
+     "endpoint": "https://search.dip.bundestag.de/api/v1/vorgang?f.titel=Wehrpflicht&apikey={KEY}",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 1949",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Vorgänge zu Wehrdienst/Zivilschutz; Parameter aus Erinnerung."
+    },
+    {
+     "source_id": "rada-open",
+     "name": "Ukraine Verkhovna Rada Open Data",
+     "doc_url": "https://data.rada.gov.ua/open",
+     "endpoint": "https://data.rada.gov.ua/open/data/bills-skl9",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 1990",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Gesetzentwürfe mit Stichwort Mobilisierung; Pfad aus Erinnerung."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.government.civil_defense_warnings",
+   "name_de": "Zivilschutz-Warnmeldungen (NINA/MOWAS)",
+   "plain_de": "Zählt aktive amtliche Bevölkerungswarnungen in Deutschland.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Sprunghafte Zunahme nicht wetterbedingter Meldungen (Drohnen, Luftraumverletzung) wäre ein Hinweis; Warntage sind bekannt und ausfilterbar.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wetterwarnungen",
+    "Bombenentschärfungen",
+    "Probealarme"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nina-warn",
+     "name": "NINA/BBK Warn-API (bund.dev)",
+     "doc_url": "https://nina.api.bund.dev/",
+     "endpoint": "https://warnung.bund.de/api31/mowas/mapData.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "keine; Archivierung nötig",
+     "rate_limit": "",
+     "license": "unklar (Datenlizenz Deutschland vermutet)",
+     "verified": false,
+     "sample_note": "Zählung aktiver Warnmeldungen; Warntag-Tests ausfiltern."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.government.civil_shelter_programs",
+   "name_de": "Schutzraum- und Zivilschutz-Ausschreibungen",
+   "plain_de": "Beobachtet, ob Staaten Bunker, Schutzräume und Vorräte aktiv ausbauen.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Beschaffungs- und Förderbekanntmachungen zeigen staatliche Planungsannahmen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Regulärer Zivilschutz-Haushalt",
+    "Gesetzesreform"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ted-eu",
+     "name": "TED (EU-Ausschreibungen) API v3",
+     "doc_url": "https://docs.ted.europa.eu/api/latest/index.html",
+     "endpoint": "https://api.ted.europa.eu/v3/notices/search",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (laut Erinnerung)",
+     "verified": false,
+     "sample_note": "Titelsuche Schutzraum, Bunker, Zivilschutz. POST mit Expertenquery."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.government.evac_flights",
+   "name_de": "Evakuierungs- und Rückholflüge (Sonderflüge)",
+   "plain_de": "Zählt Sonderflüge und Rückholaktionen für Staatsangehörige aus Krisenregionen.",
+   "domain": "government",
+   "evidence_class": "B",
+   "rationale": "Staatliche Sonderflüge erscheinen als ungewöhnliche Flugbewegungen; Ergänzung zur Reisewarnung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Terroranschlag",
+    "Naturkatastrophe",
+    "Streik"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=24&lomin=48&lamax=31&lomax=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 10 s",
+     "history": "anonym nur aktuell; Historie nur mit Konto",
+     "rate_limit": "anonym stark begrenzt",
+     "license": "nichtkommerziell, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "states[] je Box zählen (nur Aggregat je Region); Rückgang = Luftraumsperrung."
+    },
+    {
+     "source_id": "aa-opendata",
+     "name": "Auswärtiges Amt OpenData travelwarning",
+     "doc_url": "https://www.auswaertiges-amt.de/opendata/travelwarning",
+     "endpoint": "https://www.auswaertiges-amt.de/opendata/travelwarning",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung, Feed-lastModified",
+     "history": "keine; Snapshot-Archivierung nötig (täglich abspeichern, Diff bilden)",
+     "rate_limit": "",
+     "license": "unklar (AA-Opendata-Seite prüfen)",
+     "verified": true,
+     "sample_note": "response.<id>.warning/partialWarning (bool), effective, lastModified (Unix), countryCode. Per WebFetch am 2026-11-17 abgerufen, Struktur bestätigt (nicht per curl)."
+    }
+   ],
+   "notes": "Nur Aggregat je Region; keine Einzelpersonen."
+  },
+  {
+   "id": "war.government.threat_level_feeds",
+   "name_de": "Nationale Bedrohungs- und Alarmstufen",
+   "plain_de": "Beobachtet amtliche Stufen (z. B. UK Terror Threat Level) als Kontext.",
+   "domain": "government",
+   "evidence_class": "C",
+   "rationale": "Offizielle Stufenwechsel sind nur Kontext; Cross-Check für andere Signale.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Terrorlage",
+    "Test"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "uk-threat",
+     "name": "UK National Threat Level (MI5)",
+     "doc_url": "https://www.mi5.gov.uk/threat-levels",
+     "endpoint": "https://www.mi5.gov.uk/threat-levels",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung",
+     "history": "Wayback",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": "Inoffizielle DEFCON-Seiten ausdrücklich nicht als Quelle nutzen."
+  },
+  {
+   "id": "war.conflict.gdelt_fight_events",
+   "name_de": "GDELT: Kampfhandlungen (Root Code 19) je Land und Tag",
+   "plain_de": "Zählt in Nachrichten erkannte Gefechte pro Land und Tag.",
+   "domain": "conflict",
+   "evidence_class": "D",
+   "rationale": "Aus Medienströmen abgeleitete Ereigniszählung; Verdopplung gegenüber 30-Tage-Baseline bei Iran, Libanon, Taiwan-Strait, Baltikum ist ein schneller Hinweis (kostenlos, 15 Minuten).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienaufmerksamkeit ohne reale Zunahme",
+    "Geocoding-Fehler",
+    "Duplikate"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "gdelt-events",
+     "name": "GDELT 2.0 Event-Export (15-Min-Dateien)",
+     "doc_url": "https://www.gdeltproject.org/data.html",
+     "endpoint": "http://data.gdeltproject.org/gdeltv2/lastupdate.txt",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "Dateiarchiv 15-Min-Takt seit Feb 2015, masterfilelist.txt",
+     "rate_limit": "",
+     "license": "frei mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Spalten: EventRootCode (19 = Fight, 20 = Unconventional mass violence), GoldsteinScale, NumMentions, ActionGeo_CountryCode, AvgTone. Zählung je Land und Tag selbst aggregieren; BigQuery-Variante gdelt-bq.gdeltv2.events (Konto nötig)."
+    },
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT 2.0 DOC API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=sourcecountry:IR%20(attack%20OR%20strike)&mode=TimelineVol&timespan=3months&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "rollierend 3 Monate per timespan; Langzeit-Baseline nur über Events-Dateien (seit 2015)",
+     "rate_limit": "1 Anfrage je 5 s (laut Doku-Auszug)",
+     "license": "GDELT frei nutzbar mit Quellenangabe",
+     "verified": false,
+     "sample_note": "timeline[].data[].value = Anteil an Gesamtberichterstattung. Doku geprüft (Jentic-Auszug), Endpunkt selbst von der Shell nicht abrufbar."
+    }
+   ],
+   "notes": "GDELT ist Medienabbild, nicht Messung (Klasse D)."
+  },
+  {
+   "id": "war.conflict.gdelt_goldstein",
+   "name_de": "GDELT: Goldstein-Skala (Konfliktintensität) je Staatenpaar",
+   "plain_de": "Misst, wie feindselig oder kooperativ Ereignisse zwischen zwei Staaten im Schnitt sind.",
+   "domain": "conflict",
+   "evidence_class": "D",
+   "rationale": "Fallender mittlerer GoldsteinScale zwischen Akteuren (USA-Iran, Russland-NATO, China-Taiwan) zeigt Verschlechterung.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Nachrichtenzyklus",
+    "Codierungsfehler"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gdelt-events",
+     "name": "GDELT 2.0 Event-Export (15-Min-Dateien)",
+     "doc_url": "https://www.gdeltproject.org/data.html",
+     "endpoint": "http://data.gdeltproject.org/gdeltv2/lastupdate.txt",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "Dateiarchiv 15-Min-Takt seit Feb 2015, masterfilelist.txt",
+     "rate_limit": "",
+     "license": "frei mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Spalten: EventRootCode (19 = Fight, 20 = Unconventional mass violence), GoldsteinScale, NumMentions, ActionGeo_CountryCode, AvgTone. Zählung je Land und Tag selbst aggregieren; BigQuery-Variante gdelt-bq.gdeltv2.events (Konto nötig)."
+    }
+   ],
+   "notes": "Staatenpaare über Actor1CountryCode/Actor2CountryCode; 7-Tage-Mittel."
+  },
+  {
+   "id": "war.conflict.gdelt_tone_volume_hotspots",
+   "name_de": "GDELT: Nachrichtenvolumen und Tonfall zu den Hotspots",
+   "plain_de": "Misst, wie viel und wie negativ weltweit über Iran, Hormus, Taiwan, Baltikum berichtet wird.",
+   "domain": "conflict",
+   "evidence_class": "D",
+   "rationale": "TimelineVol und TimelineTone liefern ohne Key eine Zeitreihe; schneller Frühindikator für Aufmerksamkeitsspitzen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Großereignis Sport, Wahlen",
+    "Medienkampagnen"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT 2.0 DOC API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=Hormuz&mode=TimelineVol&timespan=3months&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "rollierend 3 Monate per timespan; Langzeit-Baseline nur über Events-Dateien (seit 2015)",
+     "rate_limit": "1 Anfrage je 5 s (laut Doku-Auszug)",
+     "license": "GDELT frei nutzbar mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Zeitreihe Volumenanteil. Doku geprüft (Jentic-Auszug), Endpunkt selbst von der Shell nicht abrufbar."
+    },
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT 2.0 DOC API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=Taiwan%20Strait&mode=TimelineTone&timespan=3months&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "rollierend 3 Monate per timespan; Langzeit-Baseline nur über Events-Dateien (seit 2015)",
+     "rate_limit": "1 Anfrage je 5 s (laut Doku-Auszug)",
+     "license": "GDELT frei nutzbar mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Durchschnittstonalität. Doku geprüft (Jentic-Auszug), Endpunkt selbst von der Shell nicht abrufbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.conflict.gdelt_mass_violence",
+   "name_de": "GDELT: unkonventionelle Massengewalt (Root Code 20)",
+   "plain_de": "Zählt Ereignisse wie Massaker, chemische oder nukleare Drohungen in Nachrichten.",
+   "domain": "conflict",
+   "evidence_class": "D",
+   "rationale": "Code 20 ist selten; jeder Anstieg ist erklärungsbedürftig und leicht zu überwachen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Terroranschläge",
+    "Fehlcodierung"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gdelt-events",
+     "name": "GDELT 2.0 Event-Export (15-Min-Dateien)",
+     "doc_url": "https://www.gdeltproject.org/data.html",
+     "endpoint": "http://data.gdeltproject.org/gdeltv2/lastupdate.txt",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "Dateiarchiv 15-Min-Takt seit Feb 2015, masterfilelist.txt",
+     "rate_limit": "",
+     "license": "frei mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Spalten: EventRootCode (19 = Fight, 20 = Unconventional mass violence), GoldsteinScale, NumMentions, ActionGeo_CountryCode, AvgTone. Zählung je Land und Tag selbst aggregieren; BigQuery-Variante gdelt-bq.gdeltv2.events (Konto nötig)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.conflict.acled_events_weekly",
+   "name_de": "ACLED: Ereignisse und Todesopfer pro Woche",
+   "plain_de": "Zählt kuratierte Gewaltereignisse nach Land und Typ (Gefechte, Explosionen, Beschuss).",
+   "domain": "conflict",
+   "evidence_class": "B",
+   "rationale": "Manuell kuratierte Ereignisdaten sind belastbarer als GDELT; Anstieg bei Explosionen und Fernbeschuss vor Bodenoffensiven typisch.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Verzögerte Aufarbeitung",
+    "Datenrevision"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "acled",
+     "name": "ACLED API",
+     "doc_url": "https://acleddata.com/api-documentation/",
+     "endpoint": "https://acleddata.com/api/acled/read?_format=json&country=Ukraine&event_date=2026-11-01|2026-11-16&event_date_where=BETWEEN",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 1997 (je Region unterschiedlich)",
+     "rate_limit": "",
+     "license": "ACLED Terms (nichtkommerziell frei, kommerziell kostenpflichtig)",
+     "verified": false,
+     "sample_note": "Felder: event_type, sub_event_type, fatalities, admin1; OAuth-Token laut Erinnerung nötig."
+    }
+   ],
+   "notes": "Key nötig; wöchentliche Veröffentlichung."
+  },
+  {
+   "id": "war.conflict.ucdp_candidate",
+   "name_de": "UCDP Candidate Events: Todesopfer je Land",
+   "plain_de": "Misst vorläufig geschätzte Todesopfer organisierter Gewalt je Land und Monat.",
+   "domain": "conflict",
+   "evidence_class": "B",
+   "rationale": "Akademischer Standard mit Historie seit 1989: ideal fürs Backtesting gegen frühere Eskalationen.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Revisionen",
+    "Berichtsverzug"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ucdp",
+     "name": "UCDP Candidate Events / GED API",
+     "doc_url": "https://ucdp.uu.se/apidocs/",
+     "endpoint": "https://ucdpapi.pcr.uu.se/api/gedevents/26.0.1?pagesize=100&StartDate=2026-10-01&EndDate=2026-11-16",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Candidate monatlich bzw. wöchentlich",
+     "history": "GED seit 1989",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Felder: best (Todesopfer), date_start, country. Versionsnummer und Token-Pflicht prüfen; Websuche lieferte keine Doku-Seite."
+    }
+   ],
+   "notes": "Eher bestätigend als vorlaufend."
+  },
+  {
+   "id": "war.conflict.ua_air_alerts",
+   "name_de": "Ukraine: Luftalarme pro Tag und Region (GitHub-Spiegel)",
+   "plain_de": "Zählt täglich Luftalarme und Gesamtdauer in den ukrainischen Regionen.",
+   "domain": "conflict",
+   "evidence_class": "B",
+   "rationale": "Alarmstatus als Zeitreihe seit 2022 zeigt Wellen von Raketen- und Drohnenangriffen, inklusive Westregionen nahe NATO-Grenze (Lwiw, Wolhynien).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Einzelne Drohnen",
+    "Alarmpraxis-Änderung auf Raion-Ebene seit Dez 2025"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "github-air-raid-sirens",
+     "name": "Vadimkin/ukrainian-air-raid-sirens-dataset (GitHub)",
+     "doc_url": "https://github.com/Vadimkin/ukrainian-air-raid-sirens-dataset",
+     "endpoint": "https://raw.githubusercontent.com/Vadimkin/ukrainian-air-raid-sirens-dataset/main/datasets/volunteer_data_en.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2022-02-25 (Volunteer), offiziell seit 2022-03-15; offizielle Datei endet im Test bei 2026-09-07 (veraltet)",
+     "rate_limit": "",
+     "license": "unklar (Lizenzdatei nicht geprüft)",
+     "verified": true,
+     "sample_note": "Spalten region,started_at,finished_at,naive. Letzte Zeile im Test: 2026-11-16 05:07 UTC. Zählung Alarme und Dauer je Tag und Oblast. Offizielle Datei official_data_en.csv hat seit Dez 2025 Raion-Ebene."
+    },
+    {
+     "source_id": "alerts-in-ua",
+     "name": "alerts.in.ua API",
+     "doc_url": "https://alerts.in.ua/api-request",
+     "endpoint": "https://api.alerts.in.ua/v1/alerts/active.json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "nur aktuell",
+     "rate_limit": "",
+     "license": "API-Bedingungen",
+     "verified": false,
+     "sample_note": "Aktive Alarme je Oblast/Raion; Token auf Anfrage."
+    }
+   ],
+   "notes": "Wegen Raion-Wechsel normalisieren; offizielle Datei im Test veraltet, Volunteer-Datei aktuell."
+  },
+  {
+   "id": "war.conflict.ua_losses_reported",
+   "name_de": "Ukraine: gemeldete russische Verluste je Tag (Drohnen, Raketen)",
+   "plain_de": "Zählt vom ukrainischen Generalstab gemeldete Tagesverluste, Drohnen und Marschflugkörper.",
+   "domain": "conflict",
+   "evidence_class": "C",
+   "rationale": "Selbstangabe einer Kriegspartei, daher nur Intensitätsverlauf, nicht Wahrheit; täglich per GitHub-Spiegel.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Propaganda",
+    "Zählmethodik"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "github-ukraine-losses",
+     "name": "PetroIvaniuk/2022-Ukraine-Russia-War-Dataset (GitHub)",
+     "doc_url": "https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset",
+     "endpoint": "https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_personnel.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "kumulativ seit 2022-02-24",
+     "rate_limit": "",
+     "license": "unklar (Repo-Lizenz prüfen)",
+     "verified": true,
+     "sample_note": "Selbstangaben des ukrainischen Generalstabs. Letzter Eintrag im Test 2026-11-16 (Tag 1727). Differenzen = Tageswerte. Ergänzend russia_losses_equipment.json (Felder drone, cruise missiles)."
+    }
+   ],
+   "notes": "Nur Kontext. Differenzen bilden."
+  },
+  {
+   "id": "war.conflict.frontline_area_change",
+   "name_de": "Ukraine: Frontverschiebung (Fläche besetzter Gebiete pro Tag)",
+   "plain_de": "Misst, wie viel Fläche laut DeepStateMap täglich hinzukommt oder verloren geht.",
+   "domain": "conflict",
+   "evidence_class": "D",
+   "rationale": "Tägliche GeoJSON-Archive erlauben Flächendifferenz als Zeitreihe; Offensivwellen sichtbar.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Kartierungsverzug",
+    "Korrekturen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "github-deepstate",
+     "name": "cyterat/deepstate-map-data (GitHub)",
+     "doc_url": "https://github.com/cyterat/deepstate-map-data",
+     "endpoint": "https://raw.githubusercontent.com/cyterat/deepstate-map-data/main/data/deepstatemap_data_20261116.geojson",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich 03:00 UTC",
+     "history": "Tagesdateien seit 2024-07, gesamt als deepstate-map-data.geojson.gz",
+     "rate_limit": "",
+     "license": "unklar (Quelle DeepStateMap, Repo-Lizenz prüfen)",
+     "verified": true,
+     "sample_note": "MultiPolygon der besetzten Gebiete je Tag; Flächendifferenz = Frontbewegung. Datei vom 2026-11-16 per curl erreichbar (77 KB)."
+    },
+    {
+     "source_id": "github-viina",
+     "name": "zhukovyuri/VIINA 2.0 (GitHub)",
+     "doc_url": "https://github.com/zhukovyuri/VIINA",
+     "endpoint": "https://raw.githubusercontent.com/zhukovyuri/VIINA/master/Data/event_info_latest_2026.zip",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich laut README",
+     "history": "seit 2022-02-24",
+     "rate_limit": "",
+     "license": "ODbL",
+     "verified": false,
+     "sample_note": "Im Test lieferte raw nur einen 132-Byte-Git-LFS-Zeiger, keine Daten. Über git lfs oder GitHub-Media-URL holen. Ereignisse aus ukrainischen und russischen Medien, geocodiert."
+    }
+   ],
+   "notes": "Fläche mit geodätischer Projektion berechnen."
+  },
+  {
+   "id": "war.conflict.reliefweb_reports",
+   "name_de": "ReliefWeb: Lagemeldungen je Land und Tag",
+   "plain_de": "Zählt humanitäre Lageberichte von UN und NGOs zu einem Land.",
+   "domain": "conflict",
+   "evidence_class": "B",
+   "rationale": "Humanitäre Organisationen veröffentlichen verstärkt bei Eskalation (Flash Updates).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wiederkehrende Berichte",
+    "Naturkatastrophen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "reliefweb",
+     "name": "ReliefWeb API v2",
+     "doc_url": "https://apidoc.reliefweb.int/",
+     "endpoint": "https://api.reliefweb.int/v2/reports?appname=signal-radar&filter[field]=country.iso3&filter[value]=IRN&limit=0",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "seit 1996",
+     "rate_limit": "",
+     "license": "meist CC BY, je Dokument unterschiedlich",
+     "verified": false,
+     "sample_note": "totalCount je Filter und Datum = Meldungen pro Tag. appname muss registriert werden (Erinnerung)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.conflict.displacement_refugees",
+   "name_de": "Flucht und Vertreibung (UNHCR, IOM DTM)",
+   "plain_de": "Misst neue Flüchtlinge und Vertriebene je Land und Woche.",
+   "domain": "conflict",
+   "evidence_class": "B",
+   "rationale": "Fluchtbewegungen starten oft vor oder mit der Eskalation; Tageszahlen im Ukraine Situation Portal.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Saisonale Migration",
+    "Klimakatastrophen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "unhcr",
+     "name": "UNHCR Refugee Statistics API",
+     "doc_url": "https://api.unhcr.org/docs/refugee-statistics.html",
+     "endpoint": "https://api.unhcr.org/population/v1/population/?limit=20&yearFrom=2026&coa=UKR",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich bis monatlich",
+     "history": "seit 1951",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Bestandsdaten; für Tageswerte Ukraine Situation Portal data.unhcr.org."
+    },
+    {
+     "source_id": "hdx",
+     "name": "OCHA HDX CKAN API / HAPI",
+     "doc_url": "https://data.humdata.org/faqs/devs",
+     "endpoint": "https://data.humdata.org/api/3/action/package_search?q=conflict-events&rows=5",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "je Datensatz",
+     "history": "je Datensatz",
+     "rate_limit": "",
+     "license": "je Datensatz (meist CC BY-IGO)",
+     "verified": false,
+     "sample_note": "HAPI (hapi.humdata.org) harmonisiert ACLED/UNHCR/Preise; App-Identifier nötig."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.conflict.border_crossings",
+   "name_de": "Grenzübertritte an Konfliktgrenzen (Polen-Ukraine, Rumänien, Moldau)",
+   "plain_de": "Zählt Tagesübertritte an Grenzen zu Konfliktstaaten.",
+   "domain": "conflict",
+   "evidence_class": "B",
+   "rationale": "Tageszahlen des Grenzschutzes zeigen Fluchtwellen oder Rückkehrer; Sprünge sind Hinweise.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Ferienzeiten",
+    "Grenzöffnungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "sg-pl",
+     "name": "Straż Graniczna Statystyki",
+     "doc_url": "https://www.strazgraniczna.pl/pl/granica/statystyki-sg/2206,Statystyki-SG.html",
+     "endpoint": "https://www.strazgraniczna.pl/pl/granica/statystyki-sg/2206,Statystyki-SG.html",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2022 (laut Erinnerung)",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Tabellen je Grenzabschnitt; URL nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.conflict.fires_infrastructure",
+   "name_de": "Satelliten-Hitzepunkte an Energie- und Militäranlagen",
+   "plain_de": "Zählt Brandherde in Satellitendaten um Raffinerien, Häfen und Depots.",
+   "domain": "conflict",
+   "evidence_class": "A",
+   "rationale": "VIIRS erkennt Großbrände unabhängig von Meldungen; Cluster an Raffinerien und Häfen begleiten Angriffe.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Gasabfackelung",
+    "Waldbrand",
+    "Industriebrand"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nasa-firms",
+     "name": "NASA FIRMS Active Fire API",
+     "doc_url": "https://firms.modaps.eosdis.nasa.gov/api/",
+     "endpoint": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{MAP_KEY}/VIIRS_SNPP_NRT/44,22,60,40/1",
+     "access": "api",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 3 h",
+     "history": "seit 2000 (MODIS) bzw. 2012 (VIIRS)",
+     "rate_limit": "",
+     "license": "NASA Open Data, frei",
+     "verified": false,
+     "sample_note": "Zeilen = Hitzepunkte; Zählung je Bounding Box und Tag."
+    }
+   ],
+   "notes": "Flaring-Standorte maskieren."
+  },
+  {
+   "id": "war.conflict.drone_airport_closures_eu",
+   "name_de": "Drohnenbedingte Flughafensperrungen in Europa",
+   "plain_de": "Zählt Flugplatz-Sperrungen wegen Drohnen in Europa.",
+   "domain": "conflict",
+   "evidence_class": "B",
+   "rationale": "Hybride Aktivitäten treten gebündelt auf; Flugbewegungsdaten belegen Sperrungen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Hobbydrohnen",
+    "Fehlalarme"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "eurocontrol-opendata",
+     "name": "Eurocontrol Aviation Intelligence (Flugzahlen)",
+     "doc_url": "https://www.eurocontrol.int/dashboard/aviation-intelligence-portal",
+     "endpoint": "https://ansperformance.eu/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2019",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Flüge je Land und Tag; Endpunkt nicht geprüft, Rückgänge zeigen Sperrungen."
+    },
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=24&lomin=48&lamax=31&lomax=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 10 s",
+     "history": "anonym nur aktuell; Historie nur mit Konto",
+     "rate_limit": "anonym stark begrenzt",
+     "license": "nichtkommerziell, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "states[] je Box zählen (nur Aggregat je Region); Rückgang = Luftraumsperrung."
+    }
+   ],
+   "notes": "Kein einheitlicher offener Vorfall-Feed gefunden."
+  },
+  {
+   "id": "war.connectivity.ioda_ir",
+   "name_de": "Internet-Erreichbarkeit Iran (IODA)",
+   "plain_de": "Misst, ob das Internet in Iran großflächig ausfällt oder abgeschaltet wird.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Routing-, Ping- und Telescope-Signale sind unabhängige Messungen; Abschaltungen begleiten Angriffe, Stromausfälle und Staatsmaßnahmen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Stromausfall",
+    "Kabelschaden",
+    "Zensur bei Protesten",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech) Signals API",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=-7d&until=now&datasource=bgp",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "mehrjährig; Parameter from/until",
+     "rate_limit": "",
+     "license": "unklar (akademisch, nichtkommerziell prüfen)",
+     "verified": false,
+     "sample_note": "Abfall unter 10-Tage-Baseline. Datenquellen bgp, ping-slash24, ucsd-nt. Endpunktschema aus Erinnerung, Doku-Suche ergab keinen Treffer."
+    },
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API (Outages, Traffic)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis Stunden",
+     "history": "Outage-Annotationen seit 2022, Traffic-Zeitreihen mehrere Jahre",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (Radar-Daten)",
+     "verified": false,
+     "sample_note": "Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR."
+    },
+    {
+     "source_id": "ooni",
+     "name": "OONI API",
+     "doc_url": "https://docs.ooni.org/api/",
+     "endpoint": "https://api.ooni.io/api/v1/aggregation?probe_cc=IR&since=2026-10-01&until=2026-11-17&axis_x=measurement_start_day&test_name=web_connectivity",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "seit 2012 je Land",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Zensur- und Erreichbarkeitsmessungen. Anteil anomaly_count/measurement_count je Tag."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.ioda_il",
+   "name_de": "Internet-Erreichbarkeit Israel (IODA)",
+   "plain_de": "Misst, ob das Internet in Israel großflächig ausfällt oder abgeschaltet wird.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Routing-, Ping- und Telescope-Signale sind unabhängige Messungen; Abschaltungen begleiten Angriffe, Stromausfälle und Staatsmaßnahmen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Stromausfall",
+    "Kabelschaden",
+    "Zensur bei Protesten",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech) Signals API",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IL?from=-7d&until=now&datasource=bgp",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "mehrjährig; Parameter from/until",
+     "rate_limit": "",
+     "license": "unklar (akademisch, nichtkommerziell prüfen)",
+     "verified": false,
+     "sample_note": "Abfall unter 10-Tage-Baseline. Datenquellen bgp, ping-slash24, ucsd-nt. Endpunktschema aus Erinnerung, Doku-Suche ergab keinen Treffer."
+    },
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API (Outages, Traffic)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis Stunden",
+     "history": "Outage-Annotationen seit 2022, Traffic-Zeitreihen mehrere Jahre",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (Radar-Daten)",
+     "verified": false,
+     "sample_note": "Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR."
+    },
+    {
+     "source_id": "ooni",
+     "name": "OONI API",
+     "doc_url": "https://docs.ooni.org/api/",
+     "endpoint": "https://api.ooni.io/api/v1/aggregation?probe_cc=IL&since=2026-10-01&until=2026-11-17&axis_x=measurement_start_day&test_name=web_connectivity",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "seit 2012 je Land",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Zensur- und Erreichbarkeitsmessungen. Anteil anomaly_count/measurement_count je Tag."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.ioda_ua",
+   "name_de": "Internet-Erreichbarkeit Ukraine (IODA)",
+   "plain_de": "Misst, ob das Internet in Ukraine großflächig ausfällt oder abgeschaltet wird.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Routing-, Ping- und Telescope-Signale sind unabhängige Messungen; Abschaltungen begleiten Angriffe, Stromausfälle und Staatsmaßnahmen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Stromausfall",
+    "Kabelschaden",
+    "Zensur bei Protesten",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech) Signals API",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/UA?from=-7d&until=now&datasource=bgp",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "mehrjährig; Parameter from/until",
+     "rate_limit": "",
+     "license": "unklar (akademisch, nichtkommerziell prüfen)",
+     "verified": false,
+     "sample_note": "Abfall unter 10-Tage-Baseline. Datenquellen bgp, ping-slash24, ucsd-nt. Endpunktschema aus Erinnerung, Doku-Suche ergab keinen Treffer."
+    },
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API (Outages, Traffic)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis Stunden",
+     "history": "Outage-Annotationen seit 2022, Traffic-Zeitreihen mehrere Jahre",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (Radar-Daten)",
+     "verified": false,
+     "sample_note": "Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR."
+    },
+    {
+     "source_id": "ooni",
+     "name": "OONI API",
+     "doc_url": "https://docs.ooni.org/api/",
+     "endpoint": "https://api.ooni.io/api/v1/aggregation?probe_cc=UA&since=2026-10-01&until=2026-11-17&axis_x=measurement_start_day&test_name=web_connectivity",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "seit 2012 je Land",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Zensur- und Erreichbarkeitsmessungen. Anteil anomaly_count/measurement_count je Tag."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.ioda_ru",
+   "name_de": "Internet-Erreichbarkeit Russland (IODA)",
+   "plain_de": "Misst, ob das Internet in Russland großflächig ausfällt oder abgeschaltet wird.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Routing-, Ping- und Telescope-Signale sind unabhängige Messungen; Abschaltungen begleiten Angriffe, Stromausfälle und Staatsmaßnahmen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Stromausfall",
+    "Kabelschaden",
+    "Zensur bei Protesten",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech) Signals API",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/RU?from=-7d&until=now&datasource=bgp",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "mehrjährig; Parameter from/until",
+     "rate_limit": "",
+     "license": "unklar (akademisch, nichtkommerziell prüfen)",
+     "verified": false,
+     "sample_note": "Abfall unter 10-Tage-Baseline. Datenquellen bgp, ping-slash24, ucsd-nt. Endpunktschema aus Erinnerung, Doku-Suche ergab keinen Treffer."
+    },
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API (Outages, Traffic)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis Stunden",
+     "history": "Outage-Annotationen seit 2022, Traffic-Zeitreihen mehrere Jahre",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (Radar-Daten)",
+     "verified": false,
+     "sample_note": "Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR."
+    },
+    {
+     "source_id": "ooni",
+     "name": "OONI API",
+     "doc_url": "https://docs.ooni.org/api/",
+     "endpoint": "https://api.ooni.io/api/v1/aggregation?probe_cc=RU&since=2026-10-01&until=2026-11-17&axis_x=measurement_start_day&test_name=web_connectivity",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "seit 2012 je Land",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Zensur- und Erreichbarkeitsmessungen. Anteil anomaly_count/measurement_count je Tag."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.ioda_tw",
+   "name_de": "Internet-Erreichbarkeit Taiwan (IODA)",
+   "plain_de": "Misst, ob das Internet in Taiwan großflächig ausfällt oder abgeschaltet wird.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Routing-, Ping- und Telescope-Signale sind unabhängige Messungen; Abschaltungen begleiten Angriffe, Stromausfälle und Staatsmaßnahmen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Stromausfall",
+    "Kabelschaden",
+    "Zensur bei Protesten",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech) Signals API",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/TW?from=-7d&until=now&datasource=bgp",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "mehrjährig; Parameter from/until",
+     "rate_limit": "",
+     "license": "unklar (akademisch, nichtkommerziell prüfen)",
+     "verified": false,
+     "sample_note": "Abfall unter 10-Tage-Baseline. Datenquellen bgp, ping-slash24, ucsd-nt. Endpunktschema aus Erinnerung, Doku-Suche ergab keinen Treffer."
+    },
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API (Outages, Traffic)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis Stunden",
+     "history": "Outage-Annotationen seit 2022, Traffic-Zeitreihen mehrere Jahre",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (Radar-Daten)",
+     "verified": false,
+     "sample_note": "Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR."
+    },
+    {
+     "source_id": "ooni",
+     "name": "OONI API",
+     "doc_url": "https://docs.ooni.org/api/",
+     "endpoint": "https://api.ooni.io/api/v1/aggregation?probe_cc=TW&since=2026-10-01&until=2026-11-17&axis_x=measurement_start_day&test_name=web_connectivity",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "seit 2012 je Land",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Zensur- und Erreichbarkeitsmessungen. Anteil anomaly_count/measurement_count je Tag."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.gulf_states_internet",
+   "name_de": "Internet-Lage in den Golfstaaten und Irak",
+   "plain_de": "Misst Ausfälle in Golfstaaten (Katar, VAE, Bahrain, Kuwait, Saudi-Arabien, Irak, Oman).",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Hormus-Eskalation betrifft Unterseekabel und Rechenzentren; Länderausfälle sind früh sichtbar.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Kabelschäden (Rotes Meer, Golf)",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA (Georgia Tech) Signals API",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/AE?from=-7d&until=now&datasource=bgp",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 5-10 min",
+     "history": "mehrjährig; Parameter from/until",
+     "rate_limit": "",
+     "license": "unklar (akademisch, nichtkommerziell prüfen)",
+     "verified": false,
+     "sample_note": "Wiederholen für QA, BH, KW, SA, IQ, OM. Datenquellen bgp, ping-slash24, ucsd-nt. Endpunktschema aus Erinnerung, Doku-Suche ergab keinen Treffer."
+    },
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API (Outages, Traffic)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis Stunden",
+     "history": "Outage-Annotationen seit 2022, Traffic-Zeitreihen mehrere Jahre",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (Radar-Daten)",
+     "verified": false,
+     "sample_note": "Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.undersea_cables_baltic",
+   "name_de": "Ostsee- und Rotes-Meer-Kabel: Ausfälle",
+   "plain_de": "Beobachtet Kabelunterbrechungen als Begleiter hybrider Aktionen.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Kabelausfälle fallen zeitlich mit Schiffspassagen zusammen; messbar über Routingdaten und Radar-Annotationen mit Ursache Cable Cut.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Anker-Unfälle",
+    "Fischerei",
+    "Alterung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API (Outages, Traffic)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis Stunden",
+     "history": "Outage-Annotationen seit 2022, Traffic-Zeitreihen mehrere Jahre",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (Radar-Daten)",
+     "verified": false,
+     "sample_note": "Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR."
+    },
+    {
+     "source_id": "ripe-stat",
+     "name": "RIPEstat country-routing-stats",
+     "doc_url": "https://stat.ripe.net/docs/02.data-api/country-routing-stats.html",
+     "endpoint": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=FI",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 8 h",
+     "history": "seit 2004 (RIS)",
+     "rate_limit": "",
+     "license": "RIPE Data Terms",
+     "verified": false,
+     "sample_note": "Abfall der Präfixzahl zeigt Routing-Verlust; Feldname aus Erinnerung."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.gnss_interference",
+   "name_de": "GNSS-Störungen in Ostsee, Schwarzem Meer, Golf, Taiwan-Strait",
+   "plain_de": "Misst, wie viele Flugzeuge in einer Region gestörte Satellitennavigation melden.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Jamming steigt vor und bei Konflikten (Kaliningrad, Golf); Daten stammen aus ADS-B-Navigationsqualität und sind unabhängig.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Dauerstörung (hohe Baseline Ostsee)",
+    "Testgelände",
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam (ADS-B-basierte GNSS-Störungs-Karte)",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2022",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Anteil Flugzeuge mit schlechter Navigationsqualität je H3-Zelle und Tag. Rohdaten-Endpunkt nicht ermittelt."
+    },
+    {
+     "source_id": "nga-msi",
+     "name": "NGA Maritime Safety Information (Navigational Warnings)",
+     "doc_url": "https://msi.nga.mil/",
+     "endpoint": "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=A&navArea=IX",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "aktive Warnungen; Archiv über Snapshots",
+     "rate_limit": "",
+     "license": "US-Regierungswerk, gemeinfrei",
+     "verified": false,
+     "sample_note": "Aktive NAVAREA/HYDROPAC-Warnungen: Schießübungen, Sperrgebiete, GNSS-Störungen. Endpunkt aus Erinnerung."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.airspace_closures",
+   "name_de": "Luftraumsperrungen und Flugstreichungen in Konfliktregionen",
+   "plain_de": "Zählt Flüge über Iran, Irak, Golf, Baltikum, Schwarzmeer; Einbrüche zeigen Sperrungen.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "ADS-B-Aggregat je Box ist unabhängig; Airlines meiden Luftraum, bevor Behörden schließen.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wetter",
+    "Feiertage",
+    "Streik"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=24&lomin=48&lamax=31&lomax=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "ca. 10 s",
+     "history": "anonym nur aktuell; Historie nur mit Konto",
+     "rate_limit": "anonym stark begrenzt",
+     "license": "nichtkommerziell, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "states[] je Box zählen (nur Aggregat je Region); Rückgang = Luftraumsperrung."
+    },
+    {
+     "source_id": "easa-czib",
+     "name": "EASA Conflict Zone Information Bulletins",
+     "doc_url": "https://www.easa.europa.eu/en/domains/air-operations/czibs",
+     "endpoint": "https://www.easa.europa.eu/en/domains/air-operations/czibs",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung",
+     "history": "Archiv der Bulletins",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Anzahl aktiver CZIBs und Gültigkeitsänderungen je Region."
+    },
+    {
+     "source_id": "eurocontrol-opendata",
+     "name": "Eurocontrol Aviation Intelligence (Flugzahlen)",
+     "doc_url": "https://www.eurocontrol.int/dashboard/aviation-intelligence-portal",
+     "endpoint": "https://ansperformance.eu/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2019",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Flüge je Land und Tag; Endpunkt nicht geprüft, Rückgänge zeigen Sperrungen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.airport_closures",
+   "name_de": "Flughafen-Schließungen und Beschränkungen (NOTAM)",
+   "plain_de": "Zählt aktive NOTAMs zu Sperrungen und Flugbeschränkungen.",
+   "domain": "connectivity",
+   "evidence_class": "B",
+   "rationale": "NOTAMs sind Pflichtmeldungen der Luftfahrtbehörden; Häufung regionaler Sperrungen ist Vorbote und Begleiter.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung",
+    "Militärübungen",
+    "Drohnensichtungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "faa-notam",
+     "name": "FAA NOTAM API",
+     "doc_url": "https://api.faa.gov/s/",
+     "endpoint": "https://external-api.faa.gov/notamapi/v1/notams?icaoLocation=OIIX",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "aktive NOTAMs, Archiv über Snapshots",
+     "rate_limit": "",
+     "license": "gemeinfrei (US)",
+     "verified": false,
+     "sample_note": "Je FIR zählen (OIIX Teheran, UKBV Kiew); Endpunkt aus Erinnerung."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.shipping_hormuz",
+   "name_de": "Schiffsdurchfahrten durch Hormus, Bab el-Mandeb und Taiwan-Strait",
+   "plain_de": "Zählt täglich Schiffe und Tanker, die wichtige Meerengen passieren.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Satelliten-AIS ist unabhängige Messung; Einbrüche sind direkter Blockadeindikator. Historie seit 2019 erlaubt Backtest gegen 28.02.2026 und 13.04.2026.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wetter",
+    "AIS-Lücken",
+    "Umrouten",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "imf-portwatch",
+     "name": "IMF PortWatch Daily Chokepoints Data (ArcGIS FeatureServer)",
+     "doc_url": "https://portwatch.imf.org/pages/faqs",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&resultRecordCount=30&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (Satelliten-AIS, Verzug einige Tage)",
+     "history": "seit 2019",
+     "rate_limit": "",
+     "license": "unklar (IMF Terms prüfen)",
+     "verified": false,
+     "sample_note": "Dienstpfad per Websuche gefunden (Metadaten-URL des Dienstes), Abfrage nicht ausgeführt, Feldnamen (n_total, n_tanker) aus Erinnerung. Meerengen: Hormuz, Bab el-Mandeb, Taiwan, Bosporus."
+    },
+    {
+     "source_id": "ukmto",
+     "name": "UKMTO / JMIC Incident Warnings",
+     "doc_url": "https://www.ukmto.org/",
+     "endpoint": "https://www.ukmto.org/recent-incidents",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Incident-Archiv auf der Seite",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Vorfallmeldungen im Golf und Roten Meer; Zählung je Woche."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.war_risk_listed_areas",
+   "name_de": "Kriegsrisiko-Gebiete der Versicherer (Joint War Committee)",
+   "plain_de": "Beobachtet, welche Seegebiete Versicherer als Kriegsrisiko einstufen.",
+   "domain": "connectivity",
+   "evidence_class": "B",
+   "rationale": "Listenänderungen sind Registerdaten mit Datum; Prämienhöhen meist hinter Paywall.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Piraterie",
+    "Routineüberprüfung"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "jwc",
+     "name": "LMA Joint War Committee Listed Areas",
+     "doc_url": "https://www.lmalloyds.com/lma/jointwar",
+     "endpoint": "https://www.lmalloyds.com/lma/jointwar",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung",
+     "history": "Archiv der Listen-Dokumente",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.power_grid_frontline",
+   "name_de": "Stromflüsse Ukraine, Baltikum, Moldau (ENTSO-E)",
+   "plain_de": "Misst grenzüberschreitende Stromflüsse und Ausfälle in Frontnähe.",
+   "domain": "connectivity",
+   "evidence_class": "B",
+   "rationale": "Angriffe auf Kraftwerke und Netzabkopplungen sind in Flussdaten sichtbar.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung",
+    "Sturm",
+    "Kälte"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "entsoe",
+     "name": "ENTSO-E Transparency Platform API",
+     "doc_url": "https://transparency.entsoe.eu/",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?securityToken={KEY}&documentType=A11&in_Domain=10YLT-1001A0008Q&out_Domain=10YPL-AREA-----S&periodStart=202611010000&periodEnd=202611170000",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (laut Erinnerung)",
+     "verified": false,
+     "sample_note": "Physische Flüsse Baltikum/Polen/Ukraine/Moldau."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.gas_storage_ua_eu",
+   "name_de": "Gasspeicher Ukraine und EU (AGSI+)",
+   "plain_de": "Misst Füllstände als Folge von Energieangriffen und Hormus-Lieferengpass.",
+   "domain": "connectivity",
+   "evidence_class": "B",
+   "rationale": "Ungewöhnliche Entnahme in der Ukraine deutet auf Zerstörung von Produktion; EU-Füllstand relevant für Blackout-Szenario.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Kälteeinbruch",
+    "Marktpreise"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "agsi",
+     "name": "GIE AGSI+ Gasspeicher-API",
+     "doc_url": "https://agsi.gie.eu/api",
+     "endpoint": "https://agsi.gie.eu/api?country=UA&from=2026-10-01",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2011",
+     "rate_limit": "",
+     "license": "GIE Bedingungen, kostenfrei",
+     "verified": false,
+     "sample_note": "Speicher je Land."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.connectivity.fuel_food_prices",
+   "name_de": "Treibstoff- und Lebensmittelpreise in Konfliktregionen",
+   "plain_de": "Misst Preisanstiege bei Benzin, Brot und Mehl in Iran, Ukraine, Libanon.",
+   "domain": "connectivity",
+   "evidence_class": "B",
+   "rationale": "Marktpreise reagieren auf Blockaden und Währungsverfall; WFP-Marktdaten über HDX, Brent als weltweiter Kontext.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Inflation",
+    "Wechselkurs",
+    "Ernte"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "wfp-food-prices",
+     "name": "WFP Food Prices (HDX)",
+     "doc_url": "https://data.humdata.org/dataset?q=wfp+food+prices",
+     "endpoint": "https://data.humdata.org/dataset?q=wfp+food+prices",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "seit ca. 2000",
+     "rate_limit": "",
+     "license": "CC BY-IGO (laut HDX üblich)",
+     "verified": false,
+     "sample_note": "Preisreihen je Markt; Länderdatensatz je Land prüfen."
+    },
+    {
+     "source_id": "github-datasets-brent",
+     "name": "datasets/oil-prices (GitHub, EIA-Spiegel)",
+     "doc_url": "https://github.com/datasets/oil-prices",
+     "endpoint": "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich mit Verzug",
+     "history": "seit 1987-05-20",
+     "rate_limit": "",
+     "license": "unklar (datasets.io, vermutlich PDDL)",
+     "verified": true,
+     "sample_note": "Spalten Date,Price. Letzte Zeile im Test: 2026-11-11, 92,14 USD."
+    }
+   ],
+   "notes": "Brent per GitHub-Spiegel bis 2026-11-11 abrufbar."
+  },
+  {
+   "id": "war.connectivity.school_closures",
+   "name_de": "Schulschließungen in Konfliktgebieten",
+   "plain_de": "Zählt Schließungen von Schulen aus Sicherheitsgründen.",
+   "domain": "connectivity",
+   "evidence_class": "B",
+   "rationale": "Schließungen sind Maßnahmen bei erwarteten Angriffen (Israel, Iran, Ukraine).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wetter",
+    "Feiertage",
+    "Hitze"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "reliefweb",
+     "name": "ReliefWeb API v2",
+     "doc_url": "https://apidoc.reliefweb.int/",
+     "endpoint": "https://api.reliefweb.int/v2/reports?appname=signal-radar&filter[field]=country.iso3&filter[value]=IRN&limit=0",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "seit 1996",
+     "rate_limit": "",
+     "license": "meist CC BY, je Dokument unterschiedlich",
+     "verified": false,
+     "sample_note": "totalCount je Filter und Datum = Meldungen pro Tag. appname muss registriert werden (Erinnerung)."
+    }
+   ],
+   "notes": "Kein aktueller offener Feed gefunden (UNESCO-Monitor war COVID-Projekt); ReliefWeb/Education Cluster per Stichwort."
+  },
+  {
+   "id": "war.connectivity.traffic_by_network",
+   "name_de": "Datenverkehr je Land und Netz (Mobilfunk, Rechenzentren)",
+   "plain_de": "Misst Traffic-Einbrüche in Ländern und Netzen als Hinweis auf Strom- und Netzausfälle.",
+   "domain": "connectivity",
+   "evidence_class": "A",
+   "rationale": "Traffic-Einbrüche in Cloudflare Radar sind unabhängige Messung; Stromausfälle nach Angriffen erkennbar.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung",
+    "Feiertage",
+    "Zensur"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cloudflare-radar",
+     "name": "Cloudflare Radar API (Outages, Traffic)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&location=IR",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "ca. 15 min bis Stunden",
+     "history": "Outage-Annotationen seit 2022, Traffic-Zeitreihen mehrere Jahre",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (Radar-Daten)",
+     "verified": false,
+     "sample_note": "Outage-Annotationen mit Ursache (Government Directed, Power, Cable). Zeitreihe /radar/http/timeseries?location=IR."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.wiki_ww3",
+   "name_de": "Wikipedia-Aufrufe: Dritter Weltkrieg (de) und World War III (en)",
+   "plain_de": "Zählt tägliche Aufrufe der Artikel Dritter Weltkrieg und World War III.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Spiegelt akute Angst der Bevölkerung; mehrtägiger Anstieg ohne Schlagzeile wäre auffällig.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Meme, Film, Spiele",
+    "Prominente Aussagen",
+    "Schlagzeilen"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Dritter_Weltkrieg/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Basis ca. 60-100 Aufrufe/Tag (Nov 2026). items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/World_War_III/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Englische Version. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.wiki_conscription",
+   "name_de": "Wikipedia-Aufrufe: Wehrpflicht, Mobilmachung",
+   "plain_de": "Zählt Aufrufe zu Wehrpflicht und Mobilmachung.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Interesse an Einberufung steigt bei Gesetzesvorhaben oder Gerüchten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wehrdienst-Debatte",
+    "Schulaufgaben"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Wehrpflicht/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Wehrpflicht. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Mobilmachung/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Mobilmachung. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Conscription/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Conscription. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.wiki_civil_protection",
+   "name_de": "Wikipedia-Aufrufe: Schutzraum, Zivilschutz, Kaliumiodid",
+   "plain_de": "Zählt Aufrufe zu Selbstschutz-Themen.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Selbstschutz-Themen steigen bei Atomangst (Kaliumiodid) und Bunkerdebatten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Katastrophenschutz-Berichte",
+    "Warntag"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kaliumiodid/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Kaliumiodid. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Schutzraum/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Schutzraum. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Zivilschutz/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Zivilschutz. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    }
+   ],
+   "notes": "Exakte Artikeltitel vor Nutzung prüfen."
+  },
+  {
+   "id": "war.attention.wiki_hotspot_articles",
+   "name_de": "Wikipedia-Aufrufe: Hormus, Suwałki-Lücke, Taiwan-Strait",
+   "plain_de": "Zählt Aufrufe zu Hotspot-Artikeln.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Plötzliches Interesse an Randthemen wie der Suwałki-Lücke kann echter Eskalation vorausgehen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Dokumentationen",
+    "Schlagzeilen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Straße_von_Hormus/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Straße von Hormus. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Suwałki_Gap/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Suwałki Gap. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Taiwan_Strait/daily/20150701/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich, ca. 1 Tag",
+     "history": "seit 2015-07 (Parameter start/end)",
+     "rate_limit": "200 Anfragen/s, User-Agent setzen",
+     "license": "CC0 (Wikimedia-Metriken)",
+     "verified": true,
+     "sample_note": "Taiwan Strait. items[].views = Tageswert. Über Tool-Wrapper für de:Dritter_Weltkrieg am 2026-11-17 abgerufen (Status 200, ca. 64-104 Aufrufe/Tag, 14 Tage)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.gdelt_coverage_share",
+   "name_de": "GDELT: Anteil der Weltkriegs-Berichte am Nachrichtenvolumen",
+   "plain_de": "Misst den Anteil von Berichten über Weltkrieg und Atomkrieg am Gesamtvolumen.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Relativer Anteil macht Aufmerksamkeit vergleichbar; Dauerhoch zeigt Gewöhnung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Kriegsmüdigkeit",
+    "Großereignisse"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT 2.0 DOC API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22World%20War%20III%22%20OR%20%22nuclear%20war%22&mode=TimelineVol&timespan=3months&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "rollierend 3 Monate per timespan; Langzeit-Baseline nur über Events-Dateien (seit 2015)",
+     "rate_limit": "1 Anfrage je 5 s (laut Doku-Auszug)",
+     "license": "GDELT frei nutzbar mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Anteil in Prozent. Doku geprüft (Jentic-Auszug), Endpunkt selbst von der Shell nicht abrufbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.hackernews_mentions",
+   "name_de": "Hacker News: Beiträge zu Krieg und Mobilisierung",
+   "plain_de": "Zählt Hacker-News-Beiträge zu Kriegsthemen.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Technische Community reagiert früh auf GNSS-, Cloud- und Lieferkettenfolgen; schwacher Indikator.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Nachrichten-Spitzen",
+    "Meinungsbeiträge"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "hn-algolia",
+     "name": "Hacker News Algolia API",
+     "doc_url": "https://hn.algolia.com/api",
+     "endpoint": "https://hn.algolia.com/api/v1/search_by_date?query=world%20war%20III&tags=story",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "seit 2006",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "nbHits je Zeitfenster = Story-Zählung. Nicht ausgeführt."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.social_hashtags",
+   "name_de": "Mastodon und Bluesky: Beitragszahlen zu Kriegs-Stichwörtern",
+   "plain_de": "Zählt öffentliche Beiträge zu Stichwörtern wie Wehrpflicht oder WWIII.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Offene Netzwerke liefern Zeitreihen ohne Konto; nur Aggregatzählung ohne Personenbezug.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Bots und Meme-Kampagnen",
+    "Desinformation"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "mastodon-tags",
+     "name": "Mastodon Hashtag-Timeline (öffentlich)",
+     "doc_url": "https://docs.joinmastodon.org/methods/timelines/#tag",
+     "endpoint": "https://mastodon.social/api/v1/timelines/tag/wwiii?limit=40",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "nur jüngste Beiträge",
+     "rate_limit": "300 Anfragen/5 min",
+     "license": "je Beitrag, nur Aggregatzählung",
+     "verified": false,
+     "sample_note": "Nur Zählung je Zeitfenster, keine Personenprofile."
+    },
+    {
+     "source_id": "bluesky-search",
+     "name": "Bluesky Public Search API",
+     "doc_url": "https://docs.bsky.app/docs/api/app-bsky-feed-search-posts",
+     "endpoint": "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=Wehrpflicht&limit=1",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "seit 2023",
+     "rate_limit": "",
+     "license": "je Beitrag, nur Aggregat",
+     "verified": false,
+     "sample_note": "Trefferzahl je Zeitfenster; Auth-Pflicht kann sich geändert haben."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.search_trends",
+   "name_de": "Suchtrends: Schutzraum, Notvorrat, Jodtabletten, Wehrdienst",
+   "plain_de": "Misst Suchanfragen zu Vorsorge und Krieg in Deutschland.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Vorsorge-Suchen stehen vor Lieferengpässen; Daten relativ und mit Vorbehalt.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Medienberichte",
+    "Saisonale Muster"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "google-trends",
+     "name": "Google Trends (inoffiziell)",
+     "doc_url": "https://trends.google.com/trends/",
+     "endpoint": "https://trends.google.com/trends/explore?q=Schutzraum&geo=DE",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2004",
+     "rate_limit": "",
+     "license": "Google ToS, keine offene Lizenz",
+     "verified": false,
+     "sample_note": "Relative Werte 0-100; offizielle API nur in eingeschränktem Programm (Erinnerung)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.telegram_alert_channels",
+   "name_de": "Telegram-Warnkanäle: Posting-Rate",
+   "plain_de": "Zählt Beiträge in öffentlichen Warnkanälen von Organisationen.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Frequenz öffentlicher Warnkanäle ist ein Crowd-Proxy für Angriffswellen und ergänzt Sirenendaten; nur Organisationskanäle.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Test-Posts",
+    "Kanal-Wachstum"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "telegram-public",
+     "name": "Telegram öffentliche Kanalvorschau (t.me/s/<kanal>)",
+     "doc_url": "https://core.telegram.org/api/web-preview",
+     "endpoint": "https://t.me/s/ukrainealarm",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Nachrichtenverlauf je Kanal",
+     "rate_limit": "",
+     "license": "unklar, ToS beachten",
+     "verified": false,
+     "sample_note": "Kanalname beispielhaft, nicht geprüft. Nur öffentliche Organisationskanäle, nur Posting-Zähler."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.blood_donation_calls",
+   "name_de": "Blutspende-Aufrufe und Vorbereitung auf Massenanfall",
+   "plain_de": "Beobachtet ungewöhnliche Aufrufe und Vorratsmeldungen bei Blutspendediensten und Kliniken.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Ungewöhnlicher Proxy: Gesundheitssysteme bereiten sich auf Massenanfall von Verletzten vor; dazu Sanitätsmaterial-Ausschreibungen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Sommerloch bei Spenden",
+    "Saisonale Engpässe"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "drk-spende",
+     "name": "DRK Blutspendedienst Versorgungslage (Webseite)",
+     "doc_url": "https://www.blutspende.de/",
+     "endpoint": "https://www.blutspende.de/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "Wayback",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Versorgungsampel je Blutgruppe laut Erinnerung; Diff-Zählung."
+    },
+    {
+     "source_id": "ted-eu",
+     "name": "TED (EU-Ausschreibungen) API v3",
+     "doc_url": "https://docs.ted.europa.eu/api/latest/index.html",
+     "endpoint": "https://api.ted.europa.eu/v3/notices/search",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (laut Erinnerung)",
+     "verified": false,
+     "sample_note": "Sanitätsmaterial, Feldlazarett. POST mit Expertenquery."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.reservist_portals",
+   "name_de": "Reservisten- und Wehrdienst-Portale: Änderungsaktivität",
+   "plain_de": "Beobachtet Seitenänderungen auf Seiten für Reservisten und Wehrdienst.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Behörden aktualisieren Hinweise vor Mobilisierungsschritten; Aufrufe von außen nicht messbar, daher Wayback-Änderungsrate.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Kampagnen",
+    "Neuregelung Wehrdienst"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "reservisten-web",
+     "name": "Reservistenverband / Bundeswehr Webseiten",
+     "doc_url": "https://www.reservistenverband.de/",
+     "endpoint": "https://www.reservistenverband.de/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unklar",
+     "history": "Wayback Machine",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nur Seitenänderungen (Diff)."
+    },
+    {
+     "source_id": "wayback-cdx",
+     "name": "Internet Archive CDX API",
+     "doc_url": "https://archive.org/developers/wayback-cdx-server.html",
+     "endpoint": "https://web.archive.org/cdx/search/cdx?url=travel.state.gov/content/travel/en/traveladvisories/*&output=json&from=2026&limit=5",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden bis Tage",
+     "history": "seit 1996",
+     "rate_limit": "",
+     "license": "Archivdaten, Nutzungsbedingungen IA",
+     "verified": false,
+     "sample_note": "Snapshot-Zähler als Proxy für Änderungsaktivität; ersetzt fehlende Historie von Feeds."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.pizza_index",
+   "name_de": "Pizza-Index: Lieferandrang an Militärstandorten (schwache Idee)",
+   "plain_de": "Idee: ungewöhnlich viele Pizzalieferungen an Verteidigungsstandorten als Hinweis auf Überstunden.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Anekdotischer Proxy für Nachtarbeit; offiziell abrufbare Daten fehlen, daher nur als schwache Idee mit ToS-Risiko dokumentiert.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Reguläre Überstunden",
+    "Zufall",
+    "Feiern"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "places-api",
+     "name": "Google Places API (Live-Auslastung)",
+     "doc_url": "https://developers.google.com/maps/documentation/places/web-service/overview",
+     "endpoint": "https://developers.google.com/maps/documentation/places/web-service/overview",
+     "access": "api",
+     "format": "json",
+     "auth": "paid",
+     "cost": "kostenpflichtig",
+     "update_latency": "live",
+     "history": "keine",
+     "rate_limit": "",
+     "license": "Google ToS",
+     "verified": false,
+     "sample_note": "Live-Auslastungsfeld nicht offiziell dokumentiert (Erinnerung). Nur Organisationsstandorte, keine Personen."
+    }
+   ],
+   "notes": "Nicht empfohlen ohne Rechtsprüfung."
+  },
+  {
+   "id": "war.attention.wiki_edit_rate",
+   "name_de": "Wikipedia: Bearbeitungsrate bei Kriegsartikeln",
+   "plain_de": "Zählt Bearbeitungen von Artikeln zu aktuellen Konflikten.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Hohe Bearbeitungsrate zeigt Ereignisdruck.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Edit-Wars",
+    "Bots"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "wikimedia-edits",
+     "name": "Wikimedia REST API (Edits)",
+     "doc_url": "https://wikimedia.org/api/rest_v1/#/Edited%20pages%20data",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/edits/per-page/en.wikipedia/World_War_III/all-editor-types/daily/20261001/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2001",
+     "rate_limit": "",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Artikelname beispielhaft; Pfad aus Erinnerung."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.pharmacy_shortages",
+   "name_de": "Lieferengpässe bei Kaliumiodid und Notfallmedikamenten",
+   "plain_de": "Beobachtet amtliche Engpassmeldungen für Jodtabletten und Notfallmedikamente.",
+   "domain": "attention",
+   "evidence_class": "B",
+   "rationale": "Marktseitige Verknappung vor Behördenreaktion; Vorsorgekäufe sind Verhaltensdaten der Masse.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Saisonale Engpässe",
+    "Produktionsprobleme"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "bfarm-engpass",
+     "name": "BfArM Lieferengpass-Meldungen",
+     "doc_url": "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml",
+     "endpoint": "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Liste",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Stichwortfilter Kaliumiodid; Seitenaufbau nicht geprüft."
+    }
+   ],
+   "notes": ""
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Auflösungs- und Zugriffsbeschränkungen kommerzieller Satellitenbilder über Konfliktzonen - keine abrufbare Statuszeitreihe gefunden.",
+  "Idee: Hafen- und Fährverkehr Kaliningrad/Baltijsk per AIS - AISHub/MarineTraffic brauchen Key oder Konto.",
+  "Idee: Streichungen von Airline-Flügen nach Teheran, Tel Aviv, Doha als Fahrplan-Diff - keine offene Schnittstelle.",
+  "Idee: Hotel- und Mietwagenpreise in Grenzregionen - nur über kostenpflichtige Anbieter.",
+  "Idee: Handelsaussetzungen an Börsen in Konfliktländern - kein einheitlicher Feed.",
+  "Idee: Zahl der Downloads von Warn-Apps (NINA, KATWARN) - nur App-Store-Ranglisten, kein offener Feed.",
+  "Idee: Rückholbuchungen und Reiserücktritte bei Versicherern - keine öffentlichen Daten.",
+  "Idee: Rückverlegung von Botschaftspersonal anhand von Visa-Terminslots (Termin-Verfügbarkeit) - keine API belegt."
+ ]
+}

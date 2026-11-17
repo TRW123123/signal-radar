@@ -1,0 +1,2807 @@
+{
+ "subdomain": "Maerkte, Energie und Handelsrouten",
+ "generated": "2026-11-17",
+ "signals": [
+  {
+   "id": "war.markets.brent_price",
+   "name_de": "Brent-Rohoelpreis",
+   "plain_de": "Weltmarktpreis fuer Nordseeoel; steigt, wenn Lieferausfaelle am Golf befuerchtet werden.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Iran/Hormus: Angstpraemie und Preissprung gehen Versorgungsausfaellen oft voraus.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "OPEC+-Entscheidungen",
+    "Konjunkturdaten",
+    "Dollar-Schwankung"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/BZ=F?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DCOILBRENTEU&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    },
+    {
+     "source_id": "eia",
+     "name": "EIA Open Data API v2",
+     "doc_url": "https://www.eia.gov/opendata/",
+     "endpoint": "https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=KEY&frequency=weekly&data[0]=value",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "woechentlich (Mittwochs)",
+     "history": "Jahrzehnte",
+     "rate_limit": "",
+     "license": "US Public Domain",
+     "verified": false,
+     "sample_note": "RBRTE Spot"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.wti_price",
+   "name_de": "WTI-Rohoelpreis",
+   "plain_de": "US-Oelpreis; zusammen mit Brent zeigt die Differenz, ob die Angst global oder regional ist.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Brent-WTI-Spread weitet sich bei Golf-Risiko.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "US-Lagerdaten",
+    "Pipeline-Engpaesse"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DCOILWTICO&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.brent_term_structure",
+   "name_de": "Brent-Terminkurve (Backwardation)",
+   "plain_de": "Ist der Oelpreis fuer sofortige Lieferung deutlich hoeher als fuer spaeter, wird physisch knapp.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Backwardation steigt, wenn Haendler akute Knappheit einpreisen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Saisonale Nachfrage",
+    "Rollkosten"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/BZ=F?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Front-Monat; Zweitmonat per Kontraktticker BZ<Monatscode><Jahr>.NYM vergleichen"
+    },
+    {
+     "source_id": "stooq",
+     "name": "Stooq CSV-Download",
+     "doc_url": "https://stooq.com/",
+     "endpoint": "https://stooq.com/q/d/l/?s=cb.f&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "langjaehrige Tagesreihe",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "CSV Spalte Close"
+    }
+   ],
+   "notes": "Zweitmonat-Ticker nicht geprueft; Spread-Bildung noetig."
+  },
+  {
+   "id": "war.markets.gas_ttf",
+   "name_de": "Europaeischer Gaspreis TTF",
+   "plain_de": "Grosshandelspreis fuer Erdgas in Europa; reagiert auf LNG-Umleitungen und Hormus.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Katar-LNG laeuft durch Hormus; Preissprung vor Speicherstress.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wetter",
+    "Wartung norwegischer Anlagen"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/TTF=F?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "stooq",
+     "name": "Stooq CSV-Download",
+     "doc_url": "https://stooq.com/",
+     "endpoint": "https://stooq.com/q/d/l/?s=tg.f&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tagesende",
+     "history": "langjaehrige Tagesreihe",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "CSV Spalte Close"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.gas_henry_vs_ttf",
+   "name_de": "Gas-Spread TTF gegen Henry Hub",
+   "plain_de": "Preisabstand Europa/USA zeigt, wie stark Europa um LNG konkurrieren muss.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Spread weitet sich bei globaler LNG-Knappheit.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Winterwetter"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/NG=F?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DHHNGSP&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.gold_price",
+   "name_de": "Goldpreis",
+   "plain_de": "Klassische Fluchtanlage; steigt bei Eskalationsangst.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Flucht in Sicherheit; Sprung vor Schlagzeilen moeglich.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Realzinsen",
+    "Zentralbankkaeufe",
+    "Dollar"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=GOLDPMGBD228NLBM&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.gold_etf_holdings",
+   "name_de": "Gold-ETF-Bestaende (GLD)",
+   "plain_de": "Wie viele Tonnen Gold der groesste Gold-ETF haelt; Zufluesse zeigen Anlegerflucht.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Institutionelle Zufluesse als Schutzkauf.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Preisgetriebene Momentum-Kaeufe"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "spdr-gld",
+     "name": "SPDR Gold Shares Bestand (Tonnen)",
+     "doc_url": "https://www.spdrgoldshares.com/usa/historical-data/",
+     "endpoint": "https://www.spdrgoldshares.com/assets/dynamic/GLD/GLD_US_archive_EN.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2004",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Tonnes in the Trust"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.defense_etf_us",
+   "name_de": "US-Ruestungs-ETFs (ITA, XAR)",
+   "plain_de": "Korb aus Ruestungsaktien; steigt bei Erwartung hoeherer Militaerausgaben.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Kapital fliesst vor Eskalation und Auftraegen in Ruestung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Haushaltsdebatten",
+    "Quartalszahlen",
+    "Sektorrotation"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/ITA?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/XAR?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.defense_stocks_eu",
+   "name_de": "Europaeische Ruestungsaktien",
+   "plain_de": "Kurse von Rheinmetall, BAE, Saab, Hensoldt, Leonardo, Thales.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Spiegeln Ukraine/Baltikum-Erwartung; Rheinmetall fiel 05.11.2026 um ueber 17 Prozent nach Warnung, daher auch Firmenschocks.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Firmenwarnungen",
+    "Auftragsmeldungen",
+    "Quartalszahlen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/RHM.DE?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/BA.L?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/SAAB-B.ST?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/HAG.DE?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": "Firmenspezifische Schocks gegen Sektorbewegung (Peer-Gruppe) normieren."
+  },
+  {
+   "id": "war.markets.defense_stocks_us",
+   "name_de": "US-Ruestungswerte einzeln",
+   "plain_de": "Lockheed, Northrop, RTX, General Dynamics.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Einzelwerte zeigen Raketen/Munitionsfokus.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen",
+    "Haushalt"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/LMT?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/NOC?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/RTX?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.safe_haven_chf",
+   "name_de": "Schweizer Franken",
+   "plain_de": "Fluchtwaehrung; Aufwertung gegen Euro bei Angst.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "CHF-Zufluesse bei Geopolitik.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "SNB-Politik",
+    "Zinsdifferenzen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ecb-sdw",
+     "name": "EZB Data Portal API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?format=csvdata&startPeriod=2020-01-01",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich 16h CET",
+     "history": "seit 1999",
+     "rate_limit": "",
+     "license": "EZB, Namensnennung",
+     "verified": false,
+     "sample_note": "OBS_VALUE = CHF je EUR; Fall = CHF stark"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CHF=X?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.safe_haven_jpy",
+   "name_de": "Japanischer Yen",
+   "plain_de": "Fluchtwaehrung; Aufwertung bei Risikoscheu.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Yen-Carry-Trades werden bei Stress aufgeloest.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "BoJ-Politik",
+    "Zinsdifferenz"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecb-sdw",
+     "name": "EZB Data Portal API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/EXR/D.JPY.EUR.SP00.A?format=csvdata&startPeriod=2020-01-01",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich 16h CET",
+     "history": "seit 1999",
+     "rate_limit": "",
+     "license": "EZB, Namensnennung",
+     "verified": false,
+     "sample_note": "OBS_VALUE = Referenzkurs"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXJPUS&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.vix",
+   "name_de": "VIX Aktienvolatilitaet",
+   "plain_de": "Angstmass fuer US-Aktien.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Breiter Risikoschock.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Notenbank-Termine",
+    "Tech-Korrektur"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=VIXCLS&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.ovx",
+   "name_de": "OVX Oel-Volatilitaet",
+   "plain_de": "Erwartete Schwankung des Oelpreises.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "OVX springt, wenn Oel-Ausfall plausibel wird, oft vor dem Preis selbst.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Oel-Verfall",
+    "OPEC-Termine"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=OVXCLS&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.gvz_and_move",
+   "name_de": "Gold- und Anleihen-Volatilitaet (GVZ, MOVE)",
+   "plain_de": "Erwartete Schwankung bei Gold und Staatsanleihen.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Breite Absicherungsnachfrage.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Zinsentscheide"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=GVZCLS&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/%5EMOVE?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.us_10y_yield",
+   "name_de": "US-Rendite 10 Jahre",
+   "plain_de": "Zinsniveau; Fluchtbewegung senkt, Inflationsangst hebt.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Richtung zeigt Mix aus Flucht und Inflationsangst.",
+   "direction": "coincident",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Fed-Erwartungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.bund_yield_spread",
+   "name_de": "Bund-Rendite und Italien-Spread",
+   "plain_de": "Renditen deutscher/italienischer Staatsanleihen.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Bund sinkt bei Flucht; Spreads weiten bei Energieschock.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "EZB-Entscheide"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecb-sdw",
+     "name": "EZB Data Portal API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y?format=csvdata&startPeriod=2020-01-01",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich 16h CET",
+     "history": "seit 1999",
+     "rate_limit": "",
+     "license": "EZB, Namensnennung",
+     "verified": false,
+     "sample_note": "Spot-Rate 10J Euro-Kurve"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.breakeven_inflation",
+   "name_de": "Inflationserwartung (Breakeven)",
+   "plain_de": "Marktimplizierte Inflation; Oelschock treibt sie.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Energieschock spaeter in Inflation (BoE-Zinserhoehung 05.11.2026).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Rohstoffzyklus"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=T5YIE&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=T10YIE&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.sovereign_cds_proxy",
+   "name_de": "CDS-Proxy Staatsrisiko",
+   "plain_de": "5J-Ausfallpraemien Israel, Taiwan, Tuerkei, Ukraine.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Risikopraemien steigen vor Kriegsbeteiligung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Datenanbieter-Rauschen",
+    "Haushaltsnachrichten"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "wgb-cds",
+     "name": "WorldGovernmentBonds CDS/Renditen",
+     "doc_url": "http://www.worldgovernmentbonds.com/",
+     "endpoint": "http://www.worldgovernmentbonds.com/cds-historical-data/israel/5-years/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "mehrjaehrig",
+     "rate_limit": "",
+     "license": "unklar, Scrape-Verbot moeglich",
+     "verified": false,
+     "sample_note": "5J-CDS Israel, Taiwan, Ukraine, Tuerkei als Proxy"
+    }
+   ],
+   "notes": "Scrape; Qualitaet pruefen, Alternative bezahlte CDS-Feeds."
+  },
+  {
+   "id": "war.markets.hy_credit_spread",
+   "name_de": "Kreditspreads Unternehmensanleihen",
+   "plain_de": "Zusatzzins riskanter Firmen.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Weitung zeigt Stress im Kreditmarkt.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Konjunktur"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLH0A0HYM2&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.conflict_currencies",
+   "name_de": "Waehrungen der Konfliktparteien",
+   "plain_de": "Kurse von Rubel, Hrywnja, Schekel, Taiwan-Dollar, Rial.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Abwertung zeigt Kapitalflucht, Kontrollen; Rial/Rubel auch Sanktionsfolgen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Notenbankeingriffe",
+    "Zinsen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cbr",
+     "name": "Bank von Russland Kursdienst",
+     "doc_url": "https://www.cbr.ru/eng/currency_base/",
+     "endpoint": "https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=01/01/2025&date_req2=17/11/2026&VAL_NM_RQ=R01235",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 1992",
+     "rate_limit": "",
+     "license": "oeffentlich",
+     "verified": false,
+     "sample_note": "Value = Rubel je USD (Offizieller Kurs)"
+    },
+    {
+     "source_id": "nbu",
+     "name": "Nationalbank der Ukraine Kurse",
+     "doc_url": "https://bank.gov.ua/en/open-data/api-dev",
+     "endpoint": "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&date=20261116&json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 1996",
+     "rate_limit": "",
+     "license": "oeffentlich",
+     "verified": false,
+     "sample_note": "rate = UAH je USD"
+    },
+    {
+     "source_id": "boi",
+     "name": "Bank of Israel Wechselkurse (SDMX API)",
+     "doc_url": "https://edge.boi.gov.il/",
+     "endpoint": "https://edge.boi.gov.il/FusionEdgeServer/sdmx/v2/data/dataflow/BOI.STATISTICS/EXR/1.0?c%5BDATA_TYPE%5D=OF00&format=csv",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 1990er",
+     "rate_limit": "",
+     "license": "oeffentlich",
+     "verified": false,
+     "sample_note": "Schekel je USD"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/TWD=X?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/ILS=X?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": "Offizielle und Schwarzmarktkurse trennen."
+  },
+  {
+   "id": "war.markets.rial_black_market",
+   "name_de": "Iranischer Rial Freimarktkurs",
+   "plain_de": "Der echte Tauschkurs des Rial; reagiert schnell auf Kriegsangst.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Freimarkt reagiert vor offiziellen Kursen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Sanktionen",
+    "Inflation"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "bonbast",
+     "name": "Bonbast Rial-Kurse",
+     "doc_url": "https://www.bon-bast.com/",
+     "endpoint": "https://www.bon-bast.com/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Archivseiten",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": "Crowd-Quote, leicht beeinflussbar."
+  },
+  {
+   "id": "war.markets.tanker_equities",
+   "name_de": "Tanker-Reedereien-Aktien",
+   "plain_de": "Aktien von Frontline, DHT, Scorpio, International Seaways.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Tankerraten-Erwartung preist Hormus-Umwege vor Fixtures ein.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen",
+    "Dividenden"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/FRO?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/DHT?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/STNG?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/INSW?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.container_liner_equities",
+   "name_de": "Container-Reedereien-Aktien",
+   "plain_de": "Maersk, Hapag-Lloyd, ZIM.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Rotes Meer/Suez-Umwege treiben Aktien.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Frachtratenzyklus"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/MAERSK-B.CO?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/HLAG.DE?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/ZIM?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.hormuz_transits",
+   "name_de": "Hormus-Durchfahrten pro Tag",
+   "plain_de": "Zaehlt Schiffe in der Hormus-Meerenge; ein Fall ist ein Warnsignal.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Ca. ein Fuenftel des Weltoels fliesst hier durch; Einbruch ist direktes Eskalationszeichen.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wetter",
+    "Feiertage",
+    "AIS-Luecken",
+    "Datenrevision"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "imf-portwatch",
+     "name": "IMF PortWatch (offene ArcGIS FeatureServer)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich, ca. 4-7 Tage Verzug (aus AIS-Satelliten-Daten geschaetzt)",
+     "history": "seit 2019 Tagesreihe",
+     "rate_limit": "",
+     "license": "IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung pruefen",
+     "verified": false,
+     "sample_note": "Tageszahlen Durchfahrten je Meerenge/Hafen, Aufteilung nach Schiffstyp (n_tanker, n_container, n_total)"
+    }
+   ],
+   "notes": "Hormus-Streit bereits seit Februar 2026; Baseline vor und nach 28.02. nutzen."
+  },
+  {
+   "id": "war.shipping.chokepoint_suez_babelmandeb",
+   "name_de": "Suez- und Bab-el-Mandeb-Durchfahrten",
+   "plain_de": "Schiffsverkehr Rotes Meer/Suez.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Umleitung ums Kap zeigt Rote-Meer-Eskalation.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Huthi-Angriffe",
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "imf-portwatch",
+     "name": "IMF PortWatch (offene ArcGIS FeatureServer)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich, ca. 4-7 Tage Verzug (aus AIS-Satelliten-Daten geschaetzt)",
+     "history": "seit 2019 Tagesreihe",
+     "rate_limit": "",
+     "license": "IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung pruefen",
+     "verified": false,
+     "sample_note": "n_total je Meerenge"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.chokepoint_taiwan_strait",
+   "name_de": "Taiwanstrassen-Verkehr",
+   "plain_de": "Schiffe in Taiwanstrasse.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Rueckgang/Umleitung bei Blockade-Uebungen (Area-Denial 10.11.2026).",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Taifune",
+    "Manoever"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "imf-portwatch",
+     "name": "IMF PortWatch (offene ArcGIS FeatureServer)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich, ca. 4-7 Tage Verzug (aus AIS-Satelliten-Daten geschaetzt)",
+     "history": "seit 2019 Tagesreihe",
+     "rate_limit": "",
+     "license": "IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung pruefen",
+     "verified": false,
+     "sample_note": "Tageszahlen Durchfahrten je Meerenge/Hafen, Aufteilung nach Schiffstyp (n_tanker, n_container, n_total)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.chokepoint_bosporus_blacksea",
+   "name_de": "Bosporus- und Schwarzmeer-Verkehr",
+   "plain_de": "Passagen Bosporus und Schwarzmeerhaefen.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Ukraine/Schwarzmeer-Eskalation sichtbar.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wetter",
+    "Nebel"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "imf-portwatch",
+     "name": "IMF PortWatch (offene ArcGIS FeatureServer)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich, ca. 4-7 Tage Verzug (aus AIS-Satelliten-Daten geschaetzt)",
+     "history": "seit 2019 Tagesreihe",
+     "rate_limit": "",
+     "license": "IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung pruefen",
+     "verified": false,
+     "sample_note": "Tageszahlen Durchfahrten je Meerenge/Hafen, Aufteilung nach Schiffstyp (n_tanker, n_container, n_total)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.panama_suez_substitution",
+   "name_de": "Panamakanal-Tageszahlen",
+   "plain_de": "Passagen im Panamakanal.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Umlenkungen und Kontext der Handelsrouten.",
+   "direction": "coincident",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Wasserstand (Trockenheit)"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "imf-portwatch",
+     "name": "IMF PortWatch (offene ArcGIS FeatureServer)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich, ca. 4-7 Tage Verzug (aus AIS-Satelliten-Daten geschaetzt)",
+     "history": "seit 2019 Tagesreihe",
+     "rate_limit": "",
+     "license": "IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung pruefen",
+     "verified": false,
+     "sample_note": "Tageszahlen Durchfahrten je Meerenge/Hafen, Aufteilung nach Schiffstyp (n_tanker, n_container, n_total)"
+    },
+    {
+     "source_id": "pa-canal",
+     "name": "Panama Canal Authority Transit-Statistik",
+     "doc_url": "https://pancanal.com/en/maritime-operations/",
+     "endpoint": "https://pancanal.com/en/maritime-operations/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "Archiv",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.port_activity_gulf_baltic",
+   "name_de": "Hafenaktivitaet Golf/Ostsee/Schwarzes Meer",
+   "plain_de": "Daily Port Calls und Fracht je Hafen.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Einbruch in Haefen wie Bandar Abbas, Odessa, Kaliningrad.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Streik",
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "imf-portwatch",
+     "name": "IMF PortWatch (offene ArcGIS FeatureServer)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich, ca. 4-7 Tage Verzug (aus AIS-Satelliten-Daten geschaetzt)",
+     "history": "seit 2019 Tagesreihe",
+     "rate_limit": "",
+     "license": "IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung pruefen",
+     "verified": false,
+     "sample_note": "Port-Datensatz Daily_Ports_Data"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.ais_gaps_gulf",
+   "name_de": "AIS-Abschaltungen Golfregion",
+   "plain_de": "Schiffe schalten Ortungssignal ab.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Dunkelflotten/Sanktions- und Kriegsrisiko.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Technik",
+    "Satellitenluecken"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gfw",
+     "name": "Global Fishing Watch API (AIS-Gap-Events)",
+     "doc_url": "https://globalfishingwatch.org/our-apis/",
+     "endpoint": "https://gateway.api.globalfishingwatch.org/v3/events?datasets[0]=public-global-gaps-events:latest&start-date=2026-10-01&end-date=2026-11-15",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "seit 2017",
+     "rate_limit": "",
+     "license": "CC BY-NC 4.0 (nicht kommerziell)",
+     "verified": false,
+     "sample_note": "AIS-Abschaltungen je Region"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.gnss_jamming_gulf_baltic",
+   "name_de": "GNSS-Stoerungen Golf/Ostsee/Taiwan",
+   "plain_de": "Satellitennavigations-Jamming ueber Seegebieten.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Elektronische Kriegsfuehrung steigt vor/zu Eskalationen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Standard-Jamming bei Kaliningrad"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam (aus ADS-B abgeleitet)",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2022 je Tag",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Anteil Flugzeuge mit schlechter GPS-Integritaet je Hex-Zelle"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.baltic_ais_traffic",
+   "name_de": "Ostsee-AIS-Verkehr",
+   "plain_de": "Schiffe im Finnischen Golf/Oeresund.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Verkehrsbild und Seekabel-Schutz im Baltikum.",
+   "direction": "coincident",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Saison",
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "digitraffic",
+     "name": "Digitraffic Marine AIS (Finnland)",
+     "doc_url": "https://www.digitraffic.fi/en/marine-traffic/",
+     "endpoint": "https://meri.digitraffic.fi/api/ais/v1/locations",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "nur aktuell; Archiv selbst mitschreiben",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Positionen im Finnischen Golf; Aggregate zaehlen"
+    },
+    {
+     "source_id": "dma-ais",
+     "name": "Dänische Seefahrtsbehörde AIS-Rohdaten",
+     "doc_url": "https://web.ais.dk/aisdata/",
+     "endpoint": "http://aisdata.ais.dk/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich Dateien mit Verzug",
+     "history": "seit 2006",
+     "rate_limit": "",
+     "license": "Dänische Datenlizenz (offen)",
+     "verified": false,
+     "sample_note": "Eingang Ostsee/Oeresund, Tagesdateien"
+    },
+    {
+     "source_id": "aisstream",
+     "name": "AISstream.io WebSocket",
+     "doc_url": "https://aisstream.io/documentation",
+     "endpoint": "wss://stream.aisstream.io/v0/stream",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "keine, selbst archivieren",
+     "rate_limit": "",
+     "license": "ToS, Beta",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.freight_container",
+   "name_de": "Container-Frachtraten",
+   "plain_de": "Preis fuer Containerversand.",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Rote-Meer- und Taiwan-Risiko schlagen sich nieder.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Saisonale Spitzen",
+    "Chinesisches Neujahr"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "drewry-wci",
+     "name": "Drewry World Container Index",
+     "doc_url": "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry",
+     "endpoint": "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich Donnerstag",
+     "history": "Chart seit 2011",
+     "rate_limit": "",
+     "license": "Namensnennung, Weiterverwendung eingeschraenkt",
+     "verified": false,
+     "sample_note": "WCI composite und 8 Routen"
+    },
+    {
+     "source_id": "freightos-fbx",
+     "name": "Freightos Baltic Index (oeffentliche Wochenwerte)",
+     "doc_url": "https://fbx.freightos.com/",
+     "endpoint": "https://fbx.freightos.com/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich/woechentlich",
+     "history": "seit 2017 (Chart)",
+     "rate_limit": "",
+     "license": "Daten-API kostenpflichtig",
+     "verified": false,
+     "sample_note": "Containerrate Asien-Nordeuropa USD/FEU"
+    },
+    {
+     "source_id": "sse-scfi",
+     "name": "Shanghai Containerized Freight Index",
+     "doc_url": "https://en.sse.net.cn/indices/scfinew.jsp",
+     "endpoint": "https://en.sse.net.cn/indices/scfinew.jsp",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich Freitag",
+     "history": "seit 2009",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.baltic_dry_dirty_tanker",
+   "name_de": "Baltic Dry und Tankerraten",
+   "plain_de": "Frachtindizes Schuettgut und Tanker (BDI, BDTI).",
+   "domain": "shipping",
+   "evidence_class": "A",
+   "rationale": "Tankerraten springen bei Umwegen und Versicherungsaufschlaegen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Chinanachfrage",
+    "Flottenangebot"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "baltic-exchange",
+     "name": "Baltic Exchange (BDI, BDTI, BCTI)",
+     "doc_url": "https://www.balticexchange.com/",
+     "endpoint": "https://www.balticexchange.com/en/data-services/market-information0.html",
+     "access": "scrape",
+     "format": "html",
+     "auth": "paid",
+     "cost": "Index-Daten kostenpflichtig, BDI-Schlusswert oeffentlich",
+     "update_latency": "taeglich 13h London",
+     "history": "Jahrzehnte (bezahlt)",
+     "rate_limit": "",
+     "license": "proprietaer",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": "Teilweise kostenpflichtig; BDI-Schlusswert oeffentlich."
+  },
+  {
+   "id": "war.shipping.war_risk_listed_areas",
+   "name_de": "JWC Listed Areas (Kriegsrisiko)",
+   "plain_de": "Gebiete, in denen Versicherer Zusatzpraemie verlangen.",
+   "domain": "shipping",
+   "evidence_class": "B",
+   "rationale": "Neu Gelistete Gebiete zeigen Versicherungsmarkt-Einschaetzung.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routineupdates"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "lma-jwc",
+     "name": "Joint War Committee Listed Areas (LMA)",
+     "doc_url": "https://www.lmalloyds.com/lma/jointwar",
+     "endpoint": "https://www.lmalloyds.com/lma/jointwar",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Aenderung (JWLA-Rundschreiben)",
+     "history": "Archiv der JWLA-Nummern",
+     "rate_limit": "",
+     "license": "oeffentlich, Nutzung pruefen",
+     "verified": false,
+     "sample_note": "Aenderungsdatum und Zahl/Umfang der Listed Areas als Diff-Reihe"
+    }
+   ],
+   "notes": "Datenstand als Diff-Reihe; Praemien selbst nicht oeffentlich."
+  },
+  {
+   "id": "war.shipping.maritime_incidents",
+   "name_de": "UKMTO/MARAD Vorfaelle",
+   "plain_de": "Meldungen zu Angriffen, Beschlagnahmungen.",
+   "domain": "shipping",
+   "evidence_class": "B",
+   "rationale": "Direkte Vorfaelle; MARAD-Advisories als Kontext C.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Piraterie",
+    "Fehlalarme"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ukmto",
+     "name": "UKMTO Recent Incidents",
+     "doc_url": "https://www.ukmto.org/",
+     "endpoint": "https://www.ukmto.org/recent-incidents",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Archiv",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Vorfaelle mit Datum/Position; Meldung ist Betreibermeldung"
+    },
+    {
+     "source_id": "marad-msci",
+     "name": "MARAD Maritime Security Advisories",
+     "doc_url": "https://www.maritime.dot.gov/msci-advisories",
+     "endpoint": "https://www.maritime.dot.gov/msci-advisories",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Ereignis",
+     "history": "Archiv",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Kontext-Layer, Evidenzklasse C"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.p_and_i_circulars",
+   "name_de": "P&I-Club-Kriegsrisiko-Rundschreiben",
+   "plain_de": "Hinweise der Versicherer zu Zusatzpraemien.",
+   "domain": "shipping",
+   "evidence_class": "B",
+   "rationale": "Versicherer sehen Risiko frueh.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routine"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "pcp-hs",
+     "name": "Paris MoU / P&I-Club-Rundschreiben (RSS)",
+     "doc_url": "https://www.gard.no/",
+     "endpoint": "https://www.gard.no/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Ereignis",
+     "history": "Archiv",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Kriegsrisiko-Zusatzpraemien-Hinweise"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.shipping.fuel_bunker_prices",
+   "name_de": "Bunker- und Jet-Fuel-Preise",
+   "plain_de": "Schiffs- und Flugtreibstoff.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Folgepreise von Rohoel mit Engpass-Praemien.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Rohoel"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DJFUELUSGULF&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    },
+    {
+     "source_id": "eu-oil-bulletin",
+     "name": "EU Weekly Oil Bulletin",
+     "doc_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+     "endpoint": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich",
+     "history": "seit 2005",
+     "rate_limit": "",
+     "license": "EU-Wiederverwendung CC BY 4.0",
+     "verified": false,
+     "sample_note": "Tankstellenpreise Diesel/Benzin je Land"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.eu_gas_storage",
+   "name_de": "EU-Gasspeicher-Fuellstand",
+   "plain_de": "Wie voll die Speicher sind.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Niedrigster Stand seit 2011 (EU ca. 74 Prozent am 05.11.2026), Verwundbarkeit.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Winterwetter",
+    "Einspeicherstrategie"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "gie-agsi",
+     "name": "GIE AGSI+ Gasspeicher",
+     "doc_url": "https://agsi.gie.eu/api",
+     "endpoint": "https://agsi.gie.eu/api?country=DE&from=2025-01-01",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich (Meldung D+1, 18h)",
+     "history": "seit 2011",
+     "rate_limit": "",
+     "license": "GIE, Namensnennung",
+     "verified": false,
+     "sample_note": "Header x-key; Felder full (Prozent), gasInStorage, injection, withdrawal"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.lng_terminals",
+   "name_de": "LNG-Terminal-Sendout und Fuellstand",
+   "plain_de": "Ausspeisung/Bestand an LNG-Terminals.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "LNG-Umleitungen sichtbar.",
+   "direction": "coincident",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gie-alsi",
+     "name": "GIE ALSI LNG-Terminals",
+     "doc_url": "https://alsi.gie.eu/api",
+     "endpoint": "https://alsi.gie.eu/api?country=DE&from=2025-01-01",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2012",
+     "rate_limit": "",
+     "license": "GIE, Namensnennung",
+     "verified": false,
+     "sample_note": "Header x-key; sendOut, inventory, dtmi"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.gas_flows_entsog",
+   "name_de": "Gasfluesse an Grenzpunkten",
+   "plain_de": "Physische Gasstroeme, z. B. Norwegen, Ukraine, TurkStream.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Flussaenderungen zeigen Angriffe/Umleitungen.",
+   "direction": "coincident",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "entsog",
+     "name": "ENTSOG Transparency Platform API",
+     "doc_url": "https://transparency.entsog.eu/api/archiv/ENTSOG%20Transparency%20Platform%20API%20User%20Manual.pdf",
+     "endpoint": "https://transparency.entsog.eu/api/v1/operationaldatas?indicator=Physical%20Flow&periodType=day&from=2026-10-01&to=2026-11-15&limit=1000",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich/taeglich",
+     "history": "seit 2013",
+     "rate_limit": "",
+     "license": "offene Daten, Namensnennung",
+     "verified": false,
+     "sample_note": "value in kWh/d je Interconnection-Punkt"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.power_prices",
+   "name_de": "Strompreise Day-Ahead",
+   "plain_de": "Strompreise in Europa.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Gas- und Kraftwerksausfaelle.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wind/Solar"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "energy-charts",
+     "name": "Energy-Charts API (Fraunhofer ISE)",
+     "doc_url": "https://api.energy-charts.info/",
+     "endpoint": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-10-01&end=2026-11-15",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich/Day-Ahead",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "price[] EUR/MWh Day-Ahead"
+    },
+    {
+     "source_id": "entsoe",
+     "name": "ENTSO-E Transparency Platform",
+     "doc_url": "https://transparency.entsoe.eu/",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?securityToken=KEY&documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202611010000&periodEnd=202611150000",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "stuendlich",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Day-Ahead-Preise, Lastfluesse"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.us_spr_stocks",
+   "name_de": "US-Strategische Oelreserve und Lager",
+   "plain_de": "Lagerbestaende der USA.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "SPR-Abgaben deuten auf Versorgungsangst.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Politik",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "eia",
+     "name": "EIA Open Data API v2",
+     "doc_url": "https://www.eia.gov/opendata/",
+     "endpoint": "https://api.eia.gov/v2/petroleum/stoc/wstk/data/?api_key=KEY&frequency=weekly&data[0]=value",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "woechentlich (Mittwochs)",
+     "history": "Jahrzehnte",
+     "rate_limit": "",
+     "license": "US Public Domain",
+     "verified": false,
+     "sample_note": "Serie WCSSTUS1 SPR"
+    },
+    {
+     "source_id": "eia",
+     "name": "EIA Open Data API v2",
+     "doc_url": "https://www.eia.gov/opendata/",
+     "endpoint": "https://api.eia.gov/v2/petroleum/sum/sndw/data/?api_key=KEY&frequency=weekly&data[0]=value",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "woechentlich (Mittwochs)",
+     "history": "Jahrzehnte",
+     "rate_limit": "",
+     "license": "US Public Domain",
+     "verified": false,
+     "sample_note": "Lagerbestaende"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.positioning_cftc",
+   "name_de": "Spekulative Positionierung (CFTC COT)",
+   "plain_de": "Wie Fonds in Oel/Gold/Weizen positioniert sind.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Extreme Net-Longs zeigen Erwartung.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Fondsrotation"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cftc-cot",
+     "name": "CFTC Commitments of Traders (Socrata API)",
+     "doc_url": "https://publicreporting.cftc.gov/",
+     "endpoint": "https://publicreporting.cftc.gov/resource/72hh-3qpy.json?$limit=50&$order=report_date_as_yyyy_mm_dd DESC",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "woechentlich (Freitag, Stand Dienstag)",
+     "history": "seit 2006",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "m_money_positions_long_all etc.; Markt per Filter, z. B. Rohoel, Gold, Weizen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.wheat_prices",
+   "name_de": "Weizenpreis",
+   "plain_de": "Weltweiter Weizenpreis.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Schwarzmeer-Risiko (Ukraine, Russland).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Ernte",
+    "Wetter"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/ZW=F?range=5y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzoegert / Tagesende",
+     "history": "mehrere Jahre bis Jahrzehnte, Tagesreihe",
+     "rate_limit": "inoffiziell, drosseln",
+     "license": "inoffiziell, ToS verbieten teils Weiterverwendung; fuer Produktion Alternative waehlen",
+     "verified": false,
+     "sample_note": "Feld chart.result[0].indicators.quote[0].close = Tageskurs"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=PWHEAMTUSDM&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    },
+    {
+     "source_id": "fao-ffpi",
+     "name": "FAO Food Price Index",
+     "doc_url": "https://www.fao.org/worldfoodsituation/foodpricesindex/en/",
+     "endpoint": "https://www.fao.org/worldfoodsituation/foodpricesindex/en/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich (erster Freitag)",
+     "history": "seit 1990",
+     "rate_limit": "",
+     "license": "CC BY-NC-SA 3.0 IGO",
+     "verified": false,
+     "sample_note": "Index Getreide, Pflanzenoel"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.fertilizer_prices",
+   "name_de": "Duenger-Preise (Harnstoff, DAP)",
+   "plain_de": "Duengerpreis.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Golfregion und Russland sind Exporteure.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Saison"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "wb-pink",
+     "name": "World Bank Commodity Price Data (Pink Sheet)",
+     "doc_url": "https://www.worldbank.org/en/research/commodity-markets",
+     "endpoint": "https://thedocs.worldbank.org/en/doc/18675f1d1639c7a34d463f59263ba0a2-0050012025/related/CMO-Historical-Data-Monthly.xlsx",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich (2. Werktag)",
+     "history": "seit 1960",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Harnstoff, DAP, Weizen, Rohoel; URL aendert sich je Release"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=PUREAUSDM&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich, 1 Werktag Verzug",
+     "history": "je nach Serie Jahrzehnte",
+     "rate_limit": "120 req/min",
+     "license": "FRED ToS; Einzelserien teils Drittrechte",
+     "verified": false,
+     "sample_note": "observations[].value"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.prediction_markets_war",
+   "name_de": "Prognosemaerkte zu Krieg",
+   "plain_de": "Wetten auf Waffenstillstand, Angriff, Blockade.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Aggregiertes Crowd-Wissen mit Geldeinsatz.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Geringe Liquiditaet",
+    "Manipulation"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/markets?closed=false&limit=100&order=volume24hr&ascending=false",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Preishistorie je Markt via CLOB API prices-history",
+     "rate_limit": "",
+     "license": "API oeffentlich, ToS pruefen",
+     "verified": false,
+     "sample_note": "outcomePrices = Wahrscheinlichkeit, volume24hr"
+    },
+    {
+     "source_id": "kalshi",
+     "name": "Kalshi Trade API v2 (oeffentliche Marktdaten)",
+     "doc_url": "https://docs.kalshi.com/",
+     "endpoint": "https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=200",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Candlesticks je Markt",
+     "rate_limit": "",
+     "license": "Kalshi ToS",
+     "verified": false,
+     "sample_note": "last_price/yes_bid in Cent"
+    },
+    {
+     "source_id": "manifold",
+     "name": "Manifold Markets API",
+     "doc_url": "https://docs.manifold.markets/api",
+     "endpoint": "https://api.manifold.markets/v0/search-markets?term=iran&sort=liquidity&limit=20",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Bets je Markt",
+     "rate_limit": "",
+     "license": "API offen, Play-Money (schwaecherer Signalwert)",
+     "verified": false,
+     "sample_note": "probability je Markt"
+    },
+    {
+     "source_id": "metaculus",
+     "name": "Metaculus API",
+     "doc_url": "https://www.metaculus.com/api/",
+     "endpoint": "https://www.metaculus.com/api/posts/?statuses=open&forecast_type=binary&search=Taiwan",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "Community-Prediction-Verlauf",
+     "rate_limit": "",
+     "license": "CC BY 4.0 fuer viele Daten, ToS pruefen",
+     "verified": false,
+     "sample_note": "Community-Forecast je Frage"
+    }
+   ],
+   "notes": "Je Markt Slugs ermitteln; Volumen-Schwelle setzen."
+  },
+  {
+   "id": "war.markets.prediction_volume_spike",
+   "name_de": "Handelsvolumen-Spruenge bei Geopolitikmaerkten",
+   "plain_de": "Ploetzlicher Umsatzanstieg.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Insider-Verdacht; Informationsvorsprung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienereignisse"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/markets?closed=false&limit=100&order=volume24hr&ascending=false",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Preishistorie je Markt via CLOB API prices-history",
+     "rate_limit": "",
+     "license": "API oeffentlich, ToS pruefen",
+     "verified": false,
+     "sample_note": "outcomePrices = Wahrscheinlichkeit, volume24hr"
+    }
+   ],
+   "notes": "Auswertung ueber Konten verboten; nur Aggregat."
+  },
+  {
+   "id": "war.markets.insider_form4_defense",
+   "name_de": "Insider-Transaktionen Ruestung (SEC Form 4)",
+   "plain_de": "Kauf/Verkauf von Fuehrungskraeften.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Verkauf vor Eskalation moeglich; aber 10b5-1-Plaene.",
+   "direction": "coincident",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Pflichtplaene",
+    "Steuern"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "sec-edgar",
+     "name": "SEC EDGAR Submissions API (Form 4)",
+     "doc_url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+     "endpoint": "https://data.sec.gov/submissions/CIK0000936468.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten nach Einreichung (Form 4 binnen 2 Werktagen)",
+     "history": "seit 2003 elektronisch",
+     "rate_limit": "10 req/s, User-Agent Pflicht",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "filings.recent: form=4, filingDate; CIK Beispiel Lockheed"
+    },
+    {
+     "source_id": "bafin-dealings",
+     "name": "BaFin Directors' Dealings Datenbank (MAR Art. 19)",
+     "doc_url": "https://portal.mvp.bafin.de/database/DealingsInfo/",
+     "endpoint": "https://portal.mvp.bafin.de/database/DealingsInfo/sucheForm.do",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "seit 2016",
+     "rate_limit": "",
+     "license": "BaFin, oeffentlich",
+     "verified": false,
+     "sample_note": "Eigengeschaeftsmeldungen Fuehrungskraefte Emittent z. B. Rheinmetall"
+    }
+   ],
+   "notes": "Nur Aggregat je Organisation, keine Personenprofile."
+  },
+  {
+   "id": "war.markets.procurement_emergency",
+   "name_de": "Eilvergaben Munition und Notfallbedarf",
+   "plain_de": "Eilauftraege fuer Munition, Blut, Notstrom.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Beschaffungs-Brotkruemel.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Haushaltsende",
+    "Uebungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "sam-gov",
+     "name": "SAM.gov Opportunities API",
+     "doc_url": "https://open.gsa.gov/api/get-opportunities-public-api/",
+     "endpoint": "https://api.sam.gov/opportunities/v2/search?api_key=KEY&postedFrom=10/01/2026&postedTo=11/17/2026&limit=100&ptype=o",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "mehrere Jahre",
+     "rate_limit": "10/Tag ohne Rollenkonto, 1000 mit",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Titel/NAICS/PSC, Filter auf Munition, Blut, Notstrom"
+    },
+    {
+     "source_id": "ted",
+     "name": "TED Search API v3 (EU-Ausschreibungen)",
+     "doc_url": "https://docs.ted.europa.eu/api/latest/index.html",
+     "endpoint": "https://api.ted.europa.eu/v3/notices/search (POST, JSON-Body query: classification-cpv=35* AND publication-date>=20261001)",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Notices mit CPV 35000000 Sicherheit/Verteidigung, Verfahrensart beschleunigt"
+    },
+    {
+     "source_id": "usaspending",
+     "name": "USAspending API",
+     "doc_url": "https://api.usaspending.gov/",
+     "endpoint": "https://api.usaspending.gov/api/v2/search/spending_by_award/ (POST, Filter awarding_agency=DoD, award_type_codes A-D)",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich bis woechentlich",
+     "history": "seit 2000",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Obligationen je Vertrag, Aggregation nach NAICS/PSC"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.dod_contract_obligations",
+   "name_de": "US-Verteidigungs-Vertragsvolumen",
+   "plain_de": "Obligationen DoD.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Kapazitaetsausbau.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Fiskaljahresende"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "usaspending",
+     "name": "USAspending API",
+     "doc_url": "https://api.usaspending.gov/",
+     "endpoint": "https://api.usaspending.gov/api/v2/search/spending_by_award/ (POST, Filter awarding_agency=DoD, award_type_codes A-D)",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich bis woechentlich",
+     "history": "seit 2000",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Obligationen je Vertrag, Aggregation nach NAICS/PSC"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.central_bank_gold",
+   "name_de": "Zentralbank-Goldkaeufe",
+   "plain_de": "Goldreserven.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Kaeufe von China/Russland/Tuerkei.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Diversifizierung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "wgc",
+     "name": "World Gold Council Central Bank Statistics",
+     "doc_url": "https://www.gold.org/goldhub/data/gold-reserves-by-country",
+     "endpoint": "https://www.gold.org/goldhub/data/gold-reserves-by-country",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "seit 1950er",
+     "rate_limit": "",
+     "license": "WGC Nutzungsbedingungen, Namensnennung",
+     "verified": false,
+     "sample_note": ""
+    },
+    {
+     "source_id": "imf-ifs",
+     "name": "IMF Data API (SDMX, IFS Reserven)",
+     "doc_url": "https://data.imf.org/",
+     "endpoint": "https://api.imf.org/external/sdmx/2.1/data/IFS/M.CN.RAXGFX_USD",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "Jahrzehnte",
+     "rate_limit": "",
+     "license": "IMF Open Data Terms",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.crypto_stablecoin_flows",
+   "name_de": "Stablecoin-Umlauf und BTC-Preis",
+   "plain_de": "USDT auf Tron, BTC.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Kapitalflucht in Krisenlaendern.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Krypto-Zyklus"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "defillama-stables",
+     "name": "DefiLlama Stablecoins API",
+     "doc_url": "https://defillama.com/docs/api",
+     "endpoint": "https://stablecoins.llama.fi/stablecoins?includePrices=true",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stuendlich",
+     "history": "Chain-spezifische Historie",
+     "rate_limit": "",
+     "license": "oeffentlich, Attribution erwuenscht",
+     "verified": false,
+     "sample_note": "Umlauf USDT je Chain (z. B. Tron)"
+    },
+    {
+     "source_id": "coingecko",
+     "name": "CoinGecko API",
+     "doc_url": "https://docs.coingecko.com/",
+     "endpoint": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1-5 min",
+     "history": "bis 1 Jahr gratis",
+     "rate_limit": "~10-30/min",
+     "license": "Attribution",
+     "verified": false,
+     "sample_note": "prices[] [ms,USD]"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.food_prices",
+   "name_de": "FAO Food Price Index",
+   "plain_de": "Weltweite Nahrungsmittelpreise.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Verzoegerte Wirkung.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "fao-ffpi",
+     "name": "FAO Food Price Index",
+     "doc_url": "https://www.fao.org/worldfoodsituation/foodpricesindex/en/",
+     "endpoint": "https://www.fao.org/worldfoodsituation/foodpricesindex/en/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich (erster Freitag)",
+     "history": "seit 1990",
+     "rate_limit": "",
+     "license": "CC BY-NC-SA 3.0 IGO",
+     "verified": false,
+     "sample_note": "Index Getreide, Pflanzenoel"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.airspace_flights",
+   "name_de": "Fluege ueber Golf und Ukraine",
+   "plain_de": "Flugzeugzahl in Regionen.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Airlines meiden Luftraeume.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "NOTAM",
+    "Saison"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=24&lomin=47&lamax=33&lomax=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "10 s",
+     "history": "nur 1 h anonym; laengere Historie per Forschungszugang",
+     "rate_limit": "anonym 400 Credits/Tag",
+     "license": "CC BY-SA/Forschung, ToS",
+     "verified": false,
+     "sample_note": "Zaehle states[] = Flugzeuge in Gulf-Bbox (Aggregat, keine Einzelverfolgung)"
+    },
+    {
+     "source_id": "eurocontrol",
+     "name": "EUROCONTROL Aviation Intelligence Portal",
+     "doc_url": "https://ansperformance.eu/",
+     "endpoint": "https://ansperformance.eu/data/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "taeglich",
+     "history": "seit 2019",
+     "rate_limit": "",
+     "license": "EUROCONTROL offen, Namensnennung",
+     "verified": false,
+     "sample_note": "Flugbewegungen je Land/Tag"
+    },
+    {
+     "source_id": "easa-czib",
+     "name": "EASA Conflict Zone Information Bulletins",
+     "doc_url": "https://www.easa.europa.eu/en/domains/air-operations/czibs",
+     "endpoint": "https://www.easa.europa.eu/en/domains/air-operations/czibs",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Ereignis",
+     "history": "Archiv",
+     "rate_limit": "",
+     "license": "EASA oeffentlich",
+     "verified": false,
+     "sample_note": "Kontext-Layer C: Luftraum-Warnungen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.wikipedia_hormuz",
+   "name_de": "Wikipedia-Aufrufe zu Kriegsthemen",
+   "plain_de": "Seitenaufrufe zu Hormuz.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienereignis"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Strait_of_Hormuz/daily/20260101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "items[].views"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.markets.gdelt_energy_tone",
+   "name_de": "Medienton Energie/Krieg",
+   "plain_de": "Tonfall in Nachrichten.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeitsvorlauf.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Berichtszyklus"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "gdelt",
+     "name": "GDELT DOC 2.0 API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=hormuz&mode=timelinevol&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "3 Monate",
+     "rate_limit": "",
+     "license": "offen",
+     "verified": false,
+     "sample_note": ""
+    }
+   ],
+   "notes": ""
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Kriegsrisikopraemie in Prozent des Schiffswerts (nicht oeffentlich)",
+  "Idee: Floating Storage Oel per Satellit (kostenpflichtig)",
+  "Idee: Sprit-/Heizoelhamsterkaeufe, Jodtabletten (kein offener Feed)",
+  "Idee: Versicherungsstornierung Reiseunternehmen"
+ ]
+}

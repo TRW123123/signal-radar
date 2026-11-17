@@ -32,6 +32,7 @@
      "title": "Gemessene Ausfälle",
      "plain": "Unabhängige Messnetze, die Internet-Ausfälle erkennen",
      "score": 0.9,
+     "unrest": 1,
      "active": true,
      "signals": [
       {
@@ -723,6 +724,7 @@
      "title": "Dienste und Firmenmeldungen",
      "plain": "Statusseiten großer Anbieter und Pflichtmeldungen von Unternehmen",
      "score": 0.84,
+     "unrest": 1,
      "active": true,
      "signals": [
       {
@@ -1326,6 +1328,7 @@
      "title": "Internet-Routen",
      "plain": "Sind Netze und ganze Länder im Internet erreichbar?",
      "score": 0,
+     "unrest": 0.224,
      "active": false,
      "signals": [
       {
@@ -1841,6 +1844,7 @@
      "title": "Kern-Dienste",
      "plain": "Adressbuch des Internets, Zertifikate, Zeitdienste",
      "score": 0,
+     "unrest": 0,
      "active": false,
      "signals": [
       {
@@ -2290,6 +2294,7 @@
      "title": "Angriffs-Telemetrie",
      "plain": "Sensoren, die Angriffsversuche, Schadsoftware und Erpresser zählen",
      "score": 0,
+     "unrest": 0.072,
      "active": false,
      "signals": [
       {
@@ -3091,6 +3096,7 @@
      "title": "Schwachstellen",
      "plain": "Neue ausgenutzte Sicherheitslücken und Notfall-Updates",
      "score": 0,
+     "unrest": 0.26,
      "active": false,
      "signals": [
       {
@@ -3606,6 +3612,7 @@
      "title": "Zahlungsverkehr",
      "plain": "Banken, Überweisungssysteme, Geldmarkt",
      "score": 0,
+     "unrest": 0.28,
      "active": false,
      "signals": [
       {
@@ -4253,6 +4260,7 @@
      "title": "Märkte und Insider",
      "plain": "Kurse, Handelsvolumen, Insider-Geschäfte, Wettmärkte",
      "score": 0,
+     "unrest": 0,
      "active": false,
      "signals": [
       {
@@ -4922,6 +4930,7 @@
      "title": "Strom, Verkehr, Funk",
      "plain": "Stromnetz, Flugverkehr, GPS, Telefonnetze",
      "score": 0,
+     "unrest": 0.28,
      "active": false,
      "signals": [
       {
@@ -7347,6 +7356,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.276,
+      "outages": 0,
+      "dns_core": 0.436,
+      "threat": 0.376,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.492,
+      "markets": 0,
+      "physical": 0
      }
     },
     {
@@ -7365,6 +7385,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.264,
+      "outages": 0.42,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.424,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.34
      }
     },
     {
@@ -7383,6 +7414,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.104,
+      "dns_core": 0,
+      "threat": 0.292,
+      "vuln": 0,
+      "finance": 0.08,
+      "services": 0.02,
+      "markets": 0.344,
+      "physical": 0.04
      }
     },
     {
@@ -7400,6 +7442,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.1,
+      "outages": 0.38,
+      "dns_core": 0.184,
+      "threat": 0.128,
+      "vuln": 0,
+      "finance": 0.32,
+      "services": 0.248,
+      "markets": 0.116,
       "physical": 0
      }
     },
@@ -7419,6 +7472,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.276,
+      "outages": 0.12,
+      "dns_core": 0,
+      "threat": 0.18,
+      "vuln": 0.348,
+      "finance": 0.148,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.388
      }
     },
     {
@@ -7437,6 +7501,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0.316,
+      "threat": 0.128,
+      "vuln": 0.064,
+      "finance": 0,
+      "services": 0.276,
+      "markets": 0.076,
+      "physical": 0.148
      }
     },
     {
@@ -7455,6 +7530,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.272,
+      "outages": 0.084,
+      "dns_core": 0.308,
+      "threat": 0,
+      "vuln": 0.04,
+      "finance": 0.084,
+      "services": 0.284,
+      "markets": 0,
+      "physical": 0.128
      }
     },
     {
@@ -7473,6 +7559,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.412,
+      "outages": 0.188,
+      "dns_core": 0,
+      "threat": 0.004,
+      "vuln": 0.324,
+      "finance": 0.352,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.432
      }
     },
     {
@@ -7490,6 +7587,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.272,
+      "outages": 0,
+      "dns_core": 0.232,
+      "threat": 0.492,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.496,
+      "markets": 0.132,
       "physical": 0
      }
     },
@@ -7509,6 +7617,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.032,
+      "outages": 0.44,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.34,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.22
      }
     },
     {
@@ -7527,6 +7646,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.004,
+      "dns_core": 0,
+      "threat": 0.404,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0,
+      "markets": 0.376,
+      "physical": 0.144
      }
     },
     {
@@ -7543,6 +7673,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.016,
+      "outages": 0.352,
+      "dns_core": 0.308,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.2,
+      "services": 0.392,
       "markets": 0,
       "physical": 0
      }
@@ -7563,6 +7704,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.492,
+      "outages": 0.076,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.504,
+      "finance": 0.208,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.432
      }
     },
     {
@@ -7580,6 +7732,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.076,
+      "outages": 0,
+      "dns_core": 0.416,
+      "threat": 0.332,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.444,
+      "markets": 0.008,
       "physical": 0
      }
     },
@@ -7599,6 +7762,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.364,
+      "outages": 0.34,
+      "dns_core": 0.04,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.372,
+      "services": 0.056,
+      "markets": 0,
+      "physical": 0.32
      }
     },
     {
@@ -7617,6 +7791,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.108,
+      "outages": 0.224,
+      "dns_core": 0,
+      "threat": 0.148,
+      "vuln": 0.048,
+      "finance": 0.236,
+      "services": 0.016,
+      "markets": 0.2,
+      "physical": 0.216
      }
     },
     {
@@ -7634,6 +7819,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.06,
+      "outages": 0.184,
+      "dns_core": 0.124,
+      "threat": 0.328,
+      "vuln": 0,
+      "finance": 0.16,
+      "services": 0.264,
+      "markets": 0.272,
       "physical": 0
      }
     },
@@ -7653,6 +7849,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.128,
+      "outages": 0.288,
+      "dns_core": 0,
+      "threat": 0.076,
+      "vuln": 0.156,
+      "finance": 0.356,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.18
      }
     },
     {
@@ -7671,6 +7878,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0.132,
+      "threat": 0.308,
+      "vuln": 0.116,
+      "finance": 0,
+      "services": 0.132,
+      "markets": 0.224,
+      "physical": 0.252
      }
     },
     {
@@ -7687,6 +7905,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.176,
+      "outages": 0.156,
+      "dns_core": 0.368,
+      "threat": 0,
+      "vuln": 0.012,
+      "finance": 0.024,
+      "services": 0.38,
       "markets": 0,
       "physical": 0
      }
@@ -7707,6 +7936,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.472,
+      "outages": 0.208,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.38,
+      "finance": 0.372,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.472
      }
     },
     {
@@ -7724,6 +7964,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.156,
+      "outages": 0,
+      "dns_core": 0.236,
+      "threat": 0.54,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.552,
+      "markets": 0.184,
       "physical": 0
      }
     },
@@ -7743,6 +7994,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.244,
+      "outages": 0.492,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.396,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.256
      }
     },
     {
@@ -7761,6 +8023,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.38,
+      "vuln": 0,
+      "finance": 0.012,
+      "services": 0,
+      "markets": 0.376,
+      "physical": 0.104
      }
     },
     {
@@ -7778,6 +8051,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.292,
+      "dns_core": 0.204,
+      "threat": 0.144,
+      "vuln": 0,
+      "finance": 0.164,
+      "services": 0.276,
+      "markets": 0.136,
       "physical": 0
      }
     },
@@ -7797,6 +8081,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.348,
+      "outages": 0.188,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.36,
+      "finance": 0.184,
+      "services": 0.016,
+      "markets": 0,
+      "physical": 0.312
      }
     },
     {
@@ -7815,6 +8110,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.048,
+      "outages": 0,
+      "dns_core": 0.304,
+      "threat": 0.236,
+      "vuln": 0.132,
+      "finance": 0,
+      "services": 0.308,
+      "markets": 0.104,
+      "physical": 0.168
      }
     },
     {
@@ -7833,6 +8139,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.384,
+      "outages": 0.196,
+      "dns_core": 0.216,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.228,
+      "services": 0.156,
+      "markets": 0,
+      "physical": 0.228
      }
     },
     {
@@ -7851,6 +8168,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.22,
+      "outages": 0.3,
+      "dns_core": 0,
+      "threat": 0.06,
+      "vuln": 0.112,
+      "finance": 0.356,
+      "services": 0,
+      "markets": 0.012,
+      "physical": 0.352
      }
     },
     {
@@ -7868,6 +8196,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.008,
+      "outages": 0,
+      "dns_core": 0.052,
+      "threat": 0.472,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.372,
+      "markets": 0.36,
       "physical": 0
      }
     },
@@ -7887,6 +8226,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.04,
+      "outages": 0.396,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.492,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.108
      }
     },
     {
@@ -7905,6 +8255,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.428,
+      "vuln": 0.14,
+      "finance": 0,
+      "services": 0,
+      "markets": 0.328,
+      "physical": 0.3
      }
     },
     {
@@ -7921,6 +8282,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.044,
+      "outages": 0.2,
+      "dns_core": 0.36,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.032,
+      "services": 0.396,
       "markets": 0,
       "physical": 0
      }
@@ -7941,6 +8313,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.44,
+      "outages": 0.192,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.36,
+      "finance": 0.312,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.416
      }
     },
     {
@@ -7958,6 +8341,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.004,
+      "outages": 0,
+      "dns_core": 0.204,
+      "threat": 0.484,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.5,
+      "markets": 0.188,
       "physical": 0
      }
     },
@@ -7977,6 +8371,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.408,
+      "outages": 0.452,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.372,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.236
      }
     },
     {
@@ -7995,6 +8400,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.152,
+      "dns_core": 0,
+      "threat": 0.276,
+      "vuln": 0,
+      "finance": 0.104,
+      "services": 0,
+      "markets": 0.296,
+      "physical": 0.048
      }
     },
     {
@@ -8012,6 +8428,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.172,
+      "dns_core": 0.08,
+      "threat": 0.272,
+      "vuln": 0,
+      "finance": 0.096,
+      "services": 0.112,
+      "markets": 0.3,
       "physical": 0
      }
     },
@@ -8031,6 +8458,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.136,
+      "outages": 0.396,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.152,
+      "finance": 0.368,
+      "services": 0.12,
+      "markets": 0,
+      "physical": 0.136
      }
     },
     {
@@ -8049,6 +8487,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.14,
+      "outages": 0,
+      "dns_core": 0.148,
+      "threat": 0.28,
+      "vuln": 0.284,
+      "finance": 0,
+      "services": 0.116,
+      "markets": 0.18,
+      "physical": 0.356
      }
     },
     {
@@ -8067,6 +8516,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.328,
+      "outages": 0.068,
+      "dns_core": 0.36,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.052,
+      "services": 0.304,
+      "markets": 0,
+      "physical": 0.088
      }
     },
     {
@@ -8085,6 +8545,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.296,
+      "outages": 0.316,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.164,
+      "finance": 0.396,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.42
      }
     },
     {
@@ -8102,6 +8573,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.516,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.416,
+      "markets": 0.38,
       "physical": 0
      }
     },
@@ -8121,6 +8603,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.236,
+      "outages": 0.424,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.528,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.056
      }
     },
     {
@@ -8139,6 +8632,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.46,
+      "vuln": 0.14,
+      "finance": 0,
+      "services": 0,
+      "markets": 0.364,
+      "physical": 0.292
      }
     },
     {
@@ -8157,6 +8661,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.2,
+      "dns_core": 0.284,
+      "threat": 0.068,
+      "vuln": 0,
+      "finance": 0.04,
+      "services": 0.332,
+      "markets": 0,
+      "physical": 0.032
      }
     },
     {
@@ -8175,6 +8690,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.324,
+      "outages": 0.148,
+      "dns_core": 0.088,
+      "threat": 0,
+      "vuln": 0.272,
+      "finance": 0.2,
+      "services": 0.156,
+      "markets": 0,
+      "physical": 0.276
      }
     },
     {
@@ -8193,6 +8719,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.176,
+      "outages": 0,
+      "dns_core": 0.12,
+      "threat": 0.332,
+      "vuln": 0.204,
+      "finance": 0,
+      "services": 0.348,
+      "markets": 0.168,
+      "physical": 0.188
      }
     },
     {
@@ -8211,6 +8748,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.492,
+      "outages": 0.316,
+      "dns_core": 0.164,
+      "threat": 0.068,
+      "vuln": 0,
+      "finance": 0.272,
+      "services": 0.16,
+      "markets": 0,
+      "physical": 0.168
      }
     },
     {
@@ -8229,6 +8777,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.076,
+      "outages": 0.28,
+      "dns_core": 0,
+      "threat": 0.116,
+      "vuln": 0.012,
+      "finance": 0.26,
+      "services": 0,
+      "markets": 0.152,
+      "physical": 0.2
      }
     },
     {
@@ -8247,6 +8806,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.008,
+      "dns_core": 0,
+      "threat": 0.348,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.152,
+      "markets": 0.408,
+      "physical": 0
      }
     },
     {
@@ -8263,6 +8833,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.092,
+      "outages": 0.52,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.5,
+      "services": 0.18,
       "markets": 0,
       "physical": 0
      }
@@ -8283,6 +8864,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.2,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.384,
+      "vuln": 0.372,
+      "finance": 0,
+      "services": 0,
+      "markets": 0.232,
+      "physical": 0.472
      }
     },
     {
@@ -8299,6 +8891,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.208,
+      "outages": 0.096,
+      "dns_core": 0.428,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.392,
       "markets": 0,
       "physical": 0
      }
@@ -8319,6 +8922,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.324,
+      "outages": 0.268,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.184,
+      "finance": 0.356,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.404
      }
     },
     {
@@ -8336,6 +8950,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.46,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.376,
+      "markets": 0.324,
       "physical": 0
      }
     },
@@ -8355,6 +8980,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.392,
+      "outages": 0.384,
+      "dns_core": 0.008,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.456,
+      "services": 0.06,
+      "markets": 0,
+      "physical": 0.004
      }
     },
     {
@@ -8373,6 +9009,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.028,
+      "outages": 0.036,
+      "dns_core": 0,
+      "threat": 0.4,
+      "vuln": 0.12,
+      "finance": 0.024,
+      "services": 0,
+      "markets": 0.332,
+      "physical": 0.224
      }
     },
     {
@@ -8391,6 +9038,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.168,
+      "dns_core": 0.144,
+      "threat": 0.224,
+      "vuln": 0,
+      "finance": 0.04,
+      "services": 0.2,
+      "markets": 0.176,
+      "physical": 0.048
      }
     },
     {
@@ -8409,6 +9067,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.132,
+      "outages": 0.328,
+      "dns_core": 0.176,
+      "threat": 0,
+      "vuln": 0.124,
+      "finance": 0.24,
+      "services": 0.296,
+      "markets": 0,
+      "physical": 0.088
      }
     },
     {
@@ -8427,6 +9096,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.344,
+      "outages": 0,
+      "dns_core": 0.016,
+      "threat": 0.204,
+      "vuln": 0.408,
+      "finance": 0,
+      "services": 0.128,
+      "markets": 0.124,
+      "physical": 0.396
      }
     },
     {
@@ -8445,6 +9125,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.472,
+      "outages": 0.12,
+      "dns_core": 0.348,
+      "threat": 0.14,
+      "vuln": 0,
+      "finance": 0.108,
+      "services": 0.284,
+      "markets": 0,
+      "physical": 0.068
      }
     },
     {
@@ -8463,6 +9154,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.16,
+      "outages": 0.352,
+      "dns_core": 0,
+      "threat": 0.032,
+      "vuln": 0.036,
+      "finance": 0.368,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.32
      }
     },
     {
@@ -8481,6 +9183,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.352,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.18,
+      "markets": 0.432,
+      "physical": 0
      }
     },
     {
@@ -8497,6 +9210,17 @@
       "threat": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "vuln": 1,
+      "routing": 0.188,
+      "outages": 0.544,
+      "dns_core": 0.048,
+      "threat": 0,
+      "finance": 0.536,
+      "services": 0.216,
       "markets": 0,
       "physical": 0
      }
@@ -8517,6 +9241,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "vuln": 1,
+      "routing": 0.22,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.416,
+      "finance": 0,
+      "services": 0,
+      "markets": 0.244,
+      "physical": 0.492
      }
     },
     {
@@ -8533,6 +9268,17 @@
       "threat": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "vuln": 1,
+      "routing": 0.048,
+      "outages": 0.112,
+      "dns_core": 0.404,
+      "threat": 0,
+      "finance": 0,
+      "services": 0.404,
       "markets": 0,
       "physical": 0
      }
@@ -8553,6 +9299,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "vuln": 1,
+      "routing": 0.276,
+      "outages": 0.168,
+      "dns_core": 0.144,
+      "threat": 0,
+      "finance": 0.248,
+      "services": 0.128,
+      "markets": 0,
+      "physical": 0.304
      }
     },
     {
@@ -8571,6 +9328,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "vuln": 1,
+      "routing": 0.224,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.312,
+      "finance": 0.076,
+      "services": 0.26,
+      "markets": 0.208,
+      "physical": 0.18
      }
     },
     {
@@ -8587,6 +9355,17 @@
       "threat": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "vuln": 1,
+      "routing": 0.472,
+      "outages": 0.264,
+      "dns_core": 0.164,
+      "threat": 0.188,
+      "finance": 0.296,
+      "services": 0.224,
       "markets": 0,
       "physical": 0
      }
@@ -8607,6 +9386,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.064,
+      "outages": 0.232,
+      "dns_core": 0,
+      "threat": 0.26,
+      "vuln": 0.068,
+      "finance": 0.18,
+      "services": 0,
+      "markets": 0.232,
+      "physical": 0.124
      }
     },
     {
@@ -8625,6 +9415,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.092,
+      "dns_core": 0,
+      "threat": 0.332,
+      "vuln": 0,
+      "finance": 0.028,
+      "services": 0.024,
+      "markets": 0.316,
+      "physical": 0.052
      }
     },
     {
@@ -8641,6 +9442,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.116,
+      "outages": 0.444,
+      "dns_core": 0.216,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.336,
+      "services": 0.368,
       "markets": 0,
       "physical": 0
      }
@@ -8661,6 +9473,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.44,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.228,
+      "vuln": 0.52,
+      "finance": 0,
+      "services": 0,
+      "markets": 0.068,
+      "physical": 0.52
      }
     },
     {
@@ -8677,6 +9500,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.36,
+      "outages": 0.012,
+      "dns_core": 0.46,
+      "threat": 0.18,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.36,
       "markets": 0,
       "physical": 0
      }
@@ -8697,6 +9531,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.22,
+      "outages": 0.352,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.052,
+      "finance": 0.4,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.38
      }
     },
     {
@@ -8715,6 +9560,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.024,
+      "dns_core": 0,
+      "threat": 0.324,
+      "vuln": 0,
+      "finance": 0.024,
+      "services": 0.176,
+      "markets": 0.372,
+      "physical": 0
      }
     },
     {
@@ -8731,6 +9587,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.252,
+      "outages": 0.464,
+      "dns_core": 0.104,
+      "threat": 0.02,
+      "vuln": 0,
+      "finance": 0.464,
+      "services": 0.204,
       "markets": 0,
       "physical": 0
      }
@@ -8751,6 +9618,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.204,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.368,
+      "vuln": 0.316,
+      "finance": 0.02,
+      "services": 0,
+      "markets": 0.208,
+      "physical": 0.412
      }
     },
     {
@@ -8769,6 +9647,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.108,
+      "dns_core": 0.304,
+      "threat": 0.092,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.324,
+      "markets": 0.032,
+      "physical": 0.076
      }
     },
     {
@@ -8787,6 +9676,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.22,
+      "outages": 0.148,
+      "dns_core": 0.256,
+      "threat": 0,
+      "vuln": 0.108,
+      "finance": 0.088,
+      "services": 0.284,
+      "markets": 0,
+      "physical": 0.144
      }
     },
     {
@@ -8805,6 +9705,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.412,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.1,
+      "vuln": 0.376,
+      "finance": 0.164,
+      "services": 0.088,
+      "markets": 0.052,
+      "physical": 0.316
      }
     },
     {
@@ -8821,6 +9732,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.456,
+      "outages": 0.088,
+      "dns_core": 0.304,
+      "threat": 0.34,
+      "vuln": 0,
+      "finance": 0.08,
+      "services": 0.412,
       "markets": 0,
       "physical": 0
      }
@@ -8841,6 +9763,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.1,
+      "outages": 0.384,
+      "dns_core": 0,
+      "threat": 0.064,
+      "vuln": 0.02,
+      "finance": 0.34,
+      "services": 0,
+      "markets": 0.076,
+      "physical": 0.256
      }
     },
     {
@@ -8859,6 +9792,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.376,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.008,
+      "markets": 0.388,
+      "physical": 0.04
      }
     },
     {
@@ -8875,6 +9819,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.092,
+      "outages": 0.476,
+      "dns_core": 0.22,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.368,
+      "services": 0.36,
       "markets": 0,
       "physical": 0
      }
@@ -8895,6 +9850,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.448,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.212,
+      "vuln": 0.532,
+      "finance": 0.028,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.544
      }
     },
     {
@@ -8911,6 +9877,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.172,
+      "outages": 0,
+      "dns_core": 0.484,
+      "threat": 0.184,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.388,
       "markets": 0,
       "physical": 0
      }
@@ -8931,6 +9908,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.296,
+      "outages": 0.28,
+      "dns_core": 0.032,
+      "threat": 0,
+      "vuln": 0.064,
+      "finance": 0.344,
+      "services": 0.012,
+      "markets": 0,
+      "physical": 0.356
      }
     },
     {
@@ -8949,6 +9937,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.136,
+      "outages": 0.12,
+      "dns_core": 0,
+      "threat": 0.244,
+      "vuln": 0.08,
+      "finance": 0.18,
+      "services": 0.132,
+      "markets": 0.228,
+      "physical": 0.196
      }
     },
     {
@@ -8966,6 +9965,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.276,
+      "outages": 0.292,
+      "dns_core": 0.156,
+      "threat": 0.26,
+      "vuln": 0,
+      "finance": 0.296,
+      "services": 0.232,
+      "markets": 0.068,
       "physical": 0
      }
     },
@@ -8985,6 +9995,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0
+     },
+     "u": {
+      "physical": 1,
+      "routing": 0.152,
+      "outages": 0.216,
+      "dns_core": 0,
+      "threat": 0.248,
+      "vuln": 0.192,
+      "finance": 0.196,
+      "services": 0,
+      "markets": 0.124
      }
     },
     {
@@ -9003,6 +10024,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0
+     },
+     "u": {
+      "physical": 1,
+      "routing": 0,
+      "outages": 0.08,
+      "dns_core": 0.144,
+      "threat": 0.264,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.18,
+      "markets": 0.204
      }
     },
     {
@@ -9021,6 +10053,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0
+     },
+     "u": {
+      "physical": 1,
+      "routing": 0.148,
+      "outages": 0.256,
+      "dns_core": 0.316,
+      "threat": 0,
+      "vuln": 0.024,
+      "finance": 0.12,
+      "services": 0.38,
+      "markets": 0
      }
     },
     {
@@ -9037,6 +10080,17 @@
       "threat": 0,
       "vuln": 0,
       "finance": 0,
+      "services": 0,
+      "markets": 0
+     },
+     "u": {
+      "physical": 1,
+      "routing": 0.516,
+      "outages": 0.028,
+      "dns_core": 0,
+      "threat": 0.012,
+      "vuln": 0.484,
+      "finance": 0.216,
       "services": 0,
       "markets": 0
      }
@@ -9057,6 +10111,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0
+     },
+     "u": {
+      "physical": 1,
+      "routing": 0.344,
+      "outages": 0,
+      "dns_core": 0.392,
+      "threat": 0.424,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.516,
+      "markets": 0
      }
     },
     {
@@ -9073,6 +10138,17 @@
       "threat": 0,
       "vuln": 0,
       "finance": 0,
+      "services": 0,
+      "markets": 0
+     },
+     "u": {
+      "physical": 1,
+      "routing": 0.172,
+      "outages": 0.456,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.432,
       "services": 0,
       "markets": 0
      }
@@ -9093,6 +10169,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0,
+      "threat": 0.344,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.02,
+      "markets": 0.388,
+      "physical": 0.028
      }
     },
     {
@@ -9110,6 +10197,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.06,
+      "outages": 0.416,
+      "dns_core": 0.184,
+      "threat": 0.02,
+      "vuln": 0,
+      "finance": 0.324,
+      "services": 0.288,
+      "markets": 0.044,
       "physical": 0
      }
     },
@@ -9129,6 +10227,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.368,
+      "outages": 0.052,
+      "dns_core": 0,
+      "threat": 0.156,
+      "vuln": 0.444,
+      "finance": 0.1,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.46
      }
     },
     {
@@ -9147,6 +10256,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0,
+      "dns_core": 0.408,
+      "threat": 0.16,
+      "vuln": 0.012,
+      "finance": 0,
+      "services": 0.336,
+      "markets": 0.008,
+      "physical": 0.06
      }
     },
     {
@@ -9165,6 +10285,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.308,
+      "outages": 0.16,
+      "dns_core": 0.192,
+      "threat": 0,
+      "vuln": 0.064,
+      "finance": 0.224,
+      "services": 0.152,
+      "markets": 0,
+      "physical": 0.256
      }
     },
     {
@@ -9183,6 +10314,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.3,
+      "outages": 0.188,
+      "dns_core": 0,
+      "threat": 0.112,
+      "vuln": 0.204,
+      "finance": 0.3,
+      "services": 0.056,
+      "markets": 0.048,
+      "physical": 0.348
      }
     },
     {
@@ -9200,6 +10342,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.244,
+      "outages": 0.064,
+      "dns_core": 0.184,
+      "threat": 0.444,
+      "vuln": 0,
+      "finance": 0.068,
+      "services": 0.412,
+      "markets": 0.16,
       "physical": 0
      }
     },
@@ -9219,6 +10372,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.08,
+      "outages": 0.396,
+      "dns_core": 0,
+      "threat": 0.072,
+      "vuln": 0.04,
+      "finance": 0.332,
+      "services": 0,
+      "markets": 0.012,
+      "physical": 0.192
      }
     },
     {
@@ -9237,6 +10401,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.032,
+      "dns_core": 0,
+      "threat": 0.384,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0,
+      "markets": 0.332,
+      "physical": 0.16
      }
     },
     {
@@ -9253,6 +10428,17 @@
       "vuln": 0,
       "finance": 0,
       "services": 0,
+      "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.056,
+      "outages": 0.308,
+      "dns_core": 0.312,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.156,
+      "services": 0.4,
       "markets": 0,
       "physical": 0
      }
@@ -9273,6 +10459,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.52,
+      "outages": 0.076,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0.496,
+      "finance": 0.228,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.4
      }
     },
     {
@@ -9290,6 +10487,17 @@
       "finance": 0,
       "services": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "routing": 0.168,
+      "outages": 0,
+      "dns_core": 0.404,
+      "threat": 0.42,
+      "vuln": 0,
+      "finance": 0,
+      "services": 0.516,
+      "markets": 0.012,
       "physical": 0
      }
     },
@@ -9309,6 +10517,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0.328,
+      "outages": 0.44,
+      "dns_core": 0,
+      "threat": 0,
+      "vuln": 0,
+      "finance": 0.436,
+      "services": 0,
+      "markets": 0,
+      "physical": 0.356
      }
     },
     {
@@ -9327,6 +10546,17 @@
       "services": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "routing": 0,
+      "outages": 0.132,
+      "dns_core": 0,
+      "threat": 0.244,
+      "vuln": 0,
+      "finance": 0.108,
+      "services": 0.024,
+      "markets": 0.296,
+      "physical": 0.056
      }
     },
     {
@@ -9344,6 +10574,17 @@
       "vuln": 0,
       "finance": 0,
       "markets": 0,
+      "physical": 0
+     },
+     "u": {
+      "outages": 1,
+      "services": 1,
+      "routing": 0.02,
+      "dns_core": 0.12,
+      "threat": 0.204,
+      "vuln": 0,
+      "finance": 0.216,
+      "markets": 0.212,
       "physical": 0
      }
     },
@@ -9363,6 +10604,17 @@
       "finance": 0,
       "markets": 0,
       "physical": 0
+     },
+     "u": {
+      "outages": 1,
+      "services": 1,
+      "routing": 0.224,
+      "dns_core": 0,
+      "threat": 0.072,
+      "vuln": 0.26,
+      "finance": 0.28,
+      "markets": 0,
+      "physical": 0.28
      }
     }
    ]

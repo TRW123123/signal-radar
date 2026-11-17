@@ -45,10 +45,20 @@
     "signals": [
       "cyber.physical.continuity_aircraft",
       "cyber.physical.bizjet_nz_aggregate",
-      "cyber.physical.bizjet_remote_havens"
+      "cyber.physical.bizjet_remote_havens",
+      "war.military.tanker_count",
+      "war.military.mil_count_hormuz",
+      "war.military.airlift_c17",
+      "war.military.isr_recon",
+      "war.military.mil_count_baltic",
+      "war.military.mil_count_taiwan",
+      "war.military.drone_hale",
+      "war.military.gov_leadership_flights",
+      "war.military.mil_dark_ratio"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -120,10 +130,12 @@
     "aliases": [],
     "collector": "agsi",
     "signals": [
-      "cyber.physical.storage_level_anomaly_eu"
+      "cyber.physical.storage_level_anomaly_eu",
+      "war.energy.eu_gas_storage"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -151,10 +163,12 @@
     "signals": [
       "cyber.physical.ais_position_jumps",
       "cyber.physical.port_congestion",
-      "cyber.attention.ship_ais_aggregate"
+      "cyber.attention.ship_ais_aggregate",
+      "war.shipping.baltic_ais_traffic"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -203,10 +217,13 @@
     "aliases": [],
     "collector": "alsi",
     "signals": [
-      "cyber.physical.lng_sendout_anomaly"
+      "cyber.physical.lng_sendout_anomaly",
+      "war.energy.lng_terminals",
+      "war.energy.eu_gas_storage"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -773,10 +790,14 @@
     "aliases": [],
     "collector": "celestrak",
     "signals": [
-      "cyber.physical.starlink_fleet_count"
+      "cyber.physical.starlink_fleet_count",
+      "war.military.asat_debris",
+      "war.military.sat_maneuvers",
+      "war.military.cosmos_launches"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -946,10 +967,19 @@
       "cyber.threat.cloudflare_l3_attacks",
       "cyber.threat.cloudflare_l7_attacks",
       "cyber.threat.targets_by_country",
-      "cyber.attention.cloudflare_domain_rankings"
+      "cyber.attention.cloudflare_domain_rankings",
+      "war.connectivity.ioda_ir",
+      "war.connectivity.ioda_tw",
+      "war.connectivity.ioda_il",
+      "war.connectivity.ioda_ua",
+      "war.connectivity.gulf_states_internet",
+      "war.connectivity.ioda_ru",
+      "war.connectivity.undersea_cables_baltic",
+      "war.connectivity.traffic_by_network"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1090,10 +1120,12 @@
     "collector": "coingecko",
     "signals": [
       "cyber.finance.stablecoin_peg_deviation",
-      "cyber.markets.bitcoin_vs_gold_divergence"
+      "cyber.markets.bitcoin_vs_gold_divergence",
+      "war.markets.crypto_stablecoin_flows"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1307,10 +1339,12 @@
     "signals": [
       "cyber.finance.stablecoin_peg_deviation",
       "cyber.finance.defi_tvl_drop",
-      "cyber.finance.exchange_reserves_outflow"
+      "cyber.finance.exchange_reserves_outflow",
+      "war.markets.crypto_stablecoin_flows"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1454,10 +1488,14 @@
       "cyber.finance.estr_percentile_spread",
       "cyber.finance.ecb_marginal_lending",
       "cyber.finance.banknotes_in_circulation",
-      "cyber.markets.safe_haven_fx"
+      "cyber.markets.safe_haven_fx",
+      "war.markets.safe_haven_chf",
+      "war.markets.bund_yield_spread",
+      "war.markets.safe_haven_jpy"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1508,10 +1546,13 @@
     ],
     "collector": "eia",
     "signals": [
-      "cyber.physical.us_demand_balancing_authorities"
+      "cyber.physical.us_demand_balancing_authorities",
+      "war.energy.us_spr_stocks",
+      "war.markets.brent_price"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1564,10 +1605,12 @@
       "cyber.physical.frequency_rocof",
       "cyber.physical.load_vs_forecast_de",
       "cyber.physical.solar_wind_feedin_sudden_drop",
-      "cyber.physical.price_spike_de"
+      "cyber.physical.price_spike_de",
+      "war.energy.power_prices"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1598,10 +1641,13 @@
       "cyber.physical.generation_unit_outages_eu",
       "cyber.physical.cross_border_flow_anomaly",
       "cyber.physical.solar_wind_feedin_sudden_drop",
-      "cyber.physical.grid_load_germany"
+      "cyber.physical.grid_load_germany",
+      "war.connectivity.power_grid_frontline",
+      "war.energy.power_prices"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1623,10 +1669,12 @@
     "aliases": [],
     "collector": "entsog",
     "signals": [
-      "cyber.physical.cross_border_flow_drop"
+      "cyber.physical.cross_border_flow_drop",
+      "war.energy.gas_flows_entsog"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1723,10 +1771,17 @@
     "aliases": [],
     "collector": "eurocontrol",
     "signals": [
-      "cyber.physical.eurocontrol_delays_it"
+      "cyber.physical.eurocontrol_delays_it",
+      "war.military.airspace_closures",
+      "war.military.avoidance_iran_gulf",
+      "war.military.avoidance_black_sea",
+      "war.military.civ_count_ukraine_edge",
+      "war.military.drone_airport_closures_eu",
+      "war.military.russia_missile_ranges"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -1798,10 +1853,13 @@
     "aliases": [],
     "collector": "faa-notam",
     "signals": [
-      "cyber.physical.notam_gps_interference"
+      "cyber.physical.notam_gps_interference",
+      "war.military.faa_closures",
+      "war.military.russia_missile_ranges"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2116,10 +2174,25 @@
       "cyber.markets.financial_stress_index",
       "cyber.markets.vix_spike",
       "cyber.markets.vix_term_structure",
-      "cyber.markets.safe_haven_fx"
+      "cyber.markets.safe_haven_fx",
+      "war.markets.brent_price",
+      "war.markets.ovx",
+      "war.markets.wti_price",
+      "war.markets.gas_henry_vs_ttf",
+      "war.markets.wheat_prices",
+      "war.markets.fuel_bunker_prices",
+      "war.markets.breakeven_inflation",
+      "war.markets.fertilizer_prices",
+      "war.markets.gold_price",
+      "war.markets.gvz_and_move",
+      "war.markets.safe_haven_jpy",
+      "war.markets.vix",
+      "war.markets.hy_credit_spread",
+      "war.markets.us_10y_yield"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2170,10 +2243,17 @@
     "collector": "gdelt-doc",
     "signals": [
       "cyber.attention.gdelt_cyber_bank_volume",
-      "cyber.attention.gdelt_cyber_volume"
+      "cyber.attention.gdelt_cyber_volume",
+      "war.military.ballistic_launches_log",
+      "war.attention.gdelt_fight_events",
+      "war.attention.baltic_drone_warnings",
+      "war.attention.gdelt_tone_volume_hotspots",
+      "war.attention.gdelt_coverage_share",
+      "war.attention.gdelt_energy_tone"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2247,10 +2327,12 @@
     "aliases": [],
     "collector": "github-rest",
     "signals": [
-      "cyber.attention.security_repo_commit_hours"
+      "cyber.attention.security_repo_commit_hours",
+      "war.military.mil_count_baltic"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2297,10 +2379,12 @@
     "aliases": [],
     "collector": "google-trends-unofficial",
     "signals": [
-      "cyber.attention.google_trends_crisis"
+      "cyber.attention.google_trends_crisis",
+      "war.attention.search_trends"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2323,10 +2407,16 @@
     "aliases": [],
     "collector": "gpsjam",
     "signals": [
-      "cyber.physical.gnss_interference"
+      "cyber.physical.gnss_interference",
+      "war.military.jamming_east_asia",
+      "war.military.jamming_gulf",
+      "war.military.jamming_baltic",
+      "war.military.gnss_interference",
+      "war.military.jamming_black_sea"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2486,10 +2576,12 @@
     ],
     "collector": "hn-algolia",
     "signals": [
-      "cyber.attention.hackernews_volume"
+      "cyber.attention.hackernews_volume",
+      "war.attention.hackernews_mentions"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2597,10 +2689,18 @@
       "cyber.outages.ioda_outage_events_global",
       "cyber.outages.ioda_country_signals_de",
       "cyber.outages.traffic_anomalies",
-      "cyber.physical.ioda_starlink_asn"
+      "cyber.physical.ioda_starlink_asn",
+      "war.connectivity.ioda_ir",
+      "war.connectivity.ioda_tw",
+      "war.connectivity.ioda_il",
+      "war.connectivity.ioda_ua",
+      "war.connectivity.gulf_states_internet",
+      "war.connectivity.ioda_ru",
+      "war.connectivity.undersea_cables_baltic"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2672,10 +2772,12 @@
     "aliases": [],
     "collector": "kalshi",
     "signals": [
-      "cyber.markets.polymarket_cyber"
+      "cyber.markets.polymarket_cyber",
+      "war.attention.prediction_markets_war"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2803,10 +2905,12 @@
     "aliases": [],
     "collector": "manifold",
     "signals": [
-      "cyber.attention.metaculus_manifold"
+      "cyber.attention.metaculus_manifold",
+      "war.attention.prediction_markets_war"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -2978,10 +3082,12 @@
     "aliases": [],
     "collector": "metaculus",
     "signals": [
-      "cyber.attention.metaculus_manifold"
+      "cyber.attention.metaculus_manifold",
+      "war.attention.prediction_markets_war"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -3158,10 +3264,13 @@
     "aliases": [],
     "collector": "navarea",
     "signals": [
-      "cyber.physical.navarea_warnings"
+      "cyber.physical.navarea_warnings",
+      "war.military.gnss_interference",
+      "war.military.navarea_warnings"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -3260,10 +3369,12 @@
     "collector": "nina-mowas",
     "signals": [
       "cyber.physical.emergency_number_outage",
-      "cyber.context.mowas_alert_count"
+      "cyber.context.mowas_alert_count",
+      "war.government.civil_defense_warnings"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -3290,10 +3401,13 @@
     "signals": [
       "cyber.context.geomagnetic_storm",
       "cyber.context.ionosphere_scintillation",
-      "cyber.context.xray_flux"
+      "cyber.context.xray_flux",
+      "war.military.jamming_baltic",
+      "war.context.geomagnetic_kp"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -3569,10 +3683,16 @@
     "aliases": [],
     "collector": "ooni",
     "signals": [
-      "cyber.attention.ooni_anomalies"
+      "cyber.attention.ooni_anomalies",
+      "war.connectivity.ioda_ir",
+      "war.connectivity.ioda_tw",
+      "war.connectivity.ioda_il",
+      "war.connectivity.ioda_ua",
+      "war.connectivity.ioda_ru"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -3678,10 +3798,19 @@
       "cyber.physical.opensky_flight_count",
       "cyber.physical.adsb_coverage_loss",
       "cyber.physical.bizjet_nz_aggregate",
-      "cyber.physical.bizjet_remote_havens"
+      "cyber.physical.bizjet_remote_havens",
+      "war.military.airspace_closures",
+      "war.military.avoidance_iran_gulf",
+      "war.military.avoidance_taiwan_strait",
+      "war.military.avoidance_black_sea",
+      "war.military.civ_count_ukraine_edge",
+      "war.military.drone_airport_closures_eu",
+      "war.military.mil_dark_ratio",
+      "war.government.evac_flights"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -3882,10 +4011,13 @@
     "collector": "polymarket-gamma",
     "signals": [
       "cyber.markets.polymarket_cyber",
-      "cyber.markets.market_volume_cyber"
+      "cyber.markets.market_volume_cyber",
+      "war.attention.prediction_markets_war",
+      "war.attention.prediction_volume_spike"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -4133,10 +4265,12 @@
       "cyber.routing.asn_visibility_critical_de",
       "cyber.routing.ddos_scrubbing_diversions",
       "cyber.routing.as_path_length_shift",
-      "cyber.routing.rpki_invalid_share"
+      "cyber.routing.rpki_invalid_share",
+      "war.connectivity.undersea_cables_baltic"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -4287,10 +4421,12 @@
     "aliases": [],
     "collector": "sam-gov",
     "signals": [
-      "cyber.services.sam_gov_justifications"
+      "cyber.services.sam_gov_justifications",
+      "war.government.defense_procurement"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -4390,10 +4526,12 @@
       "cyber.services.8k_ciso_departures",
       "cyber.markets.form4_cyber_cloud",
       "cyber.markets.form144_planned_sales",
-      "cyber.markets.form4_banks"
+      "cyber.markets.form4_banks",
+      "war.markets.insider_form4_defense"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -4580,10 +4718,12 @@
     "collector": "space-track",
     "signals": [
       "cyber.physical.starlink_fleet_count",
-      "cyber.physical.satellite_decay_events"
+      "cyber.physical.satellite_decay_events",
+      "war.military.sat_maneuvers"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -4750,10 +4890,15 @@
       "cyber.markets.cdn_cloud_stress",
       "cyber.markets.cyber_insurer_prices",
       "cyber.markets.bank_equity_index",
-      "cyber.markets.gold"
+      "cyber.markets.gold",
+      "war.markets.brent_price",
+      "war.markets.brent_term_structure",
+      "war.markets.gas_ttf",
+      "war.markets.defense_stocks_eu"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -4800,10 +4945,12 @@
     "aliases": [],
     "collector": "subcable",
     "signals": [
-      "cyber.physical.map_inventory"
+      "cyber.physical.map_inventory",
+      "war.connectivity.undersea_cables_baltic"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -4900,10 +5047,14 @@
     "aliases": [],
     "collector": "ted",
     "signals": [
-      "cyber.services.ted_emergency_it"
+      "cyber.services.ted_emergency_it",
+      "war.government.defense_procurement",
+      "war.government.civil_shelter_programs",
+      "war.attention.blood_donation_calls"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -5083,10 +5234,14 @@
     "aliases": [],
     "collector": "usgs",
     "signals": [
-      "cyber.context.earthquakes"
+      "cyber.context.earthquakes",
+      "war.conflict.nk_test_site",
+      "war.conflict.novaya_zemlya",
+      "war.conflict.explosions_ukraine"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -5247,10 +5402,15 @@
       "cyber.attention.hackernews_volume",
       "cyber.attention.wikipedia_cyber_terms",
       "cyber.attention.wikipedia_cash_prep",
-      "cyber.attention.wikipedia_traffic_baseline"
+      "cyber.attention.wikipedia_traffic_baseline",
+      "war.attention.wiki_civil_protection",
+      "war.attention.wiki_conscription",
+      "war.attention.wiki_hotspot_articles",
+      "war.attention.wiki_ww3"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
     ]
   },
   {
@@ -5311,10 +5471,2117 @@
       "cyber.markets.cyber_insurer_prices",
       "cyber.markets.bank_stocks",
       "cyber.markets.bitcoin_vs_gold_divergence",
-      "cyber.markets.gold"
+      "cyber.markets.gold",
+      "war.markets.conflict_currencies",
+      "war.markets.brent_price",
+      "war.markets.brent_term_structure",
+      "war.markets.gas_ttf",
+      "war.markets.defense_stocks_eu",
+      "war.markets.tanker_equities",
+      "war.markets.defense_etf_us",
+      "war.markets.wti_price",
+      "war.markets.container_liner_equities",
+      "war.markets.defense_stocks_us",
+      "war.markets.gas_henry_vs_ttf",
+      "war.markets.wheat_prices",
+      "war.markets.gold_price",
+      "war.markets.gvz_and_move",
+      "war.markets.safe_haven_chf",
+      "war.markets.vix"
     ],
     "scenarios": [
-      "cyber"
+      "cyber",
+      "war"
+    ]
+  },
+  {
+    "id": "aa-opendata",
+    "name": "Auswärtiges Amt OpenData travelwarning",
+    "docUrl": "https://www.auswaertiges-amt.de/opendata/travelwarning",
+    "endpoints": [
+      "https://www.auswaertiges-amt.de/opendata/travelwarning"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Änderung, Feed-lastModified",
+    "history": "keine; Snapshot-Archivierung nötig (täglich abspeichern, Diff bilden)",
+    "rateLimit": "",
+    "license": "unklar (AA-Opendata-Seite prüfen)",
+    "verified": true,
+    "aliases": [],
+    "collector": "aa-opendata",
+    "signals": [
+      "war.government.evac_flights",
+      "war.government.aa_hotspot_changes",
+      "war.government.aa_warning_count"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "acled",
+    "name": "ACLED API",
+    "docUrl": "https://acleddata.com/acled-api-documentation",
+    "endpoints": [
+      "https://acleddata.com/api/acled/read?event_type=Explosions/Remote violence&country=Ukraine",
+      "https://acleddata.com/api/acled/read?_format=json&country=Ukraine&event_date=2026-11-01|2026-11-16&event_date_where=BETWEEN"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "Seit 1997",
+    "rateLimit": "unbekannt",
+    "license": "Bedingungen, nicht-kommerziell frei",
+    "verified": false,
+    "aliases": [],
+    "collector": "acled",
+    "signals": [
+      "war.conflict.acled_events_weekly"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "airplanes-live",
+    "name": "airplanes.live API",
+    "docUrl": "https://airplanes.live/api-guide/",
+    "endpoints": [
+      "https://api.airplanes.live/v2/mil"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "~1 s",
+    "history": "nur Live",
+    "rateLimit": "unbekannt",
+    "license": "nicht-kommerziell, prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "airplanes-live",
+    "signals": [
+      "war.military.avoidance_iran_gulf",
+      "war.military.avoidance_taiwan_strait",
+      "war.military.mil_count_hormuz",
+      "war.military.mil_count_baltic",
+      "war.military.mil_count_taiwan"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "aishub",
+    "name": "AISHub / MarineTraffic / Datalastic AIS",
+    "docUrl": "https://www.aishub.net/api",
+    "endpoints": [
+      "https://data.aishub.net/ws.php?username=KEY&format=1&output=json&compress=0&latmin=24&latmax=28&lonmin=54&lonmax=58"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "meist nur Live",
+    "rateLimit": "unbekannt",
+    "license": "Datentausch (AISHub), sonst kommerziell",
+    "verified": false,
+    "aliases": [],
+    "collector": "aishub",
+    "signals": [
+      "war.shipping.hormuz_transits",
+      "war.shipping.baltic_dark_vessels"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "alerts-in-ua",
+    "name": "alerts.in.ua API",
+    "docUrl": "https://devs.alerts.in.ua/",
+    "endpoints": [
+      "https://api.alerts.in.ua/v1/alerts/active.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "~15 s",
+    "history": "History-Endpunkt je Region",
+    "rateLimit": "unbekannt",
+    "license": "Nutzung nicht-kommerziell mit Key, prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "alerts-in-ua",
+    "signals": [
+      "war.conflict.ua_air_alerts",
+      "war.attention.baltic_drone_warnings"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "bafin-dealings",
+    "name": "BaFin Directors' Dealings Datenbank (MAR Art. 19)",
+    "docUrl": "https://portal.mvp.bafin.de/database/DealingsInfo/",
+    "endpoints": [
+      "https://portal.mvp.bafin.de/database/DealingsInfo/sucheForm.do"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "seit 2016",
+    "rateLimit": "",
+    "license": "BaFin, öffentlich",
+    "verified": false,
+    "aliases": [],
+    "collector": "bafin-dealings",
+    "signals": [
+      "war.markets.insider_form4_defense"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "baltic-exchange",
+    "name": "Baltic Exchange (BDI, BDTI, BCTI)",
+    "docUrl": "https://www.balticexchange.com/",
+    "endpoints": [
+      "https://www.balticexchange.com/en/data-services/market-information0.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "paid",
+    "cost": "Index-Daten kostenpflichtig, BDI-Schlusswert oeffentlich",
+    "updateLatency": "täglich 13h London",
+    "history": "Jahrzehnte (bezahlt)",
+    "rateLimit": "",
+    "license": "proprietär",
+    "verified": false,
+    "aliases": [],
+    "collector": "baltic-exchange",
+    "signals": [
+      "war.shipping.baltic_dry_dirty_tanker"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "bfarm-engpass",
+    "name": "BfArM Lieferengpass-Meldungen",
+    "docUrl": "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml",
+    "endpoints": [
+      "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Liste",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "bfarm-engpass",
+    "signals": [
+      "war.government.pharmacy_shortages"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "bluesky-search",
+    "name": "Bluesky Public Search API",
+    "docUrl": "https://docs.bsky.app/docs/api/app-bsky-feed-search-posts",
+    "endpoints": [
+      "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=Wehrpflicht&limit=1"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "seit 2023",
+    "rateLimit": "",
+    "license": "je Beitrag, nur Aggregat",
+    "verified": false,
+    "aliases": [],
+    "collector": "bluesky-search",
+    "signals": [
+      "war.attention.social_hashtags"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "boi",
+    "name": "Bank of Israel Wechselkurse (SDMX API)",
+    "docUrl": "https://edge.boi.gov.il/",
+    "endpoints": [
+      "https://edge.boi.gov.il/FusionEdgeServer/sdmx/v2/data/dataflow/BOI.STATISTICS/EXR/1.0?c%5BDATA_TYPE%5D=OF00&format=csv"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1990er",
+    "rateLimit": "",
+    "license": "öffentlich",
+    "verified": false,
+    "aliases": [],
+    "collector": "boi",
+    "signals": [
+      "war.markets.conflict_currencies"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "bonbast",
+    "name": "Bonbast Rial-Kurse",
+    "docUrl": "https://www.bon-bast.com/",
+    "endpoints": [
+      "https://www.bon-bast.com/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Archivseiten",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "bonbast",
+    "signals": [
+      "war.attention.rial_black_market"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "cbr",
+    "name": "Bank von Russland Kursdienst",
+    "docUrl": "https://www.cbr.ru/eng/currency_base/",
+    "endpoints": [
+      "https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=01/01/2025&date_req2=17/11/2026&VAL_NM_RQ=R01235"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1992",
+    "rateLimit": "",
+    "license": "öffentlich",
+    "verified": false,
+    "aliases": [],
+    "collector": "cbr",
+    "signals": [
+      "war.markets.conflict_currencies"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "cftc-cot",
+    "name": "CFTC Commitments of Traders (Socrata API)",
+    "docUrl": "https://publicreporting.cftc.gov/",
+    "endpoints": [
+      "https://publicreporting.cftc.gov/resource/72hh-3qpy.json?$limit=50&$order=report_date_as_yyyy_mm_dd DESC"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich (Freitag, Stand Dienstag)",
+    "history": "seit 2006",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "cftc-cot",
+    "signals": [
+      "war.markets.positioning_cftc"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "copernicus-cdse",
+    "name": "Copernicus Data Space (Sentinel-1/2 STAC/OData)",
+    "docUrl": "https://documentation.dataspace.copernicus.eu/APIs.html",
+    "endpoints": [
+      "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?$filter=Collection/Name eq 'SENTINEL-2'&$top=5"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "1-3 Tage",
+    "history": "Seit 2014",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "copernicus-cdse",
+    "signals": [
+      "war.military.satellite_imagery_airbases"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "ctbto-rss",
+    "name": "CTBTO Pressekanal",
+    "docUrl": "https://www.ctbto.org/",
+    "endpoints": [
+      "https://www.ctbto.org/rss.xml"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "nein",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "ctbto-rss",
+    "signals": [
+      "war.conflict.ctbto_statements"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "digitraffic",
+    "name": "Digitraffic Marine AIS (Finnland)",
+    "docUrl": "https://www.digitraffic.fi/en/marine-traffic/",
+    "endpoints": [
+      "https://meri.digitraffic.fi/api/ais/v1/locations"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "nur aktuell; Archiv selbst mitschreiben",
+    "rateLimit": "",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "digitraffic",
+    "signals": [
+      "war.shipping.baltic_ais_traffic"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "dip-bundestag",
+    "name": "DIP Bundestag API",
+    "docUrl": "https://dip.bundestag.de/%C3%BCber-dip/hilfen/api",
+    "endpoints": [
+      "https://search.dip.bundestag.de/api/v1/vorgang?f.titel=Wehrpflicht&apikey={KEY}"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1949",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "dip-bundestag",
+    "signals": [
+      "war.government.mobilization_registers"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "dma-ais",
+    "name": "Dänische Seefahrtsbehörde AIS-Rohdaten",
+    "docUrl": "https://web.ais.dk/aisdata/",
+    "endpoints": [
+      "http://aisdata.ais.dk/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich Dateien mit Verzug",
+    "history": "seit 2006",
+    "rateLimit": "",
+    "license": "Dänische Datenlizenz (offen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "dma-ais",
+    "signals": [
+      "war.shipping.baltic_ais_traffic"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "drewry-wci",
+    "name": "Drewry World Container Index",
+    "docUrl": "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry",
+    "endpoints": [
+      "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich Donnerstag",
+    "history": "Chart seit 2011",
+    "rateLimit": "",
+    "license": "Namensnennung, Weiterverwendung eingeschränkt",
+    "verified": false,
+    "aliases": [],
+    "collector": "drewry-wci",
+    "signals": [
+      "war.shipping.freight_container"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "drk-spende",
+    "name": "DRK Blutspendedienst Versorgungslage (Webseite)",
+    "docUrl": "https://www.blutspende.de/",
+    "endpoints": [
+      "https://www.blutspende.de/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "Wayback",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "drk-spende",
+    "signals": [
+      "war.attention.blood_donation_calls"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "easa-czib",
+    "name": "EASA Conflict Zone Information Bulletins",
+    "docUrl": "https://www.easa.europa.eu/en/domains/air-operations/czibs",
+    "endpoints": [
+      "https://www.easa.europa.eu/en/domains/air-operations/czibs"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "Seit 2014",
+    "rateLimit": "unbekannt",
+    "license": "EASA, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "easa-czib",
+    "signals": [
+      "war.military.airspace_closures",
+      "war.military.czib_status"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "emsc-fdsn",
+    "name": "EMSC FDSN Event API",
+    "docUrl": "https://www.seismicportal.eu/fdsn-wsevent.html",
+    "endpoints": [
+      "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&limit=20&minmag=2.5"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Katalog ab 1998",
+    "rateLimit": "unbekannt",
+    "license": "EMSC Nutzungsbedingungen, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "emsc-fdsn",
+    "signals": [
+      "war.conflict.nk_test_site",
+      "war.conflict.explosions_ukraine"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "eu-fsf",
+    "name": "EU Financial Sanctions Files (FSF)",
+    "docUrl": "https://webgate.ec.europa.eu/fsd/fsf",
+    "endpoints": [
+      "https://webgate.ec.europa.eu/fsd/fsf/public/files/xmlFullSanctionsList_1_1/content?token=dG9rZW4tMjAxNw"
+    ],
+    "access": "download",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Aktualisierung",
+    "history": "keine; Snapshots",
+    "rateLimit": "",
+    "license": "EU-Daten, Wiederverwendung mit Quellenangabe (prüfen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "eu-fsf",
+    "signals": [
+      "war.government.sanctions_eu_uk"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "eu-oil-bulletin",
+    "name": "EU Weekly Oil Bulletin",
+    "docUrl": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+    "endpoints": [
+      "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich",
+    "history": "seit 2005",
+    "rateLimit": "",
+    "license": "EU-Wiederverwendung CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "eu-oil-bulletin",
+    "signals": [
+      "war.markets.fuel_bunker_prices"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "eur-lex-cellar",
+    "name": "EUR-Lex / Cellar SPARQL (Rechtsakte)",
+    "docUrl": "https://eur-lex.europa.eu/content/help/data-reuse/linked-data-sparql.html",
+    "endpoints": [
+      "https://publications.europa.eu/webapi/rdf/sparql"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "vollständig",
+    "rateLimit": "",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "eur-lex-cellar",
+    "signals": [
+      "war.government.sanctions_eu_uk"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "fao-ffpi",
+    "name": "FAO Food Price Index",
+    "docUrl": "https://www.fao.org/worldfoodsituation/foodpricesindex/en/",
+    "endpoints": [
+      "https://www.fao.org/worldfoodsituation/foodpricesindex/en/"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich (erster Freitag)",
+    "history": "seit 1990",
+    "rateLimit": "",
+    "license": "CC BY-NC-SA 3.0 IGO",
+    "verified": false,
+    "aliases": [],
+    "collector": "fao-ffpi",
+    "signals": [
+      "war.markets.wheat_prices",
+      "war.markets.food_prices"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "federal-register",
+    "name": "Federal Register API (BIS-Regeln)",
+    "docUrl": "https://www.federalregister.gov/developers/documentation/api/v1",
+    "endpoints": [
+      "https://www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=industry-and-security-bureau&order=newest"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1994",
+    "rateLimit": "",
+    "license": "gemeinfrei (US-Regierung)",
+    "verified": false,
+    "aliases": [],
+    "collector": "federal-register",
+    "signals": [
+      "war.government.export_controls"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "fr-ais",
+    "name": "UN Comtrade / Eurostat Munition Handel",
+    "docUrl": "https://comtradeapi.un.org/",
+    "endpoints": [
+      "https://comtradeapi.un.org/public/v1/preview/C/M/HS?reporterCode=276&period=2026&cmdCode=9306"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Monate",
+    "history": "Seit 1962",
+    "rateLimit": "unbekannt",
+    "license": "UN, Bedingungen prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "fr-ais",
+    "signals": [
+      "war.government.ammo_trade"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "fr24-jam",
+    "name": "Flightradar24 GPS-Jamming-Karte",
+    "docUrl": "https://www.flightradar24.com/data/gps-jamming",
+    "endpoints": [
+      "https://www.flightradar24.com/data/gps-jamming"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "eingeschränkt",
+    "rateLimit": "unbekannt",
+    "license": "Flightradar24 ToS, unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "fr24-jam",
+    "signals": [
+      "war.military.jamming_gulf",
+      "war.military.jamming_baltic"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "freightos-fbx",
+    "name": "Freightos Baltic Index (öffentliche Wochenwerte)",
+    "docUrl": "https://fbx.freightos.com/",
+    "endpoints": [
+      "https://fbx.freightos.com/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich/wöchentlich",
+    "history": "seit 2017 (Chart)",
+    "rateLimit": "",
+    "license": "Daten-API kostenpflichtig",
+    "verified": false,
+    "aliases": [],
+    "collector": "freightos-fbx",
+    "signals": [
+      "war.shipping.freight_container"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "gdelt-events",
+    "name": "GDELT 2.0 Event-Export (15-Min-Dateien)",
+    "docUrl": "https://www.gdeltproject.org/data.html",
+    "endpoints": [
+      "http://data.gdeltproject.org/gdeltv2/lastupdate.txt"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "15 min",
+    "history": "Dateiarchiv 15-Min-Takt seit Feb 2015, masterfilelist.txt",
+    "rateLimit": "",
+    "license": "frei mit Quellenangabe",
+    "verified": false,
+    "aliases": [],
+    "collector": "gdelt-events",
+    "signals": [
+      "war.attention.gdelt_fight_events",
+      "war.attention.gdelt_goldstein",
+      "war.attention.gdelt_mass_violence"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "geofon",
+    "name": "GEOFON FDSN Event",
+    "docUrl": "https://geofon.gfz-potsdam.de/fdsnws/event/1/",
+    "endpoints": [
+      "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minmag=3&limit=20"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Katalog ab 1990er",
+    "rateLimit": "unbekannt",
+    "license": "GFZ, CC BY 4.0 (prüfen)",
+    "verified": false,
+    "aliases": [],
+    "collector": "geofon",
+    "signals": [
+      "war.conflict.nk_test_site",
+      "war.conflict.novaya_zemlya",
+      "war.conflict.explosions_ukraine"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "gfw",
+    "name": "Global Fishing Watch APIs (Events/4Wings)",
+    "docUrl": "https://globalfishingwatch.org/our-apis/",
+    "endpoints": [
+      "https://gateway.api.globalfishingwatch.org/v3/events?datasets[0]=public-global-gaps-events:latest&limit=10",
+      "https://gateway.api.globalfishingwatch.org/v3/events?datasets[0]=public-global-gaps-events:latest&start-date=2026-10-01&end-date=2026-11-15"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "AIS-Lücken ab 2017",
+    "rateLimit": "unbekannt",
+    "license": "CC BY-NC 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "gfw",
+    "signals": [
+      "war.shipping.chokepoint_taiwan_strait",
+      "war.shipping.ais_gaps_gulf",
+      "war.shipping.baltic_dark_vessels"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "github-air-raid-sirens",
+    "name": "Vadimkin/ukrainian-air-raid-sirens-dataset (GitHub)",
+    "docUrl": "https://github.com/Vadimkin/ukrainian-air-raid-sirens-dataset",
+    "endpoints": [
+      "https://raw.githubusercontent.com/Vadimkin/ukrainian-air-raid-sirens-dataset/main/datasets/official_data_en.csv",
+      "https://raw.githubusercontent.com/Vadimkin/ukrainian-air-raid-sirens-dataset/main/datasets/volunteer_data_en.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2022-02-25 (Volunteer), offiziell seit 2022-03-15; offizielle Datei endet im Test bei 2026-09-07 (veraltet)",
+    "rateLimit": "",
+    "license": "unklar (Lizenzdatei nicht geprüft)",
+    "verified": true,
+    "aliases": [
+      "ukr-sirens-github"
+    ],
+    "collector": "github-air-raid-sirens",
+    "signals": [
+      "war.conflict.ua_air_alerts"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "github-datasets-brent",
+    "name": "datasets/oil-prices (GitHub, EIA-Spiegel)",
+    "docUrl": "https://github.com/datasets/oil-prices",
+    "endpoints": [
+      "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich mit Verzug",
+    "history": "seit 1987-05-20",
+    "rateLimit": "",
+    "license": "unklar (datasets.io, vermutlich PDDL)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-datasets-brent",
+    "signals": [
+      "war.markets.brent_price"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "github-deepstate",
+    "name": "cyterat/deepstate-map-data (GitHub)",
+    "docUrl": "https://github.com/cyterat/deepstate-map-data",
+    "endpoints": [
+      "https://raw.githubusercontent.com/cyterat/deepstate-map-data/main/data/deepstatemap_data_20261116.geojson"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich 03:00 UTC",
+    "history": "Tagesdateien seit 2024-07, gesamt als deepstate-map-data.geojson.gz",
+    "rateLimit": "",
+    "license": "unklar (Quelle DeepStateMap, Repo-Lizenz prüfen)",
+    "verified": true,
+    "aliases": [],
+    "collector": "github-deepstate",
+    "signals": [
+      "war.attention.frontline_area_change"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "github-ukraine-losses",
+    "name": "PetroIvaniuk/2022-Ukraine-Russia-War-Dataset (GitHub)",
+    "docUrl": "https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset",
+    "endpoints": [
+      "https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment.json",
+      "https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_personnel.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "kumulativ seit 2022-02-24",
+    "rateLimit": "",
+    "license": "unklar (Repo-Lizenz prüfen)",
+    "verified": true,
+    "aliases": [
+      "ukr-losses-github"
+    ],
+    "collector": "github-ukraine-losses",
+    "signals": [
+      "war.conflict.ua_losses_reported",
+      "war.conflict.ukraine_drone_missile_daily"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "hdx",
+    "name": "OCHA HDX CKAN API / HAPI",
+    "docUrl": "https://data.humdata.org/faqs/devs",
+    "endpoints": [
+      "https://data.humdata.org/api/3/action/package_search?q=conflict-events&rows=5"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "je Datensatz",
+    "history": "je Datensatz",
+    "rateLimit": "",
+    "license": "je Datensatz (meist CC BY-IGO)",
+    "verified": false,
+    "aliases": [],
+    "collector": "hdx",
+    "signals": [
+      "war.conflict.displacement_refugees"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "imf-ifs",
+    "name": "IMF Data API (SDMX, IFS Reserven)",
+    "docUrl": "https://data.imf.org/",
+    "endpoints": [
+      "https://api.imf.org/external/sdmx/2.1/data/IFS/M.CN.RAXGFX_USD"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "Jahrzehnte",
+    "rateLimit": "",
+    "license": "IMF Open Data Terms",
+    "verified": false,
+    "aliases": [],
+    "collector": "imf-ifs",
+    "signals": [
+      "war.markets.central_bank_gold"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "imf-portwatch",
+    "name": "IMF PortWatch (offene ArcGIS FeatureServer)",
+    "docUrl": "https://portwatch.imf.org/",
+    "endpoints": [
+      "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&f=json",
+      "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&f=json",
+      "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&orderByFields=date+DESC&resultRecordCount=30&f=json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich, ca. 4-7 Tage Verzug (aus AIS-Satelliten-Daten geschätzt)",
+    "history": "seit 2019 Tagesreihe",
+    "rateLimit": "",
+    "license": "IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung prüfen",
+    "verified": false,
+    "aliases": [
+      "portwatch"
+    ],
+    "collector": "imf-portwatch",
+    "signals": [
+      "war.shipping.hormuz_transits",
+      "war.shipping.chokepoint_taiwan_strait",
+      "war.shipping.chokepoint_suez_babelmandeb",
+      "war.shipping.chokepoint_bosporus_blacksea",
+      "war.shipping.port_activity_gulf_baltic",
+      "war.shipping.panama_suez_substitution"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "iris-dmc",
+    "name": "IRIS/EarthScope FDSN Station/Dataselect",
+    "docUrl": "https://service.iris.edu/fdsnws/",
+    "endpoints": [
+      "https://service.iris.edu/fdsnws/dataselect/1/query?net=IU&sta=KIEV&cha=BHZ&starttime=2026-11-01T00:00:00&endtime=2026-11-01T01:00:00&format=miniseed"
+    ],
+    "access": "api",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Jahrzehnte",
+    "rateLimit": "unbekannt",
+    "license": "offen",
+    "verified": false,
+    "aliases": [],
+    "collector": "iris-dmc",
+    "signals": [
+      "war.conflict.explosions",
+      "war.conflict.explosions_ukraine"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "jwc",
+    "name": "LMA Joint War Committee Listed Areas",
+    "docUrl": "https://www.lmalloyds.com/lma/jointwar",
+    "endpoints": [
+      "https://www.lmalloyds.com/lma/jointwar"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Änderung",
+    "history": "Archiv der Listen-Dokumente",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [
+      "lma-jwc"
+    ],
+    "collector": "jwc",
+    "signals": [
+      "war.shipping.war_risk_listed_areas"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "launchlibrary2",
+    "name": "The Space Devs Launch Library 2",
+    "docUrl": "https://ll.thespacedevs.com/docs/",
+    "endpoints": [
+      "https://ll.thespacedevs.com/2.2.0/launch/?mode=list&limit=10&ordering=-net"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Starts seit 1950er",
+    "rateLimit": "15 Anfragen/h ohne Key",
+    "license": "Free-Tier mit Limit, Bedingungen prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "launchlibrary2",
+    "signals": [
+      "war.military.ballistic_launches_log",
+      "war.military.cosmos_launches",
+      "war.military.launches_by_country"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "marad-msci",
+    "name": "MARAD Maritime Security Advisories",
+    "docUrl": "https://www.maritime.dot.gov/msci-advisories",
+    "endpoints": [
+      "https://www.maritime.dot.gov/msci-advisories"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Ereignis",
+    "history": "Archiv",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "marad-msci",
+    "signals": [
+      "war.shipping.maritime_incidents"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "mastodon-tags",
+    "name": "Mastodon Hashtag-Timeline (öffentlich)",
+    "docUrl": "https://docs.joinmastodon.org/methods/timelines/#tag",
+    "endpoints": [
+      "https://mastodon.social/api/v1/timelines/tag/wwiii?limit=40"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "nur jüngste Beiträge",
+    "rateLimit": "300 Anfragen/5 min",
+    "license": "je Beitrag, nur Aggregatzählung",
+    "verified": false,
+    "aliases": [],
+    "collector": "mastodon-tags",
+    "signals": [
+      "war.attention.social_hashtags"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "nasa-firms",
+    "name": "NASA FIRMS Area API",
+    "docUrl": "https://firms.modaps.eosdis.nasa.gov/api/area/",
+    "endpoints": [
+      "https://firms.modaps.eosdis.nasa.gov/api/area/csv/MAP_KEY/VIIRS_SNPP_NRT/22,44,40,52/1",
+      "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{MAP_KEY}/VIIRS_SNPP_NRT/44,22,60,40/1"
+    ],
+    "access": "api",
+    "format": "csv",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "~3 h",
+    "history": "Archiv-Downloads ab 2000 (MODIS) / 2012 (VIIRS)",
+    "rateLimit": "Key per E-Mail, ca. 5000 Transaktionen/10 min",
+    "license": "NASA offene Daten",
+    "verified": false,
+    "aliases": [],
+    "collector": "nasa-firms",
+    "signals": [
+      "war.conflict.firms_gulf_energy",
+      "war.conflict.firms_korea_dmz",
+      "war.conflict.fires_infrastructure",
+      "war.conflict.firms_front_ukraine",
+      "war.conflict.firms_refineries_russia"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "nbu",
+    "name": "Nationalbank der Ukraine Kurse",
+    "docUrl": "https://bank.gov.ua/en/open-data/api-dev",
+    "endpoints": [
+      "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&date=20261116&json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1996",
+    "rateLimit": "",
+    "license": "öffentlich",
+    "verified": false,
+    "aliases": [],
+    "collector": "nbu",
+    "signals": [
+      "war.markets.conflict_currencies"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "ofac-sdn",
+    "name": "OFAC Sanctions List Service (SDN)",
+    "docUrl": "https://ofac.treasury.gov/sanctions-list-service",
+    "endpoints": [
+      "https://www.treasury.gov/ofac/downloads/sdn.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Aktualisierung (mehrmals pro Woche)",
+    "history": "Delta-Dateien und Recent Actions; Archiv über Snapshots",
+    "rateLimit": "",
+    "license": "US-Regierungswerk, gemeinfrei",
+    "verified": false,
+    "aliases": [],
+    "collector": "ofac-sdn",
+    "signals": [
+      "war.government.sanctions_ofac_rate",
+      "war.government.sanctions_delistings"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "opensanctions",
+    "name": "OpenSanctions (aggregiert, Deltas)",
+    "docUrl": "https://www.opensanctions.org/docs/bulk/",
+    "endpoints": [
+      "https://data.opensanctions.org/datasets/latest/sanctions/entities.ftm.json"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Versionsarchiv je Tag",
+    "rateLimit": "",
+    "license": "CC BY-NC 4.0 (kommerziell kostenpflichtig)",
+    "verified": false,
+    "aliases": [],
+    "collector": "opensanctions",
+    "signals": [
+      "war.government.sanctions_eu_uk",
+      "war.government.sanctions_ofac_rate",
+      "war.government.sanctions_delistings"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "oref-github",
+    "name": "Israel Alerts (Heimatfront-Historie, GitHub-Spiegel)",
+    "docUrl": "https://github.com/dleshem/israel-alerts-data",
+    "endpoints": [
+      "https://raw.githubusercontent.com/dleshem/israel-alerts-data/main/israel-alerts.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich-ish (Letzter Eintrag 2026-11-08 im Test)",
+    "history": "Seit 2014-07",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": true,
+    "aliases": [],
+    "collector": "oref-github",
+    "signals": [
+      "war.conflict.israel_oref"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "oref-live",
+    "name": "Pikud HaOref Live JSON",
+    "docUrl": "https://www.oref.org.il/",
+    "endpoints": [
+      "https://www.oref.org.il/WarningMessages/alert/alerts.json"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Sekunden",
+    "history": "History-Endpunkt AlertsHistory.json (ca. 24 h)",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "oref-live",
+    "signals": [
+      "war.conflict.israel_oref"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "oryx-github",
+    "name": "Oryx Daily Count (GitHub-Spiegel)",
+    "docUrl": "https://github.com/scarnecchia/oryx_data",
+    "endpoints": [
+      "https://raw.githubusercontent.com/scarnecchia/oryx_data/master/daily_count.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Test: Datei endet 2025-08 (veraltet)",
+    "history": "Seit 2022-02",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": true,
+    "aliases": [],
+    "collector": "oryx-github",
+    "signals": [
+      "war.conflict.oryx_losses"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "overpass",
+    "name": "OpenStreetMap Overpass",
+    "docUrl": "https://overpass-api.de/",
+    "endpoints": [
+      "https://overpass-api.de/api/interpreter?data=[out:json];node[emergency=shelter](50,6,51,7);out count;"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Minuten",
+    "history": "Attic-Daten",
+    "rateLimit": "unbekannt",
+    "license": "ODbL",
+    "verified": false,
+    "aliases": [],
+    "collector": "overpass",
+    "signals": [
+      "war.attention.shelter_osm"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "pa-canal",
+    "name": "Panama Canal Authority Transit-Statistik",
+    "docUrl": "https://pancanal.com/en/maritime-operations/",
+    "endpoints": [
+      "https://pancanal.com/en/maritime-operations/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Archiv",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "pa-canal",
+    "signals": [
+      "war.shipping.panama_suez_substitution"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "pcp-hs",
+    "name": "Paris MoU / P&I-Club-Rundschreiben (RSS)",
+    "docUrl": "https://www.gard.no/",
+    "endpoints": [
+      "https://www.gard.no/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Ereignis",
+    "history": "Archiv",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "pcp-hs",
+    "signals": [
+      "war.shipping.p_and_i_circulars"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "places-api",
+    "name": "Google Places API (Live-Auslastung)",
+    "docUrl": "https://developers.google.com/maps/documentation/places/web-service/overview",
+    "endpoints": [
+      "https://developers.google.com/maps/documentation/places/web-service/overview"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "paid",
+    "cost": "kostenpflichtig",
+    "updateLatency": "live",
+    "history": "keine",
+    "rateLimit": "",
+    "license": "Google ToS",
+    "verified": false,
+    "aliases": [],
+    "collector": "places-api",
+    "signals": [
+      "war.attention.pizza_index"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "rada-open",
+    "name": "Ukraine Verkhovna Rada Open Data",
+    "docUrl": "https://data.rada.gov.ua/open",
+    "endpoints": [
+      "https://data.rada.gov.ua/open/data/bills-skl9"
+    ],
+    "access": "download",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 1990",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "rada-open",
+    "signals": [
+      "war.government.mobilization_registers"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "reliefweb",
+    "name": "ReliefWeb API v2",
+    "docUrl": "https://apidoc.reliefweb.int/",
+    "endpoints": [
+      "https://api.reliefweb.int/v2/reports?appname=signal-radar&filter[field]=country.iso3&filter[value]=IRN&limit=0"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Minuten bis Stunden",
+    "history": "seit 1996",
+    "rateLimit": "",
+    "license": "meist CC BY, je Dokument unterschiedlich",
+    "verified": false,
+    "aliases": [],
+    "collector": "reliefweb",
+    "signals": [
+      "war.conflict.reliefweb_reports",
+      "war.government.school_closures"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "reservisten-web",
+    "name": "Reservistenverband / Bundeswehr Webseiten",
+    "docUrl": "https://www.reservistenverband.de/",
+    "endpoints": [
+      "https://www.reservistenverband.de/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "unklar",
+    "history": "Wayback Machine",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "reservisten-web",
+    "signals": [
+      "war.attention.reservist_portals"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "sg-pl",
+    "name": "Straż Graniczna Statystyki",
+    "docUrl": "https://www.strazgraniczna.pl/pl/granica/statystyki-sg/2206,Statystyki-SG.html",
+    "endpoints": [
+      "https://www.strazgraniczna.pl/pl/granica/statystyki-sg/2206,Statystyki-SG.html"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2022 (laut Erinnerung)",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "sg-pl",
+    "signals": [
+      "war.conflict.border_crossings"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "spdr-gld",
+    "name": "SPDR Gold Shares Bestand (Tonnen)",
+    "docUrl": "https://www.spdrgoldshares.com/usa/historical-data/",
+    "endpoints": [
+      "https://www.spdrgoldshares.com/assets/dynamic/GLD/GLD_US_archive_EN.csv"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2004",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "spdr-gld",
+    "signals": [
+      "war.markets.gold_etf_holdings"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "sse-scfi",
+    "name": "Shanghai Containerized Freight Index",
+    "docUrl": "https://en.sse.net.cn/indices/scfinew.jsp",
+    "endpoints": [
+      "https://en.sse.net.cn/indices/scfinew.jsp"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich Freitag",
+    "history": "seit 2009",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "sse-scfi",
+    "signals": [
+      "war.shipping.freight_container"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "telegram-public",
+    "name": "Telegram öffentliche Kanalvorschau (t.me/s/<kanal>)",
+    "docUrl": "https://core.telegram.org/api/web-preview",
+    "endpoints": [
+      "https://t.me/s/ukrainealarm"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Echtzeit",
+    "history": "Nachrichtenverlauf je Kanal",
+    "rateLimit": "",
+    "license": "unklar, ToS beachten",
+    "verified": false,
+    "aliases": [],
+    "collector": "telegram-public",
+    "signals": [
+      "war.attention.telegram_alert_channels"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "tw-mnd",
+    "name": "Taiwan MND Tagesmeldung PLA-Aktivität",
+    "docUrl": "https://www.mnd.gov.tw/",
+    "endpoints": [
+      "https://www.mnd.gov.tw/PublishTable.aspx?Types=%E5%8D%B3%E6%99%82%E8%BB%8D%E4%BA%8B%E5%8B%95%E6%85%8B&title=%E5%9C%8B%E9%98%B2%E6%B6%88%E6%81%AF"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "Meldungen seit 2020",
+    "rateLimit": "unbekannt",
+    "license": "Taiwan Open Data, prüfen",
+    "verified": false,
+    "aliases": [],
+    "collector": "tw-mnd",
+    "signals": [
+      "war.military.taiwan_adiz"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "ucdp",
+    "name": "UCDP Candidate Events API",
+    "docUrl": "https://ucdp.uu.se/apidocs/",
+    "endpoints": [
+      "https://ucdpapi.pcr.uu.se/api/gedevents/25.1?pagesize=10",
+      "https://ucdpapi.pcr.uu.se/api/gedevents/26.0.1?pagesize=100&StartDate=2026-10-01&EndDate=2026-11-16"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "Seit 1989",
+    "rateLimit": "unbekannt",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "ucdp",
+    "signals": [
+      "war.conflict.acled_events_weekly",
+      "war.conflict.ucdp_candidate"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "uk-fcdo-travel",
+    "name": "UK GOV.UK Content API (Foreign travel advice)",
+    "docUrl": "https://content-api.publishing.service.gov.uk/",
+    "endpoints": [
+      "https://www.gov.uk/api/content/foreign-travel-advice/iran"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Änderung",
+    "history": "Felder public_updated_at und change_history je Land",
+    "rateLimit": "",
+    "license": "Open Government Licence v3.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "uk-fcdo-travel",
+    "signals": [
+      "war.government.uk_fcdo_changes"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "uk-sanctions-list",
+    "name": "UK Sanctions List (FCDO) / OFSI Consolidated List",
+    "docUrl": "https://www.gov.uk/government/publications/the-uk-sanctions-list",
+    "endpoints": [
+      "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.xml"
+    ],
+    "access": "download",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Aktualisierung",
+    "history": "Snapshots",
+    "rateLimit": "",
+    "license": "Open Government Licence v3.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "uk-sanctions-list",
+    "signals": [
+      "war.government.sanctions_eu_uk"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "uk-threat",
+    "name": "UK National Threat Level (MI5)",
+    "docUrl": "https://www.mi5.gov.uk/threat-levels",
+    "endpoints": [
+      "https://www.mi5.gov.uk/threat-levels"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Änderung",
+    "history": "Wayback",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "uk-threat",
+    "signals": [
+      "war.government.threat_level_feeds"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "ukmto",
+    "name": "UKMTO Recent Incidents",
+    "docUrl": "https://www.ukmto.org/",
+    "endpoints": [
+      "https://www.ukmto.org/recent-incidents"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden",
+    "history": "Archiv",
+    "rateLimit": "",
+    "license": "unklar",
+    "verified": false,
+    "aliases": [],
+    "collector": "ukmto",
+    "signals": [
+      "war.shipping.hormuz_transits",
+      "war.shipping.maritime_incidents"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "unhcr",
+    "name": "UNHCR Refugee Statistics API",
+    "docUrl": "https://api.unhcr.org/docs/refugee-statistics.html",
+    "endpoints": [
+      "https://api.unhcr.org/population/v1/population/?limit=20&yearFrom=2026&coa=UKR"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "wöchentlich bis monatlich",
+    "history": "seit 1951",
+    "rateLimit": "",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "unhcr",
+    "signals": [
+      "war.conflict.displacement_refugees"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "unsc-meetings",
+    "name": "UN Digital Library Security Council Meeting Records",
+    "docUrl": "https://digitallibrary.un.org/collection/Security%20Council%20Meeting%20Records",
+    "endpoints": [
+      "https://digitallibrary.un.org/search?cc=Meeting+Records&of=xm&rg=100&sf=year&so=d"
+    ],
+    "access": "scrape",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Tage",
+    "history": "seit 1946",
+    "rateLimit": "",
+    "license": "UN-Bedingungen",
+    "verified": false,
+    "aliases": [],
+    "collector": "unsc-meetings",
+    "signals": [
+      "war.government.unsc_emergency_meetings",
+      "war.government.unsc_vetoes"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "us-travel-advisories",
+    "name": "US State Department Travel Advisories (RSS)",
+    "docUrl": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html",
+    "endpoints": [
+      "https://travel.state.gov/_res/rss/TAsTWs.xml"
+    ],
+    "access": "rss",
+    "format": "xml",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "bei Änderung",
+    "history": "keine; Snapshots selbst archivieren (oder Wayback)",
+    "rateLimit": "",
+    "license": "US-Regierungswerk, gemeinfrei",
+    "verified": false,
+    "aliases": [
+      "us-embassy-alerts"
+    ],
+    "collector": "us-travel-advisories",
+    "signals": [
+      "war.government.ordered_departure",
+      "war.government.us_level4_count"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "usaspending",
+    "name": "USAspending API",
+    "docUrl": "https://api.usaspending.gov/",
+    "endpoints": [
+      "https://api.usaspending.gov/api/v2/search/spending_by_award/ (POST, Filter awarding_agency=DoD, award_type_codes A-D)",
+      "https://api.usaspending.gov/api/v2/search/spending_by_award_count/"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich bis wöchentlich",
+    "history": "seit 2000",
+    "rateLimit": "",
+    "license": "Public Domain",
+    "verified": false,
+    "aliases": [],
+    "collector": "usaspending",
+    "signals": [
+      "war.government.defense_procurement",
+      "war.government.dod_contract_obligations"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "usgs-infrasound",
+    "name": "IRIS/CTBTO IMS Infraschall (IDC, vDEC)",
+    "docUrl": "https://www.ctbto.org/our-work/international-monitoring-system",
+    "endpoints": [
+      "https://www.ctbto.org/our-work/international-monitoring-system"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "free-key",
+    "cost": "free",
+    "updateLatency": "Echtzeit nur für Mitglieder; vDEC-Zugang für Forschung",
+    "history": "Archiv ab 2000er",
+    "rateLimit": "unbekannt",
+    "license": "eingeschränkt",
+    "verified": false,
+    "aliases": [],
+    "collector": "usgs-infrasound",
+    "signals": [
+      "war.conflict.explosions"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "viina",
+    "name": "VIINA 2.0 (GitHub)",
+    "docUrl": "https://github.com/zhukovyuri/VIINA",
+    "endpoints": [
+      "https://github.com/zhukovyuri/VIINA/tree/master/Data",
+      "https://raw.githubusercontent.com/zhukovyuri/VIINA/master/Data/event_info_latest_2026.zip"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich (laut README)",
+    "history": "Seit 2022",
+    "rateLimit": "unbekannt",
+    "license": "unklar",
+    "verified": true,
+    "aliases": [
+      "github-viina"
+    ],
+    "collector": "viina",
+    "signals": [
+      "war.attention.frontline_area_change",
+      "war.attention.viina_events"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "wayback-cdx",
+    "name": "Internet Archive CDX API",
+    "docUrl": "https://archive.org/developers/wayback-cdx-server.html",
+    "endpoints": [
+      "https://web.archive.org/cdx/search/cdx?url=travel.state.gov/content/travel/en/traveladvisories/*&output=json&from=2026&limit=5"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "Stunden bis Tage",
+    "history": "seit 1996",
+    "rateLimit": "",
+    "license": "Archivdaten, Nutzungsbedingungen IA",
+    "verified": false,
+    "aliases": [],
+    "collector": "wayback-cdx",
+    "signals": [
+      "war.government.aa_warning_count",
+      "war.government.us_level4_count",
+      "war.attention.reservist_portals"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "wb-pink",
+    "name": "World Bank Commodity Price Data (Pink Sheet)",
+    "docUrl": "https://www.worldbank.org/en/research/commodity-markets",
+    "endpoints": [
+      "https://thedocs.worldbank.org/en/doc/18675f1d1639c7a34d463f59263ba0a2-0050012025/related/CMO-Historical-Data-Monthly.xlsx"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich (2. Werktag)",
+    "history": "seit 1960",
+    "rateLimit": "",
+    "license": "CC BY 4.0",
+    "verified": false,
+    "aliases": [],
+    "collector": "wb-pink",
+    "signals": [
+      "war.markets.fertilizer_prices"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "wfp-food-prices",
+    "name": "WFP Food Prices (HDX)",
+    "docUrl": "https://data.humdata.org/dataset?q=wfp+food+prices",
+    "endpoints": [
+      "https://data.humdata.org/dataset?q=wfp+food+prices"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "seit ca. 2000",
+    "rateLimit": "",
+    "license": "CC BY-IGO (laut HDX üblich)",
+    "verified": false,
+    "aliases": [],
+    "collector": "wfp-food-prices",
+    "signals": [
+      "war.markets.fuel_food_prices"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "wgb-cds",
+    "name": "WorldGovernmentBonds CDS/Renditen",
+    "docUrl": "http://www.worldgovernmentbonds.com/",
+    "endpoints": [
+      "http://www.worldgovernmentbonds.com/cds-historical-data/israel/5-years/"
+    ],
+    "access": "scrape",
+    "format": "html",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "mehrjährig",
+    "rateLimit": "",
+    "license": "unklar, Scrape-Verbot möglich",
+    "verified": false,
+    "aliases": [],
+    "collector": "wgb-cds",
+    "signals": [
+      "war.markets.sovereign_cds_proxy"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "wgc",
+    "name": "World Gold Council Central Bank Statistics",
+    "docUrl": "https://www.gold.org/goldhub/data/gold-reserves-by-country",
+    "endpoints": [
+      "https://www.gold.org/goldhub/data/gold-reserves-by-country"
+    ],
+    "access": "download",
+    "format": "csv",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "monatlich",
+    "history": "seit 1950er",
+    "rateLimit": "",
+    "license": "WGC Nutzungsbedingungen, Namensnennung",
+    "verified": false,
+    "aliases": [],
+    "collector": "wgc",
+    "signals": [
+      "war.markets.central_bank_gold"
+    ],
+    "scenarios": [
+      "war"
+    ]
+  },
+  {
+    "id": "wikimedia-edits",
+    "name": "Wikimedia REST API (Edits)",
+    "docUrl": "https://wikimedia.org/api/rest_v1/#/Edited%20pages%20data",
+    "endpoints": [
+      "https://wikimedia.org/api/rest_v1/metrics/edits/per-page/en.wikipedia/World_War_III/all-editor-types/daily/20261001/20261117"
+    ],
+    "access": "api",
+    "format": "json",
+    "auth": "none",
+    "cost": "free",
+    "updateLatency": "täglich",
+    "history": "seit 2001",
+    "rateLimit": "",
+    "license": "CC0",
+    "verified": false,
+    "aliases": [],
+    "collector": "wikimedia-edits",
+    "signals": [
+      "war.attention.wiki_edit_rate"
+    ],
+    "scenarios": [
+      "war"
     ]
   }
 ]

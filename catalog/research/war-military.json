@@ -1,0 +1,2746 @@
+{
+ "subdomain": "Militärische Bewegungen und physische Messungen",
+ "generated": "2026-11-17",
+ "signals": [
+  {
+   "id": "war.adsb.mil_count_baltic",
+   "name_de": "Militärflugzeuge Ostsee/Baltikum",
+   "plain_de": "Wie viele Militärflugzeuge sieht man gerade über Ostsee und Baltikum?",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Verlegungen und Patrouillen der NATO und Russlands sichtbar; Aggregat über Bounding-Box. Passt zu den Drohnenwarnungen im Baltikum im November 2026.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Übungen (BALTOPS)",
+    "Aufklärungsroutine",
+    "Transponder-Abdeckung schwankt"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol API (ADSBx-v2-kompatibel)",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Tagesarchive in github.com/adsblol/globe_history (Release-Dateien)",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (laut Projektangabe, prüfen)",
+     "verified": false,
+     "sample_note": "Liste aktuell sichtbarer Flugzeuge mit Militär-Flag; Messwert = Länge von ac[] gefiltert nach Bounding-Box/Typcode (nur Aggregat)"
+    },
+    {
+     "source_id": "airplanes-live",
+     "name": "airplanes.live API",
+     "doc_url": "https://airplanes.live/api-guide/",
+     "endpoint": "https://api.airplanes.live/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live",
+     "rate_limit": "unbekannt",
+     "license": "nicht-kommerziell, prüfen",
+     "verified": false,
+     "sample_note": "Zweite unabhängige ADS-B-Community; Gegenprüfung der Zählung"
+    },
+    {
+     "source_id": "gh-search",
+     "name": "GitHub API",
+     "doc_url": "https://docs.github.com/rest",
+     "endpoint": "https://api.github.com/repos/adsblol/globe_history/releases",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Release-Archiv",
+     "rate_limit": "unbekannt",
+     "license": "Repo-Lizenz",
+     "verified": false,
+     "sample_note": "Tages-Snapshots adsb.lol als Release-Assets (nicht geprüft)"
+    }
+   ],
+   "notes": "Nur Flugzeuge mit aktivem ADS-B; viele Militärflüge unsichtbar (Survivorship)."
+  },
+  {
+   "id": "war.adsb.mil_count_hormuz",
+   "name_de": "Militärflugzeuge Golf/Hormus",
+   "plain_de": "Zahl sichtbarer Militärflugzeuge über Golf und Arabischer See.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Aufbau von US-/Koalitionsfliegerkräften im Hormus-Konflikt.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routine-Patrouillen",
+    "Luftbetankung für Transit"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol API (ADSBx-v2-kompatibel)",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Tagesarchive in github.com/adsblol/globe_history (Release-Dateien)",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (laut Projektangabe, prüfen)",
+     "verified": false,
+     "sample_note": "Liste aktuell sichtbarer Flugzeuge mit Militär-Flag; Messwert = Länge von ac[] gefiltert nach Bounding-Box/Typcode (nur Aggregat)"
+    },
+    {
+     "source_id": "airplanes-live",
+     "name": "airplanes.live API",
+     "doc_url": "https://airplanes.live/api-guide/",
+     "endpoint": "https://api.airplanes.live/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live",
+     "rate_limit": "unbekannt",
+     "license": "nicht-kommerziell, prüfen",
+     "verified": false,
+     "sample_note": "Zweite unabhängige ADS-B-Community; Gegenprüfung der Zählung"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.adsb.mil_count_taiwan",
+   "name_de": "Militärflugzeuge Taiwanstraße/Westpazifik",
+   "plain_de": "Sichtbare Militärflüge rund um Taiwan, Philippinensee, Südchinesisches Meer.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Aufklärer (P-8, RC-135) und Tanker nahe Taiwan als Begleitmuster bei Manövern.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routinepatrouillen",
+    "Übungen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol API (ADSBx-v2-kompatibel)",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Tagesarchive in github.com/adsblol/globe_history (Release-Dateien)",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (laut Projektangabe, prüfen)",
+     "verified": false,
+     "sample_note": "Liste aktuell sichtbarer Flugzeuge mit Militär-Flag; Messwert = Länge von ac[] gefiltert nach Bounding-Box/Typcode (nur Aggregat)"
+    },
+    {
+     "source_id": "airplanes-live",
+     "name": "airplanes.live API",
+     "doc_url": "https://airplanes.live/api-guide/",
+     "endpoint": "https://api.airplanes.live/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live",
+     "rate_limit": "unbekannt",
+     "license": "nicht-kommerziell, prüfen",
+     "verified": false,
+     "sample_note": "Zweite unabhängige ADS-B-Community; Gegenprüfung der Zählung"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.adsb.tanker_count",
+   "name_de": "Luftbetankerflugzeuge je Region",
+   "plain_de": "Zahl der Tanker (KC-135, KC-46, A330 MRTT) in einer Region.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Tanker sind Voraussetzung für Langstreckenschläge; Häufung vor Operationen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Übungen",
+    "Verlegeflüge"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/K35R",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ K35R; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/K46",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ K46; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/A332",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ A332; Aggregat je Region"
+    }
+   ],
+   "notes": "Typcodes prüfen (K35R, KC46, A332)."
+  },
+  {
+   "id": "war.adsb.isr_recon",
+   "name_de": "Aufklärer und Frühwarnflugzeuge",
+   "plain_de": "Zahl von RC-135, P-8, E-3, E-7, Global Hawk im Luftraum.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Verstärkte ISR-Flüge an Grenzen zu Russland, Iran, China.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routine",
+    "Wetterflüge"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/P8",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ P8; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/RC135",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ RC135; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/E3TF",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ E3TF; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/Q4",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ Q4; Aggregat je Region"
+    }
+   ],
+   "notes": "Typcodes im ICAO-Verzeichnis bestätigen."
+  },
+  {
+   "id": "war.adsb.airlift_c17",
+   "name_de": "Großraum-Transporter-Aufkommen",
+   "plain_de": "Zahl strategischer Transporter (C-17, C-5, IL-76, An-124).",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Luftbrücken gehen Truppenverlegungen und Verlegung von Luftabwehr voraus.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Hilfsflüge",
+    "Übungsrotation"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/C17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ C17; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/C5M",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ C5M; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/IL76",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ IL76; Aggregat je Region"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.adsb.gov_leadership_flights",
+   "name_de": "Regierungs-/Führungsflugzeuge (Aggregat)",
+   "plain_de": "Zahl der Flüge staatlicher Führungsflugzeuge (Kommando-/Weltraum-Typen) als Summe.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "E-4B, E-6B Aktivität gilt als ungewöhnlich bei erhöhter nuklearer Bereitschaft; nur Aggregat der Typen, keine Personen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung",
+    "Übungen (Global Thunder)"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/E6",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ E6; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/E4B",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ E4B; Aggregat je Region"
+    }
+   ],
+   "notes": "Nur Typ-Aggregat. Keine Verfolgung einzelner Personen."
+  },
+  {
+   "id": "war.adsb.drone_hale",
+   "name_de": "Strategische Drohnen im Luftraum",
+   "plain_de": "Zahl sichtbarer Langstreckendrohnen (RQ-4, MQ-9) an Brennpunkten.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Verlegung nahe Krisenregionen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routine",
+    "Testflüge"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/Q4",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ Q4; Aggregat je Region"
+    },
+    {
+     "source_id": "adsb-lol-type",
+     "name": "adsb.lol API Typ-Abfrage",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/MQ9",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Archiv via globe_history",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Zahl sichtbarer Flugzeuge mit ICAO-Typ MQ9; Aggregat je Region"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.adsb.mil_dark_ratio",
+   "name_de": "ADS-B-Lücken bei Militärkorridoren",
+   "plain_de": "Verhältnis sichtbarer Flüge zu erwarteten bei bekannten Routen.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Abschalten von Transpondern deutet auf Operationen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Empfängerausfall",
+    "Abdeckungslücke"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol API (ADSBx-v2-kompatibel)",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live; Tagesarchive in github.com/adsblol/globe_history (Release-Dateien)",
+     "rate_limit": "unbekannt",
+     "license": "ODbL 1.0 (laut Projektangabe, prüfen)",
+     "verified": false,
+     "sample_note": "Liste aktuell sichtbarer Flugzeuge mit Militär-Flag; Messwert = Länge von ac[] gefiltert nach Bounding-Box/Typcode (nur Aggregat)"
+    },
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=45&lomin=20&lamax=55&lomax=40",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~10 s",
+     "history": "/flights/all bis 2 Tage per Zeitfenster; Parquet-Archiv für Forschung",
+     "rate_limit": "Credits/Tag, OAuth2 Konto nötig",
+     "license": "nicht-kommerziell/Forschung, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "states[] je Bounding-Box; Messwert = Anzahl Zustände (nur zivile Zählung)"
+    }
+   ],
+   "notes": "Baseline erforderlich, schwer."
+  },
+  {
+   "id": "war.adsb.civ_count_ukraine_edge",
+   "name_de": "Zivilflüge am Rand der Ukraine/Moldau/Rumänien",
+   "plain_de": "Zählreihe ziviler Flüge in Grenzregionen.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Umleitungen zeigen Luftraumrisiko.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wetter",
+    "Airline-Fahrplan"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=45&lomin=20&lamax=55&lomax=40",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~10 s",
+     "history": "/flights/all bis 2 Tage per Zeitfenster; Parquet-Archiv für Forschung",
+     "rate_limit": "Credits/Tag, OAuth2 Konto nötig",
+     "license": "nicht-kommerziell/Forschung, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "states[] je Bounding-Box; Messwert = Anzahl Zustände (nur zivile Zählung)"
+    },
+    {
+     "source_id": "eurocontrol",
+     "name": "EUROCONTROL Aviation Intelligence / Network Manager Daten",
+     "doc_url": "https://ansperformance.eu/data/",
+     "endpoint": "https://www.eurocontrol.int/dashboard/rnd-data-archive",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Seit 2015",
+     "rate_limit": "unbekannt",
+     "license": "Eurocontrol Open Data, prüfen",
+     "verified": false,
+     "sample_note": "Flüge je Tag/Land/Flughafen; Messwert = Flüge über Baltikum/Schwarzmeer"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.airspace.avoidance_iran_gulf",
+   "name_de": "Umfliegen des Iran-/Golfluftraums",
+   "plain_de": "Zahl ziviler Überflüge über Iran/Irak/Golf pro Tag.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Airlines meiden Räume vor Eskalation oft Stunden bis Tage vorher.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Saisonalität",
+    "Neue Routen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=45&lomin=20&lamax=55&lomax=40",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~10 s",
+     "history": "/flights/all bis 2 Tage per Zeitfenster; Parquet-Archiv für Forschung",
+     "rate_limit": "Credits/Tag, OAuth2 Konto nötig",
+     "license": "nicht-kommerziell/Forschung, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "states[] je Bounding-Box; Messwert = Anzahl Zustände (nur zivile Zählung)"
+    },
+    {
+     "source_id": "eurocontrol",
+     "name": "EUROCONTROL Aviation Intelligence / Network Manager Daten",
+     "doc_url": "https://ansperformance.eu/data/",
+     "endpoint": "https://www.eurocontrol.int/dashboard/rnd-data-archive",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Seit 2015",
+     "rate_limit": "unbekannt",
+     "license": "Eurocontrol Open Data, prüfen",
+     "verified": false,
+     "sample_note": "Flüge je Tag/Land/Flughafen; Messwert = Flüge über Baltikum/Schwarzmeer"
+    },
+    {
+     "source_id": "airplanes-live",
+     "name": "airplanes.live API",
+     "doc_url": "https://airplanes.live/api-guide/",
+     "endpoint": "https://api.airplanes.live/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live",
+     "rate_limit": "unbekannt",
+     "license": "nicht-kommerziell, prüfen",
+     "verified": false,
+     "sample_note": "Zweite unabhängige ADS-B-Community; Gegenprüfung der Zählung"
+    }
+   ],
+   "notes": "Zählreihe, Historie über Eurocontrol/Opensky."
+  },
+  {
+   "id": "war.airspace.avoidance_black_sea",
+   "name_de": "Umfliegen von Schwarzmeer/Ostsee",
+   "plain_de": "Flüge pro Tag über Schwarzmeer und Ostseeraum.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Rückgang oder Umleitung bei Drohnenaktivität.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Fahrplan"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "eurocontrol",
+     "name": "EUROCONTROL Aviation Intelligence / Network Manager Daten",
+     "doc_url": "https://ansperformance.eu/data/",
+     "endpoint": "https://www.eurocontrol.int/dashboard/rnd-data-archive",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Seit 2015",
+     "rate_limit": "unbekannt",
+     "license": "Eurocontrol Open Data, prüfen",
+     "verified": false,
+     "sample_note": "Flüge je Tag/Land/Flughafen; Messwert = Flüge über Baltikum/Schwarzmeer"
+    },
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=45&lomin=20&lamax=55&lomax=40",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~10 s",
+     "history": "/flights/all bis 2 Tage per Zeitfenster; Parquet-Archiv für Forschung",
+     "rate_limit": "Credits/Tag, OAuth2 Konto nötig",
+     "license": "nicht-kommerziell/Forschung, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "states[] je Bounding-Box; Messwert = Anzahl Zustände (nur zivile Zählung)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.airspace.avoidance_taiwan_strait",
+   "name_de": "Flugverkehr Taiwanstraße",
+   "plain_de": "Zivile Flugbewegungen in der Straße und Umleitungen.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Chinesische Manöver führen zu Sperrzonen und Umleitungen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wetter/Taifun"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "opensky",
+     "name": "OpenSky Network REST API",
+     "doc_url": "https://openskynetwork.github.io/opensky-api/rest.html",
+     "endpoint": "https://opensky-network.org/api/states/all?lamin=45&lomin=20&lamax=55&lomax=40",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~10 s",
+     "history": "/flights/all bis 2 Tage per Zeitfenster; Parquet-Archiv für Forschung",
+     "rate_limit": "Credits/Tag, OAuth2 Konto nötig",
+     "license": "nicht-kommerziell/Forschung, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "states[] je Bounding-Box; Messwert = Anzahl Zustände (nur zivile Zählung)"
+    },
+    {
+     "source_id": "airplanes-live",
+     "name": "airplanes.live API",
+     "doc_url": "https://airplanes.live/api-guide/",
+     "endpoint": "https://api.airplanes.live/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 s",
+     "history": "nur Live",
+     "rate_limit": "unbekannt",
+     "license": "nicht-kommerziell, prüfen",
+     "verified": false,
+     "sample_note": "Zweite unabhängige ADS-B-Community; Gegenprüfung der Zählung"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.notam.faa_closures",
+   "name_de": "NOTAM-Sperrungen in Konfliktzonen",
+   "plain_de": "Anzahl neuer Flugbeschränkungen (Q-Code R) in FIR Kiew, Baku, Tehran, Taipeh.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Neue Sperrungen und Raketenstart-NOTAMs sind Vorzeichen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Übungen",
+    "Raumfahrtstarts"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "faa-notam",
+     "name": "FAA NOTAM API (api.faa.gov)",
+     "doc_url": "https://api.faa.gov/s/",
+     "endpoint": "https://external-api.faa.gov/notamapi/v1/notams?icaoLocation=UKBV",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur gültige NOTAMs; Archiv selbst aufbauen",
+     "rate_limit": "Client-ID/Secret per Registrierung",
+     "license": "US-Behördendaten, Nutzungsbedingungen prüfen",
+     "verified": false,
+     "sample_note": "Liste NOTAMs je FIR; Messwert = Anzahl neuer Sperr-NOTAMs (Q-Code QRD/QRT)"
+    }
+   ],
+   "notes": "Key nötig."
+  },
+  {
+   "id": "war.notam.russia_missile_ranges",
+   "name_de": "Russische Raketen-/Schießgebiete NOTAM",
+   "plain_de": "Neue Sperrzonen in der Ostsee, Kaliningrad, Barentssee.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Übungen und mögliche Verlegungen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Regelmäßige Übungen"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "faa-notam",
+     "name": "FAA NOTAM API (api.faa.gov)",
+     "doc_url": "https://api.faa.gov/s/",
+     "endpoint": "https://external-api.faa.gov/notamapi/v1/notams?icaoLocation=UKBV",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur gültige NOTAMs; Archiv selbst aufbauen",
+     "rate_limit": "Client-ID/Secret per Registrierung",
+     "license": "US-Behördendaten, Nutzungsbedingungen prüfen",
+     "verified": false,
+     "sample_note": "Liste NOTAMs je FIR; Messwert = Anzahl neuer Sperr-NOTAMs (Q-Code QRD/QRT)"
+    },
+    {
+     "source_id": "eurocontrol",
+     "name": "EUROCONTROL Aviation Intelligence / Network Manager Daten",
+     "doc_url": "https://ansperformance.eu/data/",
+     "endpoint": "https://www.eurocontrol.int/dashboard/rnd-data-archive",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Seit 2015",
+     "rate_limit": "unbekannt",
+     "license": "Eurocontrol Open Data, prüfen",
+     "verified": false,
+     "sample_note": "Flüge je Tag/Land/Flughafen; Messwert = Flüge über Baltikum/Schwarzmeer"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.notam.navarea_warnings",
+   "name_de": "NAVAREA-/NAVTEX-Warnungen",
+   "plain_de": "Seewarnungen zu Schießübungen und Sperrgebieten (NGA-MSI).",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Marine-Schießübungen und Sperrungen in Hormus/Taiwan.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Übungen"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nga-msi",
+     "name": "NGA Maritime Safety Information",
+     "doc_url": "https://msi.nga.mil/",
+     "endpoint": "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=active&navArea=IX",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "nur aktive",
+     "rate_limit": "unbekannt",
+     "license": "US Gov, gemeinfrei",
+     "verified": false,
+     "sample_note": "Aktive Warnungen; Messwert = Zahl Warnungen mit Gunnery/Missile"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.airspace.czib_status",
+   "name_de": "EASA-CZIB-Status",
+   "plain_de": "Zahl aktiver Konfliktzonen-Bulletins.",
+   "domain": "military",
+   "evidence_class": "C",
+   "rationale": "Kontext-Layer, zählt nicht als Signal.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Bürokratie"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "easa-czib",
+     "name": "EASA Conflict Zone Information Bulletins",
+     "doc_url": "https://www.easa.europa.eu/en/domains/air-operations/czibs",
+     "endpoint": "https://www.easa.europa.eu/en/domains/air-operations/czibs",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Seit 2014",
+     "rate_limit": "unbekannt",
+     "license": "EASA, unklar",
+     "verified": false,
+     "sample_note": "Klasse C (Kontext): Zahl aktiver CZIBs und Status je Region"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.gnss.jamming_baltic",
+   "name_de": "GNSS-Störung Ostsee",
+   "plain_de": "Anteil von Flugzeugen mit gestörtem GPS über Ostsee.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Störsender nehmen vor und bei Konflikten zu.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Dauerbetrieb Kaliningrad",
+    "Wetter/Weltraumwetter"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam.org (ADS-B-basierte GNSS-Störung)",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/data/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (UTC-Tag)",
+     "history": "Tagesdateien seit 2022 (Pfad prüfen)",
+     "rate_limit": "unbekannt",
+     "license": "CC BY (laut Betreiber, prüfen)",
+     "verified": false,
+     "sample_note": "H3-Zellen mit Anteil Flugzeuge mit schlechter NIC/NACp; Messwert = Zellen > 10 % je Region"
+    },
+    {
+     "source_id": "fr24-jam",
+     "name": "Flightradar24 GPS-Jamming-Karte",
+     "doc_url": "https://www.flightradar24.com/data/gps-jamming",
+     "endpoint": "https://www.flightradar24.com/data/gps-jamming",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "eingeschränkt",
+     "rate_limit": "unbekannt",
+     "license": "Flightradar24 ToS, unklar",
+     "verified": false,
+     "sample_note": "Karte; kein dokumentierter JSON-Endpunkt"
+    },
+    {
+     "source_id": "noaa-swpc",
+     "name": "NOAA SWPC JSON",
+     "doc_url": "https://services.swpc.noaa.gov/",
+     "endpoint": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "30 Tage Feed, Archiv länger",
+     "rate_limit": "unbekannt",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Kp-Index zur Bereinigung von GNSS-Störsignalen"
+    }
+   ],
+   "notes": "Kp-Index prüfen (Weltraumwetter)."
+  },
+  {
+   "id": "war.gnss.jamming_gulf",
+   "name_de": "GNSS-Störung Golf/Hormus",
+   "plain_de": "GPS-Störung über Golf und Östlichem Mittelmeer.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "EW-Aktivität.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Dauerzustand"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam.org (ADS-B-basierte GNSS-Störung)",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/data/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (UTC-Tag)",
+     "history": "Tagesdateien seit 2022 (Pfad prüfen)",
+     "rate_limit": "unbekannt",
+     "license": "CC BY (laut Betreiber, prüfen)",
+     "verified": false,
+     "sample_note": "H3-Zellen mit Anteil Flugzeuge mit schlechter NIC/NACp; Messwert = Zellen > 10 % je Region"
+    },
+    {
+     "source_id": "fr24-jam",
+     "name": "Flightradar24 GPS-Jamming-Karte",
+     "doc_url": "https://www.flightradar24.com/data/gps-jamming",
+     "endpoint": "https://www.flightradar24.com/data/gps-jamming",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "eingeschränkt",
+     "rate_limit": "unbekannt",
+     "license": "Flightradar24 ToS, unklar",
+     "verified": false,
+     "sample_note": "Karte; kein dokumentierter JSON-Endpunkt"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.gnss.jamming_black_sea",
+   "name_de": "GNSS-Störung Schwarzes Meer",
+   "plain_de": "GPS-Störung vor Krim und Odessa.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Intensität zeigt Frontdynamik.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Dauerzustand"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam.org (ADS-B-basierte GNSS-Störung)",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/data/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (UTC-Tag)",
+     "history": "Tagesdateien seit 2022 (Pfad prüfen)",
+     "rate_limit": "unbekannt",
+     "license": "CC BY (laut Betreiber, prüfen)",
+     "verified": false,
+     "sample_note": "H3-Zellen mit Anteil Flugzeuge mit schlechter NIC/NACp; Messwert = Zellen > 10 % je Region"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.gnss.jamming_east_asia",
+   "name_de": "GNSS-Störung Ostasien",
+   "plain_de": "Störungen um Korea und Taiwan.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Koreanische Halbinsel zeigt gelegentlich Störungen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Nordkoreanische Störsender"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam.org (ADS-B-basierte GNSS-Störung)",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/data/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (UTC-Tag)",
+     "history": "Tagesdateien seit 2022 (Pfad prüfen)",
+     "rate_limit": "unbekannt",
+     "license": "CC BY (laut Betreiber, prüfen)",
+     "verified": false,
+     "sample_note": "H3-Zellen mit Anteil Flugzeuge mit schlechter NIC/NACp; Messwert = Zellen > 10 % je Region"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.fire.firms_front_ukraine",
+   "name_de": "Wärmequellen entlang der Front",
+   "plain_de": "Zahl Feuer-/Hitzepunkte per Satellit in Ostukraine.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Artillerie, Treffer und Raffineriebrände sichtbar.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Landwirtschaftsbrände",
+    "Gasfackeln"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "nasa-firms",
+     "name": "NASA FIRMS Area API",
+     "doc_url": "https://firms.modaps.eosdis.nasa.gov/api/area/",
+     "endpoint": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/MAP_KEY/VIIRS_SNPP_NRT/22,44,40,52/1",
+     "access": "api",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~3 h",
+     "history": "Archiv-Downloads ab 2000 (MODIS) / 2012 (VIIRS)",
+     "rate_limit": "Key per E-Mail, ca. 5000 Transaktionen/10 min",
+     "license": "NASA offene Daten",
+     "verified": false,
+     "sample_note": "Je Hotspot lat/lon, bright_ti4, frp; Messwert = Zahl Hotspots in Bounding-Box, FRP-Summe"
+    }
+   ],
+   "notes": "Key nötig."
+  },
+  {
+   "id": "war.fire.firms_refineries_russia",
+   "name_de": "Brände an russischen Raffinerien/Depots",
+   "plain_de": "FRP-Spitzen an Ölanlagen in Russland.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Zeigt Reichweite von Drohnenangriffen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Industrielle Brände"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nasa-firms",
+     "name": "NASA FIRMS Area API",
+     "doc_url": "https://firms.modaps.eosdis.nasa.gov/api/area/",
+     "endpoint": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/MAP_KEY/VIIRS_SNPP_NRT/22,44,40,52/1",
+     "access": "api",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~3 h",
+     "history": "Archiv-Downloads ab 2000 (MODIS) / 2012 (VIIRS)",
+     "rate_limit": "Key per E-Mail, ca. 5000 Transaktionen/10 min",
+     "license": "NASA offene Daten",
+     "verified": false,
+     "sample_note": "Je Hotspot lat/lon, bright_ti4, frp; Messwert = Zahl Hotspots in Bounding-Box, FRP-Summe"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.fire.firms_gulf_energy",
+   "name_de": "Hitzepunkte Golf-Energieanlagen",
+   "plain_de": "Fackeln und Brände an Öl-/Gasanlagen in Iran/Golf.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Treffer auf Energieanlagen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Fackelrauschen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nasa-firms",
+     "name": "NASA FIRMS Area API",
+     "doc_url": "https://firms.modaps.eosdis.nasa.gov/api/area/",
+     "endpoint": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/MAP_KEY/VIIRS_SNPP_NRT/22,44,40,52/1",
+     "access": "api",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~3 h",
+     "history": "Archiv-Downloads ab 2000 (MODIS) / 2012 (VIIRS)",
+     "rate_limit": "Key per E-Mail, ca. 5000 Transaktionen/10 min",
+     "license": "NASA offene Daten",
+     "verified": false,
+     "sample_note": "Je Hotspot lat/lon, bright_ti4, frp; Messwert = Zahl Hotspots in Bounding-Box, FRP-Summe"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.fire.firms_korea_dmz",
+   "name_de": "Hotspots Korea (Grenze)",
+   "plain_de": "Hitzepunkte nahe DMZ.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Wenig Aussagekraft, Kontext.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Waldbrand"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "nasa-firms",
+     "name": "NASA FIRMS Area API",
+     "doc_url": "https://firms.modaps.eosdis.nasa.gov/api/area/",
+     "endpoint": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/MAP_KEY/VIIRS_SNPP_NRT/22,44,40,52/1",
+     "access": "api",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~3 h",
+     "history": "Archiv-Downloads ab 2000 (MODIS) / 2012 (VIIRS)",
+     "rate_limit": "Key per E-Mail, ca. 5000 Transaktionen/10 min",
+     "license": "NASA offene Daten",
+     "verified": false,
+     "sample_note": "Je Hotspot lat/lon, bright_ti4, frp; Messwert = Zahl Hotspots in Bounding-Box, FRP-Summe"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.seismic.explosions_ukraine",
+   "name_de": "Seismische Explosionen Ukraine",
+   "plain_de": "Zahl Ereignisse vom Typ explosion in USGS/EMSC.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Große Detonationen als Magnitude < 3 sichtbar.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Steinbrüche",
+    "Minensprengungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event API",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=explosion&starttime=2026-01-01",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1-5 min",
+     "history": "Katalog ab 1900er",
+     "rate_limit": "unbekannt",
+     "license": "gemeinfrei (US Gov)",
+     "verified": false,
+     "sample_note": "features[].properties.type='explosion'; Messwert = Zahl Events je Region"
+    },
+    {
+     "source_id": "emsc-fdsn",
+     "name": "EMSC FDSN Event API",
+     "doc_url": "https://www.seismicportal.eu/fdsn-wsevent.html",
+     "endpoint": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&limit=20&minmag=2.5",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog ab 1998",
+     "rate_limit": "unbekannt",
+     "license": "EMSC Nutzungsbedingungen, unklar",
+     "verified": false,
+     "sample_note": "Events mit evtype-Feld; Quelle für Region-Cluster"
+    },
+    {
+     "source_id": "geofon",
+     "name": "GEOFON FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minmag=3&limit=20",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog ab 1990er",
+     "rate_limit": "unbekannt",
+     "license": "GFZ, CC BY 4.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Ereignisliste, EventType-Spalte"
+    },
+    {
+     "source_id": "iris-dmc",
+     "name": "IRIS/EarthScope FDSN Station/Dataselect",
+     "doc_url": "https://service.iris.edu/fdsnws/",
+     "endpoint": "https://service.iris.edu/fdsnws/dataselect/1/query?net=IU&sta=KIEV&cha=BHZ&starttime=2026-11-01T00:00:00&endtime=2026-11-01T01:00:00&format=miniseed",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "offen",
+     "verified": false,
+     "sample_note": "Roh-Wellenformen für Explosionserkennung"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.seismic.nk_test_site",
+   "name_de": "Seismik Punggye-ri",
+   "plain_de": "Ereignisse nahe Nordkoreas Testgelände.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Nukleartest-Erkennung.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Erdbeben"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event API",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=explosion&starttime=2026-01-01",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1-5 min",
+     "history": "Katalog ab 1900er",
+     "rate_limit": "unbekannt",
+     "license": "gemeinfrei (US Gov)",
+     "verified": false,
+     "sample_note": "features[].properties.type='explosion'; Messwert = Zahl Events je Region"
+    },
+    {
+     "source_id": "emsc-fdsn",
+     "name": "EMSC FDSN Event API",
+     "doc_url": "https://www.seismicportal.eu/fdsn-wsevent.html",
+     "endpoint": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&limit=20&minmag=2.5",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog ab 1998",
+     "rate_limit": "unbekannt",
+     "license": "EMSC Nutzungsbedingungen, unklar",
+     "verified": false,
+     "sample_note": "Events mit evtype-Feld; Quelle für Region-Cluster"
+    },
+    {
+     "source_id": "geofon",
+     "name": "GEOFON FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minmag=3&limit=20",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog ab 1990er",
+     "rate_limit": "unbekannt",
+     "license": "GFZ, CC BY 4.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Ereignisliste, EventType-Spalte"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.seismic.novaya_zemlya",
+   "name_de": "Seismik Nowaja Semlja",
+   "plain_de": "Ereignisse an russischem Testgelände.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Testaktivität.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Natürliche Beben"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event API",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=explosion&starttime=2026-01-01",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1-5 min",
+     "history": "Katalog ab 1900er",
+     "rate_limit": "unbekannt",
+     "license": "gemeinfrei (US Gov)",
+     "verified": false,
+     "sample_note": "features[].properties.type='explosion'; Messwert = Zahl Events je Region"
+    },
+    {
+     "source_id": "geofon",
+     "name": "GEOFON FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minmag=3&limit=20",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog ab 1990er",
+     "rate_limit": "unbekannt",
+     "license": "GFZ, CC BY 4.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Ereignisliste, EventType-Spalte"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.infrasound.explosions",
+   "name_de": "Infraschall-Ereignisse",
+   "plain_de": "Infraschall-Detektionen großer Detonationen.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Zeigt Explosionen jenseits Seismik.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Meteore",
+    "Vulkane"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "usgs-infrasound",
+     "name": "IRIS/CTBTO IMS Infraschall (IDC, vDEC)",
+     "doc_url": "https://www.ctbto.org/our-work/international-monitoring-system",
+     "endpoint": "https://www.ctbto.org/our-work/international-monitoring-system",
+     "access": "scrape",
+     "format": "html",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Echtzeit nur für Mitglieder; vDEC-Zugang für Forschung",
+     "history": "Archiv ab 2000er",
+     "rate_limit": "unbekannt",
+     "license": "eingeschränkt",
+     "verified": false,
+     "sample_note": "Roh-Infraschall nur über Antrag; Alternative IRIS-Infraschallkanäle (BDF) "
+    },
+    {
+     "source_id": "iris-dmc",
+     "name": "IRIS/EarthScope FDSN Station/Dataselect",
+     "doc_url": "https://service.iris.edu/fdsnws/",
+     "endpoint": "https://service.iris.edu/fdsnws/dataselect/1/query?net=IU&sta=KIEV&cha=BHZ&starttime=2026-11-01T00:00:00&endtime=2026-11-01T01:00:00&format=miniseed",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "offen",
+     "verified": false,
+     "sample_note": "Roh-Wellenformen für Explosionserkennung"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.space.launches_by_country",
+   "name_de": "Raketenstarts je Land",
+   "plain_de": "Zahl orbitaler Starts je Land und Woche.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Hochlaufen militärischer Satelliten und Tests.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Kommerzielle Starts"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "launchlibrary2",
+     "name": "The Space Devs Launch Library 2",
+     "doc_url": "https://ll.thespacedevs.com/docs/",
+     "endpoint": "https://ll.thespacedevs.com/2.2.0/launch/?mode=list&limit=10&ordering=-net",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Starts seit 1950er",
+     "rate_limit": "15 Anfragen/h ohne Key",
+     "license": "Free-Tier mit Limit, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "results[].net, status, pad; Messwert = Starts je Land/Woche"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.space.sat_maneuvers",
+   "name_de": "Bahnmanöver militärischer Satelliten",
+   "plain_de": "Zahl Orbitänderungen russischer/chinesischer Satelliten (Kosmos).",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "RPO-Manöver nahe Wettbewerberassets.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Stationshaltung"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "celestrak",
+     "name": "CelesTrak GP/SATCAT API",
+     "doc_url": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+     "endpoint": "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "SATCAT komplett; TLE-Historie bei Space-Track",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "Orbit-Elemente; Messwert = Änderungen von Inklination/Periode je Objekt, Neuzugänge im SATCAT"
+    },
+    {
+     "source_id": "space-track",
+     "name": "Space-Track.org",
+     "doc_url": "https://www.space-track.org/documentation",
+     "endpoint": "https://www.space-track.org/basicspacedata/query/class/gp_history/NORAD_CAT_ID/25544/orderby/EPOCH%20desc/limit/10/format/json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "TLE-Historie seit 1960er",
+     "rate_limit": "unbekannt",
+     "license": "Nutzungsvereinbarung, keine Weitergabe roher Daten",
+     "verified": false,
+     "sample_note": "Konto nötig; Messwert = Bahnmanöver-Detektion (Delta Semi-Major-Axis)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.space.asat_debris",
+   "name_de": "Trümmerereignisse im Orbit",
+   "plain_de": "Neue Objekte im SATCAT nach Zerlegung.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "ASAT-Test oder Anschlag.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Kollisionen",
+    "Raketenstufen"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "celestrak",
+     "name": "CelesTrak GP/SATCAT API",
+     "doc_url": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+     "endpoint": "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "SATCAT komplett; TLE-Historie bei Space-Track",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "Orbit-Elemente; Messwert = Änderungen von Inklination/Periode je Objekt, Neuzugänge im SATCAT"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.space.cosmos_launches",
+   "name_de": "Kosmos-Starts",
+   "plain_de": "Starts mit COSMOS-Namen (Militär).",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Aufklärungs- und Frühwarnsatelliten.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Routine"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "celestrak",
+     "name": "CelesTrak GP/SATCAT API",
+     "doc_url": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+     "endpoint": "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "SATCAT komplett; TLE-Historie bei Space-Track",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "Orbit-Elemente; Messwert = Änderungen von Inklination/Periode je Objekt, Neuzugänge im SATCAT"
+    },
+    {
+     "source_id": "launchlibrary2",
+     "name": "The Space Devs Launch Library 2",
+     "doc_url": "https://ll.thespacedevs.com/docs/",
+     "endpoint": "https://ll.thespacedevs.com/2.2.0/launch/?mode=list&limit=10&ordering=-net",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Starts seit 1950er",
+     "rate_limit": "15 Anfragen/h ohne Key",
+     "license": "Free-Tier mit Limit, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "results[].net, status, pad; Messwert = Starts je Land/Woche"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.missile.ballistic_launches_log",
+   "name_de": "Ballistik-/Raketentests Nordkorea/Iran",
+   "plain_de": "Raketentests anhand maschinenlesbarer Listen.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Erhöhte Testfrequenz vor Eskalation.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Routine"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "launchlibrary2",
+     "name": "The Space Devs Launch Library 2",
+     "doc_url": "https://ll.thespacedevs.com/docs/",
+     "endpoint": "https://ll.thespacedevs.com/2.2.0/launch/?mode=list&limit=10&ordering=-net",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Starts seit 1950er",
+     "rate_limit": "15 Anfragen/h ohne Key",
+     "license": "Free-Tier mit Limit, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "results[].net, status, pad; Messwert = Starts je Land/Woche"
+    },
+    {
+     "source_id": "gdelt",
+     "name": "GDELT 2.0 DOC/Events API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22air%20defense%22&mode=timelinevol&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "Events seit 1979, DOC 3 Monate",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "Messwert = Anteil Artikelvolumen"
+    }
+   ],
+   "notes": "Datenbank maschinenlesbar nicht geprüft; CSIS Missile Threat nur HTML."
+  },
+  {
+   "id": "war.maritime.ais_gaps_hormuz",
+   "name_de": "AIS-Lücken Hormus",
+   "plain_de": "Zahl AIS-Abschaltungen im Golf.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Dark Fleets und Marine-Schiffe.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Spoofing",
+    "Empfängerausfall"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gfw",
+     "name": "Global Fishing Watch APIs (Events/4Wings)",
+     "doc_url": "https://globalfishingwatch.org/our-apis/",
+     "endpoint": "https://gateway.api.globalfishingwatch.org/v3/events?datasets[0]=public-global-gaps-events:latest&limit=10",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "AIS-Lücken ab 2017",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC 4.0",
+     "verified": false,
+     "sample_note": "AIS-Gap-Events mit Position; Messwert = Zahl Lücken je Seegebiet"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.maritime.hormuz_transits",
+   "name_de": "Tägliche Durchfahrten Hormus",
+   "plain_de": "Zahl Tanker- und Frachtdurchfahrten.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Rückgang bei Blockade/Risiko.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wetter",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "portwatch",
+     "name": "IMF PortWatch (ArcGIS)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "Seit 2019",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Tägliche Durchfahrten je Meerenge (Schätzung aus AIS), Messwert = n_total"
+    },
+    {
+     "source_id": "aishub",
+     "name": "AISHub / MarineTraffic / Datalastic AIS",
+     "doc_url": "https://www.aishub.net/api",
+     "endpoint": "https://data.aishub.net/ws.php?username=KEY&format=1&output=json&compress=0&latmin=24&latmax=28&lonmin=54&lonmax=58",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "meist nur Live",
+     "rate_limit": "unbekannt",
+     "license": "Datentausch (AISHub), sonst kommerziell",
+     "verified": false,
+     "sample_note": "AIS-Positionen; Messwert = Zahl Schiffe im Hormus-Korridor (nur Aggregat nach Schiffstyp)"
+    }
+   ],
+   "notes": "PortWatch liefert Historie."
+  },
+  {
+   "id": "war.maritime.suez_bab_el_mandeb",
+   "name_de": "Durchfahrten Bab el-Mandeb/Suez",
+   "plain_de": "Schiffszahl durch Rotes Meer.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Ausweichen deutet auf Risiko.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Saison"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "portwatch",
+     "name": "IMF PortWatch (ArcGIS)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "Seit 2019",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Tägliche Durchfahrten je Meerenge (Schätzung aus AIS), Messwert = n_total"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.maritime.taiwan_strait_transits",
+   "name_de": "Schiffsverkehr Taiwanstraße",
+   "plain_de": "Durchfahrten per AIS.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Sperrung oder Verlegung.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Taifun"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "portwatch",
+     "name": "IMF PortWatch (ArcGIS)",
+     "doc_url": "https://portwatch.imf.org/",
+     "endpoint": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query?where=portname%3D%27Strait+of+Hormuz%27&outFields=*&f=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "Seit 2019",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0 (prüfen)",
+     "verified": false,
+     "sample_note": "Tägliche Durchfahrten je Meerenge (Schätzung aus AIS), Messwert = n_total"
+    },
+    {
+     "source_id": "gfw",
+     "name": "Global Fishing Watch APIs (Events/4Wings)",
+     "doc_url": "https://globalfishingwatch.org/our-apis/",
+     "endpoint": "https://gateway.api.globalfishingwatch.org/v3/events?datasets[0]=public-global-gaps-events:latest&limit=10",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "AIS-Lücken ab 2017",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC 4.0",
+     "verified": false,
+     "sample_note": "AIS-Gap-Events mit Position; Messwert = Zahl Lücken je Seegebiet"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.maritime.baltic_cable_cuts",
+   "name_de": "Seekabel-/Pipeline-Störungen Ostsee",
+   "plain_de": "Kabelstörungen und Anker-Verdachtsfälle.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Hybride Sabotage vor Eskalation.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Schiffsanker",
+    "Unfälle"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "telegeography",
+     "name": "TeleGeography Submarine Cable Map",
+     "doc_url": "https://www.submarinecablemap.com/",
+     "endpoint": "https://www.submarinecablemap.com/api/v3/cable/cable-geo.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "selten",
+     "history": "nur aktueller Stand",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-SA 4.0",
+     "verified": false,
+     "sample_note": "Kabeltrassen; Messwert = Kabel durch Krisengebiet (Kontext)"
+    },
+    {
+     "source_id": "ioda",
+     "name": "IODA Internet Outage API",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/UA?from=-7d&until=now",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~5-10 min",
+     "history": "Seit 2015",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "BGP/Active-Probing/Darknet je Land; Messwert = Signalabfall"
+    }
+   ],
+   "notes": "Störung via IODA/Cloudflare-Länder-Signal indirekt."
+  },
+  {
+   "id": "war.maritime.baltic_dark_vessels",
+   "name_de": "Dunkle Schiffe Ostsee",
+   "plain_de": "AIS-Lücken russischer Schattenflotte.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Hybride Aktivität.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "GPS-Spoofing"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gfw",
+     "name": "Global Fishing Watch APIs (Events/4Wings)",
+     "doc_url": "https://globalfishingwatch.org/our-apis/",
+     "endpoint": "https://gateway.api.globalfishingwatch.org/v3/events?datasets[0]=public-global-gaps-events:latest&limit=10",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "AIS-Lücken ab 2017",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC 4.0",
+     "verified": false,
+     "sample_note": "AIS-Gap-Events mit Position; Messwert = Zahl Lücken je Seegebiet"
+    },
+    {
+     "source_id": "aishub",
+     "name": "AISHub / MarineTraffic / Datalastic AIS",
+     "doc_url": "https://www.aishub.net/api",
+     "endpoint": "https://data.aishub.net/ws.php?username=KEY&format=1&output=json&compress=0&latmin=24&latmax=28&lonmin=54&lonmax=58",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "meist nur Live",
+     "rate_limit": "unbekannt",
+     "license": "Datentausch (AISHub), sonst kommerziell",
+     "verified": false,
+     "sample_note": "AIS-Positionen; Messwert = Zahl Schiffe im Hormus-Korridor (nur Aggregat nach Schiffstyp)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.alert.ukraine_sirens",
+   "name_de": "Luftalarme Ukraine",
+   "plain_de": "Zahl und Dauer der Luftalarme je Tag.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Messung der Angriffsintensität.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Fehlalarme"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ukr-sirens-github",
+     "name": "Ukrainian Air Raid Sirens Dataset (GitHub)",
+     "doc_url": "https://github.com/Vadimkin/ukrainian-air-raid-sirens-dataset",
+     "endpoint": "https://raw.githubusercontent.com/Vadimkin/ukrainian-air-raid-sirens-dataset/main/datasets/official_data_en.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Test: letzter Eintrag 2026-09-07 (nicht tagesaktuell)",
+     "history": "Seit 2022-03-15, ca. 31 MB",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Spalten oblast,raion,started_at,finished_at; Messwert = Alarmzahl/Dauer je Oblast und Tag"
+    },
+    {
+     "source_id": "alerts-in-ua",
+     "name": "alerts.in.ua API",
+     "doc_url": "https://devs.alerts.in.ua/",
+     "endpoint": "https://api.alerts.in.ua/v1/alerts/active.json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~15 s",
+     "history": "History-Endpunkt je Region",
+     "rate_limit": "unbekannt",
+     "license": "Nutzung nicht-kommerziell mit Key, prüfen",
+     "verified": false,
+     "sample_note": "alerts[] je Region; Messwert = Zahl aktiver Alarme"
+    }
+   ],
+   "notes": "GitHub-Datensatz enthält Historie."
+  },
+  {
+   "id": "war.alert.israel_oref",
+   "name_de": "Heimatfront-Alarme Israel",
+   "plain_de": "Alarme je Tag.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Raketen-/Drohnenbeschuss.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Fehlalarme"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "oref-github",
+     "name": "Israel Alerts (Heimatfront-Historie, GitHub-Spiegel)",
+     "doc_url": "https://github.com/dleshem/israel-alerts-data",
+     "endpoint": "https://raw.githubusercontent.com/dleshem/israel-alerts-data/main/israel-alerts.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich-ish (Letzter Eintrag 2026-11-08 im Test)",
+     "history": "Seit 2014-07",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Spalten date,time,category(1=Raketen),data(Ortschaften); Messwert = Alarme je Tag/Kategorie"
+    },
+    {
+     "source_id": "oref-live",
+     "name": "Pikud HaOref Live JSON",
+     "doc_url": "https://www.oref.org.il/",
+     "endpoint": "https://www.oref.org.il/WarningMessages/alert/alerts.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "History-Endpunkt AlertsHistory.json (ca. 24 h)",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Browser-Header nötig, teils Geo-Sperre; Messwert = aktive Alarme"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.alert.taiwan_adiz",
+   "name_de": "Taiwan ADIZ-Zahlen",
+   "plain_de": "Zahl chinesischer Flugzeuge/Schiffe um Taiwan je Tag.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Zahlen steigen vor Übungen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routine"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "tw-mnd",
+     "name": "Taiwan MND Tagesmeldung PLA-Aktivität",
+     "doc_url": "https://www.mnd.gov.tw/",
+     "endpoint": "https://www.mnd.gov.tw/PublishTable.aspx?Types=%E5%8D%B3%E6%99%82%E8%BB%8D%E4%BA%8B%E5%8B%95%E6%85%8B&title=%E5%9C%8B%E9%98%B2%E6%B6%88%E6%81%AF",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Meldungen seit 2020",
+     "rate_limit": "unbekannt",
+     "license": "Taiwan Open Data, prüfen",
+     "verified": false,
+     "sample_note": "Pressemitteilung mit Zahl Flugzeuge/Schiffe/Ballons; Messwert = Zahlen je Tag (Selbstmeldung, Klasse B)"
+    },
+    {
+     "source_id": "tw-adiz-github",
+     "name": "Taiwan ADIZ Tracker (GitHub, Kandidat)",
+     "doc_url": "https://github.com/stacie0217/Taiwan-ADIZ-Violation-Tracker",
+     "endpoint": "https://raw.githubusercontent.com/stacie0217/Taiwan-ADIZ-Violation-Tracker/main/README.md",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unbekannt",
+     "history": "unbekannt",
+     "rate_limit": "unbekannt",
+     "license": "Apache-2.0",
+     "verified": false,
+     "sample_note": "Repo geprüft: Inhalt ist ein Streamlit-GDP-Template, KEIN ADIZ-Datensatz. Nicht verwenden; maschinenlesbaren Spiegel noch suchen"
+    }
+   ],
+   "notes": "Maschinenlesbarer Spiegel nicht verifiziert; Kandidat-Repo ist leer."
+  },
+  {
+   "id": "war.alert.baltic_drone_warnings",
+   "name_de": "Drohnenwarnungen Baltikum/Finnland",
+   "plain_de": "Warnungen in Estland, Lettland, Litauen, Finnland.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Direkt zu November-Meldungen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Fehlalarme"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "alerts-in-ua",
+     "name": "alerts.in.ua API",
+     "doc_url": "https://devs.alerts.in.ua/",
+     "endpoint": "https://api.alerts.in.ua/v1/alerts/active.json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~15 s",
+     "history": "History-Endpunkt je Region",
+     "rate_limit": "unbekannt",
+     "license": "Nutzung nicht-kommerziell mit Key, prüfen",
+     "verified": false,
+     "sample_note": "alerts[] je Region; Messwert = Zahl aktiver Alarme"
+    },
+    {
+     "source_id": "gdelt",
+     "name": "GDELT 2.0 DOC/Events API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22air%20defense%22&mode=timelinevol&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "Events seit 1979, DOC 3 Monate",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "Messwert = Anteil Artikelvolumen"
+    }
+   ],
+   "notes": "Keine offene API verifiziert."
+  },
+  {
+   "id": "war.event.ukraine_drone_missile_daily",
+   "name_de": "Russische Verluste/Drohnen-Tageszahl",
+   "plain_de": "Tagesdifferenz Drohnen/Marschflugkörper.",
+   "domain": "military",
+   "evidence_class": "C",
+   "rationale": "Angaben einer Konfliktpartei, nicht unabhängig.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Zähl-Politik"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ukr-losses-github",
+     "name": "2022-Ukraine-Russia-War-Dataset (GitHub)",
+     "doc_url": "https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset",
+     "endpoint": "https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (letzter Eintrag 2026-11-16)",
+     "history": "Seit 2022-02-25 kumulativ",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Kumulative Zähler je Tag (drone, cruise missiles, naval ship ...); Messwert = Tagesdifferenz. Quelle sind Angaben des ukrainischen Generalstabs, daher Evidenzklasse B-/C-nah"
+    }
+   ],
+   "notes": "Kumulativ Zähler."
+  },
+  {
+   "id": "war.event.oryx_losses",
+   "name_de": "Visuell bestätigte Verluste",
+   "plain_de": "Tagesdifferenz bestätigter Verluste.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Intensität.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Auswertung hinterher"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "oryx-github",
+     "name": "Oryx Daily Count (GitHub-Spiegel)",
+     "doc_url": "https://github.com/scarnecchia/oryx_data",
+     "endpoint": "https://raw.githubusercontent.com/scarnecchia/oryx_data/master/daily_count.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Test: Datei endet 2025-08 (veraltet)",
+     "history": "Seit 2022-02",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Visuell bestätigte Verluste je Typ; Spiegel nicht aktuell, Original auf oryxspioenkop.com"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.event.viina_events",
+   "name_de": "VIINA-Ereigniszählung",
+   "plain_de": "Ereignisse aus Nachrichten, Kontrollstatus.",
+   "domain": "military",
+   "evidence_class": "D",
+   "rationale": "Medienbasierte Ereignisse.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Berichterstattung"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "viina",
+     "name": "VIINA 2.0 (GitHub)",
+     "doc_url": "https://github.com/zhukovyuri/VIINA",
+     "endpoint": "https://github.com/zhukovyuri/VIINA/tree/master/Data",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (laut README)",
+     "history": "Seit 2022",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "README geprüft (Data/control_latest_YYYY.zip existiert); ZIP-Inhalt nicht geprüft. Ereignisse aus Nachrichten, Kontrollstatus je Ort"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.event.acled_weekly",
+   "name_de": "ACLED Wochenzählung",
+   "plain_de": "Gewaltereignisse je Woche.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Frontdynamik.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Berichtslage"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "acled",
+     "name": "ACLED API",
+     "doc_url": "https://acleddata.com/acled-api-documentation",
+     "endpoint": "https://acleddata.com/api/acled/read?event_type=Explosions/Remote violence&country=Ukraine",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "Seit 1997",
+     "rate_limit": "unbekannt",
+     "license": "Bedingungen, nicht-kommerziell frei",
+     "verified": false,
+     "sample_note": "Ereignisse mit Koordinaten; Messwert = Ereignisse je Woche"
+    },
+    {
+     "source_id": "ucdp",
+     "name": "UCDP Candidate Events API",
+     "doc_url": "https://ucdp.uu.se/apidocs/",
+     "endpoint": "https://ucdpapi.pcr.uu.se/api/gedevents/25.1?pagesize=10",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "Seit 1989",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Gewaltereignisse; Messwert = Tote je Konflikt (nur lagging)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.wikipedia_war_pages",
+   "name_de": "Wikipedia-Aufrufe Krieg/Atom",
+   "plain_de": "Seitenaufrufe zu Kriegs-Artikeln.",
+   "domain": "military",
+   "evidence_class": "D",
+   "rationale": "Massenaufmerksamkeit.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Medienereignisse"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews REST API",
+     "doc_url": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_weapon/daily/20260101/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~1 Tag",
+     "history": "Seit 2015-07",
+     "rate_limit": "unbekannt",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "items[].views; Messwert = Aufrufe je Tag"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.attention.trends_shelter",
+   "name_de": "Suchinteresse Schutzraum/Notvorrat",
+   "plain_de": "Google Trends für Bunker/Notvorrat in DE/PL/Baltikum.",
+   "domain": "military",
+   "evidence_class": "D",
+   "rationale": "Verhalten der Masse.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Katastrophenwarntage"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "google-trends",
+     "name": "Google Trends (inoffiziell/pytrends)",
+     "doc_url": "https://trends.google.com/trends/",
+     "endpoint": "https://trends.google.com/trends/explore?q=Luftschutzbunker&geo=DE",
+     "access": "scrape",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Seit 2004",
+     "rate_limit": "unbekannt",
+     "license": "Google ToS, unklar",
+     "verified": false,
+     "sample_note": "Relative Suchinteresse 0-100"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.market.oil_war_premium",
+   "name_de": "Ölpreis als Kriegsprämie",
+   "plain_de": "Brent täglich.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Märkte preisen Risiko.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Opec",
+    "Konjunktur"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "eia",
+     "name": "EIA Open Data API",
+     "doc_url": "https://www.eia.gov/opendata/",
+     "endpoint": "https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=KEY&frequency=daily&data[0]=value",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Seit 1986",
+     "rate_limit": "unbekannt",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Brent/WTI Spot als Kriegsprämie"
+    },
+    {
+     "source_id": "stooq",
+     "name": "Stooq/Yahoo Finance Kurse (Rüstung/Tanker/Gold)",
+     "doc_url": "https://stooq.com/",
+     "endpoint": "https://stooq.com/q/d/l/?s=gc.f&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "OHLC-Zeitreihe; Messwert = Close"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.market.defense_gold",
+   "name_de": "Rüstungsaktien/Gold/Tankerraten",
+   "plain_de": "Kurse als Risikoproxy.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Kapital reagiert.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Zinsen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "stooq",
+     "name": "Stooq/Yahoo Finance Kurse (Rüstung/Tanker/Gold)",
+     "doc_url": "https://stooq.com/",
+     "endpoint": "https://stooq.com/q/d/l/?s=gc.f&i=d",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Jahrzehnte",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "OHLC-Zeitreihe; Messwert = Close"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.infra.internet_outage_ukraine",
+   "name_de": "Internetausfälle Ukraine/Iran",
+   "plain_de": "Verbindungsabfälle.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Cyber/kinetische Schläge.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Stromausfall"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ioda",
+     "name": "IODA Internet Outage API",
+     "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+     "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/UA?from=-7d&until=now",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "~5-10 min",
+     "history": "Seit 2015",
+     "rate_limit": "unbekannt",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "BGP/Active-Probing/Darknet je Land; Messwert = Signalabfall"
+    },
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/timeseries?location=UA&dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "~1 h",
+     "history": "Seit 2022",
+     "rate_limit": "unbekannt",
+     "license": "CC BY-NC 4.0",
+     "verified": false,
+     "sample_note": "Traffic-Zeitreihe je Land; Messwert = HTTP-Anteil"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.infra.grid_baltic_ukraine",
+   "name_de": "Stromnetz Baltikum/Ukraine",
+   "plain_de": "Last und Importe.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Angriffe auf Netz.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "entsoe",
+     "name": "ENTSO-E Transparency",
+     "doc_url": "https://transparency.entsoe.eu/",
+     "endpoint": "https://web-api.tp.entsoe.eu/api",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "Seit 2015",
+     "rate_limit": "unbekannt",
+     "license": "offen",
+     "verified": false,
+     "sample_note": "Lasten/Erzeugung; Ukraine/Baltikum-Netzstatus"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.infra.gas_storage_war",
+   "name_de": "Gasspeicher als Kriegsfolge",
+   "plain_de": "Füllstand EU.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Folge von Hormus-Konflikt.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Preis"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gie-alsi",
+     "name": "GIE AGSI/ALSI Transparenzplattform",
+     "doc_url": "https://agsi.gie.eu/api",
+     "endpoint": "https://agsi.gie.eu/api?country=de",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Seit 2011",
+     "rate_limit": "unbekannt",
+     "license": "offen",
+     "verified": false,
+     "sample_note": "Gasspeicher; Kriegsvorsorge-Proxy"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.proxy.satellite_imagery_airbases",
+   "name_de": "Satellitenbilder Flugplätze",
+   "plain_de": "Flugzeugzahl auf Basen per Sentinel.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Verlegungen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Auflösung"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "copernicus-cdse",
+     "name": "Copernicus Data Space (Sentinel-1/2 STAC/OData)",
+     "doc_url": "https://documentation.dataspace.copernicus.eu/APIs.html",
+     "endpoint": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?$filter=Collection/Name eq 'SENTINEL-2'&$top=5",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "1-3 Tage",
+     "history": "Seit 2014",
+     "rate_limit": "unbekannt",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Szenen-Metadaten und Bilder; Messwert = Pixelzahl Flugzeuge/Schiffe per Bildanalyse (aufwendig)"
+    }
+   ],
+   "notes": "Auflösung 10 m reicht nur für große Objekte."
+  },
+  {
+   "id": "war.proxy.ammo_trade",
+   "name_de": "Munitions-Außenhandel",
+   "plain_de": "HS 9306 Handel.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Aufrüstung.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Statistik-Lag"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "fr-ais",
+     "name": "UN Comtrade / Eurostat Munition Handel",
+     "doc_url": "https://comtradeapi.un.org/",
+     "endpoint": "https://comtradeapi.un.org/public/v1/preview/C/M/HS?reporterCode=276&period=2026&cmdCode=9306",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Monate",
+     "history": "Seit 1962",
+     "rate_limit": "unbekannt",
+     "license": "UN, Bedingungen prüfen",
+     "verified": false,
+     "sample_note": "Außenhandel Munition HS 9306; lagging"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.proxy.shelter_osm",
+   "name_de": "OSM-Schutzräume Zählung",
+   "plain_de": "Zahl gemappter Bunker.",
+   "domain": "military",
+   "evidence_class": "D",
+   "rationale": "Crowd-Mapping steigt vor Krisen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Mapper"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "overpass",
+     "name": "OpenStreetMap Overpass",
+     "doc_url": "https://overpass-api.de/",
+     "endpoint": "https://overpass-api.de/api/interpreter?data=[out:json];node[emergency=shelter](50,6,51,7);out count;",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Attic-Daten",
+     "rate_limit": "unbekannt",
+     "license": "ODbL",
+     "verified": false,
+     "sample_note": "Zahl Schutzräume/Sirenen als Kontext"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "war.proxy.ctbto_statements",
+   "name_de": "CTBTO-Meldungen",
+   "plain_de": "Kontext zu Detektionen.",
+   "domain": "military",
+   "evidence_class": "C",
+   "rationale": "Kontext.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Routine"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "ctbto-rss",
+     "name": "CTBTO Pressekanal",
+     "doc_url": "https://www.ctbto.org/",
+     "endpoint": "https://www.ctbto.org/rss.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "nein",
+     "rate_limit": "unbekannt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Klasse C Kontext"
+    }
+   ],
+   "notes": ""
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Pizza-Lieferaufkommen nahe Behörden (Popular-Times), keine offene API",
+  "Idee: Hotelbelegung/Flugpreise für Evakuierungsflüge, nur kommerzielle Aggregatoren",
+  "Idee: Satellitenbild-Auswertung Hafen Sewastopol/Tartus mit Cloud-Free-Auto-Analyse",
+  "Idee: Zahl der Evakuierungsmeldungen von Botschaften, nur Kontext, keine Rohdaten-API",
+  "Idee: Wetterballon-/Radiosonden-Lücken (Meldungen an WMO) als Zensurindikator",
+  "Idee: Ausfall von NOTAM-Veröffentlichungen russischer Behörden"
+ ]
+}

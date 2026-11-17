@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .p { fill: #f4f1ea; } .t { stroke: #1c1f23; } .a { stroke: #b1431a; } .j { stroke: #1c1f23; }
+    @media (prefers-color-scheme: dark) { .p { fill: #121519; } .t, .j { stroke: #e9e5dc; } .a { stroke: #f08454; } }
+  </style>
+  <rect class="p" width="32" height="32" rx="5"/>
+  <g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path class="t" d="M4 9.5h19"/>
+    <path class="a" d="M4 17h14l2.5-5.5L23 17"/>
+    <path class="a" d="M4 24.5h15l2-4 2 4"/>
+  </g>
+  <path class="j" d="M26.5 5v22" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

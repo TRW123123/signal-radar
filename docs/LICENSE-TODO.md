@@ -106,3 +106,75 @@ Automatisch erzeugt von `scripts/consolidate_cyber.py`. Aufgenommen: Lizenz laut
 | VirusTotal Public API | api | Public-API nur nicht-kommerziell | https://docs.virustotal.com/reference/overview |
 | WhoisDS Newly Registered Domains | download | unklar | https://www.whoisds.com/newly-registered-domains |
 | Yahoo Finance Chart (inoffizielle API) | api | inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar | https://finance.yahoo.com |
+
+## Szenario Kriegseskalation
+
+Automatisch erzeugt von `scripts/consolidate_war.py`. Kriterien wie oben. Zusätzlich gilt: Angaben von Kriegsparteien (z. B. Verlustzahlen) sind Klasse C und werden nur mit Gewicht ≤ 0,2 geführt.
+
+| Quelle | Zugriffsart | Was unklar ist (Stand Recherche) | Link |
+|---|---|---|---|
+| Auswärtiges Amt OpenData travelwarning | api | unklar (AA-Opendata-Seite prüfen) | https://www.auswaertiges-amt.de/opendata/travelwarning |
+| ACLED API | api | Bedingungen, nicht-kommerziell frei | https://acleddata.com/acled-api-documentation |
+| AGSI+ Gas Infrastructure Europe | api | GIE Nutzungsbedingungen, unklar | https://agsi.gie.eu/api |
+| airplanes.live API | api | nicht-kommerziell, prüfen | https://airplanes.live/api-guide/ |
+| AISHub / MarineTraffic / Datalastic AIS | api | Datentausch (AISHub), sonst kommerziell | https://www.aishub.net/api |
+| aisstream.io | api | unklar | https://aisstream.io/documentation |
+| alerts.in.ua API | api | Nutzung nicht-kommerziell mit Key, prüfen | https://devs.alerts.in.ua/ |
+| ALSI+ LNG Storage | api | GIE Nutzungsbedingungen, unklar | https://alsi.gie.eu/api |
+| Baltic Exchange (BDI, BDTI, BCTI) | scrape | proprietär | https://www.balticexchange.com/ |
+| BfArM Lieferengpass-Meldungen | scrape (Status license-unclear) | unklar | https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml |
+| Bonbast Rial-Kurse | scrape (Status license-unclear) | unklar | https://www.bon-bast.com/ |
+| Cloudflare Radar API | api | CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung prüfen) | https://developers.cloudflare.com/radar/ |
+| CTBTO Pressekanal | rss | unklar | https://www.ctbto.org/ |
+| DIP Bundestag API | api | unklar | https://dip.bundestag.de/%C3%BCber-dip/hilfen/api |
+| Drewry World Container Index | scrape | Namensnennung, Weiterverwendung eingeschränkt | https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry |
+| DRK Blutspendedienst Versorgungslage (Webseite) | scrape (Status license-unclear) | unklar | https://www.blutspende.de/ |
+| EASA Conflict Zone Information Bulletins | scrape (Status license-unclear) | EASA, unklar | https://www.easa.europa.eu/en/domains/air-operations/czibs |
+| EMSC FDSN Event API | api | EMSC Nutzungsbedingungen, unklar | https://www.seismicportal.eu/fdsn-wsevent.html |
+| Energy-Charts API (Fraunhofer ISE) | api | CC BY 4.0 (laut Seite, prüfen) | https://api.energy-charts.info/ |
+| ENTSOG Transparency Platform API | api | ENTSOG, Namensnennung, unklar | https://transparency.entsog.eu/api/archiveDirectory/swagger/ |
+| EU Financial Sanctions Files (FSF) | download | EU-Daten, Wiederverwendung mit Quellenangabe (prüfen) | https://webgate.ec.europa.eu/fsd/fsf |
+| Eurocontrol Network Manager / Aviation Intelligence | scrape (Status license-unclear) | Eurocontrol Nutzungsbedingungen, unklar | https://www.eurocontrol.int/dashboard/aviation-intelligence-portal |
+| FAO Food Price Index | download | CC BY-NC-SA 3.0 IGO | https://www.fao.org/worldfoodsituation/foodpricesindex/en/ |
+| UN Comtrade / Eurostat Munition Handel | api | UN, Bedingungen prüfen | https://comtradeapi.un.org/ |
+| Flightradar24 GPS-Jamming-Karte | scrape (Status license-unclear) | Flightradar24 ToS, unklar | https://www.flightradar24.com/data/gps-jamming |
+| FRED API (St. Louis Fed) | api | FRED Terms of Use (Drittanbieter-Serien teils eingeschränkt) | https://fred.stlouisfed.org/docs/api/fred/ |
+| GEOFON FDSN Event | api | GFZ, CC BY 4.0 (prüfen) | https://geofon.gfz-potsdam.de/fdsnws/event/1/ |
+| Global Fishing Watch APIs (Events/4Wings) | api | CC BY-NC 4.0 | https://globalfishingwatch.org/our-apis/ |
+| Vadimkin/ukrainian-air-raid-sirens-dataset (GitHub) | download | unklar (Lizenzdatei nicht geprüft) | https://github.com/Vadimkin/ukrainian-air-raid-sirens-dataset |
+| datasets/oil-prices (GitHub, EIA-Spiegel) | download | unklar (datasets.io, vermutlich PDDL) | https://github.com/datasets/oil-prices |
+| cyterat/deepstate-map-data (GitHub) | download | unklar (Quelle DeepStateMap, Repo-Lizenz prüfen) | https://github.com/cyterat/deepstate-map-data |
+| PetroIvaniuk/2022-Ukraine-Russia-War-Dataset (GitHub) | download | unklar (Repo-Lizenz prüfen) | https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset |
+| Google Trends (pytrends, inoffiziell) | api | Google ToS verbieten automatisierte Abfragen; keine offene Lizenz | https://github.com/GeneralMills/pytrends |
+| GPSJam | download | unklar | https://gpsjam.org/ |
+| IMF PortWatch (offene ArcGIS FeatureServer) | api | IMF Open Data Terms (Namensnennung); URL/Layername vor Nutzung prüfen | https://portwatch.imf.org/ |
+| LMA Joint War Committee Listed Areas | scrape (Status license-unclear) | unklar | https://www.lmalloyds.com/lma/jointwar |
+| The Space Devs Launch Library 2 | api | Free-Tier mit Limit, Bedingungen prüfen | https://ll.thespacedevs.com/docs/ |
+| Metaculus API | api | CC BY 4.0 für Fragen (laut Metaculus; prüfen) | https://www.metaculus.com/api/ |
+| NINA / MoWaS Warn-API (BBK) | api | Datenlizenz Deutschland, unklar im Detail | https://nina.api.bund.dev/ |
+| OpenSanctions (aggregiert, Deltas) | download | CC BY-NC 4.0 (kommerziell kostenpflichtig) | https://www.opensanctions.org/docs/bulk/ |
+| OpenSky States | api | CC BY-NC | https://openskynetwork.github.io/opensky-api/rest.html |
+| Israel Alerts (Heimatfront-Historie, GitHub-Spiegel) | download | unklar | https://github.com/dleshem/israel-alerts-data |
+| Pikud HaOref Live JSON | api | unklar | https://www.oref.org.il/ |
+| Oryx Daily Count (GitHub-Spiegel) | download | unklar | https://github.com/scarnecchia/oryx_data |
+| Panama Canal Authority Transit-Statistik | scrape (Status license-unclear) | unklar | https://pancanal.com/en/maritime-operations/ |
+| Paris MoU / P&I-Club-Rundschreiben (RSS) | scrape (Status license-unclear) | unklar | https://www.gard.no/ |
+| Polymarket Gamma API | api | Polymarket ToS; Nutzung in einigen Ländern eingeschränkt | https://docs.polymarket.com/ |
+| Ukraine Verkhovna Rada Open Data | download | unklar | https://data.rada.gov.ua/open |
+| Reservistenverband / Bundeswehr Webseiten | scrape (Status license-unclear) | unklar | https://www.reservistenverband.de/ |
+| RIPEstat Data API | api | RIPE NCC Terms, frei nutzbar | https://stat.ripe.net/docs/02.data-api/ |
+| Straż Graniczna Statystyki | scrape (Status license-unclear) | unklar | https://www.strazgraniczna.pl/pl/granica/statystyki-sg/2206,Statystyki-SG.html |
+| SPDR Gold Shares Bestand (Tonnen) | download | unklar | https://www.spdrgoldshares.com/usa/historical-data/ |
+| Shanghai Containerized Freight Index | scrape (Status license-unclear) | unklar | https://en.sse.net.cn/indices/scfinew.jsp |
+| Stooq historische Kurse (CSV) | api | unklar (privater Dienst) | https://stooq.com/db/h/ |
+| TeleGeography Submarine Cable Map | download | CC BY-NC-SA 4.0 | https://www.submarinecablemap.com/ |
+| Telegram öffentliche Kanalvorschau (t.me/s/<kanal>) | scrape (Status license-unclear) | unklar, ToS beachten | https://core.telegram.org/api/web-preview |
+| Taiwan MND Tagesmeldung PLA-Aktivität | scrape (Status license-unclear) | Taiwan Open Data, prüfen | https://www.mnd.gov.tw/ |
+| UK GOV.UK Content API (Foreign travel advice) | api | Open Government Licence v3.0 | https://content-api.publishing.service.gov.uk/ |
+| UK Sanctions List (FCDO) / OFSI Consolidated List | download | Open Government Licence v3.0 | https://www.gov.uk/government/publications/the-uk-sanctions-list |
+| UK National Threat Level (MI5) | scrape (Status license-unclear) | unklar | https://www.mi5.gov.uk/threat-levels |
+| UKMTO Recent Incidents | scrape (Status license-unclear) | unklar | https://www.ukmto.org/ |
+| IRIS/CTBTO IMS Infraschall (IDC, vDEC) | scrape | eingeschränkt | https://www.ctbto.org/our-work/international-monitoring-system |
+| VIINA 2.0 (GitHub) | download | unklar | https://github.com/zhukovyuri/VIINA |
+| WorldGovernmentBonds CDS/Renditen | scrape (Status license-unclear) | unklar, Scrape-Verbot möglich | http://www.worldgovernmentbonds.com/ |
+| Yahoo Finance Chart (inoffizielle API) | api | inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar | https://finance.yahoo.com |

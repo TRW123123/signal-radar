@@ -1,0 +1,27 @@
+[
+  {
+    "fixture": "hn-algolia/outage.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=outage&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
+    "maxChars": 24000
+  },
+  {
+    "fixture": "hn-algolia/cyberattack.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=cyberattack&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
+    "maxChars": 24000
+  },
+  {
+    "fixture": "hn-algolia/ransomware.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=ransomware&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
+    "maxChars": 24000
+  },
+  {
+    "fixture": "hn-algolia/breach.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=breach&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
+    "maxChars": 24000
+  },
+  {
+    "fixture": "hn-algolia/is-down.json",
+    "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22is%20down%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E1789689600%2Ccreated_at_i%3C1794873600&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=400",
+    "maxChars": 24000
+  }
+]

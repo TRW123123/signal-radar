@@ -170,6 +170,11 @@ export interface DomainView {
   title: string;
   plain?: string;
   score: number;
+  /**
+   * 0..1: how close the most deviating signal of this domain is to the anomaly threshold (1 = at threshold).
+   * Purely for display below the threshold line; it never influences the score.
+   */
+  unrest: number;
   active: boolean;
   signals: SignalView[];
 }
@@ -205,7 +210,10 @@ export interface HistoryPoint {
   level: number;
   attention: number;
   activeDomains: number;
+  /** domain score per domain id */
   d: Record<string, number>;
+  /** sub-threshold unrest per domain id (display only) */
+  u: Record<string, number>;
 }
 
 export interface Snapshot {

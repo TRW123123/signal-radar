@@ -1,0 +1,22 @@
+[
+  {
+    "fixture": "mastodon/tag-infosec.json",
+    "url": "https://mastodon.social/api/v1/tags/infosec",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "mastodon/tag-cybersecurity.json",
+    "url": "https://mastodon.social/api/v1/tags/cybersecurity",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "mastodon/tag-ransomware.json",
+    "url": "https://mastodon.social/api/v1/tags/ransomware",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "mastodon/tag-outage.json",
+    "url": "https://mastodon.social/api/v1/tags/outage",
+    "maxChars": 12000
+  }
+]

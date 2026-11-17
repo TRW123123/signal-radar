@@ -1,0 +1,32 @@
+[
+  {
+    "fixture": "yahoo/CIBR-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=6mo&interval=1d",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "yahoo/HACK-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/HACK?range=6mo&interval=1d",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "yahoo/BUG-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BUG?range=6mo&interval=1d",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=6mo&interval=1d",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "yahoo/GC_F-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?range=6mo&interval=1d",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "yahoo/BTC_USD-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=6mo&interval=1d",
+    "maxChars": 12000
+  }
+]

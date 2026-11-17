@@ -74,7 +74,7 @@ for (const [state, cfg] of Object.entries(STATES)) {
   const history = [];
   for (let t = NOW - 14 * 24 * H; t <= NOW; t += 3 * H) {
     const h = scoreScenario({ ...base, now: t });
-    history.push({ t: new Date(t).toISOString(), score: h.score, level: h.level, attention: h.attention, activeDomains: h.activeDomains, d: Object.fromEntries(h.domains.map((x) => [x.id, x.score])) });
+    history.push({ t: new Date(t).toISOString(), score: h.score, level: h.level, attention: h.attention, activeDomains: h.activeDomains, d: Object.fromEntries(h.domains.map((x) => [x.id, x.score])), u: Object.fromEntries(h.domains.map((x) => [x.id, x.unrest])) });
   }
   const snap: Snapshot = { schema: 1, generatedAt: new Date(NOW).toISOString(), mode: 'demo', sensitivity: 'high', note: cfg.note, scenarios: [{ ...view, history }] };
   const out = join(root, 'frontend', 'data', `demo-${state}.json`);

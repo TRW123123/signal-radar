@@ -46,6 +46,7 @@ export async function buildSnapshot(catalog: Catalog, store: Store, opts: Snapsh
     const point = (t: number, h: Omit<ScenarioView, 'history'>) => ({
       t: new Date(t).toISOString(), score: h.score, level: h.level, attention: h.attention, activeDomains: h.activeDomains,
       d: Object.fromEntries(h.domains.map((x) => [x.id, x.score])),
+      u: Object.fromEntries(h.domains.map((x) => [x.id, x.unrest])),
     });
     const days = opts.historyDays ?? 14;
     const step = (opts.historyStepHours ?? 3) * 3600_000;

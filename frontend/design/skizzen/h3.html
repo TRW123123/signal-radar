@@ -23,7 +23,8 @@ h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #
 .tabs button[aria-selected="true"] { font-weight: 700; border-bottom-color: #111; }
 .tabs button:disabled { color: #999; }
 
-.flaeche { display: grid; grid-template-columns: 1fr 340px; gap: 0; }
+.flaeche { display: grid; grid-template-columns: 1fr 340px; grid-template-areas: 'spuren zaehler' 'spuren satz' 'spuren anhang'; grid-template-rows: auto auto 1fr; }
+.flaeche > .spuren { grid-area: spuren; } .flaeche > .zaehler { grid-area: zaehler; margin: 16px 24px 0; } .flaeche > .satz { grid-area: satz; margin: 16px 24px; } .flaeche > .anhang { grid-area: anhang; padding: 0 24px 24px; }
 .spuren { padding: 16px 24px 24px; border-right: 1px solid #ccc; min-width: 0; }
 .frage { font-size: 15px; color: #555; margin: 0 0 12px; }
 
@@ -74,13 +75,12 @@ footer.fuss { font-size: 12px; color: #555; border-top: 1px solid #ccc; margin-t
   .tabs { padding: 0 8px; }
   /* Handy: die Antwort aus dem Bild (Zähler) steht als Kopfleiste über den Spuren, Satz direkt darunter */
   .flaeche { display: flex; flex-direction: column; }
-  .seite { order: -1; padding: 0; }
-  .seite .zaehler { position: sticky; top: 0; background: #fff; z-index: 3; padding: 10px 12px; grid-template-columns: auto 1fr; }
+  .flaeche > .zaehler { order: -2; position: sticky; top: 0; background: #fff; z-index: 3; margin: 0; padding: 10px 12px; }
+  .flaeche > .satz { order: -1; margin: 10px 12px; font-size: 18px; }
+  .flaeche > .anhang { order: 2; padding: 16px 12px; border-top: 1px solid #111; }
   .zaehler .zahl { font-size: 56px; }
   .zaehler .txt b { font-size: 17px; }
   .kaesten { margin-top: 6px; }
-  .seite .rest { padding: 0 12px; }
-  .satz { font-size: 18px; margin: 10px 0; }
   .spuren { padding: 8px 12px 16px; border-right: 0; }
   .spur { grid-template-columns: 1fr 64px; }
   .spur .name { grid-column: 1 / -1; padding: 8px 0 2px; }
@@ -161,21 +161,19 @@ function render(snap) {
 
   const aus = sc.activeDomains;
   const belege = doms.filter((d) => d.active).flatMap((d) => d.signals);
-  const seite = `<aside class="seite">
-      <div class="zaehler" aria-live="polite">
+  const seite = `<div class="zaehler" aria-live="polite">
         <div class="zahl">${aus}</div>
         <div class="txt">von ${doms.length} Spuren schlagen jetzt gleichzeitig aus<b>Stufe ${sc.level} · ${esc(sc.levelLabel)}</b></div>
         <div class="kaesten" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<span class="${aus >= k ? 'on' : ''}"></span>`).join('')}</div>
         <div class="kaesten-lab">1 Spur höchstens Stufe 1 · 2 höchstens 2 · 3 höchstens 3 · ab 4 Stufe 4 möglich</div>
       </div>
-      <div class="rest">
-        <p class="satz">${esc(sc.verdict)}</p>
+      <p class="satz">${esc(sc.verdict)}</p>
+      <div class="anhang">
         <div class="vertrauen"><div><b>${pct(sc.confidence)}</b>Vertrauen</div><div><b>${sc.coverage.fresh} von ${sc.coverage.total}</b>Messreihen frisch${sc.coverage.planned ? `, ${sc.coverage.planned} geplant` : ''}</div></div>
         <p class="hinweis">${T.keineWahrscheinlichkeit}</p>
         <p class="hinweis">Ausschlag: Messwert liegt mehr als ${String(z0).replace('.', ',')} typische Schwankungen vom eigenen Normalwert entfernt (Empfindlichkeit „${snap.sensitivity === 'high' ? 'hoch' : 'normal'}“).</p>
         <footer class="fuss">${T.vorsorge}</footer>
-      </div>
-    </aside>`;
+      </div>`;
 
   const summe = V === 'b' ? `<div class="spur summe"><span class="name"><b>Gleichzeitig</b><small>Spuren im Ausschlag je Zeitpunkt</small></span><span class="bahn">${summeSvg(zaehl, doms.length)}</span><span class="jetzt">${aus}</span></div>` : '';
 

@@ -2,6 +2,7 @@
 // Source: https://api.cloudflare.com/client/v4/radar/...  Docs: https://developers.cloudflare.com/api/resources/radar/
 // Key: API token with permission "Radar Read" (free), sent as `Authorization: Bearer <key>`; env var SR_CLOUDFLARE_KEY.
 // License: CC BY-NC 4.0 (Radar data). Non-commercial use only; commercial use needs a check/permission from Cloudflare.
+// Attribution: credit "Cloudflare Radar" wherever the data is shown (src/core/attribution.ts, docs/DATA-TERMS.md).
 //
 // Measured:
 //   - DDoS attack volume Layer 3/4 and Layer 7 as daily time series (attacks/layer3|layer7/timeseries, 12 weeks)
@@ -112,7 +113,7 @@ export const EVENTS: Ts[] = [
   { signalId: 'cyber.routing.cf_route_leaks_24h', fixture: 'cloudflare-radar/bgp-leaks-24h.json', url: `${BASE}/bgp/leaks/events?dateRange=1d&per_page=1&format=json` },
 ];
 
-const CC = 'CC BY-NC 4.0 (Cloudflare Radar, nur nicht-kommerziell)';
+const CC = 'CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung "Cloudflare Radar"';
 const baseline = { method: 'hour-of-week' as const, windowDays: 28, minPoints: 48 };
 const dayBaseline = { method: 'rolling' as const, windowDays: 56, minPoints: 21 };
 

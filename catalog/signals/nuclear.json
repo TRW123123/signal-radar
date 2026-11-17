@@ -1349,7 +1349,7 @@
     "status": "needs-key",
     "sourceName": "ENTSO-E Transparency Platform",
     "sourceUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
-    "license": "CC BY 4.0",
+    "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
     "rationale": "Pflichtmeldung (REMIT); ungeplante Ausfälle mehrerer Blöcke gleichzeitig als Kennzahl.",
     "banalCauses": [
       "Revisionen (geplant)",
@@ -1433,7 +1433,7 @@
     "status": "needs-key",
     "sourceName": "ENTSO-E Transparency Platform",
     "sourceUrl": "https://transparency.entsoe.eu/",
-    "license": "CC BY 4.0",
+    "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
     "rationale": "Block-genaue Leistungsreihen zeigen Abschaltungen sofort.",
     "banalCauses": [
       "Lastfolge",
@@ -1556,7 +1556,7 @@
     "status": "needs-key",
     "sourceName": "ENTSO-E physical flows",
     "sourceUrl": "https://transparency.entsoe.eu/",
-    "license": "CC BY 4.0",
+    "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
     "rationale": "Ausfall der Netze würde Notstromsysteme von Kraftwerken belasten.",
     "banalCauses": [
       "Kampfhandlungen",
@@ -2537,7 +2537,7 @@
     "status": "needs-key",
     "sourceName": "FRED series PURANUSDM",
     "sourceUrl": "https://fred.stlouisfed.org/series/PURANUSDM",
-    "license": "FRED (Quellenangabe)",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Historisch langsam, gut für Baseline.",
     "banalCauses": [
       "Marktzyklus"

@@ -61,7 +61,7 @@ const collector: Collector = {
       unit: 'Meldungen/Tag', intervalMinutes: 1440, holdHours: 72,
       baseline: { method: 'rolling', windowDays: 90, minPoints: 30 },
       thresholds: { absFloor: 1 },
-      license: 'US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht',
+      license: 'US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s',
     },
   ],
   async collect(ctx) {

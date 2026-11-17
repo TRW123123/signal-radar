@@ -34,7 +34,8 @@ Helfer: `src/collectors/_helpers.ts` (`obs`, `num`, `expect`, `parseCsv`, `count
 10. **Keys:** nie im Code. `needsKey: 'SR_<DIENST>_KEY'` setzen und mit `ctx.key('SR_<DIENST>_KEY')` lesen. Ohne Key wird
     der Collector übersprungen, nicht als Fehler gezählt.
 11. **Nur passiv und öffentlich.** Kein Scannen, kein Login-Umgehen, keine Personen. Nutzungsbedingungen und Lizenz
-    im Kopfkommentar nennen. User-Agent setzt der HTTP-Client.
+    im Kopfkommentar nennen. User-Agent setzt der HTTP-Client. Verlangt die Quelle eine Quellenangabe oder einen
+    wörtlichen Hinweis, gehört der zusätzlich in `src/core/attribution.ts` (und [DATA-TERMS.md](DATA-TERMS.md)).
 12. **Kopfkommentar:** Quelle, Doku-URL, Lizenz, was gemessen wird, bekannte harmlose Ursachen für Ausschläge,
     und ob der Endpunkt gegen eine echte Antwort geprüft ist (`VERIFIED: ja/nein`).
 

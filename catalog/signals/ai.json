@@ -65,7 +65,7 @@
     "status": "needs-key",
     "sourceName": "URLhaus Host-Abfrage",
     "sourceUrl": "https://urlhaus-api.abuse.ch/",
-    "license": "CC0",
+    "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
     "rationale": "Die Plattform als Hosting für Schadsoftware ist der Missbrauchsfall 'massenhaft missbraucht'.",
     "banalCauses": [
       "Meldeflut einzelner Melder"
@@ -1167,7 +1167,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API (AI Insights)",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (nicht kommerziell)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Anstieg autonomer Zugriffe auf das Netz ist die Grundlast; plötzliche Sprünge einzelner Betreiber zeigen neue Agenten.",
     "banalCauses": [
       "Neues Modelltraining",
@@ -1412,7 +1412,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API (AI Insights)",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (nicht kommerziell)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Steigende Asymmetrie zeigt ungebremstes automatisiertes Abgreifen.",
     "banalCauses": [
       "Produktwechsel der Anbieter"
@@ -1614,7 +1614,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API (AI Insights)",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (nicht kommerziell)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Agentengesteuerte Angriffe auf Web-APIs erscheinen zuerst als Layer-7-Zunahme (Notfalldienste-Fall laut Lagebild).",
     "banalCauses": [
       "Normale DDoS-Wellen"
@@ -1654,7 +1654,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API (AI Insights)",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (nicht kommerziell)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Hintergrundlast, auf der sich Agenten-Wellen abheben.",
     "banalCauses": [
       "Saisonale Crawls"
@@ -2016,7 +2016,7 @@
     "status": "needs-key",
     "sourceName": "EIA Open Data (Strom stündlich)",
     "sourceUrl": "https://www.eia.gov/opendata/",
-    "license": "Gemeinfrei",
+    "license": "US-Regierungsdaten; Quelle \"U.S. Energy Information Administration (EIA)\" nennen, veränderte Daten nicht als EIA, kein Logo/Endorsement, Rate-Limits einhalten",
     "rationale": "Wie Texas: Last abweichend von Wetter.",
     "banalCauses": [
       "Wetter"
@@ -2056,7 +2056,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API (AI Insights)",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (nicht kommerziell)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Plötzlicher Rangverlust ist ein Messwert für Ausfall; Gewinn bedeutet Nutzungswelle.",
     "banalCauses": [
       "Produkttage"
@@ -2178,7 +2178,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Volltextsuche",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
-    "license": "Gemeinfrei",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Pflichtmeldung bei wesentlichem Cybervorfall; KI-Bezug im Text ist neu und selten.",
     "banalCauses": [
       "Allgemeine Risikotexte"

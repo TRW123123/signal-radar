@@ -3,6 +3,8 @@
 //   (Szenario war, Fixture `oil-prices/brent-daily.csv`), aber unter der Signal-ID finance.real_economy.oil_price und mit 365 Tagen Historie.
 // Quelle: https://github.com/datasets/oil-prices, Datei data/brent-daily.csv (seit 1987-05-20, ca. 165 kB), Kopf `Date,Price`, USD je Barrel.
 // Lizenz: ODC-PDDL-1.0 (gemeinfrei); Rohdaten der EIA sind öffentliche US-Regierungsdaten. Kein Key.
+// EIA-Bedingungen (gelesen 17.11.2026): Quelle "U.S. Energy Information Administration (EIA)" nennen, keine Endorsement-Andeutung, kein EIA-Logo,
+//   veränderte/abgeleitete Werte nicht als offizielle EIA-Daten ausgeben (src/core/attribution.ts, docs/DATA-TERMS.md).
 // Verzug: ca. eine Woche (Stand 17.11.2026: letzter Wert 11.11.2026), daher maxAgeHours 336. Ist der letzte Wert älter als 14 Tage, wird ein Fehler
 //   geworfen (Spiegel veraltet). Handelsfreie Tage fehlen und werden nicht aufgefüllt.
 // Harmlose Ursachen für Ausschläge: OPEC+-Beschlüsse, Konjunkturdaten, Dollar-Schwankung, US-Lagerdaten, Feiertage (Preis fortgeschrieben).
@@ -52,7 +54,7 @@ const collector: Collector = {
     unit: 'USD je Barrel', intervalMinutes: 1440, maxAgeHours: 336, holdHours: 72,
     baseline: { method: 'rolling', windowDays: 365, minPoints: 26 }, thresholds: { z0: 3, z1: 8, relFloor: 0.03 },
     sourceName: 'datasets/oil-prices (GitHub, Daten der US-Energiebehörde EIA)', sourceUrl: 'https://github.com/datasets/oil-prices',
-    license: 'ODC-PDDL-1.0 (gemeinfrei)', banalCauses: ['OPEC+-Entscheidungen', 'Konjunkturdaten', 'Dollar-Schwankung', 'Geopolitik'],
+    license: 'ODC-PDDL-1.0 (Spiegel); EIA-Daten: Quelle "U.S. Energy Information Administration (EIA)" nennen, kein Logo/Endorsement, veränderte Daten nicht als offizielle EIA-Daten', banalCauses: ['OPEC+-Entscheidungen', 'Konjunkturdaten', 'Dollar-Schwankung', 'Geopolitik'],
   }],
   async collect(ctx) {
     const text = await ctx.http.text(URL_BRENT, { fixture: 'oil-prices/brent-daily.csv' });

@@ -658,7 +658,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "SERVFAIL-Anstieg deutet auf DNSSEC-Fehler oder Ausfall autoritativer Server.",
     "banalCauses": [
       "Kunden-Fehlkonfiguration"
@@ -736,7 +736,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Massenhafte DNSSEC-Fehler weisen auf Schlüsselprobleme oder Manipulation hin.",
     "banalCauses": [
       "Abgelaufene Signaturen einzelner Domains"
@@ -775,7 +775,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "NXDOMAIN-Anstieg kennzeichnet DGA-Botnetze/Water-Torture-Angriffe; Einbrüche kennzeichnen Resolver-Ausfall.",
     "banalCauses": [
       "Lokale Fehlkonfigurationen"
@@ -1172,7 +1172,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Ausfälle großer Dienste verschieben das Ranking; zeigt Abhängigkeiten.",
     "banalCauses": [
       "Kampagnen",
@@ -1295,7 +1295,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Zeigt Anzahl und Ursachenklasse, inklusive 'Cyberangriff' und 'Kabelschaden'.",
     "banalCauses": [
       "Behördliche Shutdowns (Prüfungen)",
@@ -1457,7 +1457,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Unabhängige Messung von Ausfällen und Bot-Kampagnen.",
     "banalCauses": [
       "Lastspitzen"
@@ -1577,7 +1577,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Ein plötzlicher Verkehrseinbruch im Land ist ein Aggregat-Indikator für Störungen der Endnutzernetze.",
     "banalCauses": [
       "Feiertage",
@@ -1657,7 +1657,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Häufung in Region (z. B. Rotes Meer, Ostsee) kann Sabotage nahelegen.",
     "banalCauses": [
       "Anker-/Fischereischäden",
@@ -1775,7 +1775,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Qualitätseinbruch vor/neben Totalausfall.",
     "banalCauses": [
       "Messrauschen"
@@ -2013,7 +2013,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Abruptes Kippen deutet auf Eingriffe (z. B. QUIC-Blockade) oder Botverkehr.",
     "banalCauses": [
       "Client-Updates"
@@ -2092,7 +2092,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten, Kommerz-Nutzung pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Plötzlicher Wechsel kann Festnetzausfall (mehr Mobil) markieren.",
     "banalCauses": [
       "Tageszeit"
@@ -2170,7 +2170,7 @@
     "status": "needs-key",
     "sourceName": "MalwareBazaar Tag-Suche",
     "sourceUrl": "https://bazaar.abuse.ch/api/",
-    "license": "CC0",
+    "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
     "rationale": "Wiper sind Marker für destruktive statt finanzieller Absicht.",
     "banalCauses": [
       "Übertreibung in Blogs"
@@ -2365,7 +2365,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (laut Radar, pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Rekordhohe Volumen oder breite Zielstreuung.",
     "banalCauses": [
       "Saisonalität (Feiertage)",
@@ -2447,7 +2447,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (laut Radar, pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Politisch motivierte Wellen gegen Behörden/Banken.",
     "banalCauses": [
       "Hacktivisten-Kampagnen"
@@ -2647,7 +2647,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (laut Radar, pruefen)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Verschiebung auf Finanz/Energie/Regierung ist Vorläufer.",
     "banalCauses": [
       "Geopolitische Ereignisse"
@@ -2960,7 +2960,7 @@
     "status": "planned",
     "sourceName": "abuse.ch ThreatFox",
     "sourceUrl": "https://threatfox.abuse.ch/api/",
-    "license": "CC0",
+    "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
     "rationale": "IOC-Fluten zu einer Familie deuten auf koordinierte Kampagne.",
     "banalCauses": [
       "Import-Batch"
@@ -2999,7 +2999,7 @@
     "status": "planned",
     "sourceName": "abuse.ch URLhaus",
     "sourceUrl": "https://urlhaus.abuse.ch/api/",
-    "license": "CC0",
+    "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
     "rationale": "Massive Zunahme zeigt aktive Kampagnen.",
     "banalCauses": [
       "Einzelne Melderbasis",
@@ -3039,7 +3039,7 @@
     "status": "planned",
     "sourceName": "abuse.ch MalwareBazaar",
     "sourceUrl": "https://bazaar.abuse.ch/api/",
-    "license": "CC0",
+    "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
     "rationale": "Plotzliches Auftreten neuer Familien oder Wiper-Labels.",
     "banalCauses": [
       "Batch-Einreichungen"
@@ -3789,7 +3789,7 @@
     "status": "needs-key",
     "sourceName": "NVD CVE API 2.0",
     "sourceUrl": "https://nvd.nist.gov/developers/vulnerabilities",
-    "license": "US Gov, frei",
+    "license": "NVD-Bedingungen: Pflichthinweis \"not endorsed\", veränderte Inhalte nicht als NVD ausgeben, Rate-Limits, Key nicht weitergeben",
     "rationale": "Anstieg des Kritisch-Anteils bei Netz-/Infrastrukturprodukten.",
     "banalCauses": [
       "Scoring-Änderungen CVSS 4.0",
@@ -5093,7 +5093,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Full-Text Search (efts)",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
-    "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Lieferketten-Kollaps (z. B. Zahlungsdienstleister, MSP, Cloud) zeigt sich als gemeinsamer Begriff in vielen Filings.",
     "banalCauses": [
       "Zufällig gleicher Cloud-Anbieter",
@@ -5252,7 +5252,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Full-Text Search (efts)",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
-    "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Eine koordinierte Kampagne oder Lieferkettenangriff erzeugt innerhalb weniger Tage viele Item-1.05-Filings. Pflichtmeldung, kein PR-Text.",
     "banalCauses": [
       "Einzelne große Ransomware-Fälle",
@@ -5294,7 +5294,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR submissions API (data.sec.gov)",
     "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
-    "license": "gemeinfrei",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Ein Cluster im Finanzsektor ist direkter Hinweis auf Zahlungs-/Bankenstörung.",
     "banalCauses": [
       "Einzelfälle bei Fintechs"
@@ -5452,7 +5452,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Full-Text Search (efts)",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
-    "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Firmen, die den Vorfall noch nicht als wesentlich einstufen, melden freiwillig unter 8.01. Früher Hinweis.",
     "banalCauses": [
       "Hardware-/Softwareausfall ohne Angriff"
@@ -5649,7 +5649,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Full-Text Search (efts)",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
-    "license": "US-Regierungsdaten, gemeinfrei; faire Nutzung, User-Agent mit Kontakt Pflicht",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Anstieg an Nachmeldungen nach Initialmeldungen bedeutet vertiefte Betroffenheit.",
     "banalCauses": [
       "Routine-Updates zu Untersuchungen"
@@ -5766,7 +5766,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Full-Text Search",
     "sourceUrl": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K",
-    "license": "US-Public-Domain",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Häufung kündigt Spannungen/Kenntnisse an; sehr verrauscht.",
     "banalCauses": [
       "Normale Fluktuation"
@@ -6163,7 +6163,7 @@
     "status": "planned",
     "sourceName": "SEC Insider Transactions Data Sets",
     "sourceUrl": "https://www.sec.gov/data-research/sec-markets-data/insider-transactions-data-sets",
-    "license": "US-Public-Domain",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Ungewöhnliche Verkaufswellen außerhalb geplanter Programme bei vielen Firmen gleichzeitig. Nur Summen, keine Personenprofile.",
     "banalCauses": [
       "10b5-1-Pläne",
@@ -6324,7 +6324,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR",
     "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
-    "license": "US-Public-Domain; faire Nutzung, User-Agent mit Kontakt Pflicht",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Vorlaufindikator: Form 144 kommt vor dem Verkauf.",
     "banalCauses": [
       "Routinepläne"
@@ -6443,7 +6443,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR",
     "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
-    "license": "US-Public-Domain; faire Nutzung, User-Agent mit Kontakt Pflicht",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Gleiches Muster für Finanzinfrastruktur.",
     "banalCauses": [
       "Planverkäufe",
@@ -6523,7 +6523,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/",
-    "license": "FRED Terms of Use (Drittanbieter-Serien teils eingeschraenkt)",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Breiter Stress-Mess-Wert; Cyber-Kaskade auf Banken würde sich zeigen.",
     "banalCauses": [
       "Bankenkrisen",
@@ -6921,7 +6921,7 @@
     "status": "planned",
     "sourceName": "OpenSky States",
     "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
-    "license": "CC BY-NC",
+    "license": "OpenSky: nur gemeinnützige Forschung/Lehre; Nutzung in diesem Dienst (auch anonym) erst nach schriftlicher Vereinbarung, angefragt 17.11.2026",
     "rationale": "IT-Ausfall von Airlines/Flugsicherung zeigt sich in Flugzahlen.",
     "banalCauses": [
       "Wetter",
@@ -7120,7 +7120,7 @@
     "status": "needs-key",
     "sourceName": "ENTSO-E Transparency Platform",
     "sourceUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
-    "license": "ENTSO-E Nutzungsbedingungen (Namensnennung), unklar im Detail",
+    "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
     "rationale": "Koordinierte Angriffe auf mehrere Anlagen gleichzeitig würden Cluster von ungeplanten Ausfällen erzeugen.",
     "banalCauses": [
       "Revisionen",
@@ -7443,7 +7443,7 @@
     "status": "needs-key",
     "sourceName": "ENTSO-E Transparency Platform",
     "sourceUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
-    "license": "ENTSO-E Nutzungsbedingungen (Namensnennung), unklar im Detail",
+    "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
     "rationale": "Plotzliche Umkehr oder Abriss von Flows kann Folge von Leitungsabschaltungen oder Steuerungsproblemen sein.",
     "banalCauses": [
       "Marktgetriebene Schwankungen",
@@ -7561,7 +7561,7 @@
     "status": "needs-key",
     "sourceName": "OpenSky Network REST API",
     "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
-    "license": "CC BY-NC (OpenSky), nicht kommerziell pruefen",
+    "license": "OpenSky: nur gemeinnützige Forschung/Lehre; Nutzung in diesem Dienst (auch anonym) erst nach schriftlicher Vereinbarung, angefragt 17.11.2026",
     "rationale": "Plotzliche Abnahme zeigt Luftraumsperrungen oder Ausfall von Flugsicherung.",
     "banalCauses": [
       "Feiertage",
@@ -7643,7 +7643,7 @@
     "status": "needs-key",
     "sourceName": "OpenSky Network REST API",
     "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
-    "license": "CC BY-NC (OpenSky), nicht kommerziell pruefen",
+    "license": "OpenSky: nur gemeinnützige Forschung/Lehre; Nutzung in diesem Dienst (auch anonym) erst nach schriftlicher Vereinbarung, angefragt 17.11.2026",
     "rationale": "Ausfall oder Störung von Empfängernetz oder Transponder-Spoofing bemerkbar.",
     "banalCauses": [
       "Empfänger offline",
@@ -7845,7 +7845,7 @@
     "status": "needs-key",
     "sourceName": "US EIA Hourly Electric Grid Monitor API",
     "sourceUrl": "https://www.eia.gov/opendata/",
-    "license": "gemeinfrei",
+    "license": "US-Regierungsdaten; Quelle \"U.S. Energy Information Administration (EIA)\" nennen, veränderte Daten nicht als EIA, kein Logo/Endorsement, Rate-Limits einhalten",
     "rationale": "Plotzliche Nachfrage-Einbrüche in mehreren Regionen oder fehlende Meldungen sind Brotkrumen koordinierter Ausfälle.",
     "banalCauses": [
       "Hurrikane",
@@ -8087,7 +8087,7 @@
     "status": "needs-key",
     "sourceName": "ALSI+ LNG Storage",
     "sourceUrl": "https://alsi.gie.eu/api",
-    "license": "GIE Nutzungsbedingungen, unklar",
+    "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
     "rationale": "Ausfall mehrerer Terminals gleichzeitig wäre auffällig.",
     "banalCauses": [
       "Schiffsverspätungen",
@@ -8209,7 +8209,7 @@
     "status": "needs-key",
     "sourceName": "AGSI+ Gas Infrastructure Europe",
     "sourceUrl": "https://agsi.gie.eu/api",
-    "license": "GIE Nutzungsbedingungen, unklar",
+    "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
     "rationale": "Ungewöhnliche Ein-/Ausspeicherung kann Notfall oder Sabotage zeigen.",
     "banalCauses": [
       "Winterwetter",
@@ -9122,7 +9122,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Nachfrage nach Informationsseiten.",
     "banalCauses": [
       "Kampagnen"

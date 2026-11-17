@@ -5,6 +5,8 @@
 // Quellen: https://github.com/datasets/natural-gas (data/daily.csv, Kopf `Date,Price`, USD je Million BTU) und
 //   https://github.com/datasets/oil-prices (data/brent-daily.csv, Kopf `Date,Price`, USD je Barrel, Europe Brent FOB).
 // Lizenz: ODC-PDDL-1.0 (gemeinfrei) laut Repos; Rohdaten der EIA sind öffentliche US-Regierungsdaten. Kein Key.
+// EIA-Bedingungen (gelesen 17.11.2026): Quelle "U.S. Energy Information Administration (EIA)" nennen, keine Endorsement-Andeutung, kein EIA-Logo,
+//   veränderte/abgeleitete Werte nicht als offizielle EIA-Daten ausgeben (src/core/attribution.ts, docs/DATA-TERMS.md).
 // Verzug: EIA veröffentlicht mit etwa einer Woche Verzug (Stand 17.11.2026: letzter Wert 11.11.2026), deshalb maxAgeHours 336.
 //   Ist der letzte Wert älter als 14 Tage, wirft der Parser einen Fehler. Kein Echtzeitsignal, nur Kontext zum europäischen Gaspreis.
 // Gemessen: je Handelstag der Spotpreis, letzte 90 Kalendertage bis gestern; Tage ohne Handel fehlen.
@@ -25,7 +27,7 @@ const common = {
   scenarios: ['blackout'], domain: 'markets', evidenceClass: 'A' as const, direction: 'up' as const, kind: 'gauge' as const,
   manipulability: 'low' as const, intervalMinutes: 1440, holdHours: 72, maxAgeHours: 336,
   baseline: { method: 'rolling' as const, windowDays: 28, minPoints: 14 }, thresholds: { z0: 3, z1: 8, relFloor: 0.05 },
-  license: 'ODC-PDDL-1.0 (gemeinfrei)',
+  license: 'ODC-PDDL-1.0 (Spiegel); EIA-Daten: Quelle "U.S. Energy Information Administration (EIA)" nennen, kein Logo/Endorsement, veränderte Daten nicht als offizielle EIA-Daten',
 };
 
 const collector: Collector = {

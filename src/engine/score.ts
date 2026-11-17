@@ -81,6 +81,7 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
         : null,
       z: r.z === null ? null : round(r.z, 2), anomaly: round(r.anomaly), damp, contribution: round(contribution),
       spark: spark.v, sparkStart: spark.start, sparkEnd: spark.end, sourceName: def.sourceName, sourceUrl: def.sourceUrl,
+      license: def.license, collector: def.collector,
       def, flagged: r.flagged, potential,
     });
   }

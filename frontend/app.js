@@ -132,6 +132,7 @@ const T = {
     verlauf: (von, bis, normal) => `Verlauf ${von} bis ${bis}.${normal ? ' Gestrichelt: Normalwert.' : ''}`,
     gedaempft: (grund) => `Zählt weniger, weil: ${grund}`,
     rohdaten: (quelle) => `Rohdaten: ${quelle}`,
+    pflichtQuelle: 'Quelle:',
     externHinweis: '(externe Seite)',
     nichtFrisch: (zeit) => (zeit ? `Keine frischen Daten, letzter Wert vom ${zeit}.` : 'Noch keine Daten.'),
     fuss: {
@@ -151,6 +152,8 @@ const T = {
       vorsorge: 'Es gilt die allgemeine Vorsorge-Empfehlung des Bundesamts für Bevölkerungsschutz und Katastrophenhilfe (BBK). Hamsterkäufe sind nicht nötig.',
       vorsorgeLink: 'Vorsorge-Hinweise beim BBK',
       projekt: 'Signal Radar ist ein Open-Source-Projekt im Aufbau. Name vorläufig.',
+      quellenTitel: 'Quellen',
+      quellenOhne: 'Pflichtangaben zu den Datenquellen stehen in der jeweiligen Messreihe und, sobald der Snapshot sie liefert, in diesem Fuß.',
     },
     kontext: 'Offizielle Meldungen (zählen nicht als Beleg)',
     kontextErkl: 'Was Behörden und Unternehmen selbst sagen. Steht hier zur Einordnung und fließt nicht in die Stufe ein.',
@@ -389,9 +392,9 @@ function messreihe(sig, stufe) {
   const spark = sparkSvg(sig);
   const verlauf = spark ? `<figure class="mr-verlauf">${spark}<figcaption>${esc(L.verlauf(kurz(sig.sparkStart), kurz(sig.sparkEnd), !!sig.baseline?.mature))}</figcaption></figure>` : '';
   const daempf = sig.damp ? `<p class="mr-daempf">${esc(L.gedaempft(sig.damp.reason))}</p>` : '';
-  const quelle = sig.sourceUrl
+  const quelle = (sig.sourceUrl
     ? `<p class="mr-quelle"><a href="${esc(sig.sourceUrl)}" rel="noopener noreferrer external">${esc(L.rohdaten(sig.sourceName || sig.sourceUrl))}<span class="nur-vorleser"> ${L.externHinweis}</span></a></p>`
-    : '';
+    : '') + pflichtCredit(sig);
   return `<article class="mr${auf ? ` mr-aus mr-l${stufe}` : ''}${sig.evidenceClass === 'D' ? ' mr-att' : ''}">
       <header class="mr-kopf"><h4 class="mr-name">${esc(sig.name)}</h4><span class="mr-klasse">${esc(klasse)}</span></header>
       <p class="mr-plain">${esc(sig.plain)}</p>
@@ -651,6 +654,42 @@ function umschalten(b) {
   if (auf) zustand.offen.add(key); else zustand.offen.delete(key);
 }
 
+// ---------- Quellenangaben (Registry: src/core/attribution.ts, im Snapshot als snap.attributions) ----------
+/** Gleiche Zuordnung wie attributionsForSignals: Collector-ID zuerst, sonst Teilstring im Quellennamen. */
+function quellenEintrag(sig) {
+  const liste = zustand.snap?.attributions ?? [];
+  if (sig.collector) {
+    const a = liste.find((x) => x.collectors?.includes(sig.collector));
+    if (a) return a;
+  }
+  return liste.find((x) => sig.sourceName && x.sourceNameHints?.some((h) => sig.sourceName.includes(h))) ?? null;
+}
+
+function quellenLink(a) {
+  return a.attributionUrl
+    ? `<a href="${esc(a.attributionUrl)}" rel="noopener noreferrer external">${esc(a.attribution)}<span class="nur-vorleser"> ${L.externHinweis}</span></a>`
+    : esc(a.attribution);
+}
+
+function pflichtCredit(sig) {
+  if (sig.ts == null) return '';
+  const a = quellenEintrag(sig);
+  if (!a) return '';
+  // ACLED verlangt eine gut sichtbare Nennung mit Link direkt an der Grafik
+  return `<p class="mr-credit${a.id === 'acled' ? ' mr-credit-stark' : ''}">${L.pflichtQuelle} ${quellenLink(a)}</p>`;
+}
+
+function quellenBlock(F) {
+  const liste = zustand.snap?.attributions;
+  if (!Array.isArray(liste) || !liste.length) return `<p class="fuss-quellen-ohne">${esc(F.quellenOhne)}</p>`;
+  const hinweise = [...new Set(liste.flatMap((a) => a.footerNotices ?? []))];
+  return `<div class="fuss-block fuss-quellen">
+      <h2 class="fuss-titel">${F.quellenTitel}</h2>
+      <ul class="fuss-quellenliste">${liste.map((a) => `<li>${quellenLink(a)}</li>`).join('')}</ul>
+      ${hinweise.map((h) => `<p>${esc(h)}</p>`).join('')}
+    </div>`;
+}
+
 // ---------- Fuß ----------
 function renderFuss() {
   const snap = zustand.snap;
@@ -676,6 +715,7 @@ function renderFuss() {
         <p><a href="https://www.bbk.bund.de/" rel="noopener noreferrer external">${F.vorsorgeLink}<span class="nur-vorleser"> ${L.externHinweis}</span></a></p>
       </div>
     </div>
+    ${quellenBlock(F)}
     <p class="fuss-projekt">${esc(F.projekt)}</p>`;
 }
 

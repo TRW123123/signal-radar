@@ -24,7 +24,7 @@
     "status": "planned",
     "sourceName": "OpenSky Network REST API",
     "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
-    "license": "nichtkommerziell, Bedingungen prüfen",
+    "license": "OpenSky: nur gemeinnützige Forschung/Lehre; Nutzung in diesem Dienst (auch anonym) erst nach schriftlicher Vereinbarung, angefragt 17.11.2026",
     "rationale": "ADS-B-Aggregat je Box ist unabhängig; Airlines meiden Luftraum, bevor Behörden schließen.",
     "banalCauses": [
       "Wetter",
@@ -1376,7 +1376,7 @@
     "status": "needs-key",
     "sourceName": "NASA FIRMS Area API",
     "sourceUrl": "https://firms.modaps.eosdis.nasa.gov/api/area/",
-    "license": "NASA offene Daten",
+    "license": "NASA offene Daten, Quelle \"NASA FIRMS\" nennen; MAP_KEY max. 5000 Transaktionen/10 min; kein VIIRS_SNPP (endet 02.11.2026), NOAA-20/21 nutzen",
     "rationale": "Treffer auf Energieanlagen.",
     "banalCauses": [
       "Fackelrauschen"
@@ -1456,7 +1456,7 @@
     "status": "needs-key",
     "sourceName": "NASA FIRMS Area API",
     "sourceUrl": "https://firms.modaps.eosdis.nasa.gov/api/area/",
-    "license": "NASA offene Daten",
+    "license": "NASA offene Daten, Quelle \"NASA FIRMS\" nennen; MAP_KEY max. 5000 Transaktionen/10 min; kein VIIRS_SNPP (endet 02.11.2026), NOAA-20/21 nutzen",
     "rationale": "Wenig Aussagekraft, Kontext.",
     "banalCauses": [
       "Waldbrand"
@@ -1495,7 +1495,7 @@
     "status": "needs-key",
     "sourceName": "NASA FIRMS Active Fire API",
     "sourceUrl": "https://firms.modaps.eosdis.nasa.gov/api/",
-    "license": "NASA Open Data, frei",
+    "license": "NASA offene Daten, Quelle \"NASA FIRMS\" nennen; MAP_KEY max. 5000 Transaktionen/10 min; kein VIIRS_SNPP (endet 02.11.2026), NOAA-20/21 nutzen",
     "rationale": "VIIRS erkennt Großbrände unabhängig von Meldungen; Cluster an Raffinerien und Häfen begleiten Angriffe.",
     "banalCauses": [
       "Gasabfackelung",
@@ -1576,7 +1576,7 @@
     "status": "needs-key",
     "sourceName": "NASA FIRMS Area API",
     "sourceUrl": "https://firms.modaps.eosdis.nasa.gov/api/area/",
-    "license": "NASA offene Daten",
+    "license": "NASA offene Daten, Quelle \"NASA FIRMS\" nennen; MAP_KEY max. 5000 Transaktionen/10 min; kein VIIRS_SNPP (endet 02.11.2026), NOAA-20/21 nutzen",
     "rationale": "Artillerie, Treffer und Raffineriebrände sichtbar.",
     "banalCauses": [
       "Landwirtschaftsbrände",
@@ -1616,7 +1616,7 @@
     "status": "needs-key",
     "sourceName": "NASA FIRMS Area API",
     "sourceUrl": "https://firms.modaps.eosdis.nasa.gov/api/area/",
-    "license": "NASA offene Daten",
+    "license": "NASA offene Daten, Quelle \"NASA FIRMS\" nennen; MAP_KEY max. 5000 Transaktionen/10 min; kein VIIRS_SNPP (endet 02.11.2026), NOAA-20/21 nutzen",
     "rationale": "Zeigt Reichweite von Drohnenangriffen.",
     "banalCauses": [
       "Industrielle Brände"
@@ -1695,7 +1695,7 @@
     "status": "needs-key",
     "sourceName": "ACLED API",
     "sourceUrl": "https://acleddata.com/api-documentation/",
-    "license": "ACLED Terms (nichtkommerziell frei, kommerziell kostenpflichtig)",
+    "license": "ACLED Terms: nur nicht-kommerziell; öffentlich nur transformative Aggregate, keine Rohereignisse; ACLED prominent mit Link https://acleddata.com nennen",
     "rationale": "Manuell kuratierte Ereignisdaten sind belastbarer als GDELT; Anstieg bei Explosionen und Fernbeschuss vor Bodenoffensiven typisch.",
     "banalCauses": [
       "Verzögerte Aufarbeitung",
@@ -2870,7 +2870,7 @@
     "status": "needs-key",
     "sourceName": "ENTSO-E Transparency Platform API",
     "sourceUrl": "https://transparency.entsoe.eu/",
-    "license": "CC BY 4.0 (laut Erinnerung)",
+    "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
     "rationale": "Angriffe auf Kraftwerke und Netzabkopplungen sind in Flussdaten sichtbar.",
     "banalCauses": [
       "Wartung",
@@ -2955,7 +2955,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API (Outages, Traffic)",
     "sourceUrl": "https://developers.cloudflare.com/radar/",
-    "license": "CC BY-NC 4.0 (Radar-Daten)",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Traffic-Einbrüche in Cloudflare Radar sind unabhängige Messung; Stromausfälle nach Angriffen erkennbar.",
     "banalCauses": [
       "Wartung",
@@ -3037,7 +3037,7 @@
     "status": "planned",
     "sourceName": "OpenSky Network REST API",
     "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
-    "license": "nichtkommerziell, Bedingungen prüfen",
+    "license": "OpenSky: nur gemeinnützige Forschung/Lehre; Nutzung in diesem Dienst (auch anonym) erst nach schriftlicher Vereinbarung, angefragt 17.11.2026",
     "rationale": "Staatliche Sonderflüge erscheinen als ungewöhnliche Flugbewegungen; Ergänzung zur Reisewarnung.",
     "banalCauses": [
       "Terroranschlag",
@@ -3884,7 +3884,7 @@
     "status": "needs-key",
     "sourceName": "GIE ALSI LNG-Terminals",
     "sourceUrl": "https://alsi.gie.eu/api",
-    "license": "GIE, Namensnennung",
+    "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
     "rationale": "LNG-Umleitungen sichtbar.",
     "banalCauses": [
       "Wartung"
@@ -3923,7 +3923,7 @@
     "status": "needs-key",
     "sourceName": "EIA Open Data API v2",
     "sourceUrl": "https://www.eia.gov/opendata/",
-    "license": "US Public Domain",
+    "license": "US-Regierungsdaten; Quelle \"U.S. Energy Information Administration (EIA)\" nennen, veränderte Daten nicht als EIA, kein Logo/Endorsement, Rate-Limits einhalten",
     "rationale": "SPR-Abgaben deuten auf Versorgungsangst.",
     "banalCauses": [
       "Politik",
@@ -3963,7 +3963,7 @@
     "status": "needs-key",
     "sourceName": "GIE AGSI+ Gasspeicher",
     "sourceUrl": "https://agsi.gie.eu/api",
-    "license": "GIE, Namensnennung",
+    "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
     "rationale": "Niedrigster Stand seit 2011 (EU ca. 74 Prozent am 05.11.2026), Verwundbarkeit.",
     "banalCauses": [
       "Winterwetter",
@@ -4290,7 +4290,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED ToS; Einzelserien teils Drittrechte",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "OVX springt, wenn Öl-Ausfall plausibel wird, oft vor dem Preis selbst.",
     "banalCauses": [
       "Öl-Verfall",
@@ -4689,7 +4689,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Submissions API (Form 4)",
     "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
-    "license": "Public Domain",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Verkauf vor Eskalation möglich; aber 10b5-1-Pläne.",
     "banalCauses": [
       "Pflichtpläne",
@@ -4729,7 +4729,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED ToS; Einzelserien teils Drittrechte",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Energieschock später in Inflation (BoE-Zinserhöhung 05.11.2026).",
     "banalCauses": [
       "Rohstoffzyklus"
@@ -5241,7 +5241,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED ToS; Einzelserien teils Drittrechte",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Weitung zeigt Stress im Kreditmarkt.",
     "banalCauses": [
       "Konjunktur"
@@ -5280,7 +5280,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED ToS; Einzelserien teils Drittrechte",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Richtung zeigt Mix aus Flucht und Inflationsangst.",
     "banalCauses": [
       "Fed-Erwartungen"

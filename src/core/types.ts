@@ -180,6 +180,10 @@ export interface SignalView {
   sparkEnd: string | null;
   sourceName: string;
   sourceUrl: string;
+  /** license / terms label from the catalog or collector (per-signal metadata for the UI) */
+  license?: string;
+  /** collector id, used to match required source notices (src/core/attribution.ts) */
+  collector?: string;
 }
 
 export interface DomainView {
@@ -240,4 +244,32 @@ export interface Snapshot {
   sensitivity: 'normal' | 'high';
   note?: string;
   scenarios: ScenarioView[];
+  /**
+   * Required credits and notices of the sources whose data appears in this snapshot (src/core/attribution.ts).
+   * Optional: older snapshots and the demo files do not have it; the frontend falls back to a static line.
+   */
+  attributions?: SourceAttribution[];
+}
+
+// ---------- source terms / required attribution (registry in src/core/attribution.ts) ----------
+
+export type AttributionStatus = 'active-collector' | 'mirror-only' | 'planned-needs-key' | 'blocked-pending-license' | 'pending-terms';
+
+export interface SourceAttribution {
+  /** catalog source id where one exists (catalog/sources.json) */
+  id: string;
+  name: string;
+  /** collector ids that use this source, including mirrors */
+  collectors: string[];
+  /** case-sensitive substrings of SignalView.sourceName, for signals without collector id */
+  sourceNameHints?: string[];
+  /** required short credit on charts and in the list */
+  attribution: string;
+  attributionUrl?: string;
+  /** short license / terms label */
+  license: string;
+  /** required dashboard notices, verbatim where the source prescribes the wording */
+  footerNotices: string[];
+  restrictions?: string[];
+  status: AttributionStatus;
 }

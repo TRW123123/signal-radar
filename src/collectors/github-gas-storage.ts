@@ -4,7 +4,8 @@
 //   Zuerst alle Zeilen Deutschland (scope DE, aufsteigend), danach alle Zeilen EU (scope EU), deshalb kein Range-Abruf des Dateiendes: ganze Datei.
 //   Kopf `scope,date,name,code,gas_in_storage_twh,working_gas_volume_twh,fill_pct,consumption_gwh_per_day,injection_gwh_per_day,
 //   withdrawal_gwh_per_day,net_withdrawal_gwh_per_day,...,status,full_pct,norm_5y_fill_pct,source`.
-// Lizenz: Repo CC0 1.0; die zugrunde liegenden AGSI+-Daten von Gas Infrastructure Europe sind mit Quellenangabe frei nutzbar. Kein Key.
+// Lizenz: Repo CC0 1.0; die zugrunde liegenden AGSI+-Daten von Gas Infrastructure Europe sind frei weiterverarbeitbar, Quellenangabe
+//   "GIE AGSI / ALSI platform" ist Pflicht (GIE-Bedingungen, gelesen 17.11.2026; src/core/attribution.ts). Kein Key.
 // Aktualität: Stand 17.11.2026 letzter Tag 13.11.2026 (Verzug 3 bis 4 Tage). Die jüngsten Tage tragen `status` E (geschätzt, noch unvollständig;
 //   z. B. Entnahme 358 statt rund 1000 GWh am 12.11.). Deshalb werden nur Zeilen mit Status C (bestätigt) gemeldet; die Reihe hinkt dadurch etwa
 //   eine Woche nach (maxAgeHours 240). Auch einzelne ältere Tage mit E fehlen dann (z. B. 08.11.); Lücken sind harmlos.
@@ -73,7 +74,7 @@ const common = {
   independenceGroup: 'agsi', intervalMinutes: 1440, holdHours: 72, maxAgeHours: 240,
   baseline: { method: 'rolling' as const, windowDays: 28, minPoints: 14 },
   sourceName: 'GIE AGSI+ (GitHub-Spiegel volzinnovation/de-gas-storage-tracker-bnetza)',
-  sourceUrl: 'https://github.com/volzinnovation/de-gas-storage-tracker-bnetza', license: 'CC0 1.0 (Repo); AGSI+ mit Quellenangabe',
+  sourceUrl: 'https://github.com/volzinnovation/de-gas-storage-tracker-bnetza', license: 'CC0 1.0 (Repo); AGSI+-Daten: Quellenangabe "GIE AGSI / ALSI platform" Pflicht',
 };
 
 const collector: Collector = {

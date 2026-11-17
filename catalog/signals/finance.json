@@ -146,7 +146,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "H.4.1 \"Other credit extension\" sprang bei FDIC-Brückenbanken im März 2023.",
     "banalCauses": [
       "Altprogramme laufen aus"
@@ -391,7 +391,7 @@
     "status": "planned",
     "sourceName": "FRED Graph CSV (ohne Key)",
     "sourceUrl": "https://fred.stlouisfed.org/",
-    "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers; ICE-Reihen auf 3 Jahre gekürzt",
     "rationale": "Starker Abschlag bei 1-Monats-Bills = Flucht in sichere Kurzläufer.",
     "banalCauses": [
       "Schuldenobergrenze",
@@ -554,7 +554,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Bankenanleihen reagieren zuerst auf Vertrauensverlust.",
     "banalCauses": [
       "Emissionstermine"
@@ -636,7 +636,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Zeigt europäischen Kreditstress, getrennt von den USA.",
     "banalCauses": [
       "Energiepreise",
@@ -677,7 +677,7 @@
     "status": "planned",
     "sourceName": "FRED Graph CSV (ohne Key)",
     "sourceUrl": "https://fred.stlouisfed.org/",
-    "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers; ICE-Reihen auf 3 Jahre gekürzt",
     "rationale": "Standardmaß für Kreditangst; Ausweitung geht Rezessionen und Bankenkrisen voran.",
     "banalCauses": [
       "Ölpreisschock",
@@ -718,7 +718,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Auch bei soliden Firmen steigende Spreads deuten auf systemische Sorge.",
     "banalCauses": [
       "Emissionswelle"
@@ -758,7 +758,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Ausfallrisiko der Schwächsten steigt zuerst.",
     "banalCauses": [
       "Einzelne Pleiten"
@@ -958,7 +958,7 @@
     "status": "planned",
     "sourceName": "FRED Graph CSV (ohne Key)",
     "sourceUrl": "https://fred.stlouisfed.org/",
-    "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers; ICE-Reihen auf 3 Jahre gekürzt",
     "rationale": "Rezessionsmodell der NY Fed nutzt genau diesen Abstand.",
     "banalCauses": [
       "Leitzinsänderungen"
@@ -998,7 +998,7 @@
     "status": "planned",
     "sourceName": "FRED Graph CSV (ohne Key)",
     "sourceUrl": "https://fred.stlouisfed.org/",
-    "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers; ICE-Reihen auf 3 Jahre gekürzt",
     "rationale": "Inversion plus anschließende Normalisierung ist klassisches Rezessionssignal.",
     "banalCauses": [
       "Fed-Erwartungen"
@@ -1280,7 +1280,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Steigende Borrowings bei sinkenden Einlagen = Finanzierungslücke.",
     "banalCauses": [
       "Wertpapiergeschäfte"
@@ -1441,7 +1441,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Volltextsuche",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
-    "license": "gemeinfrei, User-Agent mit Kontakt Pflicht",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Anstieg der Insolvenzmeldungen großer Firmen und Finanzinstitute begleitet Krisen.",
     "banalCauses": [
       "Wenige Einzelpleiten pro Woche normal"
@@ -1561,7 +1561,7 @@
     "status": "planned",
     "sourceName": "SEC EDGAR Volltextsuche",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
-    "license": "gemeinfrei, User-Agent mit Kontakt Pflicht",
+    "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
     "rationale": "Vorstufen von Pleiten.",
     "banalCauses": [
       "Sammelmeldungen bei Quartalsende"
@@ -2124,7 +2124,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Gewerbeimmobilien sind Schwachstelle der Regionalbanken.",
     "banalCauses": [
       "Quartalsrhythmus"
@@ -2164,7 +2164,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Ausfälle laufen Bankverlusten voraus.",
     "banalCauses": [
       "Saison"
@@ -2204,7 +2204,7 @@
     "status": "needs-key",
     "sourceName": "FRED API (St. Louis Fed)",
     "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
-    "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
     "rationale": "Anstieg geht Rezession voraus.",
     "banalCauses": [
       "Feiertage",
@@ -2446,7 +2446,7 @@
     "status": "planned",
     "sourceName": "datasets/oil-prices (GitHub-Spiegel)",
     "sourceUrl": "https://github.com/datasets/oil-prices",
-    "license": "ODC PDDL / öffentlich (datasets.io)",
+    "license": "ODC-PDDL-1.0 (Spiegel); EIA-Daten: Quelle \"U.S. Energy Information Administration (EIA)\" nennen, kein Logo/Endorsement, veränderte Daten nicht als offizielle EIA-Daten",
     "rationale": "Ölschock treibt Inflation, Zinsen und Kreditstress (aktueller Treiber November 2026).",
     "banalCauses": [
       "Geopolitik"
@@ -2686,7 +2686,7 @@
     "status": "planned",
     "sourceName": "FRED Graph CSV (ohne Key)",
     "sourceUrl": "https://fred.stlouisfed.org/",
-    "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+    "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers; ICE-Reihen auf 3 Jahre gekürzt",
     "rationale": "Starker Anstieg bei Inflation belastet Banken (Wertverluste).",
     "banalCauses": [
       "Inflationsdaten"

@@ -1,7 +1,8 @@
 // Turns stored series into the snapshot the frontend reads. Pure function of (catalog, store, now).
 
 import type { Catalog } from '../core/catalog.ts';
-import type { ContextItem, Observation, ScenarioView, SignalDef, Snapshot } from '../core/types.ts';
+import type { ContextItem, Observation, ScenarioView, SignalDef, SignalView, Snapshot } from '../core/types.ts';
+import { attributionsForSignals } from '../core/attribution.ts';
 import type { Store } from '../core/store.ts';
 import { scoreScenario } from '../engine/score.ts';
 
@@ -57,5 +58,11 @@ export async function buildSnapshot(catalog: Catalog, store: Store, opts: Snapsh
     history.push(point(now, view));
     scenarios.push({ ...view, history });
   }
-  return { schema: 1, generatedAt: opts.now.toISOString(), mode: opts.mode, sensitivity: opts.sensitivity, note: opts.note, scenarios };
+  // Required source notices for every signal that shows data in this snapshot (planned signals without data need none).
+  const shown: SignalView[] = scenarios.flatMap((sc) => [...sc.domains.flatMap((d) => d.signals), ...sc.anomalies, ...sc.attentionSignals]);
+  const attributions = attributionsForSignals(shown.filter((v) => v.ts !== null));
+  return {
+    schema: 1, generatedAt: opts.now.toISOString(), mode: opts.mode, sensitivity: opts.sensitivity, note: opts.note, scenarios,
+    ...(attributions.length ? { attributions } : {}),
+  };
 }

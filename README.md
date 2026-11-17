@@ -5,7 +5,7 @@ Signal Radar ist ein Open-Source-Anomalie-Radar für große, koordinierte Ereign
 ## Prinzipien
 
 - **Zero Trust in beide Richtungen.** Aussagen von Behörden, Presse und Anbietern sind kein Beleg (Evidenzklasse C, nur als Kontext, nie gewertet). Gewertet werden unabhängige Messungen (Klasse A) und selbstgemeldete Betriebsdaten oder Pflichtmeldungen (Klasse B, Faktor 0,8). Genauso misstraut das System den eigenen Mustern: Jede Abweichung braucht eine Baseline, eine Prüfung auf harmlose Ursachen und Konvergenz.
-- **Nur passive, öffentliche Daten.** Kein Scannen, Proben oder Testen fremder Systeme, keine Umgehung von Logins, keine Überwachung von Personen. Lizenz und Nutzungsbedingungen jeder Quelle stehen im Kopfkommentar des Collectors.
+- **Nur passive, öffentliche Daten.** Kein Scannen, Proben oder Testen fremder Systeme, keine Umgehung von Logins, keine Überwachung von Personen. Lizenz und Nutzungsbedingungen jeder Quelle stehen im Kopfkommentar des Collectors; geprüfte Bedingungen und Pflicht-Quellenangaben in [docs/DATA-TERMS.md](docs/DATA-TERMS.md) und `src/core/attribution.ts`.
 - **Konvergenz statt Einzelsignal.** Die erreichbare Stufe ist durch die Zahl gleichzeitig abweichender Bereiche gedeckelt: ein Bereich höchstens Stufe 1, zwei höchstens 2, drei höchstens 3, erst ab vier ist Stufe 4 möglich.
 - **Gerede getrennt von Messung.** Aufmerksamkeit (Suchtrends, Seitenaufrufe, Foren; Klasse D) fließt nicht in die Stufe, sondern in einen getrennten Wert. Die Lücke zwischen beiden wird benannt (`rumorGap`).
 - **Der Normalzustand ist ruhig.** Das System soll im Normalfall „Ruhig“ zeigen. Ein Radar, das dauernd Alarm schlägt, ist wertlos. Ob das System diesen Anspruch einlöst, ist noch nicht belegt (siehe Stand).
@@ -79,7 +79,7 @@ Das Frontend lädt `data/snapshot.json`. Mit `?demo=calm|rumor|single|elevated|a
 | `docs/` | Dokumentation (siehe unten) |
 | `.github/workflows/collect.yml` | Sammeln und Bewerten alle 15 Minuten |
 
-Dokumentation: [Architektur](docs/ARCHITECTURE.md), [Scoring](docs/SCORING.md), [Collector-Guide](docs/COLLECTOR-GUIDE.md), [Deploy](docs/DEPLOY.md), [Status](docs/STATUS.md), [Offene Fragen](docs/OPEN-QUESTIONS.md), [Keys](docs/KEYS-NEEDED.md), [Lizenzen der Quellen](docs/LICENSE-TODO.md), [Beitragen](CONTRIBUTING.md), [Fortschrittsprotokoll](PROGRESS.md).
+Dokumentation: [Architektur](docs/ARCHITECTURE.md), [Scoring](docs/SCORING.md), [Collector-Guide](docs/COLLECTOR-GUIDE.md), [Deploy](docs/DEPLOY.md), [Status](docs/STATUS.md), [Offene Fragen](docs/OPEN-QUESTIONS.md), [Keys](docs/KEYS-NEEDED.md), [Lizenzen der Quellen](docs/LICENSE-TODO.md), [Nutzungsbedingungen der Datenquellen](docs/DATA-TERMS.md), [Beitragen](CONTRIBUTING.md), [Fortschrittsprotokoll](PROGRESS.md).
 
 ## Collector oder Szenario ergänzen
 
@@ -88,7 +88,7 @@ Dokumentation: [Architektur](docs/ARCHITECTURE.md), [Scoring](docs/SCORING.md), 
 
 ## Lizenz
 
-Eine Projekt-Lizenz ist **noch nicht festgelegt**; ohne Lizenz sind keine Nutzungsrechte eingeräumt. Die Schriften unter `frontend/assets/fonts/` stehen unter der SIL Open Font License 1.1 (Lizenztexte liegen daneben). Die Lizenzen der Datenquellen sind teilweise ungeklärt: [docs/LICENSE-TODO.md](docs/LICENSE-TODO.md).
+Eine Projekt-Lizenz ist **noch nicht festgelegt**; ohne Lizenz sind keine Nutzungsrechte eingeräumt. Die Schriften unter `frontend/assets/fonts/` stehen unter der SIL Open Font License 1.1 (Lizenztexte liegen daneben). Die Lizenzen der Datenquellen sind teilweise ungeklärt: [docs/LICENSE-TODO.md](docs/LICENSE-TODO.md). Geprüfte Nutzungsbedingungen und Pflicht-Quellenangaben stehen in [docs/DATA-TERMS.md](docs/DATA-TERMS.md) und `src/core/attribution.ts`; sie erscheinen im Fuß des Dashboards, sobald Daten dieser Quellen im Snapshot sind.
 
 ## Grenzen
 

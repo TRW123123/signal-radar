@@ -2,6 +2,8 @@
 // Quelle: https://github.com/datasets/oil-prices, Dateien data/brent-daily.csv (seit 1987-05-20) und data/wti-daily.csv (seit 1986-01-02),
 //   je ca. 165 kB, Kopf `Date,Price`, Preis in US-Dollar je Barrel (Spotpreis, Europe Brent FOB bzw. Cushing WTI FOB, Quelle EIA).
 // Lizenz: Datensatz laut Repo ODC-PDDL-1.0 (gemeinfrei); Rohdaten der EIA sind öffentliche US-Regierungsdaten. Kein Key.
+// EIA-Bedingungen (gelesen 17.11.2026): Quelle "U.S. Energy Information Administration (EIA)" nennen, keine Endorsement-Andeutung, kein EIA-Logo,
+//   veränderte/abgeleitete Werte nicht als offizielle EIA-Daten ausgeben (src/core/attribution.ts, docs/DATA-TERMS.md).
 // Verzug: Die EIA veröffentlicht mit etwa einer Woche Verzug (Stand 17.11.2026: letzter Wert 11.11.2026), der Spiegel zieht nach. Das Signal zeigt
 //   also Preisbewegungen der Vorwoche und ist kein Echtzeitsignal. Ist der letzte Wert älter als 14 Tage, wird ein Fehler geworfen.
 // Gemessen: je Handelstag der Spotpreis (die letzten 90 Kalendertage); zusätzlich der Preisabstand Brent minus WTI (nur an Tagen mit beiden Werten).
@@ -54,7 +56,7 @@ const common = {
   manipulability: 'medium' as const, independenceGroup: 'github-oil-prices', intervalMinutes: 1440, holdHours: 72,
   baseline: { method: 'rolling' as const, windowDays: 28, minPoints: 14 }, thresholds: { z0: 3, z1: 8, relFloor: 0.03 },
   sourceName: 'datasets/oil-prices (GitHub, Daten der US-Energiebehörde EIA)', sourceUrl: 'https://github.com/datasets/oil-prices',
-  license: 'ODC-PDDL-1.0 (gemeinfrei)',
+  license: 'ODC-PDDL-1.0 (Spiegel); EIA-Daten: Quelle "U.S. Energy Information Administration (EIA)" nennen, kein Logo/Endorsement, veränderte Daten nicht als offizielle EIA-Daten',
 };
 
 const collector: Collector = {

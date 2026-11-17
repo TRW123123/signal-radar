@@ -844,7 +844,7 @@
     "status": "needs-key",
     "sourceName": "GIE AGSI+ (Gasspeicher)",
     "sourceUrl": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
-    "license": "GIE, Quellenangabe",
+    "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
     "rationale": "Füllstand und Abbaurate im Vergleich zum Vorjahr sind der zentrale Knappheitsindikator; aktuell historischer Tiefstand seit 2011.",
     "banalCauses": [
       "Speicherbetreiber-Strategie",
@@ -886,7 +886,7 @@
     "status": "needs-key",
     "sourceName": "GIE AGSI+ (Gasspeicher)",
     "sourceUrl": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
-    "license": "GIE, Quellenangabe",
+    "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
     "rationale": "Hohe Ausspeiseleistung bei niedrigem Füllstand verkürzt die Reichweite; Reichweite = Füllstand geteilt durch Rate.",
     "banalCauses": [
       "Kältewelle",
@@ -1049,7 +1049,7 @@
     "status": "needs-key",
     "sourceName": "GIE ALSI (LNG-Terminals)",
     "sourceUrl": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
-    "license": "GIE, Quellenangabe",
+    "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
     "rationale": "Fallende Tankstände bei geringer Anlandung zeigen Lieferlücken.",
     "banalCauses": [
       "Schiffsankunfts-Rhythmus"
@@ -1089,7 +1089,7 @@
     "status": "needs-key",
     "sourceName": "GIE AGSI+ (Gasspeicher)",
     "sourceUrl": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
-    "license": "GIE, Quellenangabe",
+    "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
     "rationale": "Einzelne leere Speicher sind regional kritisch (Norddeutschland); Betreiber-Ebene zeigt Verteilung.",
     "banalCauses": [
       "Wartungspausen"
@@ -1976,7 +1976,7 @@
     "status": "needs-key",
     "sourceName": "ENTSO-E Transparency Platform",
     "sourceUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
-    "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+    "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
     "rationale": "Summe ungeplanter Nichtverfügbarkeit (Forced Outage) steigt vor/in Knappheitsphasen; Pflichtmeldung nach REMIT.",
     "banalCauses": [
       "Planmäßige Revisionen",
@@ -2384,7 +2384,7 @@
     "status": "needs-key",
     "sourceName": "Cloudflare Radar API",
     "sourceUrl": "https://developers.cloudflare.com/api/resources/radar/",
-    "license": "CC BY-NC 4.0",
+    "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
     "rationale": "Eintrag mit Ursache 'Power outage' ist ein dritter, unabhängiger Beleg eines Stromausfalls.",
     "banalCauses": [
       "Kabelschnitte",
@@ -2708,7 +2708,7 @@
     "status": "planned",
     "sourceName": "datasets/oil-prices (GitHub-Spiegel EIA)",
     "sourceUrl": "https://github.com/datasets/oil-prices",
-    "license": "ODC-PDDL-1.0",
+    "license": "ODC-PDDL-1.0 (Spiegel); EIA-Daten: Quelle \"U.S. Energy Information Administration (EIA)\" nennen, kein Logo/Endorsement, veränderte Daten nicht als offizielle EIA-Daten",
     "rationale": "Ölpreis zeigt Eskalation im Nahen Osten, die auch LNG betrifft; Brent zuletzt 92 USD.",
     "banalCauses": [
       "OPEC+",
@@ -2790,7 +2790,7 @@
     "status": "planned",
     "sourceName": "datasets/natural-gas (GitHub-Spiegel EIA)",
     "sourceUrl": "https://github.com/datasets/natural-gas",
-    "license": "ODC-PDDL-1.0",
+    "license": "ODC-PDDL-1.0 (Spiegel); EIA-Daten: Quelle \"U.S. Energy Information Administration (EIA)\" nennen, kein Logo/Endorsement, veränderte Daten nicht als offizielle EIA-Daten",
     "rationale": "Der Abstand TTF gegen Henry Hub zeigt LNG-Sog; verzögert, nur Kontext.",
     "banalCauses": [
       "Wetter USA"

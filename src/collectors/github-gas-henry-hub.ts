@@ -1,6 +1,8 @@
 // Erdgaspreis Henry Hub (USA) als Tagesreihe (Klasse A: Marktpreis, Zahlen der US-Energiebehörde EIA), über das GitHub-Spiegelrepo datasets/natural-gas.
 // Quelle: https://github.com/datasets/natural-gas, Datei data/daily.csv (seit 1997-01-07, ca. 97 kB), Kopf `Date,Price`, US-Dollar je Million BTU.
 // Lizenz: ODC-PDDL-1.0 (gemeinfrei) laut datapackage.json des Repos; Rohdaten der EIA sind öffentliche US-Regierungsdaten. Kein Key.
+// EIA-Bedingungen (gelesen 17.11.2026): Quelle "U.S. Energy Information Administration (EIA)" nennen, keine Endorsement-Andeutung, kein EIA-Logo,
+//   veränderte/abgeleitete Werte nicht als offizielle EIA-Daten ausgeben (src/core/attribution.ts, docs/DATA-TERMS.md).
 // Verzug: EIA-Veröffentlichung mit etwa einer Woche Verzug (Stand 17.11.2026: letzter Wert 11.11.2026). Kein Echtzeitsignal.
 //   Ist der letzte Wert älter als 14 Tage, wird ein Fehler geworfen.
 // Einordnung: Der US-Preis zeigt vor allem US-Wetter und -Lager. Für Kriegseskalation dient er als Gegenstück zum europäischen Gaspreis
@@ -53,7 +55,7 @@ const collector: Collector = {
       plain: 'Misst den US-Erdgaspreis mit rund einer Woche Verzug; steigt er stark, ist meist Wetter oder LNG-Export der Grund, bei Kriegen in Förderregionen zieht er mit.',
       baseline: { method: 'rolling', windowDays: 28, minPoints: 14 }, thresholds: { z0: 3, z1: 8, relFloor: 0.05 },
       sourceName: 'datasets/natural-gas (GitHub, Daten der US-Energiebehörde EIA)', sourceUrl: 'https://github.com/datasets/natural-gas',
-      license: 'ODC-PDDL-1.0 (gemeinfrei)',
+      license: 'ODC-PDDL-1.0 (Spiegel); EIA-Daten: Quelle "U.S. Energy Information Administration (EIA)" nennen, kein Logo/Endorsement, veränderte Daten nicht als offizielle EIA-Daten',
       banalCauses: ['US-Winterwetter und Hitzewellen', 'Lagerbericht der EIA', 'Fälligkeit der Terminkontrakte', 'Hurrikane im Golf von Mexiko'],
     },
   ],

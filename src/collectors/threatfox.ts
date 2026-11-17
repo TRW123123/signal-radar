@@ -1,10 +1,13 @@
 // abuse.ch ThreatFox: neu gemeldete Indikatoren (IOCs: IP:Port, Domain, URL, Hash) pro Stunde (Klasse A).
-// Quelle: https://threatfox.abuse.ch/export/json/recent/ (JSON-Export der jüngsten IOCs)
+// Quelle: https://threatfox-api.abuse.ch/files/exports/recent.json?auth-key=KEY (JSON-Export der jüngsten IOCs;
+//         der alte Pfad https://threatfox.abuse.ch/export/json/recent/ liefert HTTP 410)
 // Doku: https://threatfox.abuse.ch/api/ und https://threatfox.abuse.ch/export/
-// Lizenz: CC0 (abuse.ch).
+// Lizenz: Daten laut abuse.ch CC0, aber Nutzungsbedingungen (gelesen 17.11.2026): kostenlos nur nicht-gewinnorientiert, moderates Polling,
+//   kein Massen-Harvesting, KI-Training nur mit Zustimmung; Quelle abuse.ch nennen. Pflichtangaben: src/core/attribution.ts, docs/DATA-TERMS.md.
 // Auth: abuse.ch verlangt seit 2025 Auth-Keys ("Community First", https://auth.abuse.ch/). Die Quelle antwortet ohne Key mit HTTP 410 (17.11.2026, Aufzeichnung);
-//       needsKey ist richtig (Header Auth-Key).
-// Gemessen: IOCs je voller UTC-Stunde aus `first_seen_utc`; älteste Stunde der Antwort und laufende Stunde entfallen.
+//       needsKey ist richtig. Key als Query-Parameter auth-key (Header Auth-Key liefert auf den neuen Datei-Exporten HTTP 401).
+// Gemessen: IOCs je voller UTC-Stunde aus `first_seen_utc`, nur Einträge der letzten 30 Tage (ab now - 30 × 24 h; ältere
+//         werden ignoriert, der Export reicht bis 2021 zurück); älteste Stunde im Fenster und laufende Stunde entfallen.
 // Harmlose Ursachen: Import-Batches einzelner Melder, Massenmeldung einer Familie, Quellenausfall (Lücke).
 // Ausgelassen: cyber.threat.c2_hosting_concentration (braucht Hoster-Zuordnung, nicht in diesem Export).
 // VERIFIED: nein (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Form nach Gedächtnis: Objekt { "<ioc_id>": [ { first_seen_utc, ... } ] }; Array wird ebenfalls akzeptiert).
@@ -14,6 +17,7 @@ import { expect, obs } from './_helpers.ts';
 
 const SIGNAL = 'cyber.threat.threatfox_ioc_volume';
 const HOUR = 3600_000;
+const WINDOW_MS = 30 * 24 * HOUR;
 
 function parseUtc(s: unknown): number | null {
   if (typeof s !== 'string') return null;
@@ -59,7 +63,8 @@ export function hourlyCounts(signalId: string, timestamps: number[], now: Date):
 export function parse(body: unknown, now: Date): Observation[] {
   const ts = parseTimestamps(body);
   expect(ts.length > 0 ? ts : null, 'Einträge mit first_seen_utc');
-  return hourlyCounts(SIGNAL, ts, now);
+  const cutoff = now.getTime() - WINDOW_MS;
+  return hourlyCounts(SIGNAL, ts.filter((t) => t >= cutoff), now);
 }
 
 const collector: Collector = {
@@ -74,12 +79,14 @@ const collector: Collector = {
     evidenceClass: 'A', direction: 'up', kind: 'count', weight: 0.45, manipulability: 'medium',
     independenceGroup: 'threatfox', unit: 'IOCs/Stunde', intervalMinutes: 60, holdHours: 6,
     baseline: { method: 'hour-of-week', windowDays: 28, minPoints: 48 },
-    license: 'CC0 (abuse.ch)',
+    license: 'abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)',
   }],
   async collect(ctx) {
     const key = expect(ctx.key('SR_ABUSECH_KEY'), 'SR_ABUSECH_KEY');
-    const body = await ctx.http.json<unknown>('https://threatfox.abuse.ch/export/json/recent/', {
-      fixture: 'threatfox/export-json-recent.json', headers: { 'Auth-Key': key },
+    const url = new URL('https://threatfox-api.abuse.ch/files/exports/recent.json');
+    url.searchParams.set('auth-key', key);
+    const body = await ctx.http.json<unknown>(url.toString(), {
+      fixture: 'threatfox/export-json-recent.json', timeoutMs: 60_000,
     });
     return { observations: parse(body, ctx.now) };
   },

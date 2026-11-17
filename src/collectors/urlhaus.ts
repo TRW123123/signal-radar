@@ -1,9 +1,11 @@
 // abuse.ch URLhaus: neu gemeldete Malware-Verteilungs-URLs pro Stunde (Klasse A).
-// Quelle: https://urlhaus.abuse.ch/downloads/csv_recent/ (kommentierte CSV der jüngsten URLs)
+// Quelle: https://urlhaus-api.abuse.ch/files/exports/recent.csv?auth-key=KEY (kommentierte CSV der jüngsten URLs, ~30 MB;
+//         der alte Pfad https://urlhaus.abuse.ch/downloads/csv_recent/ liefert HTTP 410)
 // Doku: https://urlhaus.abuse.ch/api/
-// Lizenz: CC0 (abuse.ch).
+// Lizenz: Daten laut abuse.ch CC0, aber Nutzungsbedingungen (gelesen 17.11.2026): kostenlos nur nicht-gewinnorientiert, moderates Polling,
+//   kein Massen-Harvesting, KI-Training nur mit Zustimmung; Quelle abuse.ch nennen. Pflichtangaben: src/core/attribution.ts, docs/DATA-TERMS.md.
 // Auth: abuse.ch verlangt seit 2025 Auth-Keys (https://auth.abuse.ch/). Die Quelle antwortet ohne Key mit HTTP 410 (17.11.2026, Aufzeichnung);
-//       needsKey ist richtig (Header Auth-Key).
+//       needsKey ist richtig. Key als Query-Parameter auth-key (Header Auth-Key liefert auf den neuen Datei-Exporten HTTP 401).
 // Gemessen: URLs je voller UTC-Stunde aus `dateadded`; älteste Stunde der Antwort und laufende Stunde entfallen.
 // Harmlose Ursachen: Batch-Uploads einzelner Melder, Aufräumläufe, Quellenausfall (Lücke).
 // Ausgelassen: cyber.threat.c2_hosting_concentration (Hoster-Zuordnung fehlt im Export).
@@ -72,12 +74,14 @@ const collector: Collector = {
     evidenceClass: 'A', direction: 'up', kind: 'count', weight: 0.45, manipulability: 'medium',
     independenceGroup: 'urlhaus', unit: 'URLs/Stunde', intervalMinutes: 60, holdHours: 6,
     baseline: { method: 'hour-of-week', windowDays: 28, minPoints: 48 },
-    license: 'CC0 (abuse.ch)',
+    license: 'abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)',
   }],
   async collect(ctx) {
     const key = expect(ctx.key('SR_ABUSECH_KEY'), 'SR_ABUSECH_KEY');
-    const body = await ctx.http.text('https://urlhaus.abuse.ch/downloads/csv_recent/', {
-      fixture: 'urlhaus/csv-recent.csv', headers: { 'Auth-Key': key },
+    const url = new URL('https://urlhaus-api.abuse.ch/files/exports/recent.csv');
+    url.searchParams.set('auth-key', key);
+    const body = await ctx.http.text(url.toString(), {
+      fixture: 'urlhaus/csv-recent.csv', timeoutMs: 60_000,
     });
     return { observations: parse(body, ctx.now) };
   },

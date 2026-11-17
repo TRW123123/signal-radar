@@ -22,6 +22,26 @@ export interface HttpOptions {
   fetchImpl?: typeof fetch;
 }
 
+const SECRET_PARAMS = ['auth-key', 'auth_key', 'api-key', 'apikey'];
+
+/** URL for error messages: values of secret query parameters replaced with REDACTED. */
+export function redactUrl(url: string): string {
+  let u: URL;
+  try {
+    u = new URL(url);
+  } catch {
+    return url.replace(/([?&](?:auth-key|auth_key|api-key|apikey)=)[^&#]*/gi, '$1REDACTED');
+  }
+  let changed = false;
+  for (const name of [...u.searchParams.keys()]) {
+    if (SECRET_PARAMS.includes(name.toLowerCase())) {
+      u.searchParams.set(name, 'REDACTED');
+      changed = true;
+    }
+  }
+  return changed ? u.toString() : url;
+}
+
 export function fixtureName(url: string, init?: HttpInit): string {
   if (init?.fixture) return init.fixture;
   const u = new URL(url);
@@ -36,7 +56,7 @@ export function createHttp(opts: HttpOptions): HttpClient {
   async function raw(url: string, init?: HttpInit): Promise<string> {
     const file = join(opts.fixturesDir, fixtureName(url, init));
     if (opts.mode === 'replay') {
-      if (!existsSync(file)) throw new Error(`fixture missing: ${file} (url ${url})`);
+      if (!existsSync(file)) throw new Error(`fixture missing: ${file} (url ${redactUrl(url)})`);
       return readFileSync(file, 'utf8');
     }
     const host = new URL(url).hostname;
@@ -53,9 +73,9 @@ export function createHttp(opts: HttpOptions): HttpClient {
         });
         if (res.status === 429 || res.status >= 500) {
           const ra = Number(res.headers.get('retry-after'));
-          throw Object.assign(new Error(`HTTP ${res.status} ${url}`), { retryAfterMs: res.status === 429 ? (Number.isFinite(ra) && ra > 0 ? Math.min(ra, 30) * 1000 : 6000) : undefined });
+          throw Object.assign(new Error(`HTTP ${res.status} ${redactUrl(url)}`), { retryAfterMs: res.status === 429 ? (Number.isFinite(ra) && ra > 0 ? Math.min(ra, 30) * 1000 : 6000) : undefined });
         }
-        if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status} ${url}`), { fatal: true });
+        if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status} ${redactUrl(url)}`), { fatal: true });
         const body = await res.text();
         if (opts.mode === 'record') {
           mkdirSync(dirname(file), { recursive: true });
@@ -78,7 +98,7 @@ export function createHttp(opts: HttpOptions): HttpClient {
       try {
         return JSON.parse(body) as T;
       } catch {
-        throw new Error(`invalid JSON from ${url}: ${body.slice(0, 120)}`);
+        throw new Error(`invalid JSON from ${redactUrl(url)}: ${body.slice(0, 120)}`);
       }
     },
   };

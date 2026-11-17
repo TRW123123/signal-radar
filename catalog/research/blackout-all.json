@@ -1,0 +1,3096 @@
+{
+  "subdomain": "Blackout und Energiekrise",
+  "generated": "2026-11-17",
+  "scenario_def": {
+    "id": "blackout",
+    "order": 3,
+    "title": "Blackout und Energiekrise",
+    "question": "Droht ein großer Stromausfall oder eine Energie-Notlage?",
+    "tagline": "Netzfrequenz, Gasspeicher, Strompreise, Kälte, Kraftwerksausfälle, Pegelstände",
+    "domains": {
+      "grid": {
+        "title": "Stromnetz",
+        "weight": 1,
+        "plain": "Netzfrequenz, Last, Erzeugung, Reserve und Engpässe im Stromnetz"
+      },
+      "gas": {
+        "title": "Gasversorgung",
+        "weight": 1,
+        "plain": "Gasspeicher, Gasflüsse, LNG-Lieferungen und Ausspeicherrate"
+      },
+      "prices": {
+        "title": "Energiepreise",
+        "weight": 0.8,
+        "plain": "Börsenstrompreise, Preisspitzen, negative Preise und Regelenergiekosten"
+      },
+      "weather": {
+        "title": "Wetter",
+        "weight": 0.9,
+        "plain": "Kälte, Dunkelflaute, Sturm, Eis und Sonnenstürme"
+      },
+      "plants": {
+        "title": "Kraftwerke und Pegel",
+        "weight": 0.9,
+        "plain": "Ungeplante Kraftwerksausfälle, französische Atomkraft, Flusspegel und Wasserspeicher"
+      },
+      "outages": {
+        "title": "Gemessene Stromausfälle",
+        "weight": 1,
+        "plain": "Gemeldete Stromausfälle, Störungsportale und Internet-Ausfälle als Folge"
+      },
+      "markets": {
+        "title": "Märkte",
+        "weight": 0.6,
+        "plain": "Gas- und Ölpreise, Energieaktien, Wetten"
+      }
+    }
+  },
+  "signals": [
+    {
+      "id": "blackout.grid.frequency_de_deviation",
+      "name_de": "Netzfrequenz Deutschland: Abweichung von 50 Hz",
+      "plain_de": "Wie stark schwankt die Frequenz im Stromnetz? Starke Abweichungen zeigen, dass Erzeugung und Verbrauch nicht mehr im Gleichgewicht sind.",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Frequenzabweichungen über 100 mHz oder anhaltende Streuung sind der erste Brotkrümel vor Lastabwürfen (Europäische Systemtrennung Januar 2021, Iberien April 2025). Rohdaten in Sekundenauflösung.",
+      "direction": "up",
+      "lead_time": "minutes",
+      "banal_causes": [
+        "Handelsviertelstunden-Sprünge",
+        "Kraftwerks- oder Leitungsausfall",
+        "Stundenwechsel-Rampen der Erzeugung"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/frequency?country=de&start=2026-11-17T10:00+01:00&end=2026-11-17T10:15+01:00",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Sekunden bis Minuten",
+          "history": "Sekundenreihe, Fenster per start/end",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": true,
+          "sample_note": "{ unix_seconds, data } in Sekunden; Fenster klein halten (3 h waren 204 kB). Messwert data in Hz."
+        }
+      ],
+      "notes": "Collector energy-charts liefert das bereits (max. Abweichung, Standardabweichung).",
+      "extends": "energy-charts"
+    },
+    {
+      "id": "blackout.grid.net_load_de",
+      "name_de": "Netzlast Deutschland",
+      "plain_de": "Wie viel Strom wird gerade in Deutschland verbraucht, verglichen mit dem Üblichen?",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Lastspitzen bei Kälte oder abrupte Lasteinbrüche (Netzausfall) sind Begleiter einer Notlage. Abweichung zur Vorhersage ist der Hinweis.",
+      "direction": "both",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Feiertage",
+        "Brückentage",
+        "Wetter",
+        "Zeitumstellung"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "smard",
+          "name": "SMARD (Bundesnetzagentur)",
+          "doc_url": "https://www.smard.de/",
+          "endpoint": "https://www.smard.de/app/chart_data/410/DE/index_hour.json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2015 (Wochendateien über Index)",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Bundesnetzagentur | SMARD.de)",
+          "verified": true,
+          "sample_note": "Filter 410 = Stromverbrauch Netzlast, Region DE, MW je Stunde."
+        },
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/total_power?country=de&start=2026-11-16&end=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": false,
+          "sample_note": "Gesamtlast und Erzeugung, 15-Minuten-Raster"
+        }
+      ],
+      "notes": "Collector smard existiert (cyber.physical.grid_load_germany).",
+      "extends": "smard"
+    },
+    {
+      "id": "blackout.grid.residual_load_de",
+      "name_de": "Residuallast Deutschland",
+      "plain_de": "Was bleibt an Strombedarf übrig, wenn Wind und Sonne abgezogen sind? Das müssen Kohle, Gas und Importe decken.",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Hohe Residuallast bei Dunkelflaute treibt Importe, Preise und Reserveabruf; Vorlauf von Stunden bis Tagen mit Wetterdaten.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Winterabend",
+        "Windflaute ohne Versorgungsproblem"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "smard",
+          "name": "SMARD (Bundesnetzagentur)",
+          "doc_url": "https://www.smard.de/",
+          "endpoint": "https://www.smard.de/app/chart_data/4359/DE/index_hour.json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2015 (Wochendateien über Index)",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Bundesnetzagentur | SMARD.de)",
+          "verified": false,
+          "sample_note": "Filter 4359 = Residuallast, MW je Stunde (Filter-ID aus der SMARD-Doku, im Collector nicht geprüft)."
+        }
+      ],
+      "notes": "",
+      "extends": "smard"
+    },
+    {
+      "id": "blackout.grid.wind_solar_infeed_de",
+      "name_de": "Wind- und Solareinspeisung Deutschland",
+      "plain_de": "Wie viel Strom liefern Wind und Sonne gerade?",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Einbruch der Einspeisung bei hoher Last (Dunkelflaute) ist das Kernmuster der Winter-Knappheit.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Nacht",
+        "Hochdruckwetter ohne Knappheit",
+        "Sturmabschaltung"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16&end=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "Zeitreihe",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": true,
+          "sample_note": "production_types[{name,data}], 15-Minuten-Raster, Wind onshore/offshore und Solar summieren."
+        }
+      ],
+      "notes": "Collector energy-charts liefert Wind+Solar-Summe.",
+      "extends": "energy-charts"
+    },
+    {
+      "id": "blackout.grid.gas_coal_fossil_ramp_de",
+      "name_de": "Gas- und Kohleverstromung Deutschland",
+      "plain_de": "Wie stark müssen fossile Kraftwerke einspringen?",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Auslastung nahe Maximalleistung zeigt fehlende Reserve; Gasverstromung konkurriert mit Speicherabbau.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Kälte",
+        "Windflaute",
+        "Revisionen"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16&end=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": true,
+          "sample_note": "Produktionsarten Fossil gas, Hard coal, Brown coal in MW"
+        },
+        {
+          "source_id": "smard",
+          "name": "SMARD (Bundesnetzagentur)",
+          "doc_url": "https://www.smard.de/",
+          "endpoint": "https://www.smard.de/app/chart_data/4071/DE/index_hour.json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2015 (Wochendateien über Index)",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Bundesnetzagentur | SMARD.de)",
+          "verified": false,
+          "sample_note": "Filter 4071 = Erdgas, 1223 Braunkohle, 4069 Steinkohle"
+        }
+      ],
+      "notes": "",
+      "extends": "energy-charts"
+    },
+    {
+      "id": "blackout.grid.cross_border_flows_de",
+      "name_de": "Grenzüberschreitende Stromflüsse Deutschland",
+      "plain_de": "Importiert oder exportiert Deutschland Strom, und wie stark?",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Drehen Nettoexporte in Dauerimport bei hohen Preisen, wird das Land von Nachbarn abhängig; Flüsse an Kapazitätsgrenzen sind Engpassindikator.",
+      "direction": "both",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Preisunterschiede im Markt",
+        "Wartung von Kuppelleitungen"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/cbet?country=de&start=2026-11-16&end=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": false,
+          "sample_note": "Cross-Border Electricity Trading je Nachbarland (MW/GW)"
+        },
+        {
+          "source_id": "entsoe",
+          "name": "ENTSO-E Transparency Platform",
+          "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+          "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001A1001A83F&out_Domain=10YFR-RTE------C&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+          "access": "api",
+          "format": "xml",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "15 min bis Stunden",
+          "history": "ab 2015",
+          "rate_limit": "400 Anfragen/min je Token",
+          "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+          "verified": false,
+          "sample_note": "Physikalische Flüsse DE-FR, Zeitreihe Quantity MW"
+        }
+      ],
+      "notes": "",
+      "extends": "energy-charts"
+    },
+    {
+      "id": "blackout.grid.energy_charts_signal",
+      "name_de": "Energy-Charts Versorgungsampel",
+      "plain_de": "Eine fertige Ampel für den Anteil erneuerbarer Erzeugung an der Last.",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Rote Phasen markieren Stunden mit hoher Abhängigkeit von Reserve und Importen.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Nacht",
+        "normale Winterlage"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/signal?country=de",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": false,
+          "sample_note": "signal (0-3 Ampel) je Zeitpunkt, Prognose einige Tage voraus"
+        }
+      ],
+      "notes": "Abgeleitete Größe, keine Rohmessung; als Plausibilitätsprüfung."
+    },
+    {
+      "id": "blackout.grid.generation_forecast_gap",
+      "name_de": "Last- und Erzeugungsprognose gegen Ist",
+      "plain_de": "Wie weit liegen die Vorhersagen der Netzbetreiber neben dem tatsächlichen Verbrauch?",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Systematisch zu niedrige Prognose bei Kälte erhöht Regelenergiebedarf und Notmaßnahmen.",
+      "direction": "both",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Wetterfehler",
+        "Feiertage"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "entsoe",
+          "name": "ENTSO-E Transparency Platform",
+          "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+          "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A01&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+          "access": "api",
+          "format": "xml",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "15 min bis Stunden",
+          "history": "ab 2015",
+          "rate_limit": "400 Anfragen/min je Token",
+          "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+          "verified": false,
+          "sample_note": "A65 Day-ahead Load Forecast (A01) gegen Actual Total Load (A16)"
+        },
+        {
+          "source_id": "smard",
+          "name": "SMARD (Bundesnetzagentur)",
+          "doc_url": "https://www.smard.de/",
+          "endpoint": "https://www.smard.de/app/chart_data/410/DE/index_hour.json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2015 (Wochendateien über Index)",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Bundesnetzagentur | SMARD.de)",
+          "verified": false,
+          "sample_note": "Ist-Last, Prognose-Abgleich über Filter 411 (Prognostizierter Verbrauch, im Collector nicht geprüft)"
+        }
+      ],
+      "notes": "",
+      "extends": "smard"
+    },
+    {
+      "id": "blackout.grid.balancing_energy_activation",
+      "name_de": "Regelenergie-Abruf Deutschland",
+      "plain_de": "Wie viel Ausgleichsstrom müssen die Netzbetreiber kurzfristig abrufen?",
+      "domain": "grid",
+      "evidence_class": "B",
+      "rationale": "Hoher Abruf positiver Regelenergie über Stunden heißt, Bilanzkreise sind unterdeckt: Netz stützt sich auf Reserven.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Prognosefehler Wind",
+        "Handelsviertelstunden-Rampen"
+      ],
+      "manipulability": "medium",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "netztransparenz",
+          "name": "Netztransparenz.de (4 ÜNB)",
+          "doc_url": "https://www.netztransparenz.de/de-de/Web-API",
+          "endpoint": "https://ds.netztransparenz.de/api/v1/data/NrvSaldo/Qualitaetsgesichert/2026-11-01T00:00:00/2026-11-17T00:00:00",
+          "access": "download",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "15 min (Online-Hochrechnung), qualitätsgesichert später",
+          "history": "ab 2011",
+          "rate_limit": "unklar",
+          "license": "Quellenangabe Netztransparenz.de, unklar im Detail",
+          "verified": false,
+          "sample_note": "NRV-Saldo (Netzregelverbund) in MW; OAuth-Client-Credentials nötig, Endpunktname nicht live geprüft."
+        },
+        {
+          "source_id": "entsoe",
+          "name": "ENTSO-E Transparency Platform",
+          "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+          "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A84&processType=A16&controlArea_Domain=10Y1001A1001A83F&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+          "access": "api",
+          "format": "xml",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "15 min bis Stunden",
+          "history": "ab 2015",
+          "rate_limit": "400 Anfragen/min je Token",
+          "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+          "verified": false,
+          "sample_note": "A84 Activated Balancing Energy Prices, A83 Volumen"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.reserve_prices_fcr_afrr",
+      "name_de": "Regelleistungs-Ausschreibungsergebnisse",
+      "plain_de": "Was kostet es, Reservekapazität einzukaufen?",
+      "domain": "grid",
+      "evidence_class": "B",
+      "rationale": "Anziehende Leistungspreise für FCR/aFRR/mFRR sind Hinweis auf knappe Reserve.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Batteriemarkt-Wandel",
+        "Saisonprodukte"
+      ],
+      "manipulability": "medium",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "regelleistung",
+          "name": "regelleistung.net Datencenter",
+          "doc_url": "https://www.regelleistung.net/",
+          "endpoint": "https://www.regelleistung.net/apps/datacenter/tenders/",
+          "access": "download",
+          "format": "csv",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "täglich",
+          "history": "ab 2007",
+          "rate_limit": "unklar",
+          "license": "Quellenangabe, unklar",
+          "verified": false,
+          "sample_note": "Excel/CSV-Export der Ausschreibungsergebnisse (Leistungspreise, Mengen); Download-Pfad nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.redispatch_volume",
+      "name_de": "Redispatch-Volumen",
+      "plain_de": "Wie oft müssen Netzbetreiber Kraftwerke hoch- oder runterfahren, um Leitungen zu entlasten?",
+      "domain": "grid",
+      "evidence_class": "B",
+      "rationale": "Hohe Redispatch-Mengen und Netzreserve-Abrufe zeigen Netzengpässe; Anstieg im Winter ist Vorstufe von Notmaßnahmen.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Windstarke Phasen",
+        "Leitungsausbau-Verzug"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "netztransparenz",
+          "name": "Netztransparenz.de (4 ÜNB)",
+          "doc_url": "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung/Redispatch",
+          "endpoint": "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung/Redispatch",
+          "access": "download",
+          "format": "csv",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "täglich bis monatlich",
+          "history": "ab 2013",
+          "rate_limit": "unklar",
+          "license": "Quellenangabe, unklar",
+          "verified": false,
+          "sample_note": "Redispatch-Maßnahmen als CSV/Excel; Pfad nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.system_security_measures",
+      "name_de": "Notfallmaßnahmen nach §13 EnWG",
+      "plain_de": "Meldungen der Netzbetreiber über Eingriffe zur Sicherung des Netzes.",
+      "domain": "grid",
+      "evidence_class": "B",
+      "rationale": "Meldungen über Anpassungsmaßnahmen und Notfallmaßnahmen sind Pflichtmeldungen; Häufung ist ein direkter Netzzustands-Hinweis.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Routineeingriffe bei Sturm"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "netztransparenz",
+          "name": "Netztransparenz.de (4 ÜNB)",
+          "doc_url": "https://www.netztransparenz.de/",
+          "endpoint": "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Betriebsfuehrung",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "ereignisabhängig",
+          "history": "eingeschränkt",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Seiten und Tabellen zu Systemsicherheitsmaßnahmen, Struktur nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.synchronous_time_deviation",
+      "name_de": "Netzzeit-Abweichung (kontinentaleuropäisches Netz)",
+      "plain_de": "Eine Uhr, die am Netz hängt, geht vor oder nach, wenn die Frequenz länger zu niedrig oder zu hoch war.",
+      "domain": "grid",
+      "evidence_class": "B",
+      "rationale": "Anhaltende Netzzeit-Abweichung zeigt dauerhafte Unterdeckung oder Überdeckung; Fall Kosovo/Serbien 2018 ließ Netzuhren um Minuten nachgehen.",
+      "direction": "both",
+      "lead_time": "days",
+      "banal_causes": [
+        "Regeltechnische Korrektur",
+        "Meldeverzug"
+      ],
+      "manipulability": "medium",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "swissgrid",
+          "name": "Swissgrid Netzdaten",
+          "doc_url": "https://www.swissgrid.ch/en/home/operation/grid-data.html",
+          "endpoint": "https://www.swissgrid.ch/en/home/operation/grid-data/current-data.html",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "eingeschränkt",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Seite mit Systembilanz, Frequenz und Zeitabweichung; Datenformat nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.frequency_cross_check_gb_nordic",
+      "name_de": "Netzfrequenz Großbritannien und Nordic als Gegenprobe",
+      "plain_de": "Eine zweite, unabhängige Frequenzmessung aus anderen Verbundnetzen.",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Ausschlag nur in Kontinentaleuropa, nicht in GB/Nordic, trennt ein lokales Problem von einem Messfehler; GB-Ausschlag zeigt europäische Wetterlage.",
+      "direction": "up",
+      "lead_time": "minutes",
+      "banal_causes": [
+        "Sensorausfall",
+        "Handelsviertelstunde"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "elexon",
+          "name": "Elexon BMRS Insights API",
+          "doc_url": "https://bmrs.elexon.co.uk/api-documentation",
+          "endpoint": "https://data.elexon.co.uk/bmrs/api/v1/datasets/FREQ?format=json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "mehrere Jahre",
+          "rate_limit": "unklar",
+          "license": "Elexon Open Licence",
+          "verified": false,
+          "sample_note": "Netzfrequenz GB, Feld frequency in Hz; Parameter laut Doku, nicht geprüft."
+        },
+        {
+          "source_id": "fingrid",
+          "name": "Fingrid Open Data (Dataset 177 Frequenz)",
+          "doc_url": "https://data.fingrid.fi/en/instructions",
+          "endpoint": "https://data.fingrid.fi/api/datasets/177/data?pageSize=100",
+          "access": "api",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "3 Minuten",
+          "history": "ab 2012",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0",
+          "verified": false,
+          "sample_note": "Finnische Netzfrequenz; API-Key nötig."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.frequency_netzfrequenzmessung",
+      "name_de": "Netzfrequenz-Messnetz netzfrequenzmessung.de",
+      "plain_de": "Private Messstationen, die die Frequenz aufzeichnen.",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Dritte, unabhängige Messung; nützlich als Prüfinstanz gegen Energy-Charts.",
+      "direction": "up",
+      "lead_time": "minutes",
+      "banal_causes": [
+        "Messfehler Heimstation"
+      ],
+      "manipulability": "low",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "netzfrequenzmessung",
+          "name": "netzfrequenzmessung.de",
+          "doc_url": "https://netzfrequenzmessung.de/",
+          "endpoint": "https://netzfrequenzmessung.de/",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Sekunden",
+          "history": "Tagesdateien (Struktur unklar)",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Kein dokumentierter API-Endpunkt gefunden, Abruf nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.gb_system_margin",
+      "name_de": "Stromreserve Großbritannien",
+      "plain_de": "Wie weit reicht die Reserve im britischen Netz über der erwarteten Last?",
+      "domain": "grid",
+      "evidence_class": "B",
+      "rationale": "GB ist Nachbar im europäischen Winter-Stress; Warnungen (System Warnings) sind Pflichtmeldungen.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Kaltfront"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "elexon",
+          "name": "Elexon BMRS Insights API",
+          "doc_url": "https://bmrs.elexon.co.uk/api-documentation",
+          "endpoint": "https://data.elexon.co.uk/bmrs/api/v1/datasets/SYSWARN?format=json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "mehrere Jahre",
+          "rate_limit": "unklar",
+          "license": "Elexon Open Licence",
+          "verified": false,
+          "sample_note": "System Warnings (Kapazitätsmarge, Spannungskontrolle); Datasetname nach Doku, nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.poland_pse_load_reserve",
+      "name_de": "Polnisches Netz: Lastreserve und Notfall-Hinweise",
+      "plain_de": "Polens Netzbetreiber veröffentlicht Reserve und Engpässe in offenen Berichten.",
+      "domain": "grid",
+      "evidence_class": "B",
+      "rationale": "Polen hängt an Kohle und ist Transitland für Lastflüsse; Reserveeinbrüche strahlen nach Deutschland aus.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Wintertage mit hohem Verbrauch"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "pse",
+          "name": "PSE Raporty (Polen)",
+          "doc_url": "https://api.raporty.pse.pl/",
+          "endpoint": "https://api.raporty.pse.pl/api/kse-load?$first=5",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "mehrere Jahre",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "OData-API ohne Key; Datasetname und Feldnamen nicht live geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.grid.spain_ree_system",
+      "name_de": "Spanisches Netz (REE) Erzeugung und Nachfrage",
+      "plain_de": "Offene API des spanischen Betreibers.",
+      "domain": "grid",
+      "evidence_class": "A",
+      "rationale": "Zweiter Vergleichsfall (Blackout 28.04.2025): Spannungs- und Frequenzprobleme bei hohem Solaranteil; Daten zeigen Einbruch der Erzeugung.",
+      "direction": "both",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Meldeverzug"
+      ],
+      "manipulability": "low",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "ree",
+          "name": "REData API (Red Eléctrica)",
+          "doc_url": "https://www.ree.es/en/apidatos",
+          "endpoint": "https://apidatos.ree.es/en/datos/demanda/evolucion?start_date=2026-11-16T00:00&end_date=2026-11-17T00:00&time_trunc=hour",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2014",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0",
+          "verified": false,
+          "sample_note": "Nachfrage-Zeitreihe; Pfad laut Doku, nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.gas.storage_fill_de",
+      "name_de": "Gasspeicherfüllstand Deutschland",
+      "plain_de": "Wie voll sind Deutschlands Gasspeicher in Prozent?",
+      "domain": "gas",
+      "evidence_class": "A",
+      "rationale": "Füllstand und Abbaurate im Vergleich zum Vorjahr sind der zentrale Knappheitsindikator; aktuell historischer Tiefstand seit 2011.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Speicherbetreiber-Strategie",
+        "Milder Winter verlangsamt Abbau"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "gie-agsi",
+          "name": "GIE AGSI+ (Gasspeicher)",
+          "doc_url": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
+          "endpoint": "https://agsi.gie.eu/api?country=DE&from=2026-09-01&to=2026-11-17&size=300",
+          "access": "api",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "täglich (ca. 19:30 UTC, Korrekturen am Folgetag)",
+          "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
+          "rate_limit": "60 Anfragen/min",
+          "license": "GIE, Quellenangabe",
+          "verified": false,
+          "sample_note": "Felder gasInStorage (TWh), full (%), injection, withdrawal, workingGasVolume je gasDayStart; Header x-key nötig."
+        }
+      ],
+      "notes": "Kein GitHub-Spiegel gefunden, der aktuell gepflegt wird."
+    },
+    {
+      "id": "blackout.gas.storage_fill_eu_countries",
+      "name_de": "Gasspeicher EU und Nachbarländer",
+      "plain_de": "Füllstände der EU gesamt und von Nachbarn (AT, NL, IT, FR, PL).",
+      "domain": "gas",
+      "evidence_class": "A",
+      "rationale": "EU-Ebene und Nachbarn zeigen, ob Deutschland im Wettbewerb um LNG und Pipelinegas steht; EU zuletzt 74 % (niedrigster Wert seit 2011).",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Nationale Befüllungsziele"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "gie-agsi",
+          "name": "GIE AGSI+ (Gasspeicher)",
+          "doc_url": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
+          "endpoint": "https://agsi.gie.eu/api?type=eu&from=2026-09-01&to=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "täglich (ca. 19:30 UTC, Korrekturen am Folgetag)",
+          "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
+          "rate_limit": "60 Anfragen/min",
+          "license": "GIE, Quellenangabe",
+          "verified": false,
+          "sample_note": "EU-Aggregat und per country=AT/NL/IT/FR/PL abrufbar"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.gas.storage_withdrawal_rate",
+      "name_de": "Ausspeicherrate Gasspeicher",
+      "plain_de": "Wie schnell wird Gas pro Tag aus den Speichern geholt?",
+      "domain": "gas",
+      "evidence_class": "A",
+      "rationale": "Hohe Ausspeiseleistung bei niedrigem Füllstand verkürzt die Reichweite; Reichweite = Füllstand geteilt durch Rate.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Kältewelle",
+        "Preisarbitrage"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "gie-agsi",
+          "name": "GIE AGSI+ (Gasspeicher)",
+          "doc_url": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
+          "endpoint": "https://agsi.gie.eu/api?country=DE&from=2026-11-01&to=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "täglich (ca. 19:30 UTC, Korrekturen am Folgetag)",
+          "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
+          "rate_limit": "60 Anfragen/min",
+          "license": "GIE, Quellenangabe",
+          "verified": false,
+          "sample_note": "Feld withdrawal (GWh/Tag) gegen workingGasVolume"
+        }
+      ],
+      "notes": "Reichweite in Tagen ist abgeleitet."
+    },
+    {
+      "id": "blackout.gas.storage_by_site_critical",
+      "name_de": "Füllstand einzelner Großspeicher",
+      "plain_de": "Rehden, Etzel, Jemgum und andere Anlagen einzeln.",
+      "domain": "gas",
+      "evidence_class": "A",
+      "rationale": "Einzelne leere Speicher sind regional kritisch (Norddeutschland); Betreiber-Ebene zeigt Verteilung.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Wartungspausen"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "gie-agsi",
+          "name": "GIE AGSI+ (Gasspeicher)",
+          "doc_url": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
+          "endpoint": "https://agsi.gie.eu/api?country=DE&company=21X000000001160J&from=2026-11-01",
+          "access": "api",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "täglich (ca. 19:30 UTC, Korrekturen am Folgetag)",
+          "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
+          "rate_limit": "60 Anfragen/min",
+          "license": "GIE, Quellenangabe",
+          "verified": false,
+          "sample_note": "AGSI liefert Ebenen country/company/facility; Betreiber-EIC-Code laut Doku, nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.gas.lng_terminal_sendout",
+      "name_de": "LNG-Anlandung und Einspeisung",
+      "plain_de": "Wie viel LNG kommt an und wird ins Netz gegeben?",
+      "domain": "gas",
+      "evidence_class": "A",
+      "rationale": "Mit sinkenden Pipeline-Importen hängt Europa an LNG; Einbruch der Sendout-Mengen (auch durch Hormus-Störung) ist direkter Mengenindikator.",
+      "direction": "down",
+      "lead_time": "days",
+      "banal_causes": [
+        "Wartung",
+        "Wetter bei Entladung"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "gie-alsi",
+          "name": "GIE ALSI (LNG-Terminals)",
+          "doc_url": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
+          "endpoint": "https://alsi.gie.eu/api?country=DE&from=2026-11-01&to=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "täglich (ca. 19:30 UTC, Korrekturen am Folgetag)",
+          "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
+          "rate_limit": "60 Anfragen/min",
+          "license": "GIE, Quellenangabe",
+          "verified": false,
+          "sample_note": "Felder sendOut (GWh/Tag), inventory, dtrs, Terminals Brunsbüttel/Wilhelmshaven/Stade"
+        },
+        {
+          "source_id": "entsog",
+          "name": "ENTSOG Transparency Platform API",
+          "doc_url": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+          "endpoint": "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&pointDirection=lng&periodType=day&from=2026-11-01&to=2026-11-17&limit=200",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2017",
+          "rate_limit": "unklar",
+          "license": "ENTSOG, Quellenangabe, unklar im Detail",
+          "verified": false,
+          "sample_note": "LNG-Punkte als Physical Flow (kWh/d)"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.gas.lng_inventory_eu",
+      "name_de": "LNG-Tankfüllstand Terminals EU",
+      "plain_de": "Wie voll sind die LNG-Tanks an europäischen Terminals?",
+      "domain": "gas",
+      "evidence_class": "A",
+      "rationale": "Fallende Tankstände bei geringer Anlandung zeigen Lieferlücken.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Schiffsankunfts-Rhythmus"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "gie-alsi",
+          "name": "GIE ALSI (LNG-Terminals)",
+          "doc_url": "https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf",
+          "endpoint": "https://alsi.gie.eu/api?type=eu&from=2026-10-01&to=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "täglich (ca. 19:30 UTC, Korrekturen am Folgetag)",
+          "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
+          "rate_limit": "60 Anfragen/min",
+          "license": "GIE, Quellenangabe",
+          "verified": false,
+          "sample_note": "inventory je gasDayStart"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.gas.pipeline_flows_entry",
+      "name_de": "Gasflüsse an Einspeisepunkten nach Deutschland",
+      "plain_de": "Physische Gasflüsse an den Grenzpunkten (Norwegen, Niederlande, Belgien, Tschechien/Polen).",
+      "domain": "gas",
+      "evidence_class": "A",
+      "rationale": "Rückgang einzelner Lieferwege (z. B. Norwegen-Wartung) oder Umkehr der Flussrichtung sind der Frühindikator; Daten stündlich.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Planmäßige Wartung in Norwegen",
+        "Nominierungsmuster"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "entsog",
+          "name": "ENTSOG Transparency Platform API",
+          "doc_url": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+          "endpoint": "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&periodType=day&from=2026-11-10&to=2026-11-17&limit=500",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2017",
+          "rate_limit": "unklar",
+          "license": "ENTSOG, Quellenangabe, unklar im Detail",
+          "verified": false,
+          "sample_note": "Felder pointKey, directionKey, value (kWh/d); Punkte filtern auf Emden, Dornum, Dunkerque, Zeebrugge, Oberkappel"
+        }
+      ],
+      "notes": "Collector entsog (war.energy.gas_flows_entsog) existiert als Quelle."
+    },
+    {
+      "id": "blackout.gas.interconnector_reverse_flows",
+      "name_de": "Gasflüsse nach Osten und Süden",
+      "plain_de": "Exportiert Deutschland Gas an Nachbarn, oder muss es mehr holen?",
+      "domain": "gas",
+      "evidence_class": "A",
+      "rationale": "Richtungswechsel an Exportpunkten (Österreich, Tschechien, Polen, Schweiz) zeigt Umverteilung bei Mangel.",
+      "direction": "both",
+      "lead_time": "days",
+      "banal_causes": [
+        "Marktdesign",
+        "Wartung"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "entsog",
+          "name": "ENTSOG Transparency Platform API",
+          "doc_url": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+          "endpoint": "https://transparency.entsog.eu/api/v1/operationalData?indicator=Physical%20Flow&pointDirection=de&periodType=day&from=2026-11-10&to=2026-11-17&limit=500",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2017",
+          "rate_limit": "unklar",
+          "license": "ENTSOG, Quellenangabe, unklar im Detail",
+          "verified": false,
+          "sample_note": "Punkte mit DE im Namen, Richtung entry/exit"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.gas.norway_outages_gassco",
+      "name_de": "Norwegische Gasanlagen: Ausfälle und Wartung (Gassco UMM)",
+      "plain_de": "Norwegen liefert den größten Pipelineanteil; Gassco meldet Ausfälle und Wartung.",
+      "domain": "gas",
+      "evidence_class": "B",
+      "rationale": "Ungeplante Ausfälle in Kollsnes, Nyhamna oder Troll verändern die Lieferung innerhalb von Stunden; Pflichtmeldung nach REMIT.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Planmäßige Wartung, im Herbst häufig"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "gassco",
+          "name": "Gassco UMM (Urgent Market Messages)",
+          "doc_url": "https://umm.gassco.no/",
+          "endpoint": "https://umm.gassco.no/",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "ereignisabhängig",
+          "history": "ab 2015 (Archiv über Plattform)",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Liste der Meldungen mit Anlage, Mengenverlust, Dauer, planmäßig oder ungeplant; RSS/API-Zugang nicht geprüft."
+        },
+        {
+          "source_id": "gie-remit",
+          "name": "GIE Inside Information Platform (REMIT)",
+          "doc_url": "https://iip.gie.eu/",
+          "endpoint": "https://iip.gie.eu/",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "ereignisabhängig",
+          "history": "mehrere Jahre",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Gemeldete Nichtverfügbarkeiten von Gasinfrastruktur, Abrufweg nicht geprüft."
+        }
+      ],
+      "notes": "Ungeplant/geplant trennen."
+    },
+    {
+      "id": "blackout.gas.entsog_interruptions",
+      "name_de": "Unterbrechungen im Gasnetz (ENTSOG)",
+      "plain_de": "Gemeldete Unterbrechungen und Kürzungen an Netzpunkten.",
+      "domain": "gas",
+      "evidence_class": "B",
+      "rationale": "Kürzungen von Kapazitäten oder Unterbrechungen sind Pflichtmeldungen und häufen sich vor Engpässen.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Wartung"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "entsog",
+          "name": "ENTSOG Transparency Platform API",
+          "doc_url": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+          "endpoint": "https://transparency.entsog.eu/api/v1/interruptions?from=2026-11-01&to=2026-11-17&limit=200",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2017",
+          "rate_limit": "unklar",
+          "license": "ENTSOG, Quellenangabe, unklar im Detail",
+          "verified": false,
+          "sample_note": "Felder point, capacity, interruptionType; Endpunktname laut Swagger, nicht geprüft"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.gas.consumption_industry_bnetza",
+      "name_de": "Gasverbrauch Deutschland (Industrie und gesamt)",
+      "plain_de": "Wie viel Gas wird verbraucht, und spart die Industrie?",
+      "domain": "gas",
+      "evidence_class": "B",
+      "rationale": "Verbrauchsrückgang unter Vorjahr bei Kälte kann Nachfragezerstörung oder Rationierung zeigen; sinkender Verbrauch bei fallenden Temperaturen ist auffällig.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Milder Winter",
+        "Strukturwandel der Industrie"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "bnetza-gas",
+          "name": "Bundesnetzagentur Gasversorgung Lage und Verbrauch",
+          "doc_url": "https://www.bundesnetzagentur.de/DE/Gasversorgung/aktuelle_gasversorgung/start.html",
+          "endpoint": "https://www.bundesnetzagentur.de/DE/Gasversorgung/aktuelle_gasversorgung/_svg/Gasverbrauch_Gesamt/Gasverbrauch_Gesamt.html",
+          "access": "download",
+          "format": "csv",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "wöchentlich",
+          "history": "ab 2018",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Verbrauchsdaten Tabelle/Grafik; Datei-URL nicht geprüft."
+        }
+      ],
+      "notes": "Daten stammen von der Behörde, aber aus Messdaten der Netzbetreiber."
+    },
+    {
+      "id": "blackout.gas.the_balancing_prices",
+      "name_de": "Gasmarktgebiet: Ausgleichsenergiepreis und Systemzustand (THE)",
+      "plain_de": "Trading Hub Europe steuert das deutsche Gasnetz und veröffentlicht Ausgleichspreise.",
+      "domain": "gas",
+      "evidence_class": "B",
+      "rationale": "Hohe Ausgleichsenergiepreise und Regelenergie-Einsatz zeigen Netzungleichgewicht; Preise folgen ohne Vorwarnung.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Prognosefehler Wetter"
+      ],
+      "manipulability": "medium",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "the",
+          "name": "Trading Hub Europe Transparenz",
+          "doc_url": "https://www.tradinghub.eu/de-de/Publikationen/Transparenz",
+          "endpoint": "https://www.tradinghub.eu/de-de/Publikationen/Transparenz",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "täglich",
+          "history": "ab 2021",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Tabellen zu Regelenergie, Ausgleichsenergiepreisen; Struktur nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.gas.bnetza_early_warning_level",
+      "name_de": "Gas-Notfallplan-Stufe (Frühwarn, Alarm, Notfall)",
+      "plain_de": "Gilt die Frühwarn-, Alarm- oder Notfallstufe nach Notfallplan Gas?",
+      "domain": "gas",
+      "evidence_class": "C",
+      "rationale": "Offizielle Stufenerklärung des Bundeswirtschaftsministeriums; nur Kontext, nicht Signal.",
+      "direction": "up",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Politische Vorsicht"
+      ],
+      "manipulability": "high",
+      "priority": 5,
+      "sources": [
+        {
+          "source_id": "bmwk",
+          "name": "BMWK Notfallplan Gas",
+          "doc_url": "https://www.bmwk.de/Redaktion/DE/Artikel/Energie/gas-notfallplan-gas.html",
+          "endpoint": "https://www.bmwk.de/Redaktion/DE/Artikel/Energie/gas-notfallplan-gas.html",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "ereignisabhängig",
+          "history": "keine",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Textseite, Stufe aus Fließtext."
+        }
+      ],
+      "notes": "Evidenzklasse C, Statusfeld als Kontext-Layer."
+    },
+    {
+      "id": "blackout.gas.norwegian_flow_nominations",
+      "name_de": "Norwegen-Nominierungen im Vorlauf",
+      "plain_de": "Für den nächsten Tag angemeldete Gasmengen.",
+      "domain": "gas",
+      "evidence_class": "B",
+      "rationale": "Nominierungen laufen vor dem physischen Fluss; Abweichungen deuten auf Planänderungen.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Wartungsplan"
+      ],
+      "manipulability": "medium",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "entsog",
+          "name": "ENTSOG Transparency Platform API",
+          "doc_url": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+          "endpoint": "https://transparency.entsog.eu/api/v1/operationalData?indicator=Nomination&periodType=day&from=2026-11-10&to=2026-11-17&limit=300",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2017",
+          "rate_limit": "unklar",
+          "license": "ENTSOG, Quellenangabe, unklar im Detail",
+          "verified": false,
+          "sample_note": "Nominierung gegen Physical Flow je pointKey"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.prices.day_ahead_de",
+      "name_de": "Strompreis Day-Ahead Deutschland",
+      "plain_de": "Was kostet Strom für den nächsten Tag an der Börse?",
+      "domain": "prices",
+      "evidence_class": "A",
+      "rationale": "Preisspitzen über 300 Euro/MWh signalisieren Knappheit; dauerhaft hohe Abendpreise bei Dunkelflaute.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Gaspreis",
+        "CO2-Preis",
+        "Winterabend"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-16&end=2026-11-18",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich bis täglich",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": false,
+          "sample_note": "Felder unix_seconds, price (EUR/MWh), Day-Ahead"
+        },
+        {
+          "source_id": "smard",
+          "name": "SMARD (Bundesnetzagentur)",
+          "doc_url": "https://www.smard.de/",
+          "endpoint": "https://www.smard.de/app/chart_data/4169/DE/index_hour.json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2015 (Wochendateien über Index)",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Bundesnetzagentur | SMARD.de)",
+          "verified": false,
+          "sample_note": "Filter 4169 = Großhandelspreise DE/LU"
+        },
+        {
+          "source_id": "entsoe",
+          "name": "ENTSO-E Transparency Platform",
+          "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+          "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202611160000&periodEnd=202611180000&securityToken=KEY",
+          "access": "api",
+          "format": "xml",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "15 min bis Stunden",
+          "history": "ab 2015",
+          "rate_limit": "400 Anfragen/min je Token",
+          "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+          "verified": false,
+          "sample_note": "A44 Day-Ahead Prices"
+        }
+      ],
+      "notes": "Collector energy-charts erweiterbar auf /price.",
+      "extends": "energy-charts"
+    },
+    {
+      "id": "blackout.prices.day_ahead_spread_neighbors",
+      "name_de": "Preisunterschiede Deutschland gegen Nachbarmärkte",
+      "plain_de": "Wo ist Strom teurer, in Deutschland oder in Frankreich, Polen, Niederlande?",
+      "domain": "prices",
+      "evidence_class": "A",
+      "rationale": "Spreads zeigen Engpässe an Grenzen; extrem hohe Preise in Nachbarzonen bedeuten Importdruck.",
+      "direction": "both",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Marktkopplung",
+        "Wetter"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/price?bzn=FR&start=2026-11-16&end=2026-11-18",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": false,
+          "sample_note": "bzn=FR,PL,NL,AT,CH,DK1 neben DE-LU abrufbar"
+        }
+      ],
+      "notes": "",
+      "extends": "energy-charts"
+    },
+    {
+      "id": "blackout.prices.negative_price_hours",
+      "name_de": "Stunden mit negativen Strompreisen",
+      "plain_de": "Zählt, wie oft der Börsenpreis unter null fällt.",
+      "domain": "prices",
+      "evidence_class": "A",
+      "rationale": "Fehlen negativer Preise bei Wind/Sonne zeigt Überdeckung der Nachfrage; Häufung sagt Überschuss, im Winter Normalfall bei Wind.",
+      "direction": "down",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Wind- und Sonnenspitzen",
+        "Feiertage"
+      ],
+      "manipulability": "low",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-01&end=2026-11-18",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": false,
+          "sample_note": "Anzahl Preise unter 0 pro Tag ableiten"
+        }
+      ],
+      "notes": "Als Gegenindikator zu Knappheit nutzbar.",
+      "extends": "energy-charts"
+    },
+    {
+      "id": "blackout.prices.intraday_price_index",
+      "name_de": "Intraday-Preisindex (ID1/ID3)",
+      "plain_de": "Der Preis für kurzfristigen Handel am selben Tag.",
+      "domain": "prices",
+      "evidence_class": "B",
+      "rationale": "Intraday-Spitzen zeigen kurzfristige Unterdeckung durch Prognosefehler oder Ausfälle, Echtzeit näher am Netz als Day-Ahead.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Prognosefehler Wind"
+      ],
+      "manipulability": "medium",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "netztransparenz",
+          "name": "Netztransparenz.de Index ID",
+          "doc_url": "https://www.netztransparenz.de/de-de/Erneuerbare-Energien-und-Umlagen/EEG/Transparenzanforderungen/Marktpr%C3%A4mie/Index-ID",
+          "endpoint": "https://ds.netztransparenz.de/api/v1/data/IdIndex3?dateFrom=2026-11-01T00:00:00&dateTo=2026-11-17T00:00:00",
+          "access": "download",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "täglich",
+          "history": "ab 2021",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Index ID3 und ID1 der EPEX Intraday-Märkte; Pfad nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.prices.imbalance_price_rebap",
+      "name_de": "Ausgleichsenergiepreis reBAP",
+      "plain_de": "Was kostet fehlende oder überschüssige Strommenge im Bilanzkreis?",
+      "domain": "prices",
+      "evidence_class": "B",
+      "rationale": "reBAP-Ausschläge auf mehrere tausend Euro/MWh sind Zeichen von Systemknappheit (Beispiel 2022).",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Prognosefehler",
+        "Marktdesign"
+      ],
+      "manipulability": "medium",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "netztransparenz",
+          "name": "Netztransparenz.de reBAP",
+          "doc_url": "https://www.netztransparenz.de/de-de/Systemdienstleistungen/Bilanzkreismanagement/reBAP",
+          "endpoint": "https://ds.netztransparenz.de/api/v1/data/ReBAP/2026-11-01T00:00:00/2026-11-17T00:00:00",
+          "access": "download",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "Stunden bis Tage",
+          "history": "ab 2012",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Viertelstundenwerte reBAP in EUR/MWh; Pfad nicht geprüft."
+        },
+        {
+          "source_id": "entsoe",
+          "name": "ENTSO-E Transparency Platform",
+          "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+          "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A85&controlArea_Domain=10Y1001A1001A83F&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+          "access": "api",
+          "format": "xml",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "15 min bis Stunden",
+          "history": "ab 2015",
+          "rate_limit": "400 Anfragen/min je Token",
+          "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+          "verified": false,
+          "sample_note": "A85 Imbalance Prices"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.prices.gas_hub_ttf_spread",
+      "name_de": "Gaspreis-Aufschlag Deutschland gegen Niederlande",
+      "plain_de": "Kostet Gas in Deutschland mehr als am niederländischen Hub?",
+      "domain": "prices",
+      "evidence_class": "A",
+      "rationale": "Aufschlag gegen TTF heißt regionale Knappheit; THE-Preis vs TTF gespiegelt.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Transportkosten"
+      ],
+      "manipulability": "medium",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "eex",
+          "name": "EEX Marktdaten",
+          "doc_url": "https://www.eex.com/en/market-data",
+          "endpoint": "https://www.eex.com/en/market-data/natural-gas/spot",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "täglich",
+          "history": "ab 2007",
+          "rate_limit": "unklar",
+          "license": "EEX-Bedingungen",
+          "verified": false,
+          "sample_note": "THE-Spotpreise; Zugang eingeschränkt."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.prices.carbon_eua",
+      "name_de": "CO2-Zertifikatspreis EUA",
+      "plain_de": "Preis für Verschmutzungsrechte.",
+      "domain": "prices",
+      "evidence_class": "A",
+      "rationale": "Preisdruck der Gas-zu-Kohle-Umstellung und politischer Eingriffe zeigt Systemstress.",
+      "direction": "both",
+      "lead_time": "days",
+      "banal_causes": [
+        "Spekulation"
+      ],
+      "manipulability": "medium",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "yahoo",
+          "name": "Yahoo Finance Chart API",
+          "doc_url": "https://query1.finance.yahoo.com/",
+          "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/KRBN?range=3mo&interval=1d",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min Verzug",
+          "history": "Jahre",
+          "rate_limit": "unklar",
+          "license": "Nutzungsbedingungen Yahoo, privat",
+          "verified": false,
+          "sample_note": "KRBN ist ETF auf Kohlenstoffzertifikate; Tickerstellvertreter, Aussagekraft begrenzt."
+        }
+      ],
+      "notes": "",
+      "extends": "yahoo-chart"
+    },
+    {
+      "id": "blackout.weather.dunkelflaute_wind_pv_forecast",
+      "name_de": "Dunkelflaute-Vorhersage: Wind und Strahlung",
+      "plain_de": "Wird in den nächsten Tagen kaum Wind wehen und die Sonne kaum scheinen?",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Wind 100 m und Strahlung über Deutschland/Nordsee sind die bekannten Vorläufer einer Dunkelflaute; Vorlauf bis 10 Tage.",
+      "direction": "down",
+      "lead_time": "days",
+      "banal_causes": [
+        "Normale Hochdruckphase im Winter"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "open-meteo",
+          "name": "Open-Meteo",
+          "doc_url": "https://open-meteo.com/en/docs",
+          "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=54.2,52.5,48.5&longitude=7.9,10.5,11.5&hourly=wind_speed_100m,shortwave_radiation,cloud_cover&forecast_days=10",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vorhersage 16 Tage; Archiv ERA5 ab 1940 über archive-api.open-meteo.com",
+          "rate_limit": "10 000 Aufrufe/Tag nicht-kommerziell",
+          "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+          "verified": false,
+          "sample_note": "Stündliche Wind- und Strahlungswerte je Punkt; mehrere Punkte mitteln (Nordsee, Mitte, Süd)"
+        }
+      ],
+      "notes": "Collector neu, aber einfach."
+    },
+    {
+      "id": "blackout.weather.cold_wave_temperature",
+      "name_de": "Kältewelle: Temperaturvorhersage und Heizgradtage",
+      "plain_de": "Wie kalt wird es in Deutschland und Europa?",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Temperatur unter -5 Grad treibt Gas- und Strombedarf; Heizgradtage sind der direkte Bedarfsproxy.",
+      "direction": "down",
+      "lead_time": "days",
+      "banal_causes": [
+        "Normaler Winter"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "open-meteo",
+          "name": "Open-Meteo",
+          "doc_url": "https://open-meteo.com/en/docs",
+          "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=52.5&longitude=13.4&hourly=temperature_2m&daily=temperature_2m_min&forecast_days=14",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vorhersage 16 Tage; Archiv ERA5 ab 1940 über archive-api.open-meteo.com",
+          "rate_limit": "10 000 Aufrufe/Tag nicht-kommerziell",
+          "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+          "verified": false,
+          "sample_note": "hourly.temperature_2m in °C; daily.temperature_2m_min"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.weather.ensemble_cold_risk",
+      "name_de": "Ensemble: Wahrscheinlichkeit für extreme Kälte",
+      "plain_de": "Wie viele der Wettermodell-Läufe zeigen starke Kälte?",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Streuung des Ensembles quantifiziert das Risiko eines Kälteeinbruchs 1-2 Wochen voraus.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Modellrauschen"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "open-meteo",
+          "name": "Open-Meteo",
+          "doc_url": "https://open-meteo.com/en/docs",
+          "endpoint": "https://ensemble-api.open-meteo.com/v1/ensemble?latitude=52.5&longitude=13.4&hourly=temperature_2m&models=icon_seamless",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vorhersage 16 Tage",
+          "rate_limit": "10 000 Aufrufe/Tag nicht-kommerziell",
+          "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+          "verified": false,
+          "sample_note": "Je Mitglied eine Spalte temperature_2m_member*"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.weather.seasonal_outlook",
+      "name_de": "Saisonvorhersage Temperatur",
+      "plain_de": "Ausblick auf Winterabweichung.",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Langfristiges Kälte-/Wärmesignal bestimmt Gasreichweite; Sicherheit gering.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Modellunsicherheit"
+      ],
+      "manipulability": "low",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "open-meteo",
+          "name": "Open-Meteo",
+          "doc_url": "https://open-meteo.com/en/docs",
+          "endpoint": "https://seasonal-api.open-meteo.com/v1/seasonal?latitude=52.5&longitude=13.4&six_hourly=temperature_2m_anomaly&forecast_days=92",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Saisonale Vorhersage bis 9 Monate",
+          "rate_limit": "10 000 Aufrufe/Tag nicht-kommerziell",
+          "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+          "verified": false,
+          "sample_note": "Anomalie-Vorhersage Temperatur, ECMWF SEAS5"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.weather.storm_warnings_dwd",
+      "name_de": "Sturm- und Unwetterwarnungen DWD",
+      "plain_de": "Gibt es amtliche Sturm-, Eis- und Schneewarnungen für Deutschland?",
+      "domain": "weather",
+      "evidence_class": "C",
+      "rationale": "Warnstufen 3-4 vor Orkan oder Eisregen gehen Freileitungsschäden voraus; DWD-Aussage, daher Kontext.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Alltägliche Wetterwarnungen"
+      ],
+      "manipulability": "high",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "dwd-opendata",
+          "name": "DWD Open Data Warnungen",
+          "doc_url": "https://opendata.dwd.de/",
+          "endpoint": "https://opendata.dwd.de/weather/alerts/cap/DISTRICT_CELLS_STAT/",
+          "access": "download",
+          "format": "xml",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "eingeschränkt",
+          "rate_limit": "unklar",
+          "license": "GeoNutzV",
+          "verified": false,
+          "sample_note": "CAP-Dateien je Warnregion."
+        },
+        {
+          "source_id": "bright-sky",
+          "name": "Bright Sky (DWD-Daten)",
+          "doc_url": "https://brightsky.dev/docs/",
+          "endpoint": "https://api.brightsky.dev/alerts?lat=52.5&lon=13.4",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vergangenheit per date/last_date",
+          "rate_limit": "unklar",
+          "license": "DWD GeoNutzV / Open Source API",
+          "verified": false,
+          "sample_note": "alerts[{event, severity, onset, expires}]"
+        }
+      ],
+      "notes": "Collector dwd-opendata existiert (cyber.context).",
+      "extends": "dwd-opendata"
+    },
+    {
+      "id": "blackout.weather.storm_wind_gusts_forecast",
+      "name_de": "Sturmböen-Vorhersage",
+      "plain_de": "Sind starke Böen über Land oder Küste zu erwarten?",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Böen über 100 km/h gefährden Freileitungen und schalten Windparks ab.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Winterstürme"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "open-meteo",
+          "name": "Open-Meteo",
+          "doc_url": "https://open-meteo.com/en/docs",
+          "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=54.2&longitude=8.5&hourly=wind_gusts_10m&forecast_days=7",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vorhersage 16 Tage; Archiv ERA5 ab 1940 über archive-api.open-meteo.com",
+          "rate_limit": "10 000 Aufrufe/Tag nicht-kommerziell",
+          "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+          "verified": false,
+          "sample_note": "hourly.wind_gusts_10m in km/h"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.weather.dwd_measured_conditions",
+      "name_de": "DWD-Messwerte: Temperatur, Wind, Schnee aktuell",
+      "plain_de": "Tatsächlich gemessene Werte an Wetterstationen.",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Messung statt Vorhersage; erkennt, ob Kälte tatsächlich eingetroffen ist.",
+      "direction": "down",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Stationsausfälle"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "bright-sky",
+          "name": "Bright Sky (DWD-Daten)",
+          "doc_url": "https://brightsky.dev/docs/",
+          "endpoint": "https://api.brightsky.dev/current_weather?lat=52.5&lon=13.4",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vergangenheit per date/last_date",
+          "rate_limit": "unklar",
+          "license": "DWD GeoNutzV / Open Source API",
+          "verified": false,
+          "sample_note": "weather.temperature, wind_speed, solar_60 pro Station; kostenlos, 1 Anfrage"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.weather.icing_snow_load",
+      "name_de": "Eis und Nassschnee auf Leitungen",
+      "plain_de": "Wetterbedingungen, bei denen Leitungen reißen (Münsterland 2005).",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Gefrierender Regen und nasser Schnee um 0 Grad sind der klassische Auslöser großflächiger Verteilnetz-Ausfälle.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Regelmäßige Wintereignisse"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "open-meteo",
+          "name": "Open-Meteo",
+          "doc_url": "https://open-meteo.com/en/docs",
+          "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=51.9&longitude=7.6&hourly=precipitation,freezing_level_height,temperature_2m&forecast_days=3",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vorhersage 16 Tage; Archiv ERA5 ab 1940 über archive-api.open-meteo.com",
+          "rate_limit": "10 000 Aufrufe/Tag nicht-kommerziell",
+          "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+          "verified": false,
+          "sample_note": "Niederschlag bei 0 Grad und Nullgradgrenze kombinieren"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.weather.geomagnetic_storm",
+      "name_de": "Geomagnetischer Sturm (Kp-Index)",
+      "plain_de": "Sonnenstürme können Transformatoren schädigen.",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Kp ab 8 (G4/G5) war Auslöser von Netzausfällen (Quebec 1989); selten, aber Hochrisiko.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Polarlichter ohne Netzfolge"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "noaa-swpc",
+          "name": "NOAA SWPC",
+          "doc_url": "https://www.swpc.noaa.gov/",
+          "endpoint": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "3 h / Minuten",
+          "history": "30 Tage",
+          "rate_limit": "unklar",
+          "license": "Public Domain",
+          "verified": false,
+          "sample_note": "Planetary K-Index."
+        }
+      ],
+      "notes": "Collector noaa-swpc existiert.",
+      "extends": "noaa-swpc"
+    },
+    {
+      "id": "blackout.weather.heat_drought_summer",
+      "name_de": "Hitze und Niedrigwasser (Sommer)",
+      "plain_de": "Hitzewellen, die Kühlwasser und Leistung kürzen.",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Im Sommer wichtiger als jetzt; Hitze plus Niedrigwasser drosselt Kraftwerke (Frankreich 2022).",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Saisonalität"
+      ],
+      "manipulability": "low",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "open-meteo",
+          "name": "Open-Meteo",
+          "doc_url": "https://open-meteo.com/en/docs",
+          "endpoint": "https://flood-api.open-meteo.com/v1/flood?latitude=48.1&longitude=11.6&daily=river_discharge&forecast_days=30",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vorhersage 16 Tage; Archiv ERA5 ab 1940 über archive-api.open-meteo.com",
+          "rate_limit": "10 000 Aufrufe/Tag nicht-kommerziell",
+          "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+          "verified": false,
+          "sample_note": "Abflussvorhersage GloFAS, m3/s"
+        }
+      ],
+      "notes": "Jetzt (November) zweitrangig."
+    },
+    {
+      "id": "blackout.weather.europe_wide_cold_spread",
+      "name_de": "Kälte in Nachbarländern gleichzeitig",
+      "plain_de": "Wenn Frankreich, Polen und Skandinavien zeitgleich frieren, fehlt Ausgleich.",
+      "domain": "weather",
+      "evidence_class": "A",
+      "rationale": "Gleichzeitige Kälte erhöht Lastspitzen im ganzen Verbund, Importe sind nicht mehr verfügbar.",
+      "direction": "down",
+      "lead_time": "days",
+      "banal_causes": [
+        "Regionale Winter"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "open-meteo",
+          "name": "Open-Meteo",
+          "doc_url": "https://open-meteo.com/en/docs",
+          "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=48.9,52.2,59.9&longitude=2.4,21.0,10.7&daily=temperature_2m_min&forecast_days=10",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "Vorhersage 16 Tage; Archiv ERA5 ab 1940 über archive-api.open-meteo.com",
+          "rate_limit": "10 000 Aufrufe/Tag nicht-kommerziell",
+          "license": "CC BY 4.0 (nicht-kommerziell kostenfrei, kommerziell Lizenz)",
+          "verified": false,
+          "sample_note": "Mehrpunktabfrage Paris, Warschau, Oslo"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.plants.entsoe_unavailability_gen",
+      "name_de": "Ungeplante Kraftwerksausfälle (ENTSO-E)",
+      "plain_de": "Welche Kraftwerke melden Ausfälle oder Reduktion?",
+      "domain": "plants",
+      "evidence_class": "B",
+      "rationale": "Summe ungeplanter Nichtverfügbarkeit (Forced Outage) steigt vor/in Knappheitsphasen; Pflichtmeldung nach REMIT.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Planmäßige Revisionen",
+        "Meldeverzug"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "entsoe",
+          "name": "ENTSO-E Transparency Platform",
+          "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+          "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10Y1001A1001A82H&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY",
+          "access": "api",
+          "format": "xml",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "15 min bis Stunden",
+          "history": "ab 2015",
+          "rate_limit": "400 Anfragen/min je Token",
+          "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+          "verified": false,
+          "sample_note": "Unavailability of Generation Units: Feldern businessType A53 (planned) vs A54 (forced), nominalPower, availableCapacity"
+        },
+        {
+          "source_id": "eex-transparency",
+          "name": "EEX Transparency Platform",
+          "doc_url": "https://www.eex-transparency.com/",
+          "endpoint": "https://www.eex-transparency.com/power/germany/production/availability",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "ereignisabhängig",
+          "history": "ab 2015",
+          "rate_limit": "unklar",
+          "license": "EEX Transparenz-Bedingungen",
+          "verified": false,
+          "sample_note": "Ausfall- und Verfügbarkeitsdaten deutscher Kraftwerke, API-Zugang nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.plants.france_nuclear_availability",
+      "name_de": "Kernkraft Frankreich: verfügbare Leistung",
+      "plain_de": "Wie viele Reaktoren in Frankreich laufen und mit wie viel Leistung?",
+      "domain": "plants",
+      "evidence_class": "B",
+      "rationale": "Frankreich ist im Winter Nettoexporteur; Reaktorausfälle (Korrosion, Streik) kippen Flüsse und Preise in Europa.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Planmäßige Revisionen",
+        "Streiks"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "rte-eco2mix",
+          "name": "RTE éCO2mix via ODRÉ (Open Data Réseaux Énergies)",
+          "doc_url": "https://odre.opendatasoft.com/explore/dataset/eco2mix-national-tr/",
+          "endpoint": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=5&order_by=date_heure%20desc",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "ab 2012 (konsolidiert)",
+          "rate_limit": "unklar",
+          "license": "Licence Ouverte Etalab 2.0",
+          "verified": false,
+          "sample_note": "Feld nucleaire (MW) liefert Ist-Erzeugung Kernkraft; nicht geprüft."
+        },
+        {
+          "source_id": "edf-remit",
+          "name": "EDF REMIT Verfügbarkeit (via ODRÉ / RTE)",
+          "doc_url": "https://www.edf.fr/en/the-edf-group/producing-a-climate-friendly-energy/nuclear-energy/nuclear-availability",
+          "endpoint": "https://www.edf.fr/en/the-edf-group/producing-a-climate-friendly-energy/nuclear-energy/nuclear-availability",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "ereignisabhängig",
+          "history": "eingeschränkt",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Reaktor-Ausfälle und Wiederanlauftermine; EDF-Aussage, Klasse B (REMIT)."
+        }
+      ],
+      "notes": "Notiz: EDF Verfügbarkeitsdaten selbstgemeldet."
+    },
+    {
+      "id": "blackout.plants.nuclear_generation_fr_measured",
+      "name_de": "Kernkrafterzeugung Frankreich gemessen",
+      "plain_de": "Tatsächliche Stromerzeugung aus Kernkraft in Frankreich.",
+      "domain": "plants",
+      "evidence_class": "A",
+      "rationale": "Gemessene Erzeugung gegen EDF-Ankündigung zeigt, ob angekündigte Leistung wirklich ankommt.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Lastfolgebetrieb"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/public_power?country=fr&start=2026-11-16&end=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": false,
+          "sample_note": "production_types Nuclear in MW, Frankreich"
+        },
+        {
+          "source_id": "entsoe",
+          "name": "ENTSO-E Transparency Platform",
+          "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+          "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10YFR-RTE------C&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+          "access": "api",
+          "format": "xml",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "15 min bis Stunden",
+          "history": "ab 2015",
+          "rate_limit": "400 Anfragen/min je Token",
+          "license": "ENTSO-E, Quellenangabe, Nutzungsbedingungen prüfen",
+          "verified": false,
+          "sample_note": "Erzeugung nach Typ, Psr B14 = Nuklear"
+        }
+      ],
+      "notes": "",
+      "extends": "energy-charts"
+    },
+    {
+      "id": "blackout.plants.rhine_gauge_kaub",
+      "name_de": "Pegel Rhein bei Kaub",
+      "plain_de": "Wasserstand des Rheins, entscheidend für Kohle- und Öl-Transporte.",
+      "domain": "plants",
+      "evidence_class": "A",
+      "rationale": "Unter ca. 78 cm Kaub sinken Beladung und Frachtraten; Kohle- und Heizöllogistik zu Kraftwerken leidet, Pegel in 2018/2022 kritisch.",
+      "direction": "down",
+      "lead_time": "days",
+      "banal_causes": [
+        "Trockener Herbst",
+        "Niedrigwasser jedes Jahr"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "pegelonline",
+          "name": "Pegelonline (WSV)",
+          "doc_url": "https://www.pegelonline.wsv.de/webservice/dokuRestapi",
+          "endpoint": "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/KAUB/W/measurements.json?start=P30D",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "30 Tage per API (start=P30D), Stationsdaten länger über /W.json?start=",
+          "rate_limit": "unklar",
+          "license": "Datenlizenz Deutschland Namensnennung 2.0",
+          "verified": false,
+          "sample_note": "Messwert value in cm, Zeitreihe zeitlich getaktet, Station KAUB (Rhein km 546)"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.plants.river_gauges_coal_corridors",
+      "name_de": "Pegel Elbe, Main, Neckar, Mosel",
+      "plain_de": "Wasserstände weiterer Binnenwasserstraßen.",
+      "domain": "plants",
+      "evidence_class": "A",
+      "rationale": "Niedrigwasser an Elbe (Dresden), Main und Mosel begrenzt Kohle-/Biomasse-/Mineralöltransport und Kühlwasser.",
+      "direction": "down",
+      "lead_time": "days",
+      "banal_causes": [
+        "Saisonale Trockenheit"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "pegelonline",
+          "name": "Pegelonline (WSV)",
+          "doc_url": "https://www.pegelonline.wsv.de/webservice/dokuRestapi",
+          "endpoint": "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/DRESDEN/W/measurements.json?start=P30D",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "30 Tage per API (start=P30D), Stationsdaten länger über /W.json?start=",
+          "rate_limit": "unklar",
+          "license": "Datenlizenz Deutschland Namensnennung 2.0",
+          "verified": false,
+          "sample_note": "Elbe Dresden, W in cm"
+        },
+        {
+          "source_id": "pegelonline",
+          "name": "Pegelonline (WSV)",
+          "doc_url": "https://www.pegelonline.wsv.de/webservice/dokuRestapi",
+          "endpoint": "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/FRANKFURT-OSTHAFEN/W/measurements.json?start=P30D",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "30 Tage per API (start=P30D), Stationsdaten länger über /W.json?start=",
+          "rate_limit": "unklar",
+          "license": "Datenlizenz Deutschland Namensnennung 2.0",
+          "verified": false,
+          "sample_note": "Main Frankfurt Osthafen, Namensformat laut Stationsliste"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.plants.river_temperature_cooling",
+      "name_de": "Flusswassertemperatur für Kühlwasser",
+      "plain_de": "Wärme im Fluss begrenzt Kraftwerksleistung.",
+      "domain": "plants",
+      "evidence_class": "A",
+      "rationale": "Überschreiten der Einleitgrenzen führt zu Leistungsdrosselung (Frankreich Rhône/Garonne); Sommerthema.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Hitzewelle"
+      ],
+      "manipulability": "low",
+      "priority": 5,
+      "sources": [
+        {
+          "source_id": "pegelonline",
+          "name": "Pegelonline WT",
+          "doc_url": "https://www.pegelonline.wsv.de/webservice/dokuRestapi",
+          "endpoint": "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/KAUB/WT/measurements.json?start=P30D",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "30 Tage",
+          "rate_limit": "unklar",
+          "license": "DL-DE Namensnennung 2.0",
+          "verified": false,
+          "sample_note": "Wassertemperatur nicht an allen Stationen."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.plants.hydro_reservoir_nordic_alps",
+      "name_de": "Wasserspeicher Norwegen und Alpen",
+      "plain_de": "Wie voll sind die Stauseen im Norden und in den Alpen?",
+      "domain": "plants",
+      "evidence_class": "A",
+      "rationale": "Norwegens Speicherfüllung bestimmt, wie viel Wasserkraft Europa im Winter liefert; niedrige Stände treiben Preise.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Trockener Sommer",
+        "Preisstrategie"
+      ],
+      "manipulability": "low",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "nve",
+          "name": "NVE Magasinstatistikk (Norwegen)",
+          "doc_url": "https://api.nve.no/doc/magasinstatistikk/",
+          "endpoint": "https://biapi.nve.no/magasinstatistikk/api/Magasinstatistikk/HentOffentligData",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "wöchentlich",
+          "history": "ab 1995",
+          "rate_limit": "unklar",
+          "license": "NLOD (Norwegian Licence for Open Government Data)",
+          "verified": false,
+          "sample_note": "Feld fyllingsgrad in Prozent je Elspot-Gebiet; Pfad nach Doku, nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.plants.pumped_storage_hydro_de",
+      "name_de": "Pumpspeicher und Batteriespeicher: Einsatz",
+      "plain_de": "Wie stark werden Speicher entleert?",
+      "domain": "plants",
+      "evidence_class": "A",
+      "rationale": "Anhaltend leere Speicher bei Last signalisieren Reserveverbrauch.",
+      "direction": "down",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Preisarbitrage"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "smard",
+          "name": "SMARD (Bundesnetzagentur)",
+          "doc_url": "https://www.smard.de/",
+          "endpoint": "https://www.smard.de/app/chart_data/4070/DE/index_hour.json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "stündlich",
+          "history": "ab 2015 (Wochendateien über Index)",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Bundesnetzagentur | SMARD.de)",
+          "verified": false,
+          "sample_note": "Filter 4070 = Pumpspeicher Erzeugung, 4387 Verbrauch"
+        },
+        {
+          "source_id": "energy-charts",
+          "name": "Energy-Charts API (Fraunhofer ISE)",
+          "doc_url": "https://api.energy-charts.info/",
+          "endpoint": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16&end=2026-11-17",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "Zeitreihe per start/end bis 2015 und früher",
+          "rate_limit": "unklar",
+          "license": "CC BY 4.0 (Namensnennung Fraunhofer ISE)",
+          "verified": false,
+          "sample_note": "Production Pumped storage"
+        }
+      ],
+      "notes": "",
+      "extends": "smard"
+    },
+    {
+      "id": "blackout.plants.installed_capacity_changes",
+      "name_de": "Kraftwerksstilllegungen und Netzreserve (BNetzA)",
+      "plain_de": "Kapazität, die vom Netz geht oder in Reserve steht.",
+      "domain": "plants",
+      "evidence_class": "B",
+      "rationale": "Rückgang gesicherter Leistung zeigt strukturelle Verwundbarkeit, langsamer Brotkrümel.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Kohleausstieg planmäßig"
+      ],
+      "manipulability": "low",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "bnetza-kraftwerke",
+          "name": "Bundesnetzagentur Kraftwerksliste",
+          "doc_url": "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Versorgungssicherheit/Erzeugungskapazitaeten/Kraftwerksliste/start.html",
+          "endpoint": "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Versorgungssicherheit/Erzeugungskapazitaeten/Kraftwerksliste/start.html",
+          "access": "download",
+          "format": "csv",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "halbjährlich",
+          "history": "ab 2012",
+          "rate_limit": "unklar",
+          "license": "DL-DE",
+          "verified": false,
+          "sample_note": "Excel-Liste; Direktlink nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.plants.nuclear_status_pris",
+      "name_de": "Reaktorstatus Europa (IAEA PRIS)",
+      "plain_de": "Betriebsstatus aller Reaktoren.",
+      "domain": "plants",
+      "evidence_class": "B",
+      "rationale": "Zweite Quelle für Abschaltungen; Wiederanlauf nach Wartung.",
+      "direction": "down",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Revisionen"
+      ],
+      "manipulability": "low",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "iaea-pris",
+          "name": "IAEA PRIS",
+          "doc_url": "https://pris.iaea.org/PRIS/",
+          "endpoint": "https://pris.iaea.org/PRIS/CountryStatistics/CountryDetails.aspx?current=FR",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "täglich",
+          "history": "seit 1950er",
+          "rate_limit": "unklar",
+          "license": "IAEA Nutzungsbedingungen",
+          "verified": false,
+          "sample_note": "Tabellenseiten, kein API-Endpunkt geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.outages.ioda_country_internet",
+      "name_de": "Internet-Ausfälle Deutschland, Frankreich, Nachbarn (IODA)",
+      "plain_de": "Fällt in einem Land Internet aus, ein Folgeeffekt von Stromausfällen?",
+      "domain": "outages",
+      "evidence_class": "A",
+      "rationale": "Internet-Einbrüche über Messgrößen (BGP, Active Probing, Telescope) zeigen großflächigen Stromausfall durch Folgeeffekt (z. B. Iberien 2025).",
+      "direction": "down",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Kabelschäden",
+        "Wartung der Provider"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "ioda",
+          "name": "IODA (Georgia Tech)",
+          "doc_url": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+          "endpoint": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=-86400&until=now",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "Jahre",
+          "rate_limit": "unklar",
+          "license": "unklar (akademisch, nicht-kommerziell)",
+          "verified": false,
+          "sample_note": "Signale bgp, ping-slash24, merit-nt je Land."
+        }
+      ],
+      "notes": "Collector ioda existiert; nur Länder erweitern (DE, FR, PL, NL, UA, ES).",
+      "extends": "ioda"
+    },
+    {
+      "id": "blackout.outages.cloudflare_radar_outages",
+      "name_de": "Outage Center mit Stromausfall-Ursachen (Cloudflare Radar)",
+      "plain_de": "Cloudflare listet Internetausfälle mit Ursache, auch Stromausfälle.",
+      "domain": "outages",
+      "evidence_class": "A",
+      "rationale": "Eintrag mit Ursache 'Power outage' ist ein dritter, unabhängiger Beleg eines Stromausfalls.",
+      "direction": "up",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Kabelschnitte",
+        "Regierungsabschaltungen"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "cloudflare-radar",
+          "name": "Cloudflare Radar API",
+          "doc_url": "https://developers.cloudflare.com/api/resources/radar/",
+          "endpoint": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d",
+          "access": "api",
+          "format": "json",
+          "auth": "free-key",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "ab 2022",
+          "rate_limit": "unklar",
+          "license": "CC BY-NC 4.0",
+          "verified": false,
+          "sample_note": "annotations[{locations, outage.outageCause, startDate}]"
+        }
+      ],
+      "notes": "",
+      "extends": "cloudflare-radar"
+    },
+    {
+      "id": "blackout.outages.mowas_power_warnings",
+      "name_de": "Bevölkerungswarnungen: Stromausfall (MoWaS/NINA)",
+      "plain_de": "Amtliche Warnungen mit Stromausfall im Text.",
+      "domain": "outages",
+      "evidence_class": "C",
+      "rationale": "Eine Warnung 'Stromausfall' in einer Region ist amtliche Bestätigung; dient als Bestätigung, nicht Frühsignal.",
+      "direction": "up",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Lokale Wartungsmeldungen"
+      ],
+      "manipulability": "high",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "nina-mowas",
+          "name": "NINA / MoWaS Warn-API",
+          "doc_url": "https://nina.api.bund.dev/",
+          "endpoint": "https://warnung.bund.de/api31/mowas/mapData.json",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "nur Live",
+          "rate_limit": "unklar",
+          "license": "Datenlizenz Deutschland",
+          "verified": false,
+          "sample_note": "Liste der Warnungen; Texte per /warnings/<id>.json; Filter auf Stromausfall."
+        }
+      ],
+      "notes": "Collector nina-mowas existiert.",
+      "extends": "nina-mowas"
+    },
+    {
+      "id": "blackout.outages.dso_fault_portals_de",
+      "name_de": "Störungsportale der Verteilnetzbetreiber",
+      "plain_de": "Gemeldete Stromausfälle mit Kundenzahl bei Netzbetreibern.",
+      "domain": "outages",
+      "evidence_class": "B",
+      "rationale": "Gleichzeitige Meldungen vieler Betreiber zeigen ein großflächiges Ereignis; einzelne Meldungen sind Alltag.",
+      "direction": "up",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Bauarbeiten",
+        "Kabelschäden",
+        "Sturm"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "dso-portals",
+          "name": "Störungsmelder Westnetz, Stromnetz Berlin, Netze BW, Bayernwerk",
+          "doc_url": "https://www.westnetz.de/de/stoerungen.html",
+          "endpoint": "https://www.westnetz.de/de/stoerungen.html",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "keine",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Je Betreiber eigenes Format, teils JSON-Endpunkte hinter der Karte; nicht geprüft."
+        }
+      ],
+      "notes": "Hoher Bauaufwand wegen vieler Betreiber."
+    },
+    {
+      "id": "blackout.outages.stoerungsauskunft",
+      "name_de": "StörungsAuskunft.de (Netzbetreiber-Portal)",
+      "plain_de": "Plattform für Ausfallmeldungen aus Netzgebieten.",
+      "domain": "outages",
+      "evidence_class": "B",
+      "rationale": "Bündelt Meldungen mehrerer Betreiber, einheitliche Sicht.",
+      "direction": "up",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Lokale Störungen"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "stoerungsauskunft",
+          "name": "StörungsAuskunft.de",
+          "doc_url": "https://www.stoerungsauskunft.de/",
+          "endpoint": "https://www.stoerungsauskunft.de/",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "keine",
+          "rate_limit": "unklar",
+          "license": "unklar, Nutzungsbedingungen prüfen",
+          "verified": false,
+          "sample_note": "Kein API-Endpunkt bekannt."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.outages.ukpn_enedis_open_data",
+      "name_de": "Offene Stromausfall-Daten UK und Frankreich",
+      "plain_de": "Nachbarn veröffentlichen aktuelle Ausfälle maschinenlesbar.",
+      "domain": "outages",
+      "evidence_class": "B",
+      "rationale": "Aktuelle Ausfälle mit Kundenzahlen als europäischer Vergleichsmaßstab.",
+      "direction": "up",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Sturm lokal"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "ukpn",
+          "name": "UK Power Networks Open Data",
+          "doc_url": "https://ukpowernetworks.opendatasoft.com/explore/dataset/ukpn-live-faults/",
+          "endpoint": "https://ukpowernetworks.opendatasoft.com/api/explore/v2.1/catalog/datasets/ukpn-live-faults/records?limit=20",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "eingeschränkt",
+          "rate_limit": "unklar",
+          "license": "UKPN Open Data Licence",
+          "verified": false,
+          "sample_note": "Dataset-Name nach Doku, nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.outages.us_outage_counts_eaglei",
+      "name_de": "Stromausfall-Zähler USA (EAGLE-I, PowerOutage.us)",
+      "plain_de": "Millionen betroffene Kunden als Referenz für das Muster.",
+      "domain": "outages",
+      "evidence_class": "B",
+      "rationale": "Nicht Deutschland, aber Wirkungsmuster; bei Kältewellen als Vergleich nützlich.",
+      "direction": "up",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Stürme"
+      ],
+      "manipulability": "low",
+      "priority": 5,
+      "sources": [
+        {
+          "source_id": "poweroutage-us",
+          "name": "PowerOutage.us",
+          "doc_url": "https://poweroutage.us/",
+          "endpoint": "https://poweroutage.us/api/",
+          "access": "api",
+          "format": "json",
+          "auth": "paid",
+          "cost": "paid",
+          "update_latency": "Minuten",
+          "history": "ab 2017",
+          "rate_limit": "unklar",
+          "license": "kommerziell",
+          "verified": false,
+          "sample_note": "Preispflichtig; nicht geprüft."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "blackout.outages.ukraine_grid_restrictions",
+      "name_de": "Ukraine: Netzausfälle und Verbrauchsbeschränkungen",
+      "plain_de": "Ukrenergo meldet geplante und notfallmäßige Abschaltungen.",
+      "domain": "outages",
+      "evidence_class": "B",
+      "rationale": "Zeigt Wirkung von Angriffen auf Kraftwerke, Auswirkung auf Verbund und Exportflüsse nach Polen, Rumänien.",
+      "direction": "up",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Planmäßige Rationierung"
+      ],
+      "manipulability": "medium",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "ukrenergo",
+          "name": "Ukrenergo",
+          "doc_url": "https://ua.energy/",
+          "endpoint": "https://ua.energy/",
+          "access": "scrape",
+          "format": "html",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "täglich",
+          "history": "keine",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Tagesmeldungen mit Defizit, Format nicht geprüft."
+        }
+      ],
+      "notes": "Quelle ist Behörde/Betreiber."
+    },
+    {
+      "id": "blackout.outages.rtt_internet_probe_dach",
+      "name_de": "Messnetz RIPE Atlas: Erreichbarkeit in DE",
+      "plain_de": "Aktive Messungen zeigen Erreichbarkeit von Anker-Probes.",
+      "domain": "outages",
+      "evidence_class": "A",
+      "rationale": "Probes, die offline gehen, zeigen regionale Stromausfälle (Probes hängen am Heimnetz).",
+      "direction": "down",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Probe-Ausfälle"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "ripe-atlas",
+          "name": "RIPE Atlas",
+          "doc_url": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+          "endpoint": "https://atlas.ripe.net/api/v2/probes/?country_code=DE&status=1&page_size=1",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "Jahre",
+          "rate_limit": "unklar",
+          "license": "RIPE Atlas Terms",
+          "verified": false,
+          "sample_note": "Feld count der verbundenen Probes in DE."
+        }
+      ],
+      "notes": "Collector ripe-atlas existiert.",
+      "extends": "ripe-atlas"
+    },
+    {
+      "id": "blackout.markets.ttf_front_month",
+      "name_de": "TTF-Gas Terminpreis (Frontmonat)",
+      "plain_de": "Börsenpreis für Gas in Europa.",
+      "domain": "markets",
+      "evidence_class": "A",
+      "rationale": "Preissprung ohne Marktnachricht oder Backwardation-Umkehr vor Lieferengpass; Hormus-Konflikt treibt aktuell.",
+      "direction": "up",
+      "lead_time": "hours",
+      "banal_causes": [
+        "Geopolitische Nachrichten",
+        "Spekulation",
+        "Wetter"
+      ],
+      "manipulability": "medium",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "yahoo",
+          "name": "Yahoo Finance Chart API",
+          "doc_url": "https://query1.finance.yahoo.com/",
+          "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/TTF=F?range=3mo&interval=1d",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min Verzug",
+          "history": "Jahre",
+          "rate_limit": "unklar",
+          "license": "Nutzungsbedingungen Yahoo, privat",
+          "verified": false,
+          "sample_note": "Ticker TTF=F; Verfügbarkeit nicht geprüft."
+        }
+      ],
+      "notes": "Collector yahoo-chart um Symbol erweitern.",
+      "extends": "yahoo-chart"
+    },
+    {
+      "id": "blackout.markets.energy_equities",
+      "name_de": "Energieaktien (RWE, E.ON, Uniper, Siemens Energy, Verbund, EDF)",
+      "plain_de": "Kurse von Versorgern und Netzausrüstern.",
+      "domain": "markets",
+      "evidence_class": "A",
+      "rationale": "Auffällige Kursbewegungen ohne Nachricht zeigen Informationsvorsprung; Netzausrüster-Kurse spiegeln Netz-Investitionsdruck.",
+      "direction": "both",
+      "lead_time": "days",
+      "banal_causes": [
+        "Quartalszahlen",
+        "Zinsen"
+      ],
+      "manipulability": "high",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "yahoo",
+          "name": "Yahoo Finance Chart API",
+          "doc_url": "https://query1.finance.yahoo.com/",
+          "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/RWE.DE?range=3mo&interval=1d",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min Verzug",
+          "history": "Jahre",
+          "rate_limit": "unklar",
+          "license": "Nutzungsbedingungen Yahoo, privat",
+          "verified": false,
+          "sample_note": "Symbole RWE.DE, EOAN.DE, ENR.DE, VER.VI, EDF.PA; nicht geprüft."
+        }
+      ],
+      "notes": "",
+      "extends": "yahoo-chart"
+    },
+    {
+      "id": "blackout.markets.henry_hub_gas",
+      "name_de": "Erdgaspreis Henry Hub (USA)",
+      "plain_de": "US-Gaspreis als Vergleich zu Europa.",
+      "domain": "markets",
+      "evidence_class": "A",
+      "rationale": "Der Abstand TTF gegen Henry Hub zeigt LNG-Sog; verzögert, nur Kontext.",
+      "direction": "up",
+      "lead_time": "lagging",
+      "banal_causes": [
+        "Wetter USA"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "github-natural-gas",
+          "name": "datasets/natural-gas (GitHub-Spiegel EIA)",
+          "doc_url": "https://github.com/datasets/natural-gas",
+          "endpoint": "https://raw.githubusercontent.com/datasets/natural-gas/main/data/daily.csv",
+          "access": "download",
+          "format": "csv",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "ca. 1 Woche Verzug",
+          "history": "ab 1997",
+          "rate_limit": "unklar",
+          "license": "ODC-PDDL-1.0",
+          "verified": true,
+          "sample_note": "Date,Price (USD/MMBtu); letzter Wert 2026-11-11 (geprüft 17.11.2026)."
+        }
+      ],
+      "notes": "Collector github-gas-henry-hub existiert.",
+      "extends": "github-gas-henry-hub"
+    },
+    {
+      "id": "blackout.markets.brent_oil",
+      "name_de": "Brent-Rohölpreis",
+      "plain_de": "Ölpreis als Hormus-Indikator.",
+      "domain": "markets",
+      "evidence_class": "A",
+      "rationale": "Ölpreis zeigt Eskalation im Nahen Osten, die auch LNG betrifft; Brent zuletzt 92 USD.",
+      "direction": "up",
+      "lead_time": "lagging",
+      "banal_causes": [
+        "OPEC+",
+        "Konjunktur"
+      ],
+      "manipulability": "low",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "github-oil-prices",
+          "name": "datasets/oil-prices (GitHub-Spiegel EIA)",
+          "doc_url": "https://github.com/datasets/oil-prices",
+          "endpoint": "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv",
+          "access": "download",
+          "format": "csv",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "ca. 1 Woche Verzug",
+          "history": "ab 1987",
+          "rate_limit": "unklar",
+          "license": "ODC-PDDL-1.0",
+          "verified": true,
+          "sample_note": "Date,Price (USD/bbl); letzter Wert 2026-11-11: 92,14 (geprüft 17.11.2026)."
+        }
+      ],
+      "notes": "Collector github-oil-prices existiert.",
+      "extends": "github-oil-prices"
+    },
+    {
+      "id": "blackout.markets.polymarket_energy_bets",
+      "name_de": "Wettmärkte zu Energie und Blackout",
+      "plain_de": "Wetten auf Gaspreis, Rationierung, Blackout.",
+      "domain": "markets",
+      "evidence_class": "D",
+      "rationale": "Aufmerksamkeit und Erwartung der Masse; als Kontext.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Spekulation"
+      ],
+      "manipulability": "high",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "polymarket",
+          "name": "Polymarket Gamma API",
+          "doc_url": "https://docs.polymarket.com/",
+          "endpoint": "https://gamma-api.polymarket.com/markets?limit=50&active=true&closed=false&order=volume&ascending=false",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Minuten",
+          "history": "je Markt",
+          "rate_limit": "unklar",
+          "license": "unklar",
+          "verified": false,
+          "sample_note": "Märkte nach Stichwort filtern (energy, blackout, gas)."
+        }
+      ],
+      "notes": "",
+      "extends": "polymarket-gamma"
+    },
+    {
+      "id": "blackout.attention.wikipedia_pageviews_blackout",
+      "name_de": "Wikipedia-Aufrufe: Stromausfall, Blackout, Gasmangellage",
+      "plain_de": "Wie oft werden energiebezogene Artikel aufgerufen?",
+      "domain": "attention",
+      "evidence_class": "D",
+      "rationale": "Plötzliche Aufrufsprünge zeigen Beunruhigung, bei Vorsorgeartikeln (Notstromaggregat, Zivilschutz) Vorsorgeverhalten.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Medienberichte",
+        "Filme",
+        "Roman Blackout"
+      ],
+      "manipulability": "high",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "wikimedia-pageviews",
+          "name": "Wikimedia Pageviews API",
+          "doc_url": "https://doc.wikimedia.org/generated-rest-api/",
+          "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stromausfall/daily/20261001/20261117",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "1 Tag",
+          "history": "ab 2015",
+          "rate_limit": "unklar",
+          "license": "CC0",
+          "verified": false,
+          "sample_note": "items[].views"
+        }
+      ],
+      "notes": "",
+      "extends": "wikimedia-pageviews"
+    },
+    {
+      "id": "blackout.attention.gdelt_blackout_news",
+      "name_de": "Nachrichtenvolumen zu Stromausfall und Gasmangel (GDELT)",
+      "plain_de": "Wie viele Artikel nennen Blackout oder Gasmangellage?",
+      "domain": "attention",
+      "evidence_class": "D",
+      "rationale": "Überproportionaler Anstieg ohne konkretes Ereignis ist Stimmungssignal; Zeitreihe per Timeline.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Wahlkampf",
+        "Medienzyklus"
+      ],
+      "manipulability": "high",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "gdelt-doc",
+          "name": "GDELT DOC 2.0 API",
+          "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+          "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=(Stromausfall%20OR%20Blackout%20OR%20Gasmangellage)%20sourcelang:german&mode=timelinevol&format=json&timespan=30d",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "15 min",
+          "history": "3 Monate je Anfrage",
+          "rate_limit": "unklar",
+          "license": "GDELT, frei",
+          "verified": false,
+          "sample_note": "timeline[].data[].value"
+        }
+      ],
+      "notes": "",
+      "extends": "gdelt-doc"
+    },
+    {
+      "id": "blackout.attention.wikipedia_prepper_terms",
+      "name_de": "Vorsorge-Begriffe (Notstromaggregat, Kurbelradio, Katwarn)",
+      "plain_de": "Interesse an Krisenvorsorge.",
+      "domain": "attention",
+      "evidence_class": "D",
+      "rationale": "Wikipedia-Aufrufe zu Vorsorgethemen steigen bei Sorge vor Ausfällen.",
+      "direction": "up",
+      "lead_time": "days",
+      "banal_causes": [
+        "Katastrophenmeldungen"
+      ],
+      "manipulability": "high",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "wikimedia-pageviews",
+          "name": "Wikimedia Pageviews API",
+          "doc_url": "https://doc.wikimedia.org/generated-rest-api/",
+          "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notstromaggregat/daily/20261001/20261117",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "1 Tag",
+          "history": "ab 2015",
+          "rate_limit": "unklar",
+          "license": "CC0",
+          "verified": false,
+          "sample_note": "views je Tag."
+        }
+      ],
+      "notes": "",
+      "extends": "wikimedia-pageviews"
+    },
+    {
+      "id": "blackout.context.ics_advisories_energy",
+      "name_de": "ICS-Advisories für Energie-Hersteller (CISA)",
+      "plain_de": "Schwachstellen in Leittechnik von Netzbetreibern.",
+      "domain": "context",
+      "evidence_class": "C",
+      "rationale": "Hinweis auf Cyber-Risiko für Energiesysteme; nur Störfaktor-Filter, kein Blackout-Beleg.",
+      "direction": "up",
+      "lead_time": "weeks",
+      "banal_causes": [
+        "Routine-Advisories"
+      ],
+      "manipulability": "high",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "cisa-ics",
+          "name": "CISA ICS Advisories",
+          "doc_url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+          "endpoint": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+          "access": "rss",
+          "format": "xml",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "Stunden",
+          "history": "Jahre",
+          "rate_limit": "unklar",
+          "license": "Public Domain",
+          "verified": false,
+          "sample_note": "Advisories filtern auf Siemens, Schneider, ABB (Energie)."
+        }
+      ],
+      "notes": "",
+      "extends": "cisa-ics"
+    },
+    {
+      "id": "blackout.context.public_holidays_calendar",
+      "name_de": "Feiertage und Brückentage (Kalenderfilter)",
+      "plain_de": "Erklärt Lastschwankungen.",
+      "domain": "context",
+      "evidence_class": "A",
+      "rationale": "Rein erklärender Filter für Last- und Preisausschläge, Gewicht 0.",
+      "direction": "both",
+      "lead_time": "coincident",
+      "banal_causes": [
+        "Kalender"
+      ],
+      "manipulability": "low",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "nager-date",
+          "name": "Nager.Date Feiertags-API",
+          "doc_url": "https://date.nager.at/Api",
+          "endpoint": "https://date.nager.at/api/v3/PublicHolidays/2026/DE",
+          "access": "api",
+          "format": "json",
+          "auth": "none",
+          "cost": "free",
+          "update_latency": "statisch",
+          "history": "mehrere Jahre",
+          "rate_limit": "unklar",
+          "license": "MIT",
+          "verified": false,
+          "sample_note": "date, localName je Feiertag."
+        }
+      ],
+      "notes": "Störfaktor-Filter."
+    }
+  ],
+  "ideas_without_source": [
+    "Idee: Gasverbrauch in kommunalen Wärmenetzen und Fernwärme-Vorlauftemperaturen (Stadtwerke veröffentlichen selten maschinenlesbar).",
+    "Idee: Absatz von Notstromaggregaten, Heizlüftern, Kerzen und Campingkochern (Handelsdaten, Preissuchmaschinen) als Vorsorge-Proxy; keine offene API gefunden.",
+    "Idee: Dieselvorräte und Betankung von Notstromanlagen in Krankenhäusern, Rechenzentren; nur interne Daten.",
+    "Idee: LNG-Tanker-Ankünfte per AIS (Positionsdaten), freie Quellen mit Echtzeit sind begrenzt.",
+    "Idee: EDF-Umweltgrenzen für Flusswasser-Einleitung (Ankündigungen von Leistungsbeschränkung bei Hitze), kein strukturierter Feed.",
+    "Idee: Google Trends zu Stromausfall/Notvorrat; kein offizieller Daten-Zugang, inoffizielle Wrapper instabil.",
+    "Idee: Intraday-Handelsvolumen EPEX SPOT; Daten nur kostenpflichtig.",
+    "Idee: Zählung von Netzbooster- oder Netzreserve-Aktivierungen auf Betreiberseiten (TenneT, 50Hertz) ohne einheitliches Format.",
+    "Idee: Smart-Meter- oder Wechselrichter-Daten in Aggregaten (z. B. Mastr, openDTU-Communitys) als Netzspannungs-Proxy; Datenschutz und fehlende Aggregate.",
+    "Idee: Satelliten-Nachtlichter (VIIRS Black Marble) für Stromausfälle; Auflösung und Verzug von Tagen, Zugang über NASA-Konto.",
+    "Idee: Stau- und Ampelausfälle (Verkehrsdaten der Autobahn GmbH, Mobilithek) als Folge großflächiger Ausfälle.",
+    "Idee: Mobilfunk-Zellenausfälle (OpenCelliD, Telekom-Störungskarte) als Folge-Indikator; keine offene Schnittstelle.",
+    "Idee: Gas-Pipeline-Druckdaten der Fernleitungsnetzbetreiber (Gascade, OGE); nicht öffentlich.",
+    "Idee: Seewetter und Hafenstatus (Wilhelmshaven, Brunsbüttel) für LNG-Entladung; kein einheitlicher Feed."
+  ]
+}

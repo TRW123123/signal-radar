@@ -58,3 +58,44 @@ test('echte Antwort: archivierter Markt (active=false) wird übersprungen, URL n
   assert.match(buildUrl('hack'), /limit_per_type=1/);
   assert.deepEqual(parse({ events: [{ markets: [{ id: '1', question: 'cyber?', archived: true }] }] }), []);
 });
+
+// --- Szenario war (Beispiel nach Doku nachgebaut, keine echte Aufzeichnung) ---
+import { WAR_MATCH, WAR_TERMS } from '../../src/collectors/polymarket-gamma.ts';
+
+const WAR_SAMPLE = { events: [{ markets: [
+  { id: 'w1', question: 'Will the US strike Iran by December 31?', outcomes: '["Yes","No"]', outcomePrices: '["0.21","0.79"]', volumeNum: 90000, volume24hr: 4000 },
+  { id: 'w2', question: 'Will Iran win the 2026 World Cup?', outcomes: '["Yes","No"]', outcomePrices: '["0.01","0.99"]', volume24hr: 700 },
+  { id: 'w3', question: 'World War 3 before 2027?', outcomes: '["Yes","No"]', outcomePrices: '["0.05","0.95"]', volumeNum: 20000, volume24hr: 1000 },
+] }] };
+
+test('war: Fragetext-Filter nimmt Eskalationsmärkte, keine Sportmärkte', () => {
+  const qs = parse(WAR_SAMPLE).map((m) => m.question);
+  assert.deepEqual(qs.filter((q) => WAR_MATCH.test(q)), ['Will the US strike Iran by December 31?', 'World War 3 before 2027?']);
+  assert.ok(!WAR_MATCH.test('Will it rain tomorrow?'));
+  assert.ok(WAR_TERMS.every((t) => fixtureName(t).startsWith('polymarket/search-')));
+  assert.equal(new Set([...WAR_TERMS, ...SEARCH_TERMS.cyber].map(fixtureName)).size, WAR_TERMS.length + SEARCH_TERMS.cyber.length);
+});
+
+test('war: collect meldet Wahrscheinlichkeit und Volumen unter den Kriegs-IDs, Cyber getrennt', async () => {
+  const ctx = {
+    now: new Date('2026-11-17T00:00:00Z'), key: () => undefined, log: () => {},
+    http: { json: async (u: string) => (/q=(cyber|ransomware|hack|internet)/.test(u) ? SAMPLE : WAR_SAMPLE), text: async () => '' },
+  };
+  const r = await collector.collect(ctx as never);
+  const p = r.observations.find((o) => o.signalId === 'war.attention.prediction_markets_war')!;
+  const v = r.observations.find((o) => o.signalId === 'war.attention.prediction_volume_spike')!;
+  assert.ok(Math.abs(p.value - 21) < 1e-9);
+  assert.equal(v.value, 5000);
+  assert.ok(r.observations.some((o) => o.signalId === 'cyber.markets.polymarket_cyber'));
+});
+
+test('war: Teilausfall bei den Kriegsbegriffen meldet für war nichts', async () => {
+  let n = 0;
+  const ctx = {
+    now: new Date('2026-11-17T00:00:00Z'), key: () => undefined, log: () => {},
+    http: { json: async (u: string) => { if (++n === 7) throw new Error('500'); return /q=(cyber|ransomware|hack|internet)/.test(u) ? SAMPLE : WAR_SAMPLE; }, text: async () => '' },
+  };
+  const r = await collector.collect(ctx as never);
+  assert.ok(!r.observations.some((o) => o.signalId.startsWith('war.')));
+  assert.ok(r.observations.some((o) => o.signalId.startsWith('cyber.')));
+});

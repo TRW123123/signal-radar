@@ -1,0 +1,3191 @@
+{
+ "subdomain": "nuclear",
+ "generated": "2026-11-17",
+ "scenario_def": {
+  "id": "nuclear",
+  "order": 6,
+  "title": "Nuklearer Zwischenfall",
+  "question": "Gibt es Anzeichen für einen nuklearen Unfall oder Einsatz?",
+  "tagline": "Strahlungs-Messnetze, Erdbebendaten, Kraftwerksleistung, Warnsysteme",
+  "domains": {
+   "radiation": {
+    "title": "Strahlung in der Umwelt",
+    "weight": 1,
+    "plain": "Messen die Strahlungsnetze in Europa mehr als sonst?"
+   },
+   "seismic": {
+    "title": "Erdbeben und Explosionen",
+    "weight": 0.9,
+    "plain": "Meldet die Erdbebenwarte Explosionen an bekannten Testgeländen?"
+   },
+   "plants": {
+    "title": "Kraftwerke",
+    "weight": 0.7,
+    "plain": "Laufen Atomkraftwerke normal, oder fallen mehrere ungeplant aus?"
+   },
+   "alerts": {
+    "title": "Amtliche Warnungen",
+    "weight": 0.3,
+    "plain": "Zahl der Warnungen von Behörden, nur als Zusammenhang"
+   },
+   "military": {
+    "title": "Militär und Luftraum",
+    "weight": 0.6,
+    "plain": "Führungsflugzeuge, Raketentest-Warnungen, Satellitenstarts als Summe"
+   },
+   "behaviour": {
+    "title": "Verhalten der Bevölkerung",
+    "weight": 0.4,
+    "plain": "Wird mehr nach Jodtabletten und Schutzräumen gefragt?"
+   },
+   "markets": {
+    "title": "Märkte und Wetten",
+    "weight": 0.5,
+    "plain": "Uran, Rüstungsaktien und Prognosemärkte"
+   },
+   "attention": {
+    "title": "Aufmerksamkeit",
+    "weight": 0,
+    "plain": "Seitenaufrufe, Medien und Suchtrends"
+   },
+   "context": {
+    "title": "Störfaktoren",
+    "weight": 0,
+    "plain": "Regen, Wind, Radon und Sonnenaktivität erklären harmlose Ausschläge"
+   }
+  }
+ },
+ "signals": [
+  {
+   "id": "nuclear.radiation.bfs_stations_above_normal",
+   "name_de": "Deutsche Messstellen über ihrem Normalwert",
+   "plain_de": "Wie viele der rund 1700 Strahlungsmessstellen in Deutschland gerade mehr messen als ihr eigener üblicher Wert.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Ein Zwischenfall mit Ausbreitung treibt viele Stationen gleichzeitig hoch; die Kennzahl (Anteil Stationen über eigenem Median plus Streuung) filtert Einzelausreißer und Regen heraus.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regen (Auswaschung von Radon-Folgeprodukten, +0,02 bis 0,05 µSv/h)",
+    "Sondendefekt oder Wartung",
+    "Gewitter"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "bfs-odl",
+     "name": "BfS ODL-Info, WFS offene Schnittstelle (Layer odlinfo_odl_1h_latest)",
+     "doc_url": "https://www.imis.bfs.de/geoportal/",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_odl_1h_latest",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h Mittelwert, ca. 10-60 min Verzug",
+     "history": "nur latest-Layer; Zeitreihe separat",
+     "rate_limit": "unklar",
+     "license": "DL-DE-BY-2.0 (BfS, Datenlizenz Deutschland, Quellenangabe)",
+     "verified": false,
+     "sample_note": "GeoJSON, ca. 1700 Stationen; Felder id, name, value (µSv/h), value_cosmic, value_terrestrial, start_measure, end_measure, site_status. Aus Code-Referenzen auf GitHub bekannt (bundesAPI/strahlenschutz-api), in der Bau-Umgebung nicht abrufbar."
+    },
+    {
+     "source_id": "bfs-odl",
+     "name": "BfS ODL-Info, WFS Zeitreihe 1 h und 24 h",
+     "doc_url": "https://github.com/bundesAPI/strahlenschutz-api",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_timeseries_odl_1h&viewparams=kenn:033550222",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stündlich",
+     "history": "Layer odlinfo_timeseries_odl_1h (ca. 7 Tage je Station) und odlinfo_timeseries_odl_24h (Tageswerte, lange Historie); Filter per viewparams=kenn:<Stations-Kennung>",
+     "rate_limit": "unklar",
+     "license": "DL-DE-BY-2.0",
+     "verified": false,
+     "sample_note": "Je Station Reihe aus Messwert und Zeitstempel; erlaubt eigene Baseline je Station (Normalwert)."
+    }
+   ],
+   "notes": "Eigener Collector nötig (WFS, 1700 Stationen, je Station Baseline). Aggregat aus Anteil und Median."
+  },
+  {
+   "id": "nuclear.radiation.bfs_median_dose_rate",
+   "name_de": "Mittlere Ortsdosisleistung Deutschland",
+   "plain_de": "Der Mittelwert aller deutschen Messstellen in Mikrosievert pro Stunde, ein sehr ruhiger Wert.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Median über 1700 Stationen reagiert nur auf großflächige Änderung; robuste Hauptkennzahl.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regenfront",
+    "Neuschnee dämpft, Schneeschmelze hebt",
+    "Kosmische Strahlung (Forbush-Effekt)"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "bfs-odl",
+     "name": "BfS ODL-Info, WFS offene Schnittstelle (Layer odlinfo_odl_1h_latest)",
+     "doc_url": "https://www.imis.bfs.de/geoportal/",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_odl_1h_latest",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h Mittelwert, ca. 10-60 min Verzug",
+     "history": "nur latest-Layer; Zeitreihe separat",
+     "rate_limit": "unklar",
+     "license": "DL-DE-BY-2.0 (BfS, Datenlizenz Deutschland, Quellenangabe)",
+     "verified": false,
+     "sample_note": "GeoJSON, ca. 1700 Stationen; Felder id, name, value (µSv/h), value_cosmic, value_terrestrial, start_measure, end_measure, site_status. Aus Code-Referenzen auf GitHub bekannt (bundesAPI/strahlenschutz-api), in der Bau-Umgebung nicht abrufbar."
+    },
+    {
+     "source_id": "bfs-odl",
+     "name": "BfS ODL-Info, WFS Zeitreihe 1 h und 24 h",
+     "doc_url": "https://github.com/bundesAPI/strahlenschutz-api",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_timeseries_odl_1h&viewparams=kenn:033550222",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stündlich",
+     "history": "Layer odlinfo_timeseries_odl_1h (ca. 7 Tage je Station) und odlinfo_timeseries_odl_24h (Tageswerte, lange Historie); Filter per viewparams=kenn:<Stations-Kennung>",
+     "rate_limit": "unklar",
+     "license": "DL-DE-BY-2.0",
+     "verified": false,
+     "sample_note": "Je Station Reihe aus Messwert und Zeitstempel; erlaubt eigene Baseline je Station (Normalwert)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.bfs_max_station_jump",
+   "name_de": "Größter Sprung einer einzelnen Messstelle",
+   "plain_de": "Welche deutsche Messstelle in einer Stunde am stärksten ansteigt, ohne die Person oder den Ort zu bewerten.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Frühes Signal lokaler Freisetzung oder Transports; nur als Maximum über alle Stationen.",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Medizinische Strahlenquellen in der Nähe",
+    "Sondenfehler",
+    "Radon-Spitzen unter Inversionswetter"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "bfs-odl",
+     "name": "BfS ODL-Info, WFS offene Schnittstelle (Layer odlinfo_odl_1h_latest)",
+     "doc_url": "https://www.imis.bfs.de/geoportal/",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_odl_1h_latest",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h Mittelwert, ca. 10-60 min Verzug",
+     "history": "nur latest-Layer; Zeitreihe separat",
+     "rate_limit": "unklar",
+     "license": "DL-DE-BY-2.0 (BfS, Datenlizenz Deutschland, Quellenangabe)",
+     "verified": false,
+     "sample_note": "GeoJSON, ca. 1700 Stationen; Felder id, name, value (µSv/h), value_cosmic, value_terrestrial, start_measure, end_measure, site_status. Aus Code-Referenzen auf GitHub bekannt (bundesAPI/strahlenschutz-api), in der Bau-Umgebung nicht abrufbar."
+    }
+   ],
+   "notes": "Einzelstation allein nie Alarm; nur zusammen mit Nachbarstationen."
+  },
+  {
+   "id": "nuclear.radiation.bfs_stations_offline",
+   "name_de": "Ausgefallene oder fehlende Messstellen",
+   "plain_de": "Wie viele Messstellen keine aktuellen Werte liefern.",
+   "domain": "radiation",
+   "evidence_class": "B",
+   "rationale": "Messnetz-Ausfall kann Störung der Datenlage oder Angriff auf Infrastruktur sein; als Datenqualitäts-Filter wichtig, damit fehlende Werte nicht als Entwarnung gelten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wartung",
+    "Update der BfS-Schnittstelle"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "bfs-odl",
+     "name": "BfS ODL-Info, WFS offene Schnittstelle (Layer odlinfo_odl_1h_latest)",
+     "doc_url": "https://www.imis.bfs.de/geoportal/",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_odl_1h_latest",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h Mittelwert, ca. 10-60 min Verzug",
+     "history": "nur latest-Layer; Zeitreihe separat",
+     "rate_limit": "unklar",
+     "license": "DL-DE-BY-2.0 (BfS, Datenlizenz Deutschland, Quellenangabe)",
+     "verified": false,
+     "sample_note": "GeoJSON, ca. 1700 Stationen; Felder id, name, value (µSv/h), value_cosmic, value_terrestrial, start_measure, end_measure, site_status. Aus Code-Referenzen auf GitHub bekannt (bundesAPI/strahlenschutz-api), in der Bau-Umgebung nicht abrufbar."
+    }
+   ],
+   "notes": "Feld site_status bzw. Alter von end_measure."
+  },
+  {
+   "id": "nuclear.radiation.eurdep_stations_above_normal_pl",
+   "name_de": "EURDEP Polen: Stationen über Normalwert",
+   "plain_de": "Wie viele Messstellen in Polen über ihrem üblichen Wert liegen (Nachbarland der Ukraine).",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Erste Ausbreitung aus der Ukraine oder Belarus träfe Polen und Baltikum vor Deutschland.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regen",
+    "Gerätewartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "eurdep-bfs",
+     "name": "EURDEP-Layer beim BfS-WFS (Europa, ca. 5000 Stationen)",
+     "doc_url": "https://remon.jrc.ec.europa.eu/About/Rad-Data-Exchange",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:eurdep_latestValue&CQL_FILTER=id LIKE 'PL%25'",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "nur aktuellster Wert; Historie selbst anlegen",
+     "rate_limit": "unklar",
+     "license": "unklar (EURDEP: JRC, Nutzung mit Quellenangabe)",
+     "verified": false,
+     "sample_note": "Stationskennung beginnt mit Ländercode (CZ, FI, PL ...), Messwert Dosisleistung in nSv/h. Filter-Beispiel aus clemensv/real-time-sources (tools/candidates/radiation) übernommen, selbst nicht abgerufen."
+    }
+   ],
+   "notes": "Gleiche Logik wie Deutschland; Ländercode PL."
+  },
+  {
+   "id": "nuclear.radiation.eurdep_stations_above_normal_baltic_nordic",
+   "name_de": "EURDEP Finnland, Baltikum, Skandinavien",
+   "plain_de": "Anteil der Messstellen in FI, EE, LV, LT, SE und NO über ihrem Normalwert.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Nähe zu Russland, Kernkraftwerken und Westwindlage; Finnland und Schweden haben dichte Netze (historischer Fall Tschernobyl 1986 wurde in Schweden zuerst bemerkt).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regen",
+    "Schnee",
+    "Gerätewartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "eurdep-bfs",
+     "name": "EURDEP-Layer beim BfS-WFS (Europa, ca. 5000 Stationen)",
+     "doc_url": "https://remon.jrc.ec.europa.eu/About/Rad-Data-Exchange",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:eurdep_latestValue&CQL_FILTER=id LIKE 'PL%25'",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "nur aktuellster Wert; Historie selbst anlegen",
+     "rate_limit": "unklar",
+     "license": "unklar (EURDEP: JRC, Nutzung mit Quellenangabe)",
+     "verified": false,
+     "sample_note": "Stationskennung beginnt mit Ländercode (CZ, FI, PL ...), Messwert Dosisleistung in nSv/h. Filter-Beispiel aus clemensv/real-time-sources (tools/candidates/radiation) übernommen, selbst nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.eurdep_stations_above_normal_ukraine_adjacent",
+   "name_de": "EURDEP Tschechien, Slowakei, Ungarn, Rumänien",
+   "plain_de": "Anteil erhöhter Messstellen in Ländern südlich und östlich der Ukraine.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Zweite Linie von Ländern, die nahe der Ukraine liegen und im EURDEP melden.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regen",
+    "Gerätewartung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "eurdep-bfs",
+     "name": "EURDEP-Layer beim BfS-WFS (Europa, ca. 5000 Stationen)",
+     "doc_url": "https://remon.jrc.ec.europa.eu/About/Rad-Data-Exchange",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:eurdep_latestValue&CQL_FILTER=id LIKE 'PL%25'",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "nur aktuellster Wert; Historie selbst anlegen",
+     "rate_limit": "unklar",
+     "license": "unklar (EURDEP: JRC, Nutzung mit Quellenangabe)",
+     "verified": false,
+     "sample_note": "Stationskennung beginnt mit Ländercode (CZ, FI, PL ...), Messwert Dosisleistung in nSv/h. Filter-Beispiel aus clemensv/real-time-sources (tools/candidates/radiation) übernommen, selbst nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.eurdep_europe_median",
+   "name_de": "EURDEP Europa: Median Dosisleistung",
+   "plain_de": "Der mittlere Messwert über alle europäischen Stationen, geglättet.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Kontinent-weite Erhöhung wäre ein Alarm unabhängig von lokalen Ursachen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Großwetterlage mit Regen",
+    "Kosmische Ereignisse"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "eurdep-bfs",
+     "name": "EURDEP-Layer beim BfS-WFS (Europa, ca. 5000 Stationen)",
+     "doc_url": "https://remon.jrc.ec.europa.eu/About/Rad-Data-Exchange",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:eurdep_latestValue&CQL_FILTER=id LIKE 'PL%25'",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "nur aktuellster Wert; Historie selbst anlegen",
+     "rate_limit": "unklar",
+     "license": "unklar (EURDEP: JRC, Nutzung mit Quellenangabe)",
+     "verified": false,
+     "sample_note": "Stationskennung beginnt mit Ländercode (CZ, FI, PL ...), Messwert Dosisleistung in nSv/h. Filter-Beispiel aus clemensv/real-time-sources (tools/candidates/radiation) übernommen, selbst nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.ch_nadam",
+   "name_de": "Schweiz: NADAM-Messnetz",
+   "plain_de": "Rund 70 automatische Strahlungsmessstellen der Schweiz.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Unabhängiges Netz mit eigenem Betreiber (Nationale Alarmzentrale); bestätigt oder widerlegt deutsche Daten.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regen",
+    "Schnee im Gebirge"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "naz-nadam",
+     "name": "NADAM, Nationale Alarmzentrale Schweiz",
+     "doc_url": "https://www.naz.ch/de/aktuell/messdaten",
+     "endpoint": "https://www.naz.ch/de/aktuell/messdaten",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "10 min",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "unklar (Quellenangabe)",
+     "verified": false,
+     "sample_note": "Endpunkt nicht geprüft; Messwerte auch in EURDEP (Ländercode CH)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.safecast_global",
+   "name_de": "Safecast: Zählrate im Netz",
+   "plain_de": "Zählraten freiwilliger Messgeräte weltweit, vor allem Japan, USA und Europa.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Dritte, vom Staat unabhängige Messung (Crowd-Sensoren, CC0); kann erhöhte Werte bestätigen, wenn amtliche Netze schweigen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Gerätefehler",
+    "Mobile Messfahrten (Messort wechselt)",
+    "Flug- oder Höhenmessungen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "safecast",
+     "name": "Safecast API",
+     "doc_url": "https://api.safecast.org/en-US",
+     "endpoint": "https://api.safecast.org/measurements.json?order=captured_at+desc&distance=100&latitude=50.0&longitude=8.0",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "captured_after und captured_before; Datenbestand seit 2011",
+     "rate_limit": "unklar",
+     "license": "CC0 (laut Projektbeschreibung)",
+     "verified": false,
+     "sample_note": "Feld value in CPM; Geräteliste unter /devices.json. Aus Dokumentation in clemensv/real-time-sources bekannt."
+    }
+   ],
+   "notes": "Als Aggregat je Region (Median der letzten Stunde), nie je Person."
+  },
+  {
+   "id": "nuclear.radiation.radmon_org",
+   "name_de": "radmon.org: Geigerzähler-Netz",
+   "plain_de": "Freiwillige Geigerzähler-Meldungen, in Europa und Nordamerika dicht.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Weiteres Crowd-Netz; Anzahl der Geräte über ihrem Normalwert als Kennzahl.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Gerätefehler",
+    "Mobile Geräte"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "radmon-org",
+     "name": "radmon.org",
+     "doc_url": "https://radmon.org/",
+     "endpoint": "https://radmon.org/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Endpunkt und Format nicht geprüft; Programmierschnittstelle vorhanden, genaue Aufrufe unbekannt."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.uradmonitor_europe",
+   "name_de": "uRADMonitor: Sensoren in Europa",
+   "plain_de": "Öffentliche Sensoren eines privaten Messnetzes mit Strahlung und Luftwerten.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Dichte Abdeckung vor allem in Osteuropa; auch Ukraine, wo amtliche Daten fehlen können.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Gerätefehler",
+    "Wetter"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "uradmonitor",
+     "name": "uRADMonitor Data API",
+     "doc_url": "https://www.uradmonitor.com/api/",
+     "endpoint": "https://data.uradmonitor.com/api/v1/devices",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Zeitreihe je Gerät (/devices/{id}/all/{from}/{to}) laut Doku",
+     "rate_limit": "unklar",
+     "license": "unklar (Nutzungsbedingungen prüfen)",
+     "verified": false,
+     "sample_note": "Header mit Nutzerkennung und Schlüssel nötig; Messwert cpm und µSv/h je Gerät; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.nl_be_nrm_rivm",
+   "name_de": "Niederlande: Strahlungsmessnetz RIVM",
+   "plain_de": "Rund 150 Messstellen der Niederlande.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Nachbarland mit eigenem Netz; ergänzt EURDEP-Auswertung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regen"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "rivm-nrm",
+     "name": "RIVM Nationaal Meetnet Radioactiviteit",
+     "doc_url": "https://www.rivm.nl/stralingsmonitor",
+     "endpoint": "https://www.rivm.nl/stralingsmonitor",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "10 min",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nicht geprüft; Daten auch über EURDEP (NL)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.ua_ecozagroza",
+   "name_de": "Ukraine: Strahlungslage amtlich",
+   "plain_de": "Messwerte der ukrainischen Behörde für Umweltlage, auch Umgebung von Tschernobyl und Saporischschja.",
+   "domain": "radiation",
+   "evidence_class": "B",
+   "rationale": "Direkte Daten aus der Region; Aussagen dazu sind Selbstmeldung, daher B.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Kampfhandlungen verwirbeln Staub",
+    "Datenlücken im Krieg"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ecozagroza",
+     "name": "Ecozagroza (SAEE, Ukraine)",
+     "doc_url": "https://ecozagroza.gov.ua/",
+     "endpoint": "https://ecozagroza.gov.ua/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unklar",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nicht geprüft; Web-Karte, Schnittstelle unbekannt."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.us_epa_radnet",
+   "name_de": "USA: EPA RadNet",
+   "plain_de": "Rund 140 Stationen der US-Umweltbehörde für Gamma und Luftfilter.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Erkennt Fallout aus Ostasien oder Russland nach Tagen; Daten im Download.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Regen",
+    "Gerätewartung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "epa-radnet",
+     "name": "EPA RadNet",
+     "doc_url": "https://www.epa.gov/radnet",
+     "endpoint": "https://www.epa.gov/radnet/radnet-csv-file-downloads",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden bis Tage",
+     "history": "CSV mit Jahreshistorie",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Gamma-Zeitreihe je Stadt; Dateiname und Spalten nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.jp_nra_monitoring",
+   "name_de": "Japan: Strahlungsmessung der Aufsichtsbehörde",
+   "plain_de": "Rund 4000 Messposten in Japan, Echtzeit und Karte.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Messwerte rund um Fukushima und Kraftwerke; Hinweis auf Zwischenfälle in Ostasien.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Taifun und Regen"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "nra-jp",
+     "name": "NRA Radioactivity Monitoring",
+     "doc_url": "https://radioactivity.nsr.go.jp/en/",
+     "endpoint": "https://radioactivity.nsr.go.jp/en/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "10 min",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nicht geprüft; Datenformat unbekannt."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.kr_kins_iernet",
+   "name_de": "Südkorea: Umgebungsstrahlung (KINS)",
+   "plain_de": "Messstellen um Kernkraftwerke und im Land.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Südkorea würde einen nordkoreanischen Test oder Unfall früh messen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regen",
+    "Gelber Staub"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "kins-iernet",
+     "name": "KINS iernet",
+     "doc_url": "https://iernet.kins.re.kr/",
+     "endpoint": "https://iernet.kins.re.kr/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "10 min",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.ca_crmn_xenon",
+   "name_de": "Kanada und IMS-Edelgase (nur Kontext)",
+   "plain_de": "Edelgas-Messungen sind nur bei CTBTO nicht öffentlich; hier nur Kanadas Messnetz.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Edelgase wie Xenon verraten unterirdische Tests; öffentlich kaum verfügbar.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Medizinische Isotopenproduktion"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "canada-crmn",
+     "name": "Canadian Radiological Monitoring Network",
+     "doc_url": "https://open.canada.ca/",
+     "endpoint": "https://open.canada.ca/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "unklar",
+     "rate_limit": "Open Government Licence Canada",
+     "license": "Open Government Licence Canada",
+     "verified": false,
+     "sample_note": "Nicht geprüft."
+    }
+   ],
+   "notes": "Eher Ideensammlung; kein konkreter Endpunkt."
+  },
+  {
+   "id": "nuclear.context.rain_washout",
+   "name_de": "Regenmenge in Deutschland (Störfaktor)",
+   "plain_de": "Wie viel es gerade regnet, denn Regen lässt die Strahlungswerte harmlos steigen.",
+   "domain": "context",
+   "evidence_class": "A",
+   "rationale": "Filter: Anstieg der Dosisleistung bei Regen ist meist Radon-Auswaschung, keine Gefahr.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Das Wetter selbst"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "open-meteo",
+     "name": "Open-Meteo",
+     "doc_url": "https://open-meteo.com/en/docs",
+     "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=51.5&longitude=9.0&hourly=precipitation,wind_speed_10m,wind_direction_10m&past_days=7",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "archive-api.open-meteo.com seit 1940",
+     "rate_limit": "10000 Aufrufe/Tag",
+     "license": "CC BY 4.0 (nicht-kommerziell kostenlos)",
+     "verified": false,
+     "sample_note": "hourly.precipitation in mm; nicht abgerufen."
+    }
+   ],
+   "notes": "Gewicht 0, nur Filter."
+  },
+  {
+   "id": "nuclear.context.wind_direction_ukraine_poland",
+   "name_de": "Windrichtung Ost nach West (Ausbreitung)",
+   "plain_de": "Weht der Wind aus Osten nach Mitteleuropa, wäre Ausbreitung möglich.",
+   "domain": "context",
+   "evidence_class": "A",
+   "rationale": "Zeigt, ob ein Anstieg in EURDEP Richtung Ausbreitung passt oder zufällig ist.",
+   "direction": "both",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Normales Wetter"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "open-meteo",
+     "name": "Open-Meteo",
+     "doc_url": "https://open-meteo.com/en/docs",
+     "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=50.45&longitude=30.5&hourly=wind_speed_850hPa,wind_direction_850hPa&past_days=3&forecast_days=3",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "Archiv seit 1940",
+     "rate_limit": "10000 Aufrufe/Tag",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Wind in 850 hPa über Kiew und Saporischschja; nicht abgerufen."
+    }
+   ],
+   "notes": "Gewicht 0."
+  },
+  {
+   "id": "nuclear.context.dwd_precipitation_radar",
+   "name_de": "DWD Niederschlag (Radar)",
+   "plain_de": "Offizielle Radar-Niederschlagsdaten als Gegenprobe zum Wettermodell.",
+   "domain": "context",
+   "evidence_class": "A",
+   "rationale": "Exakter Regen je Gebiet erklärt lokale Spitzen der Dosisleistung.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Das Wetter selbst"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "dwd-opendata",
+     "name": "DWD Open Data",
+     "doc_url": "https://opendata.dwd.de/weather/radar/",
+     "endpoint": "https://opendata.dwd.de/weather/radar/radolan/rw/",
+     "access": "download",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "nur rollierende Archive",
+     "rate_limit": "unklar",
+     "license": "GeoNutzV (DWD, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Verzeichnis mit RADOLAN-Rasterdateien; Format RADOLAN binär; nicht geprüft."
+    }
+   ],
+   "notes": "Gewicht 0."
+  },
+  {
+   "id": "nuclear.context.neutron_monitor_nmdb",
+   "name_de": "Neutronenmonitore (kosmische Strahlung)",
+   "plain_de": "Zählrate kosmischer Teilchen, die die Dosisleistung beeinflusst.",
+   "domain": "context",
+   "evidence_class": "A",
+   "rationale": "Forbush-Abfälle und Sonnenstürme verändern Bodenstrahlung leicht und sind harmlos.",
+   "direction": "both",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Sonnenaktivität"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nmdb",
+     "name": "NMDB Neutron Monitor Database",
+     "doc_url": "https://www.nmdb.eu/nest/help.php",
+     "endpoint": "https://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=KIEL&output=ascii&tabchoice=revori&dtype=corr_for_efficiency&tresolution=60&force=1",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min bis 1 h",
+     "history": "Daten seit 1950er",
+     "rate_limit": "unklar",
+     "license": "unklar (Quellenangabe)",
+     "verified": false,
+     "sample_note": "Zählrate je Station; Parameter nicht geprüft."
+    }
+   ],
+   "notes": "Gewicht 0."
+  },
+  {
+   "id": "nuclear.context.radon_exhalation_proxy",
+   "name_de": "Radon-Schwankungen (Inversionswetter)",
+   "plain_de": "Radon sammelt sich bei windstillen Nächten und hebt Messwerte leicht.",
+   "domain": "context",
+   "evidence_class": "A",
+   "rationale": "Erklärt tägliche Schwankung der ODL ohne Gefahr.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Tag-Nacht-Rhythmus"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "open-meteo-bl",
+     "name": "Open-Meteo Boundary-Layer-Höhe",
+     "doc_url": "https://open-meteo.com/en/docs",
+     "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=51.5&longitude=9.0&hourly=boundary_layer_height,wind_speed_10m&past_days=3",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "Archiv seit 1940",
+     "rate_limit": "10000 Aufrufe/Tag",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "boundary_layer_height als Stellvertreter für Radon-Anreicherung; keine direkte Radonmessung."
+    }
+   ],
+   "notes": "Gewicht 0, Stellvertreter ohne direkte Radonmessung."
+  },
+  {
+   "id": "nuclear.context.solar_geomagnetic",
+   "name_de": "Sonnenwind und Magnetfeld (Kontext)",
+   "plain_de": "Ob Sonnenstürme gerade Messgeräte und Funk stören.",
+   "domain": "context",
+   "evidence_class": "A",
+   "rationale": "Ausfall von GPS oder Funk bei Sonnensturm darf nicht mit Angriff verwechselt werden.",
+   "direction": "both",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Sonnenaktivität"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "noaa-swpc",
+     "name": "NOAA SWPC",
+     "doc_url": "https://services.swpc.noaa.gov/",
+     "endpoint": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "3 h",
+     "history": "30 Tage rollierend",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Kp-Index; im Projekt schon als Collector vorhanden."
+    }
+   ],
+   "notes": "Gewicht 0.",
+   "extends": "noaa-swpc"
+  },
+  {
+   "id": "nuclear.seismic.events_near_punggye_ri",
+   "name_de": "Seismische Ereignisse nahe Punggye-ri (Nordkorea)",
+   "plain_de": "Zahl der Erdbeben- oder Explosionsmeldungen in der Nähe des bekannten Testgeländes Punggye-ri (Nordkorea).",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Ein unterirdischer Test erzeugt ein flaches, explosionsartiges Signal; USGS und EMSC melden es oft innerhalb von Minuten bis Stunden (Typ nuclear explosion oder explosion, Herdtiefe nahe 0).",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Natürliche Beben",
+    "Steinbruch- und Bergwerkssprengungen",
+    "Einsturz in Minen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=41.28&longitude=129.08&maxradiuskm=100&starttime=2025-01-01&orderby=time&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "features[].properties.type (z. B. earthquake, explosion, nuclear explosion), mag, depth in geometry.coordinates[2]; Filter eventtype ist Parameter. Nicht abgerufen."
+    },
+    {
+     "source_id": "emsc-fdsn",
+     "name": "EMSC FDSN Event (seismicportal.eu)",
+     "doc_url": "https://www.seismicportal.eu/fdsn-wsevent.html",
+     "endpoint": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=41.28&longitude=129.08&maxradius=100&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (EMSC, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Filterparameter in EMSC heißen lat, lon, maxradius (Grad); hier nur Beispiel; nicht geprüft."
+    },
+    {
+     "source_id": "geofon-fdsn",
+     "name": "GEOFON (GFZ Potsdam) FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/application.wadl",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minlatitude=40&maxlatitude=43&minlongitude=128&maxlongitude=130&limit=50",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (GFZ, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Nur Beispiel-Rechteck (Nordkorea); je Gelände anpassen; nicht geprüft."
+    }
+   ],
+   "notes": "Bergwerke in der Umgebung beachten; Magnitude unter 3 meist nicht gemeldet."
+  },
+  {
+   "id": "nuclear.seismic.events_near_lop_nur",
+   "name_de": "Seismische Ereignisse nahe Lop Nur (China)",
+   "plain_de": "Zahl der Erdbeben- oder Explosionsmeldungen in der Nähe des bekannten Testgeländes Lop Nur (China).",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Ein unterirdischer Test erzeugt ein flaches, explosionsartiges Signal; USGS und EMSC melden es oft innerhalb von Minuten bis Stunden (Typ nuclear explosion oder explosion, Herdtiefe nahe 0).",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Natürliche Beben",
+    "Steinbruch- und Bergwerkssprengungen",
+    "Einsturz in Minen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=41.7&longitude=88.4&maxradiuskm=150&starttime=2025-01-01&orderby=time&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "features[].properties.type (z. B. earthquake, explosion, nuclear explosion), mag, depth in geometry.coordinates[2]; Filter eventtype ist Parameter. Nicht abgerufen."
+    },
+    {
+     "source_id": "emsc-fdsn",
+     "name": "EMSC FDSN Event (seismicportal.eu)",
+     "doc_url": "https://www.seismicportal.eu/fdsn-wsevent.html",
+     "endpoint": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=41.7&longitude=88.4&maxradius=150&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (EMSC, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Filterparameter in EMSC heißen lat, lon, maxradius (Grad); hier nur Beispiel; nicht geprüft."
+    },
+    {
+     "source_id": "geofon-fdsn",
+     "name": "GEOFON (GFZ Potsdam) FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/application.wadl",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minlatitude=40&maxlatitude=43&minlongitude=128&maxlongitude=130&limit=50",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (GFZ, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Nur Beispiel-Rechteck (Nordkorea); je Gelände anpassen; nicht geprüft."
+    }
+   ],
+   "notes": "Bergwerke in der Umgebung beachten; Magnitude unter 3 meist nicht gemeldet."
+  },
+  {
+   "id": "nuclear.seismic.events_near_novaya_zemlya",
+   "name_de": "Seismische Ereignisse nahe Nowaja Semlja (Russland)",
+   "plain_de": "Zahl der Erdbeben- oder Explosionsmeldungen in der Nähe des bekannten Testgeländes Nowaja Semlja (Russland).",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Ein unterirdischer Test erzeugt ein flaches, explosionsartiges Signal; USGS und EMSC melden es oft innerhalb von Minuten bis Stunden (Typ nuclear explosion oder explosion, Herdtiefe nahe 0).",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Natürliche Beben",
+    "Steinbruch- und Bergwerkssprengungen",
+    "Einsturz in Minen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=73.4&longitude=54.9&maxradiuskm=400&starttime=2025-01-01&orderby=time&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "features[].properties.type (z. B. earthquake, explosion, nuclear explosion), mag, depth in geometry.coordinates[2]; Filter eventtype ist Parameter. Nicht abgerufen."
+    },
+    {
+     "source_id": "emsc-fdsn",
+     "name": "EMSC FDSN Event (seismicportal.eu)",
+     "doc_url": "https://www.seismicportal.eu/fdsn-wsevent.html",
+     "endpoint": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=73.4&longitude=54.9&maxradius=400&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (EMSC, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Filterparameter in EMSC heißen lat, lon, maxradius (Grad); hier nur Beispiel; nicht geprüft."
+    },
+    {
+     "source_id": "geofon-fdsn",
+     "name": "GEOFON (GFZ Potsdam) FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/application.wadl",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minlatitude=40&maxlatitude=43&minlongitude=128&maxlongitude=130&limit=50",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (GFZ, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Nur Beispiel-Rechteck (Nordkorea); je Gelände anpassen; nicht geprüft."
+    }
+   ],
+   "notes": "Bergwerke in der Umgebung beachten; Magnitude unter 3 meist nicht gemeldet."
+  },
+  {
+   "id": "nuclear.seismic.events_near_nevada_nnss",
+   "name_de": "Seismische Ereignisse nahe Nevada (USA)",
+   "plain_de": "Zahl der Erdbeben- oder Explosionsmeldungen in der Nähe des bekannten Testgeländes Nevada (USA).",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Ein unterirdischer Test erzeugt ein flaches, explosionsartiges Signal; USGS und EMSC melden es oft innerhalb von Minuten bis Stunden (Typ nuclear explosion oder explosion, Herdtiefe nahe 0).",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Natürliche Beben",
+    "Steinbruch- und Bergwerkssprengungen",
+    "Einsturz in Minen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=37.1&longitude=-116.05&maxradiuskm=60&starttime=2025-01-01&orderby=time&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "features[].properties.type (z. B. earthquake, explosion, nuclear explosion), mag, depth in geometry.coordinates[2]; Filter eventtype ist Parameter. Nicht abgerufen."
+    },
+    {
+     "source_id": "emsc-fdsn",
+     "name": "EMSC FDSN Event (seismicportal.eu)",
+     "doc_url": "https://www.seismicportal.eu/fdsn-wsevent.html",
+     "endpoint": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=37.1&longitude=-116.05&maxradius=60&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (EMSC, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Filterparameter in EMSC heißen lat, lon, maxradius (Grad); hier nur Beispiel; nicht geprüft."
+    },
+    {
+     "source_id": "geofon-fdsn",
+     "name": "GEOFON (GFZ Potsdam) FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/application.wadl",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minlatitude=40&maxlatitude=43&minlongitude=128&maxlongitude=130&limit=50",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (GFZ, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Nur Beispiel-Rechteck (Nordkorea); je Gelände anpassen; nicht geprüft."
+    }
+   ],
+   "notes": "Bergwerke in der Umgebung beachten; Magnitude unter 3 meist nicht gemeldet."
+  },
+  {
+   "id": "nuclear.seismic.events_near_pokhran",
+   "name_de": "Seismische Ereignisse nahe Pokhran (Indien)",
+   "plain_de": "Zahl der Erdbeben- oder Explosionsmeldungen in der Nähe des bekannten Testgeländes Pokhran (Indien).",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Ein unterirdischer Test erzeugt ein flaches, explosionsartiges Signal; USGS und EMSC melden es oft innerhalb von Minuten bis Stunden (Typ nuclear explosion oder explosion, Herdtiefe nahe 0).",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Natürliche Beben",
+    "Steinbruch- und Bergwerkssprengungen",
+    "Einsturz in Minen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=27.1&longitude=71.75&maxradiuskm=150&starttime=2025-01-01&orderby=time&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "features[].properties.type (z. B. earthquake, explosion, nuclear explosion), mag, depth in geometry.coordinates[2]; Filter eventtype ist Parameter. Nicht abgerufen."
+    },
+    {
+     "source_id": "emsc-fdsn",
+     "name": "EMSC FDSN Event (seismicportal.eu)",
+     "doc_url": "https://www.seismicportal.eu/fdsn-wsevent.html",
+     "endpoint": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=27.1&longitude=71.75&maxradius=150&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (EMSC, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Filterparameter in EMSC heißen lat, lon, maxradius (Grad); hier nur Beispiel; nicht geprüft."
+    },
+    {
+     "source_id": "geofon-fdsn",
+     "name": "GEOFON (GFZ Potsdam) FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/application.wadl",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minlatitude=40&maxlatitude=43&minlongitude=128&maxlongitude=130&limit=50",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (GFZ, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Nur Beispiel-Rechteck (Nordkorea); je Gelände anpassen; nicht geprüft."
+    }
+   ],
+   "notes": "Bergwerke in der Umgebung beachten; Magnitude unter 3 meist nicht gemeldet."
+  },
+  {
+   "id": "nuclear.seismic.events_near_chagai",
+   "name_de": "Seismische Ereignisse nahe Chagai (Pakistan)",
+   "plain_de": "Zahl der Erdbeben- oder Explosionsmeldungen in der Nähe des bekannten Testgeländes Chagai (Pakistan).",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Ein unterirdischer Test erzeugt ein flaches, explosionsartiges Signal; USGS und EMSC melden es oft innerhalb von Minuten bis Stunden (Typ nuclear explosion oder explosion, Herdtiefe nahe 0).",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Natürliche Beben",
+    "Steinbruch- und Bergwerkssprengungen",
+    "Einsturz in Minen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=28.8&longitude=64.9&maxradiuskm=150&starttime=2025-01-01&orderby=time&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "features[].properties.type (z. B. earthquake, explosion, nuclear explosion), mag, depth in geometry.coordinates[2]; Filter eventtype ist Parameter. Nicht abgerufen."
+    },
+    {
+     "source_id": "emsc-fdsn",
+     "name": "EMSC FDSN Event (seismicportal.eu)",
+     "doc_url": "https://www.seismicportal.eu/fdsn-wsevent.html",
+     "endpoint": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&latitude=28.8&longitude=64.9&maxradius=150&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (EMSC, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Filterparameter in EMSC heißen lat, lon, maxradius (Grad); hier nur Beispiel; nicht geprüft."
+    },
+    {
+     "source_id": "geofon-fdsn",
+     "name": "GEOFON (GFZ Potsdam) FDSN Event",
+     "doc_url": "https://geofon.gfz-potsdam.de/fdsnws/event/1/application.wadl",
+     "endpoint": "https://geofon.gfz-potsdam.de/fdsnws/event/1/query?format=text&minlatitude=40&maxlatitude=43&minlongitude=128&maxlongitude=130&limit=50",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Katalog mit Historie",
+     "rate_limit": "unklar",
+     "license": "unklar (GFZ, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Nur Beispiel-Rechteck (Nordkorea); je Gelände anpassen; nicht geprüft."
+    }
+   ],
+   "notes": "Bergwerke in der Umgebung beachten; Magnitude unter 3 meist nicht gemeldet."
+  },
+  {
+   "id": "nuclear.seismic.explosion_type_global_count",
+   "name_de": "Weltweit gemeldete Explosionen im Beben-Katalog",
+   "plain_de": "Zahl der Ereignisse, die Seismologen als Explosion statt als Beben einstufen.",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Plötzlicher Anstieg über der Grundrate (Steinbrüche, Minen) wäre auffällig; auch Krieg erzeugt Einträge.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Steinbrüche und Bergwerke",
+    "Neue Netzstationen",
+    "Änderung der Einstufung"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=explosion&starttime=2026-10-01&orderby=time&limit=200",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Zähl-Endpunkt: /fdsnws/event/1/count?eventtype=explosion&starttime=...; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.seismic.shallow_events_nk_region_mb",
+   "name_de": "Nordkorea-Region: flache Ereignisse über Magnitude 3",
+   "plain_de": "Flache Ereignisse über Magnitude 3 im Umkreis von 300 km des Testgeländes.",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Test von 2017 hatte Magnitude etwa 6; schon kleinere flache Ereignisse an diesem Ort sind außergewöhnlich.",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Natürliche Beben im Nordosten Chinas"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=41.28&longitude=129.08&maxradiuskm=300&minmagnitude=3&starttime=2017-01-01&orderby=time",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Historie enthält bekannte Tests 2006 bis 2017 als Backtest; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.seismic.station_noise_mdj",
+   "name_de": "Seismometer-Station Mudanjiang (IU.MDJ)",
+   "plain_de": "Rohsignal der Station nahe Nordkoreas Testgelände.",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Eigene Auswertung der Amplitude liefert Hinweis, auch wenn der Katalog später kommt.",
+   "direction": "up",
+   "lead_time": "minutes",
+   "banal_causes": [
+    "Lokale Erschütterungen",
+    "Ferne Beben"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "iris-fdsn",
+     "name": "EarthScope (IRIS) FDSN Dataselect",
+     "doc_url": "https://service.iris.edu/fdsnws/dataselect/1/",
+     "endpoint": "https://service.iris.edu/fdsnws/dataselect/1/query?net=IU&sta=MDJ&loc=00&cha=BHZ&starttime=2026-11-16T00:00:00&endtime=2026-11-16T01:00:00",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Jahre per starttime",
+     "rate_limit": "unklar",
+     "license": "frei (Quellenangabe)",
+     "verified": false,
+     "sample_note": "MiniSEED-Binärdaten, nicht JSON; nicht abgerufen; nur Fachaufwand."
+    }
+   ],
+   "notes": "Aufwand hoch: Binärformat und Signalverarbeitung."
+  },
+  {
+   "id": "nuclear.seismic.ctbto_press",
+   "name_de": "CTBTO Pressemeldungen und Datenfreigaben",
+   "plain_de": "Kaum Rohdaten, aber Mitteilungen der Vertragsorganisation.",
+   "domain": "seismic",
+   "evidence_class": "C",
+   "rationale": "Offizielle Aussagen sind Kontext, nicht Signal.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Routinemeldungen"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "ctbto",
+     "name": "CTBTO Pressemitteilungen",
+     "doc_url": "https://www.ctbto.org/press-centre/press-releases",
+     "endpoint": "https://www.ctbto.org/press-centre/press-releases",
+     "access": "rss",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nicht geprüft; vDEC-Zugang nur für Forscher."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.seismic.isc_reviewed_events",
+   "name_de": "ISC: geprüfte Ereignisse (zeitverzögert)",
+   "plain_de": "Internationale Beben-Zentrale mit geprüften Katalogen.",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Bestätigt oder korrigiert die schnellen Meldungen später.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Auswertung hinkt hinterher"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "isc",
+     "name": "ISC FDSN Event",
+     "doc_url": "https://www.isc.ac.uk/iscbulletin/search/webservices/",
+     "endpoint": "https://www.isc.ac.uk/fdsnws/event/1/query?starttime=2026-11-01&format=text&limit=100",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Monate (geprüfte Daten)",
+     "history": "Katalog seit 1900",
+     "rate_limit": "unklar",
+     "license": "unklar (Quellenangabe)",
+     "verified": false,
+     "sample_note": "Kataloge der Nicht-Eilmeldung; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.seismic.ukraine_zone_explosions",
+   "name_de": "Ukraine und Umgebung: Explosionen im Beben-Katalog",
+   "plain_de": "Zählreihe flacher Ereignisse mit Explosions-Typ im Raum Ukraine und Südwestrussland.",
+   "domain": "seismic",
+   "evidence_class": "A",
+   "rationale": "Beim Beschuss von Kraftwerken kann ein Ereignis nahe einem Kernkraftwerk auffallen; reine Zählreihe, Ortsangabe nur zur Gruppierung.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Bergbau",
+    "Fehleinstufung"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "usgs-fdsn",
+     "name": "USGS FDSN Event Web Service",
+     "doc_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+     "endpoint": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=explosion&minlatitude=44&maxlatitude=53&minlongitude=22&maxlongitude=42&starttime=2026-01-01&orderby=time",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Katalog seit 1900 per starttime",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.fr_nuclear_generation",
+   "name_de": "Frankreich: Atomstrom-Erzeugung",
+   "plain_de": "Wie viel Strom die 56 französischen Reaktoren gerade liefern.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Ungeplanter gemeinsamer Abfall mehrerer Reaktoren könnte Störung (Netz, Kühlwasser, Anlage) anzeigen; Grundbelastung stabil.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Geplante Revisionen",
+    "Hitzewelle und Kühlwasser",
+    "Streiks",
+    "Lastfolge am Wochenende"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "energy-charts",
+     "name": "Energy-Charts public_power (country=fr)",
+     "doc_url": "https://api.energy-charts.info/",
+     "endpoint": "https://api.energy-charts.info/public_power?country=fr&start=2026-11-10&end=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min bis 1 h",
+     "history": "Jahre per start",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0 (Fraunhofer ISE)",
+     "verified": false,
+     "sample_note": "production_types[] mit name Kernenergie und data; Schema wie im Collector energy-charts bekannt."
+    }
+   ],
+   "notes": "",
+   "extends": "energy-charts"
+  },
+  {
+   "id": "nuclear.plants.fr_eco2mix_nuclear",
+   "name_de": "Frankreich: Atomstrom laut RTE eco2mix",
+   "plain_de": "Offizielle Echtzeitdaten des französischen Netzbetreibers zur Atomstromerzeugung.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Zweite Quelle zu Frankreich; Feld nucleaire in MW alle 15 Minuten.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Revision",
+    "Hitzewelle"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "odre-eco2mix",
+     "name": "ODRE eco2mix-national-tr",
+     "doc_url": "https://odre.opendatasoft.com/explore/dataset/eco2mix-national-tr/information/",
+     "endpoint": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=96&order_by=date_heure%20desc",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "Datensatz mit Historie",
+     "rate_limit": "unklar",
+     "license": "Licence Ouverte (RTE)",
+     "verified": false,
+     "sample_note": "Feld nucleaire (MW). Aus Dokumentation in clemensv/real-time-sources bekannt, nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.uk_elexon_nuclear",
+   "name_de": "Großbritannien: Atomstrom (Elexon)",
+   "plain_de": "Atomstrom-Leistung im britischen Netz.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Unabhängige Leistungsdaten für kleine Flotte; sprunghafte Abschaltung auffällig.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Revision",
+    "Sicherheitsabschaltung durch Fehler"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "elexon-bmrs",
+     "name": "Elexon BMRS Insights",
+     "doc_url": "https://bmrs.elexon.co.uk/api-documentation",
+     "endpoint": "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST?format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Archiv per Datum",
+     "rate_limit": "unklar",
+     "license": "BMRS-Lizenz (offen)",
+     "verified": false,
+     "sample_note": "Feld fuelType NUCLEAR, generation in MW; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.fi_fingrid_nuclear",
+   "name_de": "Finnland: Atomstrom (Fingrid)",
+   "plain_de": "Echtzeit-Atomstromproduktion in Finnland.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Olkiluoto und Loviisa nahe Russland; Abfall bei Netzstörung.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Revision",
+    "Netzstörung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fingrid",
+     "name": "Fingrid Open Data",
+     "doc_url": "https://data.fingrid.fi/en/instructions",
+     "endpoint": "https://data.fingrid.fi/api/datasets/188/data",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "3 min",
+     "history": "Zeitreihe seit 2015",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Datensatznummer 188 als Atomstrom aus Erinnerung; nicht geprüft; Schlüssel nötig."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.entsoe_unavailability_nuclear",
+   "name_de": "ENTSO-E: Nichtverfügbarkeit von Kernkraftwerken",
+   "plain_de": "Gemeldete geplante und ungeplante Ausfälle europäischer Kernkraftwerke.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Pflichtmeldung (REMIT); ungeplante Ausfälle mehrerer Blöcke gleichzeitig als Kennzahl.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Revisionen (geplant)",
+    "Wartung",
+    "Hitze"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "entsoe",
+     "name": "ENTSO-E Transparency Platform",
+     "doc_url": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10YFR-RTE------C&periodStart=202611010000&periodEnd=202611300000&securityToken=KEY",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten bis Stunden",
+     "history": "Jahre",
+     "rate_limit": "400 Anfragen/min",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Filter psrType=B14 (Kernenergie) im Ergebnis; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.entsoe_nuclear_generation_per_unit",
+   "name_de": "ENTSO-E: Erzeugung je Kernkraftwerk",
+   "plain_de": "Einzelblock-Leistung europäischer Kernkraftwerke.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Block-genaue Leistungsreihen zeigen Abschaltungen sofort.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Lastfolge",
+    "Revisionen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "entsoe",
+     "name": "ENTSO-E Transparency Platform",
+     "doc_url": "https://transparency.entsoe.eu/",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A73&processType=A16&in_Domain=10YFR-RTE------C&periodStart=202611160000&periodEnd=202611170000&securityToken=KEY",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "Jahre",
+     "rate_limit": "400 Anfragen/min",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "A73 nach Erzeugungseinheit; Einheiten ab 100 MW; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.us_nrc_reactor_status",
+   "name_de": "USA: Leistungsstatus aller Reaktoren (NRC)",
+   "plain_de": "Tägliche Prozentleistung jedes US-Reaktors.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Pflicht-Statusbericht; plötzliche Abschaltungen vieler Blöcke außerhalb von Stürmen auffällig.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wetter",
+    "Revisionen",
+    "Netzstörung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nrc-status",
+     "name": "NRC Power Reactor Status Report",
+     "doc_url": "https://www.nrc.gov/reading-rm/doc-collections/event-status/reactor-status/",
+     "endpoint": "https://www.nrc.gov/reading-rm/doc-collections/event-status/reactor-status/powerreactorstatusforlast365days.txt",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "365 Tage Rückblick",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Textdatei mit Trennzeichen, Spalte Power (Prozent); Name aus Erinnerung, nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.us_nrc_event_reports",
+   "name_de": "USA: NRC Ereignismeldungen",
+   "plain_de": "Täglich veröffentlichte Meldungen von Kraftwerken über Auffälligkeiten.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Pflichtmeldungen; Zählreihe der Meldungen mit Stichwort Notfallkategorie (Alert, Unusual Event).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Routine-Stichwörter",
+    "Übungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nrc-events",
+     "name": "NRC Event Notification Reports",
+     "doc_url": "https://www.nrc.gov/reading-rm/doc-collections/event-status/event/",
+     "endpoint": "https://www.nrc.gov/reading-rm/doc-collections/event-status/event/en.html",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Archiv ab 1999",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "HTML pro Tag; nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.iaea_pris_status",
+   "name_de": "IAEA PRIS: Reaktorstatus je Land",
+   "plain_de": "Betriebsstatus aller Reaktoren weltweit laut Register.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Register, langsame Aktualisierung; Änderungen von in Betrieb auf Abschaltung für Ukraine (Saporischschja) beobachten.",
+   "direction": "down",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Stilllegung",
+    "Revision",
+    "Meldeverzug"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "iaea-pris",
+     "name": "IAEA PRIS",
+     "doc_url": "https://pris.iaea.org/PRIS/",
+     "endpoint": "https://pris.iaea.org/PRIS/CountryStatistics/CountryDetails.aspx?current=UA",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage bis Wochen",
+     "history": "Statistik seit 1954",
+     "rate_limit": "unklar",
+     "license": "unklar (Quellenangabe IAEA)",
+     "verified": false,
+     "sample_note": "HTML-Tabelle; als Scraping in GitHub-Projekten verwendet; nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.znpp_external_power",
+   "name_de": "Saporischschja: externe Stromleitungen",
+   "plain_de": "Zahl der Hochspannungsleitungen, die das Kraftwerk mit dem Netz verbinden.",
+   "domain": "plants",
+   "evidence_class": "C",
+   "rationale": "Aussagen der IAEA zur Stromversorgung (Verlust der externen Leitungen) gelten als Kontext; nur maschinenlesbar, falls Datensatz existiert.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Kampfhandlungen",
+    "Reparaturen"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "iaea-ukraine",
+     "name": "IAEA Update zur Lage in der Ukraine",
+     "doc_url": "https://www.iaea.org/newscenter/focus/iaea-ukraine-conflict",
+     "endpoint": "https://www.iaea.org/newscenter/focus/iaea-ukraine-conflict",
+     "access": "rss",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Keine maschinenlesbare Reihe bekannt; als Text mit manueller Zählreihe."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.entsoe_ukraine_grid",
+   "name_de": "Ukraine: Netz-Lastfluss an der Grenze",
+   "plain_de": "Grenzüberschreitende Stromflüsse der Ukraine in die EU als Gesundheitsmaß des Netzes.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Ausfall der Netze würde Notstromsysteme von Kraftwerken belasten.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Kampfhandlungen",
+    "Handelsregeln"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "entsoe",
+     "name": "ENTSO-E physical flows",
+     "doc_url": "https://transparency.entsoe.eu/",
+     "endpoint": "https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001C--00003F&out_Domain=10YPL-AREA-----S&periodStart=202611010000&periodEnd=202611170000&securityToken=KEY",
+     "access": "api",
+     "format": "xml",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "Jahre",
+     "rate_limit": "400 Anfragen/min",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Ukraine-Zone 10Y1001C--00003F (Burshtyn-Insel schon bei ENTSO-E); nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.plants.owid_nuclear_baseline",
+   "name_de": "OWID: Atomstrom je Land (Jahreswerte)",
+   "plain_de": "Langzeit-Referenz zur Stromerzeugung aus Kernenergie je Land.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Keine Frühwarnung, nur Baseline für Länderanteil; per GitHub-Spiegel sofort verfügbar.",
+   "direction": "both",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Statistik hinkt ein Jahr hinterher"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "owid-energy",
+     "name": "Our World in Data Energy Dataset (GitHub)",
+     "doc_url": "https://github.com/owid/energy-data",
+     "endpoint": "https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-data.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "jährlich",
+     "history": "Jahre ab 1900",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0",
+     "verified": true,
+     "sample_note": "curl 17.11.2026: Datei antwortet (Range-Abruf, HTTP 206); Kopfzeile beginnt mit country,year,iso_code; Spalte nuclear_electricity."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.alerts.nina_mowas_count",
+   "name_de": "NINA/MoWaS: amtliche Warnmeldungen pro Tag",
+   "plain_de": "Zahl der bundesweit herausgegebenen Warnungen (z. B. Gefahrstoffe, Großbrand).",
+   "domain": "alerts",
+   "evidence_class": "C",
+   "rationale": "Nur Zählreihe als Kontext; ein Anstieg mit Stichwort Radioaktivität wäre Hinweis, aber Aussage der Behörde.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Warntag (jährlich)",
+    "Unwetter",
+    "Bombenentschärfung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nina",
+     "name": "NINA / MoWaS (warnung.bund.de API)",
+     "doc_url": "https://nina.api.bund.dev/",
+     "endpoint": "https://warnung.bund.de/api31/mowas/mapData.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur aktuelle Meldungen; Verlauf selbst anlegen",
+     "rate_limit": "unklar",
+     "license": "unklar (BBK, Quellenangabe)",
+     "verified": false,
+     "sample_note": "Liste mit id, version, startDate, severity, type; als Code-Referenz in scalytics/kafSIEM und bundesAPI/deutschland bekannt; nicht abgerufen."
+    }
+   ],
+   "notes": "Klasse C: Gewicht 0."
+  },
+  {
+   "id": "nuclear.alerts.nina_keyword_radiological",
+   "name_de": "NINA: Warnungen mit Stichwort Strahlung/ABC",
+   "plain_de": "Zählreihe der Meldungen mit Begriffen wie Radioaktivität, ABC, Gefahrstoff.",
+   "domain": "alerts",
+   "evidence_class": "C",
+   "rationale": "Eine Warnung zu radiologischer Lage in Deutschland wäre fast beispiellos.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Übungsmeldungen",
+    "Fehlalarm"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nina",
+     "name": "NINA warnung.bund.de",
+     "doc_url": "https://nina.api.bund.dev/",
+     "endpoint": "https://warnung.bund.de/api31/mowas/mapData.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Verlauf selbst anlegen",
+     "rate_limit": "unklar",
+     "license": "unklar (BBK)",
+     "verified": false,
+     "sample_note": "Text im Feld i18nTitle bzw. Detail-Endpunkt /warnings/{id}.json durchsuchen."
+    }
+   ],
+   "notes": "Gewicht 0."
+  },
+  {
+   "id": "nuclear.alerts.nws_radiological_events",
+   "name_de": "USA: Warnungen Strahlung und Kernkraftwerk (NWS)",
+   "plain_de": "Zahl aktiver amtlicher Warnungen mit Ereignistyp Radiological Hazard Warning und Nuclear Power Plant Warning.",
+   "domain": "alerts",
+   "evidence_class": "C",
+   "rationale": "Diese Typen sind sehr selten; eine Warnung wäre sofort auffällig (in der Praxis nur Tests).",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wöchentliche Warntests",
+    "Übungen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nws-alerts",
+     "name": "NWS Alerts API",
+     "doc_url": "https://www.weather.gov/documentation/services-web-api",
+     "endpoint": "https://api.weather.gov/alerts/active?event=Radiological%20Hazard%20Warning,Nuclear%20Power%20Plant%20Warning",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "nur aktiv; Archiv per IEM",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "features[] zählen; Header User-Agent nötig; nicht abgerufen."
+    }
+   ],
+   "notes": "Gewicht 0."
+  },
+  {
+   "id": "nuclear.alerts.fema_ipaws_archive",
+   "name_de": "FEMA IPAWS: archivierte Warnungen",
+   "plain_de": "Archiv der US-Warnungen im Warnsystem IPAWS.",
+   "domain": "alerts",
+   "evidence_class": "C",
+   "rationale": "Historie erlaubt Baseline und Backtest zu Zählreihen von Meldungen zu Zivilschutz.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Tests",
+    "Entführungswarnungen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fema-ipaws",
+     "name": "OpenFEMA IPAWS Archived Alerts",
+     "doc_url": "https://www.fema.gov/about/openfema/data-sets",
+     "endpoint": "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$top=100&$orderby=sent%20desc",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Archiv seit 2012",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Felder sent, event, status; Name aus Erinnerung; nicht abgerufen."
+    }
+   ],
+   "notes": "Gewicht 0."
+  },
+  {
+   "id": "nuclear.alerts.ua_air_raid_sirens",
+   "name_de": "Ukraine: Luftalarm-Zählreihe",
+   "plain_de": "Zahl der Luftalarm-Regionen pro Tag, auch nahe Kernkraftwerken.",
+   "domain": "alerts",
+   "evidence_class": "C",
+   "rationale": "Bestehender Collector; Kontext, ob Kernkraftwerksnähe gerade bedroht ist.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Routinealarme"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "github-air-raid-sirens",
+     "name": "GitHub-Spiegel Luftalarme",
+     "doc_url": "https://github.com/",
+     "endpoint": "https://raw.githubusercontent.com/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Verlauf",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Im Projekt schon gebaut (Collector github-air-raid-sirens)."
+    }
+   ],
+   "notes": "Gewicht 0, nur Kontext.",
+   "extends": "github-air-raid-sirens"
+  },
+  {
+   "id": "nuclear.alerts.alertswiss_ch",
+   "name_de": "Schweiz: Alertswiss Meldungen",
+   "plain_de": "Warnungen des Schweizer Bevölkerungsschutzes.",
+   "domain": "alerts",
+   "evidence_class": "C",
+   "rationale": "Eigenes Land mit hoher Kernkraftdichte und starkem Zivilschutz.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Unwetter"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "alertswiss",
+     "name": "Alertswiss",
+     "doc_url": "https://www.alertswiss.ch/",
+     "endpoint": "https://www.alertswiss.ch/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nicht geprüft; CAP-Feed vermutet."
+    }
+   ],
+   "notes": "Gewicht 0."
+  },
+  {
+   "id": "nuclear.military.adsb_command_relay_aircraft",
+   "name_de": "Führungs- und Relaisflugzeuge (Aggregat)",
+   "plain_de": "Zahl der Flugzeuge der Typen für Führung und Kommunikation, die gerade auf öffentlichen Radaren sichtbar sind.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Ungewöhnlich viele Flüge dieser Typen sind Teil der Vorbereitung auf hohe Alarmstufen; nur Summe, nie Einzelflug.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Übungen",
+    "Routineflüge",
+    "Feeder-Abdeckung"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/type/E6B",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "nur Live",
+     "rate_limit": "unklar",
+     "license": "ODbL (adsb.lol)",
+     "verified": false,
+     "sample_note": "Antwort total (Zahl); Typcodes E6B, E4B, RC135 wären als Abfrage zu prüfen; nicht abgerufen. Nur Zählung speichern."
+    }
+   ],
+   "notes": "Nur Aggregate, keine Kennzeichen speichern.",
+   "extends": "adsb-lol"
+  },
+  {
+   "id": "nuclear.military.adsb_tanker_bomber_count",
+   "name_de": "Tank- und Bomberflugzeuge (Aggregat)",
+   "plain_de": "Zahl sichtbarer Tankflugzeuge und strategischer Bomber.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Gleiche Quelle wie im Szenario Krieg; hier nur Summe der Typen als Nuklear-Kontext.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Übungen",
+    "Verlegungen"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "nur Live",
+     "rate_limit": "unklar",
+     "license": "ODbL",
+     "verified": false,
+     "sample_note": "Nach Typfeld t zählen; nicht abgerufen."
+    }
+   ],
+   "notes": "",
+   "extends": "adsb-lol"
+  },
+  {
+   "id": "nuclear.military.adsb_mil_total",
+   "name_de": "Militärflugzeuge weltweit (Summe)",
+   "plain_de": "Wie viele Militärflugzeuge insgesamt sichtbar sind.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Bestehender Collector; allgemeiner Aktivitätsmesser.",
+   "direction": "both",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Übungen",
+    "Feeder-Abdeckung"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "adsb-lol",
+     "name": "adsb.lol",
+     "doc_url": "https://api.adsb.lol/docs",
+     "endpoint": "https://api.adsb.lol/v2/mil",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "nur Live",
+     "rate_limit": "unklar",
+     "license": "ODbL",
+     "verified": false,
+     "sample_note": "Feld total."
+    }
+   ],
+   "notes": "",
+   "extends": "adsb-lol"
+  },
+  {
+   "id": "nuclear.military.navarea_missile_test_warnings",
+   "name_de": "Seewarnungen für Raketenstarts",
+   "plain_de": "Zahl der aktiven Seewarnungen, die Sperrgebiete für Raketentests melden.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Ankündigungen von Raketentests (Pflichtmeldung der Seefahrt) steigen vor Übungen und Tests.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Routinetests",
+    "Weltraumstarts"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nga-msi",
+     "name": "NGA Maritime Safety Information",
+     "doc_url": "https://msi.nga.mil/Publications/BroadcastWarn",
+     "endpoint": "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=active",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "aktuelle Meldungen",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Warnungen mit Stichwort missile oder rocket zählen; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.military.celestrak_launches_daily",
+   "name_de": "Satellitenstarts pro Tag",
+   "plain_de": "Zahl der Starts und neuer Objekte.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Start von Aufklärungs- oder Frühwarn-Satelliten; Kontext zum Nuklear-Szenario.",
+   "direction": "both",
+   "lead_time": "days",
+   "banal_causes": [
+    "Kommerzielle Starts"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "celestrak",
+     "name": "CelesTrak",
+     "doc_url": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+     "endpoint": "https://celestrak.org/NORAD/elements/gp.php?GROUP=last-30-days&FORMAT=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "30-Tage-Gruppe",
+     "rate_limit": "unklar",
+     "license": "frei (Quellenangabe)",
+     "verified": false,
+     "sample_note": "Zahl neuer Objekte; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.military.gnss_jamming_aggregates",
+   "name_de": "GPS-Störungen (Aggregat)",
+   "plain_de": "Anteil der Flugzeuge mit auffälliger GPS-Qualität in Hotspots.",
+   "domain": "military",
+   "evidence_class": "A",
+   "rationale": "Störungen an Ostsee und Schwarzem Meer begleiten Spannungen; nur Kontext.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Dauerhafte Störungen in der Region"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "gpsjam",
+     "name": "GPSJam",
+     "doc_url": "https://gpsjam.org/",
+     "endpoint": "https://gpsjam.org/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Archiv täglich",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nicht geprüft; Projekt hat Quelle im Katalog."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.military.faa_notam_us_closures",
+   "name_de": "FAA: Luftraumsperren (NOTAM)",
+   "plain_de": "Zahl temporärer Sperrungen des US-Luftraums.",
+   "domain": "military",
+   "evidence_class": "B",
+   "rationale": "Sperren sind ein Begleiter von Starts; hier Aggregat.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Regierungsflüge",
+    "Starts"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "faa-notam",
+     "name": "FAA NOTAM Search",
+     "doc_url": "https://notams.aim.faa.gov/",
+     "endpoint": "https://notams.aim.faa.gov/notamSearch/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "aktuell",
+     "rate_limit": "unklar",
+     "license": "Public Domain (US Government)",
+     "verified": false,
+     "sample_note": "Nicht geprüft."
+    }
+   ],
+   "notes": "",
+   "extends": "faa-nas"
+  },
+  {
+   "id": "nuclear.behaviour.iodine_tablet_price",
+   "name_de": "Jodtabletten: Preis und Verfügbarkeit",
+   "plain_de": "Wie sich Preis und Lieferbarkeit von Kaliumiodid-Tabletten bei Online-Apotheken ändern.",
+   "domain": "behaviour",
+   "evidence_class": "A",
+   "rationale": "Panikkäufe zeigen sich oft vor der Zeitung; Preis und Lagerstatus als Reihe.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Medienberichte zu Nuklearthemen",
+    "Aktionspreise"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "idealo",
+     "name": "Preisvergleich (Jodtabletten)",
+     "doc_url": "https://www.idealo.de/",
+     "endpoint": "https://www.idealo.de/preisvergleich/ProductCategory/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "keine; selbst anlegen",
+     "rate_limit": "unklar",
+     "license": "Nutzungsbedingungen beachten",
+     "verified": false,
+     "sample_note": "Nicht geprüft; Scraping gegen AGB möglich."
+    }
+   ],
+   "notes": "Nur Preisreihe, keine Personen; Rechtslage prüfen."
+  },
+  {
+   "id": "nuclear.behaviour.shelter_osm_count",
+   "name_de": "Schutzräume in OpenStreetMap",
+   "plain_de": "Zahl kartierter Schutzräume und Bunker.",
+   "domain": "behaviour",
+   "evidence_class": "D",
+   "rationale": "Wächst bei Aufmerksamkeit; langsame Reihe.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Normales Kartieren"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "overpass",
+     "name": "OSM Overpass API",
+     "doc_url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+     "endpoint": "https://overpass-api.de/api/interpreter?data=[out:json];nwr[amenity=shelter][shelter_type=public_transport];out%20count;",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Attic-Daten",
+     "rate_limit": "unklar",
+     "license": "ODbL",
+     "verified": false,
+     "sample_note": "Tag und Zählweise nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.behaviour.wiki_nuclear_en",
+   "name_de": "Wikipedia-Aufrufe: Nuklearthemen (englisch)",
+   "plain_de": "Aufrufe von Artikeln wie Nuclear_warfare, Nuclear_fallout, Potassium_iodide.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit steigt bei Nachrichten, eher Begleiter als Vorläufer.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Filme (Oppenheimer-Effekt)",
+    "Jahrestage",
+    "Nachrichten"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_fallout/daily/20260901/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "ab 2015",
+     "rate_limit": "200 Anfragen/s",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "items[].views; Schema wie im Collector."
+    }
+   ],
+   "notes": "",
+   "extends": "wikimedia-pageviews"
+  },
+  {
+   "id": "nuclear.behaviour.wiki_nuclear_de",
+   "name_de": "Wikipedia-Aufrufe: Nuklearthemen (deutsch)",
+   "plain_de": "Aufrufe von Artikeln wie Kaliumiodid, Atomkrieg, Strahlenkrankheit, Schutzraum.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Deutsche Sicht; kleinere Zahlen, daher Summe über Artikel.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Medien",
+    "Filme"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kaliumiodid/daily/20260901/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "ab 2015",
+     "rate_limit": "200 Anfragen/s",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "items[].views."
+    }
+   ],
+   "notes": "",
+   "extends": "wikimedia-pageviews"
+  },
+  {
+   "id": "nuclear.behaviour.wiki_plants_sites",
+   "name_de": "Wikipedia-Aufrufe: Tschernobyl, Saporischschja, Fukushima",
+   "plain_de": "Aufrufe der Artikel zu bekannten Unglücks- und Konfliktorten.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Reagiert auf Meldungen zu Kraftwerken in Konfliktgebieten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Jahrestage"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Zaporizhzhia_Nuclear_Power_Plant/daily/20260901/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "ab 2015",
+     "rate_limit": "200 Anfragen/s",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "items[].views."
+    }
+   ],
+   "notes": "",
+   "extends": "wikimedia-pageviews"
+  },
+  {
+   "id": "nuclear.behaviour.gdelt_nuclear_volume",
+   "name_de": "GDELT: Medienvolumen zu nuklearen Themen",
+   "plain_de": "Wie viele Artikel weltweit über Atomwaffen, Strahlung oder Reaktorunfall berichten.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Medienmenge als Aufmerksamkeitsmaß, vorlaufend für Panik.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Nachrichten zu Iran und Russland",
+    "Jahrestage"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT Doc API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=(nuclear%20OR%20radiation%20OR%20reactor)%20sourcelang:english&mode=timelinevol&format=json&timespan=1m",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "3 Monate per timespan",
+     "rate_limit": "1 Anfrage/5 s",
+     "license": "frei (Quellenangabe)",
+     "verified": false,
+     "sample_note": "Zeitreihe timeline[].data[].value; Schema wie im Collector gdelt-doc."
+    }
+   ],
+   "notes": "",
+   "extends": "gdelt-doc"
+  },
+  {
+   "id": "nuclear.behaviour.mastodon_nuclear_tags",
+   "name_de": "Mastodon: Trends zu nuclear",
+   "plain_de": "Wie viele Beiträge zu Schlagwörtern wie nuclear, radiation in öffentlichen Timelines.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Soziale Aufmerksamkeit; reine Zählreihe.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Medienmeldungen"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "mastodon",
+     "name": "Mastodon Trends API",
+     "doc_url": "https://docs.joinmastodon.org/methods/trends/",
+     "endpoint": "https://mastodon.social/api/v1/trends/tags",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "nur aktuell",
+     "rate_limit": "unklar",
+     "license": "API frei",
+     "verified": false,
+     "sample_note": "history[].uses; Collector mastodon-trends vorhanden."
+    }
+   ],
+   "notes": "",
+   "extends": "mastodon-trends"
+  },
+  {
+   "id": "nuclear.behaviour.google_trends_iodine",
+   "name_de": "Suchtrends: Jodtabletten und Atomschutz",
+   "plain_de": "Suchanfragen nach Jodtabletten und Schutzraum.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Panikreaktion der Bevölkerung; sehr zeitnah, aber manipulierbar.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienbericht",
+    "Warntag"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "google-trends",
+     "name": "Google Trends (inoffiziell)",
+     "doc_url": "https://trends.google.com/",
+     "endpoint": "https://trends.google.com/trends/explore?q=jodtabletten&geo=DE",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h bis Tage",
+     "history": "5 Jahre",
+     "rate_limit": "strikt",
+     "license": "Nutzungsbedingungen von Google",
+     "verified": false,
+     "sample_note": "Keine offizielle Schnittstelle; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.markets.uranium_etf_urnm",
+   "name_de": "Uran-Aktien-ETFs (URA, URNM)",
+   "plain_de": "Kursbewegung und Handelsvolumen der großen Uran-ETFs.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Uranpreis-Proxy; auffälliges Volumen vor Nachrichten kann auf Wissen hinweisen, ist aber vieldeutig.",
+   "direction": "both",
+   "lead_time": "days",
+   "banal_causes": [
+    "Rohstoff-Zyklus",
+    "Politik (Sanktionen)",
+    "Energiewende"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/URA?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/URNM?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "nuclear.markets.uranium_trust_sprott",
+   "name_de": "Sprott Physical Uranium Trust (U-UN.TO)",
+   "plain_de": "Treuhandfonds, der physisches Uran hält.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Direkter Proxy für Uranpreis.",
+   "direction": "both",
+   "lead_time": "days",
+   "banal_causes": [
+    "Marktzyklus"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/U-UN.TO?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "nuclear.markets.cameco_ccj",
+   "name_de": "Cameco (CCJ) Kurs",
+   "plain_de": "Größter westlicher Uranproduzent.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Reaktion auf Versorgungslage; Kontext.",
+   "direction": "both",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CCJ?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "nuclear.markets.defense_stocks",
+   "name_de": "Rüstungswerte (LMT, NOC, RTX, RHM.DE)",
+   "plain_de": "Kurse und Volumen großer Rüstungskonzerne.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Spannungen treiben Rüstungswerte; Aufwärtsbewegung als Begleitsignal.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Haushaltsbeschlüsse",
+    "Quartalszahlen"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/LMT?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/NOC?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/RHM.DE?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "nuclear.markets.vix_gold",
+   "name_de": "VIX und Gold (Flucht in Sicherheit)",
+   "plain_de": "Schwankungsindex und Goldpreis.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Breiter Stressmesser, der bei jeder Großkrise reagiert; als Bestätigung, nicht als Hinweis auf Atomthemen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Zentralbank-Termine",
+    "Konjunkturdaten"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/^VIX?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert, Tageswerte",
+     "history": "Jahre per range=max",
+     "rate_limit": "unklar",
+     "license": "inoffiziell, Nutzungsbedingungen von Yahoo",
+     "verified": false,
+     "sample_note": "chart.result[0].indicators.quote[0].close und volume; Schema wie im Collector yahoo-chart."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "nuclear.markets.polymarket_nuclear",
+   "name_de": "Prognosemärkte: nuklearer Einsatz",
+   "plain_de": "Wahrscheinlichkeiten für Märkte zu Atomwaffen-Einsatz oder Test.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Crowd-Preis; Sprünge der Wahrscheinlichkeit sind zeitnah, aber manipulierbar.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Dünne Märkte",
+    "Nachrichten"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/events?closed=false&limit=50&tag_slug=nuclear",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Preisverlauf per CLOB-Endpunkt",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "outcomePrices je Markt; Schema wie im Collector polymarket-gamma."
+    }
+   ],
+   "notes": "",
+   "extends": "polymarket-gamma"
+  },
+  {
+   "id": "nuclear.markets.metaculus_nuclear",
+   "name_de": "Metaculus: Fragen zu Nuklearwaffen",
+   "plain_de": "Gemeinschaftsprognosen zu Atomwaffen.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Langsame, durchdachte Schätzung der Crowd.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Wenige Teilnehmer"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "metaculus",
+     "name": "Metaculus API",
+     "doc_url": "https://www.metaculus.com/api/",
+     "endpoint": "https://www.metaculus.com/api/posts/?search=nuclear&order_by=-hotness",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Verlauf je Frage",
+     "rate_limit": "unklar",
+     "license": "CC BY (je Frage)",
+     "verified": false,
+     "sample_note": "community_prediction je Frage; nicht abgerufen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.markets.fred_uranium_price",
+   "name_de": "IMF-Uranpreis (monatlich, FRED)",
+   "plain_de": "Globaler Uranpreis als offizielle Monatsreihe.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Historisch langsam, gut für Baseline.",
+   "direction": "both",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Marktzyklus"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED series PURANUSDM",
+     "doc_url": "https://fred.stlouisfed.org/series/PURANUSDM",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=PURANUSDM&api_key=KEY&file_type=json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "seit 1980er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED (Quellenangabe)",
+     "verified": false,
+     "sample_note": "Seriennummer aus Erinnerung; nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "nuclear.radiation.bfs_odl_24h_longrun",
+   "name_de": "ODL Tageswerte Langzeit (Backtest)",
+   "plain_de": "Tageswerte je Station mit mehrjähriger Historie.",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Erlaubt sofortige Baseline und Rückschau auf Ereignisse wie Regen oder Ruthenium-Wolke 2017.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Regen",
+    "Radon"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "bfs-odl",
+     "name": "BfS ODL-Info, WFS Zeitreihe 1 h und 24 h",
+     "doc_url": "https://github.com/bundesAPI/strahlenschutz-api",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_timeseries_odl_1h&viewparams=kenn:033550222",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stündlich",
+     "history": "Layer odlinfo_timeseries_odl_1h (ca. 7 Tage je Station) und odlinfo_timeseries_odl_24h (Tageswerte, lange Historie); Filter per viewparams=kenn:<Stations-Kennung>",
+     "rate_limit": "unklar",
+     "license": "DL-DE-BY-2.0",
+     "verified": false,
+     "sample_note": "Je Station Reihe aus Messwert und Zeitstempel; erlaubt eigene Baseline je Station (Normalwert)."
+    }
+   ],
+   "notes": "Layer odlinfo_timeseries_odl_24h, nicht geprüft."
+  },
+  {
+   "id": "nuclear.radiation.regional_spread_pattern",
+   "name_de": "Ausbreitungsmuster: zeitversetzte Anstiege",
+   "plain_de": "Wandert ein Anstieg über Nachbarstationen in Windrichtung?",
+   "domain": "radiation",
+   "evidence_class": "A",
+   "rationale": "Kombination aus Stationsabstand und Zeitversatz unterscheidet Ausbreitung von Zufall.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Frontdurchgang"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "bfs-odl",
+     "name": "BfS ODL-Info, WFS offene Schnittstelle (Layer odlinfo_odl_1h_latest)",
+     "doc_url": "https://www.imis.bfs.de/geoportal/",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:odlinfo_odl_1h_latest",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h Mittelwert, ca. 10-60 min Verzug",
+     "history": "nur latest-Layer; Zeitreihe separat",
+     "rate_limit": "unklar",
+     "license": "DL-DE-BY-2.0 (BfS, Datenlizenz Deutschland, Quellenangabe)",
+     "verified": false,
+     "sample_note": "GeoJSON, ca. 1700 Stationen; Felder id, name, value (µSv/h), value_cosmic, value_terrestrial, start_measure, end_measure, site_status. Aus Code-Referenzen auf GitHub bekannt (bundesAPI/strahlenschutz-api), in der Bau-Umgebung nicht abrufbar."
+    },
+    {
+     "source_id": "eurdep-bfs",
+     "name": "EURDEP-Layer beim BfS-WFS (Europa, ca. 5000 Stationen)",
+     "doc_url": "https://remon.jrc.ec.europa.eu/About/Rad-Data-Exchange",
+     "endpoint": "https://www.imis.bfs.de/ogc/opendata/ows?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=opendata:eurdep_latestValue&CQL_FILTER=id LIKE 'PL%25'",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "nur aktuellster Wert; Historie selbst anlegen",
+     "rate_limit": "unklar",
+     "license": "unklar (EURDEP: JRC, Nutzung mit Quellenangabe)",
+     "verified": false,
+     "sample_note": "Stationskennung beginnt mit Ländercode (CZ, FI, PL ...), Messwert Dosisleistung in nSv/h. Filter-Beispiel aus clemensv/real-time-sources (tools/candidates/radiation) übernommen, selbst nicht abgerufen."
+    }
+   ],
+   "notes": "Abgeleitete Kennzahl, kein Rohsignal."
+  },
+  {
+   "id": "nuclear.plants.eu_hot_weather_derate",
+   "name_de": "Kühlwasser-bedingte Leistungsminderung",
+   "plain_de": "Leistungsminderung französischer Reaktoren wegen Flusstemperatur.",
+   "domain": "plants",
+   "evidence_class": "B",
+   "rationale": "Harmloser Erklärer für Abfall der Atomstromerzeugung im Sommer.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Hitzewelle"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "open-meteo",
+     "name": "Open-Meteo",
+     "doc_url": "https://open-meteo.com/en/docs",
+     "endpoint": "https://api.open-meteo.com/v1/forecast?latitude=45.7&longitude=4.8&daily=temperature_2m_max&past_days=14",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "Archiv seit 1940",
+     "rate_limit": "10000 Aufrufe/Tag",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Lufttemperatur als Stellvertreter für Flusstemperatur."
+    }
+   ],
+   "notes": "Gewicht 0, Störfaktor-Filter."
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Edelgas-Nachweise (Xenon, Krypton) im IMS-Netz der CTBTO; nur für Mitgliedstaaten, keine offene Quelle.",
+  "Idee: Infraschall-Signale großer Explosionen aus IMS-Stationen; Rohdaten nicht öffentlich.",
+  "Idee: Bestellmengen von Jodtabletten bei Ländern, die sie abgeben (Schweiz, Belgien); keine Reihe veröffentlicht.",
+  "Idee: Kraftwerks-Betreiber (Energoatom) Telegram-Zählung von Meldungen zur externen Stromversorgung; keine offene Schnittstelle.",
+  "Idee: Satellitenbild-Aktivität an Testgeländen (Fahrzeuge, Stollen); Sentinel-Hub braucht Auswertung und ist aufwendig.",
+  "Idee: Radioaktivität in Regenwasser oder Luftfiltern der amtlichen Messstellen (Laborwerte, Tage Verzug), nur als PDF.",
+  "Idee: Bundestag oder Parlamente: Zahl der Anfragen zum Zivilschutz; schwer maschinenlesbar.",
+  "Idee: Verkäufe von Geigerzählern bei Online-Händlern (Rang oder Lagerbestand); AGB-Fragen.",
+  "Idee: Zahl der Meldungen im Ereignisregister der BfS (Meldepflichtige Ereignisse deutscher Anlagen); nur wenige pro Jahr.",
+  "Idee: Nuclear Doomsday Clock Bewertung des Bulletin; jährlich, Klasse C, ohne Schnittstelle.",
+  "Idee: Hotelbuchungen und Flüge aus Metropolen (Nachfrage fällt); keine offene Reihe.",
+  "Idee: Erdbebenähnliche Signale in Wettersatelliten-Blitzdaten; unklar."
+ ]
+}

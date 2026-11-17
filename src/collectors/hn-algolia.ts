@@ -7,6 +7,9 @@
 // Wird das Trefferlimit pro Seite erreicht, ist der älteste Tag unvollständig; er und alles davor werden verworfen.
 // Harmlose Ursachen für Ausschläge: Einzelner viraler Blogpost, Großausfall eines bekannten Dienstes (dann echt, aber banal),
 // Wochentag (Wochenende ruhiger), Feiertage in den USA, Konferenzen (Black Hat/DEF CON).
+// Szenario war: eigene Begriffsliste WAR_TERMS (Titelsuche, Summe wie oben), Signal war.attention.hackernews_mentions. Eigene, kleinere
+// Seitengröße (300 statt 400 Treffer, rund 48 Zeichen je Treffer, damit die Antwort unter 20 000 Zeichen bleibt); die Cyber-Anfragen bleiben unverändert.
+// Harmlose Ursachen (war): Meinungsbeiträge, Dokumentationen, Jahrestage, Technik-Beiträge zu Drohnen/GNSS ohne Kriegsbezug. VERIFIED (war): nein.
 // VERIFIED: ja (17.11.2026, echte Antwort): Form hits[].created_at_i/nbHits bestätigt, alle 5 Begriffe vollständig (nbHits 24 bis 171 < 400),
 // Replay liefert 60 Tageswerte (zuletzt 27, 9, 8, 25 Stories/Tag, Wochenende ruhiger).
 
@@ -16,8 +19,18 @@ import { DAY_MS, expect, floorDay, isoDay, num, obs } from './_helpers.ts';
 export const SIGNAL_ID = 'cyber.attention.hackernews_volume';
 /** Begriffe (Titelsuche). Anführungszeichen = Phrase. */
 export const TERMS = ['outage', 'cyberattack', 'ransomware', 'breach', '"is down"'];
+/** Kriegsbegriffe (Titelsuche); eigene Fixture-Namen mit Präfix war-. */
+export const WAR_TERMS = ['"world war"', '"nuclear war"', 'Hormuz', '"Taiwan Strait"', 'conscription', '"missile strike"'];
+export const WAR_SIGNAL_ID = 'war.attention.hackernews_mentions';
 const WINDOW_DAYS = 60;
 const PAGE_SIZE = 400;
+const WAR_PAGE_SIZE = 300;
+
+interface Group { scenario: string; signalId: string; terms: string[]; pageSize: number; prefix: string }
+const GROUPS: Group[] = [
+  { scenario: 'cyber', signalId: SIGNAL_ID, terms: TERMS, pageSize: PAGE_SIZE, prefix: '' },
+  { scenario: 'war', signalId: WAR_SIGNAL_ID, terms: WAR_TERMS, pageSize: WAR_PAGE_SIZE, prefix: 'war-' },
+];
 
 interface Resp { nbHits?: number; hits?: { created_at_i?: number }[] }
 
@@ -53,14 +66,14 @@ export function countDays(parsed: { nbHits: number; times: number[] }, startMs: 
   return { counts, coveredFrom };
 }
 
-export function buildUrl(term: string, startSec: number, endSec: number): string {
+export function buildUrl(term: string, startSec: number, endSec: number, pageSize = PAGE_SIZE): string {
   const filters = encodeURIComponent(`created_at_i>${startSec},created_at_i<${endSec}`);
   return `https://hn.algolia.com/api/v1/search_by_date?query=${encodeURIComponent(term)}&tags=story&restrictSearchableAttributes=title`
-    + `&numericFilters=${filters}&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=${PAGE_SIZE}`;
+    + `&numericFilters=${filters}&attributesToRetrieve=created_at_i&attributesToHighlight=none&hitsPerPage=${pageSize}`;
 }
 
-export function fixtureName(term: string): string {
-  return `hn-algolia/${term.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}.json`;
+export function fixtureName(term: string, prefix = ''): string {
+  return `hn-algolia/${prefix}${term.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}.json`;
 }
 
 const collector: Collector = {
@@ -77,31 +90,45 @@ const collector: Collector = {
     baseline: { method: 'day-of-week', windowDays: 56, minPoints: 21 },
     license: 'öffentliche Daten, Algolia/HN-ToS beachten',
     banalCauses: ['Einzelner viraler Beitrag', 'Großausfall eines bekannten Dienstes', 'Konferenzwochen'],
+  }, {
+    id: WAR_SIGNAL_ID, scenarios: ['war'], domain: 'attention',
+    name: 'Hacker-News-Stories zu Krieg und Eskalation',
+    plain: 'Wie viele neue Hacker-News-Beiträge pro Tag Begriffe wie World War, nuclear war oder Hormuz im Titel haben.',
+    evidenceClass: 'D', direction: 'up', kind: 'count', weight: 0.35, manipulability: 'medium',
+    independenceGroup: 'hn-algolia', unit: 'Stories/Tag', intervalMinutes: 1440, holdHours: 48,
+    baseline: { method: 'day-of-week', windowDays: 56, minPoints: 21 },
+    license: 'öffentliche Daten, Algolia/HN-ToS beachten',
+    banalCauses: ['Meinungsbeiträge', 'Dokumentationen und Jahrestage', 'Nachrichten-Spitzen'],
   }],
   async collect(ctx) {
     const end = floorDay(ctx.now); // laufender Tag wird nicht gemeldet
     const start = new Date(end.getTime() - WINDOW_DAYS * DAY_MS);
     const startSec = Math.floor(start.getTime() / 1000);
     const endSec = Math.floor(end.getTime() / 1000);
-    const perTerm: { counts: Map<string, number>; coveredFrom: string }[] = [];
-    for (const term of TERMS) {
-      try {
-        const body = await ctx.http.json<Resp>(buildUrl(term, startSec, endSec), { fixture: fixtureName(term) });
-        perTerm.push(countDays(parseHits(body), start.getTime(), end.getTime()));
-      } catch (e) {
-        ctx.log(`Begriff ${term} fehlgeschlagen: ${(e as Error).message}`);
+    const observations: Observation[] = [];
+    let answered = 0;
+    for (const g of GROUPS) {
+      const perTerm: { counts: Map<string, number>; coveredFrom: string }[] = [];
+      for (const term of g.terms) {
+        try {
+          const body = await ctx.http.json<Resp>(buildUrl(term, startSec, endSec, g.pageSize), { fixture: fixtureName(term, g.prefix) });
+          perTerm.push(countDays(parseHits(body), start.getTime(), end.getTime(), g.pageSize));
+        } catch (e) {
+          ctx.log(`Begriff ${term} (${g.scenario}) fehlgeschlagen: ${(e as Error).message}`);
+        }
+      }
+      if (perTerm.length === 0) continue;
+      answered++;
+      // Teilsumme wäre ein Scheineinbruch: nur melden, wenn alle Begriffe geantwortet haben.
+      if (perTerm.length !== g.terms.length) { ctx.log(`hn-algolia ${g.scenario}: unvollständig, nichts gemeldet`); continue; }
+      const from = perTerm.map((p) => p.coveredFrom).sort().at(-1)!;
+      for (const day of [...perTerm[0].counts.keys()].sort()) {
+        if (day < from) continue;
+        const sum = perTerm.reduce((s, p) => s + (p.counts.get(day) ?? 0), 0);
+        observations.push(obs(g.signalId, `${day}T00:00:00Z`, sum, { terms: g.terms.length }));
       }
     }
-    // Teilsumme wäre ein Scheineinbruch: nur melden, wenn alle Begriffe geantwortet haben.
-    if (perTerm.length === 0) throw new Error('hn-algolia: kein Begriff abrufbar');
-    if (perTerm.length !== TERMS.length) { ctx.log('hn-algolia: unvollständig, nichts gemeldet'); return { observations: [] }; }
-    const from = perTerm.map((p) => p.coveredFrom).sort().at(-1)!;
-    const observations: Observation[] = [];
-    for (const day of [...perTerm[0].counts.keys()].sort()) {
-      if (day < from) continue;
-      const sum = perTerm.reduce((s, p) => s + (p.counts.get(day) ?? 0), 0);
-      observations.push(obs(SIGNAL_ID, `${day}T00:00:00Z`, sum, { terms: TERMS.length }));
-    }
+    if (answered === 0) throw new Error('hn-algolia: kein Begriff abrufbar');
     return { observations };
   },
 };

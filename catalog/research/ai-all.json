@@ -1,0 +1,2865 @@
+{
+ "subdomain": "KI-Vorfall: Plattformen, Lieferkette, Agenten, Vorfall-Datenbanken",
+ "generated": "2026-11-17",
+ "scenario_def": {
+  "id": "ai",
+  "order": 4,
+  "title": "KI-Vorfall",
+  "question": "Geraet gerade ein KI-System ausser Kontrolle oder wird massenhaft missbraucht?",
+  "tagline": "Modell-Plattformen, Schadpakete, Agenten-Verkehr, Vorfall-Datenbanken, Rechenleistung",
+  "domains": {
+   "platforms": {
+    "title": "Modell-Plattformen",
+    "weight": 1,
+    "plain": "Uploads, Statusseiten und Sperrungen bei Hugging Face und den KI-Anbietern"
+   },
+   "supply_chain": {
+    "title": "Software-Lieferkette",
+    "weight": 1,
+    "plain": "Schadpakete, Versionsfluten und Sicherheitsluecken in KI-Software"
+   },
+   "agents": {
+    "title": "Aktivitaet autonomer Agenten",
+    "weight": 0.9,
+    "plain": "Wie viel Verkehr und Code von Bots und KI-Agenten stammt"
+   },
+   "incidents": {
+    "title": "Vorfall-Sammlungen",
+    "weight": 0.6,
+    "plain": "Datenbanken, die gemeldete KI-Vorfaelle zaehlen"
+   },
+   "compute": {
+    "title": "Rechenleistung und Strom",
+    "weight": 0.7,
+    "plain": "GPU-Mietpreise, Stromlast und Auslastung von Rechenzentren"
+   },
+   "research": {
+    "title": "Forschung",
+    "weight": 0.4,
+    "plain": "Wellen von Fachartikeln zu Agenten-Ausbruch und Missbrauch"
+   },
+   "markets": {
+    "title": "Maerkte und Wetten",
+    "weight": 0.6,
+    "plain": "KI-Aktien, Prognosemaerkte und Pflichtmeldungen von Firmen"
+   }
+  }
+ },
+ "signals": [
+  {
+   "id": "ai.platforms.hf_new_models_rate",
+   "name_de": "Neue Modelle auf dem Hugging Face Hub pro Stunde",
+   "plain_de": "Zaehlt, wie viele neue Modell-Eintraege je Stunde auf der groessten Plattform fuer KI-Modelle angelegt werden.",
+   "domain": "platforms",
+   "evidence_class": "A",
+   "rationale": "Massen-Uploads (Pickle-Payloads, Typosquats) oder automatisierte Konten zeigen sich als Sprung der Neuanlagen gegen die Baseline.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Release-Wellen grosser Labs",
+    "Bulk-Uploads von Quantisierungen",
+    "Wochentag"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "hf-hub",
+     "name": "Hugging Face Hub API",
+     "doc_url": "https://huggingface.co/docs/hub/api",
+     "endpoint": "https://huggingface.co/api/models?sort=createdAt&direction=-1&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Nur Gegenwart; Historie aus createdAt-Feld der Eintraege, Baseline per eigenem Speicher",
+     "rate_limit": "unklar, anonym gedrosselt",
+     "license": "Hub-Nutzungsbedingungen, Metadaten einsehbar",
+     "verified": false,
+     "sample_note": "Liste mit id, createdAt, lastModified, downloads, likes, tags. Messwert: Anzahl Eintraege mit createdAt in einem Zeitfenster. Aus der Bau-Umgebung nicht erreichbar (huggingface.co gesperrt)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.platforms.hf_new_datasets_rate",
+   "name_de": "Neue Datasets auf dem Hub pro Stunde",
+   "plain_de": "Zaehlt neue Datensaetze, denn der Juli-2026-Vorfall lief ueber ein Dataset.",
+   "domain": "platforms",
+   "evidence_class": "A",
+   "rationale": "Dataset-Verarbeitungspfade waren der Eintrittspunkt; ein Sprung neuer Datasets von frischen Konten ist ein moeglicher Brotkrumen (im Vorfall selbst nicht belegt).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Benchmark- und Kursprojekte",
+    "Lehrveranstaltungen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "hf-hub",
+     "name": "Hugging Face Hub API (Datasets)",
+     "doc_url": "https://huggingface.co/docs/hub/api",
+     "endpoint": "https://huggingface.co/api/datasets?sort=createdAt&direction=-1&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Nur Gegenwart; Historie aus createdAt-Feld der Eintraege, Baseline per eigenem Speicher",
+     "rate_limit": "unklar, anonym gedrosselt",
+     "license": "Hub-Nutzungsbedingungen, Metadaten einsehbar",
+     "verified": false,
+     "sample_note": "Wie Modelle, fuer Datasets. Der Juli-2026-Vorfall lief ueber ein Dataset."
+    }
+   ],
+   "notes": "Lagebild nennt: vorab messbare Spuren des Juli-Vorfalls sind nicht belegt; dies ist Hypothese zum Backtesting."
+  },
+  {
+   "id": "ai.platforms.hf_new_spaces_rate",
+   "name_de": "Neue Spaces auf dem Hub pro Stunde",
+   "plain_de": "Zaehlt neue ausfuehrbare Apps (Spaces), auf denen fremder Code laeuft.",
+   "domain": "platforms",
+   "evidence_class": "A",
+   "rationale": "Spaces fuehren Code aus; Missbrauch als Hosting fuer Phishing oder Miner steigert Neuanlagen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Hackathons",
+    "Gradio-Kurse"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "hf-hub",
+     "name": "Hugging Face Hub API (Spaces)",
+     "doc_url": "https://huggingface.co/docs/hub/api",
+     "endpoint": "https://huggingface.co/api/spaces?sort=createdAt&direction=-1&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Nur Gegenwart; Historie aus createdAt-Feld der Eintraege, Baseline per eigenem Speicher",
+     "rate_limit": "unklar, anonym gedrosselt",
+     "license": "Hub-Nutzungsbedingungen, Metadaten einsehbar",
+     "verified": false,
+     "sample_note": "Wie Modelle, fuer Spaces (ausfuehrbare Apps)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.platforms.hf_new_account_share",
+   "name_de": "Anteil neuer Konten an Uploads",
+   "plain_de": "Misst, wie viele der neu angelegten Eintraege von Organisationen oder Konten stammen, die erst wenige Tage alt sind.",
+   "domain": "platforms",
+   "evidence_class": "A",
+   "rationale": "Wegwerf-Konten sind typisch fuer Schadmodelle; Namensraum-Alter ist ueber die author-Namen der Listen nur indirekt ableitbar.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Labs",
+    "Studierende"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "hf-hub",
+     "name": "Hugging Face Hub API",
+     "doc_url": "https://huggingface.co/docs/hub/api",
+     "endpoint": "https://huggingface.co/api/models?sort=createdAt&direction=-1&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Nur Gegenwart; Historie aus createdAt-Feld der Eintraege, Baseline per eigenem Speicher",
+     "rate_limit": "unklar, anonym gedrosselt",
+     "license": "Hub-Nutzungsbedingungen, Metadaten einsehbar",
+     "verified": false,
+     "sample_note": "Liste mit id, createdAt, lastModified, downloads, likes, tags. Messwert: Anzahl Eintraege mit createdAt in einem Zeitfenster. Aus der Bau-Umgebung nicht erreichbar (huggingface.co gesperrt)."
+    }
+   ],
+   "notes": "Konto-Alter nicht direkt im Listen-Endpunkt; Naeherung: erstes Auftreten des Autorennamens im eigenen Speicher. Nur Aggregat."
+  },
+  {
+   "id": "ai.platforms.hf_download_spike",
+   "name_de": "Download-Spruenge bei unbekannten Modellen",
+   "plain_de": "Findet Modelle, deren Downloads in 24 h stark ueber ihrer Historie liegen.",
+   "domain": "platforms",
+   "evidence_class": "A",
+   "rationale": "Ein Schadmodell braucht Verbreitung; kuenstliche Downloads (Botnetz, Skripte) erzeugen ungewoehnliche Kurven.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Virale Releases",
+    "Social-Media-Erwaehnungen",
+    "CI-Abrufe"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "hf-hub",
+     "name": "Hugging Face Hub API (Downloads)",
+     "doc_url": "https://huggingface.co/docs/hub/api",
+     "endpoint": "https://huggingface.co/api/models?sort=downloads&direction=-1&limit=100&expand[]=downloads&expand[]=createdAt",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Nur Gegenwart; Differenz zweier Abrufe",
+     "rate_limit": "unklar",
+     "license": "Hub-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "downloads (30 Tage) und downloadsAllTime laut expand; Tagesdifferenz aus eigenem Speicher. Nicht geprueft."
+    }
+   ],
+   "notes": "Manipulierbar: Downloads lassen sich fuer Reputation fuellen."
+  },
+  {
+   "id": "ai.platforms.hf_unsafe_flags",
+   "name_de": "Als unsicher markierte Dateien auf dem Hub",
+   "plain_de": "Zaehlt Modelle, deren Dateien der Hub-Scanner als verdaechtig (Pickle, Malware) markiert hat.",
+   "domain": "platforms",
+   "evidence_class": "B",
+   "rationale": "Der Scanner ist der Messpunkt der Plattform selbst; steigende Funde pro Woche zeigen eine Kampagne (Protect AI: 352.000 Befunde in 51.700 Modellen laut Lagebild).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Scanregeln erhoehen Funde",
+    "Falschpositive"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "hf-hub",
+     "name": "Hugging Face Hub API (Sicherheitsstatus)",
+     "doc_url": "https://huggingface.co/docs/hub/security-malware",
+     "endpoint": "https://huggingface.co/api/models/<repo>?securityStatus=true",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Keine Historie",
+     "rate_limit": "unklar",
+     "license": "Hub-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "Feld securityRepoStatus / filesWithIssues je Repo laut Doku (Parameter securityStatus), nicht geprueft. Kein Massen-Endpunkt bekannt: nur Stichprobe der neuesten Repos."
+    }
+   ],
+   "notes": "Selbstmeldung der Plattform, Klasse B."
+  },
+  {
+   "id": "ai.platforms.hf_status_incidents",
+   "name_de": "Statusseite Hugging Face",
+   "plain_de": "Zaehlt Stoerungen und Wartungen, die Hugging Face auf der eigenen Statusseite meldet.",
+   "domain": "platforms",
+   "evidence_class": "B",
+   "rationale": "Bei einem Eindringen oder dessen Behebung (Credentials rotieren, Cluster abschotten) entstehen Dienststoerungen; im Juli 2026 ist eine Statusmeldung nicht belegt.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Normale Deployments",
+    "Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "statuspage",
+     "name": "Statuspage Hugging Face",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://status.huggingface.co/api/v2/incidents.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "Vergangene Incidents der letzten Wochen im Feed",
+     "rate_limit": "unklar",
+     "license": "Je Anbieter unklar",
+     "verified": false,
+     "sample_note": "incidents[] mit created_at, impact, status; /api/v2/status.json mit indicator. Host ungeprueft; viele Anbieter wechselten zu eigenen Seiten (incident.io, Instatus)."
+    }
+   ],
+   "notes": "Host-Typ unklar (eventuell Instatus statt Statuspage). Erweiterung des Collectors statuspage, falls Statuspage.",
+   "extends": "statuspage"
+  },
+  {
+   "id": "ai.platforms.ai_provider_status_share",
+   "name_de": "Anteil der KI-Anbieter mit Stoerung",
+   "plain_de": "Anteil der grossen KI-Dienste (OpenAI, Anthropic, Cohere, Mistral, Perplexity ...), die gerade eine Stoerung melden.",
+   "domain": "platforms",
+   "evidence_class": "B",
+   "rationale": "Gleichzeitige Stoerungen mehrerer Anbieter deuten auf gemeinsame Ursache (Cloud, Angriff, Lastwelle).",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Release-Tage mit Lastspitzen",
+    "Cloud-Ausfaelle der Hyperscaler"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "statuspage",
+     "name": "Statuspage (Collector)",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://status.openai.com/api/v2/status.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "Incidents der letzten Wochen",
+     "rate_limit": "unklar",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "status.openai.com und status.anthropic.com stehen schon in catalog/statuspage-hosts.json (aus der Bau-Umgebung nicht erreichbar, 000)."
+    }
+   ],
+   "notes": "Neue Hosts in catalog/statuspage-hosts.json mit Kategorie ai.",
+   "extends": "statuspage"
+  },
+  {
+   "id": "ai.platforms.ai_provider_major_incident",
+   "name_de": "Schwere Stoerungen bei KI-Anbietern (Zaehlung)",
+   "plain_de": "Zaehlt Incidents mit Schwere major oder critical bei KI-Anbietern pro Woche.",
+   "domain": "platforms",
+   "evidence_class": "B",
+   "rationale": "Haeufung schwerer Incidents nach Wochenenden mit Unregelmaessigkeiten; Vergleich der Anbieter erlaubt Trennung von Einzelfehlern.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Modelle starten mit Instabilitaet"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "statuspage",
+     "name": "Statuspage (Collector)",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://status.openai.com/api/v2/status.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "Incidents der letzten Wochen",
+     "rate_limit": "unklar",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "status.openai.com und status.anthropic.com stehen schon in catalog/statuspage-hosts.json (aus der Bau-Umgebung nicht erreichbar, 000)."
+    }
+   ],
+   "notes": "",
+   "extends": "statuspage"
+  },
+  {
+   "id": "ai.platforms.model_registry_ci_status",
+   "name_de": "Status der Code-Plattform (GitHub Actions, Copilot)",
+   "plain_de": "Stoerungen bei GitHub, wo ein grosser Teil der KI-Software und der Agentenarbeit laeuft.",
+   "domain": "platforms",
+   "evidence_class": "B",
+   "rationale": "Agenten und CI laufen ueber GitHub; Stoerungen koennen Folge von Lastwellen durch Agenten-Traffic sein.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Normale Ausfaelle"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "statuspage",
+     "name": "GitHub Status",
+     "doc_url": "https://www.githubstatus.com/api/v2/summary.json",
+     "endpoint": "https://www.githubstatus.com/api/v2/incidents.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "Incidents der letzten Wochen",
+     "rate_limit": "unklar",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "githubstatus.com steht schon in statuspage-hosts.json; Actions und Copilot als Komponenten."
+    }
+   ],
+   "notes": "",
+   "extends": "statuspage"
+  },
+  {
+   "id": "ai.platforms.hf_domain_rank",
+   "name_de": "Domain-Rang von huggingface.co",
+   "plain_de": "Rang der Domain in einer unabhaengigen Liste der meistbesuchten Websites.",
+   "domain": "platforms",
+   "evidence_class": "A",
+   "rationale": "Ausfall oder Sperrung der Plattform fuehrt zu Rangverlust; kein Vorlaufsignal, aber Auswirkungskontrolle.",
+   "direction": "down",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Rangliste ist geglaettet ueber 30 Tage"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "tranco",
+     "name": "Tranco Domain-Ranking",
+     "doc_url": "https://tranco-list.eu/",
+     "endpoint": "https://tranco-list.eu/api/ranks/domain/huggingface.co",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "Taegliche Listen der letzten 30 Tage je Domain via API",
+     "rate_limit": "unklar",
+     "license": "CC BY-NC-SA / frei fuer Forschung",
+     "verified": false,
+     "sample_note": "Rang einer Domain ueber 30 Tage; Rangverlust zeigt Ausfall oder Sperrung. Nicht geprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.platforms.hf_lookalike_certs",
+   "name_de": "Zertifikate fuer Lookalike-Domains der KI-Plattformen",
+   "plain_de": "Zaehlt neue TLS-Zertifikate fuer Domains, die wie huggingface, openai oder anthropic aussehen.",
+   "domain": "platforms",
+   "evidence_class": "A",
+   "rationale": "Phishing und Impersonation vor oder nach einem Vorfall; Typosquat-Wellen gehen Token-Diebstahl voraus.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Markenschutz-Registrierungen",
+    "Echte Partnerdomains"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "crtsh",
+     "name": "crt.sh / Certificate Transparency",
+     "doc_url": "https://crt.sh/",
+     "endpoint": "https://crt.sh/?q=%25.huggingface.co&output=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Alle Zertifikate seit 2013",
+     "rate_limit": "unklar, haeufig 502",
+     "license": "Oeffentliche CT-Daten",
+     "verified": false,
+     "sample_note": "Neue Zertifikate fuer Lookalike-Domains ('huggingface-co.xyz'). Nur Aggregat auf Markenbegriffe, passiv. Nicht geprueft."
+    }
+   ],
+   "notes": "Nur Zaehlung auf Markenbegriffe, keine Personen."
+  },
+  {
+   "id": "ai.platforms.hf_malware_hosting",
+   "name_de": "Schadsoftware-URLs auf huggingface.co",
+   "plain_de": "Zaehlt gemeldete Schad-URLs, die auf Hugging Face gehostet werden.",
+   "domain": "platforms",
+   "evidence_class": "A",
+   "rationale": "Die Plattform als Hosting fuer Schadsoftware ist der Missbrauchsfall 'massenhaft missbraucht'.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Meldeflut einzelner Melder"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "urlhaus",
+     "name": "URLhaus Host-Abfrage",
+     "doc_url": "https://urlhaus-api.abuse.ch/",
+     "endpoint": "https://urlhaus-api.abuse.ch/v1/host/",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Eintraege mit date_added",
+     "rate_limit": "Auth-Key (kostenlos) seit 2025 erforderlich",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "POST host=huggingface.co liefert url_count und Eintraege: Schadsoftware auf der Plattform gehostet. Collector urlhaus existiert (Gesamtzahlen)."
+    }
+   ],
+   "notes": "Extends: urlhaus (Collector), Host-Filter statt Gesamtzaehlung.",
+   "extends": "urlhaus"
+  },
+  {
+   "id": "ai.platforms.hf_blog_security_policy",
+   "name_de": "Neue Sicherheits-Hinweise der Plattformen (Kontext)",
+   "plain_de": "Offizielle Warnungen der Plattformen (z. B. Token rotieren), nur als Kontext.",
+   "domain": "platforms",
+   "evidence_class": "C",
+   "rationale": "Warnungen kommen erst nach Entdeckung, nicht als Vorlaufsignal.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Routine-Hinweise"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "hf-blog",
+     "name": "Hugging Face Blog (RSS)",
+     "doc_url": "https://huggingface.co/blog",
+     "endpoint": "https://huggingface.co/blog/feed.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Feed-URL aus Kenntnis, nicht geprueft; Titelfilter 'security'."
+    }
+   ],
+   "notes": "Klasse C, zaehlt nicht als Signal."
+  },
+  {
+   "id": "ai.supply_chain.pypi_serial_rate",
+   "name_de": "PyPI-Ereignisse pro Stunde (Gesamt)",
+   "plain_de": "Zaehlt alle Aenderungen auf PyPI, ein Gesamtpuls der Paketwelt.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Wurmartige Verbreitung (Mini Shai-Hulud: npm und PyPI, Mai 2026) erzeugt Sprung der Ereignisrate durch automatisierte Neu-Releases.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Release-Wellen, CI-Jobs",
+    "Wochentag"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "pypi-xmlrpc",
+     "name": "PyPI XML-RPC changelog",
+     "doc_url": "https://warehouse.pypa.io/api-reference/xml-rpc.html",
+     "endpoint": "POST https://pypi.org/pypi  Body: <methodCall><methodName>changelog_last_serial</methodName></methodCall>",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Seriennummer wachsend; changelog_since_serial(n) liefert Ereignisse ab n (Name, Version, Zeit, Aktion 'new release', 'yank release', 'remove project', 'add owner')",
+     "rate_limit": "Warehouse ruft XML-RPC als veraltet auf, Rate bitte niedrig",
+     "license": "PyPI-Nutzungsbedingungen, Metadaten frei",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: changelog_last_serial lieferte 43760990, changelog_since_serial lieferte Ereignisse mit Aktion. Messwert: Seriendifferenz pro Stunde und Aktion."
+    }
+   ],
+   "notes": "Sofort messbar, Baseline aus eigenem Speicher. Einzelner Aufruf liefert Seriennummer; Rate = Differenz."
+  },
+  {
+   "id": "ai.supply_chain.pypi_new_projects_rate",
+   "name_de": "Neue PyPI-Projekte pro Stunde",
+   "plain_de": "Zaehlt neu registrierte Paketnamen auf PyPI.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Typosquat-Kampagnen legen in Wellen viele Namen an (zum Beispiel an KI-Bibliotheken angelehnt).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Weiterer Boom von KI-Paketen",
+    "Klassen- und Kurs-Uploads"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "pypi-rss",
+     "name": "PyPI RSS-Feeds",
+     "doc_url": "https://docs.pypi.org/api/feed/",
+     "endpoint": "https://pypi.org/rss/packages.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Nur die letzten 40 bis 100 Eintraege, Historie nur durch eigenes Mitschreiben",
+     "rate_limit": "unklar, Cache",
+     "license": "PyPI-Nutzungsbedingungen",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: packages.xml (neueste Projekte, mit description und author), updates.xml (100 neueste Releases), project/<name>/releases.xml je Projekt."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.supply_chain.pypi_ai_name_typosquats",
+   "name_de": "Neue PyPI-Namen nahe an KI-Bibliotheken",
+   "plain_de": "Findet neue Paketnamen, die einem bekannten KI-Paket sehr aehneln (openai, langchain, litellm, transformers, torch).",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Namensaehnliche Pakete sind das Standardwerkzeug gegen KI-Entwickler (LiteLLM-Fall Maerz 2026 laut Lagebild).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Legitime Plugins ('langchain-xyz')",
+    "Forks"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "pypi-rss",
+     "name": "PyPI RSS-Feeds",
+     "doc_url": "https://docs.pypi.org/api/feed/",
+     "endpoint": "https://pypi.org/rss/packages.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Nur die letzten 40 bis 100 Eintraege, Historie nur durch eigenes Mitschreiben",
+     "rate_limit": "unklar, Cache",
+     "license": "PyPI-Nutzungsbedingungen",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: packages.xml (neueste Projekte, mit description und author), updates.xml (100 neueste Releases), project/<name>/releases.xml je Projekt."
+    }
+   ],
+   "notes": "Editierdistanz auf Namensbasis, lokal gerechnet; nur Paketnamen, keine Personen."
+  },
+  {
+   "id": "ai.supply_chain.pypi_ai_yanks_removals",
+   "name_de": "Entfernte oder zurueckgezogene KI-Pakete",
+   "plain_de": "Zaehlt Yanks und Loeschungen von Paketen aus einer KI-Namensliste.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Ein kompromittiertes Paket wird nach Entdeckung entfernt: PyTorch Lightning ca. 42 Minuten, LiteLLM; Yank-Haeufung ist ein Begleiter.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Fehlerhafte Releases",
+    "Aufraeumen durch Maintainer"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "pypi-xmlrpc",
+     "name": "PyPI XML-RPC changelog",
+     "doc_url": "https://warehouse.pypa.io/api-reference/xml-rpc.html",
+     "endpoint": "POST https://pypi.org/pypi  Body: <methodCall><methodName>changelog_last_serial</methodName></methodCall>",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Seriennummer wachsend; changelog_since_serial(n) liefert Ereignisse ab n (Name, Version, Zeit, Aktion 'new release', 'yank release', 'remove project', 'add owner')",
+     "rate_limit": "Warehouse ruft XML-RPC als veraltet auf, Rate bitte niedrig",
+     "license": "PyPI-Nutzungsbedingungen, Metadaten frei",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: changelog_last_serial lieferte 43760990, changelog_since_serial lieferte Ereignisse mit Aktion. Messwert: Seriendifferenz pro Stunde und Aktion."
+    },
+    {
+     "source_id": "pypi-json",
+     "name": "PyPI JSON API",
+     "doc_url": "https://docs.pypi.org/api/json/",
+     "endpoint": "https://pypi.org/pypi/litellm/json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Alle Releases mit upload_time_iso_8601 und yanked: sofortige Historie je Paket",
+     "rate_limit": "unklar, Cache",
+     "license": "PyPI-Nutzungsbedingungen",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: litellm mit 954 Releases, jeweils upload_time_iso_8601, yanked. Messwert: Releases pro Woche, Yanks, Maintainer-Wechsel."
+    }
+   ],
+   "notes": "Aktionen 'yank release', 'remove release', 'remove project' im changelog_since_serial."
+  },
+  {
+   "id": "ai.supply_chain.pypi_ai_maintainer_changes",
+   "name_de": "Neue Eigentuemer bei populaeren KI-Paketen",
+   "plain_de": "Zaehlt Aktionen 'add owner' und 'add maintainer' bei einer Liste verbreiteter KI-Pakete.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Uebernahme eines Projekts ist ein Weg zum Hijack; Aggregat ueber Paketliste, keine Personenanalyse.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Mitwirkende in Open-Source-Projekten"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "pypi-xmlrpc",
+     "name": "PyPI XML-RPC changelog",
+     "doc_url": "https://warehouse.pypa.io/api-reference/xml-rpc.html",
+     "endpoint": "POST https://pypi.org/pypi  Body: <methodCall><methodName>changelog_last_serial</methodName></methodCall>",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Seriennummer wachsend; changelog_since_serial(n) liefert Ereignisse ab n (Name, Version, Zeit, Aktion 'new release', 'yank release', 'remove project', 'add owner')",
+     "rate_limit": "Warehouse ruft XML-RPC als veraltet auf, Rate bitte niedrig",
+     "license": "PyPI-Nutzungsbedingungen, Metadaten frei",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: changelog_last_serial lieferte 43760990, changelog_since_serial lieferte Ereignisse mit Aktion. Messwert: Seriendifferenz pro Stunde und Aktion."
+    }
+   ],
+   "notes": "Nur Anzahl der Ereignisse je Paketgruppe speichern."
+  },
+  {
+   "id": "ai.supply_chain.pypi_ai_release_burst",
+   "name_de": "Release-Ausbruch bei einem KI-Paket",
+   "plain_de": "Erkennt, wenn ein Paket ploetzlich viele Versionen in kurzer Zeit veroeffentlicht.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Worm-Verhalten und Account-Uebernahme zeigen sich als Versionsflut (Bitwarden-CLI, PyTorch Lightning: kurze Fenster).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Release-Automation",
+    "Nightly-Builds"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "pypi-json",
+     "name": "PyPI JSON API",
+     "doc_url": "https://docs.pypi.org/api/json/",
+     "endpoint": "https://pypi.org/pypi/litellm/json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Alle Releases mit upload_time_iso_8601 und yanked: sofortige Historie je Paket",
+     "rate_limit": "unklar, Cache",
+     "license": "PyPI-Nutzungsbedingungen",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: litellm mit 954 Releases, jeweils upload_time_iso_8601, yanked. Messwert: Releases pro Woche, Yanks, Maintainer-Wechsel."
+    },
+    {
+     "source_id": "pypi-rss",
+     "name": "PyPI RSS-Feeds",
+     "doc_url": "https://docs.pypi.org/api/feed/",
+     "endpoint": "https://pypi.org/rss/packages.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Nur die letzten 40 bis 100 Eintraege, Historie nur durch eigenes Mitschreiben",
+     "rate_limit": "unklar, Cache",
+     "license": "PyPI-Nutzungsbedingungen",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: packages.xml (neueste Projekte, mit description und author), updates.xml (100 neueste Releases), project/<name>/releases.xml je Projekt."
+    }
+   ],
+   "notes": "Je Paket releases.xml oder JSON mit upload_time."
+  },
+  {
+   "id": "ai.supply_chain.npm_ai_new_packages",
+   "name_de": "Neue npm-Pakete mit KI-Stichwort pro Tag",
+   "plain_de": "Zaehlt neue und aktualisierte npm-Pakete mit Stichwort mcp, agent, llm.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Agenten-Toolchain (MCP) ist ein Hauptziel; Wellen neuer Pakete koennen Schadkampagne oder Goldrausch sein.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "MCP-Boom",
+    "Veranstaltungen"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "npm-registry",
+     "name": "npm Registry Search",
+     "doc_url": "https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md",
+     "endpoint": "https://registry.npmjs.org/-/v1/search?text=keywords:mcp&size=250",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Paket-JSON /<name> enthaelt time{version: Zeitstempel}: volle Release-Historie",
+     "rate_limit": "unklar, bei Massenabruf Sperre moeglich",
+     "license": "npm-Nutzungsbedingungen",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: total 91297 Treffer fuer keywords:mcp; objects[].package.date = letzte Veroeffentlichung. Messwert: Pakete mit date in den letzten 24 h, total."
+    }
+   ],
+   "notes": "total aus der Suche je Stichwort (mcp: 91297 am 17.11.2026)."
+  },
+  {
+   "id": "ai.supply_chain.npm_ai_version_burst",
+   "name_de": "Versionsflut bei populaeren KI-npm-Paketen",
+   "plain_de": "Erkennt Pakete, deren Version innerhalb Stunden mehrfach springt.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Worm Mini Shai-Hulud veroeffentlichte kompromittierte Versionen automatisch.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Monorepo-Releases"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "npm-registry",
+     "name": "npm Paket-JSON",
+     "doc_url": "https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md",
+     "endpoint": "https://registry.npmjs.org/langchain",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Komplette Versionshistorie im Feld time",
+     "rate_limit": "unklar",
+     "license": "npm-Nutzungsbedingungen",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: time-Objekt mit 485 Eintraegen fuer langchain."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.supply_chain.osv_malware_ai",
+   "name_de": "Schadpaket-Meldungen (MAL-) mit KI-Bezug",
+   "plain_de": "Zaehlt neue Eintraege zu Schadpaketen in PyPI und npm in der Schwachstellendatenbank OSV.",
+   "domain": "supply_chain",
+   "evidence_class": "B",
+   "rationale": "Meldungen kommen von Dritten (OpenSSF, GitHub, Sicherheitsfirmen), laufen aber nach der Entdeckung; gut als Begleiter und Wellenmass.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Neue Scanner erhoehen Meldungen",
+    "Bulk-Importe"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "osv-dev",
+     "name": "OSV.dev",
+     "doc_url": "https://google.github.io/osv.dev/api/",
+     "endpoint": "https://api.osv.dev/v1/query (POST) bzw. https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Komplette Historie als Massen-Download je Oekosystem; IDs mit Praefix MAL- sind Schadpakete",
+     "rate_limit": "unklar",
+     "license": "CC0 bzw. je Quelldatenbank CC-BY",
+     "verified": false,
+     "sample_note": "Eintraege mit published, modified, affected[].package. Aus der Bau-Umgebung nicht erreichbar."
+    },
+    {
+     "source_id": "ossf-malicious",
+     "name": "OpenSSF malicious-packages (GitHub)",
+     "doc_url": "https://github.com/ossf/malicious-packages",
+     "endpoint": "https://raw.githubusercontent.com/ossf/malicious-packages/main/README.md",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Git-Verlauf mit Datum je Meldung; Dateien osv/malicious/<oekosystem>/<paket>/MAL-*.json",
+     "rate_limit": "raw.githubusercontent.com unauffaellig",
+     "license": "Apache-2.0 bzw. CC0, siehe Repo",
+     "verified": true,
+     "sample_note": "README per curl geprueft (200). Dateistruktur ueber GitHub-API oder git clone, Einzelpfade nicht geprueft."
+    }
+   ],
+   "notes": "Filter auf Paketnamen aus KI-Liste (llm, openai, mcp, agent)."
+  },
+  {
+   "id": "ai.supply_chain.ghsa_malware_count",
+   "name_de": "GitHub-Advisories Typ malware pro Tag",
+   "plain_de": "Zaehlt Warnungen vor Schadpaketen in der Advisory-Datenbank von GitHub.",
+   "domain": "supply_chain",
+   "evidence_class": "B",
+   "rationale": "Zweite Zaehlreihe neben OSV zur Gegenpruefung.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Importstapel"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "github-advisories",
+     "name": "GitHub Advisory Database REST",
+     "doc_url": "https://docs.github.com/en/rest/security-advisories/global-advisories",
+     "endpoint": "https://api.github.com/advisories?type=malware&ecosystem=pip&per_page=100",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Alle Advisories mit published_at",
+     "rate_limit": "60 Anfragen/h ohne Token, 5000 mit",
+     "license": "CC-BY 4.0 (Datenbank)",
+     "verified": false,
+     "sample_note": "Aus der Bau-Umgebung 403 (Proxy). Felder: ghsa_id, published_at, type, severity, vulnerabilities[].package."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.supply_chain.cve_ai_keywords",
+   "name_de": "Neue CVEs zu KI-Frameworks",
+   "plain_de": "Zaehlt neue Schwachstellen-Eintraege, deren Titel KI-Software nennt (Langflow, Ollama, vLLM, LangChain, MLflow, Ray, ComfyUI, Hugging Face, MCP).",
+   "domain": "supply_chain",
+   "evidence_class": "B",
+   "rationale": "Schwachstellen in Agenten- und Serving-Frameworks sind Einstieg fuer Missbrauch (Langflow-RCE in KEV).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Scanner/KI-gestuetzte Funde erhoehen Zahl",
+    "Grosse Bug-Bounty-Wellen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "cvelist-v5",
+     "name": "CVEProject/cvelistV5 deltaLog + Einzeldateien",
+     "doc_url": "https://github.com/CVEProject/cvelistV5",
+     "endpoint": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/3xxx/CVE-2025-3248.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "7 min",
+     "history": "30 Tage deltaLog; Einzeldatei je CVE mit Titel und Beschreibung fuer Stichwortfilter",
+     "rate_limit": "raw.githubusercontent.com",
+     "license": "CVE Terms of Use",
+     "verified": true,
+     "sample_note": "Einzeldatei am 17.11.2026 geprueft (Langflow RCE, containers.cna.title und descriptions). Filter: IDs aus deltaLog.new[], je ID Datei holen, Stichworte pruefen (Aufwand: eine Anfrage je neue CVE)."
+    },
+    {
+     "source_id": "nvd",
+     "name": "NVD CVE API 2.0",
+     "doc_url": "https://nvd.nist.gov/developers/vulnerabilities",
+     "endpoint": "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=langchain&pubStartDate=2026-11-01T00:00:00.000&pubEndDate=2026-11-17T00:00:00.000",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Alle CVEs seit 1999 mit Datum",
+     "rate_limit": "5 Anfragen/30 s ohne Key, 50 mit Key",
+     "license": "Gemeinfrei",
+     "verified": false,
+     "sample_note": "totalResults je Stichwort und Zeitfenster ist der Messwert. Aus der Bau-Umgebung nicht erreichbar."
+    }
+   ],
+   "notes": "Erweiterung cvelist-delta: Titel je neue CVE aus Einzeldatei filtern.",
+   "extends": "cvelist-delta"
+  },
+  {
+   "id": "ai.supply_chain.cve_ai_share",
+   "name_de": "Anteil KI-bezogener CVEs an allen neuen CVEs",
+   "plain_de": "Relativer Anteil der KI-Treffer an der taeglichen CVE-Menge.",
+   "domain": "supply_chain",
+   "evidence_class": "B",
+   "rationale": "Der Anteil bereinigt Schwankungen des Gesamtvolumens.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Verschiebung im Gesamtvolumen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cvelist-v5",
+     "name": "CVEProject/cvelistV5 deltaLog + Einzeldateien",
+     "doc_url": "https://github.com/CVEProject/cvelistV5",
+     "endpoint": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/3xxx/CVE-2025-3248.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "7 min",
+     "history": "30 Tage deltaLog; Einzeldatei je CVE mit Titel und Beschreibung fuer Stichwortfilter",
+     "rate_limit": "raw.githubusercontent.com",
+     "license": "CVE Terms of Use",
+     "verified": true,
+     "sample_note": "Einzeldatei am 17.11.2026 geprueft (Langflow RCE, containers.cna.title und descriptions). Filter: IDs aus deltaLog.new[], je ID Datei holen, Stichworte pruefen (Aufwand: eine Anfrage je neue CVE)."
+    }
+   ],
+   "notes": "",
+   "extends": "cvelist-delta"
+  },
+  {
+   "id": "ai.supply_chain.kev_ai_products",
+   "name_de": "KI-Produkte im CISA-KEV-Katalog",
+   "plain_de": "Zaehlt Eintraege in der Liste aktiv ausgenutzter Schwachstellen, die KI-Software betreffen.",
+   "domain": "supply_chain",
+   "evidence_class": "B",
+   "rationale": "Ausnutzung in freier Wildbahn, nicht nur Existenz einer Luecke; KEV-Aufnahme von KI-Frameworks sind selten und deshalb ein starkes Signal.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Verzoegerte Aufnahme"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "cisa-kev",
+     "name": "CISA KEV",
+     "doc_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "endpoint": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "dateAdded je Eintrag",
+     "rate_limit": "unklar",
+     "license": "Gemeinfrei",
+     "verified": false,
+     "sample_note": "Eintraege mit vendorProject/product: Filter auf KI-Frameworks (Langflow, Ray, Ollama, MLflow ...). Klasse B/C (Behoerdenliste); als Zaehlreihe Klasse B."
+    }
+   ],
+   "notes": "Extends: cisa-kev, Produktfilter.",
+   "extends": "cisa-kev"
+  },
+  {
+   "id": "ai.supply_chain.epss_ai_cves",
+   "name_de": "Ausnutzungswahrscheinlichkeit KI-bezogener CVEs",
+   "plain_de": "EPSS-Wert der KI-bezogenen Luecken als Naeherung fuer akute Ausnutzung.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "EPSS bildet Beobachtungen aus Honeypots und Scans ab; Anstieg fuer KI-CVEs ist Ausnutzungsanzeichen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Proof-of-Concepts"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "first-epss",
+     "name": "FIRST EPSS",
+     "doc_url": "https://www.first.org/epss/api",
+     "endpoint": "https://api.first.org/data/v1/epss?cve=CVE-2025-3248",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "Historie je CVE per date-Parameter",
+     "rate_limit": "unklar",
+     "license": "frei mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Feld epss, percentile. Collector first-epss vorhanden (Cyber)."
+    }
+   ],
+   "notes": "",
+   "extends": "first-epss"
+  },
+  {
+   "id": "ai.supply_chain.ai_exposed_servers",
+   "name_de": "Offen erreichbare LLM-Server im Internet",
+   "plain_de": "Zaehlt aus dem Internet ohne Anmeldung erreichbare Modell-Server (Ollama, vLLM, Jupyter mit KI).",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Offene Server sind Rohmaterial fuer LLMjacking und Agentenmissbrauch (Weiterverkauf gestohlener Zugaenge laut Lagebild); Verschiebung zeigt Wellen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Wachstum der Eigenbau-Nutzung"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "shodan",
+     "name": "Shodan Count API",
+     "doc_url": "https://developer.shodan.io/api",
+     "endpoint": "https://api.shodan.io/shodan/host/count?key=KEY&query=product:Ollama&facets=country",
+     "access": "api",
+     "format": "json",
+     "auth": "paid",
+     "cost": "Konto (Mitgliedschaft ca. 49 USD einmalig, Stand Kenntnis)",
+     "update_latency": "Tage",
+     "history": "Keine Historie, Verlauf nur durch eigene Abfragen",
+     "rate_limit": "1 Anfrage/s",
+     "license": "Shodan-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "Count-Aufrufe verbrauchen keine Abfragekontingente laut Doku. Nur Anzahl, keine Hostlisten. Bitte nur Aggregate speichern."
+    }
+   ],
+   "notes": "Passive Abfrage eines Zaehlers, kein Scan."
+  },
+  {
+   "id": "ai.supply_chain.mcp_repo_growth",
+   "name_de": "Neue Repositories zu MCP-Servern",
+   "plain_de": "Zaehlt neue GitHub-Repos mit Thema mcp-server als Mass fuer die Agenten-Angriffsflaeche.",
+   "domain": "supply_chain",
+   "evidence_class": "A",
+   "rationale": "Jeder MCP-Server ist ein Tool-Einstieg fuer Agenten; schnelles Wachstum ohne Pruefung vergroessert die Flaeche.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Boom"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "github-search",
+     "name": "GitHub Search API (Repositories)",
+     "doc_url": "https://docs.github.com/en/rest/search/search",
+     "endpoint": "https://api.github.com/search/repositories?q=topic:mcp-server+created:>2026-11-10&per_page=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Beliebige Zeitfenster per created:",
+     "rate_limit": "10 Anfragen/min ohne Token",
+     "license": "GitHub-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "total_count neuer Repos mit Thema. Aus der Bau-Umgebung 403."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.supply_chain.atlas_techniques",
+   "name_de": "MITRE-ATLAS-Technikenzahl (Kontext)",
+   "plain_de": "Anzahl dokumentierter Angriffstechniken auf KI-Systeme.",
+   "domain": "supply_chain",
+   "evidence_class": "C",
+   "rationale": "Nur Kontext: die Datei ist als veraltet markiert.",
+   "direction": "none",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Rein redaktionell"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "mitre-atlas",
+     "name": "MITRE ATLAS Daten (GitHub)",
+     "doc_url": "https://github.com/mitre-atlas/atlas-data",
+     "endpoint": "https://raw.githubusercontent.com/mitre-atlas/atlas-data/main/dist/ATLAS.yaml",
+     "access": "download",
+     "format": "yaml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unregelmaessig",
+     "history": "Git-Verlauf",
+     "rate_limit": "raw.githubusercontent.com",
+     "license": "MIT",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft (200, 450 kB, Version 5.6.0, 58 Case-Study-Kennungen AML.CS). Datei traegt den Vermerk deprecated, nicht mehr gepflegt: nur als Referenzliste von Angriffstechniken geeignet."
+    }
+   ],
+   "notes": "Klasse C, kein Signal."
+  },
+  {
+   "id": "ai.agents.ai_crawler_share",
+   "name_de": "Anteil KI-Crawler am Web-Verkehr",
+   "plain_de": "Anteil des Verkehrs bei Cloudflare, der von KI-Crawlern stammt.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Anstieg autonomer Zugriffe auf das Netz ist die Grundlast; ploetzliche Spruenge einzelner Betreiber zeigen neue Agenten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neues Modelltraining",
+    "Veroeffentlichung neuer Produkte"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API (AI Insights)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/ai/bots/timeseries_groups/user_agent?dateRange=28d&aggInterval=1h",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Zeitreihen mit Parametern dateRange, Historie ueber 1 Jahr",
+     "rate_limit": "API-Token Radar Read",
+     "license": "CC BY-NC 4.0 (nicht kommerziell)",
+     "verified": false,
+     "sample_note": "Antwort mit Zeitreihe je User-Agent-Gruppe. Key kostenlos, Lizenz nicht kommerziell. Nicht geprueft."
+    }
+   ],
+   "notes": "Collector cloudflare-radar vorhanden.",
+   "extends": "cloudflare-radar"
+  },
+  {
+   "id": "ai.agents.ai_crawl_to_refer",
+   "name_de": "Crawl-zu-Verweis-Verhaeltnis",
+   "plain_de": "Verhaeltnis der Seitenabrufe durch KI-Crawler zu Besuchern, die von KI-Diensten zurueckverwiesen werden.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Steigende Asymmetrie zeigt ungebremstes automatisiertes Abgreifen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Produktwechsel der Anbieter"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API (AI Insights)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/ai/bots/summary/crawl_purpose?dateRange=28d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Zeitreihen mit Parametern dateRange, Historie ueber 1 Jahr",
+     "rate_limit": "API-Token Radar Read",
+     "license": "CC BY-NC 4.0 (nicht kommerziell)",
+     "verified": false,
+     "sample_note": "Aufteilung nach Zweck (Training, Suche, Nutzeraktion). Nicht geprueft."
+    }
+   ],
+   "notes": "",
+   "extends": "cloudflare-radar"
+  },
+  {
+   "id": "ai.agents.ai_user_agent_new_entries",
+   "name_de": "Neue KI-Crawler in der Block-Liste",
+   "plain_de": "Zaehlt neue Eintraege in der oeffentlichen Liste bekannter KI-Crawler.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Neue Betreiber oder Namen tauchen zuerst bei Betreibern von Websites auf; die Liste wird von Freiwilligen gepflegt.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Liste wird auch umgebaut"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ai-robots-txt",
+     "name": "ai.robots.txt (GitHub)",
+     "doc_url": "https://github.com/ai-robots-txt/ai.robots.txt",
+     "endpoint": "https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/main/robots.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Git-Verlauf (Anzahl Eintraege ueber Zeit)",
+     "rate_limit": "raw.githubusercontent.com",
+     "license": "MIT",
+     "verified": true,
+     "sample_note": "Am 17.11.2026 geprueft: 209 Eintraege (Crawler-Namen mit operator, function, frequency). Messwert: Anzahl Eintraege, neue Crawler pro Monat."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.agents.agent_traffic_by_operator",
+   "name_de": "Verkehr einzelner Agenten-Betreiber",
+   "plain_de": "Verkehrsanteil einzelner Betreiber (nach User-Agent) bei Cloudflare.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Ein einzelner Betreiber mit Verdopplung binnen Tagen waere ein Anomalie-Kandidat.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Produktstart"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API (AI Insights)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/ai/bots/summary/user_agent?dateRange=7d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Zeitreihen mit Parametern dateRange, Historie ueber 1 Jahr",
+     "rate_limit": "API-Token Radar Read",
+     "license": "CC BY-NC 4.0 (nicht kommerziell)",
+     "verified": false,
+     "sample_note": "Nicht geprueft."
+    }
+   ],
+   "notes": "",
+   "extends": "cloudflare-radar"
+  },
+  {
+   "id": "ai.agents.github_bot_commits_share",
+   "name_de": "Bot-Anteil an GitHub-Ereignissen",
+   "plain_de": "Anteil der Ereignisse auf GitHub, die von Bot-Konten ausgehen.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Autonome Agenten erzeugen Commits und PRs in grossem Masse; Spruenge des Anteils waeren Aktivitaet in Masse.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Dependabot-Wellen",
+    "Release-Tage"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gharchive",
+     "name": "GH Archive",
+     "doc_url": "https://www.gharchive.org/",
+     "endpoint": "https://data.gharchive.org/2026-11-16-12.json.gz",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "Stundendateien seit 2011",
+     "rate_limit": "unklar",
+     "license": "CC-BY (siehe Seite)",
+     "verified": false,
+     "sample_note": "Stundendatei aller oeffentlichen GitHub-Ereignisse (ca. 100 MB komprimiert pro Tag). Zaehlen: Ereignisse mit actor.login auf [bot] endend, nach Bot-Konto aggregiert. Aus der Bau-Umgebung nicht erreichbar."
+    }
+   ],
+   "notes": "Nur Aggregate je Bot-Typ, keine Personen. Datenvolumen hoch."
+  },
+  {
+   "id": "ai.agents.github_agent_pr_rate",
+   "name_de": "Pull-Requests durch Coding-Agenten pro Tag",
+   "plain_de": "Zaehlt PRs, die von bekannten Agenten-Konten (Copilot, Codex, Claude, Jules ...) geoeffnet werden.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Mass fuer Verbreitung autonomer Agenten im Alltag; Sprung kann Missbrauch (Massen-Spam) bedeuten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Produktstart",
+    "Grosse Refactorings"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "github-search",
+     "name": "GitHub Search API",
+     "doc_url": "https://docs.github.com/en/rest/search/search",
+     "endpoint": "https://api.github.com/search/issues?q=author:app/copilot-swe-agent+type:pr+created:>2026-11-10&per_page=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Beliebige Zeitfenster per created:-Filter, daher sofortige Historie",
+     "rate_limit": "10 Anfragen/min unauthentifiziert, 30 mit Token",
+     "license": "GitHub-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "total_count ist der Messwert; Aggregat, keine Personen. Aus der Bau-Umgebung 403."
+    }
+   ],
+   "notes": "Zaehlung nach Agenten-App, keine Personen."
+  },
+  {
+   "id": "ai.agents.github_agent_coauthor_commits",
+   "name_de": "Commits mit KI-Co-Autor-Zeile",
+   "plain_de": "Zaehlt Commits mit Zeile 'Co-Authored-By' eines KI-Dienstes.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Allgemeiner Indikator fuer Agentenarbeit; Brueche in der Zeitreihe weisen auf Ausfaelle oder neue Werkzeuge.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Konfigurationsaenderung der Werkzeuge"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "github-search",
+     "name": "GitHub Search API (Commits)",
+     "doc_url": "https://docs.github.com/en/rest/search/search#search-commits",
+     "endpoint": "https://api.github.com/search/commits?q=%22Co-Authored-By:+Claude%22+committer-date:%3E2026-11-10&per_page=1",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Beliebige Zeitfenster",
+     "rate_limit": "10 Anfragen/min",
+     "license": "GitHub-Bedingungen",
+     "verified": false,
+     "sample_note": "total_count; nur Zahl. Nicht geprueft."
+    }
+   ],
+   "notes": "Aggregatzahl, keine Personenprofile."
+  },
+  {
+   "id": "ai.agents.honeypot_llm_probes",
+   "name_de": "Honeypot-Zugriffe auf KI-Dienst-Ports",
+   "plain_de": "Zugriffe auf Standard-Ports von LLM-Servern (11434 Ollama) und KI-Endpunkte in Honeypot-Daten.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Scannen nach offenen Modell-Servern geht dem Missbrauch voraus; ein Honeypot-Netz misst das ohne eigenes Scannen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Allgemeine Scan-Wellen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "sans-isc",
+     "name": "SANS Internet Storm Center DShield API",
+     "doc_url": "https://isc.sans.edu/api/",
+     "endpoint": "https://isc.sans.edu/api/portdetails/11434?json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "Verlauf der Quellen- und Zielzahlen je Port",
+     "rate_limit": "1 Anfrage/s",
+     "license": "CC BY-NC-SA 3.0",
+     "verified": false,
+     "sample_note": "Je Port Zahl Reports, Quellen, Ziele. Collector sans-isc vorhanden. Port 11434 aus Kenntnis, nicht geprueft."
+    }
+   ],
+   "notes": "Extends: sans-isc.",
+   "extends": "sans-isc"
+  },
+  {
+   "id": "ai.agents.greynoise_ai_tags",
+   "name_de": "GreyNoise-Tags zu KI-Diensten",
+   "plain_de": "Zaehlt Quell-IPs mit Tags zu KI-Diensten (zum Beispiel Suche nach Ollama oder OpenAI-Schluesseln) in einem Sensornetz.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Selbst entwickelte Tags nennen Angriffsmuster; Neue Tags sind Neu-Muster.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Tag-Regeln"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "greynoise",
+     "name": "GreyNoise Tags API",
+     "doc_url": "https://docs.greynoise.io/",
+     "endpoint": "https://api.greynoise.io/v3/tags",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free (Community, begrenzt)",
+     "update_latency": "Stunden",
+     "history": "Neue Tags mit Datum",
+     "rate_limit": "begrenzt",
+     "license": "GreyNoise-Bedingungen",
+     "verified": false,
+     "sample_note": "Nicht geprueft, Tag-Namen KI-bezogen nicht belegt."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.agents.llm_api_error_rate",
+   "name_de": "Fehlerrate oeffentlicher Inferenz-Endpunkte",
+   "plain_de": "Anteil fehlgeschlagener Abfragen bei oeffentlichen Modell-Anbietern ueber einen Vermittler.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Fehlerhafte Antworten bei mehreren Anbietern zugleich weisen auf Ueberlast oder Angriff; unabhaengige Messung ueber Dritte.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Release-Tage",
+    "Cloud-Probleme"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "openrouter",
+     "name": "OpenRouter API",
+     "doc_url": "https://openrouter.ai/docs/api-reference/overview",
+     "endpoint": "https://openrouter.ai/api/v1/models",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Nur Gegenwart (Preise, Modelle); Rankings-Seite https://openrouter.ai/rankings zeigt Token-Volumen im Zeitverlauf",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Modellliste mit Preisen und Kontextlaenge ohne Key. Je Modell Endpunkt-Status (uptime) ueber /api/v1/models/<autor>/<slug>/endpoints laut Doku. Nicht geprueft."
+    }
+   ],
+   "notes": "Endpunkt-Status je Modell laut Doku, ungeprueft."
+  },
+  {
+   "id": "ai.agents.openrouter_token_volume",
+   "name_de": "Token-Volumen einer Vermittlungsplattform",
+   "plain_de": "Menge verarbeiteter Tokens je Modell und Tag auf OpenRouter.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Lastwellen durch autonome Agenten (Schleifen) zeigen sich als Volumenanstieg einzelner Modelle.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Modellpreise",
+    "Aktionen"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "openrouter",
+     "name": "OpenRouter API",
+     "doc_url": "https://openrouter.ai/docs/api-reference/overview",
+     "endpoint": "https://openrouter.ai/api/v1/models",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Nur Gegenwart (Preise, Modelle); Rankings-Seite https://openrouter.ai/rankings zeigt Token-Volumen im Zeitverlauf",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Modellliste mit Preisen und Kontextlaenge ohne Key. Je Modell Endpunkt-Status (uptime) ueber /api/v1/models/<autor>/<slug>/endpoints laut Doku. Nicht geprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.agents.agent_framework_downloads",
+   "name_de": "Download-Zahlen von Agenten-Bibliotheken",
+   "plain_de": "Taeglich Downloads der populaeren Agenten-Pakete (PyPI, npm).",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Hohe Verbreitung vergroessert die Wirkung eines Pakets-Hijacks.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "CI-Cache-Effekte",
+    "Spiegelserver"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "pypistats",
+     "name": "pypistats.org API",
+     "doc_url": "https://pypistats.org/api/",
+     "endpoint": "https://pypistats.org/api/packages/litellm/recent",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "180 Tage Historie",
+     "rate_limit": "unklar, gedrosselt",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Aus der Bau-Umgebung nicht erreichbar (000). Alternative npm: https://api.npmjs.org/downloads/point/last-day/<paket>, ebenfalls nicht erreichbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.agents.agent_ddos_layer7",
+   "name_de": "Layer-7-Angriffe als Begleiter",
+   "plain_de": "Anwendungsschicht-Angriffe gesamt, in denen sich automatisierte Angriffe sammeln.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Agentengesteuerte Angriffe auf Web-APIs erscheinen zuerst als Layer-7-Zunahme (Notfalldienste-Fall laut Lagebild).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Normale DDoS-Wellen"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API (AI Insights)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/attacks/layer7/timeseries?dateRange=28d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Zeitreihen mit Parametern dateRange, Historie ueber 1 Jahr",
+     "rate_limit": "API-Token Radar Read",
+     "license": "CC BY-NC 4.0 (nicht kommerziell)",
+     "verified": false,
+     "sample_note": "Bereits im Collector genutzt."
+    }
+   ],
+   "notes": "",
+   "extends": "cloudflare-radar"
+  },
+  {
+   "id": "ai.agents.bot_traffic_share_total",
+   "name_de": "Gesamt-Bot-Anteil am Web-Verkehr",
+   "plain_de": "Anteil automatisierter Anfragen am gesamten Verkehr.",
+   "domain": "agents",
+   "evidence_class": "A",
+   "rationale": "Hintergrundlast, auf der sich Agenten-Wellen abheben.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Saisonale Crawls"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API (AI Insights)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/http/summary/bot_class?dateRange=28d",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Zeitreihen mit Parametern dateRange, Historie ueber 1 Jahr",
+     "rate_limit": "API-Token Radar Read",
+     "license": "CC BY-NC 4.0 (nicht kommerziell)",
+     "verified": false,
+     "sample_note": "Nicht geprueft."
+    }
+   ],
+   "notes": "",
+   "extends": "cloudflare-radar"
+  },
+  {
+   "id": "ai.incidents.aiid_incident_count",
+   "name_de": "Neue Vorfaelle in der AI Incident Database",
+   "plain_de": "Zaehlt pro Woche neu aufgenommene Vorfaelle.",
+   "domain": "incidents",
+   "evidence_class": "D",
+   "rationale": "Die Datenbank wird von Freiwilligen aus Medienberichten gepflegt: gemessen wird Berichterstattung, nicht Ereignis. Haeufung ist Begleiter.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Aufnahme-Rueckstaende",
+    "Kampagnen der Redaktion"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "aiid",
+     "name": "AI Incident Database (GraphQL)",
+     "doc_url": "https://incidentdatabase.ai/apps/discover/",
+     "endpoint": "https://incidentdatabase.ai/api/graphql",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Alle Vorfaelle seit 2018 mit incident_id und date; woechentliche Snapshots unter https://incidentdatabase.ai/research/snapshots/",
+     "rate_limit": "unklar",
+     "license": "CC BY-SA 4.0 (Datenbank)",
+     "verified": false,
+     "sample_note": "Abfrage incidents{incident_id date} liefert Zaehlreihe nach Vorfalldatum (Eintragsdatum separat: epoch_date_modified). Aus der Bau-Umgebung nicht erreichbar. GitHub-Repo responsible-ai-collaborative/aiid enthaelt nur Code (README geprueft), keine Daten."
+    }
+   ],
+   "notes": "Klasse D, weil redaktionell und medienabgeleitet."
+  },
+  {
+   "id": "ai.incidents.oecd_aim_incidents",
+   "name_de": "OECD AI Incidents Monitor: Vorfaelle pro Tag",
+   "plain_de": "Zaehlt automatisch aus Nachrichten erkannte KI-Vorfaelle und Gefahren.",
+   "domain": "incidents",
+   "evidence_class": "D",
+   "rationale": "Maschinelle Ableitung aus Medien; separate Zaehlung von 'incidents' und 'hazards' trennt Eingetretenes von Befuerchtetem.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Medienzyklen"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "oecd-aim",
+     "name": "OECD AI Incidents and Hazards Monitor",
+     "doc_url": "https://oecd.ai/en/incidents",
+     "endpoint": "https://oecd.ai/en/incidents",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Eintraege mit Datum seit 2014; Export als CSV laut Seite angeboten",
+     "rate_limit": "unklar",
+     "license": "OECD-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "Automatisch aus Medienberichten erzeugte Vorfaelle und Gefahren (incidents/hazards getrennt). Klasse B/C faellt weg: Medienableitung, daher Klasse D. Nicht geprueft."
+    }
+   ],
+   "notes": "Klasse D."
+  },
+  {
+   "id": "ai.incidents.oecd_aim_hazard_share",
+   "name_de": "Anteil 'Hazards' an allen Eintraegen",
+   "plain_de": "Verhaeltnis von Warnungen zu eingetretenen Vorfaellen.",
+   "domain": "incidents",
+   "evidence_class": "D",
+   "rationale": "Steigender Hazard-Anteil bei sinkendem Incident-Anteil kann Vorlauf sein.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Medienstimmung"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "oecd-aim",
+     "name": "OECD AI Incidents and Hazards Monitor",
+     "doc_url": "https://oecd.ai/en/incidents",
+     "endpoint": "https://oecd.ai/en/incidents",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Eintraege mit Datum seit 2014; Export als CSV laut Seite angeboten",
+     "rate_limit": "unklar",
+     "license": "OECD-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "Automatisch aus Medienberichten erzeugte Vorfaelle und Gefahren (incidents/hazards getrennt). Klasse B/C faellt weg: Medienableitung, daher Klasse D. Nicht geprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.incidents.metr_agent_incidents",
+   "name_de": "METR-Sammlung autonomer Agenten-Vorfaelle",
+   "plain_de": "Zaehlt dokumentierte Faelle von Ueberschreitung und Taeuschung durch Agenten in Tests und Betrieb.",
+   "domain": "incidents",
+   "evidence_class": "C",
+   "rationale": "Quellen sind Systemkarten der Anbieter (Selbstauskunft) und Auswertungen von METR; keine Messung.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Neue Systemkarten erhoehen Eintraege"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "metr",
+     "name": "METR Agent Incidents",
+     "doc_url": "https://metr.org/agent-incidents/",
+     "endpoint": "https://metr.org/agent-incidents/incidents.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Wochen",
+     "history": "Fortlaufend, Stand 19.05.2026 44 Eintraege (laut Lagebild-Datei)",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Pfad incidents.json laut Lagebild-Recherche, nicht selbst geprueft. Quellen sind Systemkarten der Anbieter, also Selbstauskunft."
+    }
+   ],
+   "notes": "Klasse C: Aussagen der Firmen."
+  },
+  {
+   "id": "ai.incidents.mit_risk_repo_entries",
+   "name_de": "MIT AI Risk Repository (Kontext)",
+   "plain_de": "Katalog von KI-Risiken.",
+   "domain": "incidents",
+   "evidence_class": "C",
+   "rationale": "Reine Systematik, kein Zeitreihen-Signal.",
+   "direction": "none",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Redaktionell"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "mit-air",
+     "name": "MIT AI Risk Repository und AI Incident Tracker",
+     "doc_url": "https://airisk.mit.edu/",
+     "endpoint": "https://airisk.mit.edu/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Monate",
+     "history": "Versionierte Tabelle",
+     "rate_limit": "unklar",
+     "license": "CC BY 4.0",
+     "verified": false,
+     "sample_note": "Risikokatalog, kein Echtzeit-Feed: nur Kontext (Klasse C/D)."
+    }
+   ],
+   "notes": "Kontext."
+  },
+  {
+   "id": "ai.incidents.incident_vendor_reports",
+   "name_de": "Veroeffentlichte Bedrohungsberichte der KI-Anbieter",
+   "plain_de": "Zaehlt Berichte der KI-Labore ueber verhinderten Missbrauch (Threat Reports).",
+   "domain": "incidents",
+   "evidence_class": "C",
+   "rationale": "Anbieter berichten regelmaessig von blockierten Konten und Kampagnen; Haeufigkeit und Inhalt sind Selbstauskunft.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Feste Berichtszyklen"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "vendor-blogs",
+     "name": "Anbieter-Blogs (RSS)",
+     "doc_url": "https://openai.com/news/rss.xml",
+     "endpoint": "https://openai.com/news/rss.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Archiv im Feed",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Feed-URL aus Kenntnis, nicht geprueft. Titelfilter 'threat', 'disrupting', 'misuse'."
+    }
+   ],
+   "notes": "Klasse C, nur Kontext."
+  },
+  {
+   "id": "ai.incidents.mandatory_incident_reports",
+   "name_de": "Pflichtmeldungen schwerer KI-Vorfaelle",
+   "plain_de": "Meldungen nach EU AI Act (Art. 73) und kalifornischem SB 53 ueber kritische Sicherheitsvorfaelle.",
+   "domain": "incidents",
+   "evidence_class": "B",
+   "rationale": "Pflichtmeldungen sind der sauberste Zaehler, sind aber zumeist nicht oeffentlich; nur Jahresberichte sind vorgesehen.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Neue Meldepflicht erzeugt Anlaufwerte"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "eu-ai-office",
+     "name": "EU AI Office / Kalifornien OES",
+     "doc_url": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+     "endpoint": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Monate",
+     "history": "unklar",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Kein maschinenlesbarer Feed bekannt; nur Platzhalter."
+    }
+   ],
+   "notes": "Kein Feed gefunden."
+  },
+  {
+   "id": "ai.incidents.ai_news_volume",
+   "name_de": "Nachrichtenvolumen zu KI-Vorfaellen",
+   "plain_de": "Anteil der Artikel in GDELT zu 'KI-Agent, Vorfall, Datenleck'.",
+   "domain": "incidents",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit: hilft zu trennen, ob Messungen von Aufmerksamkeit getrieben sind.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Ein viraler Artikel"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT DOC 2.0",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22AI%20agent%22%20(breach%20OR%20rogue)&mode=timelinevol&timespan=1m&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "Seit 2017",
+     "rate_limit": "1 Anfrage/5 s",
+     "license": "frei mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Collector gdelt-doc vorhanden (Cyber-Begriffe): Begriffe fuer KI ergaenzen."
+    }
+   ],
+   "notes": "Extends: gdelt-doc.",
+   "extends": "gdelt-doc"
+  },
+  {
+   "id": "ai.incidents.hn_ai_security_stories",
+   "name_de": "Hacker-News-Stories zu KI-Sicherheit",
+   "plain_de": "Neue Stories mit Begriffen wie prompt injection, jailbreak, rogue agent.",
+   "domain": "incidents",
+   "evidence_class": "D",
+   "rationale": "Die Technik-Szene bemerkt Vorfaelle oft Stunden vor Pressetexten.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Viraler Blogbeitrag"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "hn-algolia",
+     "name": "Hacker News Algolia",
+     "doc_url": "https://hn.algolia.com/api",
+     "endpoint": "https://hn.algolia.com/api/v1/search_by_date?query=%22prompt%20injection%22&tags=story&hitsPerPage=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Seit 2006",
+     "rate_limit": "10000 Anfragen/h",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Collector hn-algolia vorhanden: Begriffe fuer KI ergaenzen."
+    }
+   ],
+   "notes": "Extends: hn-algolia.",
+   "extends": "hn-algolia"
+  },
+  {
+   "id": "ai.compute.gpu_rental_price",
+   "name_de": "GPU-Mietpreise (H100)",
+   "plain_de": "Mietpreis pro Stunde fuer eine H100 auf dem offenen Markt.",
+   "domain": "compute",
+   "evidence_class": "A",
+   "rationale": "Ein Nachfrageschub (Massentraining, Agentenschwaerme) hebt Preise; ein Preissturz zeigt Ueberangebot.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Neue Hardware-Generation",
+    "Boersenlaune"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "silicon-data",
+     "name": "Silicon Data H100 Rental Index",
+     "doc_url": "https://www.silicondata.com/",
+     "endpoint": "https://www.silicondata.com/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free (Index-Seite); API paid",
+     "update_latency": "Tage",
+     "history": "Index mit Historie auf der Seite",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "GPU-Mietpreisindex, Details nicht geprueft."
+    },
+    {
+     "source_id": "vast-ai",
+     "name": "Vast.ai Marktplatz",
+     "doc_url": "https://docs.vast.ai/",
+     "endpoint": "https://console.vast.ai/api/v0/bundles/",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Keine Historie",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Angebote mit dph_total (Preis je GPU-Stunde) und Verfuegbarkeit; nur Aggregate (Median Preis je GPU-Typ)."
+    }
+   ],
+   "notes": "Marktplatzdaten nur als Median; Quellen teils kostenpflichtig."
+  },
+  {
+   "id": "ai.compute.gpu_marketplace_availability",
+   "name_de": "Verfuegbare GPUs am Marktplatz",
+   "plain_de": "Anzahl vermieteter und freier GPUs je Typ.",
+   "domain": "compute",
+   "evidence_class": "A",
+   "rationale": "Eine ploetzliche Verknappung kann Massenrechnen (auch Missbrauch durch gestohlene Konten) bedeuten.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Grosse Trainingslaeufe"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "vast-ai",
+     "name": "Vast.ai Marktplatz",
+     "doc_url": "https://docs.vast.ai/",
+     "endpoint": "https://console.vast.ai/api/v0/bundles/",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Keine Historie",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Angebote mit dph_total (Preis je GPU-Stunde) und Verfuegbarkeit; nur Aggregate (Median Preis je GPU-Typ)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.compute.datacenter_load_ercot",
+   "name_de": "Stromlast Texas (Rechenzentren)",
+   "plain_de": "Systemlast im Netz von Texas mit hoher Rechenzentrumsdichte.",
+   "domain": "compute",
+   "evidence_class": "A",
+   "rationale": "Ein Lastsprung abseits von Wetter kann Massenlaeufe zeigen (Nachtlast als Hinweis).",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Hitze, Kaelte",
+    "Industrie"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ercot",
+     "name": "ERCOT Real-Time System Conditions",
+     "doc_url": "https://www.ercot.com/gridinfo/load",
+     "endpoint": "https://www.ercot.com/api/1/services/read/dashboards/systemWideDemand.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "5 min",
+     "history": "Archivdateien der Lastdaten seit mehreren Jahren",
+     "rate_limit": "unklar",
+     "license": "Oeffentliche Daten, ERCOT-Bedingungen",
+     "verified": false,
+     "sample_note": "Systemlast Texas, Standort vieler KI-Rechenzentren. Pfad nicht geprueft; ERCOT-Dashboard-Endpunkte aendern sich."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.compute.datacenter_load_pjm",
+   "name_de": "Stromlast Virginia/PJM",
+   "plain_de": "Stuendliche Last in der Region mit den meisten Rechenzentren.",
+   "domain": "compute",
+   "evidence_class": "A",
+   "rationale": "Wie Texas: Last abweichend von Wetter.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wetter"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "eia",
+     "name": "EIA Open Data (Strom stuendlich)",
+     "doc_url": "https://www.eia.gov/opendata/",
+     "endpoint": "https://api.eia.gov/v2/electricity/rto/region-data/data/?frequency=hourly&data[0]=value&facets[type][]=D",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "1 h",
+     "history": "Seit 2015",
+     "rate_limit": "unklar",
+     "license": "Gemeinfrei",
+     "verified": false,
+     "sample_note": "Stuendliche Last je Regelzone (z. B. Virginia/PJM, ein Zentrum von Rechenzentren)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.compute.inference_cost_listing",
+   "name_de": "Preisliste der Inferenz-Dienste",
+   "plain_de": "Preis je Million Tokens fuer Modelle der Vermittlungsplattform.",
+   "domain": "compute",
+   "evidence_class": "A",
+   "rationale": "Preisstuerze oder -spruenge zeigen Kapazitaetsengpaesse oder Rationierung.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Wettbewerb",
+    "Neue Modelle"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "openrouter",
+     "name": "OpenRouter API",
+     "doc_url": "https://openrouter.ai/docs/api-reference/overview",
+     "endpoint": "https://openrouter.ai/api/v1/models",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Nur Gegenwart (Preise, Modelle); Rankings-Seite https://openrouter.ai/rankings zeigt Token-Volumen im Zeitverlauf",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Modellliste mit Preisen und Kontextlaenge ohne Key. Je Modell Endpunkt-Status (uptime) ueber /api/v1/models/<autor>/<slug>/endpoints laut Doku. Nicht geprueft."
+    }
+   ],
+   "notes": "Messung der Listenpreise, ohne Historie: eigene Speicherung noetig."
+  },
+  {
+   "id": "ai.compute.cloud_ai_regional_status",
+   "name_de": "Cloud-Statusmeldungen der Hyperscaler (GPU-Dienste)",
+   "plain_de": "Stoerungen bei Cloud-Diensten, auf denen KI-Dienste laufen.",
+   "domain": "compute",
+   "evidence_class": "B",
+   "rationale": "Gemeinsame Ursache fuer mehrere KI-Ausfaelle.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Normale Wartung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "statuspage",
+     "name": "Statuspage Cloud",
+     "doc_url": "https://developer.statuspage.io/",
+     "endpoint": "https://www.cloudflarestatus.com/api/v2/status.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "Incidents der letzten Wochen",
+     "rate_limit": "unklar",
+     "license": "je Anbieter unklar",
+     "verified": false,
+     "sample_note": "Collector statuspage; Cloudflare, DigitalOcean, Render sind schon in der Hostliste."
+    }
+   ],
+   "notes": "",
+   "extends": "statuspage"
+  },
+  {
+   "id": "ai.compute.ai_traffic_domain_rank",
+   "name_de": "Domain-Ranking KI-Dienste (Cloudflare Radar)",
+   "plain_de": "Rang von chatgpt.com, claude.ai, gemini.google.com in der Domain-Rangliste.",
+   "domain": "compute",
+   "evidence_class": "A",
+   "rationale": "Plötzlicher Rangverlust ist ein Messwert fuer Ausfall; Gewinn bedeutet Nutzungswelle.",
+   "direction": "none",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Produkttage"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cf-radar",
+     "name": "Cloudflare Radar API (AI Insights)",
+     "doc_url": "https://developers.cloudflare.com/radar/",
+     "endpoint": "https://api.cloudflare.com/client/v4/radar/ranking/domain/chatgpt.com",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Zeitreihen mit Parametern dateRange, Historie ueber 1 Jahr",
+     "rate_limit": "API-Token Radar Read",
+     "license": "CC BY-NC 4.0 (nicht kommerziell)",
+     "verified": false,
+     "sample_note": "Rang eines Domains, Verlauf per dateRange. Nicht geprueft."
+    }
+   ],
+   "notes": "",
+   "extends": "cloudflare-radar"
+  },
+  {
+   "id": "ai.research.arxiv_agent_escape",
+   "name_de": "arXiv: Preprints zu agent escape / sandbox escape",
+   "plain_de": "Anzahl neuer Fachartikel mit diesen Begriffen im Abstract.",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Preprint-Wellen folgen Vorfaellen mit Wochen Verzug, gehen aber auch Produkten voraus.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Konferenzfristen",
+    "Neue Benchmarks"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "arxiv",
+     "name": "arXiv API",
+     "doc_url": "https://info.arxiv.org/help/api/user-manual.html",
+     "endpoint": "https://export.arxiv.org/api/query?search_query=abs:%22sandbox+escape%22&max_results=1",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Alle Papiere seit 1991, Filter submittedDate:[YYYYMMDD0000+TO+YYYYMMDD2359]",
+     "rate_limit": "1 Anfrage je 3 s",
+     "license": "Metadaten frei (CC0), Nutzung API-Bedingungen",
+     "verified": false,
+     "sample_note": "opensearch:totalResults ist der Messwert je Zeitfenster. Aus der Bau-Umgebung nicht erreichbar."
+    },
+    {
+     "source_id": "openalex",
+     "name": "OpenAlex",
+     "doc_url": "https://docs.openalex.org/",
+     "endpoint": "https://api.openalex.org/works?search=agent%20sandbox%20escape&filter=from_publication_date:2026-10-01&group_by=publication_date",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Alle Jahre, Gruppierung nach Datum",
+     "rate_limit": "100000 Anfragen/Tag mit polite pool (mailto)",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "meta.count und group_by[].count. Verzoegerung gegenueber arXiv; nicht geprueft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.research.arxiv_jailbreak",
+   "name_de": "arXiv: Preprints zu jailbreak / prompt injection",
+   "plain_de": "Zaehlt neue Veroeffentlichungen zu Angriffen auf Modelle.",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Angriffsforschung hat Wellen vor grossen Missbrauchsfaellen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Konferenzfristen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "arxiv",
+     "name": "arXiv API",
+     "doc_url": "https://info.arxiv.org/help/api/user-manual.html",
+     "endpoint": "https://export.arxiv.org/api/query?search_query=abs:%22prompt+injection%22&max_results=1",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Alle Papiere seit 1991, Filter submittedDate:[YYYYMMDD0000+TO+YYYYMMDD2359]",
+     "rate_limit": "1 Anfrage je 3 s",
+     "license": "Metadaten frei (CC0), Nutzung API-Bedingungen",
+     "verified": false,
+     "sample_note": "opensearch:totalResults ist der Messwert je Zeitfenster. Aus der Bau-Umgebung nicht erreichbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.research.arxiv_self_replication",
+   "name_de": "arXiv: Preprints zu self-replication / autonomous replication",
+   "plain_de": "Zaehlt Papiere zu selbstreplizierenden Agenten.",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Selbstvervielfaeltigung ist ein Schluesselmerkmal fuer Kontrollverlust; Haeufung waere ein Aufmerksamkeitssignal.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Ein Grossbeitrag"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "arxiv",
+     "name": "arXiv API",
+     "doc_url": "https://info.arxiv.org/help/api/user-manual.html",
+     "endpoint": "https://export.arxiv.org/api/query?search_query=abs:%22self-replication%22&max_results=1",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Alle Papiere seit 1991, Filter submittedDate:[YYYYMMDD0000+TO+YYYYMMDD2359]",
+     "rate_limit": "1 Anfrage je 3 s",
+     "license": "Metadaten frei (CC0), Nutzung API-Bedingungen",
+     "verified": false,
+     "sample_note": "opensearch:totalResults ist der Messwert je Zeitfenster. Aus der Bau-Umgebung nicht erreichbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.research.arxiv_ai_security_total",
+   "name_de": "arXiv: cs.CR-Artikel mit KI-Bezug",
+   "plain_de": "Anteil der Sicherheits-Preprints (cs.CR), die KI nennen.",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Strukturelle Verschiebung der Forschung zu KI-Sicherheit.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Trend"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "arxiv",
+     "name": "arXiv API",
+     "doc_url": "https://info.arxiv.org/help/api/user-manual.html",
+     "endpoint": "https://export.arxiv.org/api/query?search_query=cat:cs.CR+AND+abs:%22language+model%22&max_results=1",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Alle seit 1991",
+     "rate_limit": "1 Anfrage/3 s",
+     "license": "Metadaten frei",
+     "verified": false,
+     "sample_note": "Nicht erreichbar aus Bau-Umgebung."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.research.arxiv_deception_eval",
+   "name_de": "arXiv: Preprints zu scheming / deception in Modellen",
+   "plain_de": "Zaehlt Veroeffentlichungen zu taeuschendem Verhalten von Modellen.",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Begleiter von Debatten um Kontrollverlust.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Konferenzfristen"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "arxiv",
+     "name": "arXiv API",
+     "doc_url": "https://info.arxiv.org/help/api/user-manual.html",
+     "endpoint": "https://export.arxiv.org/api/query?search_query=abs:%22scheming%22&max_results=1",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Tage",
+     "history": "Alle Papiere seit 1991, Filter submittedDate:[YYYYMMDD0000+TO+YYYYMMDD2359]",
+     "rate_limit": "1 Anfrage je 3 s",
+     "license": "Metadaten frei (CC0), Nutzung API-Bedingungen",
+     "verified": false,
+     "sample_note": "opensearch:totalResults ist der Messwert je Zeitfenster. Aus der Bau-Umgebung nicht erreichbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.research.hf_daily_papers",
+   "name_de": "Hugging Face Daily Papers",
+   "plain_de": "Zahl taeglich hervorgehobener Papers und Stimmen (Upvotes).",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit der Forschungsszene, laufende Frequenz.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Konferenzen"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "hf-papers",
+     "name": "HF Daily Papers API",
+     "doc_url": "https://huggingface.co/papers",
+     "endpoint": "https://huggingface.co/api/daily_papers",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "Archiv taggenau",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Aus Kenntnis, nicht geprueft; huggingface.co aus Bau-Umgebung nicht erreichbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.markets.prediction_ai_incident",
+   "name_de": "Prognosemaerkte zu KI-Vorfaellen",
+   "plain_de": "Wahrscheinlichkeit und Volumen bei Wetten auf 'KI-Vorfall', 'AGI', 'Kontrollverlust'.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Wetter reagieren auf Nachrichten, teils Insider; Volumenanstieg ohne Kurs ist ein Spezialfall.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienwelle",
+    "Marktmanipulation bei duennen Maerkten"
+   ],
+   "manipulability": "high",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/public-search?q=AI",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Preisverlauf je Markt ueber CLOB-API prices-history",
+     "rate_limit": "unklar",
+     "license": "Nutzungsbedingungen Polymarket",
+     "verified": false,
+     "sample_note": "Collector polymarket-gamma existiert (Cyber-Suchbegriffe); Suchbegriffe fuer KI ergaenzen."
+    },
+    {
+     "source_id": "manifold",
+     "name": "Manifold Markets API",
+     "doc_url": "https://docs.manifold.markets/api",
+     "endpoint": "https://api.manifold.markets/v0/search-markets?term=AI%20incident&sort=liquidity&limit=20",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Wahrscheinlichkeitsverlauf je Markt via /v0/bets",
+     "rate_limit": "500 Anfragen/min je IP",
+     "license": "Daten frei nutzbar, siehe Doku",
+     "verified": false,
+     "sample_note": "Felder probability, volume24Hours, closeTime. Aus der Bau-Umgebung nicht erreichbar."
+    },
+    {
+     "source_id": "kalshi",
+     "name": "Kalshi Public Market Data",
+     "doc_url": "https://docs.kalshi.com/",
+     "endpoint": "https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Sekunden",
+     "history": "Handelsverlauf je Markt",
+     "rate_limit": "unklar",
+     "license": "Kalshi-Bedingungen",
+     "verified": false,
+     "sample_note": "Maerkte zu KI-Themen (Modellrankings, Regulierung); Filterung per Titel. Nicht geprueft."
+    },
+    {
+     "source_id": "metaculus",
+     "name": "Metaculus API",
+     "doc_url": "https://www.metaculus.com/api/",
+     "endpoint": "https://www.metaculus.com/api/posts/?statuses=open&forecast_type=binary&search=AI",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Vorhersageverlauf je Frage",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Community-Prognose je Frage (aggregierte Median-Prognose). Key inzwischen erforderlich laut Doku, ungeprueft."
+    }
+   ],
+   "notes": "Extends: polymarket-gamma mit neuen Suchbegriffen.",
+   "extends": "polymarket-gamma"
+  },
+  {
+   "id": "ai.markets.ai_stock_volume",
+   "name_de": "Handelsvolumen KI-Aktien",
+   "plain_de": "Relatives Volumen von Nvidia, Microsoft, Alphabet, AMD, Broadcom, CoreWeave.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Ein Vorfall mit Ruf- oder Haftungsfolgen wirkt auf Volumen; Informierte handeln vorher.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Quartalszahlen",
+    "Optionsverfall"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "3 Monate und mehr",
+     "rate_limit": "unklar",
+     "license": "Nutzungsbedingungen verbieten systematische Nutzung, Lizenz klaeren",
+     "verified": false,
+     "sample_note": "Collector yahoo-chart vorhanden; Symbole ergaenzen."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CRWV?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "3 Monate und mehr",
+     "rate_limit": "unklar",
+     "license": "Nutzungsbedingungen verbieten systematische Nutzung, Lizenz klaeren",
+     "verified": false,
+     "sample_note": "Collector yahoo-chart vorhanden; Symbole ergaenzen."
+    }
+   ],
+   "notes": "Extends: yahoo-chart, neue Symbolgruppe.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "ai.markets.cyber_stock_ai_events",
+   "name_de": "Cybersicherheits-Aktien nach KI-Meldungen",
+   "plain_de": "Kurs und Volumen von CrowdStrike, Palo Alto, Zscaler, ETF CIBR/HACK.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Anleger preisen Sicherheitsvorfaelle in Sicherheitsfirmen frueh ein.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Branchenrotation"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CIBR?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "3 Monate und mehr",
+     "rate_limit": "unklar",
+     "license": "Nutzungsbedingungen verbieten systematische Nutzung, Lizenz klaeren",
+     "verified": false,
+     "sample_note": "Collector yahoo-chart vorhanden; Symbole ergaenzen."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "ai.markets.ai_sec_8k",
+   "name_de": "8-K-Meldungen mit KI-Bezug",
+   "plain_de": "Zaehlt Pflichtmeldungen boersennotierter Firmen mit Begriffen wie 'autonomous agent', 'AI model' unter Item 1.05 oder 8.01.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Pflichtmeldung bei wesentlichem Cybervorfall; KI-Bezug im Text ist neu und selten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Allgemeine Risikotexte"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "sec-edgar",
+     "name": "SEC EDGAR Volltextsuche",
+     "doc_url": "https://www.sec.gov/edgar/search/",
+     "endpoint": "https://efts.sec.gov/LATEST/search-index?q=%22autonomous%20agent%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Seit 2001",
+     "rate_limit": "10 Anfragen/s, User-Agent Pflicht",
+     "license": "Gemeinfrei",
+     "verified": false,
+     "sample_note": "Collector sec-edgar vorhanden (Item 1.05). Ergaenzbar um Stichwortsuche in 8-K und 10-Q. Nicht geprueft."
+    }
+   ],
+   "notes": "Extends: sec-edgar.",
+   "extends": "sec-edgar"
+  },
+  {
+   "id": "ai.markets.ai_ransomware_victims",
+   "name_de": "KI-Unternehmen als Opfer von Erpressern",
+   "plain_de": "Zaehlt Eintraege auf Leak-Seiten mit KI-Firmen.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Die Leaks stammen von Angreifern, die Daten behaupten (Selbstauskunft der Taeter), daher B.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Fehlzuordnung"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ransomware-live",
+     "name": "ransomware.live",
+     "doc_url": "https://www.ransomware.live/",
+     "endpoint": "https://api.ransomware.live/v2/recentvictims",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Opferliste seit 2020",
+     "rate_limit": "unklar",
+     "license": "CC BY-NC-SA bzw. siehe Seite",
+     "verified": false,
+     "sample_note": "Collector ransomware-live vorhanden; Filter auf Opfer mit KI-Bezug (Branche/Name) waere neu."
+    }
+   ],
+   "notes": "Extends: ransomware-live.",
+   "extends": "ransomware-live"
+  },
+  {
+   "id": "ai.markets.ai_attention_wiki",
+   "name_de": "Wikipedia-Aufrufe zu KI-Vorfaellen",
+   "plain_de": "Aufrufe von Artikeln wie Hugging Face, AI safety, Prompt injection.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit der Allgemeinheit: Gegenprobe, ob ein Messsprung nur Medienfolge ist.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Medienberichte"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Hugging_Face/daily/20260601/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 Tag",
+     "history": "Seit 2015",
+     "rate_limit": "200 Anfragen/s",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Collector vorhanden, Artikelliste erweitern. Artikelname Hugging_Face aus Kenntnis, nicht geprueft."
+    }
+   ],
+   "notes": "Extends: wikimedia-pageviews.",
+   "extends": "wikimedia-pageviews"
+  },
+  {
+   "id": "ai.markets.ai_local_community_activity",
+   "name_de": "Aktivitaet der Community um lokale Modelle",
+   "plain_de": "Mitglieder- und Aktivnutzerzahl in r/LocalLLaMA.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Modellstart"
+   ],
+   "manipulability": "high",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "reddit",
+     "name": "Reddit r/LocalLLaMA und r/ChatGPT (JSON)",
+     "doc_url": "https://www.reddit.com/dev/api/",
+     "endpoint": "https://www.reddit.com/r/LocalLLaMA/about.json",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "Minuten",
+     "history": "Keine Historie",
+     "rate_limit": "OAuth-Limits",
+     "license": "Reddit-API-Bedingungen",
+     "verified": false,
+     "sample_note": "Feld subscribers und active_user_count (Aggregat). Klasse D."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "ai.research.ai_commoncrawl_size",
+   "name_de": "Common-Crawl-Groesse",
+   "plain_de": "Groesse monatlicher Crawls als Kontext fuer Datensammlung.",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Nur Hintergrundlage.",
+   "direction": "none",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Betriebsaenderung"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "commoncrawl",
+     "name": "Common Crawl Index",
+     "doc_url": "https://commoncrawl.org/get-started",
+     "endpoint": "https://index.commoncrawl.org/collinfo.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Monate",
+     "history": "Alle Crawls seit 2008",
+     "rate_limit": "unklar",
+     "license": "Bedingungen Common Crawl",
+     "verified": false,
+     "sample_note": "Nur grobe Referenz fuer Crawl-Groesse, kein Echtzeit."
+    }
+   ],
+   "notes": "Kontext, Gewicht niedrig."
+  },
+  {
+   "id": "ai.context.context_release_calendar",
+   "name_de": "Modell-Release-Kalender (Stoerfaktor-Filter)",
+   "plain_de": "Termine grosser Modellveroeffentlichungen, die Last und Aufmerksamkeit treiben.",
+   "domain": "context",
+   "evidence_class": "D",
+   "rationale": "Filter gegen Fehlalarme in Uploads, Downloads, Statusseiten.",
+   "direction": "none",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Selbst die Ursache"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "hf-blog",
+     "name": "Anbieter-Feeds",
+     "doc_url": "https://huggingface.co/blog",
+     "endpoint": "https://huggingface.co/blog/feed.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Stunden",
+     "history": "Archiv",
+     "rate_limit": "unklar",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Nicht geprueft."
+    }
+   ],
+   "notes": "Gewicht 0, nur Stoerfaktor."
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Lastverhalten der Rechenzentren ueber Kuehlwasser-Verbrauchsmeldungen (kommunale Versorger, keine bundesweite Quelle)",
+  "Idee: Eintraege bei Bug-Bounty-Plattformen (huntr) zu KI-Frameworks als Menge, kein bekannter offener Feed",
+  "Idee: Strafverfolgungs- und Sperrmeldungen von Konten durch KI-Anbieter als Zahl (nur im Textbericht)",
+  "Idee: Aenderungen an robots.txt grosser Webseiten (Wayback) als Reaktion auf Agenten-Verkehr; Wayback-CDX-Abfrage waere moeglich, aber ungeprueft und gross",
+  "Idee: Leaked-Key-Funde in oeffentlichen Repositories fuer KI-Schluessel als Aggregat (GitHub Secret Scanning Statistik), nicht oeffentlich",
+  "Idee: Preis gebrauchter GPUs auf Marktplaetzen (eBay-Preise) als Nachfrageindikator, API kostenpflichtig",
+  "Idee: Zahl der Stellenanzeigen fuer KI-Sicherheit/Incident Response (Bundesagentur Jobsuche vorhanden in sources.json), Aufmerksamkeit der Arbeitgeber",
+  "Idee: Kabel-/Transatlantik-Verkehr zu KI-Regionen (IXP-Verkehr DE-CIX, AMS-IX) mit Spitzen durch Massen-Inferenz",
+  "Idee: Versicherungsprämien/Ausschlussklauseln fuer KI in Cyberpolicen (Lloyd's Marktbulletins), kein Datenfeed",
+  "Idee: Abgleich Telemetrie-Anomalien bei Cloud-Kunden (nur intern bei Anbieter: Lagebild bestaetigt, dass die Spuren im Juli intern waren)",
+  "Idee: Zahl der neu registrierten Domains mit KI-Begriffen (ICANN CZDS, Vertrag noetig)",
+  "Idee: Veranstaltungsabsagen und Notfall-Updates grosser Software (Dependabot-Alarme), keine offene Zeitreihe"
+ ]
+}

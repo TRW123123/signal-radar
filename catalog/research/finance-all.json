@@ -1,0 +1,3317 @@
+{
+ "subdomain": "finance",
+ "generated": "2026-11-17",
+ "scenario_def": {
+  "id": "finance",
+  "order": 5,
+  "title": "Finanzkrise und Bankenstress",
+  "question": "Bahnt sich eine Finanzkrise oder ein Ansturm auf Banken an?",
+  "tagline": "Geldmarkt, Kreditaufschläge, Banken, Schwankungen, Krypto",
+  "domains": {
+   "money_market": {
+    "title": "Geldmarkt",
+    "weight": 1,
+    "plain": "Was sich Banken untereinander und bei Zentralbanken zum Tagesgeld leihen müssen"
+   },
+   "credit": {
+    "title": "Kreditaufschläge",
+    "weight": 1,
+    "plain": "Aufpreise für riskante Kredite, Staatsanleihen-Abstände, Zinskurve"
+   },
+   "banks": {
+    "title": "Banken",
+    "weight": 1,
+    "plain": "Bankaktien, Pleiten, Einlagen, Pflichtmeldungen"
+   },
+   "volatility": {
+    "title": "Schwankungen",
+    "weight": 0.8,
+    "plain": "Angstbarometer an Aktien-, Anleihe- und Devisenmärkten"
+   },
+   "crypto": {
+    "title": "Krypto",
+    "weight": 0.5,
+    "plain": "Stablecoins, Abflüsse, Gebühren"
+   },
+   "real_economy": {
+    "title": "Realwirtschaft",
+    "weight": 0.6,
+    "plain": "Insolvenzen, Arbeitslosenanträge, Frachtraten, Metallpreise"
+   },
+   "markets": {
+    "title": "Märkte",
+    "weight": 0.5,
+    "plain": "Wettmärkte, Gold, Fluchtwährungen"
+   }
+  }
+ },
+ "signals": [
+  {
+   "id": "finance.money_market.sofr_tail",
+   "name_de": "SOFR: Streuung nach oben",
+   "plain_de": "Wie weit die teuersten Tagesgeld-Abschlüsse in den USA vom Durchschnitt abweichen; Stress zeigt sich zuerst am Rand.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Aufspreizung 99. Perzentil minus Median ist klassischer Funding-Stress-Marker (Sept. 2019, März 2020).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Monatsende/Quartalsende",
+    "Steuertermine",
+    "Treasury-Auktionen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "nyfed-markets",
+     "name": "NY Fed Markets API",
+     "doc_url": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+     "endpoint": "https://markets.newyorkfed.org/api/rates/secured/sofr/last/60.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktäglich",
+     "history": "Historie per startDate/endDate",
+     "rate_limit": "",
+     "license": "öffentlich (NY Fed Terms)",
+     "verified": false,
+     "sample_note": "percentilePercent99, percentilePercent50, volumeInBillions"
+    }
+   ],
+   "notes": "Bereits angebunden als cyber.finance.sofr_tail; für finance wiederverwenden.",
+   "extends": "nyfed-markets"
+  },
+  {
+   "id": "finance.money_market.sofr_minus_iorb",
+   "name_de": "SOFR über Reserve-Verzinsung",
+   "plain_de": "Liegt der Tagesgeldsatz über dem Zins, den die Fed Banken zahlt, wird Geld knapp.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "SOFR über IORB bedeutet knappe Reserven; Zeichen für Liquiditätsengpass vor Stressereignis.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalsende",
+    "Treasury-Settlement"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "nyfed-markets",
+     "name": "NY Fed Markets API",
+     "doc_url": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+     "endpoint": "https://markets.newyorkfed.org/api/rates/secured/sofr/last/60.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktäglich",
+     "history": "Historie per startDate/endDate",
+     "rate_limit": "",
+     "license": "öffentlich (NY Fed Terms)",
+     "verified": false,
+     "sample_note": "percentRate; IORB aus Fed-Zinsbeschluss/FRED IORB"
+    }
+   ],
+   "notes": "Zweite Reihe IORB über FRED (IORB) oder NY Fed Reference Rates.",
+   "extends": "nyfed-markets"
+  },
+  {
+   "id": "finance.money_market.estr_spread",
+   "name_de": "€STR: Streuung der Zinssätze",
+   "plain_de": "Wie weit die Euro-Tagesgeldsätze auseinanderlaufen.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Aufspreizung zwischen 25. und 75. Perzentil zeigt Fragmentierung im Euro-Geldmarkt.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Reserveperioden-Ende",
+    "Quartalsende"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.WT?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "Perzentile R25/R75, Volumen VL"
+    }
+   ],
+   "notes": "Bereits angebunden.",
+   "extends": "ecb-data"
+  },
+  {
+   "id": "finance.money_market.fed_standing_repo",
+   "name_de": "Fed Standing Repo Facility: Nutzung",
+   "plain_de": "Wie viel Geld sich Banken bei der Fed-Notfall-Repofazilität leihen.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Hohe Nutzung bedeutet, dass Banken sich am Markt nicht mehr billig finanzieren.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalsende",
+    "Steuertermin"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "nyfed-markets",
+     "name": "NY Fed Markets API",
+     "doc_url": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+     "endpoint": "https://markets.newyorkfed.org/api/rp/repo/all/results/last/30.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktäglich",
+     "history": "Historie per startDate/endDate",
+     "rate_limit": "",
+     "license": "öffentlich (NY Fed Terms)",
+     "verified": false,
+     "sample_note": "Repo-Operationen mit totalAmtAccepted"
+    }
+   ],
+   "notes": "Bereits als Collector-Signal vorhanden.",
+   "extends": "nyfed-markets"
+  },
+  {
+   "id": "finance.money_market.fed_discount_window",
+   "name_de": "Fed Discount Window: Kredite",
+   "plain_de": "Wie viel Banken sich in der Not direkt bei der Fed leihen.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Primärkredit-Sprünge gingen SVB-Fall (März 2023: 153 Mrd USD) voraus bzw. folgten Tag für Tag.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Testläufe der Banken",
+    "Quartalsende"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fed-ddp",
+     "name": "Fed Data Download Program (H.4.1)",
+     "doc_url": "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H41",
+     "endpoint": "https://www.federalreserve.gov/datadownload/Output.aspx?rel=H41&series=&lastobs=52&filetype=csv&from=&to=&layout=seriescolumn",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (Do 16:30 ET)",
+     "history": "H.4.1 seit 1996 wöchentlich",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "Spalten Primary credit, Secondary credit, Seasonal credit (Wochendurchschnitt und Mittwochsstand)"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=WLCFLPCL&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Primärkredit-Mittwochsstand"
+    }
+   ],
+   "notes": "FRED-Reihen: WLCFLPCL, WORAL (Repo), WLCFLL."
+  },
+  {
+   "id": "finance.money_market.fed_btfp_other_credit",
+   "name_de": "Fed: sonstige Kredite an Institute",
+   "plain_de": "Zeigt Sondernotfall-Programme und Rettungskredite der Fed.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "H.4.1 \"Other credit extension\" sprang bei FDIC-Brückenbanken im März 2023.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Altprogramme laufen aus"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=WLCFLL&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Kredite an Finanzinstitute gesamt (Wochenstand)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.money_market.ecb_marginal_lending",
+   "name_de": "EZB Spitzenrefinanzierung: Nutzung",
+   "plain_de": "Wie viel Banken sich zum teuersten Notfallsatz bei der EZB leihen.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Marginal Lending Facility wird nur bei fehlenden Alternativen im Markt genutzt.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Technische Nutzung am Reserveperioden-Ende"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/ILM.W.U2.C.L050.U2.EUR?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "Wochenwert Spitzenrefinanzierung aus Liquiditätsbilanz"
+    }
+   ],
+   "notes": "Series-Key vor Einbau prüfen; alternativ Daily-Liquidity-Statistik der EZB.",
+   "extends": "ecb-data"
+  },
+  {
+   "id": "finance.money_market.ecb_excess_liquidity",
+   "name_de": "EZB: Überschussliquidität",
+   "plain_de": "Wie viel Reserve-Geld das Bankensystem über den Bedarf hinaus hält.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Sinkende Reserven machen Märkte anfälliger für Stress (Reserve-Knappheit).",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Rückzahlungen von Langfristkrediten"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/ILM.W.U2.C.L020.U2.EUR?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "Einlagefazilität/Girokonten; Reihen-Key prüfen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.money_market.fed_reverse_repo",
+   "name_de": "Fed Reverse Repo: Volumen",
+   "plain_de": "Wie viel überschüssiges Geld Marktteilnehmer über Nacht bei der Fed parken.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Schwund des Polsters bedeutet weniger Puffer; plötzlicher Anstieg heißt Flucht in Sicherheit.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalsende",
+    "Geldmarktfonds-Umschichtung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "nyfed-markets",
+     "name": "NY Fed Markets API",
+     "doc_url": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+     "endpoint": "https://markets.newyorkfed.org/api/rp/reverserepo/propositions/search.json?startDate=2026-09-01&endDate=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktäglich",
+     "history": "Historie per startDate/endDate",
+     "rate_limit": "",
+     "license": "öffentlich (NY Fed Terms)",
+     "verified": false,
+     "sample_note": "totalAmtAccepted"
+    }
+   ],
+   "notes": "",
+   "extends": "nyfed-markets"
+  },
+  {
+   "id": "finance.money_market.fx_swap_lines",
+   "name_de": "Dollar-Swap-Linien der Fed",
+   "plain_de": "Wie viel Dollar fremde Zentralbanken sich bei der Fed für ihre Banken leihen.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Aktivierung der Swap-Linien ist ein Klassiker der globalen Dollar-Knappheit (2008, 2020, 2023).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wöchentliche Routine-Operationen der EZB/SNB/BoJ/BoE"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "nyfed-markets",
+     "name": "NY Fed Central Bank Liquidity Swaps",
+     "doc_url": "https://www.newyorkfed.org/markets/desk-operations/central-bank-liquidity-swap-operations",
+     "endpoint": "https://markets.newyorkfed.org/api/fxs/all/latest.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Operationen seit 2008",
+     "rate_limit": "",
+     "license": "öffentlich",
+     "verified": false,
+     "sample_note": "Operationen je Gegenpartei (amount)"
+    }
+   ],
+   "notes": "",
+   "extends": "nyfed-markets"
+  },
+  {
+   "id": "finance.money_market.cross_currency_basis",
+   "name_de": "EUR/USD Cross-Currency-Basis (Proxy)",
+   "plain_de": "Aufpreis, den man zahlt, um sich Dollar über Devisentausch zu leihen.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Negative Basis weitet sich bei Dollar-Knappheit; direkte Reihe ist kostenpflichtig, Proxy: Differenz Termin-/Kassakurs.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Jahresend-Effekt",
+    "Quartalsende"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "bis-stats",
+     "name": "BIS/Datenvendoren",
+     "doc_url": "https://data.bis.org/help/tools",
+     "endpoint": "https://data.bis.org",
+     "access": "scrape",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Keine freie Tagesreihe gefunden"
+    }
+   ],
+   "notes": "Quelle fraglich, nur Idee mit Teilbeleg."
+  },
+  {
+   "id": "finance.money_market.us_tbill_stress",
+   "name_de": "T-Bill-Renditen: Abweichung von Leitzins",
+   "plain_de": "Wenn Kurzläufer-Staatsanleihen stark vom Leitzins abweichen, flüchtet Geld in Sicherheit.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Starker Abschlag bei 1-Monats-Bills = Flucht in sichere Kurzläufer.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Schuldenobergrenze",
+    "Emissionsvolumen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "treasury-fiscal",
+     "name": "US Treasury Fiscal Data API",
+     "doc_url": "https://fiscaldata.treasury.gov/api-documentation/",
+     "endpoint": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&page[size]=30",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je Datensatz",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "avg_interest_rate_amt je Wertpapierart"
+    },
+    {
+     "source_id": "fred-csv",
+     "name": "FRED Graph CSV (ohne Key)",
+     "doc_url": "https://fred.stlouisfed.org/",
+     "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS1MO",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "volle Historie",
+     "rate_limit": "",
+     "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+     "verified": false,
+     "sample_note": "1-Monats-Rendite US-Treasury"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.money_market.us_tga_balance",
+   "name_de": "US-Staatskonto bei der Fed (TGA)",
+   "plain_de": "Wie viel Geld die US-Regierung bei der Fed hält; Auffüllen entzieht dem Markt Reserven.",
+   "domain": "money_market",
+   "evidence_class": "A",
+   "rationale": "Schneller TGA-Aufbau drainiert Reserven und kann Repo-Märkte anspannen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Steuertermine",
+    "Schuldenobergrenze"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "treasury-fiscal",
+     "name": "US Treasury Fiscal Data API",
+     "doc_url": "https://fiscaldata.treasury.gov/api-documentation/",
+     "endpoint": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/operating_cash_balance?sort=-record_date&page[size]=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je Datensatz",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "close_today_bal"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.hy_oas",
+   "name_de": "Hochzins-Anleihen: Risikoaufschlag",
+   "plain_de": "Aufpreis, den riskante US-Firmen für Kredit zahlen.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Standardmaß für Kreditangst; Ausweitung geht Rezessionen und Bankenkrisen voran.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Ölpreisschock",
+    "Branchenkrise (Energie)"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLH0A0HYM2&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "ICE BofA US High Yield OAS"
+    },
+    {
+     "source_id": "fred-csv",
+     "name": "FRED Graph CSV (ohne Key)",
+     "doc_url": "https://fred.stlouisfed.org/",
+     "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BAMLH0A0HYM2",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "volle Historie",
+     "rate_limit": "",
+     "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+     "verified": false,
+     "sample_note": "CSV ohne Key (letzte 3 Jahre)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.ig_oas",
+   "name_de": "Investment-Grade-Aufschlag",
+   "plain_de": "Aufpreis für gute US-Unternehmensanleihen.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Auch bei soliden Firmen steigende Spreads deuten auf systemische Sorge.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Emissionswelle"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLC0A0CM&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "ICE BofA US Corporate OAS"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.ccc_oas",
+   "name_de": "CCC-Aufschlag (schwächste Schuldner)",
+   "plain_de": "Aufschlag für Anleihen schwächster Firmen.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Ausfallrisiko der Schwächsten steigt zuerst.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Einzelne Pleiten"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLH0A3HYC&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "ICE BofA CCC & Lower OAS"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.eur_hy_oas",
+   "name_de": "Euro-Hochzins-Aufschlag",
+   "plain_de": "Wie viel riskante Euro-Firmen für Kredit zahlen.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Zeigt europäischen Kreditstress, getrennt von den USA.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Energiepreise",
+    "EZB-Zinsen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLHE00EHYIOAS&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "ICE BofA Euro High Yield OAS"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.eur_ig_financial_oas",
+   "name_de": "Euro-Banken-Anleihen: Aufschlag",
+   "plain_de": "Aufschlag auf Anleihen europäischer Finanzfirmen.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Bankenanleihen reagieren zuerst auf Vertrauensverlust.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Emissionstermine"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=BAMLEC0A0RMEY&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Euro Corporate Index effektive Rendite; Finanzunterreihe bei ICE"
+    }
+   ],
+   "notes": "Sub-Reihe Finanzen nicht frei auf FRED; Gesamtindex als Proxy."
+  },
+  {
+   "id": "finance.credit.btp_bund_spread",
+   "name_de": "Renditeabstand Italien-Deutschland",
+   "plain_de": "Wie viel mehr Italien gegenüber Deutschland für 10-jährige Staatsanleihen zahlt.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Klassisches Maß für Euro-Fragmentierung (2011, 2018, 2022).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Italienische Haushaltsdebatte",
+    "Rating-Termine"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/IRS/M.IT.L.L40.CI.0000.EUR.N.Z?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "Maastricht-Rendite Italien"
+    },
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/IRS/M.DE.L.L40.CI.0000.EUR.N.Z?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "Maastricht-Rendite Deutschland"
+    }
+   ],
+   "notes": "Monatsdaten; tägliche Renditen via EZB-Yield-Curve (YC) oder Bundesbank.",
+   "extends": "ecb-data"
+  },
+  {
+   "id": "finance.credit.ecb_yield_curve_spread",
+   "name_de": "EZB-Zinsstrukturkurve: 10J minus 3M",
+   "plain_de": "Zinsabstand lang minus kurz im Euroraum.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Inversion deutet auf Rezession; schneller Wiederanstieg (Steepening) begleitet oft Krisen.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Zinsentscheide"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "AAA-Euro-Kurve 10J"
+    },
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_3M?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "3M"
+    }
+   ],
+   "notes": "",
+   "extends": "ecb-data"
+  },
+  {
+   "id": "finance.credit.us_curve_10y2y",
+   "name_de": "US-Zinskurve 10J minus 2J",
+   "plain_de": "Abstand langer und kurzer US-Zinsen.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Inversion plus anschließende Normalisierung ist klassisches Rezessionssignal.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Fed-Erwartungen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fred-csv",
+     "name": "FRED Graph CSV (ohne Key)",
+     "doc_url": "https://fred.stlouisfed.org/",
+     "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y2Y",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "volle Historie",
+     "rate_limit": "",
+     "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+     "verified": false,
+     "sample_note": "Spread in Prozentpunkten täglich"
+    },
+    {
+     "source_id": "treasury-fiscal",
+     "name": "US Treasury Fiscal Data API",
+     "doc_url": "https://fiscaldata.treasury.gov/api-documentation/",
+     "endpoint": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/daily_treasury_yield_curve?sort=-record_date",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je Datensatz",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "Fiscal-Data-Alternative"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.us_curve_10y3m",
+   "name_de": "US-Zinskurve 10J minus 3M",
+   "plain_de": "Von der Fed genutztes Rezessionsmaß.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Rezessionsmodell der NY Fed nutzt genau diesen Abstand.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Leitzinsänderungen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "fred-csv",
+     "name": "FRED Graph CSV (ohne Key)",
+     "doc_url": "https://fred.stlouisfed.org/",
+     "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y3M",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "volle Historie",
+     "rate_limit": "",
+     "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+     "verified": false,
+     "sample_note": "täglich, seit 1982"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.sovereign_cds_proxy",
+   "name_de": "Staatsanleihen-Abstand Frankreich/Spanien/Griechenland zu Deutschland",
+   "plain_de": "Mehrere Euro-Renditeabstände gleichzeitig als Ersatz für Kreditausfallversicherungen.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Breite Ausweitung statt Einzelfall zeigt systemische Sorge; CDS-Daten selbst sind bezahlt.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Politische Krisen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "bundesbank-api",
+     "name": "Bundesbank Zeitreihen-API (SDMX)",
+     "doc_url": "https://api.statistiken.bundesbank.de/doc/index.html",
+     "endpoint": "https://api.statistiken.bundesbank.de/rest/data/BBK01.WT1010?format=csv&lastNObservations=60",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich bis monatlich",
+     "history": "Zeitreihen seit Beginn",
+     "rate_limit": "",
+     "license": "Datenlizenz Deutschland, Quelle nennen",
+     "verified": false,
+     "sample_note": "Bundesbank-Rendite Bundesanleihen 10J; Länderreihen via EZB"
+    }
+   ],
+   "notes": "Reihen-Key prüfen."
+  },
+  {
+   "id": "finance.credit.sloos_tightening",
+   "name_de": "Kreditvergabe-Umfrage der Banken",
+   "plain_de": "Ob Banken ihre Kreditbedingungen verschärfen.",
+   "domain": "credit",
+   "evidence_class": "B",
+   "rationale": "Verschärfung zeigt Vorsicht der Banken; quartalsweise, daher langsam.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Zinswende"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DRTSCILM&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Netto-Anteil Banken mit verschärften Standards für Firmenkredite"
+    },
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Bank Lending Survey",
+     "doc_url": "https://data.ecb.europa.eu/",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/BLS/Q.U2.ALL.O.E.Z.B3.ST.S.FNET?format=jsondata",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise",
+     "history": "seit 2003",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik",
+     "verified": false,
+     "sample_note": "Netto-Anteil Verschärfung"
+    }
+   ],
+   "notes": "Evidenzklasse B: Selbstauskunft."
+  },
+  {
+   "id": "finance.credit.corp_bond_etf_discount",
+   "name_de": "Anleihen-ETFs: Abschlag zum Inhaltswert",
+   "plain_de": "Wenn HYG/LQD unter dem Wert ihrer Anleihen handeln, ist der Anleihemarkt illiquide.",
+   "domain": "credit",
+   "evidence_class": "A",
+   "rationale": "Abschläge gab es im März 2020 vor Fed-Eingriff.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Handelsschluss-Zeitversatz"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/HYG?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Kurs; Inhaltswert (NAV) nicht im Endpunkt"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/LQD?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Kurs"
+    }
+   ],
+   "notes": "NAV-Reihe fehlt in Yahoo; nur Kurs/Volumen sicher.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.banks.regional_bank_etf_return",
+   "name_de": "Regionalbanken-ETF: Tagesbewegung",
+   "plain_de": "Wie stark US-Regionalbankaktien (KRE/KBE) schwanken.",
+   "domain": "banks",
+   "evidence_class": "A",
+   "rationale": "Regionalbanken fielen vor SVB/Signature 2023 zuerst.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen",
+    "Zinsentscheide"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/KRE?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Schlusskurse, Volumen"
+    }
+   ],
+   "notes": "Metrik abs-return-mean in vorhandenem Collector.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.banks.regional_bank_volume",
+   "name_de": "Regionalbanken-ETF: Handelsvolumen",
+   "plain_de": "Ungewöhnlich hohes Handelsvolumen bei Bankwerten.",
+   "domain": "banks",
+   "evidence_class": "A",
+   "rationale": "Volumenexplosion geht Kurseinbrüchen oft voraus.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Index-Umschichtung",
+    "Verfallstermine"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/KRE?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Volumen"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/KBE?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Volumen"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/XLF?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Volumen"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.banks.eu_bank_index",
+   "name_de": "Europäische Bankenindex (EXV1/EXX1)",
+   "plain_de": "Kurs der europäischen Bankaktien.",
+   "domain": "banks",
+   "evidence_class": "A",
+   "rationale": "Credit-Suisse-Krise 2023: Eurobank-Index fiel zuerst.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Zinserwartungen"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/EXV1.DE?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "iShares STOXX Europe 600 Banks"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/^SX7E?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Euro Stoxx Banks (Verfügbarkeit prüfen)"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.banks.single_bank_stress_set",
+   "name_de": "Einzelbank-Set: Deutsche, Commerzbank, UBS, BNP, SocGen, Intesa",
+   "plain_de": "Drei bis sechs Großbanken, schlechtester Tagesverlierer.",
+   "domain": "banks",
+   "evidence_class": "A",
+   "rationale": "Eine Bank, die unter allen abstürzt, ist typisches Ansteckungsmuster (CS 2023).",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Firmennachrichten"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/DBK.DE?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Deutsche Bank"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CBK.DE?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Commerzbank"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/UBSG.SW?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "UBS"
+    }
+   ],
+   "notes": "Mehrere Symbole in SPECS.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.banks.fdic_failed_list",
+   "name_de": "FDIC: Liste gescheiterter Banken",
+   "plain_de": "Neue Bankenschließungen in den USA.",
+   "domain": "banks",
+   "evidence_class": "B",
+   "rationale": "Einzelne Schließungen sind normal; Häufung ist Alarm.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Kleinstbanken, regelmäßige Pleiten"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fdic-bankfind",
+     "name": "FDIC BankFind Suite API",
+     "doc_url": "https://banks.data.fdic.gov/docs/",
+     "endpoint": "https://banks.data.fdic.gov/api/failures?filters=FAILDATE%3A%5B2026-01-01%20TO%20*%5D&fields=NAME%2CFAILDATE%2CQBFASSET%2CQBFDEP%2CCOST&sort_by=FAILDATE&sort_order=DESC&limit=50",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich bis täglich",
+     "history": "Gescheiterte Banken seit 1934",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "JSON mit Name, Datum, Bilanzsumme, Einlagen, Kosten"
+    },
+    {
+     "source_id": "fdic-csv",
+     "name": "FDIC Failed Bank List (CSV)",
+     "doc_url": "https://www.fdic.gov/resources/resolutions/bank-failures/failed-bank-list/",
+     "endpoint": "https://www.fdic.gov/bank-failures/failed-banks-list/download",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich nach Schließung",
+     "history": "seit 2000",
+     "rate_limit": "",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "CSV aller Schließungen seit 2000"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.banks.fdic_problem_banks",
+   "name_de": "FDIC: Problembank-Liste (Quartalsbericht)",
+   "plain_de": "Anzahl und Bilanzsumme der Banken mit Aufsichtsrating 4 und 5.",
+   "domain": "banks",
+   "evidence_class": "B",
+   "rationale": "Steigende Zahl ist Vorlauf zu Pleiten.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Quartalsrhythmus"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "fdic-bankfind",
+     "name": "FDIC BankFind Suite API",
+     "doc_url": "https://banks.data.fdic.gov/docs/",
+     "endpoint": "https://banks.data.fdic.gov/api/summary?filters=REPDTE%3A20260630&fields=REPDTE%2CASSET%2CNUMINST&limit=10",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich bis täglich",
+     "history": "Gescheiterte Banken seit 1934",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "Problembanken im Quarterly Banking Profile (QBP-PDF und Datensatz)"
+    }
+   ],
+   "notes": "QBP erscheint quartalsweise."
+  },
+  {
+   "id": "finance.banks.unrealized_losses",
+   "name_de": "Nicht realisierte Verluste auf Bankwertpapieren",
+   "plain_de": "Papierverluste der US-Banken auf ihren Anleihebeständen.",
+   "domain": "banks",
+   "evidence_class": "B",
+   "rationale": "SVB-Auslöser: hohe stille Verluste plus Einlagenabfluss.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Zinsanstieg"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "fdic-bankfind",
+     "name": "FDIC BankFind Suite API",
+     "doc_url": "https://banks.data.fdic.gov/docs/",
+     "endpoint": "https://banks.data.fdic.gov/api/financials?filters=REPDTE%3A20260630&fields=CERT%2CNAME%2CSCAF%2CSCAA%2CASSET%2CDEP%2CUNINSUR&limit=100",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich bis täglich",
+     "history": "Gescheiterte Banken seit 1934",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "Wertpapiere AFS/HTM, ungesicherte Einlagen"
+    }
+   ],
+   "notes": "Quartalsdaten, Call Reports."
+  },
+  {
+   "id": "finance.banks.h8_deposits",
+   "name_de": "Fed H.8: Einlagen aller US-Banken",
+   "plain_de": "Wöchentliche Summe der Kundeneinlagen bei US-Banken.",
+   "domain": "banks",
+   "evidence_class": "A",
+   "rationale": "Schneller Abfluss aus Kleinbanken ist das Bank-Run-Signal.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Steuertermine",
+    "Geldmarktfonds-Umschichtung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fed-ddp",
+     "name": "Fed Data Download Program (H.8)",
+     "doc_url": "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H8",
+     "endpoint": "https://www.federalreserve.gov/datadownload/Output.aspx?rel=H8&series=&lastobs=52&filetype=csv&layout=seriescolumn",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (Fr)",
+     "history": "wöchentlich seit 1973",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "Deposits, small domestically chartered banks; Wochenwerte"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DPSACBW027SBOG&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Einlagen aller Geschäftsbanken"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DPSSCBW027SBOG&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Einlagen kleiner Banken"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.banks.h8_borrowings",
+   "name_de": "Fed H.8: Kredite der Banken (Borrowings)",
+   "plain_de": "Wie viel Banken sich selbst leihen müssen.",
+   "domain": "banks",
+   "evidence_class": "A",
+   "rationale": "Steigende Borrowings bei sinkenden Einlagen = Finanzierungslücke.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Wertpapiergeschäfte"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=BORROW&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Borrowings aller Geschäftsbanken"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.banks.fhlb_advances",
+   "name_de": "Kredite der Bundesdarlehensbanken (FHLB)",
+   "plain_de": "Banken leihen sich bei FHLB bei Einlagenschwund.",
+   "domain": "banks",
+   "evidence_class": "B",
+   "rationale": "FHLB-Kredite stiegen vor SVB stark.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Wohnungsbaukredit-Saison"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fhlb-office",
+     "name": "FHLB Office of Finance",
+     "doc_url": "https://www.fhlb-of.com/ofweb_userWeb/pageBuilder/financial-reports-5",
+     "endpoint": "https://www.fhlb-of.com/ofweb_userWeb/pageBuilder/financial-reports-5",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Quartals-/Monatsbilanzen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.banks.sec_8k_item103",
+   "name_de": "SEC: Insolvenzmeldungen (8-K Item 1.03)",
+   "plain_de": "Börsennotierte Firmen, die Insolvenz anmelden müssen, melden das per Pflichtformular.",
+   "domain": "banks",
+   "evidence_class": "B",
+   "rationale": "Anstieg der Insolvenzmeldungen großer Firmen und Finanzinstitute begleitet Krisen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Wenige Einzelpleiten pro Woche normal"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "sec-edgar",
+     "name": "SEC EDGAR Volltextsuche",
+     "doc_url": "https://www.sec.gov/edgar/search/",
+     "endpoint": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.03%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "ab 2001 (Volltext ab 2001)",
+     "rate_limit": "10 Anfragen/s",
+     "license": "gemeinfrei, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "Treffer-Zahl je Tag für Item 1.03; Finanzfirmen per SIC-Code 6021/6022 filtern"
+    }
+   ],
+   "notes": "Collector sec-edgar existiert (Item 1.05); anderes Item ergänzen.",
+   "extends": "sec-edgar"
+  },
+  {
+   "id": "finance.banks.sec_8k_item202_bank",
+   "name_de": "SEC: 8-K Item 2.06 (Wertminderung) und 2.04 (Kreditvorfälligkeit)",
+   "plain_de": "Pflichtmeldungen, wenn Kreditverträge fällig gestellt werden oder Vermögen abgeschrieben wird.",
+   "domain": "banks",
+   "evidence_class": "B",
+   "rationale": "Vorstufen von Pleiten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Sammelmeldungen bei Quartalsende"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "sec-edgar",
+     "name": "SEC EDGAR Volltextsuche",
+     "doc_url": "https://www.sec.gov/edgar/search/",
+     "endpoint": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.03%22&forms=8-K&dateRange=custom&startdt=2026-10-01&enddt=2026-11-17",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "ab 2001 (Volltext ab 2001)",
+     "rate_limit": "10 Anfragen/s",
+     "license": "gemeinfrei, User-Agent mit Kontakt Pflicht",
+     "verified": false,
+     "sample_note": "Items 2.04 und 2.06"
+    }
+   ],
+   "notes": "",
+   "extends": "sec-edgar"
+  },
+  {
+   "id": "finance.banks.bank_service_outages",
+   "name_de": "Störungen bei Bank-Diensten",
+   "plain_de": "Banken-Apps und Zahlungsportale, die nicht mehr erreichbar sind.",
+   "domain": "banks",
+   "evidence_class": "D",
+   "rationale": "Ausfälle bei Bank-Websites begleiten Runs (digitale Abflüsse) oder Cyberangriffe.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Wartung",
+    "DDoS"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "statuspage",
+     "name": "Statuspage-Hosts bekannter Fintech/Banken",
+     "doc_url": "https://www.atlassian.com/software/statuspage",
+     "endpoint": "https://<host>/api/v2/summary.json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "1 min",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "öffentlich",
+     "verified": false,
+     "sample_note": "Zustand je Komponente"
+    }
+   ],
+   "notes": "Vorhandenen Collector statuspage um Fintech-Hosts erweitern.",
+   "extends": "statuspage"
+  },
+  {
+   "id": "finance.banks.bank_wiki_views",
+   "name_de": "Wikipedia-Aufrufe: Bank run, Bank failure",
+   "plain_de": "Wie oft Laien nach Bankpleiten suchen.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit der Masse; steigt oft nach Berichten.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Mediendebatte",
+    "Film/Serie"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Bank_run/daily/20260901/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Aufrufe pro Tag"
+    },
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Bank_failure/daily/20260901/20261117",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2015",
+     "rate_limit": "",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Aufrufe pro Tag"
+    }
+   ],
+   "notes": "",
+   "extends": "wikimedia-pageviews"
+  },
+  {
+   "id": "finance.banks.news_bank_run_volume",
+   "name_de": "Nachrichtenvolumen: Bank Run / bank collapse",
+   "plain_de": "Anzahl Medienberichte zu Bankpleiten.",
+   "domain": "attention",
+   "evidence_class": "D",
+   "rationale": "Lagging, aber hilft als Störfaktor-Filter.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Einzelne Schlagzeilen"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT DOC 2.0 API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22bank%20run%22%20OR%20%22bank%20collapse%22&mode=timelinevol&format=json&timespan=3months",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "3 Monate rollierend, Archiv ab 2017",
+     "rate_limit": "",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "Zeitreihe der Artikelanzahl"
+    }
+   ],
+   "notes": "",
+   "extends": "gdelt-doc"
+  },
+  {
+   "id": "finance.volatility.vix",
+   "name_de": "VIX",
+   "plain_de": "Erwartete Schwankung des US-Aktienmarkts in den nächsten 30 Tagen.",
+   "domain": "volatility",
+   "evidence_class": "A",
+   "rationale": "Angstbarometer; Sprünge über 30 begleiten Krisen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Verfallstermine",
+    "Wahlen",
+    "Geopolitik"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "github-finance-vix",
+     "name": "datasets/finance-vix (GitHub-Spiegel)",
+     "doc_url": "https://github.com/datasets/finance-vix",
+     "endpoint": "https://raw.githubusercontent.com/datasets/finance-vix/main/data/vix-daily.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Spiegel, Lauf täglich bis wöchentlich",
+     "history": "seit 1990",
+     "rate_limit": "",
+     "license": "ODC PDDL / öffentlich (datasets.io)",
+     "verified": true,
+     "sample_note": "DATE,OPEN,HIGH,LOW,CLOSE; letzter Stand im Test 2026-09-22 (Spiegel hängt ca. 8 Wochen)"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/^VIX?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Schlusskurs"
+    }
+   ],
+   "notes": "Der GitHub-Spiegel ist nicht aktuell; Yahoo für Live.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.volatility.vix_term_structure",
+   "name_de": "VIX-Terminstruktur (VIX9D, VIX, VIX3M)",
+   "plain_de": "Kurzfristige Angst im Vergleich zu langfristiger.",
+   "domain": "volatility",
+   "evidence_class": "A",
+   "rationale": "Inversion (kurz über lang) markiert akuten Stress.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Ereignistage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/^VIX9D?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "9-Tage"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/^VIX3M?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "3-Monate"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.volatility.move",
+   "name_de": "MOVE-Index (Anleihen-Volatilität)",
+   "plain_de": "Erwartete Schwankung der US-Staatsanleihen.",
+   "domain": "volatility",
+   "evidence_class": "A",
+   "rationale": "MOVE stieg vor SVB über 150; Anleihestress ist Bankenstress.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Fed-Termine"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/^MOVE?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Schlusskurs"
+    }
+   ],
+   "notes": "Yahoo-Symbol prüfen.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.volatility.skew",
+   "name_de": "SKEW-Index (Crash-Absicherung)",
+   "plain_de": "Wie teuer Absicherung gegen große Kursstürze ist.",
+   "domain": "volatility",
+   "evidence_class": "A",
+   "rationale": "Hoher SKEW = Händler sichern Tail-Risiko ab.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Verfallstermine"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/^SKEW?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Schlusskurs"
+    },
+    {
+     "source_id": "cboe",
+     "name": "CBOE Indexdaten",
+     "doc_url": "https://www.cboe.com/us/indices/dashboard/skew/",
+     "endpoint": "https://cdn.cboe.com/api/global/us_indices/daily_prices/SKEW_History.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 1990",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "DATE,SKEW"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.volatility.fx_vol",
+   "name_de": "Währungs-Volatilität (EUR/USD, USD/JPY)",
+   "plain_de": "Wie stark Wechselkurse schwanken.",
+   "domain": "volatility",
+   "evidence_class": "A",
+   "rationale": "Stress zeigt sich in Devisen (Yen-Carry-Trade 2024).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Zentralbanktermine"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/EURUSD=X?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Kurs; Vola als Tagesrenditen berechnen"
+    },
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "EZB-Referenzkurs USD je EUR"
+    },
+    {
+     "source_id": "github-exchange-rates",
+     "name": "datasets/exchange-rates (GitHub-Spiegel)",
+     "doc_url": "https://github.com/datasets/exchange-rates",
+     "endpoint": "https://raw.githubusercontent.com/datasets/exchange-rates/main/data/daily.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Spiegel, Lauf täglich bis wöchentlich",
+     "history": "seit 1971",
+     "rate_limit": "",
+     "license": "ODC PDDL / öffentlich (datasets.io)",
+     "verified": true,
+     "sample_note": "Date,Country,Exchange rate; Spiegel bis 2026-11-06, Reihe seit 1971"
+    }
+   ],
+   "notes": "EZB-Referenzkurse als offene API ohne Key.",
+   "extends": "ecb-data"
+  },
+  {
+   "id": "finance.volatility.ecb_fx_refs",
+   "name_de": "EZB-Referenzkurse: Franken, Yen, Dollar",
+   "plain_de": "Tageskurse der EZB; starke Sprünge in Fluchtwährungen.",
+   "domain": "volatility",
+   "evidence_class": "A",
+   "rationale": "CHF und JPY steigen in Krisen.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Zinsentscheide"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "CHF je EUR"
+    },
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/EXR/D.JPY.EUR.SP00.A?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "JPY je EUR"
+    }
+   ],
+   "notes": "",
+   "extends": "ecb-data"
+  },
+  {
+   "id": "finance.volatility.fear_greed_crypto",
+   "name_de": "Krypto Fear & Greed Index",
+   "plain_de": "Stimmungsmaß für Kryptomarkt.",
+   "domain": "volatility",
+   "evidence_class": "D",
+   "rationale": "Extreme Angst begleitet Marktpanik.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Bitcoin-Eigenereignisse"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "alternative-me",
+     "name": "Alternative.me Fear & Greed API",
+     "doc_url": "https://alternative.me/crypto/fear-and-greed-index/",
+     "endpoint": "https://api.alternative.me/fng/?limit=90",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2018",
+     "rate_limit": "",
+     "license": "Nutzung mit Quellenangabe",
+     "verified": false,
+     "sample_note": "value 0-100"
+    },
+    {
+     "source_id": "github-fng",
+     "name": "cryptonequity/crypto-fear-greed-historical-dataset-2018-2026",
+     "doc_url": "https://github.com/cryptonequity/crypto-fear-greed-historical-dataset-2018-2026",
+     "endpoint": "https://github.com/cryptonequity/crypto-fear-greed-historical-dataset-2018-2026",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Dateiname nicht geprüft; Repo Stand 2026-11-16"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.crypto.stablecoin_depeg",
+   "name_de": "Stablecoin-Abweichungen",
+   "plain_de": "Wie weit Stablecoins vom 1-Dollar-Preis abweichen.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Entkopplung (USDC März 2023) ist Panikzeichen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Kleine Coins mit dünnem Handel"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "defillama",
+     "name": "DefiLlama API",
+     "doc_url": "https://defillama.com/docs/api",
+     "endpoint": "https://stablecoins.llama.fi/stablecoins?includePrices=true",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stündlich",
+     "history": "Historie vorhanden",
+     "rate_limit": "",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "price je Coin"
+    }
+   ],
+   "notes": "Bereits angebunden.",
+   "extends": "defillama"
+  },
+  {
+   "id": "finance.crypto.stablecoin_supply",
+   "name_de": "Stablecoin-Gesamtumlauf",
+   "plain_de": "Summe aller Stablecoins; Abfluss heißt Geld verlässt den Kryptomarkt.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Rückgang während Stress zeigt Rücknahmen.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Emittenten-Änderungen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "defillama",
+     "name": "DefiLlama API",
+     "doc_url": "https://defillama.com/docs/api",
+     "endpoint": "https://stablecoins.llama.fi/stablecoincharts/all",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stündlich",
+     "history": "Historie vorhanden",
+     "rate_limit": "",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "totalCirculating"
+    }
+   ],
+   "notes": "",
+   "extends": "defillama"
+  },
+  {
+   "id": "finance.crypto.defi_tvl",
+   "name_de": "DeFi: gesperrtes Kapital (TVL)",
+   "plain_de": "Wie viel Geld in DeFi-Protokollen liegt.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Plötzliche Abflüsse = Run auf DeFi.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Kurseffekt"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "defillama",
+     "name": "DefiLlama API",
+     "doc_url": "https://defillama.com/docs/api",
+     "endpoint": "https://api.llama.fi/v2/historicalChainTvl",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stündlich",
+     "history": "Historie vorhanden",
+     "rate_limit": "",
+     "license": "frei, Quellenangabe",
+     "verified": false,
+     "sample_note": "tvl je Tag"
+    }
+   ],
+   "notes": "",
+   "extends": "defillama"
+  },
+  {
+   "id": "finance.crypto.btc_fees",
+   "name_de": "Bitcoin-Gebühren",
+   "plain_de": "Wie teuer Bitcoin-Überweisungen sind.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Gebührenspitzen bei Panikverkäufen und Börsenabflüssen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Ordinals/Runes-Hypes"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "mempool-space",
+     "name": "mempool.space API",
+     "doc_url": "https://mempool.space/docs/api/rest",
+     "endpoint": "https://mempool.space/api/v1/fees/recommended",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Gebühren-Historie per Blockhöhe",
+     "rate_limit": "",
+     "license": "frei (AGPL-Software)",
+     "verified": false,
+     "sample_note": "fastestFee sat/vB"
+    }
+   ],
+   "notes": "",
+   "extends": "mempool-space"
+  },
+  {
+   "id": "finance.crypto.exchange_outflows",
+   "name_de": "Börsen-Abflüsse (Bestände auf Handelsplätzen)",
+   "plain_de": "Wie viel Krypto die Handelsplätze verlässt.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Massive Abflüsse sind Misstrauen gegenüber Börsen (FTX 2022).",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Cold-Wallet-Umbuchungen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "defillama-cex",
+     "name": "DefiLlama CEX Assets",
+     "doc_url": "https://defillama.com/cexs",
+     "endpoint": "https://api.llama.fi/cexs",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "Bestände je Börse; Zeitreihe nicht geprüft"
+    }
+   ],
+   "notes": "Reserve-Nachweise der Börsen selbst wären Klasse B/C."
+  },
+  {
+   "id": "finance.crypto.btc_price_drop",
+   "name_de": "Bitcoin-Tagesrendite und Volumen",
+   "plain_de": "Starke Kursverluste bei Bitcoin als Liquiditätsindikator.",
+   "domain": "crypto",
+   "evidence_class": "A",
+   "rationale": "Risk-off trifft Krypto früh am Wochenende.",
+   "direction": "down",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Eigendynamik der Branche"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Schlusskurs, 7 Tage die Woche"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.real_economy.jobless_claims",
+   "name_de": "US-Erstanträge auf Arbeitslosengeld",
+   "plain_de": "Wöchentlich neue Arbeitslosmeldungen.",
+   "domain": "real_economy",
+   "evidence_class": "B",
+   "rationale": "Anstieg geht Rezession voraus.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Feiertage",
+    "Saisonbereinigung"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=ICSA&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Erstanträge wöchentlich"
+    },
+    {
+     "source_id": "treasury-fiscal",
+     "name": "US Treasury Fiscal Data API",
+     "doc_url": "https://fiscaldata.treasury.gov/api-documentation/",
+     "endpoint": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/deposits_withdrawals_operating_cash?sort=-record_date&page[size]=5",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je Datensatz",
+     "rate_limit": "",
+     "license": "gemeinfrei (US Government)",
+     "verified": false,
+     "sample_note": "alternativ; DOL-Daten direkt: https://oui.doleta.gov/unemploy/claims.asp"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.real_economy.bankruptcies_us",
+   "name_de": "US-Insolvenzzahlen (Konkurse)",
+   "plain_de": "Anträge nach Chapter 11 und Chapter 7.",
+   "domain": "real_economy",
+   "evidence_class": "B",
+   "rationale": "Insolvenzzahlen laufen hinterher, aber zeigen Tiefe.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Gesetzesänderung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "uscourts",
+     "name": "US Courts Bankruptcy Statistics",
+     "doc_url": "https://www.uscourts.gov/statistics-reports/analysis-reports/bankruptcy-filings-statistics",
+     "endpoint": "https://www.uscourts.gov/data-news/data-tables",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "gemeinfrei",
+     "verified": false,
+     "sample_note": "Quartals-/Monatsdaten"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.real_economy.destatis_insolvenzen",
+   "name_de": "Deutsche Regelinsolvenzen (Frühindikator)",
+   "plain_de": "Monatliche Zahl beantragter Firmeninsolvenzen in Deutschland.",
+   "domain": "real_economy",
+   "evidence_class": "B",
+   "rationale": "Destatis meldet einen Frühindikator vor dem Endergebnis.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Saisonmuster"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "destatis",
+     "name": "Destatis GENESIS-Online",
+     "doc_url": "https://www-genesis.destatis.de/datenbank/online",
+     "endpoint": "https://www-genesis.destatis.de/genesisWS/rest/2020/data/tablefile?name=52411-0001&format=csv",
+     "access": "api",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 1990er",
+     "rate_limit": "",
+     "license": "dl-de/by-2-0",
+     "verified": false,
+     "sample_note": "Tabelle 52411-0001 Insolvenzverfahren; Zugang mit Konto"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.real_economy.freight_rates",
+   "name_de": "Frachtraten Container (SCFI/Drewry)",
+   "plain_de": "Preise für Containertransport als Echtzeitbild der Nachfrage.",
+   "domain": "real_economy",
+   "evidence_class": "A",
+   "rationale": "Plötzlicher Einbruch zeigt Nachfrageeinbruch.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Rotes Meer/Hormus",
+    "Chinesisches Neujahr"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "drewry",
+     "name": "Drewry WCI",
+     "doc_url": "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry",
+     "endpoint": "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (Do)",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "Nutzungsbedingungen prüfen",
+     "verified": false,
+     "sample_note": "Wöchentlicher Index in USD je 40ft"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.real_economy.baltic_dry",
+   "name_de": "Baltic Dry Index (Proxy: BDRY-ETF)",
+   "plain_de": "Preis für Trockenfracht-Schiffe.",
+   "domain": "real_economy",
+   "evidence_class": "A",
+   "rationale": "Rohstoffnachfrage; Einbruch deutet Wirtschaftsschwäche.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Schiffsangebot"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/BDRY?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "ETF auf Frachtraten-Futures"
+    }
+   ],
+   "notes": "Index selbst ist kostenpflichtig.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.real_economy.copper_gold",
+   "name_de": "Kupfer/Gold-Verhältnis",
+   "plain_de": "Industriemetall geteilt durch Fluchtmetall.",
+   "domain": "real_economy",
+   "evidence_class": "A",
+   "rationale": "Fallendes Verhältnis zeigt Wachstumsangst und Flucht.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Chinas Konjunktur"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/HG=F?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Kupfer-Future"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Gold-Future"
+    },
+    {
+     "source_id": "github-gold-prices",
+     "name": "datasets/gold-prices (GitHub-Spiegel)",
+     "doc_url": "https://github.com/datasets/gold-prices",
+     "endpoint": "https://raw.githubusercontent.com/datasets/gold-prices/main/data/monthly.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Spiegel, Lauf täglich bis wöchentlich",
+     "history": "seit 1833",
+     "rate_limit": "",
+     "license": "ODC PDDL / öffentlich (datasets.io)",
+     "verified": true,
+     "sample_note": "Monatlich; Stand 2026-10 4105 USD (zeigt Rückgang von 4319 im September)"
+    }
+   ],
+   "notes": "Beide Futures in einem Spec als Ratio.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.real_economy.oil_price",
+   "name_de": "Ölpreis Brent/WTI",
+   "plain_de": "Öl als Inflations- und Zinsgrund im Iran-Krieg.",
+   "domain": "real_economy",
+   "evidence_class": "A",
+   "rationale": "Ölschock treibt Inflation, Zinsen und Kreditstress (aktueller Treiber November 2026).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Geopolitik"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "github-oil-prices",
+     "name": "datasets/oil-prices (GitHub-Spiegel)",
+     "doc_url": "https://github.com/datasets/oil-prices",
+     "endpoint": "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Spiegel, Lauf täglich bis wöchentlich",
+     "history": "seit 1987",
+     "rate_limit": "",
+     "license": "ODC PDDL / öffentlich (datasets.io)",
+     "verified": true,
+     "sample_note": "Date,Price; letzter Stand 2026-11-11 92,14 USD"
+    },
+    {
+     "source_id": "github-oil-prices",
+     "name": "datasets/oil-prices (GitHub-Spiegel)",
+     "doc_url": "https://github.com/datasets/oil-prices",
+     "endpoint": "https://raw.githubusercontent.com/datasets/oil-prices/main/data/wti-daily.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Spiegel, Lauf täglich bis wöchentlich",
+     "history": "seit 1986",
+     "rate_limit": "",
+     "license": "ODC PDDL / öffentlich (datasets.io)",
+     "verified": true,
+     "sample_note": "WTI 2026-11-11 89,62 USD"
+    }
+   ],
+   "notes": "Bereits ähnlicher Collector github-oil-prices im Projekt.",
+   "extends": "github-oil-prices"
+  },
+  {
+   "id": "finance.real_economy.us_cpi",
+   "name_de": "US-Verbraucherpreise (Monat)",
+   "plain_de": "Inflation bestimmt Zinsen.",
+   "domain": "real_economy",
+   "evidence_class": "B",
+   "rationale": "Inflation zwingt Zentralbanken zu Zinsanhebungen, die Banken belasten.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Energie"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "github-cpi-us",
+     "name": "datasets/cpi-us (GitHub-Spiegel)",
+     "doc_url": "https://github.com/datasets/cpi-us",
+     "endpoint": "https://raw.githubusercontent.com/datasets/cpi-us/main/data/cpiai.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Spiegel, Lauf täglich bis wöchentlich",
+     "history": "seit 1913",
+     "rate_limit": "",
+     "license": "ODC PDDL / öffentlich (datasets.io)",
+     "verified": true,
+     "sample_note": "Date,Index,Inflation; letzter Stand 2026-09-01 336,94 (+0,59)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.real_economy.consumer_credit_delinq",
+   "name_de": "Kreditausfälle bei Konsumenten",
+   "plain_de": "Anteil überfälliger Kredite bei Kreditkarten und Autos.",
+   "domain": "real_economy",
+   "evidence_class": "B",
+   "rationale": "Ausfälle laufen Bankverlusten voraus.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Saison"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DRCCLACBS&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Delinquency Rate Kreditkarten"
+    },
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DRCRELEXFACBS&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Immobilien"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.real_economy.cre_delinq",
+   "name_de": "Gewerbeimmobilien-Kredite: Ausfallrate",
+   "plain_de": "Ausfälle bei Büro- und Handelsimmobilien.",
+   "domain": "real_economy",
+   "evidence_class": "B",
+   "rationale": "Gewerbeimmobilien sind Schwachstelle der Regionalbanken.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Quartalsrhythmus"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "fred",
+     "name": "FRED API (St. Louis Fed)",
+     "doc_url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=DRCRELEXFACBS&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Historie je nach Reihe, teils seit 1950er",
+     "rate_limit": "120 Anfragen/min",
+     "license": "FRED-Nutzungsbedingungen; Drittanbieter-Reihen (ICE BofA) mit Einschränkung",
+     "verified": false,
+     "sample_note": "Delinquency Rate Real Estate Loans, alle Banken"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.markets.polymarket_recession",
+   "name_de": "Prognosemärkte: Rezession",
+   "plain_de": "Wettquote für eine US-Rezession.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Aggregierte Wettquoten sind schnell, aber dünn.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Dünne Märkte",
+    "Manipulation"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/markets?closed=false&limit=50&search=recession",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Preisverlauf per CLOB prices-history",
+     "rate_limit": "",
+     "license": "ToS Polymarket, lesend frei",
+     "verified": false,
+     "sample_note": "outcomePrices"
+    },
+    {
+     "source_id": "kalshi",
+     "name": "Kalshi Trade API (öffentliche Marktdaten)",
+     "doc_url": "https://docs.kalshi.com/",
+     "endpoint": "https://api.elections.kalshi.com/trade-api/v2/markets?status=open&series_ticker=KXRECSSNBER",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Candlesticks je Markt",
+     "rate_limit": "",
+     "license": "Kalshi ToS",
+     "verified": false,
+     "sample_note": "Rezessionsmarkt"
+    }
+   ],
+   "notes": "",
+   "extends": "polymarket-gamma"
+  },
+  {
+   "id": "finance.markets.polymarket_bank_failure",
+   "name_de": "Prognosemärkte: Bankpleite / Börsencrash",
+   "plain_de": "Wettquoten auf große Bankenzusammenbrüche und Börsenstürze.",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Preissprung bei Bankpleitemärkten.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Neuer Markt öffnet"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/markets?closed=false&limit=50&search=bank",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Echtzeit",
+     "history": "Preisverlauf per CLOB prices-history",
+     "rate_limit": "",
+     "license": "ToS Polymarket, lesend frei",
+     "verified": false,
+     "sample_note": "outcomePrices"
+    }
+   ],
+   "notes": "",
+   "extends": "polymarket-gamma"
+  },
+  {
+   "id": "finance.markets.gold",
+   "name_de": "Goldpreis",
+   "plain_de": "Flucht in Gold.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Gold steigt bei Vertrauensverlust.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Dollarschwäche"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Schlusskurs"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Volumen/Schlusskurs"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.markets.safe_haven_fx",
+   "name_de": "Fluchtwährungen: Franken, Yen",
+   "plain_de": "Wert von CHF und JPY gegenüber Dollar.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Starke Aufwertung = Risk-off.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Zinsdifferenz"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CHF=X?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "USD/CHF"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/JPY=X?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "USD/JPY"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.markets.sp500_drawdown",
+   "name_de": "US-Aktienindex: Rückgang vom Hoch",
+   "plain_de": "Wie weit der S&P 500 unter seinem Höchststand liegt.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Drawdown > 10% ist Korrektur; Bewertungswarnungen im KI-Sektor.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "github-s-and-p-500",
+     "name": "datasets/s-and-p-500 (GitHub-Spiegel)",
+     "doc_url": "https://github.com/datasets/s-and-p-500",
+     "endpoint": "https://raw.githubusercontent.com/datasets/s-and-p-500/main/data/data.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Spiegel, Lauf täglich bis wöchentlich",
+     "history": "seit 1871",
+     "rate_limit": "",
+     "license": "ODC PDDL / öffentlich (datasets.io)",
+     "verified": true,
+     "sample_note": "Monatlich, Date,SP500,...; letzter Stand 2026-09-01 7669,41"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/^GSPC?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "tägliche Kurse"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.markets.ai_stock_stress",
+   "name_de": "KI-Aktien: Konzentrationsrisiko (NVDA, MSFT, SMH)",
+   "plain_de": "Abverkauf der größten KI-Werte.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "BIZ und EZB warnen vor KI-Blase; Rheinmetall minus 17% am 05.11.2026 zeigt Einzelschocks.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/SMH?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Halbleiter-ETF"
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart-Endpunkt (inoffiziell)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=3mo&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert / Tagesschluss",
+     "history": "mehrere Jahre per range",
+     "rate_limit": "",
+     "license": "unklar, ToS verbieten systematische Nutzung",
+     "verified": false,
+     "sample_note": "Einzelwert"
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "finance.markets.us_10y_yield",
+   "name_de": "US-10-Jahres-Rendite",
+   "plain_de": "Rendite langer US-Anleihen.",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Starker Anstieg bei Inflation belastet Banken (Wertverluste).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Inflationsdaten"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "github-bond-yields-us-10y",
+     "name": "datasets/bond-yields-us-10y (GitHub-Spiegel)",
+     "doc_url": "https://github.com/datasets/bond-yields-us-10y",
+     "endpoint": "https://raw.githubusercontent.com/datasets/bond-yields-us-10y/main/data/monthly.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "Spiegel, Lauf täglich bis wöchentlich",
+     "history": "seit 1953",
+     "rate_limit": "",
+     "license": "ODC PDDL / öffentlich (datasets.io)",
+     "verified": true,
+     "sample_note": "Monatlich; Stand 2026-09-01 4,99 Prozent (August 4,68)"
+    },
+    {
+     "source_id": "fred-csv",
+     "name": "FRED Graph CSV (ohne Key)",
+     "doc_url": "https://fred.stlouisfed.org/",
+     "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "volle Historie",
+     "rate_limit": "",
+     "license": "wie FRED; ICE-Reihen auf 3 Jahre gekürzt",
+     "verified": false,
+     "sample_note": "täglich"
+    }
+   ],
+   "notes": "Spiegel monatlich; für täglich FRED."
+  },
+  {
+   "id": "finance.markets.fund_flows",
+   "name_de": "Fondsflüsse: Anleihen- und Aktienfonds",
+   "plain_de": "Geld, das aus Fonds abgezogen wird.",
+   "domain": "markets",
+   "evidence_class": "B",
+   "rationale": "Abflüsse zeigen Panik der Anleger.",
+   "direction": "down",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Saison"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "github-investor-flow",
+     "name": "datasets/investor-flow-of-funds-us",
+     "doc_url": "https://github.com/datasets/investor-flow-of-funds-us",
+     "endpoint": "https://raw.githubusercontent.com/datasets/investor-flow-of-funds-us/main/data/weekly.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "ODC PDDL",
+     "verified": true,
+     "sample_note": "Im Test nur Kopfzeile, keine Daten; wahrscheinlich veraltet"
+    }
+   ],
+   "notes": "Nicht nutzbar, Datei liefert nur Kopfzeile."
+  },
+  {
+   "id": "finance.banks.bank_deposit_rates",
+   "name_de": "Einlagenzinsen: Neugeschäft der Banken (Bundesbank)",
+   "plain_de": "Wenn Banken höhere Einlagenzinsen bieten, brauchen sie Geld.",
+   "domain": "banks",
+   "evidence_class": "B",
+   "rationale": "Zins-Bieten um Einlagen kennzeichnet Finanzierungsdruck.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "EZB-Zinserhöhungen"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "bundesbank-api",
+     "name": "Bundesbank Zeitreihen-API (SDMX)",
+     "doc_url": "https://api.statistiken.bundesbank.de/doc/index.html",
+     "endpoint": "https://api.statistiken.bundesbank.de/rest/data/BBK01.SUD105?format=csv&lastNObservations=60",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich bis monatlich",
+     "history": "Zeitreihen seit Beginn",
+     "rate_limit": "",
+     "license": "Datenlizenz Deutschland, Quelle nennen",
+     "verified": false,
+     "sample_note": "Zinssatz Einlagen privater Haushalte (Key prüfen)"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.bis_credit_gap",
+   "name_de": "BIS: Kredit-zu-BIP-Lücke",
+   "plain_de": "Wie stark Kredite schneller als die Wirtschaft wachsen.",
+   "domain": "credit",
+   "evidence_class": "B",
+   "rationale": "BIZ-Frühwarnindikator für Bankenkrisen.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Quartalsrhythmus"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "bis-stats",
+     "name": "BIS Data Portal API (SDMX)",
+     "doc_url": "https://data.bis.org/help/tools",
+     "endpoint": "https://stats.bis.org/api/v2/data/WS_CREDIT_GAP/Q.DE.P.A.C?format=csv",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "quartalsweise/monatlich",
+     "history": "Zeitreihen seit Jahrzehnten",
+     "rate_limit": "",
+     "license": "BIS Terms, Quelle nennen",
+     "verified": false,
+     "sample_note": "Kredit-Lücke; Dataflow-Name prüfen"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "finance.credit.ecb_bank_cds_proxy",
+   "name_de": "EZB: Banken-Anleiherenditen (MIR)",
+   "plain_de": "Zinssätze der Banken auf Neugeschäft.",
+   "domain": "credit",
+   "evidence_class": "B",
+   "rationale": "Zeigt Refinanzierungskosten.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Leitzinsen"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/MIR/M.U2.B.A2A.A.R.A.2240.EUR.N?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "Kreditzins Unternehmen"
+    }
+   ],
+   "notes": "",
+   "extends": "ecb-data"
+  },
+  {
+   "id": "finance.banks.target2_imbalances",
+   "name_de": "TARGET2-Salden der Euro-Länder",
+   "plain_de": "Wie viel Geld grenzüberschreitend zwischen Zentralbanken verschoben wird.",
+   "domain": "banks",
+   "evidence_class": "A",
+   "rationale": "Plötzliche Kapitalflucht aus Peripherieländern zeigt sich dort.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Anleihekaufprogramme"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecb-data",
+     "name": "EZB Data Portal SDMX API",
+     "doc_url": "https://data.ecb.europa.eu/help/api/data",
+     "endpoint": "https://data-api.ecb.europa.eu/service/data/TGB/M.U2.N.C.L.LE.DE.Z?format=jsondata&lastNObservations=60",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe seit Beginn der Reihe",
+     "rate_limit": "",
+     "license": "EZB-Datenpolitik, Quellenangabe",
+     "verified": false,
+     "sample_note": "Salden je Land (Key prüfen)"
+    },
+    {
+     "source_id": "bundesbank-api",
+     "name": "Bundesbank Zeitreihen-API (SDMX)",
+     "doc_url": "https://api.statistiken.bundesbank.de/doc/index.html",
+     "endpoint": "https://api.statistiken.bundesbank.de/rest/data/BBK01.TARGET2?format=csv&lastNObservations=60",
+     "access": "api",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich bis monatlich",
+     "history": "Zeitreihen seit Beginn",
+     "rate_limit": "",
+     "license": "Datenlizenz Deutschland, Quelle nennen",
+     "verified": false,
+     "sample_note": "Bundesbank-Forderung TARGET2 (Key prüfen)"
+    }
+   ],
+   "notes": "",
+   "extends": "ecb-data"
+  },
+  {
+   "id": "finance.banks.foreign_bank_failure_context",
+   "name_de": "Banken-Ausfälle im Ausland (Kontext: Paraguay)",
+   "plain_de": "Einzelfälle wie Ueno Bank zeigen Ansteckungsgefahr.",
+   "domain": "banks",
+   "evidence_class": "C",
+   "rationale": "Behördenmeldung; nur Kontext, zählt nicht.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Lokal begrenzt"
+   ],
+   "manipulability": "low",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT",
+     "doc_url": "https://blog.gdeltproject.org/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22bank%20collapse%22&mode=timelinevol&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "frei",
+     "verified": false,
+     "sample_note": "Artikelvolumen"
+    }
+   ],
+   "notes": "Kontext-Layer.",
+   "extends": "gdelt-doc"
+  },
+  {
+   "id": "finance.context.quarter_end",
+   "name_de": "Störfaktor: Quartals- und Jahresende",
+   "plain_de": "Kalender mit Quartalsenden, Steuer- und Verfallsterminen.",
+   "domain": "context",
+   "evidence_class": "C",
+   "rationale": "Filtert harmlose Ausschläge bei Geldmarktsätzen.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "calendar",
+     "name": "Berechneter Kalender",
+     "doc_url": "https://www.cmegroup.com/trading/equity-index/",
+     "endpoint": "berechnet",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "Zeitreihe per Parameter",
+     "rate_limit": "",
+     "license": "n/a",
+     "verified": false,
+     "sample_note": "Aus Datum ableitbar"
+    }
+   ],
+   "notes": "Gewicht 0."
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Zahl der Bankfilialen-Schließungen und Geldautomaten-Leerstände (nur Crowd-Meldungen)",
+  "Idee: Wartezeiten und Limits bei Auslandsüberweisungen (keine offene Zeitreihe)",
+  "Idee: CDS-Spreads einzelner Banken (nur bezahlte Daten)",
+  "Idee: Google-Trends zu \"Konto auflösen\", \"Bank sicher\" (keine offene API ohne Scraping)",
+  "Idee: Sprunghafte Downloads von Banking-Apps (App-Store-Ranglisten, ohne freie Zeitreihe)",
+  "Idee: Bargeldabhebungen/Banknotenumlauf täglich (EZB nur monatlich)",
+  "Idee: Händlerumfragen im Interbankenmarkt (nur Presse)",
+  "Idee: Mitarbeiterzahl-Stellenanzeigen im Finanzsektor (Scraping)"
+ ]
+}

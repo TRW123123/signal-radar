@@ -15,6 +15,12 @@
 // Echte Antworten (17.11.2026): Die Quelle liefert Daten (Beginn {"chart":{"result":[{"meta":{"currency":"USD","symbol":"CIBR",...),
 // keine Fehlermeldung; mit range=6mo waren die Antworten 12,6 bis 17,7 kB und wurden von der Prüf-Umgebung bei 12 000 Zeichen
 // abgeschnitten (nicht von der Quelle). Deshalb range=3mo (halbe Größe, ca. 7 bis 9 kB).
+// Szenario war (Kriegseskalation): Signale in Domain markets für Brent (BZ=F), WTI (CL=F), Gold (GC=F), Öl-Volatilität (^OVX), Rüstungs-ETF (ITA),
+// Rheinmetall (RHM.DE), Weizen (ZW=F) und VIX (^VIX). Gold und VIX sind schon für Cyber abgerufen: derselbe Messwert, hier unter eigener
+// Signal-ID für war (kein zusätzlicher Request). Neue Requests: BZ=F, CL=F, ^OVX, ITA, RHM.DE, ZW=F (insgesamt 12 Symbole je Lauf statt 6,
+// weil jedes Symbol nur einmal geholt wird; die Zahl folgt aus der Signalliste). Metrik für war: Schlusskurs-Stand (Preise/Indizes).
+// Brent/WTI heißen hier war.markets.brent_futures/wti_futures, weil github-oil-prices die Katalog-IDs brent_price/wti_price (EIA-Tagesreihe) schon belegt.
+// Harmlose Ursachen (war): OPEC+-Entscheidungen, Lagerdaten, Quartalszahlen (Rheinmetall), Ernte/Wetter (Weizen), Zinsentscheide (Gold, VIX), Kontraktwechsel bei Futures.
 // VERIFIED: teilweise (Form bestätigt, aber noch keine vollständige echte Antwort für den Replay; Aufzeichnung mit range=3mo steht aus).
 
 import type { Collector, Observation } from '../core/types.ts';
@@ -27,6 +33,7 @@ interface Spec {
   name: string; plain: string; weight: number; unit: string; kind: 'gauge' | 'count';
   baseline: { method: 'rolling' | 'day-of-week'; windowDays: number; minPoints: number };
   banalCauses: string[];
+  manipulability?: 'low' | 'medium' | 'high';
 }
 
 /** Symbol- und Signalliste. Weitere Symbole oder Szenarien: Eintrag ergänzen. */
@@ -66,9 +73,20 @@ export const SPECS: Spec[] = [
     weight: 0.2, unit: '% (Betrag)', kind: 'gauge', baseline: { method: 'rolling', windowDays: 56, minPoints: 21 },
     banalCauses: ['Krypto-Eigenereignisse', 'Börsenpleiten', 'ETF-Nachrichten'],
   },
+  ...([
+    { id: 'war.markets.brent_futures', sym: 'BZ=F', name: 'Brent-Future (Börsenkurs)', plain: 'Der Preis für Nordsee-Rohöl (Brent); Kriegsangst in Förderregionen treibt ihn nach oben.', w: 0.5, unit: 'USD je Barrel', m: 'medium', b: ['OPEC+-Entscheidungen', 'Konjunkturdaten', 'Dollar-Schwankung', 'Kontraktwechsel'] },
+    { id: 'war.markets.wti_futures', sym: 'CL=F', name: 'WTI-Future (Börsenkurs)', plain: 'Der Preis für US-Rohöl (WTI); folgt dem Brent-Preis und reagiert auf Risiken im Golf.', w: 0.4, unit: 'USD je Barrel', m: 'medium', b: ['US-Lagerdaten', 'Pipeline-Engpässe', 'Kontraktwechsel'] },
+    { id: 'war.markets.gold_price', sym: 'GC=F', name: 'Goldpreis', plain: 'Der Goldpreis; Anleger flüchten bei Angst in Gold.', w: 0.3, unit: 'USD je Unze', m: 'medium', b: ['Realzinsen', 'Zentralbankkäufe', 'Dollar'] },
+    { id: 'war.markets.oil_volatility_ovx', sym: '^OVX', name: 'Öl-Volatilität (OVX)', plain: 'Wie stark Anleger große Schwankungen des Ölpreises erwarten; steigt bei Sorge um Lieferausfälle.', w: 0.3, unit: 'Punkte', m: 'medium', b: ['OPEC+-Sitzungen', 'Verfallstermine'] },
+    { id: 'war.markets.defense_etf_us', sym: 'ITA', name: 'US-Rüstungs-ETF (ITA)', plain: 'Der Kurs eines Fonds aus US-Rüstungs- und Luftfahrtfirmen; steigt, wenn höhere Militärausgaben erwartet werden.', w: 0.4, unit: 'USD', m: 'low', b: ['Haushaltsdebatten', 'Quartalszahlen', 'Sektorrotation'] },
+    { id: 'war.markets.defense_stocks_eu', sym: 'RHM.DE', name: 'Rheinmetall-Aktie', plain: 'Der Kurs von Rheinmetall, dem größten deutschen Rüstungskonzern; spiegelt Erwartungen an Aufträge und Eskalation.', w: 0.35, unit: 'EUR', m: 'medium', b: ['Firmenwarnungen', 'Auftragsmeldungen', 'Quartalszahlen', 'Zinsen'] },
+    { id: 'war.markets.wheat_prices', sym: 'ZW=F', name: 'Weizenpreis', plain: 'Der Weltmarktpreis für Weizen; Ukraine und Russland sind große Exporteure, Kriege treiben den Preis.', w: 0.3, unit: 'US-Cent je Scheffel', m: 'medium', b: ['Ernte', 'Wetter', 'Kontraktwechsel'] },
+    { id: 'war.markets.vix', sym: '^VIX', name: 'VIX (Angstindex der US-Börse), Kriegssicht', plain: 'Wie nervös die US-Börse insgesamt ist; steigt bei jeder Art von Krise, auch bei Kriegsangst.', w: 0.2, unit: 'Punkte', m: 'medium', b: ['Notenbank-Termine', 'Tech-Korrektur', 'Verfallstermine'] },
+  ] as { id: string; sym: string; name: string; plain: string; w: number; unit: string; m: 'low' | 'medium' | 'high'; b: string[] }[]).map((x): Spec => ({
+    signalId: x.id, scenario: 'war', symbols: [x.sym], metric: 'close', name: x.name, plain: x.plain, weight: x.w, unit: x.unit,
+    kind: 'gauge', baseline: { method: 'rolling', windowDays: 28, minPoints: 14 }, banalCauses: x.b, manipulability: x.m,
+  })),
 ];
-
-export const SCENARIO = 'cyber';
 const HISTORY_DAYS = 90; // range=3mo liefert rund 63 Handelstage; die ersten 20 gehen in die Volumen-Normierung
 const REL_WINDOW = 20;
 
@@ -153,14 +171,14 @@ const collector: Collector = {
   title: 'Yahoo Finance Chart (inoffiziell, Lizenz noch klären)',
   sourceUrl: 'https://finance.yahoo.com',
   intervalMinutes: 720,
-  signals: SPECS.filter((s) => s.scenario === SCENARIO).map((s) => ({
+  signals: SPECS.map((s) => ({
     id: s.signalId, scenarios: [s.scenario], domain: 'markets', name: s.name, plain: s.plain,
-    evidenceClass: 'A' as const, direction: 'up' as const, kind: s.kind, weight: s.weight, manipulability: 'low' as const,
+    evidenceClass: 'A' as const, direction: 'up' as const, kind: s.kind, weight: s.weight, manipulability: s.manipulability ?? ('low' as const),
     independenceGroup: 'yahoo-chart', unit: s.unit, intervalMinutes: 1440, holdHours: 48, baseline: s.baseline,
     license: 'inoffiziell, Lizenz unklar (ToS erlauben keine systematische Nutzung)', banalCauses: s.banalCauses,
   })),
   async collect(ctx) {
-    const specs = SPECS.filter((s) => s.scenario === SCENARIO);
+    const specs = SPECS;
     const symbols = [...new Set(specs.flatMap((s) => s.symbols))];
     const data = new Map<string, Candle[]>();
     for (const sym of symbols) {

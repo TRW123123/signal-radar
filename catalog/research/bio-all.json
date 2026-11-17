@@ -1,0 +1,3160 @@
+{
+ "subdomain": "Pandemie und Ausbrüche",
+ "generated": "2026-11-17",
+ "scenario_def": {
+  "id": "bio",
+  "order": 7,
+  "title": "Pandemie und Ausbrüche",
+  "question": "Breitet sich gerade ein gefährlicher Erreger aus?",
+  "tagline": "Abwasser, Arztbesuche, Krankenhäuser, Vogelgrippe, neue Virusvarianten, Medikamentenengpässe",
+  "domains": {
+   "wastewater": {
+    "title": "Abwasser",
+    "weight": 1,
+    "plain": "Wie viel Virus-Erbgut messen Kläranlagen?"
+   },
+   "clinical": {
+    "title": "Arztbesuche und Krankenhäuser",
+    "weight": 1,
+    "plain": "Wie viele Menschen sind mit Atemwegsinfekten in Praxen und Kliniken?"
+   },
+   "outbreaks": {
+    "title": "Ausbruchsmeldungen",
+    "weight": 0.7,
+    "plain": "Was melden WHO, ECDC und Fachportale?"
+   },
+   "animal": {
+    "title": "Tierseuchen",
+    "weight": 0.9,
+    "plain": "Vogelgrippe bei Geflügel, Wildvögeln und Rindern"
+   },
+   "genomic": {
+    "title": "Erbgut-Überwachung",
+    "weight": 0.8,
+    "plain": "Neue Virus-Linien und Varianten"
+   },
+   "mortality": {
+    "title": "Sterbefälle",
+    "weight": 0.9,
+    "plain": "Sterben mehr Menschen als erwartet?"
+   },
+   "research": {
+    "title": "Forschung",
+    "weight": 0.4,
+    "plain": "Wellen von Vorabveröffentlichungen"
+   },
+   "behaviour": {
+    "title": "Verhalten",
+    "weight": 0.5,
+    "plain": "Medikamentenengpässe, Reisehinweise, Aufmerksamkeit"
+   },
+   "markets": {
+    "title": "Märkte",
+    "weight": 0.5,
+    "plain": "Aktien und Prognosemärkte"
+   }
+  }
+ },
+ "signals": [
+  {
+   "id": "bio.wastewater.amelag_sars2",
+   "name_de": "Abwasser Deutschland: Corona-Viruslast",
+   "plain_de": "Wie viel Corona-Erbgut messen die Kläranlagen bundesweit in der Woche?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Abwasser zeigt Infektionen ohne Testverhalten; steigt oft 1 bis 2 Wochen vor Meldedaten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Sommer-/Herbstwelle",
+    "neue Variante mit Wachstumsvorteil",
+    "Laborwechsel"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "rki-amelag-github",
+     "name": "RKI AMELAG aggregierte Kurve (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Zeile 2026-11-04 am 17.11.)",
+     "history": "seit 2023-11-29 (Influenza A), 138 kB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten datum, n (Standorte), anteil_bev, viruslast, viruslast_normalisiert, vorhersage, obere/untere_schranke, typ (Influenza A, A+B, B, RSV A, B, A/B, A+B, SARS-CoV-2). Tab-getrennt. Messwert: viruslast_normalisiert."
+    }
+   ],
+   "notes": "Filter typ=SARS-CoV-2, Messwert viruslast_normalisiert; aktuelle Woche 2026-11-04."
+  },
+  {
+   "id": "bio.wastewater.amelag_flu",
+   "name_de": "Abwasser Deutschland: Influenza A",
+   "plain_de": "Wie viel Grippe-A-Erbgut ist im Abwasser?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Influenza A im Abwasser erscheint vor Arztbesuchen; ein früher Sprung im Herbst kann auf ungewöhnliche Subtypen hindeuten (nur zusammen mit Subtyp-Daten).",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "rki-amelag-github",
+     "name": "RKI AMELAG aggregierte Kurve (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Zeile 2026-11-04 am 17.11.)",
+     "history": "seit 2023-11-29 (Influenza A), 138 kB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten datum, n (Standorte), anteil_bev, viruslast, viruslast_normalisiert, vorhersage, obere/untere_schranke, typ (Influenza A, A+B, B, RSV A, B, A/B, A+B, SARS-CoV-2). Tab-getrennt. Messwert: viruslast_normalisiert."
+    }
+   ],
+   "notes": "typ=Influenza A (153 Wochenwerte). Subtypisierung liefert AMELAG nicht."
+  },
+  {
+   "id": "bio.wastewater.amelag_flub",
+   "name_de": "Abwasser Deutschland: Influenza B",
+   "plain_de": "Wie viel Grippe-B-Erbgut ist im Abwasser?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Gegenprobe: Wenn A steigt und B nicht, ist die Welle typisch für A-Subtypen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "rki-amelag-github",
+     "name": "RKI AMELAG aggregierte Kurve (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Zeile 2026-11-04 am 17.11.)",
+     "history": "seit 2023-11-29 (Influenza A), 138 kB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten datum, n (Standorte), anteil_bev, viruslast, viruslast_normalisiert, vorhersage, obere/untere_schranke, typ (Influenza A, A+B, B, RSV A, B, A/B, A+B, SARS-CoV-2). Tab-getrennt. Messwert: viruslast_normalisiert."
+    }
+   ],
+   "notes": "typ=Influenza B."
+  },
+  {
+   "id": "bio.wastewater.amelag_rsv",
+   "name_de": "Abwasser Deutschland: RSV",
+   "plain_de": "Wie viel RSV-Erbgut ist im Abwasser?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "RSV-Welle belastet Kinderkliniken; Abwasser läuft Hospitalisierung voraus.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "rki-amelag-github",
+     "name": "RKI AMELAG aggregierte Kurve (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Zeile 2026-11-04 am 17.11.)",
+     "history": "seit 2023-11-29 (Influenza A), 138 kB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten datum, n (Standorte), anteil_bev, viruslast, viruslast_normalisiert, vorhersage, obere/untere_schranke, typ (Influenza A, A+B, B, RSV A, B, A/B, A+B, SARS-CoV-2). Tab-getrennt. Messwert: viruslast_normalisiert."
+    }
+   ],
+   "notes": "typ=RSV A/B (Reihe wechselte Bezeichnung: RSV A, RSV B, RSV A/B, RSV A+B)."
+  },
+  {
+   "id": "bio.wastewater.amelag_site_spread",
+   "name_de": "Abwasser: Zahl der Standorte mit gleichzeitigem Anstieg",
+   "plain_de": "In wie vielen Kläranlagen steigt die Last gleichzeitig?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Breite Gleichzeitigkeit trennt ein bundesweites Ereignis von lokalen Ausreißern.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Datenlücken einzelner Anlagen",
+    "Laborwechsel (Spalte laborwechsel)"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "rki-amelag-github-sites",
+     "name": "RKI AMELAG Einzelstandorte (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_einzelstandorte.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich bis täglich je Standort",
+     "history": "seit 2024-08, 57 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten standort, bundesland, datum, viruslast, viruslast_normalisiert, vorhersage, einwohner, laborwechsel, typ, unter_bg. Je Kläranlage; 57 MB, besser per Range/Stream."
+    }
+   ],
+   "notes": "Ableitung aus Einzelstandorten: Anteil der Standorte mit Wochenanstieg größer 50 Prozent."
+  },
+  {
+   "id": "bio.wastewater.amelag_covered_pop",
+   "name_de": "Abwasser: Anteil der überwachten Bevölkerung",
+   "plain_de": "Wie viele Einwohner decken die Messstellen ab?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Abnehmende Abdeckung entwertet alle Abwassersignale; Kontrollgröße.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Finanzierungslage",
+    "Standortwechsel"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "rki-amelag-github",
+     "name": "RKI AMELAG aggregierte Kurve (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Zeile 2026-11-04 am 17.11.)",
+     "history": "seit 2023-11-29 (Influenza A), 138 kB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten datum, n (Standorte), anteil_bev, viruslast, viruslast_normalisiert, vorhersage, obere/untere_schranke, typ (Influenza A, A+B, B, RSV A, B, A/B, A+B, SARS-CoV-2). Tab-getrennt. Messwert: viruslast_normalisiert."
+    }
+   ],
+   "notes": "Spalte anteil_bev (aktuell 24 Prozent bei SARS-CoV-2); Gewicht 0 als Qualitätsfilter."
+  },
+  {
+   "id": "bio.wastewater.nwss_sars2",
+   "name_de": "USA: Corona im Abwasser (NWSS)",
+   "plain_de": "Wie hoch ist die Corona-Last im US-Abwasser?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Zweiter großer Messverbund; zeigt, ob eine Variante dort früher auftaucht.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cdc-nwss-socrata",
+     "name": "CDC NWSS SARS-CoV-2 Wastewater Metric (Socrata)",
+     "doc_url": "https://data.cdc.gov/resource/2ew6-ywp6",
+     "endpoint": "https://data.cdc.gov/resource/2ew6-ywp6.json?$limit=5&$order=date_end DESC",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2022",
+     "rate_limit": "1000 Req/h ohne App-Token",
+     "license": "Public Domain (US-Regierung)",
+     "verified": false,
+     "sample_note": "Resource-ID aus Erinnerung; Felder wval, wval_category, state_abbreviation, date_end. Nicht prüfbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.wastewater.nwss_flu",
+   "name_de": "USA: Influenza A im Abwasser (NWSS)",
+   "plain_de": "Wie hoch ist die Grippe-A-Last im US-Abwasser?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Früher Vergleichswert zu Europa, auch außerhalb der Saison auffällig.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cdc-nwss-flua",
+     "name": "CDC NWSS Influenza A Wastewater (Socrata)",
+     "doc_url": "https://data.cdc.gov/browse?q=wastewater%20influenza",
+     "endpoint": "https://data.cdc.gov/resource/<id>.json (ID im Portal suchen: 'NWSS Influenza A Wastewater Data')",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2024",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Resource-ID nicht bekannt, vor Bau im Portal nachschlagen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.wastewater.nwss_h5",
+   "name_de": "USA: H5-Nachweise im Abwasser",
+   "plain_de": "In wie vielen Abwassermessstellen wird H5 nachgewiesen?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "H5 im Abwasser stammt oft aus Milch oder Vogelkot, nicht von Menschen; ein Sprung außerhalb von Milchregionen oder in Städten wäre ein Brotkrümel.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Milchprodukte-Abwasser",
+    "Wildvogel-Kot",
+    "Hühnerverarbeitung"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cdc-nwss-h5",
+     "name": "CDC H5 Wastewater Detection (NWSS)",
+     "doc_url": "https://www.cdc.gov/nwss/wastewater-surveillance/h5.html",
+     "endpoint": "https://data.cdc.gov/browse?q=H5%20wastewater",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2024",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Standorte mit H5-Nachweis; ID nachschlagen."
+    },
+    {
+     "source_id": "wastewaterscan",
+     "name": "WastewaterSCAN Dashboard-Daten",
+     "doc_url": "https://data.wastewaterscan.org/",
+     "endpoint": "https://data.wastewaterscan.org/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2020",
+     "rate_limit": "",
+     "license": "CC BY (laut Seite, unklar)",
+     "verified": false,
+     "sample_note": "Stanford/Emory/Verily. Enthält H5, Mpox, Norovirus, RSV; CSV-Download nur per Seite."
+    }
+   ],
+   "notes": "Nur Aggregat je Messstelle; kein Personenbezug."
+  },
+  {
+   "id": "bio.wastewater.wscan_multi",
+   "name_de": "WastewaterSCAN: Mpox, Norovirus, RSV im Abwasser",
+   "plain_de": "Zeigt ein privates Messnetz ungewöhnliche Erreger?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Breiteres Erregerpanel als amtliche Netze, darunter Mpox.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "lokale Ausbrüche",
+    "Reisen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "wastewaterscan",
+     "name": "WastewaterSCAN Dashboard-Daten",
+     "doc_url": "https://data.wastewaterscan.org/",
+     "endpoint": "https://data.wastewaterscan.org/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2020",
+     "rate_limit": "",
+     "license": "CC BY (laut Seite, unklar)",
+     "verified": false,
+     "sample_note": "Stanford/Emory/Verily. Enthält H5, Mpox, Norovirus, RSV; CSV-Download nur per Seite."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.wastewater.eu_ww",
+   "name_de": "EU-Abwasserbeobachtung: SARS-CoV-2 je Land",
+   "plain_de": "Wie entwickelt sich die Abwasserlast in den EU-Staaten?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Länderübergreifende Gleichzeitigkeit weist auf neue Variante hin.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "eu-wastewater-obs",
+     "name": "EU Wastewater Observatory (EU-Kommission/JRC)",
+     "doc_url": "https://wastewater-observatory.jrc.ec.europa.eu/",
+     "endpoint": "https://wastewater-observatory.jrc.ec.europa.eu/",
+     "access": "scrape",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2022",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "EU-weites Dashboard SARS-CoV-2-Abwasser, Download je Land."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.wastewater.ch_ww",
+   "name_de": "Schweiz: Abwasser SARS-CoV-2, Influenza, RSV",
+   "plain_de": "Was zeigen Schweizer Kläranlagen?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Nachbarland mit eigener Datenhistorie, hilfreich zur Gegenprobe.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ch-wastewater",
+     "name": "Schweiz: Abwassermonitoring (BAG/Eawag)",
+     "doc_url": "https://idd.bag.admin.ch/",
+     "endpoint": "https://www.covid19.admin.ch/api/data/context",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich/wöchentlich",
+     "history": "seit 2022",
+     "rate_limit": "",
+     "license": "OGD Schweiz (Quellenangabe)",
+     "verified": false,
+     "sample_note": "Kontext-Endpunkt liefert Download-Links; enthält Abwasser SARS-CoV-2, Influenza, RSV."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.wastewater.nl_ww",
+   "name_de": "Niederlande: Abwasser (RIVM)",
+   "plain_de": "Was zeigt das niederländische Abwassernetz?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Frühindikator im Nachbarland, offene CC0-Daten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nl-wastewater",
+     "name": "RIVM Abwassermonitoring (NL)",
+     "doc_url": "https://data.rivm.nl/",
+     "endpoint": "https://data.rivm.nl/data/",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2020",
+     "rate_limit": "",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "RIVM-Open-Data-Katalog, Datei-URL nachschlagen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.wastewater.ww_vs_clinical_gap",
+   "name_de": "Lücke zwischen Abwasser und Meldefällen",
+   "plain_de": "Steigt das Abwasser, aber die Arztbesuche nicht?",
+   "domain": "wastewater",
+   "evidence_class": "A",
+   "rationale": "Divergenz bedeutet Erreger zirkuliert unbemerkt, etwa bei milder oder nicht abgefragter Erkrankung.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "geändertes Testverhalten",
+    "Methodenwechsel"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "rki-amelag-github",
+     "name": "RKI AMELAG aggregierte Kurve (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Abwassersurveillance_AMELAG",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Abwassersurveillance_AMELAG/main/amelag_aggregierte_kurve.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Zeile 2026-11-04 am 17.11.)",
+     "history": "seit 2023-11-29 (Influenza A), 138 kB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten datum, n (Standorte), anteil_bev, viruslast, viruslast_normalisiert, vorhersage, obere/untere_schranke, typ (Influenza A, A+B, B, RSV A, B, A/B, A+B, SARS-CoV-2). Tab-getrennt. Messwert: viruslast_normalisiert."
+    },
+    {
+     "source_id": "rki-are-github",
+     "name": "RKI ARE-Konsultationsinzidenz (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/ARE-Konsultationsinzidenz",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/main/ARE-Konsultationsinzidenz.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Woche 2026-W45)",
+     "history": "seit Saison 2012/13, 1 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Saison, Kalenderwoche, Bundesland, Bundesland_ID, Altersgruppe, ARE_Konsultationsinzidenz (Arztbesuche je 100.000)."
+    }
+   ],
+   "notes": "Abgeleitet: Verhältnis AMELAG-Last zu ARE-Konsultationsinzidenz (beide verifiziert)."
+  },
+  {
+   "id": "bio.clinical.are_konsultation",
+   "name_de": "Arztbesuche wegen Atemwegsinfekten",
+   "plain_de": "Wie viele Menschen gehen pro Woche wegen einer akuten Atemwegserkrankung zum Arzt?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Breiter Syndrom-Indikator unabhängig vom Erreger; fängt auch unbekannte Erreger.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "rki-are-github",
+     "name": "RKI ARE-Konsultationsinzidenz (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/ARE-Konsultationsinzidenz",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/main/ARE-Konsultationsinzidenz.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Woche 2026-W45)",
+     "history": "seit Saison 2012/13, 1 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Saison, Kalenderwoche, Bundesland, Bundesland_ID, Altersgruppe, ARE_Konsultationsinzidenz (Arztbesuche je 100.000)."
+    }
+   ],
+   "notes": "Bundesweit und je Bundesland, 2026-W45 verifiziert."
+  },
+  {
+   "id": "bio.clinical.are_kids",
+   "name_de": "Arztbesuche Kleinkinder 0 bis 4 Jahre",
+   "plain_de": "Wie viele kleine Kinder gehen mit Atemwegsinfekt zum Arzt?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Kinder reagieren früh auf neue Atemwegserreger; RSV und Influenza treffen sie zuerst.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "rki-are-github",
+     "name": "RKI ARE-Konsultationsinzidenz (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/ARE-Konsultationsinzidenz",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/main/ARE-Konsultationsinzidenz.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Woche 2026-W45)",
+     "history": "seit Saison 2012/13, 1 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Saison, Kalenderwoche, Bundesland, Bundesland_ID, Altersgruppe, ARE_Konsultationsinzidenz (Arztbesuche je 100.000)."
+    }
+   ],
+   "notes": "Filter Altersgruppe=0-4."
+  },
+  {
+   "id": "bio.clinical.are_bl_spread",
+   "name_de": "Atemwegsinfekte: Zahl der Bundesländer über Vorjahresniveau",
+   "plain_de": "In wie vielen Ländern liegt die Rate über dem Vorjahr?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Gleichzeitiger Anstieg weist auf ein bundesweites, nicht lokales Geschehen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "rki-are-github",
+     "name": "RKI ARE-Konsultationsinzidenz (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/ARE-Konsultationsinzidenz",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/main/ARE-Konsultationsinzidenz.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (letzte Woche 2026-W45)",
+     "history": "seit Saison 2012/13, 1 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Saison, Kalenderwoche, Bundesland, Bundesland_ID, Altersgruppe, ARE_Konsultationsinzidenz (Arztbesuche je 100.000)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.grippeweb_ili",
+   "name_de": "GrippeWeb: Selbstmeldung grippeähnlicher Erkrankungen",
+   "plain_de": "Wie viele Teilnehmer melden Fieber mit Husten oder Halsweh?",
+   "domain": "clinical",
+   "evidence_class": "D",
+   "rationale": "Meldung von Teilnehmern ohne Arztbesuch zeigt Welle früher als Arztpraxen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "rki-grippeweb-github",
+     "name": "RKI GrippeWeb Wochenbericht-Daten (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/GrippeWeb_Daten_des_Wochenberichts",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/GrippeWeb_Daten_des_Wochenberichts/main/GrippeWeb_Daten_des_Wochenberichts.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit 2011, 0,9 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Meldungen, Saison, Erkrankung (ARE, ILI), Altersgruppe, Region, Kalenderwoche, Inzidenz. Selbstmeldungen der Bevölkerung (Teilnehmer, nicht Ärzte)."
+    }
+   ],
+   "notes": "Erkrankung=ILI, 2026-W45; Klasse D da Selbstauskunft."
+  },
+  {
+   "id": "bio.clinical.sari_total",
+   "name_de": "Schwere Atemwegsinfekte im Krankenhaus (SARI)",
+   "plain_de": "Wie viele Menschen kommen pro 100.000 mit schwerer Atemwegsinfektion ins Krankenhaus?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Schwere Fälle ohne bekannten Erreger sind Hinweis auf Neues, wenn sie nicht durch Influenza/RSV/COVID erklärt werden.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "rki-sari-github",
+     "name": "RKI SARI-Hospitalisierungsinzidenz (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz/main/SARI-Hospitalisierungsinzidenz.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit Saison 2014/15, 0,2 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Saison, Kalenderwoche, Altersgruppe, SARI (Gesamt, COVID-19, Influenza, RSV), Hospitalisierungsinzidenz."
+    }
+   ],
+   "notes": "Kategorie Gesamt vs. COVID-19/Influenza/RSV; Differenz = ungeklärter Rest."
+  },
+  {
+   "id": "bio.clinical.sari_unexplained",
+   "name_de": "SARI: Anteil ohne bekannten Erreger",
+   "plain_de": "Welcher Teil der schweren Infekte lässt sich keinem bekannten Virus zuordnen?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Steigt die Differenz Gesamt minus (COVID+Influenza+RSV), könnte ein anderer Erreger zirkulieren.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "andere bekannte Viren (Rhino, hMPV, Mycoplasma)",
+    "Testumfang"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "rki-sari-github",
+     "name": "RKI SARI-Hospitalisierungsinzidenz (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz/main/SARI-Hospitalisierungsinzidenz.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit Saison 2014/15, 0,2 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Saison, Kalenderwoche, Altersgruppe, SARI (Gesamt, COVID-19, Influenza, RSV), Hospitalisierungsinzidenz."
+    }
+   ],
+   "notes": "Abgeleitet aus vier Kategorien derselben Datei."
+  },
+  {
+   "id": "bio.clinical.sari_kids",
+   "name_de": "SARI Kinder 0 bis 4 Jahre",
+   "plain_de": "Wie stark sind Kleinkinder mit schwerer Atemwegsinfektion im Krankenhaus?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "RSV-Welle erreicht Kliniken zuerst über Kleinkinder.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "rki-sari-github",
+     "name": "RKI SARI-Hospitalisierungsinzidenz (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/SARI-Hospitalisierungsinzidenz/main/SARI-Hospitalisierungsinzidenz.tsv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit Saison 2014/15, 0,2 MB",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Saison, Kalenderwoche, Altersgruppe, SARI (Gesamt, COVID-19, Influenza, RSV), Hospitalisierungsinzidenz."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.icu_covid_current",
+   "name_de": "Intensivstationen: COVID-Patienten aktuell",
+   "plain_de": "Wie viele Corona-Patienten liegen aktuell auf Intensivstation?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Spätindikator, bestätigt eine Welle.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Altersstruktur",
+    "Meldeverzug"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "rki-intensivregister-github",
+     "name": "DIVI-Intensivregister Deutschland (RKI-GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Deutschland_Kapazitaeten.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (letzte Zeile 2026-11-16)",
+     "history": "seit 2020, 0,7 MB",
+     "rate_limit": "",
+     "license": "unklar (RKI/DIVI, Repo-Lizenz nicht geprüft)",
+     "verified": true,
+     "sample_note": "Zeilen je Datum und Behandlungsgruppe (Erwachsene, Kinder: NICU, PICU). faelle_covid_aktuell, intensivbetten_belegt/_frei, betriebssituation_*. Kinder-Zeilen sind ein RSV-/Atemwegs-Proxy."
+    },
+    {
+     "source_id": "rki-intensivregister-bl-github",
+     "name": "DIVI-Intensivregister je Bundesland (RKI-GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Bundeslaender_Kapazitaeten.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (2026-11-16)",
+     "history": "seit 2020, 3,8 MB",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Wie Deutschland-Datei, je Bundesland."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.icu_picu",
+   "name_de": "Kinder-Intensivbetten belegt (PICU/NICU)",
+   "plain_de": "Wie voll sind Kinderintensivstationen?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Frühe Warnung vor RSV und ungewöhnlichen Kinder-Atemwegswellen; verifizierte tägliche Datei.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "RSV-Saison",
+    "Personalmangel senkt Meldekapazität"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "rki-intensivregister-github",
+     "name": "DIVI-Intensivregister Deutschland (RKI-GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Deutschland_Kapazitaeten.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (letzte Zeile 2026-11-16)",
+     "history": "seit 2020, 0,7 MB",
+     "rate_limit": "",
+     "license": "unklar (RKI/DIVI, Repo-Lizenz nicht geprüft)",
+     "verified": true,
+     "sample_note": "Zeilen je Datum und Behandlungsgruppe (Erwachsene, Kinder: NICU, PICU). faelle_covid_aktuell, intensivbetten_belegt/_frei, betriebssituation_*. Kinder-Zeilen sind ein RSV-/Atemwegs-Proxy."
+    }
+   ],
+   "notes": "behandlungsgruppe_level_2=PICU: intensivbetten_belegt/(belegt+frei)."
+  },
+  {
+   "id": "bio.clinical.icu_free_vent",
+   "name_de": "Freie Beatmungsplätze",
+   "plain_de": "Wie viele Beatmungsplätze sind noch frei?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Engpass-Indikator für jede schwere Atemwegswelle.",
+   "direction": "down",
+   "lead_time": "days",
+   "banal_causes": [
+    "Personalausfälle",
+    "Saison"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "rki-intensivregister-github",
+     "name": "DIVI-Intensivregister Deutschland (RKI-GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Deutschland_Kapazitaeten.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (letzte Zeile 2026-11-16)",
+     "history": "seit 2020, 0,7 MB",
+     "rate_limit": "",
+     "license": "unklar (RKI/DIVI, Repo-Lizenz nicht geprüft)",
+     "verified": true,
+     "sample_note": "Zeilen je Datum und Behandlungsgruppe (Erwachsene, Kinder: NICU, PICU). faelle_covid_aktuell, intensivbetten_belegt/_frei, betriebssituation_*. Kinder-Zeilen sind ein RSV-/Atemwegs-Proxy."
+    },
+    {
+     "source_id": "rki-intensivregister-bl-github",
+     "name": "DIVI-Intensivregister je Bundesland (RKI-GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/Intensivkapazitaeten_und_COVID-19-Intensivbettenbelegung_in_Deutschland/main/Intensivregister_Bundeslaender_Kapazitaeten.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (2026-11-16)",
+     "history": "seit 2020, 3,8 MB",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Wie Deutschland-Datei, je Bundesland."
+    }
+   ],
+   "notes": "Spalte kapazitaeten_frei_invasive_beatmung_gesamt."
+  },
+  {
+   "id": "bio.clinical.covid_hosp",
+   "name_de": "COVID-Krankenhausaufnahmen (7 Tage)",
+   "plain_de": "Wie viele Menschen kommen pro Woche mit Corona ins Krankenhaus?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Stabiler als Fallzahlen, weniger testabhängig.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Herbstwelle"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "rki-covid-hosp-github",
+     "name": "RKI COVID-19-Hospitalisierungen (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland/main/Aktuell_Deutschland_COVID-19-Hospitalisierungen.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (2026-11-15)",
+     "history": "seit 2020-03-01, 11 MB",
+     "rate_limit": "",
+     "license": "unklar (Repo-Lizenz nicht geprüft)",
+     "verified": true,
+     "sample_note": "Spalten Datum, Bundesland, Altersgruppe, 7T_Hospitalisierung_Faelle, 7T_Hospitalisierung_Inzidenz. Datei trägt Zeilen mit Bundesgebiet/00+."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.covid_inz",
+   "name_de": "COVID-19 gemeldete 7-Tage-Inzidenz",
+   "plain_de": "Wie viele bestätigte Corona-Fälle gibt es pro 100.000?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Schwaches Signal wegen wenig Tests, aber tägliche Historie seit 2020.",
+   "direction": "up",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Testverhalten",
+    "Feiertage"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "rki-covid-inz-github",
+     "name": "RKI COVID-19 7-Tage-Inzidenz (GitHub)",
+     "doc_url": "https://github.com/robert-koch-institut/COVID-19_7-Tage-Inzidenz_in_Deutschland",
+     "endpoint": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19_7-Tage-Inzidenz_in_Deutschland/main/COVID-19-Faelle_7-Tage-Inzidenz_Deutschland.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich (2026-11-15)",
+     "history": "seit 2020-01-03, 0,8 MB",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Spalten Meldedatum, Altersgruppe, Bevoelkerung, Faelle_gesamt, Faelle_neu, Faelle_7-Tage, Inzidenz_7-Tage. Meldewesen, stark vom Testverhalten abhängig."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.ecdc_ili",
+   "name_de": "EU: Konsultationsrate grippeähnlich je Land",
+   "plain_de": "Wie viele Arztbesuche wegen Grippe-Symptomen gibt es in jedem EU-Land?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Gleichzeitiger Anstieg in mehreren Ländern deutet auf übergreifendes Geschehen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ecdc-erviss-github",
+     "name": "ECDC ERVISS (EU-ECDC/Respiratory_Viruses_Weekly_Data)",
+     "doc_url": "https://github.com/EU-ECDC/Respiratory_Viruses_Weekly_Data",
+     "endpoint": "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/ILIARIRates.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit 2022-W25 bzw. 2023",
+     "rate_limit": "",
+     "license": "keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar)",
+     "verified": true,
+     "sample_note": "Spalten survtype, countryname, yearweek, indicator (ILIconsultationrate u. a.), age, value; 2,6 MB, je EU/EWR-Land."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.ecdc_positivity",
+   "name_de": "EU: Positivrate Influenza/SARS-CoV-2/RSV",
+   "plain_de": "Welcher Anteil der Sentinel-Tests ist positiv?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Positivrate normiert auf Testmenge.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ecdc-erviss-github",
+     "name": "ECDC ERVISS (EU-ECDC/Respiratory_Viruses_Weekly_Data)",
+     "doc_url": "https://github.com/EU-ECDC/Respiratory_Viruses_Weekly_Data",
+     "endpoint": "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/sentinelTestsDetectionsPositivity.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit 2022-W25 bzw. 2023",
+     "rate_limit": "",
+     "license": "keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar)",
+     "verified": true,
+     "sample_note": "Sentinel-Tests je Land und Erreger: indicator tests/detections/positivity, pathogen Influenza, SARS-CoV-2, RSV; 4,2 MB."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.ecdc_severity",
+   "name_de": "EU: Krankenhausaufnahmen und Todesfälle je Land",
+   "plain_de": "Wie viele schwere Fälle melden EU-Länder wöchentlich?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Schwere über Länder hinweg bestätigt Gefährlichkeit.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Meldeverzug"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecdc-erviss-github",
+     "name": "ECDC ERVISS (EU-ECDC/Respiratory_Viruses_Weekly_Data)",
+     "doc_url": "https://github.com/EU-ECDC/Respiratory_Viruses_Weekly_Data",
+     "endpoint": "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/nonSentinelSeverity.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit 2022-W25 bzw. 2023",
+     "rate_limit": "",
+     "license": "keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar)",
+     "verified": true,
+     "sample_note": "Schwere (Krankenhausaufnahmen, Todesfälle) je Land, Erreger, Altersgruppe; 4,5 MB."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.ecdc_flu_unknown",
+   "name_de": "EU: Influenza A ohne Subtyp",
+   "plain_de": "Wie viele Influenza-A-Nachweise sind nicht typisiert?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Anstieg ungetypter A-Fälle ist ein Hinweis auf zu wenig Subtypisierung; ein neuer Subtyp würde dort auffallen.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Laborkapazität"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ecdc-erviss-github",
+     "name": "ECDC ERVISS (EU-ECDC/Respiratory_Viruses_Weekly_Data)",
+     "doc_url": "https://github.com/EU-ECDC/Respiratory_Viruses_Weekly_Data",
+     "endpoint": "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/activityFluTypeSubtype.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit 2022-W25 bzw. 2023",
+     "rate_limit": "",
+     "license": "keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar)",
+     "verified": true,
+     "sample_note": "Influenza-Nachweise nach Typ/Subtyp (A(H1)pdm09, A(H3), B, A unknown); die Spalte A (unknown) ist ein Hinweis auf ungetypte Fälle; 2,5 MB."
+    }
+   ],
+   "notes": "Spalte pathogensubtype='A (unknown)'."
+  },
+  {
+   "id": "bio.clinical.cdc_flusight",
+   "name_de": "USA: wöchentliche Influenza-Einweisungen",
+   "plain_de": "Wie viele Menschen werden in den USA wegen Grippe eingewiesen?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Vergleichsreihe, geprüft bis 2026-11-07; Spitzen in Südhalbkugel-Saison laufen Europa voraus.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "cdc-flusight-github",
+     "name": "CDC FluSight Forecast Hub Zielwerte (GitHub)",
+     "doc_url": "https://github.com/cdcepi/FluSight-forecast-hub",
+     "endpoint": "https://raw.githubusercontent.com/cdcepi/FluSight-forecast-hub/main/target-data/target-hospital-admissions.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-11-07)",
+     "history": "seit 2022-02-05, 0,6 MB",
+     "rate_limit": "",
+     "license": "MIT (LICENSE im Repo geprüft)",
+     "verified": true,
+     "sample_note": "Spalten date, location (FIPS, US=National), location_name, value (Einweisungen), weekly_rate."
+    }
+   ],
+   "notes": "location=US National: 9395 in Woche 2026-11-07."
+  },
+  {
+   "id": "bio.clinical.cdc_nhsn",
+   "name_de": "USA: NHSN Einweisungen Influenza, COVID, RSV",
+   "plain_de": "Wie viele Krankenhäuser melden Atemwegs-Einweisungen?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Pflichtmeldung der US-Krankenhäuser.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cdc-nhsn",
+     "name": "CDC NHSN Hospital Respiratory Data (Socrata)",
+     "doc_url": "https://data.cdc.gov/browse?q=NHSN%20hospital%20respiratory",
+     "endpoint": "https://data.cdc.gov/browse?q=NHSN%20hospital%20respiratory",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2020",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Resource-ID nachschlagen; Einweisungen für Influenza, COVID, RSV je Bundesstaat."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.cdc_fluview",
+   "name_de": "USA: FluView ILINet und Labor-Positivrate",
+   "plain_de": "Wie häufig sind grippeähnliche Erkrankungen in den USA?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Referenzreihe mit 30 Jahren Historie.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cdc-fluview",
+     "name": "CDC FluView / RESP-NET",
+     "doc_url": "https://www.cdc.gov/fluview/",
+     "endpoint": "https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html",
+     "access": "scrape",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (Freitag)",
+     "history": "seit 1997",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "ILINet, Labor-Positivrate, Pädiatrische Todesfälle; Rohdaten über Delphi-API zugänglich."
+    },
+    {
+     "source_id": "delphi-epidata",
+     "name": "CMU Delphi Epidata API (FluView, ILINet, Nowcasts)",
+     "doc_url": "https://cmu-delphi.github.io/delphi-epidata/",
+     "endpoint": "https://api.delphi.cmu.edu/epidata/fluview/?regions=nat&epiweeks=202640-202646",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 1997 (FluView)",
+     "rate_limit": "anonym: begrenzt",
+     "license": "je Quelle (CC BY 4.0 für Delphi-eigene Daten)",
+     "verified": false,
+     "sample_note": "Anonyme Nutzung begrenzt, Key kostenlos."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.ukhsa",
+   "name_de": "England: Atemwegs-Surveillance (UKHSA API)",
+   "plain_de": "Wie entwickeln sich Influenza, COVID, RSV in England?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Strukturierte API, Nachbarregion.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonale Winterwelle",
+    "Schulferien",
+    "Labor-/Methodenwechsel",
+    "Feiertage"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ukhsa-dashboard",
+     "name": "UKHSA Data Dashboard API",
+     "doc_url": "https://ukhsa-dashboard.data.gov.uk/access-our-data",
+     "endpoint": "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/Influenza",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "mehrere Jahre",
+     "rate_limit": "",
+     "license": "Open Government Licence v3.0",
+     "verified": false,
+     "sample_note": "Strukturierte API zu Influenza/COVID/RSV in England."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.who_flunet",
+   "name_de": "WHO FluNet: globale Influenza-Nachweise",
+   "plain_de": "Wie viele Influenza-Nachweise melden Länder weltweit?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Globale Sicht auf Subtypen, inklusive nicht saisonaler A(H5)-Nachweise.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Meldeverzug"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "who-covid-dash",
+     "name": "WHO COVID-19 / FluNet Daten",
+     "doc_url": "https://www.who.int/tools/flunet",
+     "endpoint": "https://frontdoor-l4uyj4ksy6fie.azurefd.net/FLUMART/VIW_FNT?$format=csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 1995",
+     "rate_limit": "",
+     "license": "WHO-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "FluNet-Rohdaten (global), URL nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.srv_survstat",
+   "name_de": "Meldepflichtige Krankheiten (SurvStat)",
+   "plain_de": "Wie viele meldepflichtige Fälle gibt es je Krankheit?",
+   "domain": "clinical",
+   "evidence_class": "B",
+   "rationale": "Seltene Erreger, die in anderen Reihen nicht vorkommen (Masern, Keuchhusten, Mpox).",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "saisonale Muster",
+    "Meldeverzug"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "rki-epibull",
+     "name": "RKI Epidemiologisches Bulletin / SurvStat",
+     "doc_url": "https://survstat.rki.de/",
+     "endpoint": "https://survstat.rki.de/Content/Query/Create.aspx",
+     "access": "scrape",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2001",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (RKI-Daten)",
+     "verified": false,
+     "sample_note": "Meldepflichtige Krankheiten nach IfSG; Abfrage per Formular, kein offener API-Endpunkt."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.clinical.nov_human_h5",
+   "name_de": "Menschliche H5-Fälle (CDC-Zählung)",
+   "plain_de": "Wie viele Humanfälle von Vogelgrippe H5 sind bestätigt?",
+   "domain": "clinical",
+   "evidence_class": "C",
+   "rationale": "Jeder neue Fall außerhalb der Berufsgruppen wäre ein Wendepunkt; selbst gemeldete Zahl.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Testintensität bei Landwirten"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cdc-novel-flu",
+     "name": "CDC Novel Influenza A Virus Human Cases",
+     "doc_url": "https://www.cdc.gov/bird-flu/situation-summary/index.html",
+     "endpoint": "https://www.cdc.gov/bird-flu/situation-summary/index.html",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2022",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Zahl bestätigter Humanfälle H5; Klasse B/C."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.outbreaks.who_don_rate",
+   "name_de": "WHO Ausbruchsmeldungen pro Monat",
+   "plain_de": "Wie viele Ausbruchsmeldungen veröffentlicht die WHO pro Monat?",
+   "domain": "outbreaks",
+   "evidence_class": "C",
+   "rationale": "Zählreihe seit 1996; Häufung ist ein schwaches Signal.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Berichtspraxis",
+    "Dauerausbrüche (Cholera)"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "who-don-api",
+     "name": "WHO Disease Outbreak News API",
+     "doc_url": "https://www.who.int/api/news/diseaseoutbreaknews",
+     "endpoint": "https://www.who.int/api/news/diseaseoutbreaknews?$orderby=PublicationDateAndTime desc&$top=20",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Veröffentlichung",
+     "history": "seit 1996",
+     "rate_limit": "",
+     "license": "WHO-Nutzungsbedingungen, i. d. R. CC BY-NC-SA 3.0 IGO",
+     "verified": false,
+     "sample_note": "OData-Feed; Felder Title, PublicationDateAndTime, UrlName. Nicht prüfbar."
+    }
+   ],
+   "notes": "Texte Klasse C, nur Zähl- und Titelfeld."
+  },
+  {
+   "id": "bio.outbreaks.who_don_new_pathogen",
+   "name_de": "WHO Meldung zu Erreger erstmals im Land",
+   "plain_de": "Erscheint eine Meldung zu einem Erreger, der dort vorher nie gemeldet wurde?",
+   "domain": "outbreaks",
+   "evidence_class": "C",
+   "rationale": "Titelstichworte (first, novel, unknown) als Filter.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Seuchenverschiebung durch Klima"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "who-don-api",
+     "name": "WHO Disease Outbreak News API",
+     "doc_url": "https://www.who.int/api/news/diseaseoutbreaknews",
+     "endpoint": "https://www.who.int/api/news/diseaseoutbreaknews?$orderby=PublicationDateAndTime desc&$top=20",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Veröffentlichung",
+     "history": "seit 1996",
+     "rate_limit": "",
+     "license": "WHO-Nutzungsbedingungen, i. d. R. CC BY-NC-SA 3.0 IGO",
+     "verified": false,
+     "sample_note": "OData-Feed; Felder Title, PublicationDateAndTime, UrlName. Nicht prüfbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.outbreaks.who_pheic",
+   "name_de": "WHO Notlagen-Status (PHEIC)",
+   "plain_de": "Hat die WHO eine gesundheitliche Notlage ausgerufen?",
+   "domain": "outbreaks",
+   "evidence_class": "C",
+   "rationale": "Kategorie-Wechsel ist das schärfste offizielle Signal.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Politische Abwägung"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "who-dg-statements",
+     "name": "WHO Emergency Committees / PHEIC-Seite",
+     "doc_url": "https://www.who.int/emergencies/disease-outbreak-news",
+     "endpoint": "https://www.who.int/api/news/emergencycommittees",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Veröffentlichung",
+     "history": "seit 2009",
+     "rate_limit": "",
+     "license": "WHO-Nutzungsbedingungen",
+     "verified": false,
+     "sample_note": "Status ausgerufener Notlagen (PHEIC); Klasse C."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.outbreaks.cdtr_items",
+   "name_de": "ECDC Wochenbericht: Zahl der Bedrohungen",
+   "plain_de": "Wie viele Einzelthemen führt der ECDC-Bericht?",
+   "domain": "outbreaks",
+   "evidence_class": "C",
+   "rationale": "Wöchentlicher Zähler.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Saisonale Themen"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "ecdc-cdtr",
+     "name": "ECDC Communicable Disease Threats Report",
+     "doc_url": "https://www.ecdc.europa.eu/en/publications-data/monitoring/weekly-threats-reports",
+     "endpoint": "https://www.ecdc.europa.eu/en/publications-data/monitoring/weekly-threats-reports",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (Freitag)",
+     "history": "Archiv seit 2010",
+     "rate_limit": "",
+     "license": "ECDC Copyright (Weiterverwendung mit Quelle)",
+     "verified": false,
+     "sample_note": "PDF/HTML-Wochenbericht, Klasse C."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.outbreaks.promed_volume",
+   "name_de": "ProMED Berichtsvolumen",
+   "plain_de": "Wie viele Ausbruchsberichte erscheinen pro Tag bei ProMED?",
+   "domain": "outbreaks",
+   "evidence_class": "D",
+   "rationale": "Menge der Berichte zeigt Aufmerksamkeit von Fachleuten.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Redaktionsaufwand"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "promed",
+     "name": "ProMED-mail",
+     "doc_url": "https://promedmail.org/",
+     "endpoint": "https://promedmail.org/rss/",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "mehrmals täglich",
+     "history": "seit 1994",
+     "rate_limit": "",
+     "license": "unklar, teils Konto/Bezahlschranke",
+     "verified": false,
+     "sample_note": "Feed-URL nicht geprüft; Berichtszählung als schwaches Signal."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.outbreaks.healthmap_alerts",
+   "name_de": "HealthMap Alert-Dichte je Land",
+   "plain_de": "Wie viele Ausbruchsmeldungen automatisch aus Nachrichten stammen je Land?",
+   "domain": "outbreaks",
+   "evidence_class": "D",
+   "rationale": "Maschinelles Nachrichten-Mining deckt Länder ab, in denen offizielle Meldungen fehlen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Medienrummel"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "healthmap",
+     "name": "HealthMap (Boston Children's)",
+     "doc_url": "https://healthmap.org/",
+     "endpoint": "https://healthmap.org/getAlerts.php",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "kurz",
+     "rate_limit": "",
+     "license": "nichtkommerziell, unklar",
+     "verified": false,
+     "sample_note": "Inoffizieller Alert-Endpunkt, nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.outbreaks.africacdc",
+   "name_de": "Africa CDC wöchentliche Ereignisse",
+   "plain_de": "Wie viele neue Ereignisse meldet Africa CDC?",
+   "domain": "outbreaks",
+   "evidence_class": "C",
+   "rationale": "Berichtet Ausbrüche (Mpox, Marburg, Ebola, Cholera) früh.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Dauerausbrüche"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "africacdc-brief",
+     "name": "Africa CDC Weekly Event Based Surveillance Report",
+     "doc_url": "https://africacdc.org/disease-outbreak/",
+     "endpoint": "https://africacdc.org/disease-outbreak/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "Archiv seit 2022",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "PDF-Berichte mit Zähltabellen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.outbreaks.gdelt_outbreak",
+   "name_de": "Nachrichtenmenge Ausbruch/Epidemie",
+   "plain_de": "Wie viel wird über neue Ausbrüche berichtet?",
+   "domain": "outbreaks",
+   "evidence_class": "D",
+   "rationale": "Mediensprünge zu Erreger-Stichworten.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienrummel",
+    "Wahlen und Krieg verdrängen Themen"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "gdelt-doc",
+     "name": "GDELT DOC 2.0 API",
+     "doc_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22bird%20flu%22%20OR%20H5N1&mode=timelinevol&format=json",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min",
+     "history": "Fenster 3 Monate (timeline)",
+     "rate_limit": "",
+     "license": "frei mit Quellenangabe",
+     "verified": false,
+     "sample_note": "Vorhandener Collector gdelt-doc; Suchbegriffe erweitern."
+    }
+   ],
+   "notes": "Neue Suchbegriffe in gdelt-doc.",
+   "extends": "gdelt-doc"
+  },
+  {
+   "id": "bio.outbreaks.wiki_outbreak",
+   "name_de": "Wikipedia-Aufrufe Erreger-Artikel",
+   "plain_de": "Wie viele Menschen lesen über Ebola, Marburg, Mpox, Vogelgrippe?",
+   "domain": "outbreaks",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit vor offiziellen Meldungen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Berichte in Medien",
+    "Schulstoff"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia.org/all-access/user/Vogelgrippe/daily/20260101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2015-07",
+     "rate_limit": "",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Vorhandener Collector wikimedia-pageviews; Artikel erweitern."
+    }
+   ],
+   "notes": "Artikel: Vogelgrippe, Ebolafieber, Mpox, Marburg-Virus, Nipah, Masern.",
+   "extends": "wikimedia-pageviews"
+  },
+  {
+   "id": "bio.animal.aphis_flocks",
+   "name_de": "USA: HPAI-Nachweise bei Geflügel",
+   "plain_de": "Wie viele Geflügelbestände mit Vogelgrippe werden pro Woche gemeldet?",
+   "domain": "animal",
+   "evidence_class": "B",
+   "rationale": "Zusätzliche Bestandsausbrüche zeigen Viruslast im Umfeld.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Herbstzug",
+    "Wildvogelsaison"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "usda-aphis-hpai",
+     "name": "USDA APHIS HPAI Detections (Geflügel, Wildvögel, Milchvieh)",
+     "doc_url": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza",
+     "endpoint": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-detections",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktags",
+     "history": "seit 2022",
+     "rate_limit": "",
+     "license": "Public Domain (US-Regierung)",
+     "verified": false,
+     "sample_note": "CSV-Downloads je Kategorie (commercial/backyard flocks, wild birds, mammals, livestock). Direkt-URL der Datei auf Seite nachschlagen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.aphis_dairy",
+   "name_de": "USA: Milchviehherden mit H5N1",
+   "plain_de": "Wie viele Milchviehherden sind betroffen?",
+   "domain": "animal",
+   "evidence_class": "B",
+   "rationale": "Kuh-zu-Mensch-Übertragung ist der Humanrisikopfad.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Testumfang"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "usda-aphis-hpai",
+     "name": "USDA APHIS HPAI Detections (Geflügel, Wildvögel, Milchvieh)",
+     "doc_url": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza",
+     "endpoint": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-detections",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktags",
+     "history": "seit 2022",
+     "rate_limit": "",
+     "license": "Public Domain (US-Regierung)",
+     "verified": false,
+     "sample_note": "CSV-Downloads je Kategorie (commercial/backyard flocks, wild birds, mammals, livestock). Direkt-URL der Datei auf Seite nachschlagen."
+    },
+    {
+     "source_id": "usda-nmts",
+     "name": "USDA National Milk Testing Strategy",
+     "doc_url": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-livestock/nmts",
+     "endpoint": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-livestock/nmts",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2024",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Status je Bundesstaat (unaffected, affected, ...)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.aphis_wild",
+   "name_de": "USA: Wildvogel-Nachweise",
+   "plain_de": "Wie viele Wildvögel sind positiv?",
+   "domain": "animal",
+   "evidence_class": "B",
+   "rationale": "Virus-Druck im Zugvogelsystem.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Herbstzug"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "usda-aphis-hpai",
+     "name": "USDA APHIS HPAI Detections (Geflügel, Wildvögel, Milchvieh)",
+     "doc_url": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza",
+     "endpoint": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-detections",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktags",
+     "history": "seit 2022",
+     "rate_limit": "",
+     "license": "Public Domain (US-Regierung)",
+     "verified": false,
+     "sample_note": "CSV-Downloads je Kategorie (commercial/backyard flocks, wild birds, mammals, livestock). Direkt-URL der Datei auf Seite nachschlagen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.aphis_mammal",
+   "name_de": "USA: Säugetier-Nachweise H5",
+   "plain_de": "Wie viele Säuger (Katzen, Füchse, Robben) sind positiv?",
+   "domain": "animal",
+   "evidence_class": "B",
+   "rationale": "Anpassung an Säuger ist Kennzeichen für Fähigkeit zur Mensch-Übertragung.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Testumfang"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "usda-aphis-hpai",
+     "name": "USDA APHIS HPAI Detections (Geflügel, Wildvögel, Milchvieh)",
+     "doc_url": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza",
+     "endpoint": "https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza/hpai-detections",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktags",
+     "history": "seit 2022",
+     "rate_limit": "",
+     "license": "Public Domain (US-Regierung)",
+     "verified": false,
+     "sample_note": "CSV-Downloads je Kategorie (commercial/backyard flocks, wild birds, mammals, livestock). Direkt-URL der Datei auf Seite nachschlagen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.woah_events",
+   "name_de": "WOAH: neue Tierseuchen-Ausbrüche weltweit",
+   "plain_de": "Wie viele neue Ausbrüche melden Länder an die Tiergesundheitsorganisation?",
+   "domain": "animal",
+   "evidence_class": "B",
+   "rationale": "Globale Pflichtmeldungen (H5, ASP, MKS).",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Berichtspraxis"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "woah-wahis",
+     "name": "WOAH WAHIS",
+     "doc_url": "https://wahis.woah.org/",
+     "endpoint": "https://wahis.woah.org/#/dashboards/qd-dashboard",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "seit 2005",
+     "rate_limit": "",
+     "license": "WOAH-Nutzungsbedingungen, unklar",
+     "verified": false,
+     "sample_note": "Die Oberfläche nutzt eine nicht dokumentierte JSON-API; Ausbruchsmeldungen der Mitgliedsländer (Klasse B)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.fli_tsis",
+   "name_de": "Deutschland: Geflügelpest-Ausbrüche",
+   "plain_de": "Wie viele Betriebe sind in Deutschland betroffen?",
+   "domain": "animal",
+   "evidence_class": "B",
+   "rationale": "Lokale Ausbrüche der Geflügelpest, Herbstzug.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Herbstzug",
+    "Wildvögel-Kontakt"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "fli-tsis",
+     "name": "FLI Tierseuchen-Informationssystem (TSIS)",
+     "doc_url": "https://tsis.fli.de/",
+     "endpoint": "https://tsis.fli.de/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktags",
+     "history": "seit 2000er",
+     "rate_limit": "",
+     "license": "unklar (Landesdaten)",
+     "verified": false,
+     "sample_note": "Ausbrüche der anzeigepflichtigen Tierseuchen, Geflügelpest je Kreis."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.fli_risk",
+   "name_de": "FLI-Risikostufe Aviäre Influenza",
+   "plain_de": "Wie schätzt das FLI das Risiko ein?",
+   "domain": "animal",
+   "evidence_class": "C",
+   "rationale": "Stufen-Wechsel (gering, mäßig, hoch) in Kategorie.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Saison"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fli-risk",
+     "name": "FLI Risikoeinschätzung Aviäre Influenza",
+     "doc_url": "https://www.fli.de/de/aktuelles/tierseuchengeschehen/aviaere-influenza-ai-gefluegelpest/",
+     "endpoint": "https://www.fli.de/de/aktuelles/tierseuchengeschehen/aviaere-influenza-ai-gefluegelpest/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "bei Änderung",
+     "history": "Archiv",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Risikostufe (gering/mäßig/hoch) als Kategorie, Klasse C."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.efsa_quarter",
+   "name_de": "EFSA/ECDC Quartalsübersicht Vogelgrippe",
+   "plain_de": "Wie viele Ausbrüche und Humanfälle zählt der Bericht?",
+   "domain": "animal",
+   "evidence_class": "C",
+   "rationale": "Reihe mit europäischer Gesamtsicht.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Saison"
+   ],
+   "manipulability": "medium",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "efsa-avian",
+     "name": "EFSA/ECDC Avian Influenza Overview",
+     "doc_url": "https://www.efsa.europa.eu/en/topics/topic/avian-influenza",
+     "endpoint": "https://www.efsa.europa.eu/en/topics/topic/avian-influenza",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "vierteljährlich",
+     "history": "seit 2016",
+     "rate_limit": "",
+     "license": "CC BY 4.0 (EFSA)",
+     "verified": false,
+     "sample_note": "Quartalsbericht mit Zählreihen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.dead_birds_inat",
+   "name_de": "Beobachtungen toter Wildvögel (iNaturalist)",
+   "plain_de": "Wie viele tote Vögel werden pro Woche gemeldet?",
+   "domain": "animal",
+   "evidence_class": "D",
+   "rationale": "Ungewöhnlicher Proxy: Bürgerbeobachtungen zeigen Massensterben, bevor Behörden melden.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Hitze, Wetter, Kollision mit Glas"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "inaturalist",
+     "name": "iNaturalist API (Beobachtungen mit Annotation 'tot')",
+     "doc_url": "https://api.inaturalist.org/v1/docs/",
+     "endpoint": "https://api.inaturalist.org/v1/observations?taxon_id=3&term_id=17&term_value_id=19&place_id=7&per_page=0",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "seit 2008",
+     "rate_limit": "100 Req/min",
+     "license": "CC je Beobachtung",
+     "verified": false,
+     "sample_note": "total_results = tote Vögel (Annotation Alive or Dead = Dead) je Ort; Aggregat, keine Personen."
+    },
+    {
+     "source_id": "gbif-api",
+     "name": "GBIF Occurrence API (tote Wildvögel/Beobachtungen)",
+     "doc_url": "https://techdocs.gbif.org/en/openapi/",
+     "endpoint": "https://api.gbif.org/v1/occurrence/search?taxonKey=212&limit=0&year=2026&month=11",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "seit Jahrzehnten",
+     "rate_limit": "",
+     "license": "CC0/CC BY je Datensatz",
+     "verified": false,
+     "sample_note": "count ist die Zählreihe; Filter Tierstatus 'dead' über Merkmal lifeStage/occurrenceStatus nicht einheitlich, besser iNaturalist."
+    }
+   ],
+   "notes": "Aggregat je Region; kein Personenbezug."
+  },
+  {
+   "id": "bio.animal.pet_food_recall",
+   "name_de": "Rückrufe Rohfutter wegen H5N1",
+   "plain_de": "Wie viele Haustiernahrungs-Rückrufe gibt es wegen Vogelgrippe?",
+   "domain": "animal",
+   "evidence_class": "B",
+   "rationale": "Katzen infizieren sich über Rohmilch/Rohfutter; Rückrufe sind Pflicht.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Qualitätsrückrufe aus anderen Gründen"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "fda-recalls",
+     "name": "FDA Recalls (Tiernahrung)",
+     "doc_url": "https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts",
+     "endpoint": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/recalls/rss.xml",
+     "access": "rss",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktags",
+     "history": "seit 2000er",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Rückrufe roher Katzen-/Haustiernahrung wegen H5N1: Zählung nach Stichwort."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.animal.egg_price",
+   "name_de": "Eierpreise",
+   "plain_de": "Wie teuer sind Eier?",
+   "domain": "animal",
+   "evidence_class": "A",
+   "rationale": "Preise steigen, wenn Legehennen getötet werden.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Inflation",
+    "Futtermittel"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (CALM)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CALM?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol CALM ergänzen."
+    },
+    {
+     "source_id": "fred-eggs",
+     "name": "FRED: Eier Verbraucherpreis (APU0000708111)",
+     "doc_url": "https://fred.stlouisfed.org/series/APU0000708111",
+     "endpoint": "https://api.stlouisfed.org/fred/series/observations?series_id=APU0000708111&file_type=json&api_key=<KEY>",
+     "access": "api",
+     "format": "json",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "seit 1980",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Preis je Dutzend; Key kostenlos."
+    }
+   ],
+   "notes": "Cal-Maine-Kurs über yahoo-chart.",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "bio.animal.wiki_birdflu",
+   "name_de": "Wikipedia-Aufrufe Vogelgrippe, H5N1, Geflügelpest",
+   "plain_de": "Wie viele lesen über Vogelgrippe?",
+   "domain": "animal",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Medienberichte"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia.org/all-access/user/Vogelgrippe/daily/20260101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2015-07",
+     "rate_limit": "",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Vorhandener Collector wikimedia-pageviews; Artikel erweitern."
+    }
+   ],
+   "notes": "Artikel Vogelgrippe, Geflügelpest, H5N1.",
+   "extends": "wikimedia-pageviews"
+  },
+  {
+   "id": "bio.genomic.pango_new_alias",
+   "name_de": "Neue Corona-Linien-Namen (Pango)",
+   "plain_de": "Wie viele neue Linien-Aliase werden pro Woche vergeben?",
+   "domain": "genomic",
+   "evidence_class": "A",
+   "rationale": "Rekombinanten (X…) und neue Aliase zeigen evolutionäre Sprünge; XHC, XHD, XHE aktuell.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Mehr Sequenzierung",
+    "Namenskonvention"
+   ],
+   "manipulability": "low",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "pango-alias-github",
+     "name": "cov-lineages/pango-designation alias_key.json",
+     "doc_url": "https://github.com/cov-lineages/pango-designation",
+     "endpoint": "https://raw.githubusercontent.com/cov-lineages/pango-designation/master/pango_designation/alias_key.json",
+     "access": "download",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unregelmäßig, bei jeder neuen Rekombinante/Alias",
+     "history": "vollständig seit 2020, 20 kB",
+     "rate_limit": "",
+     "license": "unklar (keine LICENSE-Datei unter master gefunden)",
+     "verified": true,
+     "sample_note": "Schlüssel = Alias (z. B. XHE), Wert = Eltern-Linien. Anzahl der Schlüssel zählt neue Aliase; XHC/XHD/XHE aktuell."
+    },
+    {
+     "source_id": "pango-notes-github",
+     "name": "pango-designation lineage_notes.txt",
+     "doc_url": "https://github.com/cov-lineages/pango-designation",
+     "endpoint": "https://raw.githubusercontent.com/cov-lineages/pango-designation/master/lineage_notes.txt",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unregelmäßig",
+     "history": "vollständig, 6311 Zeilen, 0,4 MB",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Tab-getrennt: Lineage, Description. Zeilenzahl = Zahl benannter Linien; Zuwachs je Woche ist die Messgröße."
+    }
+   ],
+   "notes": "Wochenzuwachs der Schlüssel/Zeilen als Messwert."
+  },
+  {
+   "id": "bio.genomic.pango_lineage_share",
+   "name_de": "Anteil neuer Linien an Sequenzen",
+   "plain_de": "Welcher Anteil der Sequenzen gehört zu den neuesten Linien?",
+   "domain": "genomic",
+   "evidence_class": "A",
+   "rationale": "Schnelle Verdrängung zeigt Wachstumsvorteil.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Sequenzier-Bias nach Land"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "pango-lineages-github",
+     "name": "pango-designation lineages.csv (Sequenz zu Linie)",
+     "doc_url": "https://github.com/cov-lineages/pango-designation",
+     "endpoint": "https://raw.githubusercontent.com/cov-lineages/pango-designation/master/lineages.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "unregelmäßig, mit Designations",
+     "history": "Sequenzen 2020-2026, 91 MB (nur per Range laden)",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": true,
+     "sample_note": "Spalten taxon (Land/Name/Jahr), lineage. Groß: nur Kopf/Ende lesen."
+    },
+    {
+     "source_id": "ecdc-erviss-github",
+     "name": "ECDC ERVISS (EU-ECDC/Respiratory_Viruses_Weekly_Data)",
+     "doc_url": "https://github.com/EU-ECDC/Respiratory_Viruses_Weekly_Data",
+     "endpoint": "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/variants.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit 2022-W25 bzw. 2023",
+     "rate_limit": "",
+     "license": "keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar)",
+     "verified": true,
+     "sample_note": "SARS-CoV-2-Varianten je Land, GISAID-Quelle: variant, indicator detections/proportion; 2,8 MB."
+    }
+   ],
+   "notes": "lineages.csv 91 MB nur per Range; Alternative ECDC variants.csv."
+  },
+  {
+   "id": "bio.genomic.ecdc_variants",
+   "name_de": "EU: Varianten-Anteile SARS-CoV-2",
+   "plain_de": "Welche Variante dominiert in welchem Land?",
+   "domain": "genomic",
+   "evidence_class": "A",
+   "rationale": "Neue Variante mit schnellem Anteilsanstieg.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Wenig Sequenzen"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "ecdc-erviss-github",
+     "name": "ECDC ERVISS (EU-ECDC/Respiratory_Viruses_Weekly_Data)",
+     "doc_url": "https://github.com/EU-ECDC/Respiratory_Viruses_Weekly_Data",
+     "endpoint": "https://raw.githubusercontent.com/EU-ECDC/Respiratory_Viruses_Weekly_Data/main/data/variants.csv",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (2026-W45)",
+     "history": "seit 2022-W25 bzw. 2023",
+     "rate_limit": "",
+     "license": "keine LICENSE-Datei im Repo gefunden, ECDC-Daten i. d. R. frei mit Quellenangabe (unklar)",
+     "verified": true,
+     "sample_note": "SARS-CoV-2-Varianten je Land, GISAID-Quelle: variant, indicator detections/proportion; 2,8 MB."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.genomic.nextstrain_h5",
+   "name_de": "Nextstrain: H5N1-Sequenzen",
+   "plain_de": "Wie viele neue H5N1-Sequenzen erscheinen?",
+   "domain": "genomic",
+   "evidence_class": "A",
+   "rationale": "Neue Genotypen bei Säugern.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Mehr Sequenzierung"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "nextstrain-avian-flu",
+     "name": "Nextstrain avian-flu H5N1-Datensätze",
+     "doc_url": "https://github.com/nextstrain/avian-flu",
+     "endpoint": "https://data.nextstrain.org/files/workflows/avian-flu/h5n1/metadata.tsv.zst",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend (aus öffentlichen Sequenzdaten)",
+     "history": "vollständig, komprimiert",
+     "rate_limit": "",
+     "license": "CC BY 4.0 laut Nextstrain (unklar im Detail)",
+     "verified": false,
+     "sample_note": "Pfad aus Repo-Doku abgeleitet, nicht per curl prüfbar (Host nicht freigegeben). Repo-README unter raw.githubusercontent.com erreichbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.genomic.genbank_h5",
+   "name_de": "NCBI: neue H5N1-Sequenzen",
+   "plain_de": "Wie viele H5N1-Sequenzen werden hinterlegt?",
+   "domain": "genomic",
+   "evidence_class": "A",
+   "rationale": "Zählreihe aus offener Sequenzdatenbank.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Forschungsprojekte"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "ncbi-eutils",
+     "name": "NCBI E-utilities (PubMed / Nucleotide / SRA)",
+     "doc_url": "https://www.ncbi.nlm.nih.gov/books/NBK25497/",
+     "endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=influenza+A+virus+H5N1[Organism]+AND+2026/10[PDAT]&rettype=count",
+     "access": "api",
+     "format": "xml",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit Archivbeginn",
+     "rate_limit": "3 Req/s ohne Key",
+     "license": "Public Domain (Metadaten)",
+     "verified": false,
+     "sample_note": "Zahl neu hinterlegter Sequenzen je Zeitfenster (count)."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.genomic.gisaid_counts",
+   "name_de": "GISAID Sequenzzahlen",
+   "plain_de": "Wie viele Sequenzen laden Länder hoch?",
+   "domain": "genomic",
+   "evidence_class": "A",
+   "rationale": "Rückgang der Einreichungen ist eine Blindstelle.",
+   "direction": "down",
+   "lead_time": "coincident",
+   "banal_causes": [
+    "Förderung"
+   ],
+   "manipulability": "medium",
+   "priority": 5,
+   "sources": [
+    {
+     "source_id": "gisaid",
+     "name": "GISAID EpiCoV/EpiFlu",
+     "doc_url": "https://gisaid.org/",
+     "endpoint": "https://www.epicov.org/",
+     "access": "scrape",
+     "format": "csv",
+     "auth": "free-key",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "vollständig",
+     "rate_limit": "",
+     "license": "GISAID-Zugangsvereinbarung (restriktiv)",
+     "verified": false,
+     "sample_note": "Konto und Lizenz nötig; Nachnutzung stark eingeschränkt, nur aggregierte Zahlen."
+    }
+   ],
+   "notes": "Konto und Lizenz nötig."
+  },
+  {
+   "id": "bio.mortality.euromomo",
+   "name_de": "EuroMOMO: Übersterblichkeit Europa",
+   "plain_de": "Sterben in Europa mehr Menschen als erwartet?",
+   "domain": "mortality",
+   "evidence_class": "A",
+   "rationale": "Zählt Todesfälle unabhängig von Ursache.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Hitzewellen",
+    "Winterwelle"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "euromomo",
+     "name": "EuroMOMO Pooled Estimates",
+     "doc_url": "https://www.euromomo.eu/graphs-and-maps",
+     "endpoint": "https://www.euromomo.eu/graphs-and-maps",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (Donnerstag)",
+     "history": "seit 2008",
+     "rate_limit": "",
+     "license": "unklar (Quellenangabe)",
+     "verified": false,
+     "sample_note": "z-Scores/Exzess je Land und Altersgruppe; Download-Link auf Seite nachschlagen."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.mortality.destatis_deaths",
+   "name_de": "Destatis: wöchentliche Sterbefälle",
+   "plain_de": "Wie viele Menschen sterben in Deutschland pro Woche?",
+   "domain": "mortality",
+   "evidence_class": "A",
+   "rationale": "Rohzahl; Vergleich zum Median der Vorjahre.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Hitze",
+    "Grippewelle"
+   ],
+   "manipulability": "low",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "destatis-sterbefaelle",
+     "name": "Destatis Sonderauswertung Sterbefallzahlen",
+     "doc_url": "https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html",
+     "endpoint": "https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich, Verzug ca. 1 Woche",
+     "history": "seit 2016 (tägliche Zahlen)",
+     "rate_limit": "",
+     "license": "Datenlizenz Deutschland Namensnennung 2.0",
+     "verified": false,
+     "sample_note": "XLSX/CSV mit tagesgenauen Sterbefällen, Median der Vorjahre."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.mortality.cdc_excess",
+   "name_de": "CDC: Übersterblichkeit USA",
+   "plain_de": "Wie viele Todesfälle gibt es mehr als erwartet?",
+   "domain": "mortality",
+   "evidence_class": "A",
+   "rationale": "Gegenprobe zu Europa.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "Hitze",
+    "Opioide"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "cdc-nchs-deaths",
+     "name": "CDC NCHS Provisional Death Counts (Socrata)",
+     "doc_url": "https://data.cdc.gov/browse?q=provisional%20death%20counts",
+     "endpoint": "https://data.cdc.gov/resource/r8kw-7aab.json?$limit=5",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich",
+     "history": "seit 2020",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "Resource-ID aus Erinnerung, nicht geprüft."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.mortality.pediatric_flu_deaths",
+   "name_de": "Pädiatrische Influenza-Todesfälle (CDC)",
+   "plain_de": "Wie viele Kinder sterben an Influenza?",
+   "domain": "mortality",
+   "evidence_class": "B",
+   "rationale": "Anstieg bei Kindern ist Alarmzeichen.",
+   "direction": "up",
+   "lead_time": "lagging",
+   "banal_causes": [
+    "schwere Saison"
+   ],
+   "manipulability": "low",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "cdc-fluview",
+     "name": "CDC FluView / RESP-NET",
+     "doc_url": "https://www.cdc.gov/fluview/",
+     "endpoint": "https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html",
+     "access": "scrape",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "wöchentlich (Freitag)",
+     "history": "seit 1997",
+     "rate_limit": "",
+     "license": "Public Domain",
+     "verified": false,
+     "sample_note": "ILINet, Labor-Positivrate, Pädiatrische Todesfälle; Rohdaten über Delphi-API zugänglich."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.research.preprint_waves",
+   "name_de": "Preprint-Welle zu einem Erreger",
+   "plain_de": "Wie viele Vorabveröffentlichungen erscheinen zu einem Stichwort?",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Forscher reagieren vor Behörden; Zählreihe zu Stichworten (H5N1, Nipah, Marburg, 'novel virus').",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Forschungsmoden"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "biorxiv-api",
+     "name": "bioRxiv/medRxiv API",
+     "doc_url": "https://api.biorxiv.org/",
+     "endpoint": "https://api.biorxiv.org/details/medrxiv/2026-11-01/2026-11-15/0",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2013",
+     "rate_limit": "",
+     "license": "Preprint-Lizenzen je Artikel",
+     "verified": false,
+     "sample_note": "Antwort enthält messages.total und collection[]; Titelfilter für Stichworte clientseitig. Nicht prüfbar."
+    },
+    {
+     "source_id": "europepmc",
+     "name": "Europe PMC REST Search",
+     "doc_url": "https://europepmc.org/RestfulWebService",
+     "endpoint": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22H5N1%22%20AND%20FIRST_PDATE%3A%5B2026-10-01%20TO%202026-10-31%5D&format=json&resultType=lite&pageSize=1",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 1900er",
+     "rate_limit": "",
+     "license": "CC BY (Metadaten)",
+     "verified": false,
+     "sample_note": "Feld hitCount ist die Zählreihe je Stichwort und Zeitfenster."
+    }
+   ],
+   "notes": "Filter über Titel clientseitig."
+  },
+  {
+   "id": "bio.research.epmc_hits",
+   "name_de": "Europe PMC Trefferzahl zu Stichworten",
+   "plain_de": "Wie viele Artikel nennen den Erreger pro Monat?",
+   "domain": "research",
+   "evidence_class": "D",
+   "rationale": "Breite Basis über Fachliteratur.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Sondernummern"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "europepmc",
+     "name": "Europe PMC REST Search",
+     "doc_url": "https://europepmc.org/RestfulWebService",
+     "endpoint": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22H5N1%22%20AND%20FIRST_PDATE%3A%5B2026-10-01%20TO%202026-10-31%5D&format=json&resultType=lite&pageSize=1",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 1900er",
+     "rate_limit": "",
+     "license": "CC BY (Metadaten)",
+     "verified": false,
+     "sample_note": "Feld hitCount ist die Zählreihe je Stichwort und Zeitfenster."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.behaviour.bfarm_engpass",
+   "name_de": "Arzneimittel-Lieferengpässe (BfArM)",
+   "plain_de": "Wie viele Medikamente sind nicht lieferbar?",
+   "domain": "behaviour",
+   "evidence_class": "B",
+   "rationale": "Antibiotika und Fiebersäfte werden vor Wellen knapp.",
+   "direction": "up",
+   "lead_time": "weeks",
+   "banal_causes": [
+    "Produktionsprobleme",
+    "Lieferketten"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "bfarm-engpass",
+     "name": "BfArM Lieferengpassmeldungen (PharmNet)",
+     "doc_url": "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml",
+     "endpoint": "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml",
+     "access": "download",
+     "format": "csv",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "werktags",
+     "history": "aktuelle und beendete Meldungen",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "CSV-Export der Meldungen mit Wirkstoff, Beginn, Ende. Zählreihe z. B. Antibiotika, Fiebersäfte, Oseltamivir."
+    }
+   ],
+   "notes": "Zählreihe Gesamtzahl und nach Wirkstoff."
+  },
+  {
+   "id": "bio.behaviour.travel_warn",
+   "name_de": "Reisewarnungen Auswärtiges Amt: Gesundheit",
+   "plain_de": "Wie oft ändert sich der Reisehinweis eines Landes wegen Krankheit?",
+   "domain": "behaviour",
+   "evidence_class": "C",
+   "rationale": "Textänderungen zählbar.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Politik"
+   ],
+   "manipulability": "high",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "auswaertiges-amt",
+     "name": "Auswärtiges Amt Reise- und Sicherheitshinweise (OpenData)",
+     "doc_url": "https://www.auswaertiges-amt.de/opendata",
+     "endpoint": "https://www.auswaertiges-amt.de/opendata/travelwarning",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "nur aktueller Stand",
+     "rate_limit": "",
+     "license": "Datenlizenz Deutschland Namensnennung 2.0",
+     "verified": false,
+     "sample_note": "JSON je Land, Felder lastModified, warning; Textinhalt Klasse C, Änderungsdatum zählbar."
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "bio.behaviour.wiki_masks",
+   "name_de": "Wikipedia-Aufrufe Masken, Impfung, Quarantäne",
+   "plain_de": "Lesen mehr Menschen über Schutzmaßnahmen?",
+   "domain": "behaviour",
+   "evidence_class": "D",
+   "rationale": "Verhalten der Masse.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Schulstoff"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "wikimedia-pageviews",
+     "name": "Wikimedia Pageviews API",
+     "doc_url": "https://wikimedia.org/api/rest_v1/",
+     "endpoint": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia.org/all-access/user/Vogelgrippe/daily/20260101/20261116",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "täglich",
+     "history": "seit 2015-07",
+     "rate_limit": "",
+     "license": "CC0",
+     "verified": false,
+     "sample_note": "Vorhandener Collector wikimedia-pageviews; Artikel erweitern."
+    }
+   ],
+   "notes": "Artikel Atemschutzmaske, Quarantäne, Grippeschutzimpfung.",
+   "extends": "wikimedia-pageviews"
+  },
+  {
+   "id": "bio.behaviour.mastodon_health",
+   "name_de": "Mastodon: Trend-Hashtags zu Krankheit",
+   "plain_de": "Welche Gesundheits-Hashtags trenden?",
+   "domain": "behaviour",
+   "evidence_class": "D",
+   "rationale": "Aufmerksamkeit in sozialen Netzen.",
+   "direction": "up",
+   "lead_time": "hours",
+   "banal_causes": [
+    "Memes"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "mastodon-trends",
+     "name": "Mastodon Trends API",
+     "doc_url": "https://docs.joinmastodon.org/methods/trends/",
+     "endpoint": "https://mastodon.social/api/v1/trends/tags",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "stündlich",
+     "history": "nur aktuelle Trends",
+     "rate_limit": "",
+     "license": "je Instanz",
+     "verified": false,
+     "sample_note": "Vorhandener Collector mastodon-trends; Tags zu Erregern filtern."
+    }
+   ],
+   "notes": "",
+   "extends": "mastodon-trends"
+  },
+  {
+   "id": "bio.behaviour.sick_leave",
+   "name_de": "Krankenstand / Arbeitsunfähigkeit (GKV)",
+   "plain_de": "Wie viele Menschen sind krankgeschrieben?",
+   "domain": "behaviour",
+   "evidence_class": "B",
+   "rationale": "Spiegelt Welle früh und breit.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "saisonal"
+   ],
+   "manipulability": "low",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "gkv-au",
+     "name": "GKV-Spitzenverband/Krankenkassen: Krankenstandsstatistik",
+     "doc_url": "https://www.gkv-spitzenverband.de/",
+     "endpoint": "https://www.gkv-spitzenverband.de/krankenversicherung/zahlen_und_grafiken/",
+     "access": "scrape",
+     "format": "html",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "monatlich",
+     "history": "seit 1990er",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Monatswerte, keine API."
+    }
+   ],
+   "notes": "Hinweis: Verzögerung Monat."
+  },
+  {
+   "id": "bio.markets.mrna",
+   "name_de": "Impfstoff-Aktien (Moderna, BioNTech, Novavax)",
+   "plain_de": "Wie entwickeln sich Aktien der Impfstoffhersteller?",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Märkte preisen Pandemie-Risiko früh ein.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen"
+   ],
+   "manipulability": "medium",
+   "priority": 1,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (MRNA)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/MRNA?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol MRNA ergänzen."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (BNTX)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/BNTX?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol BNTX ergänzen."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (NVAX)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/NVAX?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol NVAX ergänzen."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "bio.markets.antivirals",
+   "name_de": "Aktien Antivirale/Tests (Roche, Gilead, Hologic)",
+   "plain_de": "Steigen Aktien für Tests und Virostatika?",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Hinweise auf erwartete Nachfrage.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Quartalszahlen"
+   ],
+   "manipulability": "medium",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (ROG.SW)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/ROG.SW?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol ROG.SW ergänzen."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (GILD)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/GILD?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol GILD ergänzen."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (HOLX)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/HOLX?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol HOLX ergänzen."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "bio.markets.poly_pandemic",
+   "name_de": "Prognosemärkte zu Pandemie/H5N1",
+   "plain_de": "Wie wetten Händler auf Pandemie?",
+   "domain": "markets",
+   "evidence_class": "D",
+   "rationale": "Wahrscheinlichkeiten für WHO-Notlage, H5N1-Mensch-zu-Mensch.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Spekulation"
+   ],
+   "manipulability": "high",
+   "priority": 2,
+   "sources": [
+    {
+     "source_id": "polymarket-gamma",
+     "name": "Polymarket Gamma API",
+     "doc_url": "https://docs.polymarket.com/",
+     "endpoint": "https://gamma-api.polymarket.com/markets?closed=false&limit=20&search=pandemic",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "laufend",
+     "history": "Preisverlauf je Markt",
+     "rate_limit": "",
+     "license": "unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector polymarket-gamma; Märkte zu H5N1, Pandemie, WHO-Notlage."
+    }
+   ],
+   "notes": "",
+   "extends": "polymarket-gamma"
+  },
+  {
+   "id": "bio.markets.poultry_stocks",
+   "name_de": "Geflügel-/Egg-Aktien (Cal-Maine, Vital Farms)",
+   "plain_de": "Wie bewegen sich Geflügel-Aktien?",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Kurse reagieren auf Ausbrüche in Beständen.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Preise"
+   ],
+   "manipulability": "medium",
+   "priority": 3,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (CALM)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/CALM?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol CALM ergänzen."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (VITL)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/VITL?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol VITL ergänzen."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  },
+  {
+   "id": "bio.markets.mask_stocks",
+   "name_de": "Atemschutz-Aktien (3M, Alpha Pro Tech)",
+   "plain_de": "Steigt die Nachfrage nach Schutzausrüstung?",
+   "domain": "markets",
+   "evidence_class": "A",
+   "rationale": "Bei Pandemie-Furcht schneller Anstieg.",
+   "direction": "up",
+   "lead_time": "days",
+   "banal_causes": [
+    "Industrie"
+   ],
+   "manipulability": "high",
+   "priority": 4,
+   "sources": [
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (MMM)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/MMM?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol MMM ergänzen."
+    },
+    {
+     "source_id": "yahoo-chart",
+     "name": "Yahoo Finance Chart (APT)",
+     "doc_url": "https://finance.yahoo.com/",
+     "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/APT?range=1y&interval=1d",
+     "access": "api",
+     "format": "json",
+     "auth": "none",
+     "cost": "free",
+     "update_latency": "15 min verzögert",
+     "history": "viele Jahre",
+     "rate_limit": "",
+     "license": "inoffiziell, unklar",
+     "verified": false,
+     "sample_note": "Vorhandener Collector yahoo-chart, Symbol APT ergänzen."
+    }
+   ],
+   "notes": "",
+   "extends": "yahoo-chart"
+  }
+ ],
+ "ideas_without_source": [
+  "Idee: Apotheken-Absatz von Fieber- und Hustenmitteln (IQVIA/Insight Health, kostenpflichtig, keine offene Quelle)",
+  "Idee: Notaufnahme-Surveillance (AKTIN) als Echtzeit-Syndromreihe, kein offenes Repo gefunden",
+  "Idee: Krankschreibungen per Telefon nach Krankenkasse (nur Pressemitteilungen)",
+  "Idee: Schulschließungen und Klassen-Quarantäne (keine zentrale offene Datenquelle)",
+  "Idee: Flugpassagierzahlen aus betroffenen Regionen und Flughafen-Gesundheitskontrollen (nur Presse)",
+  "Idee: Absatz von Atemschutzmasken im Online-Handel (keine offene API)",
+  "Idee: Google Trends nach Symptomen (inoffizielle Endpunkte, Nutzungsbedingungen unklar)",
+  "Idee: Sterbeanzeigen-Zählung (Personenbezug, bewusst nicht aufgenommen)",
+  "Idee: Gesundheitsämter-Meldungen auf Landesebene (uneinheitliche Portale)",
+  "Idee: Zoo- und Wildtierauffangstationen-Aufnahmen (nur Einzelberichte)"
+ ]
+}

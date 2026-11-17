@@ -13,6 +13,9 @@
 // allen Märkten, Beschreibungen und Tags wiegt 8 bis 17 kB; mit limit_per_type=5 waren Antworten 29 bis 86 kB (zu groß für die
 // Prüf-Umgebung), daher limit_per_type=1 (nur der beste Treffer je Begriff; Nachteil: weitere passende Ereignisse fallen weg).
 // events_status=active filtert nicht zuverlässig: Treffer können archived=true/active=false sein (werden übersprungen).
+// Szenario war: eigene Suchbegriffe und eigener Fragetext-Filter (WAR_MATCH), Signale war.attention.prediction_markets_war (höchste
+// Ja-Wahrscheinlichkeit) und war.attention.prediction_volume_spike (24-Stunden-Volumen), nur Aggregat über Märkte, keine Konten.
+// Harmlose Ursachen (war): neue/auslaufende Märkte, Sportmärkte mit Ländernamen (Filter dagegen nur grob), dünne Liquidität.
 // VERIFIED: teilweise (17.11.2026: Parser gegen echte, vollständige Antwort geprüft; die Antworten mit limit_per_type=1 stehen
 // noch zur Aufzeichnung aus, nur "cyber attack" (1 irrelevanter, archivierter Treffer) und "cyberattack" (0 Treffer) liegen vor).
 
@@ -28,6 +31,14 @@ export const MATCH: Record<string, RegExp> = {
   cyber: /cyber|ransomware|hack|outage|blackout|power grid|data breach/i,
 };
 export const SCENARIO = 'cyber';
+export const WAR_TERMS = ['world war 3', 'nuclear weapon', 'iran strike', 'strait of hormuz', 'taiwan invasion', 'russia nato'];
+/** Fragetext des Kriegs-Szenarios: Eskalationsbegriffe, oder Konfliktland zusammen mit einem Gewaltbegriff (filtert Sportmärkte). */
+export const WAR_MATCH = /world war|\bww3\b|nuclear (weapon|war|strike|test|attack)|hormuz|invade|invasion|blockade|\b(iran|israel|taiwan|china|russia|nato|ukraine|north korea)\b.*\b(strike|attack|war|conflict|invade|invasion|military|nuclear|blockade|troops)\b|\b(strike|attack|war|conflict|military|troops)\b.*\b(iran|israel|taiwan|china|russia|nato|ukraine|north korea)\b/i;
+
+const SCENARIO_CFG = [
+  { scenario: 'cyber', terms: SEARCH_TERMS.cyber, match: MATCH.cyber, yesId: 'cyber.markets.polymarket_cyber', volId: 'cyber.markets.market_volume_cyber' },
+  { scenario: 'war', terms: WAR_TERMS, match: WAR_MATCH, yesId: 'war.attention.prediction_markets_war', volId: 'war.attention.prediction_volume_spike' },
+];
 
 export interface Market { id: string; question: string; yes: number | null; volume24h: number; volumeTotal: number }
 
@@ -107,35 +118,58 @@ const collector: Collector = {
       license: 'Polymarket ToS; Nutzung in einigen Ländern eingeschränkt',
       banalCauses: ['Virale Nachricht', 'Neuer Markt in der Trefferliste'],
     },
+    {
+      id: 'war.attention.prediction_markets_war', scenarios: ['war'], domain: 'attention',
+      name: 'Prognosemärkte zu Krieg: höchste Ja-Wahrscheinlichkeit',
+      plain: 'Die höchste Wahrscheinlichkeit, die Wettende auf Polymarket einem Weltkrieg, Atomwaffeneinsatz, Angriff oder einer Blockade geben (nur wenn ein passender Markt existiert).',
+      evidenceClass: 'D', direction: 'both', kind: 'gauge', weight: 0.5, manipulability: 'high',
+      independenceGroup: 'polymarket-gamma', unit: '%', intervalMinutes: 360, holdHours: 24,
+      baseline: { method: 'rolling', windowDays: 56, minPoints: 14 },
+      license: 'Polymarket ToS; Nutzung in einigen Ländern eingeschränkt',
+      banalCauses: ['Geringe Liquidität', 'Einzelne Großhändler', 'Wechsel der gefundenen Märkte', 'Ablauf eines Marktes'],
+    },
+    {
+      id: 'war.attention.prediction_volume_spike', scenarios: ['war'], domain: 'attention',
+      name: 'Handelsvolumen in Kriegs-Prognosemärkten (24 Stunden)',
+      plain: 'Wie viel in den letzten 24 Stunden auf Krieg, Atomwaffen, Angriffe und Blockaden gewettet wurde; plötzliche Sprünge fallen auf.',
+      evidenceClass: 'D', direction: 'up', kind: 'gauge', weight: 0.35, manipulability: 'high',
+      independenceGroup: 'polymarket-gamma', unit: 'USD/24h', intervalMinutes: 360, holdHours: 24,
+      baseline: { method: 'rolling', windowDays: 56, minPoints: 14 },
+      license: 'Polymarket ToS; Nutzung in einigen Ländern eingeschränkt',
+      banalCauses: ['Medienereignisse', 'Neuer Markt in der Trefferliste'],
+    },
   ],
   async collect(ctx) {
-    const terms = SEARCH_TERMS[SCENARIO];
-    const match = MATCH[SCENARIO];
-    const all: Market[] = [];
-    let ok = 0;
-    for (const term of terms) {
-      try {
-        all.push(...parse(await ctx.http.json<Resp>(buildUrl(term), { fixture: fixtureName(term) })));
-        ok++;
-      } catch (e) {
-        ctx.log(`Suchbegriff ${term} fehlgeschlagen: ${(e as Error).message}`);
-      }
-    }
-    if (ok === 0) throw new Error('polymarket-gamma: keine Suche beantwortet');
-    // Ein fehlender Begriff würde Markt-Zusammensetzung und Volumen verfälschen: dann nichts melden.
-    if (ok !== terms.length) { ctx.log('polymarket-gamma: unvollständig, nichts gemeldet'); return { observations: [] }; }
-    const markets = select(all, match);
-    if (markets.length === 0) return { observations: [] };
     const ts = floorHour(ctx.now);
     const observations: Observation[] = [];
-    const yes = markets.filter((m) => m.yes !== null);
-    if (yes.length) {
-      const top = yes.reduce((a, b) => ((b.yes as number) > (a.yes as number) ? b : a));
-      observations.push(obs('cyber.markets.polymarket_cyber', ts, top.yes as number, { question: top.question, markets: markets.length }));
+    let answered = 0;
+    for (const cfg of SCENARIO_CFG) {
+      const all: Market[] = [];
+      let ok = 0;
+      for (const term of cfg.terms) {
+        try {
+          all.push(...parse(await ctx.http.json<Resp>(buildUrl(term), { fixture: fixtureName(term) })));
+          ok++;
+        } catch (e) {
+          ctx.log(`Suchbegriff ${term} (${cfg.scenario}) fehlgeschlagen: ${(e as Error).message}`);
+        }
+      }
+      if (ok === 0) continue;
+      answered++;
+      // Ein fehlender Begriff würde Markt-Zusammensetzung und Volumen verfälschen: dann nichts melden.
+      if (ok !== cfg.terms.length) { ctx.log(`polymarket-gamma ${cfg.scenario}: unvollständig, nichts gemeldet`); continue; }
+      const markets = select(all, cfg.match);
+      if (markets.length === 0) continue;
+      const yes = markets.filter((m) => m.yes !== null);
+      if (yes.length) {
+        const top = yes.reduce((a, b) => ((b.yes as number) > (a.yes as number) ? b : a));
+        observations.push(obs(cfg.yesId, ts, top.yes as number, { question: top.question, markets: markets.length }));
+      }
+      observations.push(obs(cfg.volId, ts, markets.reduce((s, m) => s + m.volume24h, 0), {
+        markets: markets.length, volumeTotal: markets.reduce((s, m) => s + m.volumeTotal, 0),
+      }));
     }
-    observations.push(obs('cyber.markets.market_volume_cyber', ts, markets.reduce((s, m) => s + m.volume24h, 0), {
-      markets: markets.length, volumeTotal: markets.reduce((s, m) => s + m.volumeTotal, 0),
-    }));
+    if (answered === 0) throw new Error('polymarket-gamma: keine Suche beantwortet');
     return { observations };
   },
 };

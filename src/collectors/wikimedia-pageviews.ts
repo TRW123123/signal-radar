@@ -4,6 +4,9 @@
 // Reference implementation: other collectors follow this structure.
 // Echte Messung (17.11.2026): einzelne Artikel haben sehr kleine Zahlen (de Cyberattacke ca. 4/Tag, vermutlich Weiterleitung,
 // Notvorrat 11, Stromausfall 22; en Cyberattack 289); daher Summe über je 10 Artikel. Artikelnamen nach Kenntnis gewählt.
+// Szenario war (Kriegseskalation): zwei weitere Gruppen (de, en) mit je 10 Artikeln zu Mobilmachung, Wehrpflicht, Schutzraum,
+// Atomkrieg, Hormus usw. Artikelnamen nach Kenntnis gewählt, nicht gegen die API geprüft: ein 404 fällt aus der Summe (siehe MIN_ANSWER_SHARE).
+// Harmlose Ursachen für war-Ausschläge: Wehrdienst-Debatten im Bundestag, Warntag, Dokumentationen/Filme, Schulstoff, Katastrophenschutz-Berichte.
 // VERIFIED: nein (neue Artikelliste noch nicht aufgezeichnet; Form {"items":[{"timestamp":"2026090300","views":1}]} laut Auftrag).
 
 import type { Collector, Observation } from '../core/types.ts';
@@ -27,6 +30,18 @@ export const GROUPS: Group[] = [
     name: 'Wikipedia-Aufrufe zu Cyber-Themen (englisch)',
     plain: 'Wie oft englische Wikipedia-Artikel zu Cyberangriffen und Internet-Ausfällen aufgerufen werden.',
     articles: ['Cyberattack', 'Internet_outage', 'Power_outage', 'Cyberwarfare', 'Ransomware', 'Denial-of-service_attack', 'Data_breach', 'Computer_security', 'Botnet', 'Phishing'],
+  },
+  {
+    signalId: 'war.attention.wikipedia_de', scenario: 'war', project: 'de.wikipedia',
+    name: 'Wikipedia-Aufrufe zu Kriegsthemen (deutsch)',
+    plain: 'Wie oft deutschsprachige Wikipedia-Artikel zu Dritter Weltkrieg, Mobilmachung, Wehrpflicht, Schutzraum oder Kaliumiodid aufgerufen werden.',
+    articles: ['Dritter_Weltkrieg', 'Mobilmachung', 'Wehrpflicht', 'Schutzraum', 'Zivilschutz', 'Kaliumiodid', 'Atomkrieg', 'Straße_von_Hormus', 'Verteidigungsfall', 'Kriegsrecht'],
+  },
+  {
+    signalId: 'war.attention.wikipedia_en', scenario: 'war', project: 'en.wikipedia',
+    name: 'Wikipedia-Aufrufe zu Kriegsthemen (englisch)',
+    plain: 'Wie oft englische Wikipedia-Artikel zu World War III, Wehrpflicht, Atomkrieg, Schutzräumen oder der Straße von Hormus aufgerufen werden.',
+    articles: ['World_War_III', 'Conscription', 'Fallout_shelter', 'Nuclear_warfare', 'Civil_defense', 'Strait_of_Hormuz', 'Mobilization', 'Martial_law', 'Potassium_iodide', 'Taiwan_Strait'],
   },
 ];
 
@@ -54,6 +69,7 @@ const collector: Collector = {
     independenceGroup: 'wikimedia', unit: 'Aufrufe/Tag', intervalMinutes: 1440, holdHours: 48,
     baseline: { method: 'day-of-week' as const, windowDays: 56, minPoints: 21 },
     license: 'CC0 (Wikimedia Analytics)',
+    ...(g.scenario === 'war' ? { banalCauses: ['Wehrdienst-Debatten', 'Warntag und Katastrophenschutz-Berichte', 'Dokumentationen und Filme', 'Schulstoff'] } : {}),
   })),
   async collect(ctx) {
     const end = ymd(daysAgo(ctx.now, 1));

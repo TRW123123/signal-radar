@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import collector, { parseHits, countDays, buildUrl, fixtureName, TERMS } from '../../src/collectors/hn-algolia.ts';
+import collector, { parseHits, countDays, buildUrl, fixtureName, TERMS, WAR_TERMS } from '../../src/collectors/hn-algolia.ts';
 
 // SAMPLE: nach Doku nachgebaut (Algolia search_by_date mit attributesToRetrieve=created_at_i), keine echte Aufzeichnung.
 const D = Date.UTC(2026, 10, 10); // 2026-11-10
@@ -46,7 +46,7 @@ test('collect: Teilausfall liefert nichts statt Scheineinbruch', async () => {
     http: { json: async () => { if (++n === 2) throw new Error('boom'); return SAMPLE; }, text: async () => '' },
   };
   const r = await collector.collect(ctx as never);
-  assert.equal(r.observations.length, 0);
+  assert.equal(r.observations.filter((o) => o.signalId === 'cyber.attention.hackernews_volume').length, 0);
 });
 
 // Gekürzter echter Ausschnitt (search_by_date "outage", 17.11.2026): nur created_at_i und objectID, wie angefordert.
@@ -62,4 +62,38 @@ test('echte Antwort: Form wird gelesen, Tageszählung', () => {
   const { counts } = countDays(p, Date.UTC(2026, 10, 15), Date.UTC(2026, 10, 17));
   assert.equal(counts.get('2026-11-16'), 3);
   assert.equal(counts.get('2026-11-15'), 1);
+});
+
+// --- Szenario war ---
+test('war: Begriffe, eigene Fixture-Namen und Seitengröße 300 (Antwort unter 20 000 Zeichen)', () => {
+  assert.equal(WAR_TERMS.length, 6);
+  assert.equal(fixtureName('"nuclear war"', 'war-'), 'hn-algolia/war-nuclear-war.json');
+  assert.match(buildUrl('Hormuz', 1, 2, 300), /hitsPerPage=300$/);
+  const cyber = new Set(TERMS.map((t) => fixtureName(t)));
+  assert.ok(WAR_TERMS.every((t) => !cyber.has(fixtureName(t, 'war-'))));
+});
+
+test('war: collect meldet beide Szenarien getrennt, Cyber-Anfragen bleiben unverändert', async () => {
+  const urls: string[] = [];
+  const ctx = {
+    now: new Date('2026-11-17T00:00:00Z'), key: () => undefined, log: () => {},
+    http: { json: async (u: string) => { urls.push(u); return SAMPLE; }, text: async () => '' },
+  };
+  const r = await collector.collect(ctx as never);
+  assert.ok(r.observations.some((o) => o.signalId === 'cyber.attention.hackernews_volume'));
+  assert.ok(r.observations.some((o) => o.signalId === 'war.attention.hackernews_mentions'));
+  assert.equal(urls.length, TERMS.length + WAR_TERMS.length);
+  assert.ok(urls.slice(0, 5).every((u) => u.endsWith('hitsPerPage=400')));
+  assert.ok(collector.signals.find((s) => s.id === 'war.attention.hackernews_mentions')!.scenarios!.includes('war'));
+});
+
+test('war: Teilausfall bei den Kriegsbegriffen meldet für war nichts, Cyber bleibt', async () => {
+  let n = 0;
+  const ctx = {
+    now: new Date('2026-11-17T00:00:00Z'), key: () => undefined, log: () => {},
+    http: { json: async () => { if (++n === 7) throw new Error('boom'); return SAMPLE; }, text: async () => '' },
+  };
+  const r = await collector.collect(ctx as never);
+  assert.ok(r.observations.some((o) => o.signalId === 'cyber.attention.hackernews_volume'));
+  assert.ok(!r.observations.some((o) => o.signalId === 'war.attention.hackernews_mentions'));
 });

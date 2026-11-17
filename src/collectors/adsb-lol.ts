@@ -6,6 +6,8 @@
 // Harmlose Ursachen: Übungen, Feeder-Abdeckung ändert sich (neue/ausgefallene Empfänger), Transponder aus, Tageszeit/Wochentag.
 // Größe: /v2/mil liefert alle Militärflugzeuge mit Vollobjekten (in der Prüf-Umgebung Timeout, Antwort weit über 24 000 Zeichen); ein kleiner
 // Zähl-Endpunkt ist nicht bekannt (die API kennt nur /mil, /pia, /ladd, /point, /hex, /callsign usw. mit Vollobjekten), daher Request unverändert.
+// Szenario war: derselbe Zählwert wird zusätzlich als war.military.mil_aircraft_visible_global gemeldet (Katalog-Signale je Region wie
+// mil_count_hormuz brauchen Positionen und sind hier ausgeschlossen; es gibt nur den Gesamtzähler). Kein zusätzlicher Request.
 // VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Antwortform { ac: [...], total, now, msg } nach Erinnerung)
 
 import type { Collector } from '../core/types.ts';
@@ -38,11 +40,22 @@ const collector: Collector = {
       thresholds: { relFloor: 0.1 },
       license: 'ODbL (adsb.lol), nur Aggregat',
     },
+    {
+      id: 'war.military.mil_aircraft_visible_global', scenarios: ['war'], domain: 'military',
+      name: 'Sichtbare Militärflugzeuge weltweit (Kriegssicht)',
+      plain: 'Wie viele Militärflugzeuge gerade auf öffentlichen Flugradaren zu sehen sind; ein deutlicher Anstieg kann auf Verlegungen und erhöhte Einsatzbereitschaft hinweisen.',
+      evidenceClass: 'A', direction: 'up', kind: 'count', weight: 0.4, manipulability: 'medium', independenceGroup: 'adsb-lol',
+      unit: 'Anzahl', intervalMinutes: 15, holdHours: 6,
+      baseline: { method: 'hour-of-week', windowDays: 28, minPoints: 48 },
+      thresholds: { relFloor: 0.1 },
+      license: 'ODbL (adsb.lol), nur Aggregat',
+      banalCauses: ['Übungen', 'Änderungen der Feeder-Abdeckung', 'Tageszeit und Wochentag'],
+    },
   ],
   async collect(ctx) {
     const n = parseMilCount(await ctx.http.json<Resp>('https://api.adsb.lol/v2/mil', { fixture: 'adsb-lol/mil.json' }));
     const ts = Math.floor(ctx.now.getTime() / STEP) * STEP;
-    return { observations: [obs('cyber.physical.military_aircraft_visible', ts, n)] };
+    return { observations: [obs('cyber.physical.military_aircraft_visible', ts, n), obs('war.military.mil_aircraft_visible_global', ts, n)] };
   },
 };
 

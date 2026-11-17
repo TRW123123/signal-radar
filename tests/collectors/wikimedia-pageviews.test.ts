@@ -39,3 +39,30 @@ test('collect: unter 80 % oder Nicht-404-Fehler meldet für die Gruppe nichts', 
   assert.equal(r2.observations.filter((o) => o.signalId === 'cyber.attention.wikipedia_de').length, 0);
   assert.ok(r2.observations.some((o) => o.signalId === 'cyber.attention.wikipedia_en'));
 });
+
+test('war: zwei Gruppen mit den vorgegebenen IDs, Szenario war, Domain attention', () => {
+  const war = GROUPS.filter((g) => g.scenario === 'war');
+  assert.deepEqual(war.map((g) => g.signalId), ['war.attention.wikipedia_de', 'war.attention.wikipedia_en']);
+  assert.ok(war[0].articles.includes('Dritter_Weltkrieg') && war[1].articles.includes('World_War_III'));
+  const sigs = collector.signals.filter((s) => s.id.startsWith('war.'));
+  assert.equal(sigs.length, 2);
+  assert.ok(sigs.every((s) => s.domain === 'attention' && s.evidenceClass === 'D' && s.scenarios!.join() === 'war' && s.plain && s.name));
+});
+
+test('war: collect summiert die Kriegsartikel, Fixture-Namen sind neu', async () => {
+  const urls: string[] = [];
+  const { ctx } = ctxWith((u) => { urls.push(u); return null; });
+  const r = await collector.collect(ctx as never);
+  const de = r.observations.filter((o) => o.signalId === 'war.attention.wikipedia_de');
+  assert.equal(de[0].value, 100);
+  assert.equal(r.observations.filter((o) => o.signalId === 'war.attention.wikipedia_en')[0].value, 100);
+  assert.ok(urls.some((u) => u.includes('/en.wikipedia/all-access/user/Strait_of_Hormuz/daily/20260903/20261116')));
+});
+
+test('war: 404 bei Straße_von_Hormus fällt aus der Summe, Cyber-Gruppen unberührt', async () => {
+  const { ctx } = ctxWith((u) => (u.includes('Stra%C3%9Fe_von_Hormus') ? 'HTTP 404 ' + u : null));
+  const r = await collector.collect(ctx as never);
+  const de = r.observations.filter((o) => o.signalId === 'war.attention.wikipedia_de');
+  assert.equal(de[0].value, 90);
+  assert.equal(r.observations.filter((o) => o.signalId === 'cyber.attention.wikipedia_de')[0].value, 100);
+});

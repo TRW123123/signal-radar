@@ -7,6 +7,10 @@
 // Harmlose Ursachen für Ausschläge: Änderungen der Testliste oder der Probe-Zusammensetzung (wenige Freiwillige), ein einzelner
 // Probe-Betreiber mit kaputtem Netz, staatlich angeordnete Sperren (Zensur ist hier eher Normalzustand als Cyberlage), Messartefakte.
 // Antwortform: {"result":[{"measurement_start_day":"YYYY-MM-DD","anomaly_count":..,"confirmed_count":..,"failure_count":..,"ok_count":..,"measurement_count":..}]}
+// Szenario war: Länder der Konfliktregionen in WAR_COUNTRIES (IR, IL, UA, RU, TW), Signale war.connectivity.ooni_anomaly_share_<cc>, gleiche
+// Anfrageform, eigene Fixture-Namen je Land (kein Überschneiden mit Cyber). Golfstaaten (SA, AE, QA) bewusst nicht: zu wenige Messungen je Tag
+// (unter MIN_MEASUREMENTS), die Reihen bestünden aus Lücken; für den Golf trägt IODA. Harmlose Ursachen (war): in IR/RU ist Zensur Normalzustand
+// (hoher Sockel), Wechsel der Testliste, wenige Probe-Betreiber, Kriegsschäden am Netz. VERIFIED (war): nein.
 // VERIFIED: ja (17.11.2026, echte Antwort): 75 Tageswerte je Land, 2 bis 5 % anomal, über 60 000 Messungen je Tag.
 
 import type { Collector, Observation } from '../core/types.ts';
@@ -19,6 +23,20 @@ export const COUNTRIES: { cc: string; name: string }[] = [
   { cc: 'FR', name: 'Frankreich' },
   { cc: 'NL', name: 'Niederlande' },
 ];
+/** Länder der Konfliktregionen (Szenario war). */
+export const WAR_COUNTRIES: { cc: string; name: string }[] = [
+  { cc: 'IR', name: 'Iran' },
+  { cc: 'IL', name: 'Israel' },
+  { cc: 'UA', name: 'Ukraine' },
+  { cc: 'RU', name: 'Russland' },
+  { cc: 'TW', name: 'Taiwan' },
+];
+export function warSignalId(cc: string): string { return `war.connectivity.ooni_anomaly_share_${cc.toLowerCase()}`; }
+const ALL: { cc: string; name: string; scenario: 'cyber' | 'war' }[] = [
+  ...COUNTRIES.map((c) => ({ ...c, scenario: 'cyber' as const })),
+  ...WAR_COUNTRIES.map((c) => ({ ...c, scenario: 'war' as const })),
+];
+const sid = (c: { cc: string; scenario: 'cyber' | 'war' }) => (c.scenario === 'war' ? warSignalId(c.cc) : signalId(c.cc));
 export const MIN_MEASUREMENTS = 100;
 const WINDOW_DAYS = 75;
 
@@ -53,8 +71,8 @@ const collector: Collector = {
   title: 'OONI Aggregation API',
   sourceUrl: 'https://docs.ooni.org/api/',
   intervalMinutes: 720,
-  signals: COUNTRIES.map((c) => ({
-    id: signalId(c.cc), scenarios: ['cyber'], domain: 'outages',
+  signals: ALL.map((c) => ({
+    id: sid(c), scenarios: [c.scenario], domain: c.scenario === 'war' ? 'connectivity' : 'outages',
     name: `Anteil anomaler Web-Messungen (${c.name})`,
     plain: `Welcher Anteil der OONI-Messungen zur Erreichbarkeit von Webseiten in ${c.name} auffällig ausfällt oder blockiert wird.`,
     evidenceClass: 'A' as const, direction: 'up' as const, kind: 'rate' as const, weight: 0.25, manipulability: 'medium' as const,
@@ -68,13 +86,13 @@ const collector: Collector = {
     const minDay = isoDay(new Date(ctx.now.getTime() - WINDOW_DAYS * DAY_MS));
     const observations: Observation[] = [];
     let ok = 0;
-    for (const c of COUNTRIES) {
+    for (const c of ALL) {
       try {
         const days = parse(await ctx.http.json<Resp>(buildUrl(c.cc, ctx.now), { fixture: fixtureName(c.cc) }));
         for (const [day, v] of [...days.entries()].sort()) {
           if (day >= today || day < minDay) continue;
           if (v.n < MIN_MEASUREMENTS) { ctx.log(`OONI ${c.cc} ${day}: nur ${v.n} Messungen, übersprungen`); continue; }
-          observations.push(obs(signalId(c.cc), `${day}T00:00:00Z`, v.share, { measurements: v.n }));
+          observations.push(obs(sid(c), `${day}T00:00:00Z`, v.share, { measurements: v.n }));
         }
         ok++;
       } catch (e) {

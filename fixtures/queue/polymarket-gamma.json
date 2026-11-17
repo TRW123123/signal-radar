@@ -23,5 +23,35 @@
     "fixture": "polymarket/search-internet-outage.json",
     "url": "https://gamma-api.polymarket.com/public-search?q=internet%20outage&limit_per_type=1&events_status=active",
     "maxChars": 20000
+  },
+  {
+    "fixture": "polymarket/search-world-war-3.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=world%20war%203&limit_per_type=1&events_status=active",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "polymarket/search-nuclear-weapon.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=nuclear%20weapon&limit_per_type=1&events_status=active",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "polymarket/search-iran-strike.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=iran%20strike&limit_per_type=1&events_status=active",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "polymarket/search-strait-of-hormuz.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=strait%20of%20hormuz&limit_per_type=1&events_status=active",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "polymarket/search-taiwan-invasion.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=taiwan%20invasion&limit_per_type=1&events_status=active",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "polymarket/search-russia-nato.json",
+    "url": "https://gamma-api.polymarket.com/public-search?q=russia%20nato&limit_per_type=1&events_status=active",
+    "maxChars": 20000
   }
 ]

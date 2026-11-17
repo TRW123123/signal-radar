@@ -1,0 +1,26 @@
+# Netlify: nur das statische Frontend ausliefern. Kein Build, keine Functions.
+# Anleitung und Prüfschritte: docs/DEPLOY.md
+# Die CSP entspricht der <meta>-Policy in frontend/index.html (keine Fremd-Quellen) und ergänzt frame-ancestors,
+# das nur als HTTP-Header wirkt.
+
+[build]
+  publish = "frontend"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+
+# Messdaten: kurz cachen, damit ein neuer Snapshot schnell sichtbar wird.
+[[headers]]
+  for = "/data/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=60, must-revalidate"
+
+# Schriften ändern sich praktisch nie: lang cachen. Wird eine Schrift ersetzt, muss die Datei einen neuen Namen bekommen.
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

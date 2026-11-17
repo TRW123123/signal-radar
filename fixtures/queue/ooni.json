@@ -23,5 +23,30 @@
     "fixture": "ooni/web-connectivity-nl-daily.json",
     "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=NL&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
     "maxChars": 12000
+  },
+  {
+    "fixture": "ooni/web-connectivity-ir-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=IR&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "ooni/web-connectivity-il-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=IL&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "ooni/web-connectivity-ua-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=UA&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "ooni/web-connectivity-ru-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=RU&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 20000
+  },
+  {
+    "fixture": "ooni/web-connectivity-tw-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=TW&test_name=web_connectivity&since=2026-09-03&until=2026-11-17&axis_x=measurement_start_day",
+    "maxChars": 20000
   }
 ]

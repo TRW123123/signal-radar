@@ -60,3 +60,46 @@ test('collect: Summe nur bei vollständiger Länderliste', async () => {
   assert.equal(ev[0].value, 1); // nur Ereignisse mit Start im letzten vollständigen Tag
   assert.ok(r.observations.every((o) => Number.isFinite(o.value)));
 });
+
+// --- Szenario war ---
+import { WAR_COUNTRIES, GULF_COUNTRIES } from '../../src/collectors/ioda.ts';
+
+function warCtx(fail: (url: string) => boolean) {
+  const now = new Date('2026-11-17T00:00:00Z');
+  const sec = now.getTime() / 1000;
+  const urls: string[] = [];
+  return { urls, ctx: {
+    now, key: () => undefined, log: () => {},
+    http: { text: async () => '', json: async (url: string) => {
+      urls.push(url);
+      if (fail(url)) throw new Error('boom');
+      if (url.includes('/outages/events')) return { data: [] };
+      return { data: [[{ datasource: 'bgp', from: sec - 7200, step: 3600, values: [5, 6] }]] };
+    } },
+  } };
+}
+
+test('war: Länder, URL-Form unverändert (24 Stunden, datasource=bgp), Golf-Summe nur bei allen drei', async () => {
+  const { ctx, urls } = warCtx(() => false);
+  const r = await collector.collect(ctx as never);
+  const sec = 1794873600;
+  for (const cc of [...WAR_COUNTRIES.map((c) => c.cc), ...GULF_COUNTRIES]) {
+    assert.ok(urls.includes(`https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/${cc}?from=${sec - 86400}&until=${sec}&datasource=bgp`), cc);
+  }
+  const gulf = r.observations.filter((o) => o.signalId === 'war.connectivity.gulf_states_internet');
+  assert.equal(gulf.length, 2);
+  assert.equal(gulf[0].value, 15);
+  assert.ok(r.observations.some((o) => o.signalId === 'war.connectivity.ioda_ir'));
+  const sigs = collector.signals.filter((s) => s.id.startsWith('war.'));
+  assert.deepEqual(sigs.map((s) => s.id).sort(), ['war.connectivity.gulf_states_internet', 'war.connectivity.ioda_il', 'war.connectivity.ioda_ir',
+    'war.connectivity.ioda_ru', 'war.connectivity.ioda_tw', 'war.connectivity.ioda_ua']);
+  assert.ok(sigs.every((s) => s.domain === 'connectivity' && s.direction === 'down' && s.scenarios!.join() === 'war'));
+});
+
+test('war: fehlt ein Golfland, entfällt nur die Summe; fehlt IR, nur das IR-Signal', async () => {
+  const { ctx } = warCtx((u) => u.includes('/country/QA?') || u.includes('/country/IR?'));
+  const r = await collector.collect(ctx as never);
+  const ids = new Set(r.observations.map((o) => o.signalId));
+  assert.ok(!ids.has('war.connectivity.gulf_states_internet') && !ids.has('war.connectivity.ioda_ir'));
+  assert.ok(ids.has('war.connectivity.ioda_ua') && ids.has('cyber.outages.ioda_country_signals_de') && ids.has('cyber.outages.ioda_bgp_big_countries'));
+});

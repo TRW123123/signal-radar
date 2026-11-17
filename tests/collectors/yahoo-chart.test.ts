@@ -57,10 +57,37 @@ test('collect: laufender Tag fehlt, fehlendes Symbol lässt nur betroffene Signa
   assert.ok(r.observations.every((o) => o.ts < '2026-11-17'));
   assert.equal(buildUrl('^VIX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=3mo&interval=1d');
   assert.equal(fixtureName('GC=F'), 'yahoo/GC_F-3mo-1d.json');
-  assert.ok(SPECS.every((s) => s.weight >= 0.2 && s.weight <= 0.4));
+  assert.ok(SPECS.every((s) => s.weight >= 0.2 && s.weight <= 0.5));
 });
 
 // Fehlerobjekt nach bekannter Yahoo-Form (nicht aufgezeichnet; echte Antworten bisher nur als Antwortbeginn vorhanden).
 test('Fehlerantwort der Quelle wirft klaren Fehler', () => {
   assert.throws(() => parse({ chart: { result: null, error: { description: 'No data found, symbol may be delisted' } } }), /Yahoo-Fehler/);
+});
+
+// --- Szenario war ---
+test('war: Symbole, Domain markets, Gewichte 0,2 bis 0,5, Gold und VIX zusätzlich unter war-IDs', () => {
+  const war = SPECS.filter((s) => s.scenario === 'war');
+  assert.deepEqual(war.flatMap((s) => s.symbols).sort(), ['BZ=F', 'CL=F', 'GC=F', 'ITA', 'RHM.DE', 'ZW=F', '^OVX', '^VIX'].sort());
+  const sigs = collector.signals.filter((s) => s.id.startsWith('war.'));
+  assert.equal(sigs.length, war.length);
+  assert.ok(sigs.every((s) => s.domain === 'markets' && s.scenarios!.join() === 'war' && s.weight! >= 0.2 && s.weight! <= 0.5 && s.plain && s.name));
+  assert.ok(sigs.some((s) => s.id === 'war.markets.gold_price') && SPECS.some((s) => s.signalId === 'cyber.markets.gold_abs_return'));
+  assert.equal(fixtureName('BZ=F'), 'yahoo/BZ_F-3mo-1d.json');
+  assert.equal(buildUrl('^OVX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EOVX?range=3mo&interval=1d');
+});
+
+test('war: ein Symbol wird nur einmal geholt, ausgefallenes Symbol lässt nur sein Signal aus', async () => {
+  const body = sample([100, 101, 102, 103], [1, 1, 1, 1], '2026-11-13');
+  const urls: string[] = [];
+  const ctx = {
+    now: new Date('2026-11-17T00:00:00Z'), key: () => undefined, log: () => {},
+    http: { json: async (u: string) => { urls.push(u); if (u.includes('ZW%3DF')) throw new Error('404'); return body; }, text: async () => '' },
+  };
+  const r = await collector.collect(ctx as never);
+  const ids = new Set(r.observations.map((o) => o.signalId));
+  assert.ok(ids.has('war.markets.brent_futures') && ids.has('war.markets.vix') && ids.has('cyber.markets.vix'));
+  assert.ok(!ids.has('war.markets.wheat_prices'));
+  assert.equal(urls.length, new Set(urls).size);
+  assert.equal(urls.length, 12);
 });

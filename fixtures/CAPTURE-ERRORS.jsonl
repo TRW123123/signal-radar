@@ -59,3 +59,16 @@
 {"fixture":"yahoo/VIX-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=6mo&interval=1d","error":"truncated","source_bytes":14786}
 {"fixture":"yahoo/GC_F-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?range=6mo&interval=1d","error":"truncated","source_bytes":12636}
 {"fixture":"yahoo/BTC_USD-6mo-1d.json","url":"https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=6mo&interval=1d","error":"truncated","source_bytes":17696}
+{"fixture":"adsb-lol/mil.json","url":"https://api.adsb.lol/v2/mil","error":"truncated","source_bytes":89010}
+{"fixture":"gdelt/cyber-en-timelinevol-1m.json","url":"https://api.gdeltproject.org/api/v2/doc/doc?query=(cyberattack%20OR%20ransomware)%20sourcelang%3Aenglish&mode=timelinevol&format=json&timespan=1m","error":"TIMEOUT","status":null,"body":"Total fetch deadline exceeded."}
+{"fixture":"malwarebazaar/export-csv-recent.csv","url":"https://bazaar.abuse.ch/export/csv/recent/","error":"UPSTREAM_HTTP","status":410,"body":""}
+{"fixture":"nyfed/srf-search.json","url":"https://markets.newyorkfed.org/api/rp/results/search.json?startDate=2026-09-18&endDate=2026-11-16&operationTypes=Repo","error":"truncated","source_bytes":62332}
+{"fixture":"ransomware-live/recentvictims.json","url":"https://api.ransomware.live/v2/recentvictims","error":"truncated","source_bytes":103648}
+{"fixture":"sans-isc/dailysummary.json","url":"https://isc.sans.edu/api/dailysummary/2026-09-18/2026-11-16?json","error":"MIME_BLOCKED","status":null,"body":"Unsupported or absent content type."}
+{"fixture":"statuspage-incidents/www.cloudflarestatus.com.json","url":"https://www.cloudflarestatus.com/api/v2/incidents.json","error":"truncated","source_bytes":116390}
+{"fixture":"threatfox/export-json-recent.json","url":"https://threatfox.abuse.ch/export/json/recent/","error":"UPSTREAM_HTTP","status":410,"body":""}
+{"fixture":"gdelt/cyber-de-timelinevol-1m.json","url":"https://api.gdeltproject.org/api/v2/doc/doc?query=(Cyberangriff%20OR%20Ransomware)%20sourcelang%3Agerman&mode=timelinevol&format=json&timespan=1m","error":"TIMEOUT","status":null,"body":"Total fetch deadline exceeded."}
+{"fixture":"sans-isc/topports.json","url":"https://isc.sans.edu/api/topports/records/10/2026-11-16?json","error":"MIME_BLOCKED","status":null,"body":"Unsupported or absent content type."}
+{"fixture":"statuspage-incidents/status.digitalocean.com.json","url":"https://status.digitalocean.com/api/v2/incidents.json","error":"truncated","source_bytes":205310}
+{"fixture":"statuspage-incidents/www.vercel-status.com.json","url":"https://www.vercel-status.com/api/v2/incidents.json","error":"truncated","source_bytes":157131}
+{"fixture":"statuspage-incidents/status.plaid.com.json","url":"https://status.plaid.com/api/v2/incidents.json","error":"truncated","source_bytes":36214}

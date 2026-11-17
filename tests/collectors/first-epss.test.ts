@@ -18,3 +18,9 @@ test('leere Antwort = kein Messwert', () => {
 test('fehlendes Feld wirft', () => {
   assert.throws(() => parseHighCount({ data: [] }, '2026-11-16'), /total/);
 });
+
+// gekürzte echte Antwort (17.11.2026, limit=1)
+const REAL = { status: 'OK', 'status-code': 200, version: '1.0', access: 'public', total: 4384, offset: 0, limit: 1, data: [{ cve: 'CVE-2026-97229', epss: '0.692890000', percentile: '0.993690000', date: '2026-11-16' }] };
+test('echte Antwort: total und Datum', () => {
+  assert.deepEqual(parseHighCount(REAL, '2026-11-16'), { day: '2026-11-16', total: 4384 });
+});

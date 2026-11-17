@@ -9,7 +9,10 @@
 //           vollständig in der Antwort liegen (nach dem ältesten Tag, vor heute). Die Historie baut sich so über Läufe auf.
 // Harmlose Ursachen: Wochenmuster, Gruppen-Rebranding, Abrechnungswellen, Aufholen der Datenbank nach Ausfällen.
 // Ausgelassen: Sektor-/Länder-Signale (Sektorfeld uneinheitlich, kleine Zahlen), Opfer-Cluster nach Software.
-// VERIFIED: nein (Feldnamen nach Gedächtnis: discovered "YYYY-MM-DD HH:MM:SS(.ffffff)", group; Ratenlimit unbekannt).
+// Echte Form (17.11.2026, abgeschnittener Anfang): Array mit {activity, attackdate, claim_url, country, data_size, discovered
+//   "2026-11-16T19:36:14.075930+00:00", domain, group, press, ransom, screenshot, victim}. Parser passt (T-Trenner und +00:00 werden toleriert).
+//   Die vollständige Antwort ist 103 481 Zeichen groß; ein Parameter zum Verkleinern ist nicht bekannt (limit wurde nicht geprüft).
+// VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Feldnamen am echten Ausschnitt bestätigt).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, obs } from './_helpers.ts';

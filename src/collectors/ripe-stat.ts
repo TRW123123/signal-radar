@@ -5,8 +5,11 @@
 // deutsche ASNs (Telekom, Vodafone, DE-CIX, Hetzner, IONOS) im Routing sehen (Momentaufnahme je Lauf, Historie baut der Speicher auf).
 // Harmlose Ursachen: Aggregation/Deaggregation von Präfixen, Ausfall einzelner RIS-Peers, Umnummerierung, Wartung.
 // bgp-update-activity wurde bewusst nicht gebaut: Intervalllänge und Feldnamen ließen sich ohne Doku nicht sicher bestimmen.
-// VERIFIED: nein. Antwortformen aus dem Gedächtnis rekonstruiert (stats[] mit v4_prefixes_ris/v6_prefixes_ris;
-// visibility.v4.ris_peers_seeing / total_ris_peers), Parser tolerant. Doku war beim Bau nicht abrufbar.
+// Echte Formen (17.11.2026): country-routing-stats: data.stats[] mit {stats_date, v4_prefixes_ris, v6_prefixes_ris (kann .5 sein)},
+// ca. 250 Zeichen je Tag; routing-status: data.visibility.v4.{ris_peers_seeing,total_ris_peers} (ca. 1 000 Zeichen).
+// AS3209 lief beim Abruf in ein Timeout (Neuaufzeichnung beantragt); ohne alle fünf ASNs wird kein Mittelwert gemeldet.
+// VERIFIED: teilweise (17.11.2026): Form von routing-status mit 4 von 5 echten Antworten bestätigt; country-routing-stats-Form
+// aus dem abgeschnittenen Anfang bestätigt, vollständige Antwort (45 Tage) steht noch aus.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, floorDay, floorHour, isoDay, num, obs } from './_helpers.ts';
@@ -14,14 +17,14 @@ import { daysAgo, expect, floorDay, floorHour, isoDay, num, obs } from './_helpe
 const BASE = 'https://stat.ripe.net/data';
 /** kuratierte Prüfliste: Telekom, Vodafone, DE-CIX, Hetzner, IONOS */
 export const CRITICAL_ASNS = ['AS3320', 'AS3209', 'AS6695', 'AS24940', 'AS8560'];
-const HISTORY_DAYS = 75;
+const HISTORY_DAYS = 45; // 75 Tage ergaben 19 000 Zeichen, 45 Tage bleiben bei ca. 11 500
 
 export interface PrefixPoint { ts: number | null; value: number }
 
 function toMs(x: unknown): number | null {
   if (typeof x === 'number') return x < 1e12 ? x * 1000 : x;
   if (typeof x === 'string' && x) {
-    const t = Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(x) ? `${x}T00:00:00Z` : x);
+    const t = Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(x) ? `${x}T00:00:00Z` : /T\d{2}:\d{2}(:\d{2})?$/.test(x) ? `${x}Z` : x);
     return Number.isNaN(t) ? null : t;
   }
   return null;

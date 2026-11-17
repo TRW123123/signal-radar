@@ -1,6 +1,6 @@
 // Marktdaten als Stress-Indikatoren (Evidenzklasse A: Börsenmessung, aber Aussagekraft für Cyberlagen gering, daher niedrige Gewichte).
 // Quelle: Yahoo Finance Chart-Endpunkt (INOFFIZIELL, keine dokumentierte öffentliche API):
-//   https://query1.finance.yahoo.com/v8/finance/chart/<SYMBOL>?range=6mo&interval=1d
+//   https://query1.finance.yahoo.com/v8/finance/chart/<SYMBOL>?range=3mo&interval=1d
 // LIZENZ NOCH KLÄREN: Yahoos Nutzungsbedingungen erlauben keine systematische Nutzung; vor produktivem Betrieb prüfen
 // oder auf eine lizenzierte Quelle (z. B. stooq, Alpha Vantage) wechseln. Endpunkt kann sich jederzeit ändern oder Anfragen blocken.
 // Gemessen (Tageswerte, nur abgeschlossene Handelstage):
@@ -12,7 +12,10 @@
 // Harmlose Ursachen für Ausschläge: Index-Rebalancing, Quartalsende, Verfallstermine (Hexensabbat), Feiertage mit dünnem Handel,
 // Zinsentscheide/Makrodaten (VIX, Gold, Bitcoin), Krypto-Eigenereignisse.
 // Antwortform: chart.result[0].{meta.gmtoffset, timestamp[], indicators.quote[0].{close[], volume[]}}; einzelne Werte können null sein.
-// VERIFIED: nein (Form nach Kenntnis der inoffiziellen API; keine Doku vorhanden, Suche lieferte keine Inhalte).
+// Echte Antworten (17.11.2026): Die Quelle liefert Daten (Beginn {"chart":{"result":[{"meta":{"currency":"USD","symbol":"CIBR",...),
+// keine Fehlermeldung; mit range=6mo waren die Antworten 12,6 bis 17,7 kB und wurden von der Prüf-Umgebung bei 12 000 Zeichen
+// abgeschnitten (nicht von der Quelle). Deshalb range=3mo (halbe Größe, ca. 7 bis 9 kB).
+// VERIFIED: teilweise (Form bestätigt, aber noch keine vollständige echte Antwort für den Replay; Aufzeichnung mit range=3mo steht aus).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, isoDay, num, obs } from './_helpers.ts';
@@ -66,7 +69,7 @@ export const SPECS: Spec[] = [
 ];
 
 export const SCENARIO = 'cyber';
-const HISTORY_DAYS = 90;
+const HISTORY_DAYS = 90; // range=3mo liefert rund 63 Handelstage; die ersten 20 gehen in die Volumen-Normierung
 const REL_WINDOW = 20;
 
 export interface Candle { day: string; close: number | null; volume: number | null }
@@ -139,10 +142,10 @@ export function compute(metric: Metric, candles: Candle[][]): Map<string, number
 }
 
 export function buildUrl(symbol: string): string {
-  return `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=6mo&interval=1d`;
+  return `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=3mo&interval=1d`;
 }
 export function fixtureName(symbol: string): string {
-  return `yahoo/${symbol.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '')}-6mo-1d.json`;
+  return `yahoo/${symbol.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '')}-3mo-1d.json`;
 }
 
 const collector: Collector = {

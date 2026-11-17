@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseKev, additionsPerDay, ransomwareShare } from '../../src/collectors/cisa-kev.ts';
+import { parseKev, additionsPerDay, additionsRolling7, ransomwareShare } from '../../src/collectors/cisa-kev.ts';
 
 // nach Doku nachgebaut (kev-data Schema)
 const SAMPLE = { title: 'CISA KEV', count: 5, vulnerabilities: [
@@ -33,4 +33,16 @@ test('leere Liste', () => {
 });
 test('fehlendes Feld wirft', () => {
   assert.throws(() => parseKev({}), /vulnerabilities/);
+});
+
+test('gleitende 7-Tage-Summe', () => {
+  const o = additionsRolling7(parseKev(SAMPLE), now, 3);
+  assert.deepEqual(o.map((v) => [v.ts.slice(0, 10), v.value]), [['2026-11-14', 2], ['2026-11-15', 2], ['2026-11-16', 4]]);
+});
+// gekürzter echter Ausschnitt (17.11.2026), Felder wie im echten Katalog
+const REAL = { title: 'CISA Catalog of Known Exploited Vulnerabilities', catalogVersion: '2026.11.13', count: 1781, vulnerabilities: [
+  { cveID: 'CVE-2026-114713', vendorProject: 'UnrealIRCd', product: 'UnrealIRCd', dateAdded: '2026-11-13', knownRansomwareCampaignUse: 'Unknown' },
+] };
+test('echter Ausschnitt', () => {
+  assert.deepEqual(parseKev(REAL), [{ cve: 'CVE-2026-114713', day: '2026-11-13', ransomware: false }]);
 });

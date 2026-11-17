@@ -1,18 +1,20 @@
 // Netzfrequenz und Wind/PV-Einspeisung Deutschland (Evidenzklasse A: unabhängige Messung).
 // Quelle: Energy-Charts API, Fraunhofer ISE, https://api.energy-charts.info/ (Swagger-Doku dort), kein Key.
 // Lizenz: CC BY 4.0, Namensnennung "Energy-Charts, Fraunhofer ISE". Nur Leseabfragen mit kleinem Zeitfenster.
-// Gemessen: (1) Netzfrequenz-Reihe (Hz), je abgeschlossener UTC-Stunde maximale absolute Abweichung von 50 Hz und
-// Standardabweichung in mHz; (2) Summe Solar + Wind onshore + Wind offshore aus /public_power je abgeschlossener Stunde (MW).
+// Gemessen: (1) Netzfrequenz (Hz, Sekundenauflösung): aus den letzten 15 Minuten der zuletzt abgeschlossenen UTC-Stunde (Antwort 17 kB;
+// ganze Stunden sind zu groß) maximale absolute Abweichung von 50 Hz und Standardabweichung in mHz, gemeldet für diese Stunde; (2) Summe Solar + Wind onshore + Wind offshore aus /public_power je abgeschlossener Stunde (MW).
 // Harmlose Ursachen: Kraftwerks-/Leitungsausfälle, Handelsviertelstunden-Sprünge (Frequenz); Wolkenfronten, Sturmabschaltung,
 // Abregelung, Tageszeit (Einspeisung).
-// VERIFIED: nein (Antwortform nach Erinnerung: { unix_seconds: number[], data: number[] } bzw. production_types[{name,data}];
-// die Doku-Seite war beim Bau nicht abrufbar). Zeitauflösung wird aus den Zeitstempeln abgeleitet, nicht angenommen.
+// VERIFIED: teilweise (public_power: ja, 17.11.2026, echte Antwort { unix_seconds, production_types[{name,data}] }, 15-Minuten-Raster, Tag = lokaler
+// Kalendertag; frequency: Form { unix_seconds, data } in Sekunden bestätigt, aber Fenster von 3 h war 204 kB; neues 15-Minuten-Fenster wartet auf Aufzeichnung).
+// Zeitauflösung wird aus den Zeitstempeln abgeleitet, nicht angenommen.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, floorHour, isoDay, num, obs } from './_helpers.ts';
 
 const BASE = 'https://api.energy-charts.info';
-const FREQ_HOURS = 3;
+// Sekundenauflösung: 15 Minuten ≈ 900 Werte ≈ 17 kB (3 Stunden waren 204 kB und wurden abgeschnitten, Limit der Prüf-Umgebung 24 000 Zeichen).
+const FREQ_WINDOW_MIN = 15;
 const HOUR = 3600_000;
 
 export interface Series { ts: number[]; values: (number | null)[] }
@@ -40,12 +42,12 @@ function median(a: number[]): number {
 }
 
 /** Group by UTC hour; returns only hours before `before` with enough valid samples. */
-function byHour(s: Series, before: number): Map<number, number[]> {
+function byHour(s: Series, before: number, windowMs = HOUR): Map<number, number[]> {
   const gaps: number[] = [];
   for (let i = 1; i < s.ts.length; i++) gaps.push(s.ts[i] - s.ts[i - 1]);
   const step = median(gaps);
   if (!(step > 0)) return new Map();
-  const expected = Math.max(1, Math.round(HOUR / step));
+  const expected = Math.max(1, Math.round(Math.min(windowMs, HOUR) / step));
   const groups = new Map<number, (number | null)[]>();
   for (let i = 0; i < s.ts.length; i++) {
     const h = Math.floor(s.ts[i] / HOUR) * HOUR;
@@ -60,11 +62,14 @@ function byHour(s: Series, before: number): Map<number, number[]> {
   return out;
 }
 
-/** Frequency series (Hz) -> per complete hour: max |f-50| and standard deviation, both in mHz. */
-export function parseFrequency(body: FreqResp, before: number): { hour: number; maxDevMHz: number; stdMHz: number; n: number }[] {
+/**
+ * Frequency series (Hz) -> per UTC hour: max |f-50| and standard deviation, both in mHz. The series may cover only a window
+ * (default: a whole hour; the collector fetches the last 15 minutes of the last complete hour), which then labels that hour.
+ */
+export function parseFrequency(body: FreqResp, before: number, windowMs = HOUR): { hour: number; maxDevMHz: number; stdMHz: number; n: number }[] {
   const s = toSeries(body.unix_seconds, body.data, 'unix_seconds/data');
   const out: { hour: number; maxDevMHz: number; stdMHz: number; n: number }[] = [];
-  for (const [hour, vals] of byHour(s, before)) {
+  for (const [hour, vals] of byHour(s, before, windowMs)) {
     // plausibility: values in Hz around 50; anything else means a changed unit
     if (vals.some((v) => v < 40 || v > 60)) continue;
     const dev = vals.map((v) => (v - 50) * 1000);
@@ -107,15 +112,15 @@ const collector: Collector = {
   intervalMinutes: 60,
   signals: [
     {
-      ...common, id: 'cyber.physical.frequency_deviation_de', name: 'Netzfrequenz-Abweichung (Stundenmaximum)',
-      plain: 'Die Netzfrequenz soll bei 50 Hz bleiben; die größte Abweichung je Stunde zeigt, ob Erzeugung und Verbrauch aus dem Gleichgewicht geraten.',
+      ...common, id: 'cyber.physical.frequency_deviation_de', name: 'Netzfrequenz-Abweichung (Maximum der letzten 15 Minuten je Stunde)',
+      plain: 'Die Netzfrequenz soll bei 50 Hz bleiben; die größte Abweichung in einem 15-Minuten-Ausschnitt je Stunde zeigt, ob Erzeugung und Verbrauch aus dem Gleichgewicht geraten.',
       direction: 'up', kind: 'gauge', weight: 0.5, unit: 'mHz', holdHours: 6,
       baseline: { method: 'hour-of-week', windowDays: 28, minPoints: 48 },
       thresholds: { absFloor: 5 },
     },
     {
-      ...common, id: 'cyber.physical.frequency_stddev_de', name: 'Netzfrequenz-Unruhe (Standardabweichung je Stunde)',
-      plain: 'Wie stark die Netzfrequenz innerhalb einer Stunde schwankt; ein ruhiges Netz liegt eng bei 50 Hz.',
+      ...common, id: 'cyber.physical.frequency_stddev_de', name: 'Netzfrequenz-Unruhe (Standardabweichung, 15-Minuten-Ausschnitt je Stunde)',
+      plain: 'Wie stark die Netzfrequenz in einem 15-Minuten-Ausschnitt je Stunde schwankt; ein ruhiges Netz liegt eng bei 50 Hz.',
       direction: 'up', kind: 'gauge', weight: 0.3, unit: 'mHz', holdHours: 6,
       baseline: { method: 'hour-of-week', windowDays: 28, minPoints: 48 },
       thresholds: { absFloor: 3 },
@@ -135,9 +140,9 @@ const collector: Collector = {
 
     let failures = 0;
     try {
-      const start = new Date(before - FREQ_HOURS * HOUR);
+      const start = new Date(before - FREQ_WINDOW_MIN * 60_000);
       const url = `${BASE}/frequency?country=de&start=${enc(start)}&end=${enc(new Date(before))}`;
-      const rows = parseFrequency(await ctx.http.json<FreqResp>(url, { fixture: 'energy-charts/frequency.json' }), before);
+      const rows = parseFrequency(await ctx.http.json<FreqResp>(url, { fixture: 'energy-charts/frequency.json' }), before, FREQ_WINDOW_MIN * 60_000);
       for (const r of rows) {
         observations.push(obs('cyber.physical.frequency_deviation_de', r.hour, r.maxDevMHz, { samples: r.n }));
         observations.push(obs('cyber.physical.frequency_stddev_de', r.hour, r.stdMHz, { samples: r.n }));

@@ -15,3 +15,9 @@ test('fehlendes Feld', () => {
   assert.equal(parsePool({ vsize: '1000000' }).count, null);
   assert.throws(() => parseFees({ fastestFee: 'x' }), /fastestFee/);
 });
+
+// Echter Ausschnitt (17.11.2026)
+test('echte Antworten: Gebühr 2 sat/vB, Warteschlange 32,65 MvB', () => {
+  assert.equal(parseFees({ fastestFee: 2, halfHourFee: 1, hourFee: 1, economyFee: 1, minimumFee: 1 }), 2);
+  assert.deepEqual(parsePool({ count: 76535, vsize: 32649492, total_fee: 4899615 }), { vMB: 32.65, count: 76535 });
+});

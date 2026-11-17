@@ -30,3 +30,17 @@ test('leere Antwort', () => {
 test('fehlendes Feld: Einträge ohne discovered fallen weg', () => {
   assert.equal(parseVictims([{ group: 'a' }, { discovered: 'kaputt' }]).length, 0);
 });
+
+// gekürzter echter Ausschnitt (17.11.2026): ISO-Format mit T und +00:00
+const REAL = [
+  { activity: 'Financial Services', attackdate: '2026-11-16T19:36:13.028366+00:00', claim_url: '', country: 'GB', data_size: null, discovered: '2026-11-16T19:36:14.075930+00:00', domain: 'example.invalid', group: 'Shiba', press: null, ransom: null, screenshot: '', victim: 'x' },
+  { discovered: '2026-11-15T10:00:00.000000+00:00', group: 'Shiba' },
+  { discovered: '2026-11-14T10:00:00.000000+00:00', group: 'Other' },
+];
+test('echte Form: ISO-Zeitstempel mit Offset', () => {
+  const v = parseVictims(REAL);
+  assert.equal(v.length, 3);
+  assert.equal(v[0].group, 'shiba');
+  const o = parse(REAL, NOW);
+  assert.deepEqual(o.filter((x) => x.signalId === 'cyber.threat.leak_posts_daily').map((x) => [x.ts.slice(0, 10), x.value]), [['2026-11-15', 1], ['2026-11-16', 1]]);
+});

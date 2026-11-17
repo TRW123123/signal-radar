@@ -1,12 +1,16 @@
 // GRIP (Global Routing Intelligence Platform, Georgia Tech): automatisch erkannte BGP-Ereignisse (MOAS = mehrere Ursprungsnetze
 // für dasselbe Präfix, mögliche Hijacks). Doku: https://api.grip.inetintel.cc.gatech.edu/json/events (Parameter laut Erinnerung:
-// event_type, ts_start, ts_end, min_susp, length, start; Antwort mit recordsFiltered).
+// event_type, ts_start, ts_end, min_susp, length, start; Antwort mit recordsTotal).
 // Lizenz/Nutzung: unklar, öffentlich ohne Key, fair use. Es wird nur ein Zähler je Stunde gelesen (length=1), kein Ereignisinhalt.
 // Gemessen: Zahl verdächtiger MOAS-Ereignisse (min_susp=80), die in der jeweiligen Stunde beobachtet wurden.
 // Harmlose Ursachen: Fehlkonfigurationen, legitime MOAS (Anycast, Multihoming), Änderung der Erkennungsregeln bei GRIP.
 // Route-Leaks (Katalog-Signal route_leaks) nicht gebaut: GRIP hat laut Erinnerung keinen Ereignistyp dafür.
 // 6 Requests pro Lauf (eine je abgeschlossener Stunde); der Speicher ignoriert schon bekannte Stunden.
-// VERIFIED: nein. Parameter und Antwortform aus dem Gedächtnis, Doku war beim Bau nicht abrufbar. Bei Fehlern: Fixture prüfen.
+// Echte Antwort (17.11.2026): {copyright, data:[Ereignis...], draw, recordsFiltered, recordsTotal}. recordsFiltered ist 0, auch
+// wenn data ein Ereignis enthält; recordsTotal zählt die Treffer (1 bei einem Ereignis). Deshalb wird recordsTotal gelesen.
+// length=1 hält die Antwort bei ca. 10 000 Zeichen (ein Ereignis ist groß), ohne Treffer 400 Zeichen.
+// VERIFIED: teilweise (17.11.2026, echte Antwort): Parameter und Form stimmen; ob recordsTotal bei mehreren Treffern und
+// length=1 die volle Trefferzahl liefert, ist mit den Aufzeichnungen (höchstens 1 Treffer) nicht prüfbar.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';
@@ -15,10 +19,10 @@ const BASE = 'https://api.grip.inetintel.cc.gatech.edu/json/events';
 const HOURS_BACK = 6;
 
 export function parseCount(body: unknown): number {
-  const b = expect(body as { recordsFiltered?: unknown } | null, 'Antwort');
-  const n = expect(num(b.recordsFiltered), 'recordsFiltered');
-  if (n < 0) throw new Error('unerwartete Antwort: recordsFiltered negativ');
-  return n;
+  const b = expect(body as { recordsTotal?: unknown; data?: unknown } | null, 'Antwort');
+  const n = expect(num(b.recordsTotal), 'recordsTotal');
+  if (n < 0) throw new Error('unerwartete Antwort: recordsTotal negativ');
+  return Math.max(n, Array.isArray(b.data) ? b.data.length : 0);
 }
 
 export function hourUrl(startSec: number): string {

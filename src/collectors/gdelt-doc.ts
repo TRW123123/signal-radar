@@ -2,12 +2,13 @@
 // Quelle: GDELT DOC 2.0 API, kein Key. Doku: https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/
 // Lizenz: frei nutzbar mit Quellenangabe (GDELT Project). Empfohlenes Limit: 1 Anfrage pro 5 Sekunden; wir stellen 2 pro Lauf.
 // Gemessen: mode=timelinevol, Anteil der Artikel (in Prozent aller von GDELT erfassten Artikel) zu den Suchbegriffen,
-// deutsch und englisch getrennt. timespan=3m liefert rund drei Monate Historie in einer Antwort.
+// deutsch und englisch getrennt. timespan=1m (rund 30 Tage); timespan=3m und die längere Suchanfrage liefen am 17.11.2026 in einen
+// Timeout der Prüf-Umgebung, deshalb kürzerer Zeitraum und je zwei statt vier Suchbegriffe. Ältere Historie baut der Speicher selbst auf.
 // Die Auflösung der Zeitreihe hängt vom Zeitraum ab (bei Monaten typischerweise täglich); der Parser fasst jede Auflösung
 // per Mittelwert auf UTC-Tage zusammen und meldet den laufenden Tag nicht.
 // Harmlose Ursachen für Ausschläge: Berichterstattung über einen Einzelfall (bekannte Firma gehackt), Jahres-/Quartalsberichte
 // von Sicherheitsfirmen, Wochentagsrhythmus der Medien, Änderungen in GDELTs Quellenabdeckung.
-// VERIFIED: nein (Doku-Seite war beim Bau nicht abrufbar; Form {timeline:[{series, data:[{date:"YYYYMMDDTHHMMSSZ", value}]}]} nach Kenntnis).
+// VERIFIED: nein (noch keine echte Antwort: beide Abrufe liefen in TIMEOUT, neue leichtere Anfrage steht zur Aufzeichnung aus; Form {timeline:[{series, data:[{date:"YYYYMMDDTHHMMSSZ", value}]}]} nach Kenntnis).
 // Unsicher: Sprachfilter-Schreibweise sourcelang:english / sourcelang:german (alternativ 3-Buchstaben-Code eng/ger).
 
 import type { Collector, Observation } from '../core/types.ts';
@@ -17,14 +18,14 @@ interface Stream { signalId: string; fixture: string; query: string; name: strin
 
 export const STREAMS: Stream[] = [
   {
-    signalId: 'cyber.attention.gdelt_cyber_volume', fixture: 'gdelt/cyber-en-timelinevol-3m.json',
-    query: '("cyber attack" OR cyberattack OR ransomware OR "data breach") sourcelang:english',
+    signalId: 'cyber.attention.gdelt_cyber_volume', fixture: 'gdelt/cyber-en-timelinevol-1m.json',
+    query: '(cyberattack OR ransomware) sourcelang:english',
     name: 'Medienvolumen zu Cyberangriffen (GDELT, englisch)',
     plain: 'Welcher Anteil der weltweiten englischsprachigen Nachrichtenartikel von Cyberangriffen, Ransomware oder Datenlecks handelt.',
   },
   {
-    signalId: 'cyber.attention.gdelt_cyber_volume_de', fixture: 'gdelt/cyber-de-timelinevol-3m.json',
-    query: '(Cyberangriff OR Hackerangriff OR Ransomware OR Cyberattacke) sourcelang:german',
+    signalId: 'cyber.attention.gdelt_cyber_volume_de', fixture: 'gdelt/cyber-de-timelinevol-1m.json',
+    query: '(Cyberangriff OR Ransomware) sourcelang:german',
     name: 'Medienvolumen zu Cyberangriffen (GDELT, deutsch)',
     plain: 'Welcher Anteil der deutschsprachigen Nachrichtenartikel von Cyberangriffen, Hackerangriffen oder Ransomware handelt.',
   },
@@ -58,7 +59,7 @@ export function parse(body: Resp): Map<string, number> {
 }
 
 export function buildUrl(query: string): string {
-  return `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(query)}&mode=timelinevol&format=json&timespan=3m`;
+  return `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(query)}&mode=timelinevol&format=json&timespan=1m`;
 }
 
 const collector: Collector = {

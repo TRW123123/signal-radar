@@ -7,7 +7,7 @@
 // Harmlose Ursachen für Ausschläge: Änderungen der Testliste oder der Probe-Zusammensetzung (wenige Freiwillige), ein einzelner
 // Probe-Betreiber mit kaputtem Netz, staatlich angeordnete Sperren (Zensur ist hier eher Normalzustand als Cyberlage), Messartefakte.
 // Antwortform: {"result":[{"measurement_start_day":"YYYY-MM-DD","anomaly_count":..,"confirmed_count":..,"failure_count":..,"ok_count":..,"measurement_count":..}]}
-// VERIFIED: nein (Doku-Seite war beim Bau nicht abrufbar; Parametername axis_x=measurement_start_day und Feldnamen nach Kenntnis).
+// VERIFIED: ja (17.11.2026, echte Antwort): 75 Tageswerte je Land, 2 bis 5 % anomal, über 60 000 Messungen je Tag.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, daysAgo, expect, isoDay, num, obs } from './_helpers.ts';

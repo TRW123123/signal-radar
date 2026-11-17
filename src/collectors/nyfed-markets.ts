@@ -5,7 +5,8 @@
 // (3) je Tag angenommener Betrag in der SRF (Repo-Operationen der Fed) in Mrd. USD.
 // Harmlose Ursachen: Monats-/Quartalsende, Steuertermine (15. Jan/Apr/Jun/Sep), Treasury-Abwicklungstage.
 // Nicht gebaut: Reverse-Repo-Nutzung (strukturell fallender Trend, keine Stress-Aussage, große Antwort).
-// VERIFIED: nein (Pfade und Feldnamen nach Katalog/Gedächtnis; SOFR-Felder im Katalog als HTTP-200-geprüft vermerkt).
+// VERIFIED: teilweise (SOFR: ja, 17.11.2026, echte Antwort; SRF-Suche lieferte 400 mit dem Pfad /rp/repo/all/results/search, neuer Pfad
+// /rp/results/search?operationTypes=Repo nach Gedächtnis, Aufzeichnung steht aus; schlägt auch er fehl, wird der Teil übersprungen).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, isoDay, num, obs } from './_helpers.ts';
@@ -30,9 +31,11 @@ export function parseSofr(body: SofrResp): Observation[] {
 }
 
 /** Sums accepted amounts of Repo operations per operation date (USD to billions). Reverse repos are ignored. */
-export function parseSrf(body: RpResp, today: string): Observation[] {
+export function parseSrf(body: RpResp, today: string, businessDays: string[] = []): Observation[] {
   const ops = expect(body.repo?.operations ?? body.operations, 'repo.operations');
   const perDay = new Map<string, number>();
+  // Tage ohne Operation sind der Normalfall: als 0 melden (Geschäftstage aus den SOFR-Daten), sonst fehlt die Baseline.
+  for (const d of businessDays) if (d < today) perDay.set(d, 0);
   for (const o of ops) {
     const day = String(o.operationDate ?? '');
     if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || day >= today) continue;
@@ -82,9 +85,9 @@ const collector: Collector = {
     try {
       const start = isoDay(daysAgo(ctx.now, 60));
       const end = isoDay(daysAgo(ctx.now, 1));
-      const url = `https://markets.newyorkfed.org/api/rp/repo/all/results/search.json?startDate=${start}&endDate=${end}`;
+      const url = `https://markets.newyorkfed.org/api/rp/results/search.json?startDate=${start}&endDate=${end}&operationTypes=Repo`;
       const rp = await ctx.http.json<RpResp>(url, { fixture: 'nyfed/srf-search.json' });
-      observations.push(...parseSrf(rp, isoDay(ctx.now)));
+      observations.push(...parseSrf(rp, isoDay(ctx.now), sofr.refRates?.map((r) => String(r.effectiveDate ?? '')).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)) ?? []));
     } catch (e) {
       ctx.log(`SRF übersprungen: ${(e as Error).message}`);
     }

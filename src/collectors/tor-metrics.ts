@@ -1,10 +1,11 @@
 // Tor Metrics (Tor Project): geschätzte Zahl direkter Tor-Nutzer in Deutschland und Gesamtbandbreite des Relay-Netzes.
 // Doku: https://metrics.torproject.org/stats.html (userstats-relay-country.csv, bandwidth.csv)
 // Lizenz: CC0, kein Key. Daten kommen mit etwa 2 Tagen Verzug, die jüngsten Tage fehlen oder sind unvollständig.
-// Gemessen: (a) Nutzer DE pro Tag, (b) angekündigte Relay-Bandbreite pro Tag (advbw, Bytes/s laut Tor Metrics).
+// Gemessen: (a) Nutzer DE pro Tag, (b) angekündigte Relay-Bandbreite pro Tag (advbw, Gbit/s).
 // Harmlose Ursachen: Kampagnen/Software-Releases, Zensurwellen in anderen Ländern, Messmethodik-Änderungen, Relay-Wartung.
 // Die CSV beginnt mit Kommentarzeilen (#); Spalten werden über die Kopfzeile gefunden, nicht über Positionen.
-// VERIFIED: nein. Spalten (date,country,users,lower,upper,frac bzw. date,advbw,bwhist) aus dem Gedächtnis, Doku war beim Bau nicht abrufbar.
+// Echte Spalten (17.11.2026): date,country,users,lower,upper,frac bzw. date,advbw,bwhist; advbw liegt bei ca. 1 200 (Gbit/s).
+// VERIFIED: ja (17.11.2026, echte Antwort): 73 plausible Tageswerte je Signal, letzter Tag 14.11.2026.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, isoDay, num, obs, parseCsv } from './_helpers.ts';
@@ -58,7 +59,7 @@ const collector: Collector = {
     {
       ...common, id: 'cyber.outages.tor_advertised_bandwidth', name: 'Tor-Relay-Bandbreite',
       plain: 'Gesamtkapazität, die alle Tor-Relays ankündigen; ein Einbruch zeigt Probleme im Tor-Netz.',
-      direction: 'down', weight: 0.3, manipulability: 'low', unit: 'Bytes/s',
+      direction: 'down', weight: 0.3, manipulability: 'low', unit: 'Gbit/s',
       thresholds: { relFloor: 0.02 }, banalCauses: ['Wartung', 'Hosting-Anbieter sperrt Relays'],
     },
   ],

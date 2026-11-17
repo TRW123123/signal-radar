@@ -1,1 +1,1 @@
-[{"fixture":"msrc-cvrf/updates.json","url":"https://api.msrc.microsoft.com/cvrf/v3.0/updates?$filter=CurrentReleaseDate%20gt%202026-08-17T00:00:00Z","maxChars":400000}]
+[{"fixture": "msrc-cvrf/updates.json", "url": "https://api.msrc.microsoft.com/cvrf/v3.0/updates?$filter=InitialReleaseDate%20gt%202026-07-20T00:00:00Z", "maxChars": 20000}]

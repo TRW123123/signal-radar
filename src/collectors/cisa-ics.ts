@@ -8,8 +8,11 @@
 // Harmlose Ursachen: Veröffentlichungs-Rhythmus (meist Dienstag/Donnerstag), Feiertage, Sammelrevisionen, Hersteller-Patchtage.
 // Hinweis zur Gewichtung: cyber.vuln.cisa_ics_advisories ist Klasse C (nur Kontext, wird nicht gewertet); das Signal
 //           cyber.threat.ics_malware aus dem Katalog wird NICHT bedient (Advisories sind keine Malware-Berichte).
-// VERIFIED: nein (changes.csv laut CSAF-Spezifikation: Zeilen "pfad,zeitstempel", neueste zuerst, ohne Kopfzeile;
-//           Pfad csaf_files/OT/white/changes.csv nicht gegen eine echte Antwort geprüft).
+// Echte Daten (17.11.2026): 4000 Zeilen "pfad","zeitstempel" ohne Kopfzeile, neueste zuerst, Zeitstempel wie 2026-11-12T07:00:00.000000Z,
+//           Historie ab 2017. Wochenwerte liegen meist bei 5 bis 20 (Median 5 über alle Jahre, zuletzt 7 bis 25); Sammelrevisionen erzeugen
+//           einzelne Riesenwochen (Mai/Juni 2025 mit 150 bis 260 Zeilen an einem Tag). Wochenreihe passt zu den kleinen Zahlen.
+//           Gemeldet werden höchstens die letzten 104 Wochen, damit alte Sammelrevisionen die Baseline nicht verzerren.
+// VERIFIED: ja (17.11.2026, echte Antwort)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, obs, parseCsv } from './_helpers.ts';
@@ -17,6 +20,7 @@ import { expect, obs, parseCsv } from './_helpers.ts';
 const SIGNAL = 'cyber.vuln.cisa_ics_advisories';
 const DAY = 86400_000;
 const WEEK = 7 * DAY;
+const MAX_WEEKS = 104;
 // 1970-01-01 war ein Donnerstag; der Montag davor liegt bei -3 Tagen
 const MONDAY_OFFSET = 3 * DAY;
 
@@ -38,8 +42,8 @@ export function parseTimestamps(body: string): number[] {
 
 export function weeklyCounts(timestamps: number[], now: Date): Observation[] {
   if (timestamps.length < 2) return [];
-  const first = weekStart(Math.min(...timestamps)) + WEEK; // älteste Woche unvollständig
   const last = weekStart(now.getTime()); // laufende Woche exklusiv
+  const first = Math.max(weekStart(Math.min(...timestamps)) + WEEK, last - MAX_WEEKS * WEEK); // älteste Woche unvollständig
   const counts = new Map<number, number>();
   for (let w = first; w < last; w += WEEK) counts.set(w, 0);
   for (const t of timestamps) {
@@ -67,6 +71,7 @@ const collector: Collector = {
     independenceGroup: 'cisa-ics', unit: 'Advisories/Woche', intervalMinutes: 10080, holdHours: 336,
     baseline: { method: 'rolling', windowDays: 365, minPoints: 26 },
     license: 'Public Domain (US-Regierung)',
+    banalCauses: ['Sammelrevisionen alter Advisories', 'Feiertage', 'Hersteller-Patchtage'],
   }],
   async collect(ctx) {
     const body = await ctx.http.text(

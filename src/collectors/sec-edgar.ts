@@ -8,7 +8,9 @@
 // Harmlose Ursachen: einzelne große Ransomware-Fälle, Wochenenden/Feiertage (Wert 0), seit 2024 melden viele Firmen
 // stattdessen unter Item 8.01, daher niedrige Grundrate. Mehrere Dokumente je Filing werden je Accession-Nummer nur einmal gezählt.
 // Die Volltextsuche findet jede Erwähnung von "Item 1.05"; gezählt wird nur, wenn _source.items "1.05" enthält.
-// VERIFIED: nein (Form nach Drittbeschreibungen: hits.total.value, hits.hits[]._id/_source{adsh, form, file_date, items}).
+// Real (17.11.2026): in 90 Tagen nur 9 Treffer für "Item 1.05", davon 5 8-K mit Item 1.05 (Rest erwähnt es nur im Text); eine Seite genügt,
+// weitere Seiten werden nur bei 100 Treffern geladen. Grundrate also etwa 0-1 Meldungen pro Tag, meist 0.
+// VERIFIED: ja (17.11.2026, echte Antwort: hits.total.value, hits.hits[]._id/_source{adsh, form, file_date, items[]})
 
 import type { Collector } from '../core/types.ts';
 import { countPerDay, daysAgo, expect, isoDay, num } from './_helpers.ts';

@@ -38,3 +38,26 @@ test('Einspeisung: leer und fehlende Reihe', () => {
   assert.throws(() => parseRenewables({ unix_seconds: q, production_types: [mk('Solar', [])] }, before), /fehlt/);
   assert.throws(() => parseRenewables({ unix_seconds: q }, before), /production_types/);
 });
+
+// Echter Ausschnitt (public_power vom 17.11.2026, Solar/Wind in MW, 15-Minuten-Raster, ein Stundenpaket gekürzt auf 4 Werte)
+const REAL_PP = { unix_seconds: [1794783600, 1794784500, 1794785400, 1794786300], production_types: [
+  { name: 'Wind offshore', data: [4864.5, 5309.5, 5300.0, 5290.0] },
+  { name: 'Wind onshore', data: [29896.2, 29979.1, 29900.0, 29800.0] },
+  { name: 'Solar', data: [0.0, 0.0, 0.0, 0.0] },
+] };
+test('Einspeisung echter Ausschnitt: Summe Wind + Solar rund 35 GW', () => {
+  const r = parseRenewables(REAL_PP, (1794783600 + 3600) * 1000);
+  assert.equal(r.length, 1);
+  assert.ok(r[0].mw > 34000 && r[0].mw < 36000);
+});
+test('Frequenz: 15-Minuten-Fenster in Sekundenauflösung ergibt Wert für die Stunde', () => {
+  const t0 = Date.UTC(2026, 10, 16, 23, 45) / 1000;
+  const u = Array.from({ length: 900 }, (_, i) => t0 + i);
+  const d = u.map((_, i) => (i === 100 ? 49.97 : 50.0));
+  const r = parseFrequency({ unix_seconds: u, data: d }, Date.UTC(2026, 10, 17, 0) , 15 * 60_000);
+  assert.equal(r.length, 1);
+  assert.equal(new Date(r[0].hour).toISOString(), '2026-11-16T23:00:00.000Z');
+  assert.ok(Math.abs(r[0].maxDevMHz - 30) < 1e-6);
+  // ohne Fenster-Angabe gilt eine ganze Stunde als erwartet: 900 Werte reichen dann nicht
+  assert.equal(parseFrequency({ unix_seconds: u, data: d }, Date.UTC(2026, 10, 17, 0)).length, 0);
+});

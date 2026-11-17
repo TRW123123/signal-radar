@@ -5,12 +5,15 @@
 //   zusätzliche Releases dazwischen sind das Muster von Notfall-Patches gegen ausgenutzte Zero-Days.
 // Harmlose Ursachen: Meilenstein-Wechsel alle vier Wochen (zusätzliche Releases), Feiertags-Pausen.
 // Es werden nur Tage nach dem ältesten gelieferten Release gemeldet, damit eine zu kurze Antwort nicht wie eine Lücke aussieht.
-// VERIFIED: nein (Antwortform aus dem Gedächtnis: Array mit version, milestone, time, platform, channel).
+// Echte Form (17.11.2026): Array mit je ca. 600 Zeichen (channel, hashes, milestone, platform, previous_version, time, version).
+//   Mehrere Versionen eines Release-Schubs teilen sich denselben `time`-Wert; gezählt werden deshalb verschiedene Zeitstempel.
+//   num=25 hält die Antwort bei ca. 15 000 Zeichen (num=50 waren 30 103 Zeichen, zu groß für die Prüf-Umgebung).
+// VERIFIED: teilweise (17.11.2026, Form an echtem Ausschnitt geprüft; Antwort mit num=25 wartet auf neue Aufzeichnung).
 
 import type { Collector } from '../core/types.ts';
 import { DAY_MS, countPerDay, expect, floorDay, num } from './_helpers.ts';
 
-export const URL = 'https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=50';
+export const URL = 'https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Windows&num=25';
 
 export interface Release { version: string; time: number; milestone: number | null }
 
@@ -31,7 +34,8 @@ export function releasesPerDay(releases: Release[], now: Date, maxDays: number) 
   const firstFull = floorDay(new Date(oldest)).getTime() + DAY_MS;
   const days = Math.min(maxDays, Math.round((floorDay(now).getTime() - firstFull) / DAY_MS));
   if (days < 1) return [];
-  return countPerDay('cyber.vuln.emergency_releases', releases.map((r) => r.time), now, { days });
+  const events = [...new Set(releases.map((r) => r.time))];
+  return countPerDay('cyber.vuln.emergency_releases', events, now, { days });
 }
 
 const collector: Collector = {

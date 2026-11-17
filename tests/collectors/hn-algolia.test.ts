@@ -48,3 +48,18 @@ test('collect: Teilausfall liefert nichts statt Scheineinbruch', async () => {
   const r = await collector.collect(ctx as never);
   assert.equal(r.observations.length, 0);
 });
+
+// Gekürzter echter Ausschnitt (search_by_date "outage", 17.11.2026): nur created_at_i und objectID, wie angefordert.
+const REAL = { exhaustiveNbHits: true, nbHits: 117, hits: [
+  { created_at_i: 1794870537, objectID: '50524882' }, { created_at_i: 1794868492, objectID: '50524437' },
+  { created_at_i: 1794867738, objectID: '50524260' }, { created_at_i: 1794785000, objectID: '50500000' },
+] };
+
+test('echte Antwort: Form wird gelesen, Tageszählung', () => {
+  const p = parseHits(REAL);
+  assert.equal(p.nbHits, 117);
+  assert.equal(p.times.length, 4);
+  const { counts } = countDays(p, Date.UTC(2026, 10, 15), Date.UTC(2026, 10, 17));
+  assert.equal(counts.get('2026-11-16'), 3);
+  assert.equal(counts.get('2026-11-15'), 1);
+});

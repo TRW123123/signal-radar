@@ -44,5 +44,5 @@ test('collect: laufender Tag wird nicht gemeldet, ein Strom darf ausfallen', asy
   const r = await collector.collect(ctx as never);
   assert.equal(r.observations.length, 2);
   assert.ok(r.observations.every((o) => o.signalId === STREAMS[0].signalId));
-  assert.match(buildUrl(STREAMS[1].query), /mode=timelinevol&format=json&timespan=3m/);
+  assert.match(buildUrl(STREAMS[1].query), /mode=timelinevol&format=json&timespan=1m/);
 });

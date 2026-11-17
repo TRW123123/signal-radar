@@ -7,8 +7,11 @@
 //           (nur Portnummern und Zähler, keine IP-Adressen).
 // Harmlose Ursachen: Forschungsscanner, Botnet-Rauschen, Änderungen in der Zahl der Sensoren, Ausfälle einzelner Sensoren.
 // Ausgelassen: OT-Port-Signal (Endpunkt nicht belegt), Infocon (Klasse C, nur Ampel, keine Historie).
-// VERIFIED: nein (Form nach Gedächtnis: Array von { date, records|reports, sources, targets }; topports: Array von
-//           { rank, targetport, records, targets, sources }; Parser akzeptiert auch ein Wrapper-Objekt).
+// VERIFIED: nein (17.11.2026: Abruf-Werkzeug der Prüf-Umgebung blockiert den Inhaltstyp (MIME_BLOCKED), egress-Proxy blockiert isc.sans.edu;
+//           nicht verifiziert. Form nach Gedächtnis: Array von { date, records|reports, sources, targets }; topports: Array von
+//           { rank, targetport, records, targets, sources }; Parser akzeptiert auch ein Wrapper-Objekt.
+//           URLs nutzen bereits den Suffix `?json` (Doku-Form); ein sauberer `application/json`-Header ließ sich nicht bestätigen,
+//           die Queue-Einträge bleiben unverändert für einen erneuten Versuch.)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, isoDay, num, obs } from './_helpers.ts';

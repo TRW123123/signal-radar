@@ -9,8 +9,12 @@
 // (MATCH), weil die Volltextsuche auch Ereignisse mit nur teilweise passenden Märkten liefert.
 // Harmlose Ursachen für Ausschläge: wenige, dünn gehandelte Märkte (ein einzelner Großhändler bewegt den Preis),
 // Auslauf/Neuaufnahme eines Marktes (Sprung in der Zusammensetzung), virale Nachricht.
-// VERIFIED: nein (Doku nicht abrufbar; Parameter q, limit_per_type, events_status und Feldnamen nach Kenntnis;
-// outcomes/outcomePrices sind JSON-Strings innerhalb des JSON). Der Katalog-Hinweis, tag_slug filtere nicht, ist berücksichtigt.
+// Echte Antworten (17.11.2026): Form events[].markets[] bestätigt, outcomes/outcomePrices sind JSON-Strings. Ein Ereignis mit
+// allen Märkten, Beschreibungen und Tags wiegt 8 bis 17 kB; mit limit_per_type=5 waren Antworten 29 bis 86 kB (zu groß für die
+// Prüf-Umgebung), daher limit_per_type=1 (nur der beste Treffer je Begriff; Nachteil: weitere passende Ereignisse fallen weg).
+// events_status=active filtert nicht zuverlässig: Treffer können archived=true/active=false sein (werden übersprungen).
+// VERIFIED: teilweise (17.11.2026: Parser gegen echte, vollständige Antwort geprüft; die Antworten mit limit_per_type=1 stehen
+// noch zur Aufzeichnung aus, nur "cyber attack" (1 irrelevanter, archivierter Treffer) und "cyberattack" (0 Treffer) liegen vor).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';
@@ -29,7 +33,7 @@ export interface Market { id: string; question: string; yes: number | null; volu
 
 interface RawMarket {
   id?: unknown; question?: unknown; outcomes?: unknown; outcomePrices?: unknown;
-  volumeNum?: unknown; volume?: unknown; volume24hr?: unknown; closed?: unknown; active?: unknown;
+  volumeNum?: unknown; volume?: unknown; volume24hr?: unknown; closed?: unknown; active?: unknown; archived?: unknown;
 }
 interface Resp { events?: { markets?: RawMarket[] }[] }
 
@@ -45,7 +49,7 @@ export function parse(body: Resp): Market[] {
   const out: Market[] = [];
   for (const ev of events) {
     for (const m of ev?.markets ?? []) {
-      if (m.closed === true || m.active === false) continue;
+      if (m.closed === true || m.active === false || m.archived === true) continue;
       const question = typeof m.question === 'string' ? m.question : '';
       const id = m.id !== undefined ? String(m.id) : question;
       if (!question) continue;
@@ -71,7 +75,7 @@ export function select(markets: Market[], match: RegExp): Market[] {
 }
 
 export function buildUrl(term: string): string {
-  return `https://gamma-api.polymarket.com/public-search?q=${encodeURIComponent(term)}&limit_per_type=5&events_status=active`;
+  return `https://gamma-api.polymarket.com/public-search?q=${encodeURIComponent(term)}&limit_per_type=1&events_status=active`;
 }
 export function fixtureName(term: string): string {
   return `polymarket/search-${term.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase()}.json`;

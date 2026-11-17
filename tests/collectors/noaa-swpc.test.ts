@@ -18,3 +18,15 @@ test('leere Antwort, kaputte Zeilen, falsche Form', () => {
   assert.throws(() => parseKp({}), /fehlt/);
   assert.throws(() => parseKp([['a', 'b'], ['1', '2']]), /Spalten/);
 });
+
+// Echter Ausschnitt (17.11.2026): Objekte, time_tag ohne Zeitzone (UTC)
+const REAL = [
+  { time_tag: '2026-11-10T00:00:00', Kp: 3.00, a_running: 15, station_count: 8 },
+  { time_tag: '2026-11-10T06:00:00', Kp: 2.33, a_running: 9, station_count: 8 },
+  { time_tag: '2026-11-16T21:00:00', Kp: 0.67, a_running: 3, station_count: 8 },
+];
+test('parseKp echte Antwort', () => {
+  const r = parseKp(REAL);
+  assert.deepEqual(r.map((x) => x.kp), [3, 2.33, 0.67]);
+  assert.equal(r[2].ts, '2026-11-16T21:00:00.000Z');
+});

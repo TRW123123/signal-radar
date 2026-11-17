@@ -4,7 +4,7 @@
 // Gemessen: fastestFee (sat/vB) und Mempool-Größe (vsize in Megabyte virtuell), jeweils Momentwert.
 // Keine Historie über diese Endpunkte: die Baseline baut sich über die Läufe auf.
 // Harmlose Ursachen: Ordinals/Inscriptions/Runes-Wellen, Kursrallyes, Halving, Blockfindungs-Zufall (Gebühren schwanken stündlich).
-// VERIFIED: nein ({fastestFee,halfHourFee,hourFee,economyFee,minimumFee} und {count,vsize,total_fee,fee_histogram} nach Gedächtnis).
+// VERIFIED: ja (17.11.2026, echte Antworten: fastestFee 2 sat/vB, Warteschlange 76 535 Transaktionen / 32,65 MvB; die Pool-Antwort enthält ein langes fee_histogram, die Werte sind plausibel).
 
 import type { Collector } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';

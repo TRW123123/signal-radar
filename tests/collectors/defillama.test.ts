@@ -31,3 +31,15 @@ test('leer und fehlend', () => {
   assert.throws(() => parseCurrent({}), /coins/);
   assert.equal(parseChart({ coins: {} }).size, 0);
 });
+
+// Echter Ausschnitt (17.11.2026): aktuelle Preise, USDT knapp unter 1 Dollar
+const REAL_CUR = { coins: {
+  'coingecko:tether': { price: 0.99919, symbol: 'USDT', timestamp: 1794875237, confidence: 0.999 },
+  'coingecko:usd-coin': { price: 0.9999143416499999, symbol: 'USDC', timestamp: 1794875237, confidence: 0.999 },
+  'coingecko:dai': { price: 1.0000809584597612, symbol: 'DAI', timestamp: 1794875220, confidence: 0.99 },
+} };
+test('parseCurrent echte Antwort: schlechtester Coin ist USDT, 0,081 %', () => {
+  const c = parseCurrent(REAL_CUR)!;
+  assert.equal(c.worst, 'coingecko:tether');
+  assert.equal(c.value, 0.081);
+});

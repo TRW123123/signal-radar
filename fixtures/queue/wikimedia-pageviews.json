@@ -1,0 +1,22 @@
+[
+ {"fixture":"wikimedia/de.wikipedia-Stromausfall.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stromausfall/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Notvorrat.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Notvorrat/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Hacker.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Hacker/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Ransomware.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Ransomware/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Computervirus.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Computervirus/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Denial_of_Service.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Denial_of_Service/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Cyberkrieg.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Cyberkrieg/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Kritische_Infrastruktur.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kritische_Infrastruktur/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Phishing.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Phishing/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/de.wikipedia-Botnet.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Botnet/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Cyberattack.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Cyberattack/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Internet_outage.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Internet_outage/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Power_outage.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Power_outage/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Cyberwarfare.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Cyberwarfare/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Ransomware.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Ransomware/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Denial-of-service_attack.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Denial-of-service_attack/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Data_breach.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Data_breach/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Computer_security.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Computer_security/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Botnet.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Botnet/daily/20260903/20261116","maxChars":14000},
+ {"fixture":"wikimedia/en.wikipedia-Phishing.json","url":"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Phishing/daily/20260903/20261116","maxChars":14000}
+]

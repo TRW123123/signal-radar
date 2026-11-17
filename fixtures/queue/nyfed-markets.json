@@ -1,4 +1,12 @@
 [
- { "fixture": "nyfed/sofr-last60.json", "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/last/60.json", "maxChars": 20000 },
- { "fixture": "nyfed/srf-search.json", "url": "https://markets.newyorkfed.org/api/rp/repo/all/results/search.json?startDate=2026-09-18&endDate=2026-11-16", "maxChars": 20000 }
+ {
+  "fixture": "nyfed/sofr-last60.json",
+  "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/last/60.json",
+  "maxChars": 20000
+ },
+ {
+  "fixture": "nyfed/srf-search.json",
+  "url": "https://markets.newyorkfed.org/api/rp/results/search.json?startDate=2026-09-18&endDate=2026-11-16&operationTypes=Repo",
+  "maxChars": 20000
+ }
 ]

@@ -4,7 +4,8 @@
 // Gemessen: Streuung der Zinssätze (75. minus 25. Perzentil, Basispunkte) und Handelsvolumen des €STR, je TARGET-Tag.
 // Harmlose Ursachen: Mindestreserve-Perioden, EZB-Zinsentscheide, Monats-/Quartals-/Jahresende (Volumen und Streuung springen).
 // Nicht gebaut: TARGET-Zahlungsstatistik (Flow TGT; Tagesreihe nicht belegt), Banknotenumlauf (wöchentlich, saisonal).
-// VERIFIED: nein (Schlüssel EST.B.EU000A2X2A25.{WT,VL,R25,R75} aus der Dataset-Übersicht des Portals, Antwort nicht gesehen).
+// Abruf: eine Serie je Request (Sammelabfrage mit '+' lief in den Timeout), je lastNObservations=90, format=csvdata, detail=dataonly (ca. 5 kB).
+// VERIFIED: nein (Aufzeichnung der drei Einzelabrufe steht aus; Schlüssel EST.B.EU000A2X2A25.{VL,R25,R75} aus der Dataset-Übersicht des Portals, Antwort nicht gesehen).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, num, obs, parseCsv } from './_helpers.ts';
@@ -72,10 +73,14 @@ const collector: Collector = {
     },
   ].map((s) => ({ weight: 0.5, ...s })),
   async collect(ctx) {
-    // lastNObservations gilt je Serie; detail=dataonly lässt die vielen Attributspalten weg (kleine Antwort).
-    const url = `https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.${SERIES.join('+')}?lastNObservations=45&detail=dataonly&format=csvdata`;
-    const text = await ctx.http.text(url, { fixture: 'ecb/est.csv' });
-    return { observations: buildObservations(parseEstCsv(text)) };
+    // Eine Serie je Request (Sammelabfrage lief in den Timeout); lastNObservations=90 ≈ 4 Monate Werktage; detail=dataonly = kleine Antwort.
+    const merged = new Map<string, Map<string, number>>();
+    for (const code of SERIES) {
+      const url = `https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.${code}?lastNObservations=90&detail=dataonly&format=csvdata`;
+      const text = await ctx.http.text(url, { fixture: `ecb/est-${code.toLowerCase()}.csv` });
+      for (const [k, v] of parseEstCsv(text)) merged.set(k, v);
+    }
+    return { observations: buildObservations(merged) };
   },
 };
 

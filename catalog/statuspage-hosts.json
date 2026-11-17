@@ -5,11 +5,6 @@
   "category": "dev"
  },
  {
-  "host": "status.docker.com",
-  "name": "Docker",
-  "category": "dev"
- },
- {
   "host": "status.npmjs.org",
   "name": "npm",
   "category": "dev"
@@ -30,16 +25,6 @@
   "category": "dev"
  },
  {
-  "host": "status.datadoghq.com",
-  "name": "Datadog",
-  "category": "dev"
- },
- {
-  "host": "status.pagerduty.com",
-  "name": "PagerDuty",
-  "category": "dev"
- },
- {
   "host": "status.atlassian.com",
   "name": "Atlassian",
   "category": "dev"
@@ -55,11 +40,6 @@
   "category": "dev"
  },
  {
-  "host": "status.gitlab.com",
-  "name": "GitLab",
-  "category": "dev"
- },
- {
   "host": "www.cloudflarestatus.com",
   "name": "Cloudflare",
   "category": "cloud"
@@ -67,11 +47,6 @@
  {
   "host": "status.digitalocean.com",
   "name": "DigitalOcean",
-  "category": "cloud"
- },
- {
-  "host": "www.fastlystatus.com",
-  "name": "Fastly",
   "category": "cloud"
  },
  {
@@ -115,21 +90,6 @@
   "category": "cloud"
  },
  {
-  "host": "status.braintreepayments.com",
-  "name": "Braintree",
-  "category": "payment"
- },
- {
-  "host": "status.mollie.com",
-  "name": "Mollie",
-  "category": "payment"
- },
- {
-  "host": "status.paddle.com",
-  "name": "Paddle",
-  "category": "payment"
- },
- {
   "host": "status.chargebee.com",
   "name": "Chargebee",
   "category": "payment"
@@ -142,11 +102,6 @@
  {
   "host": "status.plaid.com",
   "name": "Plaid",
-  "category": "payment"
- },
- {
-  "host": "status.squareup.com",
-  "name": "Square",
   "category": "payment"
  },
  {
@@ -165,18 +120,8 @@
   "category": "saas"
  },
  {
-  "host": "status.zendesk.com",
-  "name": "Zendesk",
-  "category": "saas"
- },
- {
   "host": "status.hubspot.com",
   "name": "HubSpot",
-  "category": "saas"
- },
- {
-  "host": "status.intercom.com",
-  "name": "Intercom",
   "category": "saas"
  },
  {
@@ -205,18 +150,8 @@
   "category": "saas"
  },
  {
-  "host": "status.mailchimp.com",
-  "name": "Mailchimp",
-  "category": "saas"
- },
- {
   "host": "status.duo.com",
   "name": "Cisco Duo",
-  "category": "saas"
- },
- {
-  "host": "www.dropboxstatus.com",
-  "name": "Dropbox",
   "category": "saas"
  },
  {
@@ -225,18 +160,8 @@
   "category": "saas"
  },
  {
-  "host": "status.bitwarden.com",
-  "name": "Bitwarden",
-  "category": "saas"
- },
- {
   "host": "status.twilio.com",
   "name": "Twilio",
-  "category": "telecom"
- },
- {
-  "host": "status.sendgrid.com",
-  "name": "SendGrid",
   "category": "telecom"
  },
  {
@@ -282,11 +207,6 @@
  {
   "host": "status.gemini.com",
   "name": "Gemini",
-  "category": "crypto"
- },
- {
-  "host": "status.bitfinex.com",
-  "name": "Bitfinex",
   "category": "crypto"
  },
  {

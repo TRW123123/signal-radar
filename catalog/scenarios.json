@@ -6,15 +6,95 @@
     "question": "Läuft gerade ein großer Angriff auf Internet, Banken oder digitale Infrastruktur?",
     "tagline": "Internet, Zahlungsverkehr, Cloud-Dienste, Stromnetz-Steuerung",
     "domains": {
-      "routing": { "title": "Internet-Routen", "weight": 1, "plain": "Sind Netze und ganze Länder im Internet erreichbar?" },
-      "outages": { "title": "Gemessene Ausfälle", "weight": 1, "plain": "Unabhängige Messnetze, die Internet-Ausfälle erkennen" },
-      "dns_core": { "title": "Kern-Dienste", "weight": 0.9, "plain": "Adressbuch des Internets, Zertifikate, Zeitdienste" },
-      "threat": { "title": "Angriffs-Telemetrie", "weight": 0.9, "plain": "Sensoren, die Angriffsversuche, Schadsoftware und Erpresser zählen" },
-      "vuln": { "title": "Schwachstellen", "weight": 0.7, "plain": "Neue ausgenutzte Sicherheitslücken und Notfall-Updates" },
-      "finance": { "title": "Zahlungsverkehr", "weight": 1, "plain": "Banken, Überweisungssysteme, Geldmarkt" },
-      "services": { "title": "Dienste und Firmenmeldungen", "weight": 0.8, "plain": "Statusseiten großer Anbieter und Pflichtmeldungen von Unternehmen" },
-      "markets": { "title": "Märkte und Insider", "weight": 0.6, "plain": "Kurse, Handelsvolumen, Insider-Geschäfte, Wettmärkte" },
-      "physical": { "title": "Strom, Verkehr, Funk", "weight": 0.9, "plain": "Stromnetz, Flugverkehr, GPS, Telefonnetze" }
+      "routing": {
+        "title": "Internet-Routen",
+        "weight": 1,
+        "plain": "Sind Netze und ganze Länder im Internet erreichbar?"
+      },
+      "outages": {
+        "title": "Gemessene Ausfälle",
+        "weight": 1,
+        "plain": "Unabhängige Messnetze, die Internet-Ausfälle erkennen"
+      },
+      "dns_core": {
+        "title": "Kern-Dienste",
+        "weight": 0.9,
+        "plain": "Adressbuch des Internets, Zertifikate, Zeitdienste"
+      },
+      "threat": {
+        "title": "Angriffs-Telemetrie",
+        "weight": 0.9,
+        "plain": "Sensoren, die Angriffsversuche, Schadsoftware und Erpresser zählen"
+      },
+      "vuln": {
+        "title": "Schwachstellen",
+        "weight": 0.7,
+        "plain": "Neue ausgenutzte Sicherheitslücken und Notfall-Updates"
+      },
+      "finance": {
+        "title": "Zahlungsverkehr",
+        "weight": 1,
+        "plain": "Banken, Überweisungssysteme, Geldmarkt"
+      },
+      "services": {
+        "title": "Dienste und Firmenmeldungen",
+        "weight": 0.8,
+        "plain": "Statusseiten großer Anbieter und Pflichtmeldungen von Unternehmen"
+      },
+      "markets": {
+        "title": "Märkte und Insider",
+        "weight": 0.6,
+        "plain": "Kurse, Handelsvolumen, Insider-Geschäfte, Wettmärkte"
+      },
+      "physical": {
+        "title": "Strom, Verkehr, Funk",
+        "weight": 0.9,
+        "plain": "Stromnetz, Flugverkehr, GPS, Telefonnetze"
+      }
+    }
+  },
+  {
+    "id": "war",
+    "order": 2,
+    "title": "Kriegseskalation",
+    "question": "Spitzt sich gerade irgendwo ein Krieg gefährlich zu?",
+    "tagline": "Militärflüge, Meerengen, Luftalarme, Internet-Ausfälle, Ölpreis, Reisewarnungen",
+    "domains": {
+      "military": {
+        "title": "Militär in Luft, See und All",
+        "weight": 1,
+        "plain": "Militärflugzeuge, Satelliten, GPS-Störungen und gesperrter Luftraum"
+      },
+      "conflict": {
+        "title": "Gemessene Kampfhandlungen",
+        "weight": 1,
+        "plain": "Luftalarme, Brände per Satellit, Explosionen in Erdbebendaten"
+      },
+      "shipping": {
+        "title": "Schifffahrt und Meerengen",
+        "weight": 0.9,
+        "plain": "Schiffe durch Hormus, Rotes Meer und Taiwanstraße, Frachtraten, Versicherungen"
+      },
+      "connectivity": {
+        "title": "Internet und Strom in Konfliktgebieten",
+        "weight": 0.9,
+        "plain": "Fallen Internet, Mobilfunk oder Strom in betroffenen Ländern aus?"
+      },
+      "government": {
+        "title": "Verhalten von Staaten",
+        "weight": 0.8,
+        "plain": "Reisewarnungen, Botschaftsabzüge, Sanktionen, Sondersitzungen des UN-Sicherheitsrats"
+      },
+      "energy": {
+        "title": "Energieversorgung",
+        "weight": 0.6,
+        "plain": "Gasspeicher, Gasflüsse, Ölreserven und Strompreise"
+      },
+      "markets": {
+        "title": "Märkte und Wetten",
+        "weight": 0.6,
+        "plain": "Öl, Gold, Rüstungsaktien, Währungen der Konfliktparteien"
+      }
     }
   }
 ]

@@ -17,3 +17,12 @@ test('leere Antwort und fehlendes Feld', () => {
   assert.throws(() => parseSeries({}, T0), /series/);
   assert.throws(() => parseIndex({}), /timestamps/);
 });
+
+// Echter Ausschnitt (index_hour.json vom 17.11.2026, Ende der Liste; Wochenanfang = Montag 00:00 Ortszeit)
+const REAL_INDEX = { timestamps: [1793574000000, 1794178800000, 1794783600000] };
+test('Index echter Ausschnitt: Wochenstarts liegen auf ganzen Stunden, jüngster vor dem 17.11.2026', () => {
+  const t = parseIndex(REAL_INDEX);
+  assert.equal(t.length, 3);
+  assert.ok(t.every((x) => x % H === 0));
+  assert.equal(new Date(t[2]).toISOString(), '2026-11-15T23:00:00.000Z');
+});

@@ -30,3 +30,16 @@ test('leere Antwort', () => {
 test('fehlendes Feld: Zeilen ohne Zeitstempel werden ignoriert', () => {
   assert.equal(parseTimestamps('a.json\nb.json,kaputt\n').length, 0);
 });
+
+// gekürzter echter Ausschnitt (17.11.2026): Anführungszeichen, Mikrosekunden, Z
+const REAL = [
+  '"2026/icsa-26-316-05.json","2026-11-12T07:00:00.000000Z"',
+  '"2026/icsa-26-307-01.json","2026-11-03T06:00:00.000000Z"',
+  '"2026/icsa-26-302-03.json","2026-10-29T06:00:00.000000Z"',
+  '"2026/icsa-26-302-02.json","2026-10-29T06:00:00.000000Z"',
+].join('\n');
+test('echter Ausschnitt', () => {
+  assert.equal(parseTimestamps(REAL).length, 4);
+  const o = parse(REAL, NOW);
+  assert.deepEqual(o.map((x) => [x.ts.slice(0, 10), x.value]), [['2026-11-02', 1], ['2026-11-09', 1]]);
+});

@@ -7,18 +7,23 @@
 //   (2) neue CVE-Dokumente pro Tag nach InitialReleaseDate.
 // Harmlose Ursachen: Patch-Dienstag (2. Dienstag) erzeugt jeden Monat einen Volumenspitzer in (2); Microsoft überarbeitet Monatsdokumente
 //   gelegentlich nachträglich ohne akuten Anlass; CVEs für Cloud-Dienste erscheinen außerhalb des Zyklus.
-// Filter: OData `$filter=CurrentReleaseDate gt <Datum>` hält die Antwort klein (ob die API den Filter akzeptiert, ist ungeprüft;
-//   der Parser filtert zusätzlich selbst auf das Fenster, die Antwort darf also auch größer sein).
-// VERIFIED: nein (Feldnamen ID, CurrentReleaseDate, InitialReleaseDate aus dem Gedächtnis).
+// Echte Form (17.11.2026, abgeschnittene Antwort): {"@odata.context", "value":[{ID, Alias, DocumentTitle, Severity, InitialReleaseDate,
+//   CurrentReleaseDate, CvrfUrl}]}. Die Liste enthält auch "Mariner Release Notes" (ID z. B. "2000-Feb", InitialReleaseDate im Jahr 2000),
+//   deren CurrentReleaseDate täglich neu gesetzt wird; sie sind keine Patch-Bulletins und werden ausgefiltert. Mit dem alten Filter auf
+//   CurrentReleaseDate kamen deshalb alle diese Dokumente zurück (29 312 Zeichen, abgeschnitten).
+// Filter: OData `$filter=InitialReleaseDate gt <Datum>` (Fenster + 30 Tage) schließt die täglich überschriebenen Mariner-Dokumente aus und
+//   hält die Antwort klein. Ob die API genau diesen Filter akzeptiert, ist noch nicht aufgezeichnet; der Parser filtert zusätzlich selbst.
+//   Einzel-CVE-Dokumente (ID "CVE-...") kamen im echten Ausschnitt nicht vor; das zweite Signal bleibt, liefert ggf. nur Nullen.
+// VERIFIED: teilweise (17.11.2026, Feldnamen am echten Ausschnitt geprüft; Antwort mit neuem Filter wartet auf neue Aufzeichnung).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, isoDay, obs } from './_helpers.ts';
 
-interface Item { ID?: string; Alias?: string; InitialReleaseDate?: string; CurrentReleaseDate?: string }
+interface Item { ID?: string; Alias?: string; DocumentTitle?: string; InitialReleaseDate?: string; CurrentReleaseDate?: string }
 interface Resp { value?: Item[] }
 
 export function urlFor(now: Date, days: number): string {
-  return `https://api.msrc.microsoft.com/cvrf/v3.0/updates?$filter=CurrentReleaseDate%20gt%20${isoDay(daysAgo(now, days + 2))}T00:00:00Z`;
+  return `https://api.msrc.microsoft.com/cvrf/v3.0/updates?$filter=InitialReleaseDate%20gt%20${isoDay(daysAgo(now, days + 30))}T00:00:00Z`;
 }
 
 /** Second Tuesday of the month containing the given YYYY-MM-DD. */
@@ -34,6 +39,7 @@ export function parseUpdates(body: Resp): Doc[] {
   const day = (s: unknown) => (typeof s === 'string' && /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : null);
   const out: Doc[] = [];
   for (const it of list) {
+    if (typeof it?.DocumentTitle === 'string' && /mariner|azure linux/i.test(it.DocumentTitle)) continue;
     const id = typeof it?.ID === 'string' ? it.ID : typeof it?.Alias === 'string' ? it.Alias : '';
     const kind = /^CVE-/i.test(id) ? 'cve' : /^\d{4}-[A-Za-z]{3}/.test(id) ? 'monthly' : null;
     if (!kind) continue;

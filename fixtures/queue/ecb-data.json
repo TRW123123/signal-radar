@@ -1,1 +1,17 @@
-[{ "fixture": "ecb/est.csv", "url": "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.VL+R25+R75?lastNObservations=45&detail=dataonly&format=csvdata", "maxChars": 20000 }]
+[
+ {
+  "fixture": "ecb/est-vl.csv",
+  "url": "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.VL?lastNObservations=90&detail=dataonly&format=csvdata",
+  "maxChars": 12000
+ },
+ {
+  "fixture": "ecb/est-r25.csv",
+  "url": "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.R25?lastNObservations=90&detail=dataonly&format=csvdata",
+  "maxChars": 12000
+ },
+ {
+  "fixture": "ecb/est-r75.csv",
+  "url": "https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.R75?lastNObservations=90&detail=dataonly&format=csvdata",
+  "maxChars": 12000
+ }
+]

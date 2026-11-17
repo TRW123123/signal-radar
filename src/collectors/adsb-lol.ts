@@ -4,7 +4,9 @@
 // keine Positionen, keine Einzelflüge.
 // Gemessen: Feld `total` (sonst Länge von `ac`) des Live-Snapshots, Zeitstempel auf 15 Minuten abgerundet.
 // Harmlose Ursachen: Übungen, Feeder-Abdeckung ändert sich (neue/ausgefallene Empfänger), Transponder aus, Tageszeit/Wochentag.
-// VERIFIED: nein (Antwortform { ac: [...], total, now, msg } nach Erinnerung; Doku war beim Bau nicht abrufbar).
+// Größe: /v2/mil liefert alle Militärflugzeuge mit Vollobjekten (in der Prüf-Umgebung Timeout, Antwort weit über 24 000 Zeichen); ein kleiner
+// Zähl-Endpunkt ist nicht bekannt (die API kennt nur /mil, /pia, /ladd, /point, /hex, /callsign usw. mit Vollobjekten), daher Request unverändert.
+// VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Antwortform { ac: [...], total, now, msg } nach Erinnerung)
 
 import type { Collector } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';

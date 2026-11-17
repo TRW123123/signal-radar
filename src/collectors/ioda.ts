@@ -5,17 +5,25 @@
 // (c) Zahl der von IODA erkannten Ausfallereignisse (Länderebene) pro Tag.
 // Harmlose Ursachen: Stromausfälle, Zensur/Prüfungsabschaltungen in anderen Ländern, Seekabelbrüche, Messausfall einzelner
 // IODA-Datenquellen (dann fallen Zeitreihen ab, ohne dass das Netz ausfällt), Wartung großer Provider.
-// 9 Requests pro Lauf (8 Länder + Ereignisliste): bewusst mehr als 8, weil die Länderliste die Signale 2 bis 4 trägt.
-// VERIFIED: nein. Die Antwortform (data = Liste von Listen mit {datasource, from, step, values}; Ereignisse mit `start` in
-// Unix-Sekunden) ist aus dem Gedächtnis rekonstruiert, die Parser sind deshalb tolerant. Doku war beim Bau nicht abrufbar.
+// 10 Requests pro Lauf (8 Länder mit datasource=bgp, 1 Ping-Anfrage für DE, 1 Ereignisliste): bewusst mehr als 8, weil die
+// Länderliste die Signale 2 bis 4 trägt.
+// Echte Form (17.11.2026, aus dem abgeschnittenen Anfang): {type, metadata, requestParameters, error, perf, data:[[{entityType,
+// entityCode, datasource, subtype?, from, until, step, nativeStep, values}]]}. Ohne `datasource` kommen alle Quellen (gtr, bgp,
+// ping-slash24, ...) und die Antwort hat ca. 142 000 Zeichen; mit `datasource=bgp` bzw. `ping-slash24` und 24 Stunden bleibt sie klein.
+// Ereignisse: {type:'outages.events', data:[{location:'country/GU', start (Unix-s), duration, method, datasource, score,
+// overlaps_window}]}, ca. 230 Zeichen je Ereignis, Standard-limit 500 und extendWindow 14 Tage (ergab 113 300 Zeichen). Daher nur
+// der letzte vollständige Tag mit limit=60 und extendWindow=0; gezählt wird nach `start` im Tag, Antworten mit limit
+// Treffern gelten als unvollständig und werden nicht gemeldet. Die Historie baut der Speicher Tag für Tag auf.
+// VERIFIED: nein (Antwort zu groß für die Prüf-Umgebung; Formen aus dem abgeschnittenen Anfang bestätigt, die verkleinerten
+// Requests und ob extendWindow=0 gilt sind noch nicht aufgezeichnet).
 
 import type { Collector, Observation } from '../core/types.ts';
-import { countPerDay, expect, num, obs } from './_helpers.ts';
+import { expect, num, obs } from './_helpers.ts';
 
 const BASE = 'https://api.ioda.inetintel.cc.gatech.edu/v2';
 export const COUNTRIES = ['DE', 'US', 'GB', 'FR', 'NL', 'JP', 'IN', 'BR'];
-const HOURS = 48;
-const EVENT_DAYS = 21;
+const HOURS = 24;
+const EVENT_LIMIT = 60;
 
 export interface Series { datasource: string; from: number; step: number; values: (number | null)[] }
 
@@ -112,7 +120,7 @@ const collector: Collector = {
 
     const bgpByCountry = new Map<string, Map<number, number>>();
     for (const cc of COUNTRIES) {
-      const url = `${BASE}/signals/raw/country/${cc}?from=${fromSec}&until=${untilSec}`;
+      const url = `${BASE}/signals/raw/country/${cc}?from=${fromSec}&until=${untilSec}&datasource=bgp`;
       try {
         const series = parseSignals(await ctx.http.json(url, { fixture: `ioda/country-${cc}.json` }));
         const bgp = series.find((s) => s.datasource === 'bgp');
@@ -121,13 +129,18 @@ const collector: Collector = {
         bgpByCountry.set(cc, bgpH);
         if (cc === 'DE') {
           for (const [h, v] of bgpH) observations.push(obs('cyber.outages.ioda_country_signals_de', h * 1000, v));
-          const ping = series.find((s) => s.datasource === 'ping-slash24');
-          if (ping) for (const [h, v] of hourlyMeans(ping, untilSec)) observations.push(obs('cyber.outages.ioda_ping_de', h * 1000, v));
-          else ctx.log('IODA DE: ping-slash24 fehlt');
         }
       } catch (e) {
         ctx.log(`IODA Land ${cc} übersprungen: ${(e as Error).message}`);
       }
+    }
+    try {
+      const pingUrl = `${BASE}/signals/raw/country/DE?from=${fromSec}&until=${untilSec}&datasource=ping-slash24`;
+      const ping = parseSignals(await ctx.http.json(pingUrl, { fixture: 'ioda/country-DE-ping.json' })).find((x) => x.datasource === 'ping-slash24');
+      if (!ping) throw new Error('Datenquelle ping-slash24 fehlt');
+      for (const [h, v] of hourlyMeans(ping, untilSec)) observations.push(obs('cyber.outages.ioda_ping_de', h * 1000, v));
+    } catch (e) {
+      ctx.log(`IODA DE Ping übersprungen: ${(e as Error).message}`);
     }
     // Summe nur, wenn alle Länder geantwortet haben; sonst sähe ein fehlender Summand wie ein Einbruch aus.
     if (bgpByCountry.size === COUNTRIES.length) {
@@ -140,11 +153,14 @@ const collector: Collector = {
     } else ctx.log('IODA: Länder-Summe ausgelassen, nicht alle Länder verfügbar');
 
     try {
-      const evFrom = Math.floor(ctx.now.getTime() / 86400_000) * 86400 - EVENT_DAYS * 86400;
-      const evUntil = Math.floor(ctx.now.getTime() / 86400_000) * 86400;
-      const url = `${BASE}/outages/events?from=${evFrom}&until=${evUntil}&entityType=country`;
-      const starts = parseEventStarts(await ctx.http.json(url, { fixture: 'ioda/events.json' }));
-      observations.push(...countPerDay('cyber.outages.ioda_outage_events_global', starts.map((s) => s * 1000), ctx.now, { days: EVENT_DAYS }));
+      const evUntil = Math.floor(ctx.now.getTime() / 86400_000) * 86400; // laufenden Tag ausschließen
+      const evFrom = evUntil - 86400;
+      const url = `${BASE}/outages/events?from=${evFrom}&until=${evUntil}&entityType=country&limit=${EVENT_LIMIT}&extendWindow=0`;
+      const body = await ctx.http.json(url, { fixture: 'ioda/events.json' });
+      const all = parseEventStarts(body);
+      if (all.length >= EVENT_LIMIT) throw new Error(`Ereignisliste an limit=${EVENT_LIMIT} abgeschnitten, Tageszahl unvollständig`);
+      const n = all.filter((t) => t >= evFrom && t < evUntil).length;
+      observations.push(obs('cyber.outages.ioda_outage_events_global', evFrom * 1000, n));
     } catch (e) {
       ctx.log(`IODA Ereignisliste übersprungen: ${(e as Error).message}`);
     }

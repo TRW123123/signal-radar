@@ -10,11 +10,6 @@
     "maxChars": 2000
   },
   {
-    "fixture": "ct-logs/oak-sth.json",
-    "url": "https://oak.ct.letsencrypt.org/2026h2/ct/v1/get-sth",
-    "maxChars": 2000
-  },
-  {
     "fixture": "ct-logs/nimbus-sth.json",
     "url": "https://ct.cloudflare.com/logs/nimbus2026/ct/v1/get-sth",
     "maxChars": 2000

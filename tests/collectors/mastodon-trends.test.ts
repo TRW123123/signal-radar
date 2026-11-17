@@ -38,3 +38,16 @@ test('collect: Teilausfall meldet nichts, Totalausfall wirft', async () => {
   await assert.rejects(collector.collect(dead as never), /kein Hashtag/);
   assert.equal(buildUrl('infosec'), 'https://mastodon.social/api/v1/tags/infosec');
 });
+
+// Gekürzter echter Ausschnitt (/api/v1/tags/infosec, mastodon.social, 17.11.2026): day = Unix-Sekunden als String.
+const REAL = { id: '1487', name: 'infosec', url: 'https://mastodon.social/tags/infosec', history: [
+  { day: '1794873600', accounts: '14', uses: '22' }, { day: '1794787200', accounts: '115', uses: '808' },
+  { day: '1794700800', accounts: '77', uses: '359' }, { day: '1794614400', accounts: '86', uses: '372' },
+] };
+
+test('echte Antwort: Tage in UTC, uses als Zahl', () => {
+  const m = parse(REAL);
+  assert.equal(m.get('2026-11-17'), 22);
+  assert.equal(m.get('2026-11-16'), 808);
+  assert.equal(m.size, 4);
+});

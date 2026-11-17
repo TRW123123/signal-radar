@@ -5,7 +5,8 @@
 // Harmlose Ursachen: kurzzeitige Börsen-Illiquidität, Datenfehler eines Preisfeeds, Emittenten-Meldungen ohne Systembezug.
 // Nicht gebaut: Gesamtumlauf (stablecoincharts/all ist mehrere hundert KB), DeFi-TVL (historicalChainTvl komplette Historie, groß),
 // Börsenbestände (kein API-Pfad belegt).
-// VERIFIED: nein (Antwortformen nach Gedächtnis: {coins:{id:{price,timestamp}}} bzw. {coins:{id:{prices:[{timestamp,price}]}}}).
+// Historie = Preis je Coin zu Tagesbeginn (00:00 UTC); Tage, an denen ein Coin fehlt (hier 4 von 60), werden ausgelassen.
+// VERIFIED: ja (17.11.2026, echte Antworten; 56 Tageswerte 0,03-0,08 %, aktueller Wert 0,081 % (USDT 0,99919), plausibel)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, floorDay, num, obs } from './_helpers.ts';

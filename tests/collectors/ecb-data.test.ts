@@ -31,3 +31,15 @@ test('fehlendes Feld', () => {
   assert.throws(() => buildObservations(parseEstCsv(partial)), /R75/);
 });
 test('Collector deklariert Signale', () => assert.equal(collector.signals.length, 2));
+
+test('collect: eine Serie je Request, lastNObservations=90', async () => {
+  const urls: string[] = [];
+  const ctx = {
+    now: new Date('2026-11-17T00:00:00Z'), key: () => undefined, log: () => {},
+    http: { json: async () => ({}), text: async (u: string) => { urls.push(u); const c = u.match(/\.(VL|R25|R75)\?/)![1]; return SAMPLE.split('\n').filter((l) => l.startsWith('KEY') || l.includes(`.${c},`)).join('\n'); } },
+  };
+  const r = await collector.collect(ctx as never);
+  assert.equal(urls.length, 3);
+  assert.ok(urls.every((u) => u.includes('lastNObservations=90') && !u.includes('+')));
+  assert.equal(r.observations.length, 4);
+});

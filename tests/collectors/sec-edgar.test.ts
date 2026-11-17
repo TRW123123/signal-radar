@@ -48,3 +48,16 @@ test('collect: unvollständige Trefferliste wirft', async () => {
   const ctx = { now: new Date('2026-11-17T00:00:00Z'), key: () => undefined, log: () => {}, http: { json: async () => big, text: async () => '' } };
   await assert.rejects(collector.collect(ctx as never), /unvollständig/);
 });
+
+// Echter Ausschnitt (17.11.2026, gekürzt auf benötigte Felder): zwei 8-K mit Item 1.05, ein 8-K nur mit Item 8.01
+const REAL = { hits: { total: { value: 3, relation: 'eq' }, hits: [
+  { _id: '0001104659-26-109813:asth-20260922x8k.htm', _source: { file_date: '2026-09-23', form: '8-K', adsh: '0001104659-26-109813', items: ['1.05'] } },
+  { _id: '0001104659-26-104300:park-20260828x8k.htm', _source: { file_date: '2026-09-01', form: '8-K', adsh: '0001104659-26-104300', items: ['1.05', '9.01'] } },
+  { _id: '0001628280-26-061432:x.htm', _source: { file_date: '2026-09-11', form: '8-K', adsh: '0001628280-26-061432', items: ['8.01', '9.01'] } },
+] } };
+test('parsePage echte Antwort: nur 8-K mit Item 1.05', () => {
+  const p = parsePage(REAL);
+  assert.equal(p.total, 3);
+  assert.equal(p.rawCount, 3);
+  assert.deepEqual(p.filings.map((f) => f.date), ['2026-09-23', '2026-09-01']);
+});

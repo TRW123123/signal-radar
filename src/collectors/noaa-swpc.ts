@@ -5,7 +5,7 @@
 // und wird bewusst mitgeliefert, weil ein laufender Sturm genau das ist, was die Dämpfungsregel braucht.
 // Akzeptiert beide bekannten Formate: Array von Objekten ({ time_tag, Kp, ... }) und Array von Arrays mit Kopfzeile.
 // Röntgenfluss: nicht gebaut (xrays-1-day.json hat ~2900 Einträge, nicht klein abrufbar).
-// VERIFIED: nein (Form nach Erinnerung; Doku war beim Bau nicht abrufbar).
+// VERIFIED: ja (17.11.2026, echte Antwort: Array von Objekten { time_tag "2026-11-10T00:00:00" (UTC ohne Z), Kp, a_running, station_count }, 56 Einträge = 7 Tage, Kp 0-3,7).
 
 import type { Collector } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';

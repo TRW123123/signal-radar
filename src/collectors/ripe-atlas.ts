@@ -5,7 +5,7 @@
 // Gemessen: Anzahl Probes mit status=1 (connected) in Deutschland und weltweit, eine Momentaufnahme je Lauf.
 // Harmlose Ursachen: Firmware-Updates (Probes starten gestaffelt neu), Stromausfälle einzelner Regionen, Wachstum der Probe-Zahl.
 // Messreihen (Root-DNS, Ping) wurden nicht gebaut: Zuordnung der Measurement-IDs ist ungeprüft.
-// VERIFIED: nein. Form `{count, next, previous, results}` aus dem Gedächtnis; Doku war beim Bau nicht abrufbar.
+// VERIFIED: ja (17.11.2026, echte Antwort): DE 2 038, weltweit 15 522 verbundene Probes; Antwort ca. 1 500 Zeichen.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';

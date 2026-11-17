@@ -46,3 +46,15 @@ test('collect: kein passender Markt meldet nichts; Teilausfall meldet nichts', a
   assert.match(buildUrl('cyber attack'), /q=cyber%20attack/);
   assert.ok(SEARCH_TERMS.cyber.length <= 8);
 });
+
+// Gekürzter echter Ausschnitt (public-search "cyber attack", 17.11.2026): archivierter Markt, active=false, closed=false.
+const REAL = { events: [{ id: '242733', title: 'Israel false flag attack confirmed?', active: false, closed: false, archived: true, markets: [{
+  id: '1488488', question: 'Israel false flag attack confirmed?', outcomes: '["Yes", "No"]', outcomePrices: '["0.5", "0.5"]',
+  volume: '1.0204', active: false, closed: false, archived: true, volumeNum: 1.0204,
+}] }], pagination: { hasMore: false, totalResults: 1 } };
+
+test('echte Antwort: archivierter Markt (active=false) wird übersprungen, URL nutzt limit_per_type=1', () => {
+  assert.deepEqual(parse(REAL), []);
+  assert.match(buildUrl('hack'), /limit_per_type=1/);
+  assert.deepEqual(parse({ events: [{ markets: [{ id: '1', question: 'cyber?', archived: true }] }] }), []);
+});

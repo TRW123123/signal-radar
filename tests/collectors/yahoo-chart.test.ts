@@ -55,7 +55,12 @@ test('collect: laufender Tag fehlt, fehlendes Symbol lässt nur betroffene Signa
   assert.ok(ids.has('cyber.markets.vix'));
   assert.ok(!ids.has('cyber.markets.cyber_etf_abs_return'));
   assert.ok(r.observations.every((o) => o.ts < '2026-11-17'));
-  assert.equal(buildUrl('^VIX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=6mo&interval=1d');
-  assert.equal(fixtureName('GC=F'), 'yahoo/GC_F-6mo-1d.json');
+  assert.equal(buildUrl('^VIX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=3mo&interval=1d');
+  assert.equal(fixtureName('GC=F'), 'yahoo/GC_F-3mo-1d.json');
   assert.ok(SPECS.every((s) => s.weight >= 0.2 && s.weight <= 0.4));
+});
+
+// Fehlerobjekt nach bekannter Yahoo-Form (nicht aufgezeichnet; echte Antworten bisher nur als Antwortbeginn vorhanden).
+test('Fehlerantwort der Quelle wirft klaren Fehler', () => {
+  assert.throws(() => parse({ chart: { result: null, error: { description: 'No data found, symbol may be delisted' } } }), /Yahoo-Fehler/);
 });

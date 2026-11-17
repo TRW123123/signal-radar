@@ -2,9 +2,9 @@
 // Source: Bitnodes API, Snapshot-Liste ohne Knotenliste. Doku: https://bitnodes.io/api/
 // Lizenz/Nutzung: öffentlich, Nutzungsbedingungen nicht eindeutig; nur ein passiver Abruf der veröffentlichten Snapshots,
 // anonym begrenzt (daher ein Request je Lauf, kein eigenes Scannen). Quelle nennen.
-// Gemessen: total_nodes je Snapshot (alle ~10 Minuten), die letzten 100 Snapshots (gut 16 Stunden).
+// Gemessen: total_nodes je Snapshot (real etwa stündlich, Abstand 35-110 Minuten), die letzten 100 Snapshots (gut 4 Tage).
 // Harmlose Ursachen: Probleme des Bitnodes-Crawlers, Knotenwechsel (Tor/IPv6), Software-Updates.
-// VERIFIED: nein (Form {count,next,previous,results:[{timestamp,total_nodes,latest_height}]} nach Gedächtnis).
+// VERIFIED: ja (17.11.2026, echte Antwort; 100 Snapshots, 17 680 bis 20 385 Knoten, Zeitstempel unregelmäßig)
 
 import type { Collector } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';
@@ -32,7 +32,7 @@ const collector: Collector = {
     name: 'Erreichbare Bitcoin-Knoten',
     plain: 'Wie viele Bitcoin-Rechner weltweit erreichbar sind; ein Einbruch kann auf Internet-Störungen hindeuten.',
     evidenceClass: 'A', direction: 'down', kind: 'count', weight: 0.45, manipulability: 'low', independenceGroup: 'bitnodes',
-    unit: 'Knoten', intervalMinutes: 10, holdHours: 12, license: 'öffentlich, Nutzungsbedingungen unklar',
+    unit: 'Knoten', intervalMinutes: 60, holdHours: 12, license: 'öffentlich, Nutzungsbedingungen unklar',
     baseline: { method: 'rolling', windowDays: 7, minPoints: 48 }, thresholds: { relFloor: 0.01 },
   }],
   async collect(ctx) {

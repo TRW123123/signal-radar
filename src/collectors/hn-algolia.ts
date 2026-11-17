@@ -7,7 +7,8 @@
 // Wird das Trefferlimit pro Seite erreicht, ist der älteste Tag unvollständig; er und alles davor werden verworfen.
 // Harmlose Ursachen für Ausschläge: Einzelner viraler Blogpost, Großausfall eines bekannten Dienstes (dann echt, aber banal),
 // Wochentag (Wochenende ruhiger), Feiertage in den USA, Konferenzen (Black Hat/DEF CON).
-// VERIFIED: nein (Doku-Seite war beim Bau nicht abrufbar; Parameter und Antwortform nach Kenntnis der API, Felder hits[].created_at_i und nbHits).
+// VERIFIED: ja (17.11.2026, echte Antwort): Form hits[].created_at_i/nbHits bestätigt, alle 5 Begriffe vollständig (nbHits 24 bis 171 < 400),
+// Replay liefert 60 Tageswerte (zuletzt 27, 9, 8, 25 Stories/Tag, Wochenende ruhiger).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, floorDay, isoDay, num, obs } from './_helpers.ts';

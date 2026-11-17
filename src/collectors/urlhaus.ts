@@ -2,12 +2,12 @@
 // Quelle: https://urlhaus.abuse.ch/downloads/csv_recent/ (kommentierte CSV der jüngsten URLs)
 // Doku: https://urlhaus.abuse.ch/api/
 // Lizenz: CC0 (abuse.ch).
-// Auth: abuse.ch verlangt seit 2025 Auth-Keys (https://auth.abuse.ch/). Ob der Download schon einen Key braucht,
-//       war per Doku nicht prüfbar: needsKey gesetzt, Header Auth-Key.
+// Auth: abuse.ch verlangt seit 2025 Auth-Keys (https://auth.abuse.ch/). Die Quelle antwortet ohne Key mit HTTP 410 (17.11.2026, Aufzeichnung);
+//       needsKey ist richtig (Header Auth-Key).
 // Gemessen: URLs je voller UTC-Stunde aus `dateadded`; älteste Stunde der Antwort und laufende Stunde entfallen.
 // Harmlose Ursachen: Batch-Uploads einzelner Melder, Aufräumläufe, Quellenausfall (Lücke).
 // Ausgelassen: cyber.threat.c2_hosting_concentration (Hoster-Zuordnung fehlt im Export).
-// VERIFIED: nein (Kopfzeile nach Gedächtnis: "# id,dateadded,url,url_status,last_online,threat,tags,urlhaus_link,reporter").
+// VERIFIED: nein (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Kopfzeile nach Gedächtnis: "# id,dateadded,url,url_status,last_online,threat,tags,urlhaus_link,reporter").
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, obs, parseCsv } from './_helpers.ts';

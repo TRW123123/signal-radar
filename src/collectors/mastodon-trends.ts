@@ -7,7 +7,8 @@
 // Harmlose Ursachen für Ausschläge: Änderungen der Föderation der Instanz (neue Relays/Abos), Bot-Konten, Konferenzen,
 // Wochentagsrhythmus. Der Wert hängt an EINER Instanz (INSTANCE); wechselt sie die Richtlinien, bricht die Reihe.
 // Hinweis: Manche Instanzen verlangen für /api/v1/tags Login; dann schlägt der Abruf fehl und der Collector meldet nichts.
-// VERIFIED: nein (Doku-Seite war beim Bau nicht abrufbar; Form nach Kenntnis der Tag-Entität).
+// VERIFIED: ja (17.11.2026, echte Antwort): history[] mit day (Unix-Sekunden, String), uses, accounts bestätigt; ohne Login abrufbar.
+// Replay: 6 vollständige Tage (laufender Tag verworfen), Summe 834 bis 2909/Tag, Wochenende niedriger.
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, isoDay, num, obs } from './_helpers.ts';

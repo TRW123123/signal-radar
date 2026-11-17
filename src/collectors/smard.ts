@@ -3,7 +3,9 @@
 // Ablauf: erst Index (index_hour.json: { timestamps: [ms, ...] } = Wochenanfänge), dann Wochendatei
 // 410_DE_hour_<ms>.json ({ meta_data, series: [[ms, MW|null], ...] }); Filter 410 = Stromverbrauch Netzlast, Region DE.
 // Harmlose Ursachen für Ausschläge: Feiertage, Brückentage, Wetter, Zeitumstellung; nicht veröffentlichte Stunden sind null.
-// VERIFIED: nein (Form nach Erinnerung und Katalog; Doku war beim Bau nicht abrufbar).
+// URL-Form: https://www.smard.de/app/chart_data/<filter>/<region>/index_<resolution>.json und .../<filter>_<region>_<resolution>_<timestamp>.json;
+// <timestamp> muss ein Wert aus dem Index sein (Wochenanfang Montag 00:00 Ortszeit, also 22:00/23:00 UTC), geratene Werte ergeben 404.
+// VERIFIED: teilweise (Index 17.11.2026 echt, 621 Wochen-Zeitstempel; Wochendateien noch nicht aufgezeichnet, Queue mit echten Zeitstempeln neu).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';
@@ -53,7 +55,7 @@ const collector: Collector = {
   async collect(ctx) {
     const before = floorHour(ctx.now).getTime();
     const index = parseIndex(await ctx.http.json<IndexResp>(`${BASE}/index_hour.json`, { fixture: 'smard/index_hour.json' }));
-    const weeks = index.filter((t) => t <= before).slice(-2);
+    const weeks = index.filter((t) => t <= before).slice(-4); // 4 Wochen = Baseline-Fenster (je Wochendatei ca. 5 kB)
     if (!weeks.length) throw new Error('unerwartete Antwort: kein Wochen-Zeitstempel im Index');
     const observations: Observation[] = [];
     let ok = 0;

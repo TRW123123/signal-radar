@@ -5,7 +5,7 @@
 //   Die API hat keine Massen-Zeitreihe, daher ein Request je Tag, sieben Tage Rückblick. Ein Delta-Signal (EPSS-Sprünge je CVE)
 //   ist ohne Massenabruf nicht möglich und wird nicht gebaut.
 // Harmlose Ursachen: Modellversionswechsel (EPSS v3/v4 verschieben das Niveau sprunghaft), Neu veröffentlichte PoCs.
-// VERIFIED: nein (Parameter epss-gt, limit, date und Feld total aus dem Gedächtnis; Katalog meldet Basisabruf total 406741).
+// VERIFIED: ja (17.11.2026, echte Antwort; sieben Tage 10.–16.11. liefern 4382–4387, sehr stabil)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, isoDay, num, obs } from './_helpers.ts';

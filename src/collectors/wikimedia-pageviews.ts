@@ -2,11 +2,17 @@
 // Source: Wikimedia Analytics REST API, no key, daily values with years of history.
 // https://wikimedia.org/api/rest_v1/#/Pageviews%20data
 // Reference implementation: other collectors follow this structure.
+// Echte Messung (17.11.2026): einzelne Artikel haben sehr kleine Zahlen (de Cyberattacke ca. 4/Tag, vermutlich Weiterleitung,
+// Notvorrat 11, Stromausfall 22; en Cyberattack 289); daher Summe über je 10 Artikel. Artikelnamen nach Kenntnis gewählt.
+// VERIFIED: nein (neue Artikelliste noch nicht aufgezeichnet; Form {"items":[{"timestamp":"2026090300","views":1}]} laut Auftrag).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { daysAgo, expect, num, obs, ymd } from './_helpers.ts';
 
 interface Group { signalId: string; name: string; plain: string; project: string; articles: string[]; scenario: string }
+
+/** Mindestanteil der Artikel, die in einem Lauf antworten müssen (404 = Artikel existiert nicht/ist Weiterleitung und fällt aus der Summe). */
+export const MIN_ANSWER_SHARE = 0.8;
 
 /** Article groups per scenario. Adding a scenario's attention signal is one entry here. */
 export const GROUPS: Group[] = [
@@ -14,13 +20,13 @@ export const GROUPS: Group[] = [
     signalId: 'cyber.attention.wikipedia_de', scenario: 'cyber', project: 'de.wikipedia',
     name: 'Wikipedia-Aufrufe zu Cyber-Themen (deutsch)',
     plain: 'Wie oft deutschsprachige Wikipedia-Artikel zu Cyberangriff, Stromausfall und Notvorrat aufgerufen werden.',
-    articles: ['Cyberattacke', 'Stromausfall', 'Notvorrat', 'Hacker'],
+    articles: ['Stromausfall', 'Notvorrat', 'Hacker', 'Ransomware', 'Computervirus', 'Denial_of_Service', 'Cyberkrieg', 'Kritische_Infrastruktur', 'Phishing', 'Botnet'],
   },
   {
     signalId: 'cyber.attention.wikipedia_en', scenario: 'cyber', project: 'en.wikipedia',
     name: 'Wikipedia-Aufrufe zu Cyber-Themen (englisch)',
     plain: 'Wie oft englische Wikipedia-Artikel zu Cyberangriffen und Internet-Ausfällen aufgerufen werden.',
-    articles: ['Cyberattack', 'Internet_outage', 'Power_outage', 'Cyberwarfare'],
+    articles: ['Cyberattack', 'Internet_outage', 'Power_outage', 'Cyberwarfare', 'Ransomware', 'Denial-of-service_attack', 'Data_breach', 'Computer_security', 'Botnet', 'Phishing'],
   },
 ];
 
@@ -56,6 +62,8 @@ const collector: Collector = {
     for (const g of GROUPS) {
       const perDay = new Map<string, number>();
       let ok = 0;
+      let gone = 0; // 404: Artikel dauerhaft nicht vorhanden
+      let failed = 0; // andere Fehler (Timeout, 5xx): Lauf unsicher
       for (const article of g.articles) {
         const url = `https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/${g.project}/all-access/user/${encodeURIComponent(article)}/daily/${start}/${end}`;
         try {
@@ -63,13 +71,20 @@ const collector: Collector = {
           for (const [d, v] of days) perDay.set(d, (perDay.get(d) ?? 0) + v);
           ok++;
         } catch (e) {
-          ctx.log(`Artikel ${article} übersprungen: ${(e as Error).message}`);
+          const msg = (e as Error).message;
+          if (/^HTTP 404\b/.test(msg)) gone++; else failed++;
+          ctx.log(`Artikel ${article} übersprungen: ${msg}`);
         }
       }
-      // A partial article set would look like a drop; only report when every article answered.
-      if (ok !== g.articles.length) continue;
+      // Summe nur über Artikel, die in DIESEM Lauf antworten, wenn mindestens 80 % antworten. Fehlt ein Artikel nur wegen 404,
+      // fehlt er in der ganzen Reihe (Fenster wird bei jedem Lauf neu summiert), die Reihe springt also nicht.
+      // Bei anderen Fehlern (Timeout usw.) wäre die Summe nur an diesem Lauf kleiner: dann nichts melden.
+      if (failed > 0 || ok / g.articles.length < MIN_ANSWER_SHARE) {
+        ctx.log(`${g.signalId}: ${ok} von ${g.articles.length} Artikeln (${gone} mal 404, ${failed} Fehler), nichts gemeldet`);
+        continue;
+      }
       for (const [d, v] of perDay) {
-        observations.push(obs(g.signalId, `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}T00:00:00Z`, v, { articles: g.articles.length }));
+        observations.push(obs(g.signalId, `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}T00:00:00Z`, v, { articles: ok }));
       }
     }
     return { observations };

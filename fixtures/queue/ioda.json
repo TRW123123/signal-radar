@@ -1,47 +1,52 @@
 [
   {
     "fixture": "ioda/country-DE.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=1794700800&until=1794873600",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=1794787200&until=1794873600&datasource=bgp",
+    "maxChars": 12000
   },
   {
     "fixture": "ioda/country-US.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/US?from=1794700800&until=1794873600",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/US?from=1794787200&until=1794873600&datasource=bgp",
+    "maxChars": 12000
   },
   {
     "fixture": "ioda/country-GB.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/GB?from=1794700800&until=1794873600",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/GB?from=1794787200&until=1794873600&datasource=bgp",
+    "maxChars": 12000
   },
   {
     "fixture": "ioda/country-FR.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/FR?from=1794700800&until=1794873600",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/FR?from=1794787200&until=1794873600&datasource=bgp",
+    "maxChars": 12000
   },
   {
     "fixture": "ioda/country-NL.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/NL?from=1794700800&until=1794873600",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/NL?from=1794787200&until=1794873600&datasource=bgp",
+    "maxChars": 12000
   },
   {
     "fixture": "ioda/country-JP.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/JP?from=1794700800&until=1794873600",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/JP?from=1794787200&until=1794873600&datasource=bgp",
+    "maxChars": 12000
   },
   {
     "fixture": "ioda/country-IN.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IN?from=1794700800&until=1794873600",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IN?from=1794787200&until=1794873600&datasource=bgp",
+    "maxChars": 12000
   },
   {
     "fixture": "ioda/country-BR.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/BR?from=1794700800&until=1794873600",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/BR?from=1794787200&until=1794873600&datasource=bgp",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ioda/country-DE-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/DE?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 12000
   },
   {
     "fixture": "ioda/events.json",
-    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=1793059200&until=1794873600&entityType=country",
-    "maxChars": 30000
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=1794787200&until=1794873600&entityType=country&limit=60&extendWindow=0",
+    "maxChars": 18000
   }
 ]

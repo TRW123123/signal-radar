@@ -2,12 +2,12 @@
 // Quelle: https://threatfox.abuse.ch/export/json/recent/ (JSON-Export der jüngsten IOCs)
 // Doku: https://threatfox.abuse.ch/api/ und https://threatfox.abuse.ch/export/
 // Lizenz: CC0 (abuse.ch).
-// Auth: abuse.ch verlangt seit 2025 Auth-Keys ("Community First", https://auth.abuse.ch/). Ob der Export schon
-//       einen Key braucht, war per Doku nicht prüfbar: needsKey gesetzt, Header Auth-Key.
+// Auth: abuse.ch verlangt seit 2025 Auth-Keys ("Community First", https://auth.abuse.ch/). Die Quelle antwortet ohne Key mit HTTP 410 (17.11.2026, Aufzeichnung);
+//       needsKey ist richtig (Header Auth-Key).
 // Gemessen: IOCs je voller UTC-Stunde aus `first_seen_utc`; älteste Stunde der Antwort und laufende Stunde entfallen.
 // Harmlose Ursachen: Import-Batches einzelner Melder, Massenmeldung einer Familie, Quellenausfall (Lücke).
 // Ausgelassen: cyber.threat.c2_hosting_concentration (braucht Hoster-Zuordnung, nicht in diesem Export).
-// VERIFIED: nein (Form nach Gedächtnis: Objekt { "<ioc_id>": [ { first_seen_utc, ... } ] }; Array wird ebenfalls akzeptiert).
+// VERIFIED: nein (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Form nach Gedächtnis: Objekt { "<ioc_id>": [ { first_seen_utc, ... } ] }; Array wird ebenfalls akzeptiert).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, obs } from './_helpers.ts';

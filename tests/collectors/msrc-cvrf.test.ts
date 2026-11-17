@@ -37,5 +37,14 @@ test('fehlendes Feld wirft', () => {
   assert.throws(() => parseUpdates({}), /value/);
 });
 test('URL', () => {
-  assert.equal(urlFor(now, 90), 'https://api.msrc.microsoft.com/cvrf/v3.0/updates?$filter=CurrentReleaseDate%20gt%202026-08-17T00:00:00Z');
+  assert.equal(urlFor(now, 90), 'https://api.msrc.microsoft.com/cvrf/v3.0/updates?$filter=InitialReleaseDate%20gt%202026-07-20T00:00:00Z');
+});
+
+// gekürzter echter Ausschnitt (17.11.2026): Mariner-Dokumente werden täglich neu datiert und sind keine Patch-Bulletins
+const REAL = { '@odata.context': 'https://api.msrc.microsoft.com/$metadata#Updates', value: [
+  { ID: '2000-Feb', Alias: '2000-Feb', DocumentTitle: 'Mariner Release Notes', Severity: null, InitialReleaseDate: '2000-02-02T00:00:00Z', CurrentReleaseDate: '2026-11-14T01:04:30Z', CvrfUrl: 'https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2000-Feb' },
+  { ID: '2000-Jan', Alias: '2000-Jan', DocumentTitle: 'Mariner Release Notes', Severity: null, InitialReleaseDate: '2000-01-02T00:00:00Z', CurrentReleaseDate: '2026-11-14T01:04:55Z', CvrfUrl: 'https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/2000-Jan' },
+] };
+test('echter Ausschnitt: Mariner-Dokumente zählen nicht als Out-of-band', () => {
+  assert.equal(parseUpdates(REAL as never).length, 0);
 });

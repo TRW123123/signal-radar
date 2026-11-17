@@ -25,11 +25,11 @@
     <p class="marke"><svg class="marke-zeichen" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="mz-t" d="M3 9.5h20"/><path class="mz-a" d="M3 17h15l2.5-5.5L23 17"/><path class="mz-a" d="M3 24.5h16l2-4 2 4"/><path class="mz-t" d="M27 5v22"/></g></svg><span>Signal Radar</span></p>
     <p id="stand" class="stand"></p>
   </header>
-  <div id="hinweise"></div>
+  <div id="hinweise" aria-live="polite"></div>
   <nav id="wahl" class="wahl-rahmen" aria-label="Szenarien" hidden></nav>
   <main id="inhalt" class="inhalt" tabindex="-1" aria-busy="true">
     <div class="laden" role="status">
-      <p class="laden-text">Messwerte werden geladen …</p>
+      <p class="laden-text">Öffentliche Messwerte werden geprüft …</p><p class="laden-hinweis">Die Einordnung erscheint, sobald die Daten geladen sind.</p>
       <div class="laden-spuren" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
     </div>
     <noscript><p class="noscript">Diese Anzeige braucht JavaScript, um die Messdaten zu laden. Die Rohdaten liegen als Datei unter <a href="data/snapshot.json">data/snapshot.json</a>.</p></noscript>

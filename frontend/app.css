@@ -475,3 +475,116 @@ button { font: inherit; color: inherit; }
   .wahl-rahmen, .sprung { display: none; }
   .messreihen[hidden] { display: block; }
 }
+
+
+/* Lageübersicht 2026: eine Aussage, Messdetails bei Bedarf.
+   Alle Maße, Farben und Schriften bleiben lokal und CSP-konform. */
+.kopf { padding: 1.25rem 0 .9rem; }
+.wahl-rahmen { margin-bottom: 1.5rem; }
+.wahl-hinweis { display: none; }
+.stand { line-height: 1.6; }
+.stand-alter { color: var(--grau); }
+.datenwarnung { background: var(--band); border-left: 4px solid var(--tinte); padding: .75rem 1rem; margin-bottom: .75rem; font-size: var(--t-14); }
+.lage { display: grid; grid-template-columns: minmax(0,1fr); grid-template-areas: 'aussage' 'spuren' 'belege' 'kontext'; gap: clamp(1.5rem,2.5vw,2.75rem); }
+.aussage { grid-area: aussage; display: block; position: static; border: 1px solid var(--linie); border-left: 6px solid var(--l0); background: var(--band); padding: clamp(1.15rem,2.5vw,2.75rem); min-width: 0; }
+.aussage > * { grid-column: auto; }
+.aussage.a-lx { border-left-style: dashed; border-left-color: var(--grau); }
+.aussage.a-l1 { border-left-color: var(--l1); }
+.aussage.a-l2 { border-left-color: var(--l2); }
+.aussage.a-l3 { border-left-color: var(--l3); }
+.aussage.a-l4 { border-left-color: var(--l4); }
+.status-kopf { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .35rem 1rem; font: 600 .78rem/1.5 var(--mono); color: var(--grau); }
+.status-kategorie { color: var(--tinte); }
+.status-stufennummer { white-space: nowrap; }
+.status-inhalt { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(19rem,1fr); gap: clamp(1.4rem,3vw,3.5rem); margin-top: clamp(1rem,2.4vw,2rem); align-items: start; }
+.status-botschaft { min-width: 0; }
+.status-botschaft h1 { max-width: 20ch; font-size: clamp(2.4rem,5vw,4.3rem); font-weight: 750; letter-spacing: -.045em; line-height: 1.06; text-wrap: balance; }
+.a-l1 .status-botschaft h1 { color: var(--l1); }
+.a-l2 .status-botschaft h1 { color: var(--l2); }
+.a-l3 .status-botschaft h1 { color: var(--l3); }
+.a-l4 .status-botschaft h1 { color: var(--l4); }
+.status-verdict { max-width: 55ch; margin-top: 1.05rem; font-size: clamp(1.125rem,1.5vw,1.375rem); font-weight: 650; line-height: 1.42; }
+.status-einordnung { max-width: 60ch; margin-top: .7rem; font-size: var(--t-16); color: var(--grau); line-height: 1.55; }
+.status-fakten { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; border-top: 1px solid var(--linie); padding-top: 1.2rem; min-width: 0; }
+.status-fakten > div { min-width: 0; }
+.status-fakten dt { min-height: 2rem; font-size: var(--t-12); line-height: 1.3; font-weight: 700; color: var(--grau); }
+.status-fakten dd { display: grid; gap: .45rem; margin: .6rem 0 0; }
+.status-fakten strong { display: block; font: 650 clamp(1.3rem,2vw,1.8rem)/1.1 var(--mono); letter-spacing: -.035em; white-space: nowrap; }
+.status-fakten dd > span { font-size: .78rem; color: var(--grau); line-height: 1.45; }
+.status-von { font-size: .65em; color: var(--grau); }
+.status-details { margin-top: clamp(1.15rem,2.5vw,2.15rem); padding-top: .75rem; border-top: 1px solid var(--linie); }
+.status-details > summary { cursor: pointer; display: list-item; width: fit-content; max-width: 100%; padding: .7rem .15rem; min-height: 2.75rem; font-weight: 650; font-size: var(--t-14); }
+.status-details .zwilling { max-width: 33rem; margin: 1rem 0; }
+.status-details .pegel { max-width: 35rem; }
+.status-fussnote { margin-top: .75rem; color: var(--grau); font-size: var(--t-14); }
+.zw-segmente { display: grid; grid-template-columns: repeat(10,minmax(0,1fr)); gap: 2px; width: 100%; height: .9rem; }
+.zw-segmente i { min-width: 0; border: 1px solid var(--linie); }
+.zw-segmente i.an { background: var(--l0); border-color: transparent; }
+.zw-m1 i.an { background: var(--l1); }
+.zw-m2 i.an { background: var(--l2); }
+.zw-m3 i.an { background: var(--l3); }
+.zw-m4 i.an { background: var(--l4); }
+.zw-att-balken i.an { background: var(--att); }
+.spuren { grid-area: spuren; min-width: 0; container-type: inline-size; }
+.analyse-kopf { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .35rem 1rem; margin-bottom: 1rem; }
+.analyse-kopf h2 { font-size: clamp(1.35rem,2.2vw,1.75rem); font-weight: 700; line-height: 1.25; letter-spacing: -.022em; }
+.analyse-kopf p { font-size: var(--t-14); color: var(--grau); }
+.spur-gruppentitel { font-size: var(--t-16); margin: .8rem 0; }
+.ruhig-meldung { padding: .8rem 1rem; border-left: 3px solid var(--linie); background: var(--band); color: var(--grau); font-size: var(--t-16); }
+.spuren-gruppe { border-bottom: 1px solid var(--linie); min-width: 0; }
+.spuren-gruppe > summary { min-height: 3.3rem; padding: .75rem .35rem .75rem 0; display: flex; align-items: center; gap: .7rem; cursor: pointer; font-weight: 620; }
+.spuren-gruppe > summary::before { content: '+'; display: inline-grid; place-items: center; flex: none; width: 1.5rem; height: 1.5rem; border: 1px solid var(--linie); font: 600 var(--t-14)/1 var(--mono); }
+.spuren-gruppe[open] > summary::before { content: '−'; }
+.spuren-gruppe > summary > span { margin-right: auto; }
+.spuren-gruppe > summary > strong { font: 600 var(--t-14)/1.4 var(--mono); background: var(--band); border: 1px solid var(--linie); padding: .2rem .5rem; }
+.spuren-gruppe > .spurliste, .spuren-gruppe > .summe { margin-bottom: 1.15rem; }
+.spuren-gruppe > .legende { margin: 1rem 0 1.2rem; }
+.achse-zeit { display: flex; justify-content: space-between; align-items: end; gap: .25rem; padding: 0 .5rem .15rem; font-size: var(--t-12); }
+.achse-zeit > span:nth-child(2) { text-align: center; }
+.achse-zeit > span:last-child { text-align: right; }
+.normal-band { fill: color-mix(in srgb,var(--tinte) 5%,transparent); }
+.jetzt-marke { stroke: var(--tinte); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.spur-knopf { min-height: max(3.25rem,calc(var(--bahn-h) + .5rem)); }
+.spur-bahn { overflow: hidden; }
+.spur .spur-jetzt { min-height: 2.75rem; }
+.gerede { margin-top: .75rem; padding-top: 1rem; margin-bottom: 1rem; }
+.spuren-gerede .gerede { border-top: 0; }
+.belege { grid-area: belege; border-top: 1px solid var(--linie); padding: 0; }
+.belege > summary { display: list-item; min-height: 3.3rem; cursor: pointer; padding: .95rem 0; font-weight: 650; }
+.belege-inhalt { padding: 1rem 0; }
+.fuss { margin-top: 2rem; }
+.laden-text { font-family: var(--sans); font-size: clamp(1.15rem,2vw,1.55rem); font-weight: 650; color: var(--tinte); }
+.laden-hinweis { padding-bottom: 1rem; color: var(--grau); font-size: var(--t-14); }
+.ist-veraltet .status-botschaft { opacity: .75; }
+@media (min-width: 68rem) {
+  .lage { display: grid; grid-template-columns: minmax(0,1fr); grid-template-areas: 'aussage' 'spuren' 'belege' 'kontext'; row-gap: 2.3rem; }
+  .aussage { display: block; position: static; top: auto; border: 1px solid var(--linie); border-left-width: 6px; padding: clamp(1.4rem,2.7vw,2.75rem); }
+}
+@media (max-width: 67.99rem) {
+  .aussage { display: block; }
+  .aussage > * { grid-column: auto; }
+  .status-inhalt { grid-template-columns: minmax(0,1fr); gap: 1.25rem; }
+}
+@media (max-width: 47.99rem) {
+  .wahl-hinweis { display: block; padding: .45rem .2rem .55rem; text-align: right; color: var(--grau); font-size: .78rem; }
+  .status-botschaft h1 { font-size: clamp(2.25rem,9vw,3rem); overflow-wrap: anywhere; }
+  .status-fakten { gap: .6rem; }
+  .status-fakten dt { font-size: .72rem; }
+  .status-fakten dd > span { font-size: .73rem; }
+  .aussage { padding: 1.1rem; }
+  .spur .spur-jetzt { min-width: 6.5rem; }
+  .spuren-gruppe > summary { min-height: 3.3rem; }
+  .spuren { overflow: visible; }
+  .wahl-rahmen { margin-bottom: 1.15rem; }
+}
+@media (max-width: 25rem) {
+  .status-fakten { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .status-fakten > div:first-child { grid-column: 1 / -1; }
+  .status-fakten dt { min-height: 0; }
+  .status-fakten dd { margin-top: .3rem; }
+  .status-fakten strong { font-size: 1.55rem; }
+}
+@media (forced-colors: active) {
+  .aussage,.spuren-gruppe,.belege { border-color: CanvasText; }
+  .zw-segmente i.an { background: Highlight; }
+}

@@ -49,7 +49,9 @@ function mkSeries(id: string, level: number, mult: number, seed: number): Observ
   for (let i = 21 * 24; i >= 0; i--) {
     const n = 1 + 0.035 * Math.sin(i * 1.3 + seed) + 0.025 * Math.cos(i * 0.31 + seed * 2) + 0.01 * Math.sin(i * 7.1 + seed);
     const ramp = i < 5 ? (down ? 1 - (1 - 1 / mult) * ((5 - i) / 5) : 1 + (mult - 1) * ((5 - i) / 5)) : 1;
-    out.push({ signalId: id, ts: new Date(NOW - i * H).toISOString(), value: level * n * ramp });
+    // past single-lane blips, present in every demo state: a lone spike is normal and must not raise the level
+    const blip = (id.includes('demo_kev') && i >= 140 && i < 146) || (id.includes('demo_wiki') && i >= 215 && i < 224) || (id.includes('demo_faa') && i >= 60 && i < 64) ? 2.6 : 1;
+    out.push({ signalId: id, ts: new Date(NOW - i * H).toISOString(), value: level * n * ramp * blip });
   }
   return out;
 }
@@ -70,9 +72,9 @@ for (const [state, cfg] of Object.entries(STATES)) {
   const base = { sensitivity: 'high' as const, scenario, signals, series, rules: [] };
   const view = scoreScenario({ ...base, now: NOW });
   const history = [];
-  for (let t = NOW - 14 * 24 * H; t <= NOW; t += 6 * H) {
+  for (let t = NOW - 14 * 24 * H; t <= NOW; t += 3 * H) {
     const h = scoreScenario({ ...base, now: t });
-    history.push({ t: new Date(t).toISOString(), score: h.score, attention: h.attention });
+    history.push({ t: new Date(t).toISOString(), score: h.score, level: h.level, attention: h.attention, activeDomains: h.activeDomains, d: Object.fromEntries(h.domains.map((x) => [x.id, x.score])) });
   }
   const snap: Snapshot = { schema: 1, generatedAt: new Date(NOW).toISOString(), mode: 'demo', sensitivity: 'high', note: cfg.note, scenarios: [{ ...view, history }] };
   const out = join(root, 'frontend', 'data', `demo-${state}.json`);

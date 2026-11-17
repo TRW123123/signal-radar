@@ -1,0 +1,5 @@
+[
+  { "fixture": "smard/index_hour.json", "url": "https://www.smard.de/app/chart_data/410/DE/index_hour.json", "maxChars": 12000 },
+  { "fixture": "smard/410_DE_hour_1793836800000.json", "url": "https://www.smard.de/app/chart_data/410/DE/410_DE_hour_1793836800000.json", "maxChars": 12000 },
+  { "fixture": "smard/410_DE_hour_1794441600000.json", "url": "https://www.smard.de/app/chart_data/410/DE/410_DE_hour_1794441600000.json", "maxChars": 12000 }
+]

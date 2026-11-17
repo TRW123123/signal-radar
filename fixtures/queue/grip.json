@@ -1,0 +1,32 @@
+[
+  {
+    "fixture": "grip/moas-1794852000.json",
+    "url": "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas&min_susp=80&ts_start=1794852000&ts_end=1794855600&length=1",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "grip/moas-1794855600.json",
+    "url": "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas&min_susp=80&ts_start=1794855600&ts_end=1794859200&length=1",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "grip/moas-1794859200.json",
+    "url": "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas&min_susp=80&ts_start=1794859200&ts_end=1794862800&length=1",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "grip/moas-1794862800.json",
+    "url": "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas&min_susp=80&ts_start=1794862800&ts_end=1794866400&length=1",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "grip/moas-1794866400.json",
+    "url": "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas&min_susp=80&ts_start=1794866400&ts_end=1794870000&length=1",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "grip/moas-1794870000.json",
+    "url": "https://api.grip.inetintel.cc.gatech.edu/json/events?event_type=moas&min_susp=80&ts_start=1794870000&ts_end=1794873600&length=1",
+    "maxChars": 12000
+  }
+]

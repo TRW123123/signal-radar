@@ -1,0 +1,32 @@
+[
+  {
+    "fixture": "ripe-stat/country-routing-stats-DE.json",
+    "url": "https://stat.ripe.net/data/country-routing-stats/data.json?resource=DE&starttime=2026-09-03&endtime=2026-11-16",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ripe-stat/routing-status-AS3320.json",
+    "url": "https://stat.ripe.net/data/routing-status/data.json?resource=AS3320",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ripe-stat/routing-status-AS3209.json",
+    "url": "https://stat.ripe.net/data/routing-status/data.json?resource=AS3209",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ripe-stat/routing-status-AS6695.json",
+    "url": "https://stat.ripe.net/data/routing-status/data.json?resource=AS6695",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ripe-stat/routing-status-AS24940.json",
+    "url": "https://stat.ripe.net/data/routing-status/data.json?resource=AS24940",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ripe-stat/routing-status-AS8560.json",
+    "url": "https://stat.ripe.net/data/routing-status/data.json?resource=AS8560",
+    "maxChars": 12000
+  }
+]

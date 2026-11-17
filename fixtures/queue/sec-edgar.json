@@ -1,0 +1,17 @@
+[
+ {
+  "fixture": "sec-edgar/item105-0.json",
+  "url": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-08-19&enddt=2026-11-17&from=0",
+  "maxChars": 20000
+ },
+ {
+  "fixture": "sec-edgar/item105-100.json",
+  "url": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-08-19&enddt=2026-11-17&from=100",
+  "maxChars": 20000
+ },
+ {
+  "fixture": "sec-edgar/item105-200.json",
+  "url": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K&dateRange=custom&startdt=2026-08-19&enddt=2026-11-17&from=200",
+  "maxChars": 20000
+ }
+]

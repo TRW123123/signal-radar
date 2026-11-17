@@ -1,0 +1,12 @@
+[
+  {
+    "fixture": "tor-metrics/userstats-de.csv",
+    "url": "https://metrics.torproject.org/userstats-relay-country.csv?start=2026-09-03&end=2026-11-14&country=de&events=off",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "tor-metrics/bandwidth.csv",
+    "url": "https://metrics.torproject.org/bandwidth.csv?start=2026-09-03&end=2026-11-14",
+    "maxChars": 12000
+  }
+]

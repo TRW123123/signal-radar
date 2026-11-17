@@ -1,0 +1,302 @@
+[
+ {
+  "host": "www.githubstatus.com",
+  "name": "GitHub",
+  "category": "dev"
+ },
+ {
+  "host": "status.docker.com",
+  "name": "Docker",
+  "category": "dev"
+ },
+ {
+  "host": "status.npmjs.org",
+  "name": "npm",
+  "category": "dev"
+ },
+ {
+  "host": "status.hashicorp.com",
+  "name": "HashiCorp",
+  "category": "dev"
+ },
+ {
+  "host": "status.sentry.io",
+  "name": "Sentry",
+  "category": "dev"
+ },
+ {
+  "host": "status.newrelic.com",
+  "name": "New Relic",
+  "category": "dev"
+ },
+ {
+  "host": "status.datadoghq.com",
+  "name": "Datadog",
+  "category": "dev"
+ },
+ {
+  "host": "status.pagerduty.com",
+  "name": "PagerDuty",
+  "category": "dev"
+ },
+ {
+  "host": "status.atlassian.com",
+  "name": "Atlassian",
+  "category": "dev"
+ },
+ {
+  "host": "bitbucket.status.atlassian.com",
+  "name": "Bitbucket",
+  "category": "dev"
+ },
+ {
+  "host": "status.circleci.com",
+  "name": "CircleCI",
+  "category": "dev"
+ },
+ {
+  "host": "status.gitlab.com",
+  "name": "GitLab",
+  "category": "dev"
+ },
+ {
+  "host": "www.cloudflarestatus.com",
+  "name": "Cloudflare",
+  "category": "cloud"
+ },
+ {
+  "host": "status.digitalocean.com",
+  "name": "DigitalOcean",
+  "category": "cloud"
+ },
+ {
+  "host": "www.fastlystatus.com",
+  "name": "Fastly",
+  "category": "cloud"
+ },
+ {
+  "host": "status.linode.com",
+  "name": "Linode/Akamai Cloud",
+  "category": "cloud"
+ },
+ {
+  "host": "www.netlifystatus.com",
+  "name": "Netlify",
+  "category": "cloud"
+ },
+ {
+  "host": "www.vercel-status.com",
+  "name": "Vercel",
+  "category": "cloud"
+ },
+ {
+  "host": "status.supabase.com",
+  "name": "Supabase",
+  "category": "cloud"
+ },
+ {
+  "host": "status.mongodb.com",
+  "name": "MongoDB Atlas",
+  "category": "cloud"
+ },
+ {
+  "host": "status.render.com",
+  "name": "Render",
+  "category": "cloud"
+ },
+ {
+  "host": "status.cloudinary.com",
+  "name": "Cloudinary",
+  "category": "cloud"
+ },
+ {
+  "host": "status.contentful.com",
+  "name": "Contentful",
+  "category": "cloud"
+ },
+ {
+  "host": "status.braintreepayments.com",
+  "name": "Braintree",
+  "category": "payment"
+ },
+ {
+  "host": "status.mollie.com",
+  "name": "Mollie",
+  "category": "payment"
+ },
+ {
+  "host": "status.paddle.com",
+  "name": "Paddle",
+  "category": "payment"
+ },
+ {
+  "host": "status.chargebee.com",
+  "name": "Chargebee",
+  "category": "payment"
+ },
+ {
+  "host": "status.recurly.com",
+  "name": "Recurly",
+  "category": "payment"
+ },
+ {
+  "host": "status.plaid.com",
+  "name": "Plaid",
+  "category": "payment"
+ },
+ {
+  "host": "status.squareup.com",
+  "name": "Square",
+  "category": "payment"
+ },
+ {
+  "host": "status.gocardless.com",
+  "name": "GoCardless",
+  "category": "payment"
+ },
+ {
+  "host": "status.authorize.net",
+  "name": "Authorize.Net",
+  "category": "payment"
+ },
+ {
+  "host": "status.zoom.us",
+  "name": "Zoom",
+  "category": "saas"
+ },
+ {
+  "host": "status.zendesk.com",
+  "name": "Zendesk",
+  "category": "saas"
+ },
+ {
+  "host": "status.hubspot.com",
+  "name": "HubSpot",
+  "category": "saas"
+ },
+ {
+  "host": "status.intercom.com",
+  "name": "Intercom",
+  "category": "saas"
+ },
+ {
+  "host": "status.box.com",
+  "name": "Box",
+  "category": "saas"
+ },
+ {
+  "host": "discordstatus.com",
+  "name": "Discord",
+  "category": "saas"
+ },
+ {
+  "host": "www.redditstatus.com",
+  "name": "Reddit",
+  "category": "saas"
+ },
+ {
+  "host": "www.shopifystatus.com",
+  "name": "Shopify",
+  "category": "saas"
+ },
+ {
+  "host": "status.asana.com",
+  "name": "Asana",
+  "category": "saas"
+ },
+ {
+  "host": "status.mailchimp.com",
+  "name": "Mailchimp",
+  "category": "saas"
+ },
+ {
+  "host": "status.duo.com",
+  "name": "Cisco Duo",
+  "category": "saas"
+ },
+ {
+  "host": "www.dropboxstatus.com",
+  "name": "Dropbox",
+  "category": "saas"
+ },
+ {
+  "host": "status.zapier.com",
+  "name": "Zapier",
+  "category": "saas"
+ },
+ {
+  "host": "status.bitwarden.com",
+  "name": "Bitwarden",
+  "category": "saas"
+ },
+ {
+  "host": "status.twilio.com",
+  "name": "Twilio",
+  "category": "telecom"
+ },
+ {
+  "host": "status.sendgrid.com",
+  "name": "SendGrid",
+  "category": "telecom"
+ },
+ {
+  "host": "status.bandwidth.com",
+  "name": "Bandwidth",
+  "category": "telecom"
+ },
+ {
+  "host": "status.sinch.com",
+  "name": "Sinch",
+  "category": "telecom"
+ },
+ {
+  "host": "status.messagebird.com",
+  "name": "MessageBird/Bird",
+  "category": "telecom"
+ },
+ {
+  "host": "status.mailgun.com",
+  "name": "Mailgun",
+  "category": "telecom"
+ },
+ {
+  "host": "status.openai.com",
+  "name": "OpenAI",
+  "category": "ai"
+ },
+ {
+  "host": "status.anthropic.com",
+  "name": "Anthropic",
+  "category": "ai"
+ },
+ {
+  "host": "status.coinbase.com",
+  "name": "Coinbase",
+  "category": "crypto"
+ },
+ {
+  "host": "status.kraken.com",
+  "name": "Kraken",
+  "category": "crypto"
+ },
+ {
+  "host": "status.gemini.com",
+  "name": "Gemini",
+  "category": "crypto"
+ },
+ {
+  "host": "status.bitfinex.com",
+  "name": "Bitfinex",
+  "category": "crypto"
+ },
+ {
+  "host": "status.circle.com",
+  "name": "Circle",
+  "category": "crypto"
+ },
+ {
+  "host": "status.bitstamp.net",
+  "name": "Bitstamp",
+  "category": "crypto"
+ }
+]

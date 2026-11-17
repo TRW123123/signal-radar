@@ -1,0 +1,1 @@
+[{ "fixture": "ransomware-live/recentvictims.json", "url": "https://api.ransomware.live/v2/recentvictims", "maxChars": 20000 }]

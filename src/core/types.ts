@@ -158,6 +158,9 @@ export interface SignalView {
   /** 0..1 contribution to its domain after weight, class, manipulability, damping */
   contribution: number;
   spark: number[];
+  /** ISO timestamps of the first and last spark point (points are in time order, spacing may be uneven) */
+  sparkStart: string | null;
+  sparkEnd: string | null;
   sourceName: string;
   sourceUrl: string;
 }
@@ -185,13 +188,24 @@ export interface ScenarioView {
   attention: number;
   rumorGap: RumorGap;
   confidence: number;
-  coverage: { fresh: number; active: number; planned: number; total: number };
+  /** fresh/active: built signals; planned: catalogued but not built yet; domainsWithData: domains fed by at least one fresh signal */
+  coverage: { fresh: number; active: number; planned: number; total: number; domainsWithData: number; domainsTotal: number };
   activeDomains: number;
   domains: DomainView[];
   attentionSignals: SignalView[];
   anomalies: SignalView[];
   context: ContextItem[];
-  history: { t: string; score: number; attention: number }[];
+  /** score recomputed from the same raw data at past points in time; d = score per domain (shared time axis for the lanes) */
+  history: HistoryPoint[];
+}
+
+export interface HistoryPoint {
+  t: string;
+  score: number;
+  level: number;
+  attention: number;
+  activeDomains: number;
+  d: Record<string, number>;
 }
 
 export interface Snapshot {

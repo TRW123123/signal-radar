@@ -1,0 +1,3 @@
+[
+  { "fixture": "noaa-swpc/planetary-k-index.json", "url": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json", "maxChars": 12000 }
+]

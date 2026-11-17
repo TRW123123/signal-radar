@@ -1,0 +1,37 @@
+[
+  {
+    "fixture": "cloudflare-radar/attacks-l3-timeseries.json",
+    "url": "https://api.cloudflare.com/client/v4/radar/attacks/layer3/timeseries?dateRange=12w&aggInterval=1d&normalization=MIN0_MAX&format=json",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "cloudflare-radar/attacks-l7-timeseries.json",
+    "url": "https://api.cloudflare.com/client/v4/radar/attacks/layer7/timeseries?dateRange=12w&aggInterval=1d&normalization=MIN0_MAX&format=json",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "cloudflare-radar/netflows-de.json",
+    "url": "https://api.cloudflare.com/client/v4/radar/netflows/timeseries?location=DE&dateRange=7d&aggInterval=1h&normalization=MIN0_MAX&format=json",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "cloudflare-radar/netflows-us.json",
+    "url": "https://api.cloudflare.com/client/v4/radar/netflows/timeseries?location=US&dateRange=7d&aggInterval=1h&normalization=MIN0_MAX&format=json",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "cloudflare-radar/outages.json",
+    "url": "https://api.cloudflare.com/client/v4/radar/annotations/outages?dateRange=7d&limit=100&format=json",
+    "maxChars": 60000
+  },
+  {
+    "fixture": "cloudflare-radar/bgp-hijacks-24h.json",
+    "url": "https://api.cloudflare.com/client/v4/radar/bgp/hijacks/events?dateRange=1d&per_page=1&format=json",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "cloudflare-radar/bgp-leaks-24h.json",
+    "url": "https://api.cloudflare.com/client/v4/radar/bgp/leaks/events?dateRange=1d&per_page=1&format=json",
+    "maxChars": 12000
+  }
+]

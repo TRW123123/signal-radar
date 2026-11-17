@@ -1,0 +1,302 @@
+[
+ {
+  "fixture": "statuspage/www.githubstatus.com.json",
+  "url": "https://www.githubstatus.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.docker.com.json",
+  "url": "https://status.docker.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.npmjs.org.json",
+  "url": "https://status.npmjs.org/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.hashicorp.com.json",
+  "url": "https://status.hashicorp.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.sentry.io.json",
+  "url": "https://status.sentry.io/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.newrelic.com.json",
+  "url": "https://status.newrelic.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.datadoghq.com.json",
+  "url": "https://status.datadoghq.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.pagerduty.com.json",
+  "url": "https://status.pagerduty.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.atlassian.com.json",
+  "url": "https://status.atlassian.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/bitbucket.status.atlassian.com.json",
+  "url": "https://bitbucket.status.atlassian.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.circleci.com.json",
+  "url": "https://status.circleci.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.gitlab.com.json",
+  "url": "https://status.gitlab.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/www.cloudflarestatus.com.json",
+  "url": "https://www.cloudflarestatus.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.digitalocean.com.json",
+  "url": "https://status.digitalocean.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/www.fastlystatus.com.json",
+  "url": "https://www.fastlystatus.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.linode.com.json",
+  "url": "https://status.linode.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/www.netlifystatus.com.json",
+  "url": "https://www.netlifystatus.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/www.vercel-status.com.json",
+  "url": "https://www.vercel-status.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.supabase.com.json",
+  "url": "https://status.supabase.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.mongodb.com.json",
+  "url": "https://status.mongodb.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.render.com.json",
+  "url": "https://status.render.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.cloudinary.com.json",
+  "url": "https://status.cloudinary.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.contentful.com.json",
+  "url": "https://status.contentful.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.braintreepayments.com.json",
+  "url": "https://status.braintreepayments.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.mollie.com.json",
+  "url": "https://status.mollie.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.paddle.com.json",
+  "url": "https://status.paddle.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.chargebee.com.json",
+  "url": "https://status.chargebee.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.recurly.com.json",
+  "url": "https://status.recurly.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.plaid.com.json",
+  "url": "https://status.plaid.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.squareup.com.json",
+  "url": "https://status.squareup.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.gocardless.com.json",
+  "url": "https://status.gocardless.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.authorize.net.json",
+  "url": "https://status.authorize.net/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.zoom.us.json",
+  "url": "https://status.zoom.us/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.zendesk.com.json",
+  "url": "https://status.zendesk.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.hubspot.com.json",
+  "url": "https://status.hubspot.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.intercom.com.json",
+  "url": "https://status.intercom.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.box.com.json",
+  "url": "https://status.box.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/discordstatus.com.json",
+  "url": "https://discordstatus.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/www.redditstatus.com.json",
+  "url": "https://www.redditstatus.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/www.shopifystatus.com.json",
+  "url": "https://www.shopifystatus.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.asana.com.json",
+  "url": "https://status.asana.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.mailchimp.com.json",
+  "url": "https://status.mailchimp.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.duo.com.json",
+  "url": "https://status.duo.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/www.dropboxstatus.com.json",
+  "url": "https://www.dropboxstatus.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.zapier.com.json",
+  "url": "https://status.zapier.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.bitwarden.com.json",
+  "url": "https://status.bitwarden.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.twilio.com.json",
+  "url": "https://status.twilio.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.sendgrid.com.json",
+  "url": "https://status.sendgrid.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.bandwidth.com.json",
+  "url": "https://status.bandwidth.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.sinch.com.json",
+  "url": "https://status.sinch.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.messagebird.com.json",
+  "url": "https://status.messagebird.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.mailgun.com.json",
+  "url": "https://status.mailgun.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.openai.com.json",
+  "url": "https://status.openai.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.anthropic.com.json",
+  "url": "https://status.anthropic.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.coinbase.com.json",
+  "url": "https://status.coinbase.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.kraken.com.json",
+  "url": "https://status.kraken.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.gemini.com.json",
+  "url": "https://status.gemini.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.bitfinex.com.json",
+  "url": "https://status.bitfinex.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.circle.com.json",
+  "url": "https://status.circle.com/api/v2/status.json",
+  "maxChars": 1500
+ },
+ {
+  "fixture": "statuspage/status.bitstamp.net.json",
+  "url": "https://status.bitstamp.net/api/v2/status.json",
+  "maxChars": 1500
+ }
+]

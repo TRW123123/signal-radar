@@ -1,0 +1,4 @@
+[
+ { "fixture": "mempool/fees.json", "url": "https://mempool.space/api/v1/fees/recommended", "maxChars": 12000 },
+ { "fixture": "mempool/pool.json", "url": "https://mempool.space/api/mempool", "maxChars": 12000 }
+]

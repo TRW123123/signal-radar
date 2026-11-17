@@ -1,0 +1,20 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { parseHighCount, urlFor } from '../../src/collectors/first-epss.ts';
+
+// nach Doku nachgebaut
+const SAMPLE = { status: 'OK', 'status-code': 200, total: 2113, offset: 0, limit: 1, data: [{ cve: 'CVE-2024-3400', epss: '0.97', percentile: '1.0', date: '2026-11-16' }] };
+
+test('Normalfall', () => {
+  assert.deepEqual(parseHighCount(SAMPLE, '2026-11-16'), { day: '2026-11-16', total: 2113 });
+  assert.equal(urlFor('2026-11-16'), 'https://api.first.org/data/v1/epss?epss-gt=0.5&limit=1&date=2026-11-16');
+});
+test('total als String', () => {
+  assert.equal(parseHighCount({ total: '2,113', data: [] }, '2026-11-16')!.total, 2113);
+});
+test('leere Antwort = kein Messwert', () => {
+  assert.equal(parseHighCount({ total: 0, data: [] }, '2026-11-16'), null);
+});
+test('fehlendes Feld wirft', () => {
+  assert.throws(() => parseHighCount({ data: [] }, '2026-11-16'), /total/);
+});

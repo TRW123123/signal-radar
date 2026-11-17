@@ -1,0 +1,1 @@
+[{ "fixture": "bitnodes/snapshots.json", "url": "https://bitnodes.io/api/v1/snapshots/?limit=100", "maxChars": 20000 }]

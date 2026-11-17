@@ -107,7 +107,7 @@ test('convergence of independent domains raises the level', () => {
 });
 
 test('quiet world is level 0 with full confidence', () => {
-  const sigs = [sig('cyber.routing.a'), sig('cyber.finance.a')];
+  const sigs = [sig('cyber.routing.a'), sig('cyber.finance.a'), sig('cyber.outages.a')];
   const v = run(sigs, sigs.map((s) => series(s.id, 100)));
   assert.equal(v.level, 0);
   assert.equal(v.score, 0);
@@ -127,7 +127,9 @@ test('signals from the same source count once per domain', () => {
 test('attention is separate: rumour without measurements is labelled as such', () => {
   const m = sig('cyber.routing.a');
   const d = sig('cyber.attention.wiki', { evidenceClass: 'D', domain: 'attention', weight: 0.7 });
-  const v = run([m, d], [series(m.id, 100), series(d.id, 1000, 6)]);
+  const m2 = sig('cyber.finance.a');
+  const m3 = sig('cyber.outages.a');
+  const v = run([m, m2, m3, d], [series(m.id, 100), series(m2.id, 5), series(m3.id, 9), series(d.id, 1000, 6)]);
   assert.equal(v.level, 0);
   assert.ok(v.attention > 0.35, `attention ${v.attention}`);
   assert.equal(v.rumorGap, 'talk-no-data');
@@ -160,4 +162,19 @@ test('immature baseline counts half and lowers confidence', () => {
 
 test('level thresholds', () => {
   assert.deepEqual([0, 0.12, 0.3, 0.55, 0.78, 1].map(levelOf), [0, 1, 2, 3, 4, 4]);
+});
+
+test('fewer than three fed domains means: not enough data to say anything', () => {
+  const a = sig('cyber.routing.a');
+  const v = run([a], [series(a.id, 100)]);
+  assert.match(v.verdict, /zu wenig Messdaten/);
+  assert.equal(v.coverage.domainsWithData, 1);
+  assert.equal(v.coverage.domainsTotal, 4);
+});
+
+test('catalogued but unbuilt signals do not lower confidence', () => {
+  const sigs = [sig('cyber.routing.a'), sig('cyber.finance.a'), sig('cyber.outages.a'), sig('cyber.physical.planned', { status: 'planned' })];
+  const v = run(sigs, [series(sigs[0].id, 100), series(sigs[1].id, 5), series(sigs[2].id, 9), []]);
+  assert.ok(v.confidence > 0.99);
+  assert.equal(v.coverage.planned, 1);
 });

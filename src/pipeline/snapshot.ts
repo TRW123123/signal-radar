@@ -43,13 +43,17 @@ export async function buildSnapshot(catalog: Catalog, store: Store, opts: Snapsh
     const view = scoreScenario({ ...base, now, context });
     // Recompute the score at past points in time from the same raw data: the timeline is reproducible, not stored opinion.
     const history: ScenarioView['history'] = [];
+    const point = (t: number, h: Omit<ScenarioView, 'history'>) => ({
+      t: new Date(t).toISOString(), score: h.score, level: h.level, attention: h.attention, activeDomains: h.activeDomains,
+      d: Object.fromEntries(h.domains.map((x) => [x.id, x.score])),
+    });
     const days = opts.historyDays ?? 14;
-    const step = (opts.historyStepHours ?? 6) * 3600_000;
+    const step = (opts.historyStepHours ?? 3) * 3600_000;
     for (let t = now - days * 86400_000; t < now; t += step) {
       const h = scoreScenario({ ...base, now: t });
-      if (h.coverage.fresh > 0) history.push({ t: new Date(t).toISOString(), score: h.score, attention: h.attention });
+      if (h.coverage.fresh > 0) history.push(point(t, h));
     }
-    history.push({ t: opts.now.toISOString(), score: view.score, attention: view.attention });
+    history.push(point(now, view));
     scenarios.push({ ...view, history });
   }
   return { schema: 1, generatedAt: opts.now.toISOString(), mode: opts.mode, sensitivity: opts.sensitivity, note: opts.note, scenarios };

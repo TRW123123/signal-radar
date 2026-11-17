@@ -1,0 +1,98 @@
+// Mediale Aufmerksamkeit für Cyberangriffe (Evidenzklasse D: Nachrichtenvolumen, keine Messung des Ereignisses).
+// Quelle: GDELT DOC 2.0 API, kein Key. Doku: https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/
+// Lizenz: frei nutzbar mit Quellenangabe (GDELT Project). Empfohlenes Limit: 1 Anfrage pro 5 Sekunden; wir stellen 2 pro Lauf.
+// Gemessen: mode=timelinevol, Anteil der Artikel (in Prozent aller von GDELT erfassten Artikel) zu den Suchbegriffen,
+// deutsch und englisch getrennt. timespan=3m liefert rund drei Monate Historie in einer Antwort.
+// Die Auflösung der Zeitreihe hängt vom Zeitraum ab (bei Monaten typischerweise täglich); der Parser fasst jede Auflösung
+// per Mittelwert auf UTC-Tage zusammen und meldet den laufenden Tag nicht.
+// Harmlose Ursachen für Ausschläge: Berichterstattung über einen Einzelfall (bekannte Firma gehackt), Jahres-/Quartalsberichte
+// von Sicherheitsfirmen, Wochentagsrhythmus der Medien, Änderungen in GDELTs Quellenabdeckung.
+// VERIFIED: nein (Doku-Seite war beim Bau nicht abrufbar; Form {timeline:[{series, data:[{date:"YYYYMMDDTHHMMSSZ", value}]}]} nach Kenntnis).
+// Unsicher: Sprachfilter-Schreibweise sourcelang:english / sourcelang:german (alternativ 3-Buchstaben-Code eng/ger).
+
+import type { Collector, Observation } from '../core/types.ts';
+import { expect, isoDay, num, obs } from './_helpers.ts';
+
+interface Stream { signalId: string; fixture: string; query: string; name: string; plain: string }
+
+export const STREAMS: Stream[] = [
+  {
+    signalId: 'cyber.attention.gdelt_cyber_volume', fixture: 'gdelt/cyber-en-timelinevol-3m.json',
+    query: '("cyber attack" OR cyberattack OR ransomware OR "data breach") sourcelang:english',
+    name: 'Medienvolumen zu Cyberangriffen (GDELT, englisch)',
+    plain: 'Welcher Anteil der weltweiten englischsprachigen Nachrichtenartikel von Cyberangriffen, Ransomware oder Datenlecks handelt.',
+  },
+  {
+    signalId: 'cyber.attention.gdelt_cyber_volume_de', fixture: 'gdelt/cyber-de-timelinevol-3m.json',
+    query: '(Cyberangriff OR Hackerangriff OR Ransomware OR Cyberattacke) sourcelang:german',
+    name: 'Medienvolumen zu Cyberangriffen (GDELT, deutsch)',
+    plain: 'Welcher Anteil der deutschsprachigen Nachrichtenartikel von Cyberangriffen, Hackerangriffen oder Ransomware handelt.',
+  },
+];
+
+interface Point { date?: string; value?: unknown }
+interface Resp { timeline?: { series?: string; data?: Point[] }[] }
+
+/** GDELT-Datum "20260801T000000Z" -> Date (UTC) oder null */
+export function parseGdeltDate(s: unknown): Date | null {
+  const m = /^(\d{4})(\d{2})(\d{2})T?(\d{2})(\d{2})(\d{2})Z?$/.exec(String(s ?? ''));
+  if (!m) return null;
+  return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]));
+}
+
+/** Zeitreihe -> Mittelwert je UTC-Tag (Map "YYYY-MM-DD" -> Wert). */
+export function parse(body: Resp): Map<string, number> {
+  const timeline = expect(body.timeline, 'timeline');
+  const data = expect(timeline[0]?.data, 'timeline[0].data');
+  const sums = new Map<string, { s: number; n: number }>();
+  for (const p of data) {
+    const d = parseGdeltDate(p?.date);
+    const v = num(p?.value);
+    if (!d || v === null) continue;
+    const k = isoDay(d);
+    const cur = sums.get(k) ?? { s: 0, n: 0 };
+    cur.s += v; cur.n++;
+    sums.set(k, cur);
+  }
+  return new Map([...sums.entries()].sort().map(([k, v]) => [k, v.s / v.n]));
+}
+
+export function buildUrl(query: string): string {
+  return `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(query)}&mode=timelinevol&format=json&timespan=3m`;
+}
+
+const collector: Collector = {
+  id: 'gdelt-doc',
+  title: 'GDELT DOC 2.0 API',
+  sourceUrl: 'https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/',
+  intervalMinutes: 720,
+  signals: STREAMS.map((s) => ({
+    id: s.signalId, scenarios: ['cyber'], domain: 'attention', name: s.name, plain: s.plain,
+    evidenceClass: 'D' as const, direction: 'up' as const, kind: 'gauge' as const, weight: 0.4, manipulability: 'medium' as const,
+    independenceGroup: 'gdelt-doc', unit: '% der Artikel', intervalMinutes: 1440, holdHours: 48,
+    baseline: { method: 'day-of-week' as const, windowDays: 56, minPoints: 21 },
+    license: 'frei nutzbar mit Quellenangabe (GDELT Project)',
+    banalCauses: ['Berichterstattung über Einzelfälle', 'Jahresberichte von Sicherheitsfirmen', 'Wochentagsrhythmus'],
+  })),
+  async collect(ctx) {
+    const today = isoDay(ctx.now);
+    const observations: Observation[] = [];
+    let ok = 0;
+    for (const s of STREAMS) {
+      try {
+        const days = parse(await ctx.http.json<Resp>(buildUrl(s.query), { fixture: s.fixture }));
+        for (const [day, v] of days) {
+          if (day >= today) continue; // laufender Tag unvollständig
+          observations.push(obs(s.signalId, `${day}T00:00:00Z`, v));
+        }
+        ok++;
+      } catch (e) {
+        ctx.log(`GDELT-Strom ${s.signalId} übersprungen: ${(e as Error).message}`);
+      }
+    }
+    if (ok === 0) throw new Error('gdelt-doc: keine Antwort verwertbar');
+    return { observations };
+  },
+};
+
+export default collector;

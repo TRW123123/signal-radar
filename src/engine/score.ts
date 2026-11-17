@@ -45,9 +45,9 @@ export interface ScoreInput {
   latest?: (signalId: string) => number | null;
 }
 
-function sparkOf(series: Observation[], now: number, n = 48): number[] {
-  const s = series.filter((o) => Date.parse(o.ts) <= now).sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
-  return s.slice(-n).map((o) => round(o.value, 4));
+function sparkOf(series: Observation[], now: number, n = 60): { v: number[]; start: string | null; end: string | null } {
+  const s = series.filter((o) => Date.parse(o.ts) <= now).sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts)).slice(-n);
+  return { v: s.map((o) => round(o.value, 4)), start: s[0]?.ts ?? null, end: s[s.length - 1]?.ts ?? null };
 }
 
 export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> {
@@ -70,6 +70,7 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
     // immature baselines count half: we do not know yet what "normal" looks like
     const maturity = r.baseline ? (r.baseline.mature ? 1 : 0.5) : 0;
     const contribution = potential * r.anomaly * (damp ? damp.factor : 1) * maturity;
+    const spark = sparkOf(series, now);
     views.push({
       id: def.id, name: def.name, plain: def.plain, domain: def.domain, evidenceClass: def.evidenceClass,
       status: def.status, unit: def.unit, value: r.value === null ? null : round(r.value, 4), ts: r.ts, fresh: r.fresh,
@@ -77,7 +78,7 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
         ? { center: round(r.baseline.center, 4), scale: round(r.baseline.scale, 4), n: Number.isFinite(r.baseline.n) ? r.baseline.n : -1, mature: r.baseline.mature }
         : null,
       z: r.z === null ? null : round(r.z, 2), anomaly: round(r.anomaly), damp, contribution: round(contribution),
-      spark: sparkOf(series, now), sourceName: def.sourceName, sourceUrl: def.sourceUrl,
+      spark: spark.v, sparkStart: spark.start, sparkEnd: spark.end, sourceName: def.sourceName, sourceUrl: def.sourceUrl,
       def, flagged: r.flagged, potential,
     });
   }
@@ -91,7 +92,6 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
   const domainViews: DomainView[] = [];
   for (const [domainId, meta] of Object.entries(scenario.domains)) {
     const inDomain = views.filter((v) => v.domain === domainId && (v.evidenceClass === 'A' || v.evidenceClass === 'B'));
-    if (inDomain.length === 0) continue;
     const byGroup = new Map<string, number>();
     for (const v of inDomain) byGroup.set(v.def.independenceGroup, Math.max(byGroup.get(v.def.independenceGroup) ?? 0, v.contribution));
     const score = noisyOr([...byGroup.values()]);
@@ -117,17 +117,21 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
   else if (score >= LEVEL_THRESHOLDS[1] && attention < 0.15) rumorGap = 'data-no-talk';
   else if (score >= LEVEL_THRESHOLDS[1] && attention >= 0.35) rumorGap = 'both';
 
-  // --- confidence: how much of the scoreable weight is actually fed by fresh, mature data ---
-  const scoreable = views.filter((v) => v.evidenceClass === 'A' || v.evidenceClass === 'B');
+  // --- confidence: how much of the BUILT measuring capacity is fed by fresh data with a mature baseline ---
+  // Catalogued but not yet built signals are reported as coverage, they do not lower the confidence.
+  const scoreable = views.filter((v) => v.status === 'active' && (v.evidenceClass === 'A' || v.evidenceClass === 'B'));
   const totalPotential = scoreable.reduce((a, v) => a + v.potential, 0);
   const livePotential = scoreable.reduce((a, v) => a + (v.fresh && v.baseline ? v.potential * (v.baseline.mature ? 1 : 0.5) : 0), 0);
   const confidence = totalPotential > 0 ? livePotential / totalPotential : 0;
+  const domainsWithData = domainViews.filter((d) => d.signals.some((x) => x.fresh && x.baseline)).length;
 
   const coverage = {
     fresh: views.filter((v) => v.fresh).length,
     active: views.filter((v) => v.status === 'active').length,
     planned: views.filter((v) => v.status !== 'active').length,
     total: views.length,
+    domainsWithData,
+    domainsTotal: Object.keys(scenario.domains).length,
   };
 
   const anomalies = views
@@ -139,7 +143,7 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
   return {
     id: scenario.id, title: scenario.title, question: scenario.question, tagline: scenario.tagline,
     score: round(score), level, levelLabel: LEVEL_LABELS[level],
-    verdict: verdictOf(level, activeDomains, rumorGap, confidence, anomalies.length),
+    verdict: verdictOf(level, activeDomains, rumorGap, confidence, anomalies.length, domainsWithData),
     attention: round(attention), rumorGap, confidence: round(confidence), coverage, activeDomains,
     domains: domainViews.sort((a, b) => b.score - a.score),
     attentionSignals: attentionViews.sort((a, b) => b.contribution - a.contribution).map(strip),
@@ -149,8 +153,9 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
 }
 
 /** One plain sentence for people who read nothing else. No drama, no probabilities. */
-export function verdictOf(level: number, activeDomains: number, gap: RumorGap, confidence: number, flagged: number): string {
-  if (confidence < 0.15) return 'Noch zu wenig Messdaten für eine belastbare Aussage.';
+export function verdictOf(level: number, activeDomains: number, gap: RumorGap, confidence: number, flagged: number, domainsWithData = 99): string {
+  // convergence needs several independent domains; with fewer than three fed domains no statement is possible
+  if (confidence < 0.15 || domainsWithData < 3) return 'Noch zu wenig Messdaten für eine belastbare Aussage.';
   if (gap === 'talk-no-data') return 'Viel Aufmerksamkeit im Netz, aber die Messwerte sind unauffällig.';
   if (gap === 'data-no-talk') return 'Messwerte weichen ab, obwohl kaum darüber gesprochen wird.';
   switch (level) {

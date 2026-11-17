@@ -1,0 +1,4 @@
+[
+ { "fixture": "defillama/peg-chart.json", "url": "https://coins.llama.fi/chart/coingecko:tether,coingecko:usd-coin,coingecko:dai?start=1789689600&span=60&period=1d", "maxChars": 12000 },
+ { "fixture": "defillama/peg-current.json", "url": "https://coins.llama.fi/prices/current/coingecko:tether,coingecko:usd-coin,coingecko:dai", "maxChars": 12000 }
+]

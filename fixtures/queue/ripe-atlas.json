@@ -1,0 +1,12 @@
+[
+  {
+    "fixture": "ripe-atlas/probes-DE.json",
+    "url": "https://atlas.ripe.net/api/v2/probes/?country_code=DE&status=1&page_size=1",
+    "maxChars": 12000
+  },
+  {
+    "fixture": "ripe-atlas/probes-global.json",
+    "url": "https://atlas.ripe.net/api/v2/probes/?status=1&page_size=1",
+    "maxChars": 12000
+  }
+]

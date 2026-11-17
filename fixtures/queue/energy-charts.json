@@ -1,0 +1,4 @@
+[
+  { "fixture": "energy-charts/frequency.json", "url": "https://api.energy-charts.info/frequency?country=de&start=2026-11-16T21%3A00Z&end=2026-11-17T00%3A00Z", "maxChars": 150000 },
+  { "fixture": "energy-charts/public_power.json", "url": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16&end=2026-11-17", "maxChars": 60000 }
+]

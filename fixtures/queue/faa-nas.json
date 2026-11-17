@@ -1,0 +1,3 @@
+[
+  { "fixture": "faa-nas/airport-status-information.xml", "url": "https://nasstatus.faa.gov/api/airport-status-information", "maxChars": 12000 }
+]

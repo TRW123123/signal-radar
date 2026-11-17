@@ -1,0 +1,4 @@
+[
+  { "fixture": "sans-isc/dailysummary.json", "url": "https://isc.sans.edu/api/dailysummary/2026-09-18/2026-11-16?json", "maxChars": 12000 },
+  { "fixture": "sans-isc/topports.json", "url": "https://isc.sans.edu/api/topports/records/10/2026-11-16?json", "maxChars": 4000 }
+]

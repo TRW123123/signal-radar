@@ -1,0 +1,37 @@
+[
+ {
+  "fixture": "first-epss/high-2026-11-16.json",
+  "url": "https://api.first.org/data/v1/epss?epss-gt=0.5&limit=1&date=2026-11-16",
+  "maxChars": 12000
+ },
+ {
+  "fixture": "first-epss/high-2026-11-15.json",
+  "url": "https://api.first.org/data/v1/epss?epss-gt=0.5&limit=1&date=2026-11-15",
+  "maxChars": 12000
+ },
+ {
+  "fixture": "first-epss/high-2026-11-14.json",
+  "url": "https://api.first.org/data/v1/epss?epss-gt=0.5&limit=1&date=2026-11-14",
+  "maxChars": 12000
+ },
+ {
+  "fixture": "first-epss/high-2026-11-13.json",
+  "url": "https://api.first.org/data/v1/epss?epss-gt=0.5&limit=1&date=2026-11-13",
+  "maxChars": 12000
+ },
+ {
+  "fixture": "first-epss/high-2026-11-12.json",
+  "url": "https://api.first.org/data/v1/epss?epss-gt=0.5&limit=1&date=2026-11-12",
+  "maxChars": 12000
+ },
+ {
+  "fixture": "first-epss/high-2026-11-11.json",
+  "url": "https://api.first.org/data/v1/epss?epss-gt=0.5&limit=1&date=2026-11-11",
+  "maxChars": 12000
+ },
+ {
+  "fixture": "first-epss/high-2026-11-10.json",
+  "url": "https://api.first.org/data/v1/epss?epss-gt=0.5&limit=1&date=2026-11-10",
+  "maxChars": 12000
+ }
+]

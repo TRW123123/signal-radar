@@ -1,0 +1,3 @@
+[
+  { "fixture": "adsb-lol/mil.json", "url": "https://api.adsb.lol/v2/mil", "maxChars": 12000 }
+]

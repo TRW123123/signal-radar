@@ -4,6 +4,12 @@ und den Doku-Tabellen KEYS-NEEDED.md / LICENSE-TODO.md.
 
 Aufruf:  python3 -I scripts/consolidate_cyber.py   (nur Standardbibliothek)
 
+Achtung: Dieser Lauf überschreibt catalog/signals/cyber.json, catalog/sources.json,
+catalog/cyber-build-order.json, docs/KEYS-NEEDED.md (nur den Cyber-Teil, der Rest der Datei
+geht verloren, wenn nicht anschließend die anderen Konsolidierer bzw. scripts/key_stand.py
+laufen) und docs/LICENSE-TODO.md. Kanonische Env-Namen und die Spalte „Stand“ kommen aus
+scripts/key_stand.py (keine Key-Werte).
+
 Das Urteil steckt in den Tabellen unten (ALIAS, MERGE, DOMAIN_*, WEIGHT, ...). Alles andere ist Mechanik.
 """
 import json
@@ -11,6 +17,8 @@ import os
 import re
 import sys
 from collections import OrderedDict, Counter, defaultdict
+
+from key_stand import INTRO_STAND, TABLE_HEADER, TABLE_SEP, env_for_source, format_env_cell, stand_for
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESEARCH = ['cyber-internet-core', 'cyber-threat-intel', 'cyber-finance-corporate',
@@ -695,18 +703,18 @@ for s in sources:
         names = ['nur Alternativquelle für: ' + ', '.join(x.split('.')[-1] for x in s['signals'][:3])]
     alt = len(s['signals']) - len([sg for sg in signals if sg['independenceGroup'] == s['id']])
     cnt = '%d' % main_cnt[s['id']] + (' (+%d als Alternative)' % alt if alt > 0 else '')
-    env = 'SR_%s_KEY' % re.sub(r'[^A-Z0-9]', '_', s['id'].upper())
+    env = env_for_source(s['id'])
     auth = {'free-key': 'kostenloser Key/Konto', 'paid': 'bezahlt', 'none': 'teilweise Konto'}.get(s['auth'], s['auth'])
-    key_rows.append('| %s | %s | %s (%s) | %s | `%s` | %s |' % (
+    key_rows.append('| %s | %s | %s (%s) | %s | %s | %s | %s |' % (
         md_cell(s['name']), md_cell('; '.join(names[:4]) + (' …' if len(names) > 4 else '')),
-        md_cell(s['cost']), auth, s['docUrl'], env, cnt))
+        md_cell(s['cost']), auth, s['docUrl'], format_env_cell(env), cnt, stand_for(env)))
 
 keys_md = ['# Benötigte Keys, Konten und Bezahlzugänge (Szenario cyber)', '',
            'Automatisch erzeugt von `scripts/consolidate_cyber.py`. Collectors ohne Key werden übersprungen, '
            'nicht als Fehler gewertet. Der Link führt auf die Doku-Seite der Quelle; die Anmeldung ist dort verlinkt. '
-           '"Betroffene Signale" zählt Signale mit dieser Quelle als Hauptquelle und Status needs-key.', '',
-           '| Dienst | Wofür | Kosten | Link | Umgebungsvariable | Betroffene Signale |',
-           '|---|---|---|---|---|---|'] + key_rows + ['']
+           '"Betroffene Signale" zählt Signale mit dieser Quelle als Hauptquelle und Status needs-key. '
+           + INTRO_STAND, '',
+           TABLE_HEADER, TABLE_SEP] + key_rows + ['']
 
 lic_rows = []
 for s in sources:

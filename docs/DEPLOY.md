@@ -26,16 +26,15 @@ Der Workflow `.github/workflows/collect.yml` heißt `collect`, läuft nach Zeitp
    gh secret set SR_CLOUDFLARE_KEY
    gh secret set SR_ABUSECH_KEY
    ```
-   Welche Collectors welchen Key lesen (Stand der Quelltexte, alle im Workflow `env:` eingetragen):
+   Welche Collectors welchen Key lesen (Stand der Quelltexte):
 
-   | Variable | Gelesen von | Pflicht | Stand |
+   | Variable | Gelesen von | Pflicht | Im Workflow `env:` |
    |---|---|---|---|
-   | `SR_CLOUDFLARE_KEY` | `cloudflare-radar` | ja (sonst übersprungen) | nicht gesetzt |
-   | `SR_ABUSECH_KEY` | `threatfox`, `urlhaus`, `malwarebazaar` | ja (sonst übersprungen) | nicht gesetzt (abuse.ch verlangt ein Konto, siehe KEYS-NEEDED.md) |
-   | `SR_SEC_USER_AGENT` | `sec-edgar` | nein; die SEC verlangt einen User-Agent mit Kontaktangabe | gesetzt |
+   | `SR_CLOUDFLARE_KEY` | `cloudflare-radar` | ja (sonst übersprungen) | ja |
+   | `SR_ABUSECH_KEY` | `threatfox`, `urlhaus`, `malwarebazaar` | ja (sonst übersprungen) | ja |
+   | `SR_SEC_USER_AGENT` | `sec-edgar` | nein; die SEC verlangt einen User-Agent mit Kontaktangabe | ja |
 
-   Andere `SR_*_KEY`-Variablen liest kein Collector; sie stehen deshalb nicht mehr im Workflow. Kommt ein neuer Key-Collector dazu, die Variable dort ergänzen (`grep -rhoE "SR_[A-Z_]+" src | sort -u` zeigt den Bedarf). Ein leeres Secret zählt als „kein Key“.
-   Wo man Keys bekommt und was sie kosten: [KEYS-NEEDED.md](KEYS-NEEDED.md). Die Lizenz-Lage der Quellen: [LICENSE-TODO.md](LICENSE-TODO.md).
+   Der Workflow reicht außerdem `SR_FRED_KEY`, `SR_AGSI_KEY`, `SR_ALSI_KEY`, `SR_EIA_KEY`, `SR_FIRMS_KEY` (und den Alias `SR_NASA_FIRMS_KEY` aus demselben Secret), `SR_NVD_KEY`, `SR_ENTSOE_KEY`, `SR_ACLED_KEY` und `SR_OPENSKY_KEY` durch. Zurzeit liest kein gebauter Collector diese Variablen; sie sind für geplante Collectors vorgesehen. Ein leeres Secret zählt als „kein Key“. Der Bearbeitungsstand der Zugänge (ohne Werte) steht in der Spalte „Stand“ von [KEYS-NEEDED.md](KEYS-NEEDED.md). Lizenz-Lage: [LICENSE-TODO.md](LICENSE-TODO.md), geprüfte Bedingungen: [DATA-TERMS.md](DATA-TERMS.md).
 
 5. **Ersten Lauf von Hand starten und beobachten.**
    ```

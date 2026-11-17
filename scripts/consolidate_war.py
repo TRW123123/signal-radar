@@ -15,6 +15,8 @@ import re
 import sys
 from collections import OrderedDict, Counter, defaultdict
 
+from key_stand import TABLE_HEADER, TABLE_SEP, env_for_source, format_env_cell, stand_for
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESEARCH = ['war-military', 'war-markets-shipping', 'war-states-events']
 CAT = os.path.join(ROOT, 'catalog')
@@ -791,16 +793,16 @@ for s in war_src:
     alt = len(war_sigs) - len([sg for sg in signals if sg['independenceGroup'] == s['id']])
     cnt = '%d' % main_cnt[s['id']] + (' (+%d als Alternative)' % alt if alt > 0 else '')
     v_need = next((v for v in variants[s['id']] if not is_free(v)), variants[s['id']][0])
-    env = 'SR_%s_KEY' % re.sub(r'[^A-Z0-9]', '_', s['id'].upper())
+    env = env_for_source(s['id'])
     auth = {'free-key': 'kostenloser Key/Konto', 'paid': 'bezahlt', 'none': 'teilweise Konto'}.get(
         v_need.get('auth'), v_need.get('auth'))
-    key_rows.append('| %s | %s | %s (%s) | %s | `%s` | %s |' % (
+    key_rows.append('| %s | %s | %s (%s) | %s | %s | %s | %s |' % (
         md_cell(s['name']), md_cell('; '.join(names[:4]) + (' …' if len(names) > 4 else '')),
-        md_cell(v_need.get('cost')), auth, s['docUrl'], env, cnt))
+        md_cell(v_need.get('cost')), auth, s['docUrl'], format_env_cell(env), cnt, stand_for(env)))
 keys_sec = [SECTION, '', 'Automatisch erzeugt von `scripts/consolidate_war.py`. Gleiche Spalten wie oben; '
-            'Dienste, die schon im Cyber-Abschnitt stehen, nutzen dieselbe Umgebungsvariable.', '',
-            '| Dienst | Wofür | Kosten | Link | Umgebungsvariable | Betroffene Signale |',
-            '|---|---|---|---|---|---|'] + key_rows + ['']
+            'Dienste, die schon im Cyber-Abschnitt stehen, nutzen dieselbe Umgebungsvariable. '
+            'Spalte „Stand“ und kanonische Env-Namen: scripts/key_stand.py.', '',
+            TABLE_HEADER, TABLE_SEP] + key_rows + ['']
 
 lic_rows = []
 for s in war_src:

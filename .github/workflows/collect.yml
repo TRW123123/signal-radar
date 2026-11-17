@@ -23,10 +23,20 @@ jobs:
         run: node src/cli.ts run --respect-intervals --prune-days 120
         env:
           SR_SENSITIVITY: high
-          # Nur Variablen, die ein Collector tatsächlich liest. Ohne Wert wird der Collector übersprungen (kein Fehler).
+          # Collectors lesen heute: CLOUDFLARE, ABUSECH, SEC_USER_AGENT. Die übrigen sind für geplante Collectors vorgesehen; ohne Wert wird übersprungen (kein Fehler).
           SR_CLOUDFLARE_KEY: ${{ secrets.SR_CLOUDFLARE_KEY }}
           SR_ABUSECH_KEY: ${{ secrets.SR_ABUSECH_KEY }}
           SR_SEC_USER_AGENT: ${{ secrets.SR_SEC_USER_AGENT }}
+          SR_FRED_KEY: ${{ secrets.SR_FRED_KEY }}
+          SR_AGSI_KEY: ${{ secrets.SR_AGSI_KEY }}
+          SR_ALSI_KEY: ${{ secrets.SR_ALSI_KEY }}
+          SR_EIA_KEY: ${{ secrets.SR_EIA_KEY }}
+          SR_FIRMS_KEY: ${{ secrets.SR_FIRMS_KEY }}
+          SR_NASA_FIRMS_KEY: ${{ secrets.SR_FIRMS_KEY }}
+          SR_NVD_KEY: ${{ secrets.SR_NVD_KEY }}
+          SR_ENTSOE_KEY: ${{ secrets.SR_ENTSOE_KEY }}
+          SR_ACLED_KEY: ${{ secrets.SR_ACLED_KEY }}
+          SR_OPENSKY_KEY: ${{ secrets.SR_OPENSKY_KEY }}
       - name: Commit data
         run: |
           git config user.name "signal-radar-bot"

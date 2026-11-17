@@ -11,7 +11,7 @@ läuft alle 15 Minuten, der Snapshot kommt von `raw.githubusercontent.com`. Einz
 
 Auf dem Gratis-Tarif blendet Netlify eine Plakette ein, die die strenge CSP blockiert. Sie ist über die Site-Einstellung
 `built_with_badge_enabled=false` abgeschaltet (per API, ohne Zusatzkosten). Sollte Netlify das Verhalten ändern, kehren 4 Konsolenfehler
-zurück; dann Einstellung prüfen. **Zu prüfen:** zählt Netlify die übersprungenen Builds (Daten-Commits) auf das Kontingent?
+zurück; dann Einstellung prüfen. Die `ignore`-Regel greift (geprüft: Commit ohne Frontend-Änderung wird mit „Canceled build due to no content change“ beendet, in der Deploy-Liste rot als `error` gezeigt, aber kein Deploy). **Zu prüfen:** zählt Netlify diese abgebrochenen Builds auf das Kontingent?
 
 ## 3. Offen: GDELT drosselt
 

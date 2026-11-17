@@ -16,3 +16,13 @@ test('store appends, de-duplicates by timestamp and ignores invalid values', asy
   assert.deepEqual(await s.getJson('k'), { a: 1 });
   assert.equal(await s.getJson('missing'), null);
 });
+
+import { applyTransform } from '../src/pipeline/snapshot.ts';
+import { normalizeSignal } from '../src/core/catalog.ts';
+
+test('rate transform turns a counter into increase per hour and drops resets and long gaps', () => {
+  const def = normalizeSignal({ id: 'x.y.counter', transform: 'rate' });
+  const at = (h: number, v: number) => ({ signalId: def.id, ts: new Date(Date.parse('2026-11-17T00:00:00Z') + h * 3600_000).toISOString(), value: v });
+  const out = applyTransform(def, [at(0, 100), at(1, 160), at(3, 280), at(4, 10), at(5, 40), at(40, 5000)]);
+  assert.deepEqual(out.map((o) => o.value), [60, 60, 30]);
+});

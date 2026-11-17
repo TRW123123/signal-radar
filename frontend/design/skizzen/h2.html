@@ -144,8 +144,8 @@ function feld(sc) {
     <rect x="${P.l}" y="${P.t}" width="${iw}" height="${ih}" fill="none" stroke="#111"/>
     ${zl(P.l + 8, P.t + 20, 'start', 'Gerede ohne Messung', m ? 'Messwerte ruhig' : 'viel Aufmerksamkeit, Messwerte ruhig')}
     ${zl(x(1) - 8, P.t + 20, 'end', 'Gerede und Messung', 'beides auffällig')}
-    ${zl(P.l + 10, y(0) - 26, 'start', 'Ruhig', m ? 'Messwerte normal' : 'wenig Gerede, Messwerte normal')}
-    ${zl(x(1) - 8, y(0) - 26, 'end', 'Messung ohne Gerede', 'Instrumente schlagen aus')}
+    ${zl(P.l + 8, gy + 20, 'start', 'Ruhig', m ? 'Messwerte normal' : 'wenig Gerede, Messwerte normal')}
+    ${zl(x(1) - 8, gy + 20, 'end', 'Messung ohne Gerede', 'Instrumente schlagen aus')}
     <text x="${P.l + iw / 2}" y="${H - P.b + 20}" text-anchor="middle" font-size="${fs2}" fill="#333">Messwerte → (wie ungewöhnlich)</text>
     ${bands}
     <text x="${P.l}" y="${H - P.b + 58}" font-size="10" fill="#444">Stufe 0–4 ergibt sich aus der Lage auf der Messachse</text>

@@ -41,6 +41,11 @@ export interface SignalDef {
   thresholds?: { z0?: number; z1?: number; absFloor?: number; relFloor?: number };
   /** how long an anomalous observation keeps counting, in hours */
   holdHours?: number;
+  /**
+   * rate: the source reports a monotonically growing counter (e.g. a log's tree size); the engine scores the
+   * increase per hour between consecutive observations instead of the raw counter.
+   */
+  transform?: 'rate';
   /** expected interval between observations in minutes (for freshness) */
   intervalMinutes: number;
   status: SignalStatus;

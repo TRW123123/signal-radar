@@ -155,7 +155,7 @@ function render(snap) {
   const thead = '<thead><tr><th>Messreihe</th><th class="num">Jetzt</th><th class="num">Normal</th><th class="num">Abweichung</th><th>Verlauf</th><th>Rohdaten</th></tr></thead>';
   const belegSec = `<section class="sec"><h2>Belege</h2>
     ${belege.length ? `<table class="belege">${thead}<tbody>${belege.map(zeile).join('')}</tbody></table>` : '<p class="ruhig-liste">Keine Messreihe weicht ab.</p>'}
-    <details><summary>Alle ${messSig.length} Messreihen ansehen</summary><table class="belege">${thead}<tbody>${messSig.map(zeile).join('')}</tbody></table></details>
+    <details><summary>Alle ${messSig.length} Messreihen der Bereiche ansehen (ohne Aufmerksamkeit)</summary><table class="belege">${thead}<tbody>${messSig.map(zeile).join('')}</tbody></table></details>
   </section>`;
 
   const fragen = `<nav class="fragen" aria-label="Szenarien"><h2>Fragen</h2><ol>

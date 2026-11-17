@@ -28,6 +28,24 @@ const T = {
       fehlendeSpuren: 'Ohne frische Daten',
       verlaufDetails: 'Zeitlicher Verlauf und Schwellenwerte',
       datenErkunden: 'Messreihen und Rohdaten ansehen',
+      chartTitel: 'Messaktivität im Zeitverlauf',
+      chartBeschreibung: 'Bis zu vier Messbereiche. Die gestrichelte Linie markiert die Grenze für auffällige Abweichungen.',
+      chartMangel: 'Noch keine ausreichenden Messreihen für ein Zeitbild.',
+      chartNormal: 'Üblicher Bereich',
+      chartGrenze: 'Auffällig ab 0,25',
+      chartLetzter: 'Bis jetzt',
+      chartLegende: 'Gezeigte Messbereiche',
+      chartHinweis: 'Nicht jede gezeigte Kurve kann bereits für die Stufe bewertet werden.',
+      spurenUebersicht: 'Was die Messnetze zeigen',
+      spurenUntertitel: 'Aktuelle Signale auf einen Blick. Zeile auswählen, um Rohdaten zu öffnen.',
+      weitereSpuren: 'Weitere Messbereiche',
+      keineSpuren: 'Noch keine frischen Messspuren verfügbar.',
+      geprueft: 'Öffentliche Messdaten',
+      spurenLink: 'Messbereiche ansehen',
+      abdeckungKurz: 'Frische Bereiche',
+      aussageKurz: 'Gleichzeitige Ausschläge',
+      vertrauenKurz: 'Datenqualität',
+      skala: 'Skala',
       aufmerksamkeitDetails: 'Aufmerksamkeit im Netz – zählt nicht als Beleg',
     },
 
@@ -495,28 +513,125 @@ function waehle(id, nutzer) {
 }
 
 // ---------- Lage ----------
-function aussage(sc){
- const wenig=wenigDaten(sc),lvl=wenig?'x':sc.level;
- const verfuegbar=sc.coverage?.domainsWithData??sc.domains.filter(hatDaten).length;
- const alle=sc.coverage?.domainsTotal??sc.domains.length;
- const klartext=wenig?L.status.wenig:sc.level===0?L.status.ruhig:sc.level===1?L.status.leicht:L.status.hoch;
- const gap=L.gerede[sc.rumorGap]??'';
- return `<section class="aussage a-l${lvl}" aria-labelledby="lage-titel">
-  <div class="status-kopf"><span class="status-kategorie">${esc(L.status.kontext)} · ${esc(sc.title)}</span><span class="status-stufennummer">${esc(wenig?L.wenigDatenStufe:`${L.stufe(sc.level)} von 4`)}</span></div>
-  <div class="status-inhalt"><div class="status-botschaft">
-   <h1 id="lage-titel">${esc(wenig?L.wenigDaten:stufeName(sc))}</h1>
-   <p class="status-verdict">${esc(sc.verdict)}</p><p class="status-einordnung">${esc(klartext)}</p>
-  </div><dl class="status-fakten">
-   <div><dt>${esc(L.status.datenbasis)}</dt><dd><strong>${pctFmt.format(sc.confidence)}</strong><span>${esc(L.status.datenbasisErkl)}</span></dd></div>
-   <div><dt>${esc(L.status.bereiche)}</dt><dd><strong>${verfuegbar}<span class="status-von"> / ${alle}</span></strong><span>${esc(L.status.bereicheErkl)}</span></dd></div>
-   <div><dt>${esc(L.status.ausschlaege)}</dt><dd><strong>${wenig?'–':sc.activeDomains}</strong><span>${esc(L.status.ausschlaegeErkl)}</span></dd></div>
-  </dl></div>
-  <details class="status-details"><summary>${esc(L.status.details)}</summary>
-   ${zwilling(sc,wenig,gap)}
-   <div class="pegel" role="img" aria-label="${esc(wenig?L.wenigDaten:L.pegelLabel(sc.level))}">${[1,2,3,4].map(k=>`<span class="pegel-feld${!wenig&&sc.level>=k?` an f-bg-l${sc.level}`:''}"><i></i><b>${k}</b><small>${esc(L.stufen[k])}</small></span>`).join('')}</div>
-   <p class="pegel-erkl">${esc(L.pegelErkl)}</p><p class="frage">${esc(sc.question)}</p><p class="status-fussnote">${esc(L.status.methodenHinweis)}</p>
-  </details>
- </section>`;
+function radarDiagramm(sc) {
+  // Ausschließlich vorhandene Zeitreihen: Bereichs-Score und die bereits berechnete Unruhe.
+  // Im Normalbereich gibt es bewusst Bewegung, aber keinen künstlichen Alarm.
+  const hist = (sc.history ?? []).filter(h => Number.isFinite(Date.parse(h.t)));
+  const doms = sortiere(sc.domains.filter(hatDaten))
+    .sort((a, b) => Number(b.active) - Number(a.active) || (b.unrest ?? 0) - (a.unrest ?? 0))
+    .slice(0, 4);
+  const keineReihen = hist.length < 2 || doms.length === 0;
+  const titel = esc(L.status.chartTitel);
+  if (keineReihen) {
+    return `<figure class="radar-figure radar-figure-empty">
+      <div class="radar-meta"><span class="radar-kicker"><i aria-hidden="true"></i> ${titel}</span><span class="radar-fenster">14 TAGE</span></div>
+      <div class="radar-empty" role="status"><span class="radar-empty-symbol" aria-hidden="true">◌</span><p>${esc(L.status.chartMangel)}</p></div>
+    </figure>`;
+  }
+  const first = Date.parse(hist[0].t), last = Date.parse(hist[hist.length - 1].t);
+  const w = 720, left = 24, right = 697, top = 32, bottom = 228;
+  const value = (h, id) => {
+    const score = Number(h.d?.[id]), unrest = Number(h.u?.[id]);
+    return Math.max(0, Number.isFinite(score) ? score : 0, 0.25 * (Number.isFinite(unrest) ? unrest : 0));
+  };
+  const maxObserved = Math.max(0, ...doms.flatMap(d => hist.map(h => value(h, d.id))));
+  const scale = maxObserved > 0.5 ? 1 : 0.5; // Zoom ohne Werte zu verändern; Achse wird mitbeschriftet.
+  const x = t => left + (last > first ? (t - first) / (last - first) : 1) * (right - left);
+  const y = v => bottom - Math.max(0, Math.min(scale, v)) / scale * (bottom - top);
+  const limitY = y(DOMAIN_ACTIVE);
+  const limits = [0, scale / 2, scale];
+  const raster = limits.map(v => `<line class="radar-gridline" x1="${left}" y1="${y(v).toFixed(2)}" x2="${right}" y2="${y(v).toFixed(2)}"/>`).join('');
+  const vert = [0, 0.25, 0.5, 0.75, 1].map(q => {
+    const xx = left + q * (right - left);
+    return `<line class="radar-vert" x1="${xx.toFixed(2)}" y1="${top}" x2="${xx.toFixed(2)}" y2="${bottom}"/>`;
+  }).join('');
+  const paths = doms.map((d, i) => {
+    const points = hist.map(h => [x(Date.parse(h.t)), y(value(h, d.id))]);
+    const path = points.map((p, k) => `${k ? 'L' : 'M'}${p[0].toFixed(2)} ${p[1].toFixed(2)}`).join(' ');
+    const at = points[points.length - 1];
+    return `<path class="radar-trace rt-${i}${d.active ? ' rt-active' : ''}" pathLength="1" d="${path}"/><circle class="radar-end rt-${i}${d.active ? ' rt-active' : ''}" cx="${at[0].toFixed(2)}" cy="${at[1].toFixed(2)}" r="4"/>`;
+  }).join('');
+  const dates = [hist[0].t, hist[Math.floor(hist.length / 2)].t, hist[hist.length - 1].t]
+    .map(v => esc(tagFmt.format(new Date(v))));
+  const legend = doms.map((d, i) => `<span class="radar-legend-item"><i class="rt-${i}${d.active ? ' rt-active' : ''}" aria-hidden="true"></i>${esc(d.title)}</span>`).join('');
+  const alt = `${sc.title}: ${L.status.chartTitel}, ${dates[0]} bis ${dates[2]}. ${doms.length} Messbereiche; Grenzwert 0,25. ${sc.activeDomains} Bereiche aktuell auffällig. Die Skala reicht von 0 bis ${scale}.`;
+  return `<figure class="radar-figure">
+    <div class="radar-meta"><span class="radar-kicker"><i aria-hidden="true"></i> ${titel}</span><span class="radar-fenster">14 TAGE</span></div>
+    <div class="radar-canvas">
+      <svg class="radar-svg" viewBox="0 0 ${w} 258" role="img" aria-label="${esc(alt)}" preserveAspectRatio="none">
+        <title>${titel}</title><desc>${esc(L.status.chartBeschreibung)}</desc>
+        <defs><linearGradient id="radar-feld" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#47b9cc" stop-opacity=".06"/>
+          <stop offset="100%" stop-color="#47b9cc" stop-opacity=".16"/>
+        </linearGradient></defs>
+        <rect class="radar-normalzone" x="${left}" y="${limitY.toFixed(2)}" width="${right - left}" height="${(bottom - limitY).toFixed(2)}"/>
+        ${vert}${raster}
+        <line class="radar-grenze" x1="${left}" y1="${limitY.toFixed(2)}" x2="${right}" y2="${limitY.toFixed(2)}"/>
+        <text class="radar-axis" x="10" y="${top + 3}">${String(scale).replace('.', ',')}</text>
+        <text class="radar-axis" x="10" y="${bottom + 4}">0</text>
+        <text class="radar-threshold-label" x="${right - 5}" y="${(limitY - 10).toFixed(2)}" text-anchor="end">${esc(L.status.chartGrenze)}</text>
+        ${paths}
+        <line class="radar-now" x1="${right}" y1="${top}" x2="${right}" y2="${bottom}"/>
+        <text class="radar-date" x="${left}" y="252">${dates[0]}</text>
+        <text class="radar-date" x="${(left + right) / 2}" y="252" text-anchor="middle">${dates[1]}</text>
+        <text class="radar-date" x="${right}" y="252" text-anchor="end">${dates[2]}</text>
+      </svg>
+    </div>
+    <figcaption class="radar-caption">
+      <span class="radar-normalmark"><i aria-hidden="true"></i>${esc(L.status.chartNormal)}</span>
+      <span class="radar-legend" aria-label="${esc(L.status.chartLegende)}">${legend}</span>
+      <span class="radar-caption-note">${esc(L.status.chartHinweis)}</span>
+    </figcaption>
+  </figure>`;
+}
+
+function aussage(sc) {
+  const wenig = wenigDaten(sc);
+  const lvl = wenig ? 'x' : sc.level;
+  const mitDaten = sc.coverage?.domainsWithData ?? sc.domains.filter(hatDaten).length;
+  const alle = sc.coverage?.domainsTotal ?? sc.domains.length;
+  const klartext = wenig ? L.status.wenig : sc.level === 0 ? L.status.ruhig : sc.level === 1 ? L.status.leicht : L.status.hoch;
+  const gap = L.gerede[sc.rumorGap] ?? '';
+  const mode = zustand.snap?.mode ?? 'snapshot';
+  const modeLabel = L.betrieb[mode]?.kurz ?? 'Aufzeichnung';
+  return `<section class="aussage a-l${lvl}" aria-labelledby="lage-titel">
+    <div class="overview-topline">
+      <div class="overview-eyebrow"><span class="overview-icon" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      ${esc(L.status.geprueft)} <span class="overview-sep">/</span> ${esc(sc.title)}</div>
+      <span class="overview-mode"><i aria-hidden="true"></i>${esc(modeLabel)}</span>
+    </div>
+    <div class="overview-hero">
+      <div class="overview-copy">
+        <p class="overview-label">${esc(L.status.kontext)} <span class="overview-tier">${esc(wenig ? L.wenigDatenStufe : L.stufe(sc.level))}</span></p>
+        <h1 id="lage-titel">${esc(wenig ? L.wenigDaten : stufeName(sc))}</h1>
+        <p class="overview-verdict">${esc(sc.verdict)}</p>
+        <p class="overview-explain">${esc(klartext)}</p>
+        <a class="overview-link" href="#spuren-titel">${esc(L.status.spurenLink)} <span aria-hidden="true">↗</span></a>
+      </div>
+      ${radarDiagramm(sc)}
+    </div>
+    <div class="overview-bottom">
+      <dl class="overview-metrics">
+        <div class="overview-metric"><dt>${esc(L.status.vertrauenKurz)}</dt>
+          <dd><strong>${pctFmt.format(sc.confidence)}</strong><span>${esc(L.status.datenbasisErkl)}</span></dd>
+        </div>
+        <div class="overview-metric"><dt>${esc(L.status.abdeckungKurz)}</dt>
+          <dd><strong>${mitDaten}<small> / ${alle}</small></strong><span>${esc(L.status.bereicheErkl)}</span></dd>
+        </div>
+        <div class="overview-metric"><dt>${esc(L.status.aussageKurz)}</dt>
+          <dd><strong>${wenig ? '–' : sc.activeDomains}</strong><span>${esc(L.status.ausschlaegeErkl)}</span></dd>
+        </div>
+      </dl>
+      <details class="overview-method"><summary>${esc(L.status.details)}</summary>
+        ${zwilling(sc, wenig, gap)}
+        <div class="pegel" role="img" aria-label="${esc(wenig ? L.wenigDaten : L.pegelLabel(sc.level))}">
+          ${[1, 2, 3, 4].map(k => `<span class="pegel-feld${!wenig && sc.level >= k ? ` an f-bg-l${sc.level}` : ''}"><i></i><b>${k}</b><small>${esc(L.stufen[k])}</small></span>`).join('')}
+        </div>
+        <p class="pegel-erkl">${esc(L.pegelErkl)}</p><p class="frage">${esc(sc.question)}</p>
+        <p class="status-fussnote">${esc(L.status.methodenHinweis)}</p>
+      </details>
+    </div>
+  </section>`;
 }
 
 function zwilling(sc,wenig,gap){
@@ -625,24 +740,44 @@ function kontext(sc) {
     </section>`;
 }
 
-function renderLage(){
- const sc=aktuellesSzenario(),ax=sc.history&&sc.history.length>1?zeitachse(sc.history):null;
- const aktive=sortiere(sc.domains.filter(d=>d.active&&hatDaten(d)));
- const normale=sortiere(sc.domains.filter(d=>!d.active&&hatDaten(d)));
- const fehlende=sortiere(sc.domains.filter(d=>!hatDaten(d)));
- const vielGerede=(sc.attention??0)>=ATT_HIGH&&(sc.attentionSignals??[]).some(s=>s.status==='active'&&s.fresh);
- const main=$('inhalt');main.setAttribute('aria-busy','false');
- main.innerHTML=`<div class="lage${zustand.erstesBild?' zeichnen':''}" id="lage" role="tabpanel" aria-labelledby="tab-${esc(sc.id)}">
- ${aussage(sc)}
- <section class="spuren" aria-labelledby="spuren-titel"><div class="analyse-kopf"><h2 id="spuren-titel">${esc(L.spuren)}</h2><p>${esc(L.spurenSub)}</p></div>
- ${!ax?`<p class="mr-alt">${esc(L.keinVerlauf)}</p>`:''}
- ${aktive.length?`<h3 class="spur-gruppentitel">${esc(L.status.aktuelleSpuren)} (${aktive.length})</h3>${achse(ax)}<ul class="spurliste">${aktive.map(d=>spur(d,sc,ax)).join('')}</ul>`:`<p class="ruhig-meldung">${esc(wenigDaten(sc)?L.status.wenigJetzt:L.status.normalJetzt)}</p>`}
- ${normale.length?`<details class="spuren-gruppe"><summary><span>${esc(L.status.normaleSpuren)}</span><strong>${normale.length}</strong></summary>${achse(ax)}<ul class="spurliste">${normale.map(d=>spur(d,sc,ax)).join('')}</ul></details>`:''}
- ${fehlende.length?`<details class="spuren-gruppe"><summary><span>${esc(L.status.fehlendeSpuren)}</span><strong>${fehlende.length}</strong></summary><ul class="spurliste">${fehlende.map(d=>spur(d,sc,ax)).join('')}</ul></details>`:''}
- ${ax?`<details class="spuren-gruppe"><summary><span>${esc(L.status.verlaufDetails)}</span></summary>${achse(ax)}${summe(sc,ax)}${legende()}</details>`:''}
- ${vielGerede?aufmerksamkeit(sc,ax):`<details class="spuren-gruppe spuren-gerede"><summary><span>${esc(L.status.aufmerksamkeitDetails)}</span></summary>${aufmerksamkeit(sc,ax)}</details>`}
- </section>${belege(sc)}${kontext(sc)}</div>`;
- for(const b of main.querySelectorAll('.spur-knopf'))b.addEventListener('click',()=>umschalten(b));
+function renderLage() {
+  const sc = aktuellesSzenario();
+  const ax = sc.history && sc.history.length > 1 ? zeitachse(sc.history) : null;
+  const mitDaten = sortiere(sc.domains.filter(hatDaten))
+    .sort((a, b) => Number(b.active) - Number(a.active) || (b.unrest ?? 0) - (a.unrest ?? 0));
+  const zuerst = mitDaten.slice(0, 4);
+  const weitere = mitDaten.slice(4);
+  const fehlende = sortiere(sc.domains.filter(d => !hatDaten(d)));
+  const vielGerede = (sc.attention ?? 0) >= ATT_HIGH
+    && (sc.attentionSignals ?? []).some(s => s.status === 'active' && s.fresh);
+  const main = $('inhalt');
+  main.setAttribute('aria-busy', 'false');
+  main.innerHTML = `<div class="lage${zustand.erstesBild ? ' zeichnen' : ''}" id="lage" role="tabpanel" aria-labelledby="tab-${esc(sc.id)}">
+    ${aussage(sc)}
+    <section class="spuren" aria-labelledby="spuren-titel">
+      <div class="analyse-kopf">
+        <div><p class="analyse-kicker">TELEMETRIE / ${esc(sc.title)}</p><h2 id="spuren-titel">${esc(L.status.spurenUebersicht)}</h2>
+          <p class="analyse-description">${esc(L.status.spurenUntertitel)}</p></div>
+        <span class="analyse-count">${sc.domains.filter(hatDaten).length} / ${sc.domains.length} ${esc(L.status.abdeckungKurz)}</span>
+      </div>
+      ${zuerst.length ? `${achse(ax)}<ul class="spurliste fokus-spuren">${zuerst.map(d => spur(d, sc, ax)).join('')}</ul>` :
+        `<p class="ruhig-meldung">${esc(L.status.keineSpuren)}</p>`}
+      ${weitere.length ? `<details class="spuren-gruppe">
+        <summary><span>${esc(L.status.weitereSpuren)}</span><strong>${weitere.length}</strong></summary>
+        ${achse(ax)}<ul class="spurliste">${weitere.map(d => spur(d, sc, ax)).join('')}</ul></details>` : ''}
+      ${fehlende.length ? `<details class="spuren-gruppe">
+        <summary><span>${esc(L.status.fehlendeSpuren)}</span><strong>${fehlende.length}</strong></summary>
+        <ul class="spurliste">${fehlende.map(d => spur(d, sc, ax)).join('')}</ul></details>` : ''}
+      ${ax ? `<details class="spuren-gruppe">
+        <summary><span>${esc(L.status.verlaufDetails)}</span></summary>
+        ${achse(ax)}${summe(sc, ax)}${legende()}</details>` : ''}
+      ${vielGerede ? aufmerksamkeit(sc, ax) : `<details class="spuren-gruppe spuren-gerede">
+        <summary><span>${esc(L.status.aufmerksamkeitDetails)}</span></summary>
+        ${aufmerksamkeit(sc, ax)}</details>`}
+    </section>
+    ${belege(sc)}${kontext(sc)}
+  </div>`;
+  for (const b of main.querySelectorAll('.spur-knopf')) b.addEventListener('click', () => umschalten(b));
 }
 
 function umschalten(b) {

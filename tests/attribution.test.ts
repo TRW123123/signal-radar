@@ -72,3 +72,15 @@ test('attribution: buildSnapshot attaches notices only for signals that show dat
   assert.equal(a.collector, 'threatfox');
   assert.equal(a.license, 'L-a');
 });
+
+test('attribution: Pflichtangaben der Welle-1-Quellen (20.11.2026)', () => {
+  const by = (id: string) => SOURCE_ATTRIBUTIONS.find((a) => a.id === id)!;
+  assert.ok(by('gfw').footerNotices.some((n) => n.startsWith('Powered by Global Fishing Watch.') && n.includes('https://globalfishingwatch.org')));
+  assert.ok(by('coingecko').footerNotices.some((n) => n.startsWith('Data provided by CoinGecko') && n.includes('https://www.coingecko.com')));
+  assert.ok(by('fingrid').footerNotices.includes('Source: Fingrid, data.fingrid.fi'));
+  assert.equal(by('shadowserver').attribution, '© The Shadowserver Foundation');
+  assert.equal(by('ghsa').attributionUrl, 'https://github.com/advisories');
+  const covered = new Set(SOURCE_ATTRIBUTIONS.flatMap((a) => a.collectors));
+  for (const c of ['gfw', 'fingrid', 'nasa-firms', 'nvd-cve-api', 'ghsa', 'github-rest', 'coingecko', 'metaculus', 'reddit-json', 'shadowserver', 'otx',
+    'aisstream', 'faa-notam', 'space-track', 'alerts-in-ua', 'fred', 'eia', 'agsi', 'alsi']) assert.ok(covered.has(c), c);
+});

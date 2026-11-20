@@ -104,8 +104,9 @@ const collector: Collector = {
         for (const [sig, fn] of job.series) observations.push(...dailySeries(sig, rows, fn));
       } catch (e) {
         failed++;
-        firstErr ||= e instanceof Error ? e.message : String(e);
-        ctx.log(`${ID}: ${job.query} fehlgeschlagen: ${firstErr}`);
+        const msg = e instanceof Error ? e.message : String(e);
+        firstErr ||= msg;
+        ctx.log(`${ID}: ${job.query} fehlgeschlagen: ${msg}`);
       }
     }
     if (failed === JOBS.length) throw new Error(`${ID}: alle Abrufe fehlgeschlagen (${firstErr})`);

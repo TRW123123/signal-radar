@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import collector, { parseAbout, toObservations, tokenRequest, aboutUrl } from '../../src/collectors/reddit-json.ts';
+import collector, { parseAbout, parseToken, toObservations, tokenRequest, aboutUrl, REDDIT_UA } from '../../src/collectors/reddit-json.ts';
 import { runCollectors } from '../../src/pipeline/collect.ts';
 import { activate } from '../../src/core/registry.ts';
 import { fileStore } from '../../src/core/store.ts';
@@ -28,15 +28,40 @@ test('toObservations: Zeitstempel auf 5 Minuten', () => {
 test('tokenRequest/aboutUrl: App-only-OAuth laut Doku', () => {
   const t = tokenRequest('id', 'secret');
   assert.equal(t.url, 'https://www.reddit.com/api/v1/access_token');
-  assert.equal(t.headers.Authorization, `Basic ${Buffer.from('id:secret').toString('base64')}`);
+  assert.equal(t.headers.authorization, `Basic ${Buffer.from('id:secret').toString('base64')}`);
   assert.equal(t.body, 'grant_type=client_credentials');
   assert.equal(aboutUrl('LocalLLaMA'), 'https://oauth.reddit.com/r/LocalLLaMA/about?raw_json=1');
 });
-test('collect mit Keys: klarer Fehler (ctx.http ohne POST), kein Netzwerkzugriff', async () => {
-  let called = false;
-  const http: HttpClient = { json: async () => { called = true; return {} as never; }, text: async () => '' };
-  await assert.rejects(collector.collect({ now: NOW, http, key: () => 'x', log: () => {} }), /POST/);
-  assert.equal(called, false);
+test('User-Agent im Reddit-Format, ohne Platzhalter', () => {
+  assert.match(REDDIT_UA, /^server:signal-radar:v[\d.]+ \(by [^<>]+\)$/);
+  assert.ok(!REDDIT_UA.includes('<'));
+});
+test('parseToken: Token lesen, Fehler ohne Geheimnis', () => {
+  assert.equal(parseToken('{"access_token":"tok-1","token_type":"bearer","expires_in":86400}'), 'tok-1');
+  assert.throws(() => parseToken('{"error":"invalid_grant"}'), /invalid_grant/);
+  assert.throws(() => parseToken('<html>'), /kein JSON/);
+});
+test('collect: Token per POST (geheim), dann about mit Bearer und eigenem UA', async () => {
+  const calls: { url: string; init?: Record<string, any> }[] = [];
+  const http = {
+    request: async (url: string, init?: Record<string, any>) => { calls.push({ url, init }); return { status: 200, headers: {}, setCookie: [], cookie: '', body: '{"access_token":"tok-1","token_type":"bearer"}' }; },
+    json: async (url: string, init?: Record<string, any>) => {
+      calls.push({ url, init });
+      if (url.includes('LocalLLaMA')) throw new Error('HTTP 503');
+      return SAMPLE;
+    },
+    text: async () => '',
+  } as unknown as HttpClient;
+  const logs: string[] = [];
+  const res = await collector.collect({ now: NOW, http, key: (n) => (n === 'SR_REDDIT_USER' ? 'cid' : 'csecret'), log: (m) => logs.push(m) });
+  assert.equal(calls[0].init?.method, 'POST');
+  assert.equal(calls[0].init?.secret, true);
+  assert.equal(calls[0].init?.body, 'grant_type=client_credentials');
+  assert.equal(calls[1].url, aboutUrl('sysadmin'));
+  assert.equal(calls[1].init?.headers.authorization, 'bearer tok-1');
+  assert.equal(calls[1].init?.headers['user-agent'], REDDIT_UA);
+  assert.deepEqual(res.observations.map((o) => [o.signalId, o.value]), [['cyber.attention.reddit_sysadmin_activity', 2345]]);
+  assert.match(logs[0], /LocalLLaMA/);
 });
 test('Key-Paar: ein Key fehlt -> Runner überspringt, Signale needs-key', async () => {
   assert.deepEqual(collector.needsKey, ['SR_REDDIT_USER', 'SR_REDDIT_PASS']);

@@ -40,7 +40,12 @@ def load_collectors():
         sys.exit("Fehler: node nicht gefunden (Node >= 22.18 nötig)")
     if r.returncode != 0:
         sys.exit("Fehler beim Laden der Collectors über Node:\n" + r.stderr[-800:])
-    return json.loads(r.stdout)
+    cs = json.loads(r.stdout)
+    for c in cs:
+        # needsKey: Text oder Liste (Paar wie USER/PASS); intern immer Liste
+        k = c.get("needsKey")
+        c["needsKey"] = [k] if isinstance(k, str) else [x for x in (k or []) if x]
+    return cs
 
 
 def header_info(collector_id):
@@ -117,7 +122,7 @@ def main():
     for c in collectors:
         status, reason, optional = header_info(c["id"])
         has_test = (ROOT / "tests/collectors" / f"{c['id']}.test.ts").exists()
-        infos.append({**c, "verified": status, "reason": reason, "optional": [k for k in optional if k != c["needsKey"]], "test": has_test})
+        infos.append({**c, "verified": status, "reason": reason, "optional": [k for k in optional if k not in c["needsKey"]], "test": has_test})
         ver_count[status] += 1
     sig_by_ver = Counter()
     for i in infos:
@@ -188,7 +193,7 @@ def main():
     w("| Collector | VERIFIED | Grund (aus dem Kopfkommentar) | Key nötig | Signale | Intervall (min) | Test |")
     w("|---|---|---|---|---:|---:|---|")
     for i in infos:
-        key = f"`{i['needsKey']}`" if i["needsKey"] else "nein"
+        key = " + ".join(f"`{k}`" for k in i["needsKey"]) if i["needsKey"] else "nein"
         if i["optional"]:
             key += " (optional: " + ", ".join(f"`{k}`" for k in i["optional"]) + ")"
         w(f"| `{i['id']}` | {i['verified']} | {cell(i['reason'])} | {key} | {len(i['signals'])} | {i['intervalMinutes']} | {'ja' if i['test'] else 'nein'} |")
@@ -199,7 +204,7 @@ def main():
     w("")
     w(f"- Szenarien: {len(scenarios)} ({', '.join(scen_ids)})")
     w(f"- Signale gesamt: {uniq}, davon mit Collector {uniq_built}, nur katalogisiert {uniq - uniq_built}")
-    w(f"- Collectors: {len(infos)}, davon mit Pflicht-Key {sum(1 for i in infos if i['needsKey'])} ({', '.join(sorted({i['needsKey'] for i in infos if i['needsKey']}))})")
+    w(f"- Collectors: {len(infos)}, davon mit Pflicht-Key {sum(1 for i in infos if i['needsKey'])} ({', '.join(sorted({k for i in infos for k in i['needsKey']}))})")
     w(f"- Von Collectors deklarierte Signale (Summe über Collectors): {sum(len(i['signals']) for i in infos)}")
     w("")
     w("| VERIFIED | Collectors | Signale dieser Collectors |")

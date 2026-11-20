@@ -9485,7 +9485,7 @@
   "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers; ICE-Reihen auf 3 Jahre gekürzt",
   "verified": false,
   "aliases": [],
-  "collector": "fred-csv",
+  "collector": "fred",
   "signals": [
    "finance.money_market.us_tbill_stress",
    "finance.credit.hy_oas",

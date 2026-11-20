@@ -13,7 +13,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,7 +23,7 @@ jobs:
         run: node src/cli.ts run --respect-intervals --prune-days 120
         env:
           SR_SENSITIVITY: high
-          # Collectors lesen heute: CLOUDFLARE, ABUSECH, SEC_USER_AGENT. Die übrigen sind für geplante Collectors vorgesehen; ohne Wert wird übersprungen (kein Fehler).
+          # Gelesen von gebauten Collectors: alle unten außer ENTSOE, ACLED, OPENSKY (geplant) und NASA_FIRMS (alter Alias von FIRMS). NVD ist optional (ohne Key langsamer). Ohne Wert wird übersprungen (kein Fehler).
           SR_CLOUDFLARE_KEY: ${{ secrets.SR_CLOUDFLARE_KEY }}
           SR_ABUSECH_KEY: ${{ secrets.SR_ABUSECH_KEY }}
           SR_SEC_USER_AGENT: ${{ secrets.SR_SEC_USER_AGENT }}
@@ -37,6 +37,21 @@ jobs:
           SR_ENTSOE_KEY: ${{ secrets.SR_ENTSOE_KEY }}
           SR_ACLED_KEY: ${{ secrets.SR_ACLED_KEY }}
           SR_OPENSKY_KEY: ${{ secrets.SR_OPENSKY_KEY }}
+          SR_GITHUB_KEY: ${{ secrets.SR_GITHUB_KEY || github.token }}
+          SR_OTX_KEY: ${{ secrets.SR_OTX_KEY }}
+          SR_AISSTREAM_KEY: ${{ secrets.SR_AISSTREAM_KEY }}
+          SR_FAA_NOTAM_USER: ${{ secrets.SR_FAA_NOTAM_USER }}
+          SR_FAA_NOTAM_PASS: ${{ secrets.SR_FAA_NOTAM_PASS }}
+          SR_SPACE_TRACK_USER: ${{ secrets.SR_SPACE_TRACK_USER }}
+          SR_SPACE_TRACK_PASS: ${{ secrets.SR_SPACE_TRACK_PASS }}
+          SR_GFW_KEY: ${{ secrets.SR_GFW_KEY }}
+          SR_ALERTS_IN_UA_KEY: ${{ secrets.SR_ALERTS_IN_UA_KEY }}
+          SR_FINGRID_KEY: ${{ secrets.SR_FINGRID_KEY }}
+          SR_COINGECKO_KEY: ${{ secrets.SR_COINGECKO_KEY }}
+          SR_METACULUS_KEY: ${{ secrets.SR_METACULUS_KEY }}
+          SR_SAM_GOV_KEY: ${{ secrets.SR_SAM_GOV_KEY }}
+          SR_REDDIT_USER: ${{ secrets.SR_REDDIT_USER }}
+          SR_REDDIT_PASS: ${{ secrets.SR_REDDIT_PASS }}
       - name: Commit data
         run: |
           git config user.name "signal-radar-bot"

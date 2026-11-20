@@ -96,13 +96,36 @@ export interface CollectContext {
 export interface HttpClient {
   json<T = unknown>(url: string, init?: HttpInit): Promise<T>;
   text(url: string, init?: HttpInit): Promise<string>;
+  /** like text(), but also returns status and response headers (incl. Set-Cookie, ready to send back as `cookie`) */
+  request(url: string, init?: HttpInit): Promise<HttpResponse>;
 }
 
 export interface HttpInit {
+  /** default GET; POST needs an explicit `fixture` name */
+  method?: 'GET' | 'POST';
+  /** request body for POST, e.g. form-urlencoded (set content-type in headers) */
+  body?: string;
   headers?: Record<string, string>;
   timeoutMs?: number;
   /** stable name for the fixture file; defaults to a hash of the URL */
   fixture?: string;
+  /**
+   * response carries credentials (login, token): never written in record mode. In replay mode a hand-made
+   * fixture is used when present. Responses with Set-Cookie to a POST or an access_token in the body are
+   * treated as secret automatically.
+   */
+  secret?: boolean;
+}
+
+export interface HttpResponse {
+  status: number;
+  /** response headers, lower-case names (set-cookie joined; use setCookie/cookie instead) */
+  headers: Record<string, string>;
+  /** raw Set-Cookie lines */
+  setCookie: string[];
+  /** name=value pairs from Set-Cookie, joined for a `cookie` request header ('' when none) */
+  cookie: string;
+  body: string;
 }
 
 export interface CollectorResult {

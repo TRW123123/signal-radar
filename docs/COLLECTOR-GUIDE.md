@@ -11,7 +11,9 @@ Helfer: `src/collectors/_helpers.ts` (`obs`, `num`, `expect`, `parseCsv`, `count
    Geteilte Collectors (wikimedia-pageviews, hn-algolia, gdelt-doc, polymarket-gamma, yahoo-chart, ioda, ooni, statuspage,
    adsb-lol) werden je Szenario über `src/collectors/config/<szenario>.ts` erweitert: siehe `docs/SCENARIO-CONFIG-GUIDE.md`.
 2. **Nur `ctx.http`** für Netzwerk (`ctx.http.json(url, { fixture })`, `ctx.http.text(...)`). Kein eigenes `fetch`,
-   keine npm-Abhängigkeiten, kein Zugriff aufs Dateisystem. Code muss in Node 22 und in Serverless-Funktionen laufen.
+   keine npm-Abhängigkeiten, kein Zugriff aufs Dateisystem.
+   Login oder Token per POST: `ctx.http.request(url, { method: 'POST', body, fixture, secret: true })` liefert `{ status, headers,
+   setCookie, cookie, body }`; `secret: true` verhindert die Aufzeichnung (Antworten mit Set-Cookie auf POST oder `access_token` werden nie aufgezeichnet). Code muss in Node 22 und in Serverless-Funktionen laufen.
 3. **Jeder Request bekommt einen stabilen `fixture`-Namen** (`<quelle>/<name>.json|csv|txt`), damit echte Antworten
    aufgezeichnet und offline wieder abgespielt werden können.
 4. **Parser als reine, exportierte Funktionen** (`export function parse...(body)`), defensiv: fehlende Felder mit

@@ -2,6 +2,14 @@
 
 import type { CollectContext, Collector, ContextItem, HttpClient } from '../core/types.ts';
 import type { Store } from '../core/store.ts';
+import { redactText } from '../core/http.ts';
+
+/** Values of credential env vars (needsKey of any collector plus SR_*_KEY/_PASS/_USER/_TOKEN/_SECRET); never shown in reports. */
+export function secretValues(env: Record<string, string | undefined>, collectors: Collector[] = []): string[] {
+  const names = new Set(collectors.flatMap((c) => ([] as string[]).concat(c.needsKey ?? [])));
+  for (const n of Object.keys(env)) if (/^SR_.*(KEY|PASS|PASSWORD|USER|TOKEN|SECRET)$/.test(n)) names.add(n);
+  return [...names].map((n) => env[n]).filter((v): v is string => !!v);
+}
 
 export interface CollectReport {
   id: string;
@@ -25,7 +33,9 @@ export interface CollectOptions {
 }
 
 export async function runCollectors(collectors: Collector[], store: Store, opts: CollectOptions): Promise<CollectReport[]> {
-  const log = opts.log ?? (() => {});
+  const secrets = secretValues(opts.env, collectors);
+  const rawLog = opts.log ?? (() => {});
+  const log = (m: string) => rawLog(redactText(m, secrets));
   const lastRun = (await store.getJson<Record<string, string>>('last-run')) ?? {};
   const queue = collectors.filter((c) => !opts.only || opts.only.includes(c.id));
   const reports: CollectReport[] = [];
@@ -56,7 +66,7 @@ export async function runCollectors(collectors: Collector[], store: Store, opts:
         lastRun[c.id] = opts.now.toISOString();
         reports.push({ id: c.id, ok: true, observations: res.observations.length, added, ms: Date.now() - t0 });
       } catch (e) {
-        reports.push({ id: c.id, ok: false, observations: 0, added: 0, ms: Date.now() - t0, error: String((e as Error).message ?? e).slice(0, 300) });
+        reports.push({ id: c.id, ok: false, observations: 0, added: 0, ms: Date.now() - t0, error: redactText(String((e as Error).message ?? e), secrets).slice(0, 300) });
       }
     }
   }

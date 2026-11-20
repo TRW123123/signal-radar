@@ -6,11 +6,11 @@
 //   X-Ratelimit-*; 100 Anfragen/Minute je OAuth-Client), https://www.reddit.com/dev/api/#GET_r_{subreddit}_about (gelesen 20.11.2026).
 //   Antwort about: { kind: "t5", data: { display_name, subscribers, active_user_count, accounts_active, ... } }.
 // Key: SR_REDDIT_USER (client_id) und SR_REDDIT_PASS (client_secret); needsKey als Paar.
-// BLOCKER: ctx.http kann nur GET (HttpInit ohne method/body). Der Token-Abruf braucht POST; http.ts wird laut Auftrag nicht geändert.
-//   collect() wirft deshalb ohne Netzwerkzugriff einen klaren Fehler, sobald beide Keys gesetzt sind. Parser und URL-Bau sind fertig und getestet.
-//   Keyfrei geht es nicht: https://www.reddit.com/r/sysadmin/about.json antwortet 403 (HTML-Sperrseite, 20.11.2026).
-// User-Agent: Reddit verlangt einen eindeutigen UA im Format oben (mit Reddit-Benutzername); der gemeinsame UA des HTTP-Clients passt nicht
-//   ganz -> REDDIT_UA wird beim Abruf als Header gesetzt (Benutzername als Platzhalter, offener Punkt).
+// Ablauf (3 Requests je Lauf): POST /api/v1/access_token über ctx.http.request (secret: true, Token wird nie aufgezeichnet),
+//   dann GET oauth.reddit.com/r/<sub>/about mit "Authorization: bearer <token>". Fällt ein Subreddit aus, wird das geloggt;
+//   fallen alle aus, wirft collect(). Keyfrei geht es nicht: https://www.reddit.com/r/sysadmin/about.json antwortet 403 (20.11.2026).
+// User-Agent: Reddit verlangt "<platform>:<app ID>:<version> (by /u/<username>)". Das Projekt hat keinen Reddit-Account, daher
+//   steht statt /u/<name> der Projekt-Link (REDDIT_UA); er ersetzt bei Reddit-Requests den gemeinsamen UA des HTTP-Clients.
 // Lizenz: Reddit Data API Terms (https://redditinc.com/policies/data-api-terms) und Developer Terms: nichtkommerziell frei mit Registrierung,
 //   kommerziell nur mit Vertrag; keine Speicherung gelöschter Inhalte (hier nur Zählwerte), Quellenangabe Reddit.
 // Gemessen (je Lauf ein Wert, ts = Abrufzeit auf 5 Minuten abgerundet):
@@ -19,7 +19,7 @@
 //   Fallback accounts_active. Reddit hat 2025 die Online-Anzeige auf der Website umgestellt; liefert die API beide Felder als null, meldet
 //   der Parser einen Fehler statt 0 (offener Punkt: mit Key prüfen).
 // Harmlose Ursachen: Tageszeit/Wochentag (US-Arbeitszeit), Reddit-Ausfälle, große Patch-Days (sysadmin), neue Modell-Releases (LocalLLaMA).
-// VERIFIED: nein (ungeprüft bis Key und bis ctx.http POST kann). Format aus der Reddit-API-Doku.
+// VERIFIED: nein (ungeprüft bis Key). Format aus der Reddit-API-Doku.
 
 import type { Collector, CollectContext, SignalDef } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';
@@ -28,7 +28,7 @@ const USER_ENV = 'SR_REDDIT_USER';
 const PASS_ENV = 'SR_REDDIT_PASS';
 const SIG_SYSADMIN = 'cyber.attention.reddit_sysadmin_activity';
 const SIG_LOCALLLAMA = 'ai.attention.ai_local_community_activity';
-export const REDDIT_UA = 'server:signal-radar:0.1 (by /u/<reddit-username>; passive read-only)';
+export const REDDIT_UA = 'server:signal-radar:v0.1 (by github.com/TRW123123/signal-radar)';
 export const SUBS: [string, string][] = [[SIG_SYSADMIN, 'sysadmin'], [SIG_LOCALLLAMA, 'LocalLLaMA']];
 
 /** Katalogdefinitionen (catalog/signals/*.json, Stand 20.11.2026). */
@@ -37,11 +37,11 @@ const CATALOG: Record<string, Partial<SignalDef> & { id: string }> = Object.from
   {id: "cyber.attention.reddit_sysadmin_activity",scenarios: ["cyber"],domain: "attention",name: "Reddit r/sysadmin Aktivität",plain: "Aktive Nutzer in der Admin-Community.",evidenceClass: "D",direction: "up",kind: "count",weight: 0.6,manipulability: "medium",independenceGroup: "reddit-json",unit: "Anzahl",baseline: {method: "hour-of-week",windowDays: 28,minPoints: 48},intervalMinutes: 5,license: "Reddit Data API Terms, kommerziell eingeschraenkt",banalCauses: ["Virale Threads"],sourceName: "Reddit about.json",sourceUrl: "https://www.reddit.com/dev/api/"},
 ] as (Partial<SignalDef> & { id: string })[]).map((s) => [s.id, s]));
 
-/** Token-Anfrage (für einen späteren POST-fähigen Client): URL, Header, Formular-Body. */
+/** Token-Anfrage (App-only, client_credentials): URL, Header (klein geschrieben, ersetzen die Client-Standardwerte), Formular-Body. */
 export function tokenRequest(clientId: string, clientSecret: string): { url: string; headers: Record<string, string>; body: string } {
   return {
     url: 'https://www.reddit.com/api/v1/access_token',
-    headers: { Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`, 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': REDDIT_UA },
+    headers: { authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`, 'content-type': 'application/x-www-form-urlencoded', 'user-agent': REDDIT_UA },
     body: 'grant_type=client_credentials',
   };
 }
@@ -58,6 +58,19 @@ export function parseAbout(body: unknown): { active: number; subscribers: number
   return { active: expect(active, 'data.active_user_count/accounts_active'), subscribers: num(d.subscribers) };
 }
 
+/** access_token aus der Token-Antwort; Fehlertext enthält nie den Token selbst. */
+export function parseToken(body: string): string {
+  let j: Record<string, unknown>;
+  try {
+    j = JSON.parse(body) as Record<string, unknown>;
+  } catch {
+    throw new Error('Reddit-Token: Antwort ist kein JSON');
+  }
+  const t = j?.access_token;
+  if (typeof t !== 'string' || !t) throw new Error(`Reddit-Token: kein access_token${typeof j?.error === 'string' ? ` (error: ${j.error})` : ''}`);
+  return t;
+}
+
 const SOURCE = { sourceName: 'Reddit Data API', sourceUrl: 'https://www.reddit.com/', license: 'Reddit Data API Terms, nichtkommerziell' };
 
 const collector: Collector = {
@@ -71,14 +84,29 @@ const collector: Collector = {
     { ...CATALOG[SIG_LOCALLLAMA], ...SOURCE, collector: 'reddit-json', id: SIG_LOCALLLAMA },
   ],
   async collect(ctx: CollectContext) {
-    expect(ctx.key(USER_ENV), USER_ENV);
-    expect(ctx.key(PASS_ENV), PASS_ENV);
-    // Der Token-Abruf (tokenRequest) braucht POST, ctx.http kann nur GET. Ohne Token liefert oauth.reddit.com nichts.
-    throw new Error('reddit-json: App-only-OAuth braucht POST an /api/v1/access_token; ctx.http unterstützt nur GET (http.ts erweitern, dann aboutUrl/parseAbout nutzen)');
+    const id = expect(ctx.key(USER_ENV), USER_ENV);
+    const secret = expect(ctx.key(PASS_ENV), PASS_ENV);
+    const t = tokenRequest(id, secret);
+    const res = await ctx.http.request(t.url, { method: 'POST', body: t.body, headers: t.headers, secret: true, fixture: 'reddit-json/token.json' });
+    const token = parseToken(res.body);
+    const bodies: [string, unknown][] = [];
+    for (const [sig, sub] of SUBS) {
+      try {
+        const body = await ctx.http.json(aboutUrl(sub), {
+          fixture: `reddit-json/about-${sub.toLowerCase()}.json`, headers: { authorization: `bearer ${token}`, 'user-agent': REDDIT_UA },
+        });
+        parseAbout(body);
+        bodies.push([sig, body]);
+      } catch (e) {
+        ctx.log(`r/${sub} übersprungen: ${String((e as Error).message ?? e)}`);
+      }
+    }
+    if (!bodies.length) throw new Error('reddit-json: kein Subreddit lesbar');
+    return { observations: toObservations(ctx.now, bodies) };
   },
 };
 
-/** Für den späteren Abruf: Beobachtungen aus about-Antworten je Signal. */
+/** Beobachtungen aus about-Antworten je Signal. */
 export function toObservations(now: Date, bodies: [string, unknown][]) {
   const ts = Math.floor(now.getTime() / 300_000) * 300_000;
   return bodies.map(([sig, body]) => obs(sig, ts, parseAbout(body).active));

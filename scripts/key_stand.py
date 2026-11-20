@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Kanonische Umgebungsvariablen und Bearbeitungsstand der Zugänge (17.11.2026).
+# Kanonische Umgebungsvariablen und Bearbeitungsstand der Zugänge (17.11.2026, aktualisiert 20.11.2026).
 # Keine Key-Werte. Wird von den Konsolidierern importiert und kann die fertige
 # Tabelle in docs/KEYS-NEEDED.md nachträglich um die Spalte „Stand“ ergänzen:
 #   python3 -I scripts/key_stand.py
@@ -33,6 +33,11 @@ ENV_BY_SOURCE = {
     'entsoe': 'SR_ENTSOE_KEY',
     'acled': 'SR_ACLED_KEY',
     'opensky': 'SR_OPENSKY_KEY',
+    'ghsa': 'SR_GITHUB_KEY',
+    'github-rest': 'SR_GITHUB_KEY',
+    'faa-notam': 'SR_FAA_NOTAM_USER',
+    'space-track': 'SR_SPACE_TRACK_USER',
+    'reddit-json': 'SR_REDDIT_USER',
 }
 
 # Frühere Generator-Schreibweisen -> kanonischer Name im Code / in den GitHub-Secrets.
@@ -43,6 +48,12 @@ ENV_ALIASES = {
     'SR_MALWAREBAZAAR_KEY': 'SR_ABUSECH_KEY',
     'SR_THREATFOX_KEY': 'SR_ABUSECH_KEY',
     'SR_URLHAUS_KEY': 'SR_ABUSECH_KEY',
+    'SR_GHSA_KEY': 'SR_GITHUB_KEY',
+    'SR_GITHUB_REST_KEY': 'SR_GITHUB_KEY',
+    'SR_GITHUB_SEARCH_KEY': 'SR_GITHUB_KEY',
+    'SR_FAA_NOTAM_KEY': 'SR_FAA_NOTAM_USER',
+    'SR_SPACE_TRACK_KEY': 'SR_SPACE_TRACK_USER',
+    'SR_REDDIT_JSON_KEY': 'SR_REDDIT_USER',
 }
 
 # Hinweis in der Tabellenzelle, wenn der Generator-Name vom Code-Namen abweicht.
@@ -51,9 +62,14 @@ ENV_CELL_NOTE = {
     'SR_NVD_KEY': 'Generator-Name `SR_NVD_CVE_API_KEY`',
     'SR_FIRMS_KEY': 'Alias `SR_NASA_FIRMS_KEY`',
     'SR_ABUSECH_KEY': 'gemeinsam für ThreatFox, URLhaus, MalwareBazaar',
+    'SR_GITHUB_KEY': 'gemeinsam für ghsa und github-rest; in Actions Fallback `github.token`',
+    'SR_FAA_NOTAM_USER': 'client_id, dazu `SR_FAA_NOTAM_PASS` = client_secret',
+    'SR_SPACE_TRACK_USER': 'Login-Name, dazu `SR_SPACE_TRACK_PASS`',
+    'SR_REDDIT_USER': 'client_id, dazu `SR_REDDIT_PASS` = client_secret',
 }
 
 STAND_ANGELEGT = 'angelegt 17.11.2026'
+STAND_GEBAUT = 'offen; Collector gebaut 20.11.2026'
 STAND = {
     'SR_CLOUDFLARE_KEY': STAND_ANGELEGT,
     'SR_ABUSECH_KEY': STAND_ANGELEGT,
@@ -63,10 +79,26 @@ STAND = {
     'SR_ALSI_KEY': STAND_ANGELEGT,
     'SR_EIA_KEY': STAND_ANGELEGT,
     'SR_FIRMS_KEY': STAND_ANGELEGT,
-    'SR_NVD_KEY': STAND_ANGELEGT,
+    'SR_NVD_KEY': STAND_ANGELEGT + '; optional (ohne Key 6,5 s Pause je Anfrage)',
     'SR_ENTSOE_KEY': 'wartet auf Freischaltung (API-Zugang per Mail beantragt)',
     'SR_ACLED_KEY': 'Konto angelegt 17.11.2026, Login per E-Mail+Passwort (kein Key), Collector fehlt',
     'SR_OPENSKY_KEY': 'gesperrt bis Lizenz (Anfrage 17.11.2026)',
+    # Collector-Welle 1 (20.11.2026): Collector gebaut, Secret noch nicht angelegt
+    'SR_GITHUB_KEY': 'Collector gebaut 20.11.2026; ohne eigenes Secret nutzt Actions `github.token`',
+    'SR_OTX_KEY': STAND_GEBAUT,
+    'SR_AISSTREAM_KEY': STAND_GEBAUT,
+    'SR_FAA_NOTAM_USER': STAND_GEBAUT,
+    'SR_SPACE_TRACK_USER': STAND_GEBAUT + ' (Login per POST seit 20.11.2026)',
+    'SR_GFW_KEY': STAND_GEBAUT,
+    'SR_ALERTS_IN_UA_KEY': STAND_GEBAUT,
+    'SR_FINGRID_KEY': STAND_GEBAUT,
+    'SR_COINGECKO_KEY': STAND_GEBAUT + ' (läuft notfalls auch ohne Key)',
+    'SR_METACULUS_KEY': STAND_GEBAUT,
+    'SR_SAM_GOV_KEY': STAND_GEBAUT + ' (Tageskontingent je Kontorolle prüfen)',
+    'SR_REDDIT_USER': STAND_GEBAUT + ' (Token per POST seit 20.11.2026)',
+    'SR_SHADOWSERVER_KEY': 'nicht nötig: Collector `shadowserver` liest das öffentliche Dashboard-JSON ohne Key',
+    'SR_GREYNOISE_KEY': 'nicht nötig: Gratiszugang kennt nur Einzel-IP-Lookups, kein Aggregat messbar; Collector nicht gebaut',
+    'SR_CENSYS_KEY': 'nicht nötig: Legacy-API seit 30.09.2026 abgeschaltet, Free-Plan nur Lookups; OT-Exposition kommt von Shadowserver',
 }
 STAND_DEFAULT = 'offen'
 
@@ -85,11 +117,13 @@ THREATFOX_ROW = (
 )
 
 INTRO_STAND = (
-    'Die Spalte „Stand“ ist der Bearbeitungsstand der Zugänge (17.11.2026), ohne Key-Werte. '
+    'Die Spalte „Stand“ ist der Bearbeitungsstand der Zugänge (17.11.2026, aktualisiert 20.11.2026), ohne Key-Werte. '
     'Die Zuordnung liegt in `scripts/key_stand.py`. Kanonisch sind die Namen aus dem Code '
     'und den GitHub-Secrets (z. B. `SR_CLOUDFLARE_KEY`, nicht der frühere Generator-Name '
     '`SR_CF_RADAR_KEY`). ThreatFox, URLhaus und MalwareBazaar teilen sich `SR_ABUSECH_KEY`; '
-    'für NASA FIRMS gilt `SR_FIRMS_KEY` (der Workflow setzt zusätzlich den Alias `SR_NASA_FIRMS_KEY`).'
+    'für NASA FIRMS gilt `SR_FIRMS_KEY` (der Workflow setzt zusätzlich den Alias `SR_NASA_FIRMS_KEY`). '
+    'ghsa und github-rest teilen sich `SR_GITHUB_KEY`. FAA NOTAM, Space-Track und Reddit brauchen ein Paar '
+    '(`SR_FAA_NOTAM_USER`/`_PASS`, `SR_SPACE_TRACK_USER`/`_PASS`, `SR_REDDIT_USER`/`_PASS`); in der Tabelle steht der erste Name.'
 )
 
 

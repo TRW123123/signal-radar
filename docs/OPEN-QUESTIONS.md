@@ -31,6 +31,8 @@ wenig im neuen Jahresarchiv; die Reihe baut sich über den Speicher auf.
 Siehe `docs/KEYS-NEEDED.md`. Vier Collectors laufen ohne Key nicht und werden übersprungen: `cloudflare-radar` (`SR_CLOUDFLARE_KEY`) sowie
 `threatfox`, `urlhaus`, `malwarebazaar` (`SR_ABUSECH_KEY`, abuse.ch verlangt ein Konto). Ihr Parser ist nie gegen eine echte Antwort geprüft.
 `SR_SEC_USER_AGENT` ist als GitHub-Secret gesetzt.
+Stand 20.11.2026: Die Collector-Welle 1 hat 21 weitere Collectors mit Key gebaut; Variablennamen und Stand in `docs/KEYS-NEEDED.md`,
+alle Variablen sind in `.github/workflows/collect.yml` durchgereicht (fehlendes Secret = übersprungen). Siehe Punkt 8.
 
 ## 5. Lizenzen
 
@@ -46,3 +48,44 @@ treasury-fiscal (Schlusstand in `open_today_bal`), Wikimedia (User-Agent), GDELT
 
 Rund 20 gebaute Messreihen liefern pro Abruf nur den aktuellen Stand (z. B. Statusseiten, Blocklisten-Größen,
 Mempool, RIPE-Atlas-Sonden). Sie haben erst nach einigen Tagen Live-Betrieb einen Normalwert und zählen bis dahin nicht.
+
+## 8. Offen seit 20.11.2026: Collector-Welle 1 (Übergaben A, B, C)
+
+**Lizenzen, vor Veröffentlichung klären**
+- **Shadowserver:** Dashboard-Statistiken gelten laut Terms als „Restricted Content“. Für veröffentlichte Verbreitung verlangt Shadowserver
+  Copyright-Hinweis, Link und Logo; ob die öffentliche Dashboard-Statistik überhaupt darunter fällt, sagen die Terms nicht. Shadowserver direkt
+  fragen. Bis dahin zeigt das Dashboard „© The Shadowserver Foundation“ mit Link, aber kein Logo (Registry-Status `pending-terms`).
+- **Metaculus:** Terms erlauben kein KI-Training, kommerziell nur mit Vertrag. Nicht-kommerzielle Nutzung über das Data-Needs-Formular
+  anfragen; für die %-Signale (metaculus_nuclear, prediction_ai_incident) Bot-Benchmarking- oder Unrestricted-Zugang beantragen.
+- **Reddit:** Data API Terms, nur nicht-kommerziell. Prüfen, ob `active_user_count` nach der Umstellung 2025 noch geliefert wird.
+- **ICE BofA und weitere Drittanbieter-Reihen über FRED** (BAML*, Cboe VIXCLS/VXVCLS/OVXCLS/GVZCLS, IMF PURANUSDM/PNGAS*): Laut FRED-Bedingungen
+  braucht jede Nutzung über den privaten Gebrauch hinaus die Erlaubnis des Rechteinhabers. Ggf. Status `license-unclear`.
+- **OTX** (Terms nur per JavaScript lesbar) und **aisstream** (keine Terms-Seite): Bedingungen ungeprüft.
+
+**Kontingente und Betrieb**
+- **SAM.gov:** Das Tageskontingent hängt von der Rolle des SAM-Kontos ab (ohne Rolle sehr klein). Schlägt ein Lauf fehl, versucht der Runner es
+  alle 15 min erneut und kann das Kontingent aufbrauchen. Kontingent des Kontos prüfen.
+- **aisstream:** Seit 09/2026 drosselt aisstream unkomprimierte WebSocket-Verbindungen. Ob Node permessage-deflate aushandelt, zeigt erst das
+  Log des Live-Laufs („Kompression: true/false“).
+- **GFW:** Ob mehrere `regionIds` (EEZ-MRGIDs) im GET als ODER wirken, ist nicht dokumentiert; beim ersten Lauf mit Key gegen Einzelabfragen prüfen.
+- **github-rest:** Die Claude-Co-Autor-Suche kam mit `incomplete_results=true`; bleibt das in Actions so, Abfrage aufteilen oder nur Copilot zählen.
+- **FAA NOTAM:** Ob `domesticLocation=GPS` die GPS-NOTAMs trifft und die FDC-Airspace-Abfrage unter 1000 Treffern bleibt, prüft erst der Live-Lauf.
+- **AGSI:** Bei der ersten Antwort mit Key prüfen, ob EIC 21X000000001160J der gewünschte Betreiber ist.
+- **Space-Track und Reddit** laufen seit 20.11.2026 mit POST (Login bzw. Token); ungeprüft bis Key. Login-Antworten werden nie aufgezeichnet,
+  ein Replay dieser beiden Collectors braucht daher von Hand angelegte Dummy-Fixtures (`space-track/login.json`, `reddit-json/token.json`).
+
+**ID-Kollisionen mit später gebauten Collectors**
+Welle-1-Collectors speisen Signale, die der Katalog anderen, noch nicht gebauten Collectors zuweist. Wer einen davon baut, muss eine der beiden
+Seiten auf eine neue id umstellen (der Test `tests/signal-ownership.test.ts` schlägt sonst fehl):
+- `cvelist-v5`/`cvelist-delta`: `cyber.vuln.nvd_cve_volume`, `ai.supply_chain.cve_ai_keywords` (jetzt nvd-cve-api)
+- `osv`/`ossf-malicious`: `osv_malware_advisories`, `osv_malware_ai`, `advisory_volume` (jetzt ghsa)
+- `github-search`: die drei ai.agents-/supply_chain-Signale (jetzt github-rest)
+- `censys`/`shodan`: `cyber.vuln.exposed_ot_protocols` (jetzt shadowserver)
+- `cboe`, `fed-ddp`, `wb-pink`, `eu-oil-bulletin`, `ecb-data`: einzelne Markt-Signale (jetzt fred); `fred-csv` ist in `catalog/sources.json` auf `fred` umgestellt
+- `entsog`: `blackout.gas.lng_terminal_sendout` (jetzt alsi); `ted`, `usaspending`: `war.government.defense_procurement` (jetzt sam-gov)
+- `manifold`: `cyber.attention.metaculus_manifold` (jetzt metaculus); `yahoo-chart` (CALM): `bio.markets.poultry_stocks` (jetzt fred-eggs);
+  `aishub`: `war.shipping.baltic_dark_vessels` (jetzt gfw)
+- Neue ids, noch nicht im Katalog: `blackout.grid.frequency_nordic_deviation`, `war.conflict.ua_active_air_raid_oblasts`,
+  `war.conflict.ua_active_missile_threats`, `cyber.threat.otx_wiper_pulses`, `cyber.threat.otx_ics_pulses`.
+- Vorschlag Gruppe A: `agsi` statt `github-gas-storage` für `storage_fill_de`/`storage_withdrawal_rate` (aktueller) – Entscheidung offen.
+

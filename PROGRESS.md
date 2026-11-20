@@ -3,6 +3,17 @@
 Fortschrittsprotokoll für nahtloses Weiterarbeiten. Neuester Stand oben. Ein neuer Lauf liest diese Datei,
 `docs/OPEN-QUESTIONS.md` und `git log` und macht beim ersten offenen Punkt weiter.
 
+## Stand (20.11.2026)
+
+**Collector-Welle 1 und 2.** 79 Collectors (STATUS.md: 56 VERIFIED ja, 4 teilweise, 19 nein). Welle 1 (Gruppen A, B, C) hat 21 Collectors mit
+Key gebaut; die meisten sind ungeprüft bis zum ersten Lauf mit Key. Welle 2: `ctx.http` kann POST (`method`, `body`) und liefert über
+`request()` Status, Header und Cookies; Login-/Token-Antworten werden nie aufgezeichnet. `redactUrl` schwärzt Key-Parameter in jeder
+Schreibweise und Key-artige Pfadsegmente (FIRMS MAP_KEY), der Runner schwärzt zusätzlich alle Key-Werte in Fehlern und Logs.
+`space-track` (POST-Login + Cookie) und `reddit-json` (client_credentials + Bearer, eigener User-Agent) sind damit lauffähig.
+Workflow reicht alle neuen Secrets durch (`SR_GITHUB_KEY` fällt auf `github.token` zurück), Zeitlimit 15 min. Attribution für 14 neue
+Quellen in `src/core/attribution.ts` und `docs/DATA-TERMS.md`. Offen: `docs/OPEN-QUESTIONS.md` Punkt 8 (Lizenzen Shadowserver, Metaculus,
+Reddit, ICE BofA; SAM-Kontingent; ID-Kollisionen; aisstream-Kompression; GFW regionIds). Nächster Schritt: Secrets anlegen, Live-Lauf, VERIFIED nachziehen.
+
 ## Stand (17.11.2026, 11:30)
 
 **Live.** Frontend: https://signal-radar.netlify.app (noindex). Collectors: GitHub Actions `collect` alle 15 Minuten, Daten als Commits auf `master`, Snapshot wird von `raw.githubusercontent.com` geladen. 58 Collectors: 54 liefern echte Daten, 4 übersprungen (Key fehlt: cloudflare-radar, threatfox, urlhaus, malwarebazaar), 0 Fehler im ersten Handlauf. Offen: `docs/OPEN-QUESTIONS.md`.
@@ -46,6 +57,7 @@ Siehe `docs/OPEN-QUESTIONS.md`.
 
 ## Protokoll
 
+- 2026-11-20 Welle 2 (zentral): http.ts POST/request/Cookies + Redaction (Query, Pfad, Runner), space-track und reddit-json lauffähig, status_report.py mit needsKey-Listen, Workflow-Secrets und Timeout 15 min, Attributionen (GFW, Fingrid, FIRMS, NVD, GHSA, CoinGecko, Metaculus, Reddit, Shadowserver, OTX, aisstream, FAA, Space-Track, alerts.in.ua), sources.json fred-csv → fred, Test gegen doppelte Signal-ids, KEYS-NEEDED/OPEN-QUESTIONS aktualisiert. Nicht committet.
 - 2026-11-17 10:00 Live-Schaltung: Tests grün (300), erster echter Lauf, Parser repariert (ransomware-live, polymarket-gamma, sans-isc, treasury-fiscal), Wikimedia-User-Agent, GDELT-Abstand. Workflow grün (58 Collectors, 0 Fehler). Netlify-Projekt `signal-radar` angelegt, mit GitHub verbunden, Plakette abgeschaltet, Seite geprüft (Desktop und 390 px, keine Konsolenfehler, einzige Fremd-Anfrage raw.githubusercontent.com).
 
 - 2026-11-17 00:45 Start. Netlify-Deploy wurde um 00:46 freigegeben.

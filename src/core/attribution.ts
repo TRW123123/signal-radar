@@ -1,4 +1,4 @@
-// Required source credits and notices (terms of use read on 17.11.2026, details in docs/DATA-TERMS.md).
+// Required source credits and notices (terms of use read on 17.11.2026, sources of wave 1 added 20.11.2026; details in docs/DATA-TERMS.md).
 // Single source of truth for the dashboard: buildSnapshot attaches the matching entries, the footer renders them.
 // Wording marked "verbatim" is prescribed by the source and must not be translated or reworded.
 
@@ -11,6 +11,12 @@ export const FRED_TERMS_URL = 'https://fred.stlouisfed.org/docs/api/terms_of_use
 export const NVD_NOTICE = 'This product uses the NVD API but is not endorsed or certified by the NVD.';
 export const GIE_CREDIT = 'GIE AGSI / ALSI platform';
 export const EIA_CREDIT = 'U.S. Energy Information Administration (EIA)';
+/** verbatim, GFW Terms 3.A.1, with link to https://globalfishingwatch.org */
+export const GFW_NOTICE = 'Powered by Global Fishing Watch.';
+/** verbatim, CoinGecko Attribution Guide, with link to https://www.coingecko.com */
+export const COINGECKO_NOTICE = 'Data provided by CoinGecko';
+export const FINGRID_NOTICE = 'Source: Fingrid, data.fingrid.fi';
+export const SHADOWSERVER_CREDIT = '© The Shadowserver Foundation';
 
 const GIE_NOTICE = `Gasspeicher- und LNG-Daten: ${GIE_CREDIT} (Gas Infrastructure Europe).`;
 
@@ -36,21 +42,21 @@ export const SOURCE_ATTRIBUTIONS: SourceAttribution[] = [
     // first line verbatim; second line: link to the terms because third parties use the dashboard
     footerNotices: [FRED_NOTICE, `Nutzungsbedingungen der FRED-API: ${FRED_TERMS_URL}`],
     restrictions: ['keine FRED-Logos', '"FRED" nicht im Hostnamen', 'Serien mit Drittanbieter-Copyright nur mit Erlaubnis des Rechteinhabers'],
-    status: 'planned-needs-key',
+    status: 'active-collector',
   },
   {
     id: 'agsi', name: 'GIE AGSI+', collectors: ['agsi', 'github-gas-storage'], sourceNameHints: ['AGSI'],
     attribution: GIE_CREDIT, attributionUrl: 'https://agsi.gie.eu/', license: 'GIE-Bedingungen, Quellenangabe Pflicht',
     footerNotices: [GIE_NOTICE],
     restrictions: ['ohne Quellenangabe kann GIE den Key deaktivieren'],
-    status: 'mirror-only',
+    status: 'active-collector',
   },
   {
     id: 'alsi', name: 'GIE ALSI+', collectors: ['alsi'], sourceNameHints: ['ALSI'],
     attribution: GIE_CREDIT, attributionUrl: 'https://alsi.gie.eu/', license: 'GIE-Bedingungen, Quellenangabe Pflicht',
     footerNotices: [GIE_NOTICE],
     restrictions: ['ohne Quellenangabe kann GIE den Key deaktivieren'],
-    status: 'planned-needs-key',
+    status: 'active-collector',
   },
   {
     id: 'eia', name: 'U.S. Energy Information Administration',
@@ -59,21 +65,21 @@ export const SOURCE_ATTRIBUTIONS: SourceAttribution[] = [
     attribution: EIA_CREDIT, attributionUrl: 'https://www.eia.gov/', license: 'US-Regierungsdaten, Quellenangabe EIA',
     footerNotices: [`Energiepreise: ${EIA_CREDIT}. Von Signal Radar aufbereitet; keine offizielle EIA-Darstellung, keine Billigung durch die EIA.`],
     restrictions: ['veränderte Daten nicht als EIA ausgeben', 'keine Endorsement-Andeutung, kein EIA-Logo', 'Rate-Limits nicht umgehen'],
-    status: 'mirror-only',
+    status: 'active-collector',
   },
   {
     id: 'nvd-cve-api', name: 'NVD (NIST)', collectors: ['nvd-cve-api'], sourceNameHints: ['NVD'],
     attribution: 'National Vulnerability Database (NVD)', attributionUrl: 'https://nvd.nist.gov/', license: 'NVD-Nutzungsbedingungen',
     footerNotices: [NVD_NOTICE],
     restrictions: ['Key nicht weitergeben', 'veränderte Inhalte nicht als "NVD" ausgeben', 'Rate-Limits einhalten'],
-    status: 'planned-needs-key',
+    status: 'active-collector',
   },
   {
     id: 'nasa-firms', name: 'NASA FIRMS', collectors: ['nasa-firms'], sourceNameHints: ['FIRMS'],
     attribution: 'NASA FIRMS', attributionUrl: 'https://firms.modaps.eosdis.nasa.gov/', license: 'NASA offene Daten, Quellenangabe',
     footerNotices: ['Feuerdaten: NASA FIRMS (Fire Information for Resource Management System).'],
     restrictions: ['MAP_KEY: max. 5000 Transaktionen je 10 Minuten', 'kein Suomi NPP / VIIRS_SNPP (endet 02.11.2026), NOAA-20/NOAA-21 nutzen'],
-    status: 'planned-needs-key',
+    status: 'active-collector',
   },
   {
     id: 'sec-edgar', name: 'SEC EDGAR', collectors: ['sec-edgar'], sourceNameHints: ['SEC EDGAR', 'EDGAR'],
@@ -109,6 +115,96 @@ export const SOURCE_ATTRIBUTIONS: SourceAttribution[] = [
     license: 'laut Katalog CC BY 4.0; Bedingungen noch nicht gelesen',
     footerNotices: ['Stromnetzdaten: ENTSO-E Transparency Platform.'],
     status: 'pending-terms',
+  },
+  {
+    id: 'gfw', name: 'Global Fishing Watch', collectors: ['gfw'], sourceNameHints: ['Global Fishing Watch'],
+    attribution: 'Global Fishing Watch', attributionUrl: 'https://globalfishingwatch.org', license: 'CC BY-NC 4.0 (GFW API Terms)',
+    // verbatim (Terms 3.A.1), link to https://globalfishingwatch.org
+    footerNotices: [`${GFW_NOTICE} https://globalfishingwatch.org`],
+    restrictions: ['nur nicht-kommerziell', 'höchstens 50 000 Requests/Tag'],
+    status: 'active-collector',
+  },
+  {
+    id: 'fingrid', name: 'Fingrid Open Data', collectors: ['fingrid'], sourceNameHints: ['Fingrid'],
+    attribution: 'Fingrid', attributionUrl: 'https://data.fingrid.fi/', license: 'CC BY 4.0',
+    footerNotices: [FINGRID_NOTICE],
+    restrictions: ['höchstens 1 Request je 2 Sekunden'],
+    status: 'active-collector',
+  },
+  {
+    id: 'ghsa', name: 'GitHub Advisory Database', collectors: ['ghsa'], sourceNameHints: ['GitHub Advisory'],
+    attribution: 'GitHub Advisory Database', attributionUrl: 'https://github.com/advisories', license: 'CC BY 4.0',
+    footerNotices: ['Sicherheitsmeldungen: GitHub Advisory Database (https://github.com/advisories), CC BY 4.0.'],
+    status: 'active-collector',
+  },
+  {
+    id: 'github', name: 'GitHub (REST- und Such-API)', collectors: ['github-rest'], sourceNameHints: ['GitHub Search API', 'GitHub REST API'],
+    attribution: 'GitHub', attributionUrl: 'https://github.com/', license: 'GitHub-Nutzungsbedingungen, nur Aggregatzahlen',
+    footerNotices: ['Entwicklungsaktivität: GitHub (nur Zählwerte).'],
+    restrictions: ['nur Aggregatzahlen, keine Inhalte oder Personendaten'],
+    status: 'active-collector',
+  },
+  {
+    id: 'coingecko', name: 'CoinGecko', collectors: ['coingecko'], sourceNameHints: ['CoinGecko'],
+    attribution: 'CoinGecko', attributionUrl: 'https://www.coingecko.com', license: 'CoinGecko API Terms',
+    // verbatim (CoinGecko Attribution Guide), with link
+    footerNotices: [`${COINGECKO_NOTICE} https://www.coingecko.com`],
+    restrictions: ['Demo-Kontingent 10 000 Requests/Monat'],
+    status: 'active-collector',
+  },
+  {
+    id: 'metaculus', name: 'Metaculus', collectors: ['metaculus'], sourceNameHints: ['Metaculus'],
+    attribution: 'Metaculus', attributionUrl: 'https://www.metaculus.com/', license: 'Metaculus Terms of Use',
+    footerNotices: ['Prognosefragen: Metaculus (https://www.metaculus.com).'],
+    restrictions: ['kein KI-Training', 'kommerzielle Nutzung nur mit Vertrag', 'Erlaubnis für nicht-kommerzielle Nutzung offen (Data-Needs-Formular)'],
+    status: 'pending-terms',
+  },
+  {
+    id: 'reddit', name: 'Reddit Data API', collectors: ['reddit-json'], sourceNameHints: ['Reddit'],
+    attribution: 'Reddit', attributionUrl: 'https://www.reddit.com/', license: 'Reddit Data API Terms, nur nicht-kommerziell',
+    footerNotices: ['Community-Aktivität: Reddit (Data API, nur Zählwerte).'],
+    restrictions: ['nur nicht-kommerziell', 'keine gelöschten Inhalte speichern (hier nur Zählwerte)', 'User-Agent im Reddit-Format'],
+    status: 'active-collector',
+  },
+  {
+    id: 'shadowserver', name: 'The Shadowserver Foundation', collectors: ['shadowserver'], sourceNameHints: ['Shadowserver'],
+    attribution: SHADOWSERVER_CREDIT, attributionUrl: 'https://www.shadowserver.org/', license: 'Shadowserver Terms (aggregierte Daten = Restricted Content)',
+    // terms require (1) copyright notice, (2) link, (3) logo for further published distribution; logo not yet shown
+    footerNotices: [`Internet-Exposition: ${SHADOWSERVER_CREDIT}, https://www.shadowserver.org/`],
+    restrictions: ['Veröffentlichung nur mit Copyright-Hinweis, Link und Shadowserver-Logo', 'Freigabe für das öffentliche Dashboard ungeklärt (Shadowserver fragen)'],
+    status: 'pending-terms',
+  },
+  {
+    id: 'otx', name: 'AlienVault OTX', collectors: ['otx'], sourceNameHints: ['AlienVault OTX', 'OTX'],
+    attribution: 'AlienVault OTX', attributionUrl: 'https://otx.alienvault.com/', license: 'OTX-Nutzungsbedingungen (nicht lesbar, ungeprüft)',
+    footerNotices: ['Bedrohungsmeldungen: AlienVault OTX (Pulse-Zählungen).'],
+    status: 'active-collector',
+  },
+  {
+    id: 'aisstream', name: 'aisstream.io', collectors: ['aisstream'], sourceNameHints: ['aisstream'],
+    attribution: 'aisstream.io', attributionUrl: 'https://aisstream.io/', license: 'keine Terms-Seite gefunden',
+    footerNotices: ['Schiffsdaten: aisstream.io.'],
+    status: 'active-collector',
+  },
+  {
+    id: 'faa', name: 'Federal Aviation Administration (FAA)', collectors: ['faa-notam', 'faa-nas'], sourceNameHints: ['FAA'],
+    attribution: 'FAA', attributionUrl: 'https://www.faa.gov/', license: 'US-Regierungsdaten, gemeinfrei',
+    footerNotices: ['Luftraumdaten: Quelle FAA.'],
+    status: 'active-collector',
+  },
+  {
+    id: 'space-track', name: 'Space-Track.org', collectors: ['space-track'], sourceNameHints: ['Space-Track'],
+    attribution: 'Space-Track.org', attributionUrl: 'https://www.space-track.org/', license: 'Space-Track User Agreement',
+    footerNotices: ['Wiedereintritte: Quelle Space-Track.org (nur Tageszahlen).'],
+    restrictions: ['keine Weitergabe der Rohdaten an Dritte', 'Decay-Abfrage höchstens 1×/Tag', '< 30 Requests/min, < 300/h'],
+    status: 'active-collector',
+  },
+  {
+    id: 'alerts-in-ua', name: 'alerts.in.ua', collectors: ['alerts-in-ua'], sourceNameHints: ['alerts.in.ua'],
+    attribution: 'alerts.in.ua', attributionUrl: 'https://alerts.in.ua/', license: 'keine ausdrückliche Lizenz; Regeln der API-Doku',
+    footerNotices: ['Luftalarme Ukraine: alerts.in.ua.'],
+    restrictions: ['Token geheim halten, Abruf nur über das Backend', '8–12 Requests/min'],
+    status: 'active-collector',
   },
 ];
 

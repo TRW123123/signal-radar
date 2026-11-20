@@ -32,7 +32,8 @@ export async function discoverCollectors(root: string): Promise<Collector[]> {
 export function activate(catalog: Catalog, collectors: Collector[], env: Record<string, string | undefined>): Catalog {
   const byId = new Map<string, SignalDef>(catalog.signals.map((s) => [s.id, s]));
   for (const c of collectors) {
-    const hasKey = !c.needsKey || Boolean(env[c.needsKey]);
+    const keys = ([] as string[]).concat(c.needsKey ?? []).filter(Boolean);
+    const hasKey = keys.every((k) => Boolean(env[k]));
     for (const decl of c.signals) {
       const base = byId.get(decl.id);
       const merged = normalizeSignal({

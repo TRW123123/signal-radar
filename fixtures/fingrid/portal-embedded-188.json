@@ -1,0 +1,45 @@
+{
+ "data": [
+  {
+   "datasetId": 188,
+   "startTime": "2026-11-20T09:15:00.000Z",
+   "endTime": "2026-11-20T09:18:00.000Z",
+   "value": 3864.72
+  },
+  {
+   "datasetId": 188,
+   "startTime": "2026-11-20T09:12:00.000Z",
+   "endTime": "2026-11-20T09:15:00.000Z",
+   "value": 3865.22
+  },
+  {
+   "datasetId": 188,
+   "startTime": "2026-11-20T09:09:00.000Z",
+   "endTime": "2026-11-20T09:12:00.000Z",
+   "value": 3866.06
+  },
+  {
+   "datasetId": 188,
+   "startTime": "2026-11-20T09:06:00.000Z",
+   "endTime": "2026-11-20T09:09:00.000Z",
+   "value": 3862.78
+  },
+  {
+   "datasetId": 188,
+   "startTime": "2026-11-20T09:03:00.000Z",
+   "endTime": "2026-11-20T09:06:00.000Z",
+   "value": 3862.06
+  }
+ ],
+ "pagination": {
+  "total": 2272929,
+  "lastPage": 454586,
+  "nextPage": 2,
+  "prevPage": null,
+  "currentPage": 1,
+  "perPage": 5,
+  "from": 0,
+  "to": 5
+ },
+ "statusCode": 200
+}

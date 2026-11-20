@@ -114,8 +114,11 @@ export interface Collector {
   id: string;
   title: string;
   sourceUrl: string;
-  /** env var name of a required key; collector is skipped (not failed) when it is missing */
-  needsKey?: string;
+  /**
+   * env var name(s) of required keys; collector is skipped (not failed) when one is missing.
+   * With an array, all listed variables must be set.
+   */
+  needsKey?: string | string[];
   intervalMinutes: number;
   /**
    * Signals this collector feeds. Entries are merged over the catalog entry with the same id

@@ -36,8 +36,9 @@ export async function runCollectors(collectors: Collector[], store: Store, opts:
     while (i < queue.length) {
       const c = queue[i++];
       const t0 = Date.now();
-      if (c.needsKey && !opts.env[c.needsKey]) {
-        reports.push({ id: c.id, ok: true, skipped: `kein Key (${c.needsKey})`, observations: 0, added: 0, ms: 0 });
+      const keys = ([] as string[]).concat(c.needsKey ?? []).filter(Boolean);
+      if (keys.some((k) => !opts.env[k])) {
+        reports.push({ id: c.id, ok: true, skipped: `kein Key (${keys.join(', ')})`, observations: 0, added: 0, ms: 0 });
         continue;
       }
       if (opts.respectIntervals && lastRun[c.id]) {

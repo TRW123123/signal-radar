@@ -1,0 +1,17 @@
+{
+  "_comment": "Nach https://aisstream.io/documentation nachgebaut (keine echte Aufzeichnung, Key fehlt lokal). MMSI fiktiv. time_utc im Format älterer Doku-Beispiele.",
+  "messages": [
+    { "MessageType": "PositionReport", "MetaData": { "MMSI": 211000001, "ShipName": "EXAMPLE A", "Latitude": 51.95, "Longitude": 3.80, "time_utc": "2026-11-20 10:00:01.000000000 +0000 UTC" },
+      "Message": { "PositionReport": { "MessageID": 1, "UserID": 211000001, "Valid": true, "NavigationalStatus": 1, "Sog": 0.1, "Cog": 12.0, "Latitude": 51.95, "Longitude": 3.80 } } },
+    { "MessageType": "PositionReport", "MetaData": { "MMSI": 211000002, "ShipName": "EXAMPLE B", "Latitude": 53.90, "Longitude": 8.20, "time_utc": "2026-11-20 10:00:05.000000000 +0000 UTC" },
+      "Message": { "PositionReport": { "MessageID": 1, "UserID": 211000002, "Valid": true, "NavigationalStatus": 0, "Sog": 12.4, "Cog": 86.7, "Latitude": 53.90, "Longitude": 8.20 } } },
+    { "MessageType": "PositionReport", "MetaData": { "MMSI": 230000003, "ShipName": "EXAMPLE C", "Latitude": 59.80, "Longitude": 24.90, "time_utc": "2026-11-20 10:00:10.000000000 +0000 UTC" },
+      "Message": { "PositionReport": { "MessageID": 1, "UserID": 230000003, "Valid": true, "NavigationalStatus": 0, "Sog": 0.4, "Cog": 200.0, "Latitude": 59.80, "Longitude": 24.90 } } },
+    { "MessageType": "PositionReport", "MetaData": { "MMSI": 230000003, "ShipName": "EXAMPLE C", "Latitude": 59.95, "Longitude": 25.40, "time_utc": "2026-11-20 10:00:20.000000000 +0000 UTC" },
+      "Message": { "PositionReport": { "MessageID": 1, "UserID": 230000003, "Valid": true, "NavigationalStatus": 0, "Sog": 0.4, "Cog": 200.0, "Latitude": 59.95, "Longitude": 25.40 } } },
+    { "MessageType": "StandardClassBPositionReport", "MetaData": { "MMSI": 265000004, "ShipName": "EXAMPLE D", "Latitude": 56.10, "Longitude": 18.00, "time_utc": "2026-11-20 10:00:12.000000000 +0000 UTC" },
+      "Message": { "StandardClassBPositionReport": { "MessageID": 18, "UserID": 265000004, "Valid": true, "Sog": 0.0, "Cog": 0.0, "Latitude": 56.10, "Longitude": 18.00 } } },
+    { "MessageType": "PositionReport", "MetaData": { "MMSI": 265000005, "ShipName": "EXAMPLE E", "Latitude": 56.20, "Longitude": 18.10, "time_utc": "2026-11-20 10:00:14.000000000 +0000 UTC" },
+      "Message": { "PositionReport": { "MessageID": 1, "UserID": 265000005, "Valid": true, "NavigationalStatus": 5, "Sog": 0.0, "Cog": 0.0, "Latitude": 56.20, "Longitude": 18.10 } } }
+  ]
+}

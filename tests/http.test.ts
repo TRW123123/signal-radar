@@ -138,3 +138,11 @@ test('Runner: Fehlermeldungen und Logs enthalten keine Keys', async () => {
   assert.ok(logs.every((l) => !l.includes(secret)));
   assert.deepEqual(secretValues({ SR_FIXTURES: 'replay', SR_X_KEY: 'k1', SR_Y_USER: 'u1' }).sort(), ['k1', 'u1']);
 });
+
+test('Netzwerkfehler: Ursache (cause) in der Meldung, Key geschwärzt', async () => {
+  const { createHttp } = await import('../src/core/http.ts');
+  const fetchImpl = (async () => { throw Object.assign(new TypeError('fetch failed'), { cause: Object.assign(new Error('read ECONNRESET'), { code: 'ECONNRESET', syscall: 'read' }) }); }) as unknown as typeof fetch;
+  const h = createHttp({ fixturesDir: '/nonexistent', mode: 'network', minHostIntervalMs: 0, fetchImpl });
+  await assert.rejects(h.text('https://example.test/x?api_key=SECRET1234'), (e: Error) =>
+    /fetch failed \(Ursache: ECONNRESET read read ECONNRESET\)/.test(e.message) && !e.message.includes('SECRET1234'));
+});

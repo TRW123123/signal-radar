@@ -87,6 +87,20 @@ export function cookieHeader(setCookie: string[]): string {
 
 const SECRET_BODY = /"(access_token|refresh_token|id_token|session_token|client_secret)"\s*:/i;
 
+/** Network-level failures (fetch failed, timeout) with their cause (code, syscall, host); no keys: URL and text go through redaction. */
+export function describeFetchError(e: unknown, url: string, method = 'GET'): unknown {
+  if (!(e instanceof Error) || /^HTTP \d{3}/.test(e.message)) return e;
+  const parts: string[] = [];
+  let c: unknown = (e as { cause?: unknown }).cause;
+  for (let i = 0; c && i < 3; i++, c = (c as { cause?: unknown }).cause) {
+    const x = c as { code?: unknown; syscall?: unknown; hostname?: unknown; address?: unknown; message?: unknown };
+    parts.push([x.code, x.syscall, x.hostname ?? x.address, x.message].filter((v) => v !== undefined && v !== '').map(String).join(' '));
+  }
+  const cause = parts.filter(Boolean).join(' <- ');
+  const msg = redactText(`${e.name === 'TimeoutError' ? 'timeout' : e.message}${cause ? ` (Ursache: ${cause})` : ''} ${method === 'GET' ? '' : `${method} `}${url}`);
+  return Object.assign(new Error(msg), { retryAfterMs: (e as { retryAfterMs?: number }).retryAfterMs, fatal: (e as { fatal?: boolean }).fatal });
+}
+
 export function fixtureName(url: string, init?: HttpInit): string {
   if (init?.fixture) return init.fixture;
   if ((init?.method ?? 'GET') !== 'GET') throw new Error(`${init?.method} braucht einen fixture-Namen (${redactUrl(url)})`);
@@ -135,7 +149,8 @@ export function createHttp(opts: HttpOptions): HttpClient {
           writeFileSync(file, body);
         }
         return { status: res.status, headers, setCookie, cookie: cookieHeader(setCookie), body };
-      } catch (e) {
+      } catch (e0) {
+        const e = describeFetchError(e0, url, method);
         lastErr = e;
         if ((e as { fatal?: boolean }).fatal) break;
         await new Promise((r) => setTimeout(r, (e as { retryAfterMs?: number }).retryAfterMs ?? 1500));

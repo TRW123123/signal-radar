@@ -25,7 +25,7 @@
 //   war.markets.brent_price, war.markets.wti_price (github-oil-prices), war.markets.gold_price, war.markets.wheat_prices, war.markets.vix
 //     (yahoo-chart, config/war.ts): bereits von anderen Collectors gespeist; eine zweite Quelle in derselben Reihe würde sie vermischen.
 //   bio.markets.poultry_stocks (Eierpreis APU0000708111): eigener Collector fred-eggs (Katalog-collector-id).
-// VERIFIED: nein (ungeprüft bis Key). Antwortformat aus der offiziellen Doku (Beispielantwort GNPCA) und Fehlerformat echt (ohne Key, 20.11.2026).
+// VERIFIED: ja (Live-Lauf Actions 20.11.2026, Run 44717048752): 1326 Werte. Zuvor: Antwortformat aus der offiziellen Doku (Beispielantwort GNPCA) und Fehlerformat echt (ohne Key, 20.11.2026).
 //   Alle 31 Serien-IDs am 20.11.2026 gegen https://fred.stlouisfed.org/graph/fredgraph.csv?id=<ID> (ohne Key) geprüft: existieren und liefern
 //   aktuelle Werte (z. B. DGS10 2026-11-18 = 5.07, VIXCLS 24.56, ICSA 2026-11-14 = 203000); Titel/Einheiten über die Serienseiten geprüft.
 

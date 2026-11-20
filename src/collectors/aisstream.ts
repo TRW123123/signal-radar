@@ -33,6 +33,7 @@ import type { Collector, Observation } from '../core/types.ts';
 import { expect, floorHour, num, obs } from './_helpers.ts';
 
 const KEY_ENV = 'SR_AISSTREAM_KEY';
+const FIXTURE = 'aisstream/doc-sample-messages.json';
 const URL_WS = 'wss://stream.aisstream.io/v0/stream';
 export const SESSION_MS = 55_000;
 const HARD_EXTRA_MS = 5_000;
@@ -219,6 +220,11 @@ export function createCollector(getWs: () => WsCtor | undefined, sessionMs = SES
     ],
     async collect(ctx) {
       const key = expect(ctx.key(KEY_ENV), KEY_ENV);
+      // Replay-Modus (SR_FIXTURES=replay): keine Verbindung, die aufgezeichneten Nachrichten der Fixture verwenden.
+      if (process.env.SR_FIXTURES === 'replay') {
+        const raw = await ctx.http.text(FIXTURE, { fixture: FIXTURE });
+        return { observations: toObservations(aggregate(parseMessages((JSON.parse(raw) as { messages: unknown[] }).messages)), ctx.now) };
+      }
       const Ws = expect(getWs(), 'globales WebSocket (Node 22)');
       const msgs = await runSession(Ws, key, sessionMs, ctx.log);
       return { observations: toObservations(aggregate(parseMessages(msgs)), ctx.now) };

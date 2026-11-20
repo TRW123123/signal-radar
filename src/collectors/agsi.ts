@@ -1,6 +1,6 @@
 // GIE AGSI+ (Aggregated Gas Storage Inventory): Gasspeicher EU und ein deutscher Großspeicherbetreiber, täglich (Betreiberdaten der Speicher).
 // Quelle: https://agsi.gie.eu/api?type=eu&from=YYYY-MM-DD&to=YYYY-MM-DD&size=26
-//         https://agsi.gie.eu/api?country=DE&company=21X000000001160J&from=...&to=...&size=26
+//         https://agsi.gie.eu/api?country=DE&company=37X0000000002964&facility=21Z000000000271O&from=...&to=...&size=26
 // Doku: https://agsi.gie.eu/api und API-Dokumentation https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf (gelesen 20.11.2026):
 //   Header x-key, Seitengröße size (Standard 30), höchstens 60 Aufrufe/Minute (sonst 60 s Sperre), Aktualisierung 19:30 und 23:00 MEZ.
 //   Antwort { last_page, total, dataset, gas_day, data: [ { name, code, gasDayStart, gasInStorage (TWh), injection, withdrawal,
@@ -13,13 +13,16 @@
 // Gemessen (2 Requests je Lauf, Fenster 21 Gastage bis gestern):
 //   war.energy.eu_gas_storage  EU-Füllstand in % (full, type=eu)
 //   cyber.physical.storage_level_anomaly_eu  EU-Netto-Ausspeicherung in GWh/Tag (netWithdrawal, type=eu; negativ = Einspeicherung)
-//   blackout.gas.storage_by_site_critical  Füllstand des Speicherbetreibers 21X000000001160J in Deutschland in % (EIC aus der GIE-Doku/Katalog,
-//     laut Katalog nicht geprüft; ohne Key keine Bestätigung, welcher Betreiber das ist -> erste Antwort mit Key prüfen, Feld name)
+//   blackout.gas.storage_by_site_critical  Füllstand des Speichers Rehden (SEFE Storage GmbH, größter DE-Speicher) in %.
+//     Live-Lauf 20.11.2026: company=21X000000001160J (EIC aus dem Katalog) -> "GIE-Fehler: invalid (invalid data)", die EIC gibt es nicht.
+//     Richtig laut keyfreiem Verzeichnis https://agsi.gie.eu/api/about?show=listing (20.11.2026): Betreiber (company) SEFE Storage GmbH
+//     37X0000000002964, Speicher (facility) UGS Rehden 21Z000000000271O; facility braucht die company dazu. Mit Key noch nicht erneut geprüft.
 //   Die jüngsten 2 Gastage entfallen (Status E, oft noch unvollständig), Status N entfällt.
 // Harmlose Ursachen: Kältewelle, Umstellung Ein-/Ausspeichern im Herbst, Preisarbitrage, Wartung, nachträgliche Korrekturen.
 // Not built (bereits von github-gas-storage, einem AGSI-Spiegel, gespeist; zweite Quelle würde die Reihen vermischen):
 //   blackout.gas.storage_fill_de, blackout.gas.storage_withdrawal_rate. Umstellung auf diesen Collector ist Sache der Koordination.
-// VERIFIED: nein (ungeprüft bis Key). Datenformat aus der GIE-API-Dokumentation v007; Fehlerantwort ohne Key echt geprüft.
+// VERIFIED: ja (Live-Lauf Actions 20.11.2026, Run 44717048752) für die EU-Signale (36 Werte, war.energy.eu_gas_storage, cyber.physical.storage_level_anomaly_eu). Teilsignal
+//   blackout.gas.storage_by_site_critical: Live-Abruf mit der alten EIC scheiterte ("invalid data"), EIC jetzt aus dem Verzeichnis korrigiert, noch nicht live bestätigt.
 
 import type { Collector, CollectContext, Observation, SignalDef } from '../core/types.ts';
 import { daysAgo, expect, isoDay, num, obs } from './_helpers.ts';
@@ -32,7 +35,9 @@ const DROP_NEWEST = 2;
 const SIG_EU_FULL = 'war.energy.eu_gas_storage';
 const SIG_EU_NETWD = 'cyber.physical.storage_level_anomaly_eu';
 const SIG_SITE = 'blackout.gas.storage_by_site_critical';
-const COMPANY = '21X000000001160J';
+/** Betreiber-EIC (company) und Speicher-EIC (facility) laut https://agsi.gie.eu/api/about?show=listing. */
+const COMPANY = '37X0000000002964';
+const FACILITY = '21Z000000000271O';
 
 /** Katalogdefinitionen (catalog/signals/*.json, Stand 20.11.2026). */
 const CATALOG: Record<string, Partial<SignalDef> & { id: string }> = Object.fromEntries(([
@@ -71,7 +76,7 @@ export function dailySeries(signalId: string, rows: GieRow[], value: (r: Record<
 
 const JOBS: { query: string; fixture: string; series: [string, (r: Record<string, unknown>) => number | null][] }[] = [
   { query: 'type=eu', fixture: 'agsi/eu.json', series: [[SIG_EU_FULL, (r) => num(r.full)], [SIG_EU_NETWD, (r) => num(r.netWithdrawal)]] },
-  { query: `country=DE&company=${COMPANY}`, fixture: 'agsi/de-company.json', series: [[SIG_SITE, (r) => num(r.full)]] },
+  { query: `country=DE&company=${COMPANY}&facility=${FACILITY}`, fixture: 'agsi/de-company.json', series: [[SIG_SITE, (r) => num(r.full)]] },
 ];
 
 const SOURCE = { sourceName: 'GIE AGSI / ALSI platform (AGSI+)', sourceUrl: 'https://agsi.gie.eu/', license: 'GIE-Bedingungen, Quellenangabe "GIE AGSI / ALSI platform" Pflicht' };
@@ -87,7 +92,7 @@ const collector: Collector = {
     { ...CATALOG[SIG_EU_NETWD], ...SOURCE, collector: ID, id: SIG_EU_NETWD, name: 'EU-Gasspeicher: Netto-Ausspeicherung', unit: 'GWh/Tag', maxAgeHours: 24 * 5,
       plain: 'Wie viel Gas die EU-Speicher am Tag netto abgeben; ein sprunghafter Anstieg kann auf Versorgungsstress hindeuten.' },
     { ...CATALOG[SIG_SITE], ...SOURCE, collector: ID, id: SIG_SITE, maxAgeHours: 24 * 5,
-      plain: 'Füllstand der Speicher eines großen deutschen Speicherbetreibers (EIC 21X000000001160J).' },
+      plain: 'Füllstand des Gasspeichers Rehden (SEFE Storage, EIC 21Z000000000271O), des größten deutschen Speichers.' },
   ],
 
   async collect(ctx: CollectContext) {

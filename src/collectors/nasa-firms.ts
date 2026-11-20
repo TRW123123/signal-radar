@@ -24,7 +24,7 @@
 //   firms_korea_dmz         125.5,37.5,129,38.7 Band um die innerkoreanische Grenze
 // Harmlose Ursachen: Gasabfackelung (Golf, Wolga-Ural: stabiler Sockel), Landwirtschafts- und Waldbrände (saisonal),
 //   Wolken verdecken Brände (Einbruch), Überflugsgeometrie (ein Gebiet liegt manchmal am Bahnrand).
-// VERIFIED: nein (ungeprüft bis Key). Spaltenformat gegen echte keyfreie FIRMS-Datei geprüft, Area-Endpunkt mit Key nicht.
+// VERIFIED: ja (Live-Lauf Actions 20.11.2026, Run 44717048752): 10 Werte mit Key; Area-Endpunkt damit bestätigt. Welche der Signale im Einzelnen Werte hatten, ist im Lauf-Log nachzusehen (Summe 10).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, floorDay, isoDay, num, obs, parseCsv } from './_helpers.ts';

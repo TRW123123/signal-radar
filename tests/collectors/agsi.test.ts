@@ -35,6 +35,7 @@ test('collect: Header x-key, beide Abrufe, drei Signale', async () => {
   const res = await collector.collect({ now: NOW, key: () => 'K', log: () => {},
     http: { json: async (u: string, init) => { seen.push([u, init?.headers?.['x-key']]); return SAMPLE as never; }, text: async () => '' } });
   assert.equal(seen.length, 2);
+  assert.ok(seen[1][0].includes('company=37X0000000002964&facility=21Z000000000271O'));
   assert.ok(seen.every(([u, h]) => h === 'K' && !u.includes('K&') && u.includes('to=2026-11-19')));
   assert.deepEqual([...new Set(res.observations.map((o) => o.signalId))].sort(),
     ['blackout.gas.storage_by_site_critical', 'cyber.physical.storage_level_anomaly_eu', 'war.energy.eu_gas_storage']);

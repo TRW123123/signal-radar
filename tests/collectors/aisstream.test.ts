@@ -91,3 +91,16 @@ test('Runner: ohne Key übersprungen (kein Verbindungsaufbau)', async () => {
   const [r] = await runCollectors([aisstream], store, { now: NOW, http: {} as HttpClient, env: {} });
   assert.equal(r.skipped, 'kein Key (SR_AISSTREAM_KEY)');
 });
+
+test('collect im Replay-Modus: Fixture statt WebSocket', async () => {
+  const old = process.env.SR_FIXTURES;
+  process.env.SR_FIXTURES = 'replay';
+  try {
+    const c = createCollector(() => { throw new Error('kein WebSocket im Replay'); }, 30);
+    const raw = readFileSync(new URL('../../fixtures/aisstream/doc-sample-messages.json', import.meta.url), 'utf8');
+    const res = await c.collect({ now: NOW, key: () => 'K', log: () => {}, http: { text: async () => raw } as unknown as HttpClient });
+    assert.equal(res.observations.length, 3);
+  } finally {
+    if (old === undefined) delete process.env.SR_FIXTURES; else process.env.SR_FIXTURES = old;
+  }
+});

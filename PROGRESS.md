@@ -57,6 +57,7 @@ Siehe `docs/OPEN-QUESTIONS.md`.
 
 ## Protokoll
 
+- 2026-11-20 Welle 3: Live-Lauf Actions (Run 44717048752): agsi ok (36, Einzelspeicher-Signal fehlte: EIC ungültig -> auf SEFE Storage/Rehden aus dem Verzeichnis umgestellt), alsi ok (72), eia ok (76), fred ok (1326), fred-eggs ok (35), nasa-firms ok (10), nvd-cve-api ok (4): VERIFIED gesetzt. shadowserver: 3x „fetch failed“ auf dem Runner (lokal ok), Ursache jetzt in der Meldung (http.ts, alle Collectors), dritter Versuch, Hinweis in OPEN-QUESTIONS. aisstream: Replay nutzt Fixture statt WebSocket. Tests grün (450).
 - 2026-11-20 Welle 2 (zentral): http.ts POST/request/Cookies + Redaction (Query, Pfad, Runner), space-track und reddit-json lauffähig, status_report.py mit needsKey-Listen, Workflow-Secrets und Timeout 15 min, Attributionen (GFW, Fingrid, FIRMS, NVD, GHSA, CoinGecko, Metaculus, Reddit, Shadowserver, OTX, aisstream, FAA, Space-Track, alerts.in.ua), sources.json fred-csv → fred, Test gegen doppelte Signal-ids, KEYS-NEEDED/OPEN-QUESTIONS aktualisiert. Nicht committet.
 - 2026-11-17 10:00 Live-Schaltung: Tests grün (300), erster echter Lauf, Parser repariert (ransomware-live, polymarket-gamma, sans-isc, treasury-fiscal), Wikimedia-User-Agent, GDELT-Abstand. Workflow grün (58 Collectors, 0 Fehler). Netlify-Projekt `signal-radar` angelegt, mit GitHub verbunden, Plakette abgeschaltet, Seite geprüft (Desktop und 390 px, keine Konsolenfehler, einzige Fremd-Anfrage raw.githubusercontent.com).
 

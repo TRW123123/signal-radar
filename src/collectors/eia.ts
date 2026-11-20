@@ -18,8 +18,7 @@
 // Harmlose Ursachen: Wetter (Hitze, Kälte), Feiertage, Meldelücken einzelner Regelzonen, Revisionen; SPR: geplante Verkäufe/Rückkäufe des DOE.
 // Not built: war.markets.brent_price (Katalog-Collector yahoo-chart, bereits über github-oil-prices aus EIA-Daten gespeist; zweite Quelle würde die
 //   Reihe vermischen).
-// VERIFIED: ja (20.11.2026, echte Antworten mit dem öffentlichen Demo-Schlüssel DEMO_KEY: fixtures/eia/pjm-demand.json, us48-demand.json,
-//   spr-weekly.json; Fehlerform fixtures/eia/error-rate-limit.json). Mit dem eigenen Key noch nicht gelaufen.
+// VERIFIED: ja (Live-Lauf Actions 20.11.2026, Run 44717048752): 76 Werte mit dem eigenen Key; zuvor Fixtures mit DEMO_KEY (fixtures/eia/*.json, Fehlerform error-rate-limit.json).
 
 import type { Collector, CollectContext, Observation, SignalDef } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';

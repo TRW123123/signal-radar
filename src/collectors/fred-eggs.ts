@@ -12,7 +12,7 @@
 //   Quellen eine eigene id bekommen (sonst zwei Reihen in einem Signal).
 // Harmlose Ursachen: Vogelgrippe-Keulungen (das ist hier gerade das gesuchte Signal, aber auch saisonale Nachfrage zu Ostern/Feiertagen),
 //   Futterkosten, Revisionen der BLS-Werte. Veröffentlichung etwa Mitte des Folgemonats (maxAgeHours 75 Tage).
-// VERIFIED: nein (ungeprüft bis Key). Serie am 20.11.2026 über fredgraph.csv ohne Key geprüft (2026-10-01 = 2.320 USD).
+// VERIFIED: ja (Live-Lauf Actions 20.11.2026, Run 44717048752): 35 Werte. Zuvor: Serie am 20.11.2026 über fredgraph.csv ohne Key geprüft (2026-10-01 = 2.320 USD).
 
 import type { Collector, CollectContext } from '../core/types.ts';
 import { daysAgo, expect, isoDay } from './_helpers.ts';

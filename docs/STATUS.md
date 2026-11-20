@@ -1,6 +1,6 @@
 # Status
 
-Automatisch erzeugt von `scripts/status_report.py` am 2026-11-20 10:17 UTC. Nicht von Hand ändern; neu erzeugen mit `python3 -I scripts/status_report.py`.
+Automatisch erzeugt von `scripts/status_report.py` am 2026-11-20 10:22 UTC. Nicht von Hand ändern; neu erzeugen mit `python3 -I scripts/status_report.py`.
 
 Quellen der Zahlen: `catalog/scenarios.json`, `catalog/signals/*.json`, die geladenen Collectors (`src/collectors/*.ts`) und deren Kopfkommentar (`VERIFIED:`). Aufgezeichnete echte Antworten unter `fixtures/` stammen vom 2026-11-17T00:16:13Z.
 
@@ -128,10 +128,10 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 | Collector | VERIFIED | Grund (aus dem Kopfkommentar) | Key nötig | Signale | Intervall (min) | Test |
 |---|---|---|---|---:|---:|---|
 | `adsb-lol` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 3 | 15 | ja |
-| `agsi` | nein | (ungeprüft bis Key). Datenformat aus der GIE-API-Dokumentation v007; Fehlerantwort ohne Key echt geprüft. | `SR_AGSI_KEY` | 3 | 360 | ja |
+| `agsi` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752) für die EU-Signale (36 Werte, war.energy.eu_gas_storage, cyber.physical.storage_level_anomaly_eu). Teilsignal blackout.gas.storage_by_site_critical: Live-Abruf mit der alten EIC sch… | `SR_AGSI_KEY` | 3 | 360 | ja |
 | `aisstream` | nein | (ungeprüft bis Key). Nachrichtenformat nach Doku; Fixture fixtures/aisstream/doc-sample-messages.json ist nach der Doku nachgebaut, keine echte Aufzeichnung. | `SR_AISSTREAM_KEY` | 3 | 60 | ja |
 | `alerts-in-ua` | nein | (ungeprüft bis Key). Ohne Token HTTP 401; Format nach offizieller Doku (Beispiel und Modell "Alert"). | `SR_ALERTS_IN_UA_KEY` | 2 | 15 | ja |
-| `alsi` | nein | (ungeprüft bis Key). Datenformat aus der GIE-API-Dokumentation v007; Fehlerantwort ohne Key echt geprüft. | `SR_ALSI_KEY` | 4 | 360 | ja |
+| `alsi` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752): 72 Werte. | `SR_ALSI_KEY` | 4 | 360 | ja |
 | `bfs-odl` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 2 | 60 | nein |
 | `bitnodes` | ja | (17.11.2026, echte Antwort; 100 Snapshots, 17 680 bis 20 385 Knoten, Zeitstempel unregelmäßig) | nein | 1 | 60 | ja |
 | `blackout-energy-prices-github` | ja | (17.11.2026, echte Antwort) | nein | 2 | 1440 | ja |
@@ -145,7 +145,7 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 | `defillama` | ja | (17.11.2026, echte Antworten; 56 Tageswerte 0,03-0,08 %, aktueller Wert 0,081 % (USDT 0,99919), plausibel) | nein | 1 | 15 | ja |
 | `ecb-data` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 2 | 720 | ja |
 | `ecb-finance-rates` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 2 | 720 | ja |
-| `eia` | ja | (20.11.2026, echte Antworten mit dem öffentlichen Demo-Schlüssel DEMO_KEY: fixtures/eia/pjm-demand.json, us48-demand.json, spr-weekly.json; Fehlerform fixtures/eia/error-rate-limit.json). Mit dem eigenen Key noch nicht gelaufen. | `SR_EIA_KEY` | 3 | 60 | ja |
+| `eia` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752): 76 Werte mit dem eigenen Key; zuvor Fixtures mit DEMO_KEY (fixtures/eia/*.json, Fehlerform error-rate-limit.json). | `SR_EIA_KEY` | 3 | 60 | ja |
 | `energy-charts` | teilweise | (public_power: ja, 17.11.2026, echte Antwort { unix_seconds, production_types[{name,data}] }, 15-Minuten-Raster, Tag = lokaler Kalendertag; frequency: Form { unix_seconds, data } in Sekunden bestätigt, aber Fenster von 3 h war 20… | nein | 3 | 60 | ja |
 | `faa-nas` | ja | (17.11.2026, echte Antwort; LGA Ground Stop, SFO Ground Delay, 4 gelistete Sperr-NOTAMs). Ändert sich das Schema, wirft der Parser bei fehlender Wurzel, liefert aber 0 bei leeren Listen. | nein | 3 | 15 | ja |
 | `faa-notam` | nein | (ungeprüft bis Key). Ohne Key HTTP 401 ({"message":"Unauthorized"}); offizielle Spec nicht öffentlich. | `SR_FAA_NOTAM_USER` + `SR_FAA_NOTAM_PASS` | 3 | 60 | ja |
@@ -154,8 +154,8 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 | `fingrid` | nein | (ungeprüft bis Key). Antwortform gegen echte keyfreie Portal-Antwort geprüft, Endpunkt mit Key nicht. | `SR_FINGRID_KEY` | 2 | 60 | ja |
 | `firehol-blocklists` | ja | (17.11.2026) | nein | 7 | 360 | ja |
 | `first-epss` | ja | (17.11.2026, echte Antwort; sieben Tage 10.–16.11. liefern 4382–4387, sehr stabil) | nein | 1 | 1440 | ja |
-| `fred-eggs` | nein | (ungeprüft bis Key). Serie am 20.11.2026 über fredgraph.csv ohne Key geprüft (2026-10-01 = 2.320 USD). | `SR_FRED_KEY` | 1 | 1440 | ja |
-| `fred` | nein | (ungeprüft bis Key). Antwortformat aus der offiziellen Doku (Beispielantwort GNPCA) und Fehlerformat echt (ohne Key, 20.11.2026). Alle 31 Serien-IDs am 20.11.2026 gegen https://fred.stlouisfed.org/graph/fredgraph.csv?id=<ID> (ohn… | `SR_FRED_KEY` | 31 | 360 | ja |
+| `fred-eggs` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752): 35 Werte. Zuvor: Serie am 20.11.2026 über fredgraph.csv ohne Key geprüft (2026-10-01 = 2.320 USD). | `SR_FRED_KEY` | 1 | 1440 | ja |
+| `fred` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752): 1326 Werte. Zuvor: Antwortformat aus der offiziellen Doku (Beispielantwort GNPCA) und Fehlerformat echt (ohne Key, 20.11.2026). Alle 31 Serien-IDs am 20.11.2026 gegen https://fred.… | `SR_FRED_KEY` | 31 | 360 | ja |
 | `gdelt-doc` | teilweise | (17.11.2026, echte Antwort aus Node und curl): Form { timeline: [{ series, data: [{ date, value }] }] } stimmt, Sprachfilter sourcelang:english / sourcelang:german gilt. GDELT antwortet langsam (12 bis 23 s) und begrenzt auf eine… | nein | 7 | 720 | ja |
 | `gfw` | nein | (ungeprüft bis Key). Ohne Token {"error":"invalid token"}; Format nach offizieller Doku (OpenAPI-Beispiel). Offen: ob mehrere regionIds im GET als ODER verknüpft werden (Doku nennt Liste, Semantik nicht beschrieben). | `SR_GFW_KEY` | 2 | 720 | ja |
 | `ghsa` | ja | (20.11.2026 ohne Token gegen echte Antworten; Fixtures fixtures/ghsa/*.json sind gekürzt: je Eintrag nur ghsa_id, type, severity, published_at, vulnerabilities[].package; reviewed.json 40 von 74 Einträgen; malware-w0..w3 aus der… | `SR_GITHUB_KEY` | 4 | 1440 | ja |
@@ -176,10 +176,10 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 | `mempool-space` | ja | (17.11.2026, echte Antworten: fastestFee 2 sat/vB, Warteschlange 76 535 Transaktionen / 32,65 MvB; die Pool-Antwort enthält ein langes fee_histogram, die Werte sind plausibel). | nein | 2 | 15 | ja |
 | `metaculus` | nein | (ungeprüft bis Key). Format aus der OpenAPI-Spezifikation; 403 ohne Token echt geprüft. | `SR_METACULUS_KEY` | 1 | 360 | ja |
 | `msrc-cvrf` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 2 | 1440 | ja |
-| `nasa-firms` | nein | (ungeprüft bis Key). Spaltenformat gegen echte keyfreie FIRMS-Datei geprüft, Area-Endpunkt mit Key nicht. | `SR_FIRMS_KEY` | 5 | 360 | ja |
+| `nasa-firms` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752): 10 Werte mit Key; Area-Endpunkt damit bestätigt. Welche der Signale im Einzelnen Werte hatten, ist im Lauf-Log nachzusehen (Summe 10). | `SR_FIRMS_KEY` | 5 | 360 | ja |
 | `nina-warnings` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 3 | 15 | nein |
 | `noaa-swpc` | ja | (17.11.2026, echte Antwort: Array von Objekten { time_tag "2026-11-10T00:00:00" (UTC ohne Z), Kp, a_running, station_count }, 56 Einträge = 7 Tage, Kp 0-3,7). | nein | 1 | 180 | ja |
-| `nvd-cve-api` | ja | (20.11.2026 ohne Key gegen echte Antworten; Fixtures fixtures/nvd-cve-api/*.json, Keyword-Antworten gekürzt: je CVE nur id, published, vulnStatus, descriptions; Feld "_trimmed" vermerkt das). | nein (optional: `SR_NVD_KEY`) | 2 | 1440 | ja |
+| `nvd-cve-api` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752: 4 Werte mit Key; 20.11.2026 zuvor ohne Key gegen echte Antworten; Fixtures fixtures/nvd-cve-api/*.json, Keyword-Antworten gekürzt: je CVE nur id, published, vulnStatus, descriptions… | nein (optional: `SR_NVD_KEY`) | 2 | 1440 | ja |
 | `nyfed-markets` | teilweise | (SOFR: ja, 17.11.2026, echte Antwort; SRF-Suche lieferte 400 mit dem Pfad /rp/repo/all/results/search, neuer Pfad /rp/results/search?operationTypes=Repo nach Gedächtnis, Aufzeichnung steht aus; schlägt auch er fehl, wird der Teil… | nein | 3 | 720 | ja |
 | `ooni` | ja | (17.11.2026, echte Antwort mit 75 Tagen): 2 bis 5 % anomal, über 60 000 Messungen je Tag; Antwort mit 30 Tagen steht zur Aufzeichnung aus. | nein | 10 | 720 | ja |
 | `oref-github` | ja | (17.11.2026) | nein | 2 | 1440 | ja |
@@ -193,7 +193,7 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 | `sam-gov` | nein | (ungeprüft bis Key). Antwortformat aus der Doku (Beispielantwort "totalRecords": 34). | `SR_SAM_GOV_KEY` | 2 | 1440 | ja |
 | `sans-isc` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 1 | 360 | ja |
 | `sec-edgar` | ja | (17.11.2026, echte Antwort: hits.total.value, hits.hits[]._id/_source{adsh, form, file_date, items[]}) | nein (optional: `SR_SEC_USER_AGENT`) | 1 | 360 | ja |
-| `shadowserver` | ja | (20.11.2026, echte Antworten in fixtures/shadowserver/*.json, ungekürzt). | nein | 4 | 1440 | ja |
+| `shadowserver` | ja | lokal (20.11.2026, echte Antworten in fixtures/shadowserver/*.json, ungekürzt); auf GitHub-Runnern NEIN (blockiert/fetch failed). | nein | 4 | 1440 | ja |
 | `smard` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 1 | 60 | ja |
 | `space-track` | nein | (ungeprüft bis Key). Format und Login nach offizieller Doku. | `SR_SPACE_TRACK_USER` + `SR_SPACE_TRACK_PASS` | 1 | 1440 | ja |
 | `statuspage` | teilweise | (status.json: ja, 17.11.2026, 44 echte Antworten, Replay liefert Werte; incidents.json: nein, Form nach Doku, Fixtures statuspage-incidents/<host>.json stehen in der Queue; Antwortgröße ungeprüft, die Prüf-Umgebung kappt bei 24 0… | nein | 6 | 15 | ja |
@@ -216,8 +216,8 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 
 | VERIFIED | Collectors | Signale dieser Collectors |
 |---|---:|---:|
-| ja | 56 | 165 |
+| ja | 61 | 209 |
 | teilweise | 4 | 19 |
-| nein | 19 | 74 |
+| nein | 14 | 30 |
 
 Collectors mit `VERIFIED: nein` oder `teilweise` sind die offenen Prüfaufgaben: Antwort aufzeichnen (`fixtures/queue/<collector>.json`), Parser dagegen testen, Vermerk ändern.

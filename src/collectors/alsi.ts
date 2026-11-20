@@ -14,7 +14,7 @@
 // Harmlose Ursachen: Ankunft/Ausbleiben einzelner Tanker (Send-out schwankt stark), Wartung eines Terminals, neue FSRU-Terminals (Kapazitätssprung),
 //   Preisarbitrage Asien/Europa.
 // Not built: war.energy.eu_gas_storage (gehört zu agsi und wird dort gebaut).
-// VERIFIED: nein (ungeprüft bis Key). Datenformat aus der GIE-API-Dokumentation v007; Fehlerantwort ohne Key echt geprüft.
+// VERIFIED: ja (Live-Lauf Actions 20.11.2026, Run 44717048752): 72 Werte.
 
 import type { Collector, CollectContext, Observation, SignalDef } from '../core/types.ts';
 import { daysAgo, expect, isoDay, num, obs } from './_helpers.ts';

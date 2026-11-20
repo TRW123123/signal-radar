@@ -21,7 +21,12 @@
 //   - cyber.vuln.vulnerable_host_decay: aus derselben Reihe: Abbau über 7 Tage = Wert(t−7) − Wert(t) (positiv = Abbau)
 // Harmlose Ursachen: Änderungen an Scan-Methodik oder Tagging, Ausfall einzelner Scanner (Tageseinbruch), Kampagnen-Scans
 //   nach neuen CVEs (neue Tags), Geo-IP-Umzuordnung, Wochenend-Dellen (DHCP/Endgeräte).
-// VERIFIED: ja (20.11.2026, echte Antworten in fixtures/shadowserver/*.json, ungekürzt).
+// GitHub-Actions-Lauf 20.11.2026 (Run 44717048752): alle 3 Abfragen "fetch failed", lokal (Box, curl und Node-fetch, HTTP/1.1,
+//   TLS 1.3, nginx ohne Cloudflare-Header, 200 in <1 s) gehen sie. Ursache auf dem Runner nicht reproduzierbar; wahrscheinlich
+//   Netzwerk-Block/Reset gegen Rechenzentrums-IPs (GitHub-Runner liegen bei Azure). Seit diesem Stand steht die Ursache (e.cause:
+//   Code/Syscall/Host) in der Fehlermeldung, und es gibt einen dritten Versuch nach 8 s. Bleibt es dabei: Abruf von einem anderen
+//   Ort (eigener Server) nötig, siehe docs/OPEN-QUESTIONS.md. Gleichwertiger öffentlicher Endpunkt ist nicht bekannt.
+// VERIFIED: ja lokal (20.11.2026, echte Antworten in fixtures/shadowserver/*.json, ungekürzt); auf GitHub-Runnern NEIN (blockiert/fetch failed).
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, num, obs } from './_helpers.ts';
@@ -128,7 +133,17 @@ const collector: Collector = {
   ],
   async collect(ctx) {
     const observations: Observation[] = [];
-    const get = (url: string, fixture: string) => ctx.http.json<unknown>(url, { fixture, timeoutMs: 40_000 });
+    // http.ts versucht je Abruf zweimal; hier ein dritter Versuch nach 8 s (Verbindungsabbrüche von Runner-IPs), Ursache steht im Log.
+    const get = async (url: string, fixture: string): Promise<unknown> => {
+      try {
+        return await ctx.http.json<unknown>(url, { fixture, timeoutMs: 40_000 });
+      } catch (e) {
+        if (/^(fixture missing|invalid JSON)/.test((e as Error).message)) throw e;
+        ctx.log(`shadowserver: erster Abruf fehlgeschlagen, neuer Versuch in 8 s: ${(e as Error).message}`);
+        await new Promise((r) => setTimeout(r, 8000));
+        return ctx.http.json<unknown>(url, { fixture, timeoutMs: 40_000 });
+      }
+    };
     const tasks: [string, () => Promise<Observation[]>][] = [
       [S_OT, async () => sumSeries(S_OT, parseChart(await get(URLS.ics, 'shadowserver/ics-world.json')))],
       [S_REFL, async () => sumSeries(S_REFL, parseChart(await get(URLS.reflectors, 'shadowserver/reflectors-world.json')), REFLECTOR_TAGS)],

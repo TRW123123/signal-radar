@@ -1094,7 +1094,7 @@
     "banalCauses": [
       "Wartungspausen"
     ],
-    "endpoint": "https://agsi.gie.eu/api?country=DE&company=21X000000001160J&from=2026-11-01",
+    "endpoint": "https://agsi.gie.eu/api?country=DE&company=37X0000000002964&facility=21Z000000000271O&from=2026-11-01",
     "auth": "free-key",
     "history": "ab 2011 (AGSI), ab 2012 (ALSI)",
     "priority": 3,

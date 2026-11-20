@@ -70,7 +70,12 @@ Mempool, RIPE-Atlas-Sonden). Sie haben erst nach einigen Tagen Live-Betrieb eine
 - **GFW:** Ob mehrere `regionIds` (EEZ-MRGIDs) im GET als ODER wirken, ist nicht dokumentiert; beim ersten Lauf mit Key gegen Einzelabfragen prüfen.
 - **github-rest:** Die Claude-Co-Autor-Suche kam mit `incomplete_results=true`; bleibt das in Actions so, Abfrage aufteilen oder nur Copilot zählen.
 - **FAA NOTAM:** Ob `domesticLocation=GPS` die GPS-NOTAMs trifft und die FDC-Airspace-Abfrage unter 1000 Treffern bleibt, prüft erst der Live-Lauf.
-- **AGSI:** Bei der ersten Antwort mit Key prüfen, ob EIC 21X000000001160J der gewünschte Betreiber ist.
+- **AGSI:** Live-Lauf 20.11.2026: Katalog-EIC 21X000000001160J ist ungültig („invalid data“). Ersetzt durch SEFE Storage GmbH (company 37X0000000002964)
+  + UGS Rehden (facility 21Z000000000271O) aus dem keyfreien Verzeichnis `https://agsi.gie.eu/api/about?show=listing`. Nächster Lauf muss bestätigen,
+  dass `blackout.gas.storage_by_site_critical` Werte liefert (company+facility ohne weitere Parameter). `catalog/research/*` enthält die alte EIC noch.
+- **Shadowserver auf GitHub-Runnern:** Live-Lauf 20.11.2026 (Run 44717048752): alle 3 Abfragen „fetch failed“, lokal laufen sie (nginx, HTTP 200, kein Cloudflare).
+  Vermutung: Rechenzentrums-IPs (Azure) werden zurückgesetzt/geblockt; nicht bewiesen. Die Fehlermeldung enthält jetzt die Ursache (`Ursache: ECONNRESET …`),
+  dazu ein dritter Versuch. Nächster Lauf zeigt die Ursache; bleibt es, Abruf von anderer IP (eigener Server) oder Shadowserver fragen.
 - **Space-Track und Reddit** laufen seit 20.11.2026 mit POST (Login bzw. Token); ungeprüft bis Key. Login-Antworten werden nie aufgezeichnet,
   ein Replay dieser beiden Collectors braucht daher von Hand angelegte Dummy-Fixtures (`space-track/login.json`, `reddit-json/token.json`).
 

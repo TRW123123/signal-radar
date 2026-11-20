@@ -22,7 +22,7 @@ export interface HttpOptions {
   fetchImpl?: typeof fetch;
 }
 
-const SECRET_PARAMS = ['auth-key', 'auth_key', 'api-key', 'apikey'];
+const SECRET_PARAMS = ['auth-key', 'auth_key', 'api-key', 'apikey', 'api_key', 'key', 'token', 'access_token', 'map_key'];
 
 /** URL for error messages: values of secret query parameters replaced with REDACTED. */
 export function redactUrl(url: string): string {

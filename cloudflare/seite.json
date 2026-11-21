@@ -1,0 +1,5 @@
+{
+  "worker": "site-signal-radar",
+  "dist": "frontend",
+  "vorschau": "https://site-signal-radar.safak-t.workers.dev"
+}

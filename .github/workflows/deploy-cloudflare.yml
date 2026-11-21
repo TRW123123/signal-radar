@@ -1,0 +1,69 @@
+# Veröffentlichungsweg signal-radar: Änderungen am Frontend auf master deployen frontend/ als Cloudflare-Worker
+# "site-signal-radar" (nur Dateien, workers.dev). Pull Requests werden nur vorbereitet (kein Deploy).
+# Kein Build-Schritt: frontend/ wird so ausgeliefert, wie es eingecheckt ist.
+#
+# Daten-Commits ("data: ...", alle 15 Minuten durch collect.yml) lösen KEINEN Lauf aus: die Seite lädt den
+# Snapshot zur Laufzeit von raw.githubusercontent.com (siehe docs/DEPLOY.md). Dafür sorgt der paths-Filter;
+# frontend/data/snapshot.json ist ausgenommen. Ein neuerer Push bricht einen laufenden, noch nicht fertigen
+# Lauf ab (concurrency).
+name: Deploy Cloudflare
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'frontend/**'
+      - '!frontend/data/snapshot.json'
+      - 'netlify.toml'
+      - 'cloudflare/**'
+      - '.github/workflows/deploy-cloudflare.yml'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'frontend/**'
+      - '!frontend/data/snapshot.json'
+      - 'netlify.toml'
+      - 'cloudflare/**'
+      - '.github/workflows/deploy-cloudflare.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-cloudflare-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22  # wrangler 4 braucht Node 22
+      - name: Regeln übersetzen und Worker vorbereiten
+        run: node cloudflare/baue-ci.mjs --nur-bauen
+      - name: Zugang zu Cloudflare prüfen
+        id: zugang
+        if: github.event_name != 'pull_request'
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_KONTO: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$CF_TOKEN" ] && [ -n "$CF_KONTO" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID fehlen als GitHub-Secret: nur vorbereitet, nichts deployt"
+          fi
+      - name: Deploy (wrangler)
+        if: steps.zugang.outputs.ok == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: node cloudflare/baue-ci.mjs
+      - name: Gate (Stichprobe)
+        if: steps.zugang.outputs.ok == 'true'
+        run: node cloudflare/gate.mjs

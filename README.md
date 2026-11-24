@@ -1,100 +1,84 @@
 # Signal Radar
 
-Signal Radar ist ein Open-Source-Anomalie-Radar für große, koordinierte Ereignisse (zunächst Cyberangriffe, danach Kriegseskalation und weitere Szenarien). Es holt öffentlich abrufbare Rohdaten (Messnetze, Register, Pflichtmeldungen, Marktdaten), vergleicht jeden Messwert mit seinem eigenen Normalzustand und zeigt pro Szenario, **wie ungewöhnlich die Messwerte gerade sind und in wie vielen unabhängigen Bereichen gleichzeitig**. Das Ergebnis ist eine Stufe von 0 (Ruhig) bis 4 (Akut) mit Aufschlüsselung bis zum einzelnen Messwert. Es ist ein Messinstrument, keine Vorhersage.
+Signal Radar ist ein offenes Anomalie-Radar: Es liest öffentliche, passive Messdaten (Netzwerke, Stromnetze, Märkte, Meldungen) und zeigt je Thema, ob die Messwerte gerade ungewöhnlich sind, und zwar in wie vielen voneinander unabhängigen Bereichen gleichzeitig. Es ist ein Messinstrument, keine Vorhersage.
 
-## Prinzipien
+Live-Seite: https://signal-radar.safak-t.workers.dev/
 
-- **Zero Trust in beide Richtungen.** Aussagen von Behörden, Presse und Anbietern sind kein Beleg (Evidenzklasse C, nur als Kontext, nie gewertet). Gewertet werden unabhängige Messungen (Klasse A) und selbstgemeldete Betriebsdaten oder Pflichtmeldungen (Klasse B, Faktor 0,8). Genauso misstraut das System den eigenen Mustern: Jede Abweichung braucht eine Baseline, eine Prüfung auf harmlose Ursachen und Konvergenz.
-- **Nur passive, öffentliche Daten.** Kein Scannen, Proben oder Testen fremder Systeme, keine Umgehung von Logins, keine Überwachung von Personen. Lizenz und Nutzungsbedingungen jeder Quelle stehen im Kopfkommentar des Collectors; geprüfte Bedingungen und Pflicht-Quellenangaben in [docs/DATA-TERMS.md](docs/DATA-TERMS.md) und `src/core/attribution.ts`.
-- **Konvergenz statt Einzelsignal.** Die erreichbare Stufe ist durch die Zahl gleichzeitig abweichender Bereiche gedeckelt: ein Bereich höchstens Stufe 1, zwei höchstens 2, drei höchstens 3, erst ab vier ist Stufe 4 möglich.
-- **Gerede getrennt von Messung.** Aufmerksamkeit (Suchtrends, Seitenaufrufe, Foren; Klasse D) fließt nicht in die Stufe, sondern in einen getrennten Wert. Die Lücke zwischen beiden wird benannt (`rumorGap`).
-- **Der Normalzustand ist ruhig.** Das System soll im Normalfall „Ruhig“ zeigen. Ein Radar, das dauernd Alarm schlägt, ist wertlos. Ob das System diesen Anspruch einlöst, ist noch nicht belegt (siehe Stand).
+![Signal Radar, Desktop-Ansicht](frontend/design/renders/r4/desktop.png)
 
-## Was die Stufe bedeutet
+English summary at the end of this file.
 
-Die Stufe sagt: Messwerte weichen gerade verglichen mit ihrem eigenen Normalwert (Median und robuste Streuung der letzten Wochen) so stark und in so vielen unabhängigen Bereichen ab. Bekannte harmlose Ursachen (z. B. Patch-Dienstag, Monatswechsel, geomagnetische Stürme) dämpfen den Ausschlag, und der Grund wird angezeigt. Details: [docs/SCORING.md](docs/SCORING.md).
+## Was man auf der Seite sieht
 
-Was die Stufe **nicht** bedeutet:
+- **Antwort je Thema.** Sieben Themen (Cyberangriff, Kriegseskalation, Blackout und Energiekrise, KI-Vorfall, Finanzkrise und Bankenstress, nuklearer Zwischenfall, Pandemie und Ausbrüche), jeweils mit einer Stufe von 0 (Ruhig) bis 4 (Akut) und der Begründung bis zur einzelnen Messung.
+- **Globus mit Messpunkten.** Jede Messung mit bekanntem Ort liegt auf dem Globus. Ruhige Punkte sind grau, ungewöhnliche leuchten. Dazu kommen ungewertete Kartenschichten (Erdbeben, Naturereignisse, Katastrophenmeldungen), die nie in die Stufe einfließen.
+- **Gerüchte-Abgleich.** Zu kursierenden Behauptungen steht neben der Aufmerksamkeit im Netz, was die Messdaten dazu zeigen. Aufmerksamkeit (Suchtrends, Seitenaufrufe, Foren) wird getrennt von der Messung geführt, die Lücke zwischen beiden wird benannt.
+- **Rückblick auf echte Ereignisse.** Das Radar wird über vergangene Ereignisse (zum Beispiel Facebook-Ausfall 2021, Stromausfall auf der Iberischen Halbinsel 2025) und über ruhige Vergleichszeiträume abgespielt, mit dem Stand, den es damals gezeigt hätte. Auch die Fehlschläge stehen dort (siehe Ehrliche Grenzen).
 
-- Keine Wahrscheinlichkeit und keine Vorhersage eines Ereignisses.
-- Kein Beleg für Absicht oder Urheber. „Erhöht“ kann ein Ausfall, eine Wartung oder eine Datenpanne der Quelle sein.
-- Keine Aussage über Bereiche ohne Daten. Fehlen Signale, sinkt das Vertrauen; unter 0,15 lautet die Aussage „Noch zu wenig Messdaten“.
-- Keine Alarmierung. Für den Ernstfall gilt allgemeine Vorsorge nach Empfehlung des BBK.
+## Grundsätze
 
-## Aktueller Stand (17.11.2026)
+- **Nur öffentliche, passive Messdaten.** Kein Scannen, Proben oder Testen fremder Systeme, keine Umgehung von Logins oder Bezahlschranken.
+- **Keine Personen.** Nur Aggregate und Daten zu Infrastruktur, Märkten und Netzen, keine Profile, keine einzelnen Konten.
+- **Misstrauen in beide Richtungen.** Offizielle Aussagen und Presse sind kein Beleg: Sie erscheinen als Kontext und werden nie gewertet. Die eigenen Muster sind es auch nicht. Jede Abweichung wird deshalb mit der eigenen Vergangenheit der Messung verglichen, auf harmlose Ursachen geprüft (zum Beispiel Patch-Dienstag, Monatswechsel) und zählt für höhere Stufen nur, wenn mehrere unabhängige Bereiche zugleich abweichen.
 
-Zahlen werden per Skript aus dem Repo ermittelt und stehen in [docs/STATUS.md](docs/STATUS.md) (`python3 -I scripts/status_report.py`). Zum Zeitpunkt dieser Fassung: 2 Szenarien (`cyber`, `war`), 478 Signale, davon 129 mit gebautem Collector, 47 Collectors. Die Zahlen ändern sich mit jeder Arbeitswelle; maßgeblich ist immer die neu erzeugte `docs/STATUS.md`.
+## Wie bewertet wird
 
-**Keine freie Netzverbindung beim Bau.** Die Bau-Umgebung hatte keinen freien Internetzugang. Collectors laufen deshalb bisher nie live, sondern nur gegen **einzeln aufgezeichnete echte Antworten** der Quellen (`fixtures/`, Stand 17.11.2026 00:16 UTC). Ein Live-Betrieb und ein Deploy des Frontends haben nicht stattgefunden (siehe [docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md), [docs/DEPLOY.md](docs/DEPLOY.md)). Das Dashboard zeigt bis dahin höchstens eine Momentaufnahme aus diesen Aufzeichnungen.
+Eine Messung gilt als ungewöhnlich, wenn sie weiter von ihrem Normalwert entfernt ist, als diese Messreihe es sonst fast immer tut; der Normalwert kommt nur aus der eigenen Vergangenheit der Messung. Bei Messreihen mit genug Vergangenheit war das im Mittel 1,8 % der Zeit der Fall (etwa 1 von 55 Zeitpunkten); neue Reihen mit kurzer Vergangenheit schlagen öfter aus (4,8 %), zählen deshalb erst ab sieben früheren Werten und danach zunächst nur halb. Ein Bereich (zum Beispiel Zahlungsverkehr oder Stromnetz) gilt als ungewöhnlich, wenn mindestens eine seiner Quellen deutlich ausschlägt; mehrere Kennzahlen derselben Quelle zählen einmal, und in den letzten 30 Tagen war ein Bereich im Mittel 0,2 % der Zeit ungewöhnlich (etwa 1 von 588 Stunden). Ein einzelner ungewöhnlicher Bereich hebt ein Thema höchstens auf Stufe 1, für jede höhere Stufe müssen mehr unabhängige Bereiche gleichzeitig abweichen. In den letzten 30 Tagen war ein Thema im Mittel 0,3 % der Zeit auf Stufe 1 oder höher, Stufe 2, 3 und 4 kamen bei keinem Thema vor. Die Zahlen stammen aus der Messung an den Live-Daten vom 24.11.2026 (Basis: 30 Tage, 184 Signale, 8824 Vergleichspunkte; `frontend/data/explain.json`, [docs/CALIBRATION.md](docs/CALIBRATION.md)); das Modell im Einzelnen steht in [docs/SCORING.md](docs/SCORING.md).
 
-**Collectors gegen echte Antworten geprüft?** Jeder Collector trägt im Kopfkommentar einen `VERIFIED:`-Vermerk.
+## Ehrliche Grenzen
 
-- ja (26 Collectors): Parser gegen eine echte aufgezeichnete Antwort geprüft.
-- teilweise (10): `chromiumdash`, `energy-charts`, `grip`, `msrc-cvrf`, `nyfed-markets`, `polymarket-gamma`, `ripe-stat`, `smard`, `statuspage`, `yahoo-chart`.
-- **nein (11), nur nach Dokumentation oder Erinnerung gebaut:** `adsb-lol`, `cloudflare-radar`, `ecb-data`, `gdelt-doc`, `ioda`, `malwarebazaar`, `ransomware-live`, `sans-isc`, `threatfox`, `urlhaus`, `wikimedia-pageviews`. Die Gründe stehen je Collector in `docs/STATUS.md`.
-- Vier Collectors brauchen einen Key und werden ohne ihn übersprungen (`cloudflare-radar`, `threatfox`, `urlhaus`, `malwarebazaar`); siehe [docs/KEYS-NEEDED.md](docs/KEYS-NEEDED.md).
-- Bei einem Replay gegen die Aufzeichnungen (Lauf am 17.11.2026, Zahlen ändern sich) laufen 33 von 47 Collectors ohne Fehler durch (einzelne davon mit 0 Werten), 10 melden einen Fehler (fehlende Aufzeichnung oder nicht lesbare Antwort), 4 werden mangels Key übersprungen. Das Szenario `cyber` meldet dort „Noch zu wenig Messdaten“ (Vertrauen 0,14).
-- Die meisten Signale sind nur katalogisiert, nicht gebaut. Für Kriegseskalation haben bei dieser Fassung Schifffahrt, Staatsverhalten und Energie noch keinen Collector (siehe STATUS.md).
+Zahlen aus [backtest/REPORT.md](backtest/REPORT.md) und `frontend/data/replays/index.json`.
 
-**Backtest: keine belegte Vorhersagekraft.** Der erste Backtest (`backtest/REPORT.md`) ist ein Gerüst mit Replay über 30 Tage:
+- **Elf historische Ereignisse wurden wiedergegeben.** Gesehen (Stufenanstieg durch abweichende Bereiche): 3 (Stromausfall Iberische Halbinsel 2025, Krieg Israel und Iran 2025, Rogers-Ausfall Kanada 2022). Teilweise: 2 (Facebook-Ausfall 2021, CrowdStrike 2024). Nicht gesehen: 6 (Change Healthcare, Colonial Pipeline, Dyn, Log4Shell, MOVEit, NotPetya).
+- **Verzögerung.** Das Radar bestätigt Ereignisse nach Stunden. Iberischer Stromausfall und Rogers: Stufe 1 beim ersten Rechenschritt nach Beginn, also nach ein bis zwei Stunden (gerechnet wird im Rücktest alle 3 Stunden). Israel und Iran: Stufe 1 nach 51 Stunden, Stufe 2 nach 135 Stunden. Facebook: Stufe 1 zum Beginn, aber nur durch eine einzige Messung, die auch vorher schon ausschlug, daher nur „teilweise“.
+- **In keinem Fall gab es eine Vorwarnung.** Ausschläge vor Beginn waren Rauschen oder nicht belegt (CrowdStrike: nur der VIX, ohne belegten Bezug zum Ausfall).
+- **Höchste Stufe war 2**, erreicht nur beim Krieg zwischen Israel und Iran. Die Stufen 3 und 4 sind in der Praxis noch nicht beobachtet.
+- **Firmen-Vorfälle sind mit offenen Daten nicht sichtbar.** Change Healthcare, Colonial Pipeline, Log4Shell und MOVEit zeigten in den verfügbaren Messungen nichts.
+- **Vier ruhige Vergleichszeiträume** (August 2019, August 2023, Spanien und Portugal, Nahost) blieben alle auf Stufe 0. Das ist eine kleine Stichprobe.
+- **Kurze Datenbasis.** Die Kalibrierung beruht auf 30 Tagen. Stufe 2 kam in dieser Zeit nie vor, die Stufen 2 bis 4 lassen sich damit nicht feiner abstimmen.
+- **Dünne Themen.** Im Live-Snapshot vom 24.11.2026 hatten Pandemie 23, KI-Vorfall 14 und Blackout 15 Messungen mit aktuellem Wert. Pandemie hat nur in 3 von 8 Bereichen Daten, KI in 4 von 6, Nuklear in 4 von 6, Krieg in 5 von 7. Dem Thema KI ist bisher erst 1 von 11 Messungen ein Ort zugeordnet.
+- **Takt.** Der Zeitplan alle 15 Minuten wurde von GitHub zuletzt nur alle 6 bis 12 Stunden ausgeführt (Ursache ungeprüft, siehe [PROGRESS.md](PROGRESS.md)).
+- Die Stufe ist keine Wahrscheinlichkeit und kein Beleg für Absicht oder Urheber. „Erhöht“ kann auch ein Ausfall oder eine Wartung der Quelle sein.
 
-- 12 Ereignisse gelistet, nur 3 prüfbar (alle drei im November 2026 und laut Sekundärquelle, nicht selbst verifiziert). Die 9 historischen Ereignisse (2016 bis 2024) sind nicht prüfbar, weil die dafür nötigen historischen Abrufe fehlen (`backtest/history-queue.json`).
-- Von den 3 prüfbaren erreichte keines Stufe 2, alle blieben bei Stufe 1. Der Bericht bewertet sie als „schwach“, praktisch „nicht erkannt“.
-- Der Bericht fand außerhalb von Ereignissen in 95,5 % der Zeitschritte Stufe 1 oder höher. Das widerspricht dem Anspruch „Normalzustand ruhig“. Ursache war laut Bericht eine Lücke in der Konvergenz-Schranke für null abweichende Bereiche. Im Code ist diese Schranke inzwischen auf 0,11 gesetzt (`src/engine/score.ts`); der Bericht wurde seither **nicht neu erzeugt**, die Fehlalarm-Rate mit der geänderten Engine ist also nicht gemessen.
-- Ein Teil der Signale (`cve_published_hourly`, `cve_updated_hourly`) schlägt auch außerhalb von Ereignissen etwa 18-mal je 30 Tage aus und ist der erste Prüfkandidat.
+## Bestand
 
-Tests: 244 Tests, alle grün (`npm test`, Stand dieser Fassung). Sie prüfen Engine, Speicher und Parser, nicht die Vorhersagequalität.
+Gezählt am 24.11.2026 per Befehl im Repo:
 
-## Schnellstart
+- 7 Themen (`catalog/scenarios.json`).
+- 91 Collectors (`ls src/collectors/*.ts | grep -v "/_" | wc -l`), davon laut `docs/STATUS.md` 66 gegen eine echte Antwort geprüft, 5 teilweise, 20 nicht.
+- 877 Signale im Katalog, davon 298 mit Collector (`python3 -I scripts/status_report.py`, Ergebnis in [docs/STATUS.md](docs/STATUS.md)).
+- 237 Messungen mit aktuellem Wert im Live-Snapshot (`frontend/data/snapshot.json`, Stand 24.11.2026 01:55 UTC, Status `active` mit Wert).
+
+## Selbst betreiben
 
 Voraussetzung: Node.js ab 22.18. Es gibt keinen Build und keine Abhängigkeiten, `npm install` ist nicht nötig.
 
 ```
-npm test                          # Tests (node:test)
-npm run replay                    # Collectors gegen fixtures/ abspielen, Snapshot nach frontend/data/snapshot.json
-node scripts/serve.ts             # Frontend auf http://localhost:4173
-node src/cli.ts run               # Live: Collectors abrufen und Snapshot bauen (braucht Internetzugang)
+npm test                          # Tests
+npm run replay                    # Collectors gegen aufgezeichnete Antworten (fixtures/) abspielen
+npm run serve                     # Frontend lokal auf http://localhost:4173
+npm run run                       # Live: Collectors abrufen und Snapshot bauen (braucht Internet)
+npm run collect                   # nur sammeln
+npm run snapshot                  # nur Snapshot aus gespeicherten Daten bauen
 python3 -I scripts/status_report.py   # docs/STATUS.md neu erzeugen
 ```
 
-Das Frontend lädt `data/snapshot.json`. Mit `?demo=calm|rumor|single|elevated|acute|multi|sparse` zeigt es erfundene Beispieldaten (`frontend/data/demo-*.json`). Optionen und Umgebungsvariablen von `src/cli.ts`: `--only <id,..>`, `--now <ISO>`, `--data <dir>`, `--out <Datei>`, `SR_SENSITIVITY=normal|high`, `SR_FIXTURES=replay|record`. Betrieb mit GitHub Actions oder Netlify: [docs/DEPLOY.md](docs/DEPLOY.md).
+Betrieb mit GitHub Actions: `.github/workflows/collect.yml` sammelt und bewertet nach Zeitplan alle 15 Minuten und legt die Daten als Commits ab, `deploy-cloudflare.yml` liefert `frontend/` aus, `backfill.yml` lädt historische Antworten für den Backtest. Einzelheiten in [docs/DEPLOY.md](docs/DEPLOY.md) (Teile davon beschreiben noch den früheren Netlify-Weg). Schlüssel sind optional: Collectors, die einen brauchen, werden ohne ihn übersprungen und nicht als Fehler gezählt. Liste und Bearbeitungsstand in [docs/KEYS-NEEDED.md](docs/KEYS-NEEDED.md).
 
-## Ordnerstruktur
+## Mitmachen, Lizenz, Quellen
 
-| Pfad | Inhalt |
-|---|---|
-| `src/core/` | Datenverträge (`types.ts`), Katalog-Lader, HTTP-Client mit Aufzeichnung/Replay, Speicher, Collector-Registry |
-| `src/collectors/` | ein Collector pro Quelle (`<id>.ts`), Helfer in `_helpers.ts` |
-| `src/engine/` | Abweichung, harmlose Ursachen, Szenario-Wert (`anomaly.ts`, `banal.ts`, `score.ts`, `stats.ts`) |
-| `src/pipeline/` | Collectors ausführen (`collect.ts`), Snapshot bauen (`snapshot.ts`) |
-| `src/backtest/` | Backtest-Gerüst |
-| `src/cli.ts` | Kommandozeile (`run`, `collect`, `snapshot`) |
-| `catalog/` | Szenarien, Signale, Quellen, Regeln für harmlose Ursachen, Recherche (alles Daten, kein Code) |
-| `data/` | Rohdaten als JSONL (entsteht im Betrieb) |
-| `fixtures/` | aufgezeichnete echte Antworten der Quellen |
-| `frontend/` | statisches Dashboard ohne Build, Schriften lokal; `design/` enthält Entwurfsunterlagen |
-| `tests/` | Tests, Collector-Tests unter `tests/collectors/` |
-| `backtest/` | Ereignisliste, Ergebnisse, Bericht |
-| `scripts/` | Dev-Server, Demo-Snapshot, Aufzeichnungs- und Katalog-Hilfen, `status_report.py` |
-| `docs/` | Dokumentation (siehe unten) |
-| `.github/workflows/collect.yml` | Sammeln und Bewerten alle 15 Minuten |
+- **Mitmachen:** Neue Quellen, Signale und Themen sind willkommen. Die Regeln stehen in [CONTRIBUTING.md](CONTRIBUTING.md), die technische Anleitung im [Collector-Guide](docs/COLLECTOR-GUIDE.md), Schwächen der Methode gehören in [docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md).
+- **Lizenz:** Das Repo enthält keine LICENSE-Datei, eine Projekt-Lizenz ist also noch nicht festgelegt; ohne Lizenz sind keine Nutzungsrechte eingeräumt. Die Schriften unter `frontend/assets/fonts/` stehen unter der SIL Open Font License 1.1. Die Lizenzen der Datenquellen sind teils ungeklärt ([docs/LICENSE-TODO.md](docs/LICENSE-TODO.md)).
+- **Quellen-Nennung:** Pflichtangaben und geprüfte Nutzungsbedingungen der Datenquellen stehen in [docs/DATA-TERMS.md](docs/DATA-TERMS.md) und `src/core/attribution.ts`; die Seite zeigt sie im Fuß und an der jeweiligen Messreihe.
 
-Dokumentation: [Architektur](docs/ARCHITECTURE.md), [Scoring](docs/SCORING.md), [Collector-Guide](docs/COLLECTOR-GUIDE.md), [Deploy](docs/DEPLOY.md), [Status](docs/STATUS.md), [Offene Fragen](docs/OPEN-QUESTIONS.md), [Keys](docs/KEYS-NEEDED.md), [Lizenzen der Quellen](docs/LICENSE-TODO.md), [Nutzungsbedingungen der Datenquellen](docs/DATA-TERMS.md), [Beitragen](CONTRIBUTING.md), [Fortschrittsprotokoll](PROGRESS.md).
+Weitere Dokumente: [Architektur](docs/ARCHITECTURE.md), [Plan V2](docs/PLAN-V2.md), [Fortschrittsprotokoll](PROGRESS.md).
 
-## Collector oder Szenario ergänzen
+## English summary
 
-- **Collector:** Eine Datei `src/collectors/<id>.ts` nach Vorlage `wikimedia-pageviews.ts`, dazu Test unter `tests/collectors/`. Regeln, Fixture-Aufzeichnung und Test: [docs/COLLECTOR-GUIDE.md](docs/COLLECTOR-GUIDE.md). Spielregeln für Quellen: [CONTRIBUTING.md](CONTRIBUTING.md).
-- **Szenario:** Eintrag in `catalog/scenarios.json` (Titel, Frage, Bereiche mit Gewicht), Signale in `catalog/signals/<szenario>.json`, Collectors wie oben. Die Engine braucht keinen Code für ein neues Szenario. Bekannte harmlose Ursachen kommen als Daten nach `catalog/banal-rules.json`. Das Szenario `war` ist das Beispiel, wie es aufgebaut ist.
+Signal Radar is an open anomaly radar. It reads public, passive measurement data and shows, per topic (cyber attack, war escalation, blackout, AI incident, financial stress, nuclear incident, outbreaks), how unusual current readings are and in how many independent areas at once, on a scale from 0 to 4. It is a measuring instrument, not a forecast. Live: https://signal-radar.safak-t.workers.dev/
 
-## Lizenz
+Principles: only public passive data, no people, and distrust in both directions (official statements are context, never evidence; the radar's own patterns must pass comparison with their own history, harmless explanations and several independent areas). Measured over 30 days of live data, a single series with enough history was unusual 1.8 % of the time, an area 0.2 % of the time, and no topic reached level 2 or higher.
 
-Eine Projekt-Lizenz ist **noch nicht festgelegt**; ohne Lizenz sind keine Nutzungsrechte eingeräumt. Die Schriften unter `frontend/assets/fonts/` stehen unter der SIL Open Font License 1.1 (Lizenztexte liegen daneben). Die Lizenzen der Datenquellen sind teilweise ungeklärt: [docs/LICENSE-TODO.md](docs/LICENSE-TODO.md). Geprüfte Nutzungsbedingungen und Pflicht-Quellenangaben stehen in [docs/DATA-TERMS.md](docs/DATA-TERMS.md) und `src/core/attribution.ts`; sie erscheinen im Fuß des Dashboards, sobald Daten dieser Quellen im Snapshot sind.
+Honest limits: of 11 replayed historical events, 3 were seen, 2 partly, 6 not. Detection came hours after the start (1 h for the Iberian blackout and Rogers, 51 h for level 1 and 135 h for level 2 in the Israel and Iran war), never before. Company incidents (Change Healthcare, Colonial Pipeline, Log4Shell, MOVEit) are not visible in open data. Some topics are still thin.
 
-## Grenzen
-
-- Ohne Historie gibt es keine Baseline. Viele Quellen brauchen Tage bis Wochen Sammelzeit.
-- Langsame Entwicklungen über Wochen verschieben die Baseline mit und bleiben unsichtbar.
-- Bereiche sind nicht vollständig unabhängig (z. B. Routing und gemessene Ausfälle), die Konvergenz-Schranke behandelt sie trotzdem als getrennt.
-- Wer die Quellen kennt, kann einzelne Signale fälschen. Dagegen helfen nur der Manipulationsfaktor und die Konvergenz.
-- Eine Erkennungs- oder Vorhersagekraft ist nicht belegt (siehe Backtest). Die Gewichte sind bisher nicht anhand eines Backtests angepasst, weil noch kein belastbarer vorliegt.
-- Das Dashboard zeigt Messwerte, keine Handlungsempfehlungen und keine Schlagzeilen.
+Counts (24 Nov 2026): 7 topics, 91 collectors, 877 catalog signals (298 with a collector), 237 measurements with a current value. Requirements: Node.js 22.18 or newer, no dependencies (`npm test`, `npm run serve`, `npm run run`). Keys are optional. There is no LICENSE file yet, so no usage rights are granted. See docs/DATA-TERMS.md for source attribution and CONTRIBUTING.md to contribute.

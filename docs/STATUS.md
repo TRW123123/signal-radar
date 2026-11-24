@@ -1,6 +1,6 @@
 # Status
 
-Automatisch erzeugt von `scripts/status_report.py` am 2026-11-20 10:22 UTC. Nicht von Hand ändern; neu erzeugen mit `python3 -I scripts/status_report.py`.
+Automatisch erzeugt von `scripts/status_report.py` am 2026-11-24 02:00 UTC. Nicht von Hand ändern; neu erzeugen mit `python3 -I scripts/status_report.py`.
 
 Quellen der Zahlen: `catalog/scenarios.json`, `catalog/signals/*.json`, die geladenen Collectors (`src/collectors/*.ts`) und deren Kopfkommentar (`VERIFIED:`). Aufgezeichnete echte Antworten unter `fixtures/` stammen vom 2026-11-17T00:16:13Z.
 
@@ -12,13 +12,13 @@ Signale eines Szenarios = Katalog-Einträge plus Signale, die ein Collector zus�
 |---|---|---:|---:|---:|---:|---:|
 | `cyber` | Cyberangriff | 9 | 306 | 119 | 187 | 37 |
 | `war` | Kriegseskalation | 7 | 178 | 64 | 114 | 30 |
-| `blackout` | Blackout und Energiekrise | 7 | 75 | 9 | 66 | 3 |
-| `ai` | KI-Vorfall | 6 | 72 | 11 | 61 | 15 |
+| `blackout` | Blackout und Energiekrise | 7 | 75 | 16 | 59 | 3 |
+| `ai` | KI-Vorfall | 6 | 77 | 19 | 58 | 16 |
 | `finance` | Finanzkrise und Bankenstress | 7 | 77 | 26 | 51 | 6 |
 | `nuclear` | Nuklearer Zwischenfall | 6 | 79 | 28 | 51 | 10 |
-| `bio` | Pandemie und Ausbrüche | 8 | 75 | 1 | 74 | 10 |
+| `bio` | Pandemie und Ausbrüche | 8 | 85 | 26 | 59 | 11 |
 
-Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur katalogisiert. Davon stehen 782 in den Katalog-Dateien und 80 nur im Collector.
+Summe (je Signal einmal): **877 Signale**, davon **298 mit Collector**, 579 nur katalogisiert. Davon stehen 782 in den Katalog-Dateien und 95 nur im Collector.
 
 ## Signale je Szenario und Bereich
 
@@ -56,12 +56,12 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 
 | Bereich | Titel | Gewicht | Signale | mit Collector | Klasse D |
 |---|---|---:|---:|---:|---:|
-| `grid` | Stromnetz | 1 | 19 | 1 | 0 |
+| `grid` | Stromnetz | 1 | 19 | 4 | 0 |
 | `gas` | Gasversorgung | 1 | 14 | 6 | 0 |
-| `prices` | Energiepreise | 0.8 | 7 | 0 | 0 |
-| `weather` | Wetter | 0.9 | 10 | 0 | 0 |
+| `prices` | Energiepreise | 0.8 | 7 | 1 | 0 |
+| `weather` | Wetter | 0.9 | 10 | 2 | 0 |
 | `plants` | Kraftwerke und Pegel | 0.9 | 9 | 0 | 0 |
-| `outages` | Gemessene Stromausfälle | 1 | 8 | 0 | 0 |
+| `outages` | Gemessene Stromausfälle | 1 | 8 | 1 | 0 |
 | `markets` | Märkte | 0.6 | 4 | 2 | 0 |
 | `attention` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 3 | 0 | 3 |
 | `context` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 1 | 0 | 0 |
@@ -70,13 +70,13 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 
 | Bereich | Titel | Gewicht | Signale | mit Collector | Klasse D |
 |---|---|---:|---:|---:|---:|
-| `platforms` | Modell-Plattformen | 1 | 13 | 0 | 0 |
+| `platforms` | Modell-Plattformen | 1 | 16 | 4 | 0 |
 | `supply_chain` | Software-Lieferkette | 1 | 15 | 7 | 0 |
 | `agents` | Aktivität autonomer Agenten | 0.9 | 13 | 2 | 0 |
-| `incidents` | Vorfall-Sammlungen | 0.6 | 4 | 0 | 0 |
+| `incidents` | Vorfall-Sammlungen | 0.6 | 5 | 1 | 1 |
 | `compute` | Rechenleistung und Strom | 0.7 | 7 | 1 | 0 |
-| `markets` | Märkte und Wetten | 0.6 | 5 | 0 | 0 |
-| `attention` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 14 | 1 | 14 |
+| `markets` | Märkte und Wetten | 0.6 | 6 | 2 | 0 |
+| `attention` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 14 | 2 | 14 |
 | `context` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 1 | 0 | 1 |
 
 ### Finanzkrise und Bankenstress (`finance`)
@@ -110,16 +110,16 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 
 | Bereich | Titel | Gewicht | Signale | mit Collector | Klasse D |
 |---|---|---:|---:|---:|---:|
-| `wastewater` | Abwasser | 1 | 13 | 0 | 0 |
-| `clinical` | Arztbesuche und Krankenhäuser | 1 | 22 | 0 | 0 |
+| `wastewater` | Abwasser | 1 | 17 | 8 | 0 |
+| `clinical` | Arztbesuche und Krankenhäuser | 1 | 27 | 14 | 0 |
 | `outbreaks` | Ausbruchsmeldungen | 0.4 | 5 | 0 | 0 |
 | `animal` | Tierseuchen | 0.9 | 9 | 0 | 0 |
 | `genomic` | Erbgut-Überwachung | 0.8 | 4 | 0 | 0 |
 | `mortality` | Sterbefälle | 0.8 | 4 | 0 | 0 |
 | `behaviour` | Verhalten und Versorgung | 0.5 | 3 | 0 | 0 |
 | `markets` | Märkte | 0.4 | 4 | 1 | 0 |
-| `attention` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 10 | 0 | 10 |
-| `context` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 1 | 0 | 0 |
+| `attention` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 11 | 2 | 11 |
+| `context` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 1 | 1 | 0 |
 
 ## Collectors
 
@@ -129,12 +129,16 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 |---|---|---|---|---:|---:|---|
 | `adsb-lol` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 3 | 15 | ja |
 | `agsi` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752) für die EU-Signale (36 Werte, war.energy.eu_gas_storage, cyber.physical.storage_level_anomaly_eu). Teilsignal blackout.gas.storage_by_site_critical: Live-Abruf mit der alten EIC sch… | `SR_AGSI_KEY` | 3 | 360 | ja |
+| `ai-hf-hub` | nein | (Test nach Doku nachgebaut; wird beim nächsten Actions-Lauf live geprüft) | nein | 1 | 60 | ja |
+| `ai-provider-incidents` | nein | (Form nach Doku und nach der vorhandenen statuspage-Implementierung; aus der Bau-Umgebung kein Internet; incidents.json ist groß, typisch 50 bis 200 kB, daher im Test ein nach Doku nachgebautes Beispiel; Queue: fixtures/queue/ai-… | nein | 3 | 360 | ja |
 | `aisstream` | nein | (ungeprüft bis Key). Nachrichtenformat nach Doku; Fixture fixtures/aisstream/doc-sample-messages.json ist nach der Doku nachgebaut, keine echte Aufzeichnung. | `SR_AISSTREAM_KEY` | 3 | 60 | ja |
 | `alerts-in-ua` | nein | (ungeprüft bis Key). Ohne Token HTTP 401; Format nach offizieller Doku (Beispiel und Modell "Alert"). | `SR_ALERTS_IN_UA_KEY` | 2 | 15 | ja |
 | `alsi` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752): 72 Werte. | `SR_ALSI_KEY` | 4 | 360 | ja |
 | `bfs-odl` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 2 | 60 | nein |
 | `bitnodes` | ja | (17.11.2026, echte Antwort; 100 Snapshots, 17 680 bis 20 385 Knoten, Zeitstempel unregelmäßig) | nein | 1 | 60 | ja |
 | `blackout-energy-prices-github` | ja | (17.11.2026, echte Antwort) | nein | 2 | 1440 | ja |
+| `blackout-grid-bridge` | teilweise | (Frequenz, Einspeisung, Netzlast, Kp: ja, Replay gegen echte Aufzeichnungen; Preis: nein, Test nach Doku) | nein | 5 | 60 | ja |
+| `blackout-open-meteo` | nein | (Test nach Doku nachgebaut; wird beim nächsten Actions-Lauf live geprüft) | nein | 1 | 1440 | ja |
 | `chromiumdash` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 1 | 360 | ja |
 | `cisa-ics` | ja | (17.11.2026, echte Antwort) | nein | 1 | 1440 | ja |
 | `cisa-kev` | ja | (17.11.2026, echte Antwort) | nein | 2 | 1440 | ja |
@@ -168,9 +172,12 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 | `github-rest` | ja | (20.11.2026 ohne Token gegen echte Antworten; Fixtures fixtures/github-rest/*.json, gekürzt: Suche ohne items, Commit-Listen nur sha und commit.committer.date; Feld _trimmed bzw. Kommentar im Test vermerkt das). | `SR_GITHUB_KEY` | 4 | 60 | ja |
 | `github-ukraine-losses` | ja | (17.11.2026) | nein | 2 | 1440 | ja |
 | `grip` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 1 | 60 | ja |
-| `hn-algolia` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 2 | 720 | ja |
-| `ioda` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 10 | 60 | ja |
+| `hn-algolia` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 3 | 720 | ja |
+| `ioda` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 11 | 60 | ja |
 | `ipsum` | ja | (17.11.2026) | nein | 2 | 360 | ja |
+| `layer-eonet` | nein | (Live-Prüfung steht aus; Fixture nach Doku nachgebaut) | nein | 0 | 30 | nein |
+| `layer-gdacs` | nein | (Live-Prüfung steht aus; Fixture nach Doku nachgebaut) | nein | 0 | 30 | nein |
+| `layer-usgs-quakes` | nein | (Live-Prüfung steht aus; Fixture nach Doku nachgebaut) | nein | 0 | 30 | nein |
 | `malwarebazaar` | nein | (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Spaltenlage nach Gedächtnis: first_seen_utc ist Spalte 0, Kopfzeile als #-Kommentar). | `SR_ABUSECH_KEY` | 1 | 60 | ja |
 | `mastodon-trends` | ja | (17.11.2026, echte Antwort): history[] mit day (Unix-Sekunden, String), uses, accounts bestätigt; ohne Login abrufbar. Replay: 6 vollständige Tage (laufender Tag verworfen), Summe 834 bis 2909/Tag, Wochenende niedriger. | nein | 1 | 720 | ja |
 | `mempool-space` | ja | (17.11.2026, echte Antworten: fastestFee 2 sat/vB, Warteschlange 76 535 Transaktionen / 32,65 MvB; die Pool-Antwort enthält ein langes fee_histogram, die Werte sind plausibel). | nein | 2 | 15 | ja |
@@ -190,6 +197,11 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 | `reddit-json` | nein | (ungeprüft bis Key). Format aus der Reddit-API-Doku. | `SR_REDDIT_USER` + `SR_REDDIT_PASS` | 2 | 15 | ja |
 | `ripe-atlas` | ja | (17.11.2026, echte Antwort): DE 2 038, weltweit 15 522 verbundene Probes; Antwort ca. 1 500 Zeichen. | nein | 2 | 60 | ja |
 | `ripe-stat` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 2 | 60 | ja |
+| `rki-amelag-github` | ja | (24.11.2026, echte Antwort: letzte Woche 2026-11-11) | nein | 9 | 10080 | ja |
+| `rki-are-github` | ja | (24.11.2026, echte Antwort) | nein | 5 | 10080 | ja |
+| `rki-grippeweb-github` | ja | (24.11.2026, echte Antwort) | nein | 2 | 10080 | ja |
+| `rki-intensivregister-github` | ja | (24.11.2026, echte Antwort: letzter Tag 2026-11-23) | nein | 3 | 1440 | ja |
+| `rki-sari-github` | ja | (24.11.2026, echte Antwort) | nein | 6 | 10080 | ja |
 | `sam-gov` | nein | (ungeprüft bis Key). Antwortformat aus der Doku (Beispielantwort "totalRecords": 34). | `SR_SAM_GOV_KEY` | 2 | 1440 | ja |
 | `sans-isc` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 1 | 360 | ja |
 | `sec-edgar` | ja | (17.11.2026, echte Antwort: hits.total.value, hits.hits[]._id/_source{adsh, form, file_date, items[]}) | nein (optional: `SR_SEC_USER_AGENT`) | 1 | 360 | ja |
@@ -204,20 +216,20 @@ Summe (je Signal einmal): **862 Signale**, davon **258 mit Collector**, 604 nur 
 | `tweetfeed` | ja | (17.11.2026) | nein | 2 | 360 | ja |
 | `urlhaus` | nein | (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Kopfzeile nach Gedächtnis: "# id,dateadded,url,url_status,last_online,threat,tags,urlhaus_link,reporter"). | `SR_ABUSECH_KEY` | 1 | 60 | ja |
 | `usgs-quakes` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 8 | 60 | nein |
-| `wikimedia-pageviews` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 7 | 360 | ja |
-| `yahoo-chart` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 18 | 720 | ja |
+| `wikimedia-pageviews` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 8 | 360 | ja |
+| `yahoo-chart` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 20 | 720 | ja |
 
 ## Summen
 
 - Szenarien: 7 (cyber, war, blackout, ai, finance, nuclear, bio)
-- Signale gesamt: 862, davon mit Collector 258, nur katalogisiert 604
-- Collectors: 79, davon mit Pflicht-Key 23 (SR_ABUSECH_KEY, SR_AGSI_KEY, SR_AISSTREAM_KEY, SR_ALERTS_IN_UA_KEY, SR_ALSI_KEY, SR_CLOUDFLARE_KEY, SR_COINGECKO_KEY, SR_EIA_KEY, SR_FAA_NOTAM_PASS, SR_FAA_NOTAM_USER, SR_FINGRID_KEY, SR_FIRMS_KEY, SR_FRED_KEY, SR_GFW_KEY, SR_GITHUB_KEY, SR_METACULUS_KEY, SR_OTX_KEY, SR_REDDIT_PASS, SR_REDDIT_USER, SR_SAM_GOV_KEY, SR_SPACE_TRACK_PASS, SR_SPACE_TRACK_USER)
-- Von Collectors deklarierte Signale (Summe über Collectors): 258
+- Signale gesamt: 877, davon mit Collector 298, nur katalogisiert 579
+- Collectors: 91, davon mit Pflicht-Key 23 (SR_ABUSECH_KEY, SR_AGSI_KEY, SR_AISSTREAM_KEY, SR_ALERTS_IN_UA_KEY, SR_ALSI_KEY, SR_CLOUDFLARE_KEY, SR_COINGECKO_KEY, SR_EIA_KEY, SR_FAA_NOTAM_PASS, SR_FAA_NOTAM_USER, SR_FINGRID_KEY, SR_FIRMS_KEY, SR_FRED_KEY, SR_GFW_KEY, SR_GITHUB_KEY, SR_METACULUS_KEY, SR_OTX_KEY, SR_REDDIT_PASS, SR_REDDIT_USER, SR_SAM_GOV_KEY, SR_SPACE_TRACK_PASS, SR_SPACE_TRACK_USER)
+- Von Collectors deklarierte Signale (Summe über Collectors): 298
 
 | VERIFIED | Collectors | Signale dieser Collectors |
 |---|---:|---:|
-| ja | 61 | 209 |
-| teilweise | 4 | 19 |
-| nein | 14 | 30 |
+| ja | 66 | 239 |
+| teilweise | 5 | 24 |
+| nein | 20 | 35 |
 
 Collectors mit `VERIFIED: nein` oder `teilweise` sind die offenen Prüfaufgaben: Antwort aufzeichnen (`fixtures/queue/<collector>.json`), Parser dagegen testen, Vermerk ändern.

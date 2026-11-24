@@ -51,7 +51,7 @@ Reddit, ICE BofA; SAM-Kontingent; ID-Kollisionen; aisstream-Kompression; GFW reg
 Nächste Schritte in dieser Reihenfolge:
 1. Konsolidierte Kataloge der fünf weiteren Szenarien prüfen, Szenario-Einträge in `catalog/scenarios.json` übernehmen.
 2. Je Szenario: live prüfbare GitHub-Collectors bauen und die eigene Datei `src/collectors/config/<szenario>.ts` füllen.
-3. Kleine Antworten aufzeichnen (`docs/CAPTURE-AGENT-PROMPT.md`), Replay, Snapshot, `python3 -I scripts/build_single.py`.
+3. Kleine Antworten aufzeichnen (`docs/CAPTURE-AGENT-PROMPT.md`), Replay, Snapshot (`scripts/build_single.py` entfällt, die Datei wurde entfernt).
 4. Signal-Audit (Evidenzklassen, Gewichte, Rhythmus, Laien-Texte) über alle Collector-Deklarationen.
 5. Backtest neu laufen lassen (`node src/backtest/run.ts`, `node src/backtest/evaluate.ts`), `backtest/REPORT.md` aktualisieren.
 6. Gesamtprüfung, `docs/STATUS.md` neu erzeugen, Archiv bauen, übergeben.

@@ -1,5 +1,5 @@
 {
- "at": "2026-11-24T01:33:03.646Z",
+ "at": "2026-11-24T01:35:50.383Z",
  "log": [
   {
    "fixture": "backtest/crowdstrike-2024-07/nyfed/sofr-last60.json",
@@ -239,268 +239,225 @@
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/announced-prefixes-AS32934.json",
-   "status": "ok",
-   "bytes": 50101
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/routing-history-AS32934.json",
-   "status": "ok",
-   "bytes": 794210
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/bgp-update-activity-AS32934.json",
-   "status": "ok",
-   "bytes": 4189
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/bgp-update-activity-AS32934-auto.json",
-   "status": "ok",
-   "bytes": 4189
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/ioda/asn-32934.json",
-   "status": "ok",
-   "bytes": 445
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/ioda/asn-32934-max.json",
-   "status": "ok",
-   "bytes": 446
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/ioda/asn-32934-ping.json",
-   "status": "ok",
-   "bytes": 463
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/ioda/asn-32934-ping-max.json",
-   "status": "ok",
-   "bytes": 464
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/facebook-bgp-2021-10/wikimedia/en.wikipedia-Facebook.json",
-   "status": "ok",
-   "bytes": 10962
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-ES.json",
-   "status": "ok",
-   "bytes": 137570
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-ES-max.json",
-   "status": "ok",
-   "bytes": 137570
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-ES-ping.json",
-   "status": "ok",
-   "bytes": 59418
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-ES-ping-max.json",
-   "status": "ok",
-   "bytes": 59418
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/energy-charts/public_power-es.json",
-   "status": "ok",
-   "bytes": 856362
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/energy-charts/public_power-es-days.json",
-   "status": "ok",
-   "bytes": 868243
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ooni/probe-es.json",
-   "status": "ok",
-   "bytes": 9789
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-PT.json",
-   "status": "ok",
-   "bytes": 118072
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-PT-max.json",
-   "status": "ok",
-   "bytes": 118074
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-PT-ping.json",
-   "status": "ok",
-   "bytes": 59336
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-PT-ping-max.json",
-   "status": "ok",
-   "bytes": 59337
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/energy-charts/public_power-pt.json",
-   "status": "ok",
-   "bytes": 165114
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/energy-charts/public_power-pt-days.json",
-   "status": "ok",
-   "bytes": 167353
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/ooni/probe-pt.json",
-   "status": "ok",
-   "bytes": 9561
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/wikimedia/de.wikipedia-Stromausfall.json",
-   "status": "ok",
-   "bytes": 14278
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/wikimedia/en.wikipedia-Power_outage.json",
-   "status": "ok",
-   "bytes": 14371
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/iberia-blackout-2025-04/wikimedia/es.wikipedia-Apagón.json",
-   "status": "ok",
-   "bytes": 11640
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/ioda/country-IR.json",
-   "status": "ok",
-   "bytes": 142358
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/ioda/country-IR-max.json",
-   "status": "ok",
-   "bytes": 74656
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/ioda/country-IR-ping.json",
-   "status": "ok",
-   "bytes": 70293
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/ioda/country-IR-ping-max.json",
-   "status": "ok",
-   "bytes": 70294
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/ioda/country-IL.json",
-   "status": "ok",
-   "bytes": 142339
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/ioda/country-IL-max.json",
-   "status": "ok",
-   "bytes": 72292
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/wikimedia/en.wikipedia-Iran–Israel_relations.json",
-   "status": "ok",
-   "bytes": 17467
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/wikimedia/de.wikipedia-Iran.json",
-   "status": "ok",
-   "bytes": 15657
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/wikimedia/en.wikipedia-World_War_III.json",
-   "status": "ok",
-   "bytes": 16678
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/yahoo/BZ_F-6mo-1d.json",
-   "status": "ok",
-   "bytes": 7273
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/yahoo/GC_F-6mo-1d.json",
-   "status": "ok",
-   "bytes": 6497
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/yahoo/OVX-6mo-1d.json",
-   "status": "ok",
-   "bytes": 6947
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/yahoo/VIX-6mo-1d.json",
-   "status": "ok",
-   "bytes": 7251
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/yahoo/CL_F-6mo-1d.json",
-   "status": "ok",
-   "bytes": 7223
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/ooni/web-connectivity-ir-daily.json",
-   "status": "ok",
-   "bytes": 11858
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/israel-iran-2025-06/ooni/web-connectivity-il-daily.json",
-   "status": "ok",
-   "bytes": 11390
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ioda/country-CA.json",
-   "status": "ok",
-   "bytes": 95402
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ioda/country-CA-max.json",
-   "status": "ok",
-   "bytes": 95404
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ioda/country-CA-ping.json",
-   "status": "ok",
-   "bytes": 41285
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ioda/country-CA-ping-max.json",
-   "status": "ok",
-   "bytes": 41287
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ioda/asn-812.json",
-   "status": "ok",
-   "bytes": 81772
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ioda/asn-812-max.json",
-   "status": "ok",
-   "bytes": 81772
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ioda/asn-812-ping.json",
-   "status": "ok",
-   "bytes": 34383
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ioda/asn-812-ping-max.json",
-   "status": "ok",
-   "bytes": 34384
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ripe-stat/bgp-update-activity-AS812.json",
-   "status": "ok",
-   "bytes": 4268
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/ripe-stat/bgp-update-activity-AS812-auto.json",
-   "status": "ok",
-   "bytes": 4267
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/rogers-2022-07/wikimedia/en.wikipedia-Rogers_Communications.json",
+   "status": "vorhanden"
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/bgp-update-activity-AS32934-hourly.json",
    "status": "ok",
-   "bytes": 11638
+   "bytes": 84691
+  },
+  {
+   "fixture": "backtest/rogers-2022-07/ripe-stat/bgp-update-activity-AS812-hourly.json",
+   "status": "ok",
+   "bytes": 87020
   }
  ]
 }

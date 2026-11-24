@@ -1,5 +1,5 @@
 {
- "at": "2026-11-24T02:18:35.920Z",
+ "at": "2026-11-24T02:21:35.248Z",
  "log": [
   {
    "fixture": "backtest/crowdstrike-2024-07/nyfed/sofr-last60.json",
@@ -451,168 +451,135 @@
   },
   {
    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/KRE-6mo-1d.json",
-   "status": "ok",
-   "bytes": 12367
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/EUFN-6mo-1d.json",
-   "status": "ok",
-   "bytes": 12534
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/VIX-6mo-1d.json",
-   "status": "ok",
-   "bytes": 12088
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/GC_F-6mo-1d.json",
-   "status": "ok",
-   "bytes": 11062
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/HYG-6mo-1d.json",
-   "status": "ok",
-   "bytes": 12313
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/svb-bank-crisis-2023-03/wikimedia/en.wikipedia-Bank_run.json",
-   "status": "ok",
-   "bytes": 21791
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/svb-bank-crisis-2023-03/wikimedia/en.wikipedia-Silicon_Valley_Bank.json",
-   "status": "ok",
-   "bytes": 23444
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/covid-europe-2020-02/wikimedia/en.wikipedia-Coronavirus.json",
-   "status": "ok",
-   "bytes": 25641
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/covid-europe-2020-02/wikimedia/en.wikipedia-Pandemic.json",
-   "status": "ok",
-   "bytes": 25120
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/covid-europe-2020-02/wikimedia/de.wikipedia-Pandemie.json",
-   "status": "ok",
-   "bytes": 25022
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/covid-europe-2020-02/yahoo/VIX-6mo-1d.json",
-   "status": "ok",
-   "bytes": 13630
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/covid-europe-2020-02/yahoo/MRNA-6mo-1d.json",
-   "status": "ok",
-   "bytes": 13957
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/covid-europe-2020-02/yahoo/GILD-6mo-1d.json",
-   "status": "ok",
-   "bytes": 13699
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/cuba-blackout-2024-10/ioda/country-CU.json",
-   "status": "ok",
-   "bytes": 54801
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/cuba-blackout-2024-10/ioda/country-CU-max.json",
-   "status": "ok",
-   "bytes": 54801
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/cuba-blackout-2024-10/ioda/country-CU-ping.json",
-   "status": "ok",
-   "bytes": 27752
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/cuba-blackout-2024-10/ioda/country-CU-ping-max.json",
-   "status": "ok",
-   "bytes": 27752
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/chile-blackout-2025-02/ioda/country-CL.json",
-   "status": "ok",
-   "bytes": 80137
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/chile-blackout-2025-02/ioda/country-CL-max.json",
-   "status": "ok",
-   "bytes": 80138
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/chile-blackout-2025-02/ioda/country-CL-ping.json",
-   "status": "ok",
-   "bytes": 37979
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/chile-blackout-2025-02/ioda/country-CL-ping-max.json",
-   "status": "ok",
-   "bytes": 37980
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/wikimedia/en.wikipedia-Zaporizhzhia_Nuclear_Power_Plant.json",
-   "status": "ok",
-   "bytes": 22134
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/wikimedia/de.wikipedia-Kernkraftwerk_Saporischschja.json",
-   "status": "ok",
-   "bytes": 21560
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/wikimedia/de.wikipedia-Kaliumiodid.json",
-   "status": "ok",
-   "bytes": 19396
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/wikimedia/en.wikipedia-Potassium_iodide.json",
-   "status": "ok",
-   "bytes": 20092
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/URNM-6mo-1d.json",
-   "status": "ok",
-   "bytes": 11889
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/CCJ-6mo-1d.json",
-   "status": "ok",
-   "bytes": 12420
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/U_UN_TO-6mo-1d.json",
-   "status": "ok",
-   "bytes": 12049
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/VIX-6mo-1d.json",
-   "status": "ok",
-   "bytes": 12054
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/GC_F-6mo-1d.json",
-   "status": "ok",
-   "bytes": 11113
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/LMT-6mo-1d.json",
-   "status": "ok",
-   "bytes": 11766
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/NOC-6mo-1d.json",
-   "status": "ok",
-   "bytes": 11871
+   "status": "vorhanden"
   },
   {
    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/RHM_DE-6mo-1d.json",
-   "status": "ok",
-   "bytes": 11877
+   "status": "vorhanden"
   }
  ]
 }

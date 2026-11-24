@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { normalizeSignal } from '../src/core/catalog.ts';
 import type { Observation, ScenarioDef, SignalDef } from '../src/core/types.ts';
 import { computeTimeline, type BacktestResult } from '../src/backtest/lib.ts';
-import { buildReplay, fitReplay, judgeSawIt, LEVEL_DE, LEVEL_EN, MAX_BYTES, MAX_SIGNALS_PER_FRAME, type ReplayFrame, summarize } from '../src/backtest/replays.ts';
+import { afterDe, afterEn, buildReplay, fitReplay, judgeSawIt, LEVEL_DE, LEVEL_EN, MAX_BYTES, MAX_FRAMES, MAX_SIGNALS_PER_FRAME, replayWindow, type ReplayFrame, summarize } from '../src/backtest/replays.ts';
 import { historyObservations } from '../src/backtest/history-adapters.ts';
 
 const H = 3600_000;
@@ -87,7 +87,7 @@ test('sawIt "ja": level rises because measured domains deviate (engine output)',
   assert.equal(j.sawIt, 'ja');
   assert.ok(j.maxLevel >= 2);
   assert.ok(j.firstLevelHours !== null && j.firstLevelHours >= 0);
-  assert.match(summarize(j, { kind: 'event', measuredSignals: 3 }).de, /gestiegen/);
+  assert.match(summarize(j, { kind: 'event', measuredSignals: 3 }).de, /^Das Radar stieg innerhalb der ersten 3 Stunden auf /);
 });
 
 const frame = (h: number, over: Partial<ReplayFrame> = {}): ReplayFrame => ({
@@ -133,11 +133,50 @@ test('level names and grammar', () => {
   assert.deepEqual(LEVEL_EN, ['Calm', 'Single anomaly', 'Several anomalies', 'Clear cluster', 'Strong cluster']);
   const j = judgeSawIt({ ...ev, frames: [frame(0), frame(1, { level: 1, activeDomains: ['routing'], signals: [s('a', 'routing', 0.6), s('b', 'routing', 0.6)] })], expectedDomains: ['routing'] });
   const t = summarize(j, { kind: 'event', measuredSignals: 2 });
-  assert.match(t.de, /„Einzelne Auffälligkeit“.*1 Stunde nach Beginn/);
+  assert.match(t.de, /innerhalb der ersten 3 Stunden auf „Einzelne Auffälligkeit“/);
   assert.doesNotMatch(t.de, /1 Stunden/);
-  assert.match(t.en, /“Single anomaly”.*1 hour after/);
+  assert.match(t.en, /within the first 3 hours to “Single anomaly”/);
   assert.equal(j.maxLevel, 1);
   assert.equal(j.firstSeenHours, 1);
+});
+
+test('summary: first level and peak, exactly two times, consistent with the frames', () => {
+  const ir = s('ir', 'connectivity', 1);
+  const il = s('il', 'conflict', 1);
+  const frames = [frame(-6), frame(0), frame(51, { level: 1, activeDomains: ['conflict'], signals: [il] }), frame(132, { level: 1, activeDomains: ['conflict'], signals: [il] }),
+    frame(135, { level: 2, activeDomains: ['conflict', 'connectivity'], signals: [il, ir] }), frame(141, { level: 2, activeDomains: ['conflict', 'connectivity'], signals: [il, ir] })];
+  const j = judgeSawIt({ ...ev, eventEnd: new Date(EVENT + 10 * DAY).toISOString(), frames });
+  assert.equal(j.sawIt, 'ja');
+  assert.equal(j.firstSeenHours, 51);
+  assert.equal(j.peakHours, 135);
+  assert.equal(j.peakAt, frames[4].t);
+  assert.deepEqual(j.firstDrivers, ['il']);
+  assert.deepEqual(j.peakDrivers, ['ir']);
+  const t = summarize(j, { kind: 'event', measuredSignals: 2 });
+  assert.equal(t.de, 'Das Radar stieg nach gut 2 Tagen auf „Einzelne Auffälligkeit“, durch „il“ und nach knapp 6 Tagen auf „Mehrere Auffälligkeiten“, zusätzlich durch „ir“. Vor Beginn blieb das Radar auf „Ruhig“.');
+  assert.match(t.en, /after just over 2 days to “Single anomaly”.*after almost 6 days to “Several anomalies”/);
+  assert.equal(afterDe(2), 'innerhalb der ersten 3 Stunden');
+  assert.equal(afterDe(27), 'nach 27 Stunden');
+  assert.equal(afterDe(72), 'nach 3 Tagen');
+  assert.equal(afterEn(0), 'within the first 3 hours');
+});
+
+test('replay window: shortly before the start to 1 day after the peak, coarser step instead of cutting', () => {
+  const start = EVENT;
+  const last = EVENT + 20 * DAY;
+  const quiet = replayWindow(3, start, null, last);
+  assert.equal(quiet.stepHours, 3);
+  assert.ok(start - quiet.from >= DAY && start - quiet.from <= 2 * DAY);
+  const late = replayWindow(3, start, start + 135 * H, last);
+  assert.equal(late.to, start + 159 * H);
+  assert.equal(late.stepHours, 6);
+  assert.ok((late.to - late.from) / (late.stepHours * H) + 1 <= MAX_FRAMES);
+  assert.equal(replayWindow(3, start, start + 135 * H, start + 140 * H).to, start + 140 * H, 'never past the computed data');
+  // the peak is a frame even off the event-anchored grid (anchor)
+  const res = timeline(['cyber.routing.a', 'cyber.outages.b', 'cyber.finance.c']);
+  const peak = EVENT + 3 * H;
+  const r = buildReplay(res, defs, { ...opts, anchor: peak });
+  assert.ok(r.frames.some((f) => Date.parse(f.t) === peak));
 });
 
 test('swing before the start counts only if the measurement was quiet in the 4 weeks before', () => {
@@ -218,7 +257,7 @@ test('history adapters read old fixture names with the full window, only before 
 });
 
 test('exported index and replay files keep the contract (if present)', () => {
-  let index: { id: string; kind: string; sawIt?: string; steps: number; control?: string; maxLevel: number; firstSeenHours: number | null; summary_de: string }[];
+  let index: { id: string; kind: string; sawIt?: string; steps: number; stepHours: number; control?: string; maxLevel: number; firstSeenHours: number | null; peakAt: string | null; summary_de: string; summary_en: string }[];
   try {
     index = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'frontend', 'data', 'replays', 'index.json'), 'utf8'));
   } catch {
@@ -240,6 +279,23 @@ test('exported index and replay files keep the contract (if present)', () => {
     const r = JSON.parse(raw);
     for (const k of ['id', 'start', 'end', 'eventStart', 'stepHours', 'frames']) assert.ok(k in r, `${e.id}: ${k}`);
     assert.equal(r.frames.length, e.steps);
+    assert.ok(r.frames.length <= MAX_FRAMES, `${e.id}: höchstens ${MAX_FRAMES} Bilder`);
+    assert.equal(r.stepHours, e.stepHours, `${e.id}: stepHours`);
+    // the highest level of the index is visible in the frames, the peak frame included
+    assert.equal(Math.max(0, ...r.frames.map((f: ReplayFrame) => f.level)), e.maxLevel, `${e.id}: max(frames.level) = maxLevel`);
+    assert.equal(r.peakAt, e.peakAt, `${e.id}: peakAt`);
+    if (e.maxLevel > 0) {
+      assert.ok(r.frames.some((f: ReplayFrame) => f.t === e.peakAt && f.level === e.maxLevel), `${e.id}: Bild am Höhepunkt`);
+      if (e.kind !== 'recent') assert.ok(Date.parse(r.end) >= Date.parse(e.peakAt!) + DAY - r.stepHours * H, `${e.id}: Ende mindestens 1 Tag nach dem Höhepunkt`);
+    } else assert.equal(e.peakAt, null);
+    // summary of a detected event: the times come from the computed data and fit firstSeenHours and peakAt
+    if (e.sawIt === 'ja' && e.firstSeenHours !== null) {
+      const times = e.summary_de.match(/innerhalb der ersten 3 Stunden|nach (gut |knapp )?\d+ (Stunden|Tagen)/g) ?? [];
+      assert.equal(times[0], afterDe(e.firstSeenHours), `${e.id}: erste Stufe`);
+      if (e.maxLevel > 1 && e.peakAt) assert.deepEqual(times, [afterDe(e.firstSeenHours), afterDe(Math.round((Date.parse(e.peakAt) - Date.parse(r.eventStart)) / H))], `${e.id}: zwei Zeitangaben`);
+      else assert.equal(times.length, 1, `${e.id}: eine Zeitangabe`);
+      assert.doesNotMatch(e.summary_de, /\d+\.\d+\.|\+\d/, `${e.id}: keine Zeitangaben von Hand`);
+    }
     assert.doesNotMatch(raw, /Leicht erhöht|Stark erhöht|Erhöht|Akut|Elevated|Slightly raised/, `${e.id}: alter Stufenname`);
     assert.doesNotMatch(e.summary_en, /Elevated|Slightly raised|Acute/, e.id);
   }

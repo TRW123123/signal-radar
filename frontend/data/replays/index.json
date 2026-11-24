@@ -11,6 +11,8 @@
   "sawIt": "nein",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -20,12 +22,14 @@
   "title_en": "Nationwide power blackout in Chile",
   "date": "2025-02-25T18:16:00Z",
   "scenario": "blackout",
-  "summary_de": "Das Radar wäre bis „Einzelne Auffälligkeit“ gestiegen, erstmals zum Beginn, weil gemessene Bereiche abwichen. Auffällig: „IODA: anpingbare Netze in Chile“ zum Beginn.",
-  "summary_en": "The radar would have risen to “Single anomaly”, first at the start, because measured areas deviated. Unusual: “IODA: anpingbare Netze in Chile” at the start.",
+  "summary_de": "Das Radar stieg innerhalb der ersten 3 Stunden auf „Einzelne Auffälligkeit“, durch „IODA: anpingbare Netze in Chile“. Vor Beginn blieb das Radar auf „Ruhig“.",
+  "summary_en": "The radar rose within the first 3 hours to “Single anomaly”, through “IODA: anpingbare Netze in Chile”. Before the start the radar stayed “Calm”.",
   "sawIt": "ja",
   "maxLevel": 1,
   "firstSeenHours": 0,
-  "steps": 37
+  "peakAt": "2025-02-25T18:00:00.000Z",
+  "stepHours": 3,
+  "steps": 40
  },
  {
   "id": "colonial-pipeline-2021-05",
@@ -39,6 +43,8 @@
   "sawIt": "nein",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -54,6 +60,8 @@
   "control": "quiet",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -69,6 +77,8 @@
   "control": "quiet",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -84,6 +94,8 @@
   "control": "quiet",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 41
  },
  {
@@ -99,6 +111,8 @@
   "control": "quiet",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 41
  },
  {
@@ -114,6 +128,8 @@
   "control": "quiet",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 41
  },
  {
@@ -129,6 +145,8 @@
   "control": "quiet",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 41
  },
  {
@@ -144,6 +162,8 @@
   "control": "quiet",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 41
  },
  {
@@ -158,6 +178,8 @@
   "sawIt": "teilweise",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -172,6 +194,8 @@
   "sawIt": "teilweise",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 41
  },
  {
@@ -186,6 +210,8 @@
   "sawIt": "nein",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 41
  },
  {
@@ -200,7 +226,9 @@
   "sawIt": "nein",
   "maxLevel": 0,
   "firstSeenHours": null,
-  "steps": 35
+  "peakAt": null,
+  "stepHours": 3,
+  "steps": 40
  },
  {
   "id": "facebook-bgp-2021-10",
@@ -214,7 +242,9 @@
   "sawIt": "teilweise",
   "maxLevel": 1,
   "firstSeenHours": 0,
-  "steps": 34
+  "peakAt": "2021-10-04T15:00:00.000Z",
+  "stepHours": 3,
+  "steps": 40
  },
  {
   "id": "iberia-blackout-2025-04",
@@ -223,12 +253,14 @@
   "title_en": "Power blackout across the Iberian Peninsula (Spain and Portugal)",
   "date": "2025-04-28T10:33:00Z",
   "scenario": "blackout",
-  "summary_de": "Das Radar wäre bis „Einzelne Auffälligkeit“ gestiegen, erstmals 1 Stunde nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „IODA: anpingbare Netze in Portugal“ 1 Stunde nach Beginn und „IODA: anpingbare Netze in Spanien“ 1 Stunde nach Beginn. Die Netzlast Spaniens fehlt in den Ausfallstunden in den Daten (keine vollständigen Stunden) und zählte deshalb nicht.",
-  "summary_en": "The radar would have risen to “Single anomaly”, first 1 hour after the start, because measured areas deviated. Unusual: “IODA: anpingbare Netze in Portugal” 1 hour after the start and “IODA: anpingbare Netze in Spanien” 1 hour after the start. Spain’s grid load is missing from the data for the outage hours (no complete hours) and therefore did not count.",
+  "summary_de": "Das Radar stieg innerhalb der ersten 3 Stunden auf „Einzelne Auffälligkeit“, durch „IODA: anpingbare Netze in Portugal“ und „IODA: anpingbare Netze in Spanien“. Vor Beginn blieb das Radar auf „Ruhig“. Die Netzlast Spaniens fehlt in den Ausfallstunden in den Daten (keine vollständigen Stunden) und zählte deshalb nicht.",
+  "summary_en": "The radar rose within the first 3 hours to “Single anomaly”, through “IODA: anpingbare Netze in Portugal” and “IODA: anpingbare Netze in Spanien”. Before the start the radar stayed “Calm”. Spain’s grid load is missing from the data for the outage hours (no complete hours) and therefore did not count.",
   "sawIt": "ja",
   "maxLevel": 1,
   "firstSeenHours": 1,
-  "steps": 39
+  "peakAt": "2025-04-28T12:00:00.000Z",
+  "stepHours": 3,
+  "steps": 40
  },
  {
   "id": "israel-iran-2025-06",
@@ -237,12 +269,14 @@
   "title_en": "War between Israel and Iran (twelve days)",
   "date": "2025-06-13T00:00:00Z",
   "scenario": "war",
-  "summary_de": "Das Radar wäre bis „Mehrere Auffälligkeiten“ gestiegen, erstmals 2 Tage nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „Öl-Volatilität (OVX)“ 27 Stunden nach Beginn und „Israel: Alarmwellen pro Tag (Raketen und Drohnen)“ 27 Stunden nach Beginn. Stufe „Mehrere Auffälligkeiten“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.",
-  "summary_en": "The radar would have risen to “Several anomalies”, first 2 days after the start, because measured areas deviated. Unusual: “Öl-Volatilität (OVX)” 27 hours after the start and “Israel: Alarmwellen pro Tag (Raketen und Drohnen)” 27 hours after the start. Level “Several anomalies” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.",
+  "summary_de": "Das Radar stieg nach gut 2 Tagen auf „Einzelne Auffälligkeit“, durch „Israel: Alarmwellen pro Tag (Raketen und Drohnen)“ und nach knapp 6 Tagen auf „Mehrere Auffälligkeiten“, zusätzlich durch „IODA: anpingbare Netze im Iran“. Vor Beginn blieb das Radar auf „Ruhig“. Der Anstieg auf die höchste Stufe kam mit der landesweiten Internet-Abschaltung im Iran (anpingbare Netze); Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.",
+  "summary_en": "The radar rose after just over 2 days to “Single anomaly”, through “Israel: Alarmwellen pro Tag (Raketen und Drohnen)” and after almost 6 days to “Several anomalies”, additionally through “IODA: anpingbare Netze im Iran”. Before the start the radar stayed “Calm”. The rise to the highest level came with Iran’s nationwide internet shutdown (pingable networks); air-raid alerts are daily values, visible only after the day ends.",
   "sawIt": "ja",
   "maxLevel": 2,
   "firstSeenHours": 51,
-  "steps": 40
+  "peakAt": "2025-06-18T14:59:00.000Z",
+  "stepHours": 6,
+  "steps": 35
  },
  {
   "id": "log4shell-2021-12",
@@ -256,6 +290,8 @@
   "sawIt": "nein",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -270,6 +306,8 @@
   "sawIt": "nein",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -284,6 +322,8 @@
   "sawIt": "nein",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -293,12 +333,14 @@
   "title_en": "Nationwide Rogers network outage in Canada (incl. Interac)",
   "date": "2022-07-08T08:00:00Z",
   "scenario": "cyber",
-  "summary_de": "Das Radar wäre bis „Einzelne Auffälligkeit“ gestiegen, erstmals 1 Stunde nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „IODA: anpingbare Netze bei Rogers (AS812)“ 1 Stunde nach Beginn und „IODA: Rogers-Netz (AS812) im Routing“ 1 Stunde nach Beginn. Ausschläge davor gab es auch an gewöhnlichen Tagen und zählen nicht als Vorwarnung. Den Ausfall selbst zeigen die IODA-Messungen für AS812 ab der ersten Stunde.",
-  "summary_en": "The radar would have risen to “Single anomaly”, first 1 hour after the start, because measured areas deviated. Unusual: “IODA: anpingbare Netze bei Rogers (AS812)” 1 hour after the start and “IODA: Rogers-Netz (AS812) im Routing” 1 hour after the start. Swings before the start also occurred on ordinary days and do not count as early warning. The outage itself shows in the IODA measurements for AS812 from the first hour.",
+  "summary_de": "Das Radar stieg innerhalb der ersten 3 Stunden auf „Einzelne Auffälligkeit“, durch „BGP-Meldungen für Rogers (AS812, RIPEstat)“ und „IODA: anpingbare Netze bei Rogers (AS812)“. Ausschläge davor gab es auch an gewöhnlichen Tagen und zählen nicht als Vorwarnung. Den Ausfall selbst zeigen die IODA-Messungen für AS812 ab der ersten Stunde.",
+  "summary_en": "The radar rose within the first 3 hours to “Single anomaly”, through “BGP-Meldungen für Rogers (AS812, RIPEstat)” and “IODA: anpingbare Netze bei Rogers (AS812)”. Swings before the start also occurred on ordinary days and do not count as early warning. The outage itself shows in the IODA measurements for AS812 from the first hour.",
   "sawIt": "ja",
   "maxLevel": 1,
   "firstSeenHours": 1,
-  "steps": 39
+  "peakAt": "2022-07-08T09:00:00.000Z",
+  "stepHours": 3,
+  "steps": 40
  },
  {
   "id": "svb-bank-crisis-2023-03",
@@ -307,11 +349,13 @@
   "title_en": "Banking crisis of March 2023 (Silicon Valley Bank, Credit Suisse)",
   "date": "2023-03-10T00:00:00Z",
   "scenario": "finance",
-  "summary_de": "Das Radar wäre bis „Einzelne Auffälligkeit“ gestiegen, erstmals 3 Stunden nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „Tagesbewegung US-Regionalbanken (Fonds KRE)“ 3 Stunden nach Beginn.",
-  "summary_en": "The radar would have risen to “Single anomaly”, first 3 hours after the start, because measured areas deviated. Unusual: “Tagesbewegung US-Regionalbanken (Fonds KRE)” 3 hours after the start.",
+  "summary_de": "Das Radar stieg nach 3 Stunden auf „Einzelne Auffälligkeit“, durch „Tagesbewegung US-Regionalbanken (Fonds KRE)“. Vor Beginn blieb das Radar auf „Ruhig“.",
+  "summary_en": "The radar rose after 3 hours to “Single anomaly”, through “Tagesbewegung US-Regionalbanken (Fonds KRE)”. Before the start the radar stayed “Calm”.",
   "sawIt": "ja",
   "maxLevel": 1,
   "firstSeenHours": 3,
+  "peakAt": "2023-03-10T02:59:00.000Z",
+  "stepHours": 3,
   "steps": 40
  },
  {
@@ -326,7 +370,9 @@
   "sawIt": "nein",
   "maxLevel": 0,
   "firstSeenHours": null,
-  "steps": 37
+  "peakAt": null,
+  "stepHours": 3,
+  "steps": 40
  },
  {
   "id": "recent-cyber",
@@ -339,6 +385,8 @@
   "summary_en": "Over the last 14 days the radar stayed “Calm”. Individual measurements deviated briefly; that alone does not raise the level.",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 6,
   "steps": 57
  },
  {
@@ -352,6 +400,8 @@
   "summary_en": "Over the last 14 days the radar stayed “Calm”. Individual measurements deviated briefly; that alone does not raise the level.",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 6,
   "steps": 57
  },
  {
@@ -365,6 +415,8 @@
   "summary_en": "Over the last 14 days the radar stayed “Calm”. Individual measurements deviated briefly; that alone does not raise the level.",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 6,
   "steps": 57
  },
  {
@@ -378,6 +430,8 @@
   "summary_en": "Over the last 14 days the radar stayed “Calm”.",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 6,
   "steps": 57
  },
  {
@@ -391,6 +445,8 @@
   "summary_en": "Over the last 14 days the radar stayed “Calm”. Individual measurements deviated briefly; that alone does not raise the level.",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 6,
   "steps": 57
  },
  {
@@ -404,6 +460,8 @@
   "summary_en": "Over the last 14 days the radar stayed “Calm”. Individual measurements deviated briefly; that alone does not raise the level.",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 6,
   "steps": 57
  },
  {
@@ -417,6 +475,8 @@
   "summary_en": "Over the last 14 days the radar stayed “Calm”.",
   "maxLevel": 0,
   "firstSeenHours": null,
+  "peakAt": null,
+  "stepHours": 6,
   "steps": 57
  }
 ]

@@ -5,7 +5,8 @@
 //                                       [--recent-days 14] [--no-recent]
 //
 // Events and controls: every backtest/results/history-<id>.json (run.ts --history <id>, which stores per-signal
-// values) becomes <out>/<id>.json with frames every 6 h from 5 days before to 5 days after the start.
+// values) becomes <out>/<id>.json: frames from 2 days before the start to at least 1 day after the highest level (peakAt),
+// every 3 h, or every 6/12/24 h if that would take more than 60 frames (replayWindow in replays.ts).
 // Recent: the live data in data/series/ is scored for the last 14 days, one file per scenario (recent-<scenario>.json).
 // Index: <out>/index.json. Names and places come from the activated catalog (geo is set there).
 // Every file stays below MAX_BYTES; if needed, fewer signals per frame are kept (strongest first).
@@ -19,7 +20,7 @@ import { fileStore } from '../core/store.ts';
 import type { Observation, SignalDef } from '../core/types.ts';
 import { type BacktestEvent, type BacktestResult, computeTimeline, DAY, HOUR } from './lib.ts';
 import { probeSignalDefs, probesOf } from './history-adapters.ts';
-import { buildReplay, fitReplay, judgeSawIt, LEVEL_DE, LEVEL_EN, priorNoiseCounts, type ReplayIndexEntry, summarize } from './replays.ts';
+import { buildReplay, fitReplay, judgeSawIt, priorNoiseCounts, replayWindow, type ReplayIndexEntry, summarize } from './replays.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = process.argv.slice(2);
@@ -75,8 +76,8 @@ const NOTE: Record<string, { de: string; en: string }> = {
     en: 'Spain’s grid load is missing from the data for the outage hours (no complete hours) and therefore did not count.',
   },
   'israel-iran-2025-06': {
-    de: `Stufe „${LEVEL_DE[2]}“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.`,
-    en: `Level “${LEVEL_EN[2]}” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.`,
+    de: 'Der Anstieg auf die höchste Stufe kam mit der landesweiten Internet-Abschaltung im Iran (anpingbare Netze); Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.',
+    en: 'The rise to the highest level came with Iran’s nationwide internet shutdown (pingable networks); air-raid alerts are daily values, visible only after the day ends.',
   },
 };
 
@@ -100,18 +101,22 @@ for (const f of readdirSync(resultsDir).filter((x) => /^history-.+\.json$/.test(
   // names, plain texts and places of the event's own replay signals (probes)
   const evDefs = new Map(defs);
   for (const d of probeSignalDefs(probesOf(ev, events, join(root, 'fixtures')).probes, catalog.signals)) evDefs.set(d.id, d);
-  const { replay, json } = fitReplay(res, evDefs, { id, from: start - SPAN, to: start + SPAN, stepHours: STEP_HOURS, eventStart: ev.start });
-  writeFileSync(join(outDir, `${id}.json`), json);
-  written.push(`${id}.json`);
-  // judged on the full result grid (not the 6-hour frames) from 5 days before to 1 day after the end, like the report
+  // judged on the full result grid from 5 days before to 1 day after the end, like the report
   const fine = buildReplay(res, evDefs, { id, from: start - SPAN, to: Date.parse(ev.end) + DAY, stepHours: res.stepHours, eventStart: ev.start, maxSignals: 1000 });
   const j = judgeSawIt({ frames: fine.frames, eventStart: ev.start, eventEnd: ev.end, expectedDomains: ev.kind === 'event' ? ev.expectedDomains : [], control: ev.kind === 'control', priorNoise: priorNoiseCounts(res, start) });
+  // replay window: shortly before the start up to at least 1 day after the peak, peak frame included
+  const peakMs = j.peakAt ? Date.parse(j.peakAt) : null;
+  const win = replayWindow(res.stepHours, start, peakMs, Date.parse(res.steps[res.steps.length - 1].t));
+  const { replay, json } = fitReplay(res, evDefs, { id, ...win, eventStart: ev.start, ...(peakMs !== null ? { anchor: peakMs } : {}), peakAt: j.peakAt });
+  if (Math.max(0, ...replay.frames.map((f) => f.level)) !== j.maxLevel) throw new Error(`${id}: höchste Stufe ${j.maxLevel} fehlt in den Bildern`);
+  writeFileSync(join(outDir, `${id}.json`), json);
+  written.push(`${id}.json`);
   const measured = new Set(replay.frames.flatMap((fr) => fr.signals.map((s) => s.id))).size;
   const s = summarize(j, { kind: ev.kind, measuredSignals: measured, note: NOTE[id] });
   index.push({
     id, kind: ev.kind, title_de: ev.title, title_en: ev.title_en ?? TITLE_EN[id] ?? ev.title, date: ev.start, scenario: res.scenario,
     summary_de: s.de, summary_en: s.en, sawIt: j.sawIt, ...(j.control ? { control: j.control } : {}),
-    maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, steps: replay.frames.length,
+    maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, peakAt: j.peakAt, stepHours: replay.stepHours, steps: replay.frames.length,
   });
   console.log(`${id.padEnd(28)} ${j.sawIt.padEnd(10)} ${replay.frames.length} Frames, ${measured} Signale, ${(json.length / 1000).toFixed(1)} kB`);
 }
@@ -140,7 +145,8 @@ if (!args.includes('--no-recent')) {
         source: `data:${relative(root, dataDir) || dataDir}`, details: true,
       });
       const id = `recent-${scenario.id}`;
-      const { replay, json } = fitReplay(res, defs, { id, from, to, stepHours: STEP_HOURS, eventStart: null });
+      const pre = judgeSawIt({ frames: buildReplay(res, defs, { id, from, to, stepHours: STEP_HOURS, eventStart: null, maxSignals: 1 }).frames, eventStart: null, eventEnd: null });
+      const { replay, json } = fitReplay(res, defs, { id, from, to, stepHours: STEP_HOURS, eventStart: null, peakAt: pre.peakAt });
       writeFileSync(join(outDir, `${id}.json`), json);
       written.push(`${id}.json`);
       const j = judgeSawIt({ frames: replay.frames, eventStart: null, eventEnd: null });
@@ -148,7 +154,7 @@ if (!args.includes('--no-recent')) {
       const s = summarize(j, { kind: 'recent', measuredSignals: measured, days: recentDays });
       index.push({
         id, kind: 'recent', title_de: `Letzte ${recentDays} Tage: ${scenario.title}`, title_en: `Last ${recentDays} days: ${scenario.id}`,
-        date: new Date(to).toISOString(), scenario: scenario.id, summary_de: s.de, summary_en: s.en, maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, steps: replay.frames.length,
+        date: new Date(to).toISOString(), scenario: scenario.id, summary_de: s.de, summary_en: s.en, maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, peakAt: j.peakAt, stepHours: replay.stepHours, steps: replay.frames.length,
       });
       console.log(`${id.padEnd(28)} ${'-'.padEnd(10)} ${replay.frames.length} Frames, ${measured} Signale, max ${replay.maxSignalsPerFrame}/Frame, ${(json.length / 1000).toFixed(1)} kB`);
     }

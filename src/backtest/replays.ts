@@ -44,6 +44,8 @@ export interface Replay {
   /** signals per frame actually kept (≤ MAX_SIGNALS_PER_FRAME; lowered if the file would exceed MAX_BYTES) */
   maxSignalsPerFrame: number;
   source: string;
+  /** first frame at the highest level (from the judged result grid), null if the level stayed 0 */
+  peakAt: string | null;
   frames: ReplayFrame[];
 }
 
@@ -64,6 +66,9 @@ export interface ReplayIndexEntry {
   maxLevel: number;
   /** hours from the event start to the first rise of the level to 1 or more, null if none */
   firstSeenHours: number | null;
+  /** ISO time of the first step at the highest level (null if the level stayed 0); this frame is in the replay */
+  peakAt: string | null;
+  stepHours: number;
   steps: number;
 }
 
@@ -74,6 +79,27 @@ export interface BuildOptions {
   eventStart: string | null;
   id: string;
   maxSignals?: number;
+  /** time (ms) that must be a frame, e.g. the peak; default: the event start */
+  anchor?: number;
+  peakAt?: string | null;
+}
+
+/** most frames per event replay; above this the step grows (3 → 6 → 12 → 24 h) instead of cutting the window */
+export const MAX_FRAMES = 60;
+export const PRE_HOURS = 48;
+export const MIN_POST_HOURS = 72;
+
+/**
+ * Window of an event replay: PRE_HOURS before the start up to at least 1 day after the peak (and at least MIN_POST_HOURS
+ * after the start), never past the last computed step. The step is the smallest multiple of the result grid
+ * (3, 6, 12, 24 h) that keeps the frames at or below MAX_FRAMES.
+ */
+export function replayWindow(resStepHours: number, startMs: number, peakMs: number | null, lastStepMs: number): { from: number; to: number; stepHours: number } {
+  const from = startMs - PRE_HOURS * HOUR;
+  const to = Math.min(lastStepMs, Math.max(startMs + MIN_POST_HOURS * HOUR, (peakMs ?? startMs) + 24 * HOUR));
+  const steps = [3, 6, 12, 24].map((h) => Math.max(resStepHours, Math.ceil(h / resStepHours) * resStepHours));
+  const stepHours = steps.find((h) => Math.floor((to - from) / (h * HOUR)) + 1 <= MAX_FRAMES) ?? steps[steps.length - 1];
+  return { from, to, stepHours };
 }
 
 /** Frames every stepHours inside [from, to], taken from the result steps (which must lie on a finer or equal grid). */
@@ -85,11 +111,14 @@ export function buildReplay(res: BacktestResult, defs: Map<string, SignalDef>, o
     return t >= o.from && t <= o.to;
   });
   // keep steps on the grid anchored at the event start (or at the last step when there is no event)
-  const anchor = o.eventStart ? Date.parse(o.eventStart) : inRange.length ? Date.parse(inRange[inRange.length - 1].t) : 0;
+  const anchor = o.anchor ?? (o.eventStart ? Date.parse(o.eventStart) : inRange.length ? Date.parse(inRange[inRange.length - 1].t) : 0);
   const onGrid = inRange.filter((s) => (((Date.parse(s.t) - anchor) % step) + step) % step === 0);
-  // if the result grid does not hit the event-anchored grid (e.g. start at :30), fall back to every n-th step
+  // if the result grid does not hit the anchored grid (e.g. steps at :59), fall back to every n-th step through the
+  // step nearest the anchor
   const ratio = Math.max(1, Math.round(step / (res.stepHours * HOUR)));
-  const picked = onGrid.length * ratio >= inRange.length * 0.8 ? onGrid : inRange.filter((_, i) => i % ratio === 0);
+  let ai = 0;
+  inRange.forEach((s, i) => { if (Math.abs(Date.parse(s.t) - anchor) < Math.abs(Date.parse(inRange[ai].t) - anchor)) ai = i; });
+  const picked = onGrid.length * ratio >= inRange.length * 0.8 ? onGrid : inRange.filter((_, i) => (((i - ai) % ratio) + ratio) % ratio === 0);
   const frames: ReplayFrame[] = picked.map((s) => {
     if (!s.v) throw new Error(`${o.id}: Ergebnis ohne Signalwerte (run.ts mit --details bzw. --history neu laufen lassen)`);
     const sigs: ReplaySignal[] = s.v.map(([i, value, z, anomaly]) => {
@@ -103,7 +132,7 @@ export function buildReplay(res: BacktestResult, defs: Map<string, SignalDef>, o
   });
   return {
     id: o.id, scenario: res.scenario, start: frames[0]?.t ?? new Date(o.from).toISOString(), end: frames[frames.length - 1]?.t ?? new Date(o.to).toISOString(),
-    eventStart: o.eventStart, stepHours: o.stepHours, maxSignalsPerFrame: maxSignals, source: res.source, frames,
+    eventStart: o.eventStart, stepHours: o.stepHours, maxSignalsPerFrame: maxSignals, source: res.source, peakAt: o.peakAt ?? null, frames,
   };
 }
 
@@ -143,6 +172,16 @@ export interface SawItResult {
   firstLevelHours: number | null;
   /** hours from event start to the first rise of the level to 1 or more (any domain), null if none */
   firstSeenHours: number | null;
+  /** level reached at that first rise */
+  firstSeenLevel: number;
+  /** first frame at the highest level (null if the level stayed 0) and its hours from the event start */
+  peakAt: string | null;
+  peakHours: number | null;
+  /** names of the notable measurements in the active domains at the first rise, and the ones added at the peak */
+  firstDrivers: string[];
+  peakDrivers: string[];
+  /** highest level in the frames before the event start (0 without an event) */
+  preLevel: number;
   /** notable single measurements in the window: strongest anomaly and first time */
   notable: { id: string; name: string; domain: string; anomaly: number; z: number | null; firstHours: number | null }[];
   /** swings before the event start whose signal also swung in the 4 weeks before: noise, not a lead */
@@ -244,6 +283,19 @@ export function judgeSawIt(x: SawItInput): SawItResult {
   const maxAttention = pw.reduce((m, f) => Math.max(m, f.attention), 0);
   const attentionNotable = maxAttention >= NOTABLE_ATTENTION;
   const maxLevel = pw.reduce((m, f) => Math.max(m, f.level), 0);
+  const peak = maxLevel > 0 ? pw.find((f) => f.level === maxLevel) : undefined;
+  const drivers = (f: ReplayFrame | undefined) => (f ? f.signals.filter((s) => s.anomaly >= NOTABLE_ANOMALY && f.activeDomains.includes(s.domain)) : []);
+  const firstDrivers = drivers(firstSeen);
+  let peakDrivers: ReplaySignal[] = [];
+  if (peak && peak !== firstSeen) {
+    const known = new Set(firstDrivers.map((s) => s.id));
+    const prev = x.frames[x.frames.indexOf(peak) - 1];
+    const before = notableIds(prev);
+    const all = drivers(peak).filter((s) => !known.has(s.id));
+    peakDrivers = all.filter((s) => !before.has(s.id));
+    if (!peakDrivers.length) peakDrivers = all;
+  }
+  const preLevel = start === null ? 0 : x.frames.filter((f) => Date.parse(f.t) < start - tol).reduce((m, f) => Math.max(m, f.level), 0);
   // weak: only one measurement in the active domains was notable after the start, and it also swung in the weeks before
   let weak: SawItResult['weak'] = null;
   if (rise && !x.control && start !== null && x.priorNoise) {
@@ -261,6 +313,9 @@ export function judgeSawIt(x: SawItInput): SawItResult {
     sawIt, maxLevel, maxAttention,
     firstLevelHours: rise ? rel(rise.t) : null,
     firstSeenHours: firstSeen ? rel(firstSeen.t) : null,
+    firstSeenLevel: firstSeen?.level ?? 0,
+    peakAt: peak?.t ?? null, peakHours: peak ? rel(peak.t) : null,
+    firstDrivers: firstDrivers.slice(0, 2).map((s) => s.name), peakDrivers: peakDrivers.slice(0, 2).map((s) => s.name), preLevel,
     notable: [...notable.values()].sort((a, b) => b.anomaly - a.anomaly), preNoise: [...preNoise.values()], weak, control, attentionNotable,
   };
 }
@@ -284,6 +339,24 @@ function whenEn(h: number | null): string {
   const d = a >= 48 ? `${Math.round(a / 24)} days` : a === 1 ? '1 hour' : `${a} hours`;
   return h < 0 ? ` ${d} before the start` : ` ${d} after the start`;
 }
+
+/** Time after the start on the 3-hour grid of the backtest: under 3 h „innerhalb der ersten 3 Stunden“, from 2 days on in days („gut“/„knapp“). */
+export function afterDe(h: number): string {
+  if (h < 3) return 'innerhalb der ersten 3 Stunden';
+  if (h < 48) return `nach ${h} Stunden`;
+  const d = h / 24;
+  const n = Math.round(d);
+  return Math.abs(d - n) < 0.1 ? `nach ${n} Tagen` : d > n ? `nach gut ${n} Tagen` : `nach knapp ${n} Tagen`;
+}
+export function afterEn(h: number): string {
+  if (h < 3) return 'within the first 3 hours';
+  if (h < 48) return `after ${h} hours`;
+  const d = h / 24;
+  const n = Math.round(d);
+  return Math.abs(d - n) < 0.1 ? `after ${n} days` : d > n ? `after just over ${n} days` : `after almost ${n} days`;
+}
+const byDe = (names: string[], extra = false) => (names.length ? `, ${extra ? 'zusätzlich ' : ''}durch ${names.map((n) => `„${n}“`).join(' und ')}` : '');
+const byEn = (names: string[], extra = false) => (names.length ? `, ${extra ? 'additionally ' : ''}through ${names.map((n) => `“${n}”`).join(' and ')}` : '');
 
 /**
  * One or two plain sentences on what the radar would have shown, derived only from the judged frames.
@@ -317,10 +390,19 @@ export function summarize(j: SawItResult, ctx: { kind: 'event' | 'control' | 're
       en: `The radar rose to “${LEVEL_EN[j.maxLevel]}”, first${whenEn(j.firstLevelHours)}, but only through one single measurement (“${j.weak.name}”) that also swung before on ordinary days. That is a weak signal, not a reliable detection.${preEn}${noteEn}`,
     };
   }
-  if (j.sawIt === 'ja') {
+  if (j.sawIt === 'ja' && j.firstSeenHours !== null) {
+    // exactly two times from the judged frames: first rise and peak (one if both coincide)
+    const h1 = Math.max(0, j.firstSeenHours);
+    const two = j.peakHours !== null && j.peakHours > h1 && j.maxLevel > j.firstSeenLevel;
+    const firstDe = `${afterDe(h1)} auf „${LEVEL_DE[j.firstSeenLevel]}“${byDe(j.firstDrivers)}`;
+    const firstEn = `${afterEn(h1)} to “${LEVEL_EN[j.firstSeenLevel]}”${byEn(j.firstDrivers)}`;
+    const peakDe = two ? ` und ${afterDe(j.peakHours!)} auf „${LEVEL_DE[j.maxLevel]}“${byDe(j.peakDrivers, true)}` : '';
+    const peakEn = two ? ` and ${afterEn(j.peakHours!)} to “${LEVEL_EN[j.maxLevel]}”${byEn(j.peakDrivers, true)}` : '';
+    const quietDe = j.preLevel === 0 ? ` Vor Beginn blieb das Radar auf „${LEVEL_DE[0]}“.` : '';
+    const quietEn = j.preLevel === 0 ? ` Before the start the radar stayed “${LEVEL_EN[0]}”.` : '';
     return {
-      de: `Das Radar wäre bis „${LEVEL_DE[j.maxLevel]}“ gestiegen, erstmals${whenDe(j.firstLevelHours)}, weil gemessene Bereiche abwichen.${top.length ? ` Auffällig: ${namesDe}.` : ''}${preDe}${noteDe}`,
-      en: `The radar would have risen to “${LEVEL_EN[j.maxLevel]}”, first${whenEn(j.firstLevelHours)}, because measured areas deviated.${top.length ? ` Unusual: ${namesEn}.` : ''}${preEn}${noteEn}`,
+      de: `Das Radar stieg ${firstDe}${peakDe}.${quietDe}${preDe}${noteDe}`,
+      en: `The radar rose ${firstEn}${peakEn}.${quietEn}${preEn}${noteEn}`,
     };
   }
   const calmDe = `Mit den ${ctx.measuredSignals} damals verfügbaren Messungen blieb das Radar auf „${LEVEL_DE[j.maxLevel]}“`;

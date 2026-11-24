@@ -123,7 +123,7 @@ export function fixtureName(symbol: string): string {
 
 const collector: Collector = {
   id: 'yahoo-chart',
-  title: 'Yahoo Finance Chart (inoffiziell, Lizenz noch klären)',
+  title: 'Yahoo Finance (inoffizielle Schnittstelle)',
   sourceUrl: 'https://finance.yahoo.com',
   intervalMinutes: 720,
   signals: ENTRIES.map((e) => declare(DEFAULTS, e.scenario, e.signal)),

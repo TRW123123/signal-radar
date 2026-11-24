@@ -567,3 +567,56 @@ button { font: inherit; color: inherit; }
 .zm-mehr > summary { cursor: pointer; font-weight: 700; padding: 0.5rem 0; }
 .herkunft-kurz { display: none; }
 @media (max-width: 47.99rem) { .herkunft-kurz { display: inline; } }
+
+/* ---------- Runde 5: Zeitmaschine auf der Hauptbühne ---------- */
+.puls-zeile { position: absolute; left: 0; right: 0; bottom: 0.3rem; margin: 0 auto; width: fit-content; max-width: calc(100% - 1.5rem); display: flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0.6rem; border-radius: 999px; background: color-mix(in srgb, var(--grund) 80%, transparent); font-size: var(--t-12); color: var(--grau); line-height: 1.3; pointer-events: none; }
+.puls-zeile:empty { display: none; }
+.puls-zeile i { flex: none; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--g-ruhig); }
+@media (prefers-reduced-motion: no-preference) { .puls-zeile i { animation: atmen 2.4s ease-in-out infinite; } }
+.im-rueckblick .puls-zeile { display: none; }
+.zeitleiste { margin: 0.6rem var(--rand) 0; display: grid; gap: 0.5rem; }
+.zl-satz { font-size: var(--t-14); line-height: 1.4; color: var(--grau); text-align: center; max-width: 38rem; margin: 0 auto; }
+.zl-marken { display: flex; gap: 0.4rem; overflow-x: auto; scrollbar-width: none; padding: 0.15rem 0.1rem 0.3rem; scroll-snap-type: x proximity; mask-image: linear-gradient(90deg, #000 88%, transparent); }
+.zl-marken::-webkit-scrollbar { display: none; }
+@media (min-width: 48rem) { .zl-marken { flex-wrap: wrap; justify-content: center; mask-image: none; } }
+.zl-marke { flex: none; scroll-snap-align: start; display: grid; justify-items: start; gap: 0.05rem; min-height: 2.75rem; padding: 0.35rem 0.75rem; border-radius: 12px; border: 1px solid var(--linie); background: var(--flaeche); color: var(--tinte); cursor: pointer; text-align: left; font-size: var(--t-14); font-weight: 700; line-height: 1.2; }
+.zl-marke:hover { border-color: var(--tinte); }
+.zl-marke[aria-pressed='true'] { border-color: var(--tinte); box-shadow: 0 0 0 1px var(--tinte); }
+.zl-saw { font-size: var(--t-12); font-weight: 600; color: var(--grau); }
+.zl-marke.saw-ja .zl-saw { color: var(--g-etwas); }
+.zl-jetzt { display: flex; align-items: center; gap: 0.45rem; }
+.zl-jetzt i { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--g-ruhig); }
+.im-rueckblick .zl-jetzt { background: var(--tinte); color: var(--grund); border-color: var(--tinte); }
+.im-rueckblick .zl-jetzt i { display: none; }
+.zl-steuer { display: grid; gap: 0.45rem; padding: 0.7rem; border-radius: var(--radius); border: 1px solid var(--linie); background: var(--flaeche); }
+.zl-knoepfe { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+.zl-spiel { display: inline-flex; align-items: center; gap: 0.4rem; }
+.zl-spiel svg { width: 0.85rem; height: 0.85rem; }
+.zl-datum { flex: 1; min-width: 8rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.zl-zurueck { background: transparent; color: var(--tinte); }
+.zl-bahn { display: grid; gap: 0.15rem; }
+.zl-bahn .zm-streifen { height: 2.75rem; }
+.zl-bahn input { width: 100%; accent-color: var(--g-etwas); margin: 0; }
+.zm-l.etwas { fill: var(--g-etwas); opacity: 0.8; }
+.zl-hinweis { color: var(--grau); }
+.zl-fazit { padding: 0.6rem 0.75rem; border-radius: 8px; border-left: 3px solid var(--g-etwas); background: var(--grund); font-size: var(--t-14); line-height: 1.45; }
+.rb-marke { display: inline-block; padding: 0.05rem 0.45rem; margin-right: 0.3rem; border-radius: 999px; background: var(--att); color: var(--grund); font-weight: 800; font-size: var(--t-12); text-transform: uppercase; letter-spacing: 0.05em; }
+.rb-stand { font-weight: 700; color: var(--att); }
+.antwort.art-rb .antwort-kopf { font-size: 1.45rem; }
+@media (prefers-reduced-motion: no-preference) { .antwort.art-rb .antwort-kopf { animation: rb-ein 0.35s ease-out; } }
+@keyframes rb-ein { from { opacity: 0.35; transform: translateY(3px); } }
+.buehne.rb-an .globus-neben, .buehne.rb-an .schichten, .buehne.rb-an .globus-legende .leg-zahl { display: none; }
+.im-rueckblick .live-marke { display: none; }
+.gruppe-liste { display: grid; gap: 0.3rem; margin-top: 0.6rem; }
+.karte-werte dd.wort { font-family: inherit; font-stretch: 100%; font-size: var(--t-14); overflow-wrap: normal; word-break: normal; hyphens: manual; }
+.spark { height: auto; aspect-ratio: 5; }
+.spark-band { fill: var(--grau); opacity: 0.28; }
+.spark-punkt { fill: var(--stufe, var(--tinte)); stroke: var(--grund); stroke-width: 1.5; }
+.karte-verlauf figcaption { font-size: var(--t-12); color: var(--grau); margin-top: 0.3rem; line-height: 1.4; }
+.ger-quellen p + p { margin-top: 0.4rem; }
+.im-rueckblick .zl-satz { display: none; }
+.im-rueckblick .linsen { opacity: 0.45; }
+.puls-zeile { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.puls-zeile i { display: inline-block; margin-right: 0.35rem; vertical-align: 0.05em; }
+.zeitleiste { margin-bottom: 0.4rem; }
+.antwort.art-rb .zl-steuer { margin-top: 1rem; }

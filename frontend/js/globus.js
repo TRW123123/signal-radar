@@ -60,6 +60,7 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
   let tBild = 0;
   let zug = null;
   let aus = false;
+  let eigen = true; // Eigendrehung erlaubt (aus im Rückblick)
   let tippZiel = null;
   let zeit = new Date();
   let nacht = null;
@@ -197,8 +198,8 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
       if (!istVorne(p)) { p.xy = null; continue; }
       const [x, y] = proj([p.lon, p.lat]);
       p.xy = [x, y];
-      const s = pr * (0.7 + (p.staerke ?? 0.3) * 0.9);
-      ctx.globalAlpha = 0.6 + 0.3 * (p.staerke ?? 0.3);
+      const s = pr * (1.25 + (p.staerke ?? 0.3) * 1.3);
+      ctx.globalAlpha = 0.75 + 0.2 * (p.staerke ?? 0.3);
       ctx.fillStyle = p.form === 'dreieck' ? farben.schicht2 : farben.schicht;
       ctx.strokeStyle = farben.zahl; ctx.lineWidth = 1;
       ctx.beginPath();
@@ -219,17 +220,18 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
       if (!istVorne(p)) { p.xy = null; continue; }
       const [x, y] = proj([p.lon, p.lat]);
       const g = gruppen.find((q) => (q.x - x) ** 2 + (q.y - y) ** 2 < nah);
-      if (g) { g.n++; p.xy = null; if (auswahl === p.id) g.wahl = true; continue; }
+      if (g) { g.n++; g.ids.push(p.id); p.xy = null; if (auswahl === p.id) g.wahl = true; continue; }
       p.xy = [x, y];
-      gruppen.push({ p, x, y, n: 1, wahl: auswahl === p.id });
+      gruppen.push({ p, x, y, n: 1, ids: [p.id], wahl: auswahl === p.id });
     }
     for (const g of gruppen.reverse()) {
       const { p, x, y } = g;
       p.anzahl = g.n;
+      p.gruppe = g.ids;
       const k = g.n > 1 ? 1 + 0.12 * Math.min(5, g.n - 1) : 1;
       if (p.zustand === 'auf') leuchtpunkt(x, y, pr * k, farben.auf || p.farbe, t, p.ph, true);
       else if (p.zustand === 'erhoeht') leuchtpunkt(x, y, pr * 0.85 * k, farben.etwas, t, p.ph, false);
-      else if (p.zustand === 'leer') { ctx.strokeStyle = farben.ruhig; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.85; kreis(x, y, pr * 1.1 * k); ctx.stroke(); }
+      else if (p.zustand === 'leer') { ctx.strokeStyle = farben.ruhig; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.6 + 0.25 * welle(p.ph); kreis(x, y, pr * 1.1 * k); ctx.stroke(); }
       else {
         const a = welle(p.ph);
         const hof = ctx.createRadialGradient(x, y, 0, x, y, pr * 3.2 * k);
@@ -276,7 +278,7 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
   }
 
   // ---------- Bewegung ----------
-  const darfDrehen = () => bewegt() && performance.now() - letzteBenutzung > RUHE_MS;
+  const darfDrehen = () => eigen && bewegt() && performance.now() - letzteBenutzung > RUHE_MS;
   const laeuft = () => bewegt() && sichtbar && !document.hidden;
 
   function schleife(t) {
@@ -361,7 +363,7 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
   canvas.addEventListener('click', () => {
     const p = tippZiel; tippZiel = null;
     if (!p) { if (zeiger) { zeiger = null; zeichnen(); } return; }
-    if (p.id && onPick) onPick(p.id);
+    if (p.id && onPick) onPick(p.id, (p.gruppe ?? []).filter(Boolean));
     else { zeiger = p; letzteBenutzung = performance.now(); zeichnen(); }
   });
   canvas.addEventListener('pointercancel', ende);
@@ -403,6 +405,8 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
       const p = punkte.find((x) => x.id === id);
       if (p) zuOrt(p.lon, p.lat); else zeichnen();
     },
+    /** Eigendrehung an/aus (im Rückblick aus) */
+    drehen(an) { eigen = !!an; if (an) anfordern(); },
     pause() { letzteBenutzung = performance.now() + 60_000; },
     weiter() { letzteBenutzung = performance.now() - RUHE_MS + 1500; anfordern(); },
     zeichnen,

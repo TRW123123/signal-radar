@@ -248,7 +248,7 @@ function renderKopf() {
   const alterH = Math.max(0, (Date.now() - Date.parse(snap.generatedAt)) / 3600000);
   const veraltet = alterH > STALE_H;
   // Nie „Live" und „veraltet" gleichzeitig: alte Daten bekommen nur die sachliche Zeitangabe.
-  $('stand').innerHTML = `${live && !veraltet ? `<span class="live-marke">${esc(L.live)}</span>` : ''}<time datetime="${esc(snap.generatedAt)}" title="${esc(zeit(snap.generatedAt))}">${esc(L.stand(standText()))}</time>`;
+  if (!zustand.zm) $('stand').innerHTML = `${live && !veraltet ? `<span class="live-marke">${esc(L.live)}</span>` : ''}<time datetime="${esc(snap.generatedAt)}" title="${esc(zeit(snap.generatedAt))}">${esc(L.stand(standText()))}</time>`;
   $('stand').classList.toggle('stand-alt', live && veraltet);
   $('herkunft').innerHTML = herkunftHtml();
   $('herkunft').hidden = false;
@@ -362,6 +362,16 @@ async function teilen() {
 }
 
 // ---------- Globus und Liste ----------
+/** „Letzte Messung vor 2 Minuten: …" aus dem jüngsten Zeitstempel der Linse */
+function pulsText(sc) {
+  const ms = messungen(sc).filter((m) => m.s.fresh && Number.isFinite(Date.parse(m.s.ts ?? '')));
+  if (!ms.length) return '';
+  const m = ms.reduce((a, b) => (Date.parse(b.s.ts) > Date.parse(a.s.ts) ? b : a));
+  const min = Math.max(0, Math.floor((Date.now() - Date.parse(m.s.ts)) / 60000));
+  const wann = min < 60 ? L.vorMin(min) : L.vor(Math.floor(min / 60));
+  return `<i aria-hidden="true"></i>${esc(L.globus.puls(wann, `${alltag(m.s)}${m.s.geo ? ` (${ortName(m.s.geo)})` : ''}`, L.globus.zustand[m.zustand]))}`;
+}
+
 function globusBlock(sc, ms, schichten) {
   const G = L.globus;
   const z = zaehlung(sc);
@@ -369,17 +379,17 @@ function globusBlock(sc, ms, schichten) {
   return `<figure class="globus-feld">
       <div class="globus-rahmen">
         <canvas id="globus" class="globus" role="img" aria-label="${esc(G.label(z.mitOrt, auf))}"></canvas>
+        <p class="puls-zeile" id="puls-zeile">${pulsText(sc)}</p>
       </div>
+      ${zeitleiste(sc)}
       <figcaption class="globus-legende">
         <span class="leg leg-ruhig"><i aria-hidden="true"></i>${esc(G.legende4[0])}</span>
         <span class="leg leg-auf l-${Math.max(1, sc.level)}"><i aria-hidden="true"></i>${esc(G.legende4[1])}</span>
         <span class="leg leg-etwas"><i aria-hidden="true"></i>${esc(G.legende4[2])}</span>
-        <span class="leg-zahl">${esc(L.zaehl.satz(z))}</span>
-        <span class="leg-hilfe">${esc(G.ziehen)}</span>
+        <span class="leg-zahl">${esc(G.alltag)}</span>
       </figcaption>
       ${schichten.length ? `<div class="schichten" role="group" aria-label="${esc(G.schicht)}">${schichten.map((x) => `<button type="button" class="schalter" data-schicht="${esc(x.l.id)}" aria-pressed="${x.an}" title="${esc(schichtTitel(x.l))}"><i class="form ${x.form}" aria-hidden="true"></i>${esc(schichtKurz(x.l))} <span class="an-aus" aria-hidden="true">${x.an ? esc(G.an) : esc(G.aus)}</span></button>`).join('')}<span class="schichten-hinweis">${esc(G.schichtHinweis)}</span></div>` : ''}
-    </figure>
-    ${ernstfall(sc)}`;
+    </figure>`;
 }
 
 function ortKnopf(sc, m, mitSelten) {
@@ -502,7 +512,6 @@ function regel(sc) {
       <h2 id="regel-titel" class="abschnitt-titel">${esc(R.titel)}</h2>
       <p class="regel-satz">${esc(R.satz)}</p>
       <ul class="lampen" aria-label="${esc(R.lampen)}">${lampen}</ul>
-      <p class="regel-jetzt">${esc(R.jetzt(k))}</p>
       <ol class="leiter" aria-label="${esc(R.leiter)}">${leiter}</ol>
       ${warum()}
     </section>`;
@@ -514,7 +523,7 @@ function gerede(sc) {
   const att = (sc.attentionSignals ?? []).some((s) => s.status === 'active' && s.fresh);
   const netz = att ? G.netzWort(sc.attention ?? 0) : G.netzKeine;
   const k = ungewoehnlicheBereiche(sc).length;
-  const daten = zuWenig(sc) ? G.datenWenig : k === 0 ? G.daten0 : G.datenN(L.stufen[sc.level], k);
+  const daten = zuWenig(sc) ? G.datenWenig : k === 0 ? G.daten0 : `${L.stufen[sc.level]}.`;
   const luecke = att && !zuWenig(sc) ? G.luecke[sc.rumorGap] ?? '' : '';
   const viel = att && (sc.attention ?? 0) >= 0.35;
   return `<section class="gerede abschnitt" aria-labelledby="gerede-titel">
@@ -534,24 +543,31 @@ function geruechte() {
   if (!liste.length) return '';
   const G = L.geruechte;
   const sc = aktuell();
-  const sortiert = [...liste].sort((a, b) => (b.scenario === sc.id) - (a.scenario === sc.id) || String(b.date).localeCompare(String(a.date)));
-  return `<section class="geruechte abschnitt" aria-labelledby="ger-titel">
-      <h2 id="ger-titel" class="abschnitt-titel">${esc(G.titel)}</h2>
-      <p class="abschnitt-erkl">${esc(G.erkl)}</p>
-      <ul class="ger-liste">${sortiert.map((r) => {
-        const ziel = zustand.snap.scenarios.find((x) => x.id === r.scenario);
-        const lv = geruechtLevel(r);
-        return `<li class="ger ${lv <= 1 ? 'ger-kein' : 'ger-teil'}" id="geruecht-${esc(r.id)}" tabindex="-1">
+  const oben = aktuellesGeruecht(sc);
+  const neu = (a, b) => String(b.date).localeCompare(String(a.date));
+  const eigene = liste.filter((r) => r.scenario === sc.id).sort(neu);
+  const andere = liste.filter((r) => r.scenario !== sc.id).sort(neu);
+  const karte = (r) => {
+    const ziel = zustand.snap.scenarios.find((x) => x.id === r.scenario);
+    const lv = geruechtLevel(r);
+    const fc = rT(r, 'factcheck');
+    // Das Gerücht aus dem Kasten oben steht dort schon mit Kurzfassung: hier nur Titel und „Mehr dazu"
+    const kurzText = r === oben ? '' : fc ? ersterSatz(fc) : '';
+    const mehr = [fc ? `<p><strong>${esc(G.faktencheck)}:</strong> ${esc(fc)}</p>` : '', rT(r, 'outcome') ? `<p><strong>${esc(G.danach)}:</strong> ${esc(rT(r, 'outcome'))}</p>` : '', rT(r, 'claim') ? `<p><strong>${esc(G.behauptung)}:</strong> ${esc(rT(r, 'claim'))}</p>` : '',
+      Array.isArray(r.sources) && r.sources.length ? `<p><strong>${esc(G.quellen)}:</strong></p><ul>${r.sources.filter((q) => q?.url).map((q) => `<li>${extern(q.url, esc(q.title || q.url))}</li>`).join('')}</ul>` : ''].join('');
+    return `<li class="ger ${lv <= 1 ? 'ger-kein' : 'ger-teil'}" id="geruecht-${esc(r.id)}" tabindex="-1">
           <p class="ger-kopf"><span class="ger-status">${esc(ziel ? linsenName(ziel) : '')}</span>${r.date && Number.isFinite(Date.parse(r.date)) ? `<time datetime="${esc(r.date)}">${esc(tag(Date.parse(r.date)))}</time>` : ''}</p>
           <h3>${esc(rT(r, 'title'))}</h3>
-          ${rT(r, 'factcheck') ? `<p class="ger-claim"><span>${esc(G.faktencheck)}:</span> ${esc(rT(r, 'factcheck'))}</p>` : ''}
-          ${rT(r, 'outcome') ? `<details class="ger-quellen"><summary>${esc(G.danach)}</summary><p>${esc(rT(r, 'outcome'))}</p></details>` : ''}
-          ${rT(r, 'claim') ? `<details class="ger-quellen"><summary>${esc(G.behauptung)}</summary><p>${esc(rT(r, 'claim'))}</p></details>` : ''}
+          ${kurzText ? `<p class="ger-claim">${esc(kurzText)}</p>` : ''}
           <p class="ger-daten">${esc(L.gehoert.daten(lv))}</p>
-          ${Array.isArray(r.sources) && r.sources.length ? `<details class="ger-quellen"><summary>${esc(G.quellen)} (${r.sources.length})</summary><ul>${r.sources.filter((q) => q?.url).map((q) => `<li>${extern(q.url, esc(q.title || q.url))}</li>`).join('')}</ul></details>` : ''}
+          ${mehr ? `<details class="ger-quellen"${r === oben ? ' data-oben' : ''}><summary>${esc(G.mehr)}</summary>${mehr}</details>` : ''}
           ${ziel && ziel.id !== sc.id ? `<p><button type="button" class="text-knopf" data-linse="${esc(ziel.id)}">${esc(G.zurLinse(linsenName(ziel)))}</button></p>` : ''}
         </li>`;
-      }).join('')}</ul>
+  };
+  return `<section class="geruechte abschnitt" aria-labelledby="ger-titel">
+      <h2 id="ger-titel" class="abschnitt-titel">${esc(G.titel)}</h2>
+      ${eigene.length ? `<ul class="ger-liste">${eigene.map(karte).join('')}</ul>` : `<p class="abschnitt-erkl">${esc(G.keineEigenen(linsenName(sc)))}</p>`}
+      ${andere.length ? `<details class="zm-mehr"><summary>${esc(G.weitere(andere.length))}</summary><ul class="ger-liste">${andere.map(karte).join('')}</ul></details>` : ''}
     </section>`;
 }
 
@@ -560,29 +576,8 @@ const SAW = { ja: 'ja', yes: 'ja', teilweise: 'teilweise', partly: 'teilweise', 
 const gueltigeReplays = () => zustand.replays.filter((r) => r && typeof r.id === 'string' && /^[a-z0-9-]+$/.test(r.id) && (r.title_de || r.title_en));
 const sawVon = (r) => SAW[String(r?.sawIt ?? '').toLowerCase()];
 
-/** Ehrliche Bilanz: große Ereignisse (ohne Vergleichszeiten und letzte 14 Tage), wie viele sichtbar */
-function zmBilanz() {
-  const ev = gueltigeReplays().filter((r) => r.kind === 'event');
-  if (!ev.length) return '';
-  const mitZeit = ev.filter((r) => Number.isFinite(r.firstSeenHours));
-  const keinesVorher = mitZeit.length > 0 && mitZeit.every((r) => r.firstSeenHours >= 0);
-  return L.zeitmaschine.bilanz(ev.filter((r) => sawVon(r) === 'ja').length, ev.filter((r) => sawVon(r) === 'teilweise').length, ev.length, keinesVorher);
-}
-
-const BEISPIEL_AUSFALL = 'iberia-blackout-2025-04';
-/** Woran man den Ernstfall erkennen würde, plus Knopf zur Wiedergabe eines echten Ausfalls */
-function ernstfall(sc) {
-  const E = L.ernstfall;
-  const r = gueltigeReplays().find((x) => x.id === BEISPIEL_AUSFALL);
-  const lv = Number.isFinite(r?.maxLevel) ? Math.max(0, Math.min(4, r.maxLevel)) : null;
-  const damals = r && lv != null ? E.damals(L.stufen[lv], Number.isFinite(r.firstSeenHours) && r.firstSeenHours >= 0 ? zmZeit(r.firstSeenHours) : null) : '';
-  return `<div class="ernstfall">
-      <p class="ernstfall-satz">${esc(E.satz[sc.id] ?? E.satz._)} <span class="ernstfall-jetzt">${esc(E.jetzt(ungewoehnlicheBereiche(sc).length, sc.domains.length))}</span></p>
-      ${r ? `<p><button type="button" class="knopf ernstfall-knopf" data-beispiel="${esc(r.id)}"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg>${esc(E.knopf)}</button></p>
-      ${damals ? `<p class="ernstfall-damals">${esc(damals)}</p>` : ''}` : ''}
-    </div>`;
-}
-const zmZeit = (h) => (h < 1 ? L.zeitmaschine.zumBeginn : h < 48 ? L.zeitmaschine.nachStunden(Math.round(h)) : L.zeitmaschine.nachTagen(Math.round(h / 24)));
+/** Zeitangabe aus dem Rücktest. Der Rücktest rechnet alle 3 Stunden: darunter nur „innerhalb der ersten 3 Stunden". */
+const zmZeit = (h) => (h < 3 ? L.zeitmaschine.ersteDrei : h < 48 ? L.zeitmaschine.nachStunden(Math.round(h)) : L.zeitmaschine.nachTagen(Math.round(h / 24)));
 
 /** Kartentext aus den Feldern gebildet (die mitgelieferten Zusammenfassungen enthalten Fachwörter) */
 function zmText(r) {
@@ -597,88 +592,152 @@ function zmText(r) {
   return Z.textNein;
 }
 
-function zmKarte(r) {
-  const Z = L.zeitmaschine;
-  const saw = r.kind === 'event' ? sawVon(r) : null;
-  const marke = r.kind === 'control' || r.control === 'quiet' ? `<span class="zm-saw saw-ruhig">${esc(Z.ruhigGeblieben)}</span>` : r.kind === 'recent' ? `<span class="zm-saw saw-nein">${esc(Z.verlaufMarke)}</span>` : saw ? `<span class="zm-saw saw-${saw}">${esc(Z.saw[saw])}</span>` : '';
-  const titel = (sprache === 'en' && r.title_en) || r.title_de || r.title_en;
-  return `<li><button type="button" class="zm-eintrag" data-replay="${esc(r.id)}" aria-expanded="false">
-          ${marke}
-          <span class="zm-titel">${esc(titel)}</span>
-          <span class="zm-meta">${r.date && Number.isFinite(Date.parse(r.date)) ? esc(datum(r.date)) + ' · ' : ''}${esc(Z.art[r.kind] ?? '')}</span>
-          <span class="zm-text">${esc(zmText(r))}</span>
-        </button></li>`;
-}
-
-function zeitmaschine(sc) {
-  const Z = L.zeitmaschine;
-  const alle = gueltigeReplays();
-  if (!alle.length) return '';
-  const bilanz = zmBilanz();
+/** Sprungmarken: zuerst gesehene Ereignisse (höchste Stufe zuerst), dann ein ehrliches „nicht gesehen" */
+function rbMarken() {
+  const ev = gueltigeReplays().filter((r) => r.kind === 'event');
   const neu = (a, b) => String(b.date).localeCompare(String(a.date));
-  const ev = alle.filter((r) => r.kind === 'event');
-  const ja = ev.filter((r) => sawVon(r) === 'ja').sort(neu).slice(0, 3);
-  const teil = ev.filter((r) => sawVon(r) === 'teilweise').sort(neu).slice(0, Math.max(0, 4 - ja.length));
+  const ja = ev.filter((r) => sawVon(r) === 'ja').sort((a, b) => (b.maxLevel ?? 0) - (a.maxLevel ?? 0) || neu(a, b)).slice(0, 3);
   const nein = ev.filter((r) => sawVon(r) === 'nein').sort(neu).slice(0, 1);
-  const zuerst = [...ja, ...teil, ...nein].slice(0, 5);
-  const ids = new Set(zuerst.map((r) => r.id));
-  const recent = alle.filter((r) => r.kind === 'recent' && r.scenario === sc.id);
-  const rest = [...ev.filter((r) => !ids.has(r.id)).sort(neu), ...recent, ...alle.filter((r) => r.kind === 'control').sort(neu)];
-  return `<section class="zeitmaschine abschnitt" aria-labelledby="zm-titel">
-      <h2 id="zm-titel" class="abschnitt-titel">${esc(Z.titel)}</h2>
-      ${bilanz ? `<p class="zm-bilanz">${esc(bilanz)}</p>` : ''}
-      <p class="abschnitt-erkl">${esc(Z.erkl)}</p>
-      <ul class="zm-liste">${zuerst.map(zmKarte).join('')}</ul>
-      ${rest.length ? `<details class="zm-mehr" id="zm-mehr"><summary>${esc(Z.alle(rest.length))}</summary><ul class="zm-liste">${rest.map(zmKarte).join('')}</ul></details>` : ''}
-      <div id="zm-panel" class="zm-panel" hidden></div>
-    </section>`;
+  return [...ja, ...nein];
+}
+const rbTitel = (r) => L.rb.kurz[r.id] ?? ((sprache === 'en' && r.title_en) || r.title_de || r.id);
+const monat = (iso) => new Intl.DateTimeFormat(L.locale, { month: 'long', year: 'numeric' }).format(new Date(iso));
+const tagLang = (iso) => new Intl.DateTimeFormat(L.locale, { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
+
+/** Zeitleiste unter dem Globus: „Jetzt (live)" und Sprungmarken echter Ereignisse */
+function zeitleiste(sc) {
+  const R = L.rb;
+  const marken = rbMarken();
+  if (!marken.length) return '';
+  return `<div class="zeitleiste" id="zeitleiste">
+      <p class="zl-satz">${esc(L.ernstfall.satz[sc.id] ?? L.ernstfall.satz._)} ${esc(R.frage)}</p>
+      <div class="zl-marken" role="group" aria-label="${esc(R.marken)}">
+        <button type="button" class="zl-marke zl-jetzt" id="zl-jetzt" aria-pressed="true"><i aria-hidden="true"></i><span>${esc(R.jetztLive)}</span></button>
+        ${marken.map((r) => `<button type="button" class="zl-marke saw-${esc(sawVon(r) ?? 'nein')}" data-rb="${esc(r.id)}" aria-pressed="false"><span class="zl-name">${esc(rbTitel(r))}</span><span class="zl-saw">${esc(R.saw[sawVon(r)] ?? '')}</span></button>`).join('')}
+      </div>
+      <div class="zl-steuer" id="zl-steuer" hidden></div>
+    </div>`;
 }
 
-function zmStopp() {
-  const z = zustand.zm;
-  if (!z) return;
-  clearInterval(z.timer);
-  z.globus?.zerstoere();
-  zustand.zm = null;
+/** Fazit aus summary_de/_en, mit Alltagswörtern und ehrlicher Zeitangabe */
+function rbFazit(r) {
+  let t = String((sprache === 'en' ? r.summary_en : r.summary_de) || '');
+  t = t.replace(/\s*\([^)]*\)/g, '')
+    .replace(/\b[12] (Stunden?|hours?) (nach Beginn|after the start)/g, () => L.zeitmaschine.ersteDrei)
+    .replace(/IODA:\s*/g, '').replace(/anpingbare Netze/g, 'erreichbare Netze').replace(/IODA/g, sprache === 'en' ? 'a monitoring service' : 'ein Messdienst')
+    .replace(/Ausschläge/g, 'Abweichungen').replace(/\bSwings\b/g, 'Deviations');
+  t = klar(t);
+  const h = r.firstSeenHours;
+  const vorab = sawVon(r) === 'nein' || !Number.isFinite(h) ? L.rb.fazitNein : h >= 0 ? L.rb.fazitSpaet(zmZeit(h)) : '';
+  return `${vorab} ${t}`.trim();
 }
 
-async function zmOeffne(id, knopf, sofort = false) {
-  const Z = L.zeitmaschine;
-  const panel = $('zm-panel');
-  if (!panel) return;
+/** Wohin der Globus im Rückblick schaut: Länder mit Abweichung nach Ereignisbeginn, sonst alle Orte */
+function rbOrt(daten, frames) {
+  const ev = Date.parse(daten.eventStart ?? '') || 0;
+  const geo = (f) => (Array.isArray(f.signals) ? f.signals : []).filter((s) => Number.isFinite(s?.geo?.lat) && Number.isFinite(s?.geo?.lon));
+  const nach = frames.filter((f) => Date.parse(f.t) >= ev).flatMap(geo).filter((s) => (Number(s.anomaly) || 0) >= SIGNAL_AUF);
+  const wahl = [nach.filter((s) => s.geo.kind === 'country'), nach, geo(frames[0])].find((g) => g.length) ?? [];
+  return startOrt(wahl.map((s) => ({ s })));
+}
+
+// Kurznamen für Messungen in der Wiedergabe: [Muster auf die id, deutsch, englisch]; {o} = Ort
+const RB_NAMEN = [
+  [/oref|alert/, 'Luftalarme {in} {o}', 'Air-raid alerts in {o}'],
+  [/ioda_.*ping/, 'Erreichbare Netze {in} {o}', 'Reachable networks in {o}'],
+  [/ioda_/, 'Internet-Verbindungen {in} {o}', 'Internet connections in {o}'],
+  [/ooni_anomaly/, 'Gestörte Webseiten {in} {o}', 'Blocked websites in {o}'],
+  [/grid\.load_/, 'Stromverbrauch {in} {o}', 'Power use in {o}'],
+  [/oil_volatility/, 'Schwankung des Ölpreises', 'Oil price swings'],
+  [/vix/, 'Angst an der Börse', 'Stock market fear'],
+  [/brent|wti/, 'Ölpreis', 'Oil price'],
+  [/gold/, 'Goldpreis', 'Gold price'],
+  [/bgp_updates|prefix_visibility/, 'Internet-Wegweiser {in} {o}', 'Internet routing in {o}'],
+  [/sofr/, 'US-Geldmarkt', 'US money market'],
+  [/kev/, 'Neue Sicherheitslücken', 'New security flaws'],
+  [/sec_8k/, 'Pflichtmeldungen zu Cyberangriffen', 'Mandatory cyber-attack reports'],
+  [/etf/, 'Aktienfonds für IT-Sicherheit', 'IT security funds'],
+];
+const IM = new Set(['Iran', 'Irak', 'Libanon', 'Jemen', 'Sudan', 'Niger', 'Tschad']);
+function rbName(s) {
+  const ort = ortName(s.geo).split(/\s*[(,]/)[0].trim();
+  const regel = RB_NAMEN.find(([re]) => re.test(s.id));
+  if (regel && (ort || !regel[1].includes('{o}'))) {
+    return regel[sprache === 'en' ? 2 : 1].replace('{in}', IM.has(ort) ? 'im' : 'in').replace('{o}', ort);
+  }
+  return klar(String(s.name ?? s.id).replace(/^IODA:\s*/, '').replace(/\s*\([^)]*\)/g, '').replace(/anpingbare Netze/, 'erreichbare Netze'));
+}
+
+/** Satz für einen Zeitpunkt: „Tag 3: Luftalarme in Israel weit über normal." */
+const aktivIn = (f, s) => (Array.isArray(f.activeDomains) && f.activeDomains.includes(s.domain) ? 1 : 0);
+function rbSatz(daten, f) {
+  const R = L.rb;
+  const ev = Date.parse(daten.eventStart ?? '');
+  const t = Date.parse(f.t);
+  let wann = '';
+  if (Number.isFinite(ev)) {
+    const d = (t - ev) / 864e5;
+    wann = d >= 0 ? R.tag(Math.floor(d) + 1) : R.vorher(Math.ceil(-d));
+  }
+  // Gerede (Aufmerksamkeit im Netz) zählt nie als Beleg: nicht in die Schlagzeile
+  const auf = (Array.isArray(f.signals) ? f.signals : []).filter((s) => s?.domain !== 'attention' && (Number(s?.anomaly) || 0) >= SIGNAL_AUF)
+    .sort((a, b) => (aktivIn(f, b) - aktivIn(f, a)) || b.anomaly - a.anomaly);
+  if (!auf.length) return `${wann}: ${R.ruhig}`;
+  const s = auf[0];
+  const name = rbName(s);
+  const z = Number(s.z) || 0;
+  const richtung = R.richtung[s.anomaly >= 0.75 ? (z < 0 ? 'weitUnter' : 'weitUeber') : z < 0 ? 'unter' : 'ueber'];
+  return `${wann}: ${name} ${richtung}${auf.length > 1 ? R.weitere(auf.length - 1) : ''}.`;
+}
+
+/** Rückblick auf der Hauptbühne starten */
+async function rueckblick(id) {
+  const R = L.rb, Z = L.zeitmaschine;
+  const r = zustand.replays.find((x) => x.id === id);
+  const steuer = $('zl-steuer');
+  if (!r || !steuer) return;
   zmStopp();
-  document.querySelectorAll('[data-replay]').forEach((b) => b.setAttribute('aria-expanded', String(b === knopf)));
-  const eintrag = zustand.replays.find((r) => r.id === id);
-  panel.hidden = false;
-  panel.innerHTML = `<p class="klein">${esc(Z.laedt)}</p>`;
-  knopf?.closest('li')?.after(panel);
+  const z = { timer: 0, i: 0, id, r, frames: [], daten: null };
+  zustand.zm = z;
+  document.querySelectorAll('.zl-marke').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.rb === id)));
+  steuer.hidden = false;
+  steuer.innerHTML = `<p class="klein">${esc(Z.laedt)}</p>`;
   const daten = await ladeOptional(`data/replays/${encodeURIComponent(id)}.json`);
+  if (zustand.zm !== z) return;
   const frames = Array.isArray(daten?.frames) ? daten.frames.filter((f) => f && Number.isFinite(Date.parse(f.t))) : [];
-  if (!frames.length) { panel.innerHTML = `<p class="klein">${esc(Z.fehler)}</p>`; return; }
-  const titel = (sprache === 'en' && eintrag?.title_en) || eintrag?.title_de || id;
+  if (!frames.length) { steuer.innerHTML = `<p class="klein">${esc(Z.fehler)}</p>`; return; }
+  z.frames = frames; z.daten = daten;
   const n = frames.length;
   const t0 = Date.parse(frames[0].t), t1 = Date.parse(frames[n - 1].t);
   const x = (t) => (t1 > t0 ? ((t - t0) / (t1 - t0)) * 1000 : 0);
   const bw = 1000 / n;
-  const streifen = frames.map((f, i) => { const lv = Math.max(0, Math.min(4, Number(f.level) || 0)); return `<rect class="zm-l f-l${Math.max(1, lv)}${lv ? '' : ' null'}" x="${(i * bw).toFixed(1)}" width="${(bw + 0.5).toFixed(1)}" y="${40 - 4 - lv * 9}" height="${4 + lv * 9}"/>`; }).join('');
-  const ev = daten.eventStart && Number.isFinite(Date.parse(daten.eventStart)) ? x(Date.parse(daten.eventStart)) : null;
-  panel.innerHTML = `<h3 class="zm-kopf">${esc(titel)}</h3>
-    <div class="zm-buehne">
-      <div class="zm-globus"><canvas id="zm-globus" class="globus" role="img" aria-label="${esc(titel)}"></canvas></div>
-      <div class="zm-steuer">
-        <p class="klein">${esc(Z.verlauf)}</p>
-        <svg class="zm-streifen" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">${streifen}${ev != null ? `<line class="zm-ereignis" x1="${ev.toFixed(1)}" x2="${ev.toFixed(1)}" y1="0" y2="40"/>` : ''}<line id="zm-marke" class="zm-marke" x1="0" x2="0" y1="0" y2="40"/></svg>
-        <p class="zm-achse klein"><span>${esc(kurz(frames[0].t))}</span>${ev != null ? `<span class="zm-ev">${esc(Z.beginn)}</span>` : ''}<span>${esc(kurz(frames[n - 1].t))}</span></p>
-        <div class="zm-knoepfe"><button type="button" class="knopf" id="zm-spiel">${esc(Z.abspielen)}</button>
-          <label class="nur-vorleser" for="zm-regler">${esc(Z.regler)}</label><input type="range" id="zm-regler" min="0" max="${n - 1}" value="0" step="1"></div>
-        <p id="zm-jetzt" class="zm-jetzt" aria-live="polite"></p>
-        <p id="zm-aktiv" class="klein"></p>
+  const streifen = frames.map((f, i) => { const lv = Math.max(0, Math.min(4, Number(f.level) || 0)); const k = (Array.isArray(f.signals) ? f.signals : []).filter((s) => (Number(s?.anomaly) || 0) >= SIGNAL_AUF).length; const hh = 4 + lv * 9 + Math.min(k, 4) * 2; return `<rect class="zm-l f-l${Math.max(1, lv)}${lv ? '' : k ? ' etwas' : ' null'}" x="${(i * bw).toFixed(1)}" width="${(bw + 0.5).toFixed(1)}" y="${44 - hh}" height="${hh}"/>`; }).join('');
+  const evT = Date.parse(daten.eventStart ?? '');
+  const ev = Number.isFinite(evT) ? x(evT) : null;
+  document.body.classList.add('im-rueckblick');
+  $('inhalt').querySelector('.buehne')?.classList.add('rb-an');
+  $('zl-jetzt').innerHTML = `<i aria-hidden="true"></i><span>${esc(R.zurueck)}</span>`;
+  $('zl-jetzt').setAttribute('aria-pressed', 'false');
+  steuer.innerHTML = `<div class="zl-knoepfe">
+        <button type="button" class="knopf zl-spiel" id="zm-spiel"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg><span>${esc(Z.abspielen)}</span></button>
+        <p id="zm-datum" class="zl-datum" aria-live="off"></p>
+        <button type="button" class="knopf zl-zurueck" id="zl-zurueck">${esc(R.zurueck)}</button>
       </div>
-    </div>`;
-  const z = { timer: 0, globus: null, i: 0 };
-  zustand.zm = z;
-  const sc = zustand.snap.scenarios.find((s) => s.id === daten.scenario);
-  const domName = (d) => (sc ? dTitel(sc, sc.domains.find((x) => x.id === d) ?? { id: d, title: d }) : d);
+      <div class="zl-bahn">
+        <svg class="zm-streifen" viewBox="0 0 1000 44" preserveAspectRatio="none" aria-hidden="true" focusable="false">${streifen}${ev != null ? `<line class="zm-ereignis" x1="${ev.toFixed(1)}" x2="${ev.toFixed(1)}" y1="0" y2="44"/>` : ''}<line id="zm-marke" class="zm-marke" x1="0" x2="0" y1="0" y2="44"/></svg>
+        <label class="nur-vorleser" for="zm-regler">${esc(Z.regler)}</label><input type="range" id="zm-regler" min="0" max="${n - 1}" value="0" step="1">
+        <p class="zm-achse klein"><span>${esc(tag(t0))}</span>${ev != null ? `<span class="zm-ev">${esc(Z.beginn)}</span>` : ''}<span>${esc(tag(t1))}</span></p>
+      </div>
+      <p class="zl-hinweis klein">${esc(R.hinweis(daten.stepHours ?? 6))}</p>
+      <p id="zl-fazit" class="zl-fazit" hidden></p>`;
+  const farbeVon = (lv) => stufenFarbe(Math.max(1, lv));
+  const kopf = $('antwort');
+  if (kopf) {
+    kopf.innerHTML = '<div id="rb-text" aria-live="polite"></div>';
+    // Breite Ansicht: Steuerung neben den Globus, damit Regler und Abspielen ohne Scrollen sichtbar sind
+    if (matchMedia('(min-width: 60rem)').matches) kopf.append(steuer);
+  }
+  const rbText = $('rb-text');
   function zeige(i) {
     z.i = i;
     const f = frames[i];
@@ -686,44 +745,118 @@ async function zmOeffne(id, knopf, sofort = false) {
     $('zm-regler').value = String(i);
     const mx = x(Date.parse(f.t));
     $('zm-marke').setAttribute('x1', mx.toFixed(1)); $('zm-marke').setAttribute('x2', mx.toFixed(1));
-    $('zm-jetzt').textContent = Z.jetzt(kurz(f.t), L.stufen[lv]);
+    $('zm-datum').textContent = tagLang(f.t);
     const aktiv = Array.isArray(f.activeDomains) ? f.activeDomains : [];
-    $('zm-aktiv').textContent = Z.aktiv(aktiv.map(domName).join(', '));
-    if (!z.globus) return;
-    const farbe = stufenFarbe(Math.max(1, lv));
+    const satz = rbSatz(daten, f);
+    if (kopf && rbText) {
+      kopf.className = `antwort a-l${lv} art-rb`;
+      rbText.innerHTML = `<p class="antwort-frage"><span class="rb-marke">${esc(R.marke)}</span> ${esc(R.kopf(rbTitel(r).replace(/\s*\d{4}$/, ''), monat(r.date)))}</p>
+        <h1 class="antwort-kopf rb-kopf">${esc(satz)}</h1>
+        <p class="antwort-stufe"><i class="lampe-klein" aria-hidden="true"></i>${esc(R.stufe(L.stufen[lv], aktiv.length))}</p>`;
+    }
+    $('stand').innerHTML = `<span class="rb-stand">${esc(R.stand(tagLang(f.t)))}</span>`;
+    const fazit = $('zl-fazit');
+    if (fazit) { fazit.hidden = i < n - 1; if (i >= n - 1) fazit.innerHTML = `<strong>${esc(R.fazit)}</strong> ${esc(rbFazit(r))}`; }
+    const g = zustand.globus;
+    if (!g) return;
+    const farbe = farbeVon(lv);
     const punkte = [], ring = [];
     for (const s of Array.isArray(f.signals) ? f.signals : []) {
       if (!s || !s.id) continue;
       const a = Number(s.anomaly) || 0;
-      const zst = a >= SIGNAL_AUF ? (aktiv.includes(s.domain) ? 'auf' : 'erhoeht') : 'ruhig';
+      const zst = s.value == null ? 'leer' : a >= SIGNAL_AUF ? (aktiv.includes(s.domain) ? 'auf' : 'erhoeht') : 'ruhig';
       const bekannt = alleSignale().get(s.id);
       const name = bekannt ? alltag(bekannt) : (en() && EN.signals?.[s.id]?.name) || klar(s.name ?? s.id);
-      const p = { id: null, zustand: zst, farbe, staerke: a, titel: name, info: L.globus.zustand[zst] };
-      if (s.geo && Number.isFinite(s.geo.lat) && Number.isFinite(s.geo.lon)) punkte.push({ ...p, lon: s.geo.lon, lat: s.geo.lat, titel: `${ortName(s.geo)} · ${name}` });
+      const p = { id: `rb:${s.id}`, zustand: zst, farbe, staerke: a, titel: rbName(s), info: L.globus.zustand[zst] };
+      if (s.geo && Number.isFinite(s.geo.lat) && Number.isFinite(s.geo.lon)) punkte.push({ ...p, lon: s.geo.lon, lat: s.geo.lat });
       else ring.push(p);
     }
-    z.globus.setzeZeit(new Date(f.t));
-    z.globus.setze({ punkte, ring });
+    g.setzeZeit(new Date(f.t));
+    g.setze({ punkte, ring });
   }
+  z.zeige = zeige;
   const spiel = $('zm-spiel');
-  const halt = () => { clearInterval(z.timer); z.timer = 0; spiel.textContent = Z.abspielen; };
+  const knopfText = (t) => { spiel.lastElementChild.textContent = t; };
+  const halt = () => { clearTimeout(z.timer); z.timer = 0; knopfText(Z.abspielen); };
+  z.halt = halt;
+  const schritt = () => {
+    if (zustand.zm !== z) return;
+    if (z.i >= n - 1) return halt();
+    zeige(z.i + 1);
+    const wechsel = (frames[z.i].level ?? 0) !== (frames[z.i - 1]?.level ?? 0);
+    z.timer = setTimeout(schritt, wechsel ? 1800 : 750);
+  };
+  const los = () => { knopfText(Z.anhalten); z.timer = setTimeout(schritt, 750); };
+  // Start kurz vor Ereignisbeginn, nicht bei Wochen der Ruhe
+  const evI = Number.isFinite(evT) ? frames.findIndex((f) => Date.parse(f.t) >= evT) : -1;
+  const startI = evI > 0 ? Math.max(0, evI - 2) : 0;
   spiel.addEventListener('click', () => {
     if (z.timer) return halt();
-    if (z.i >= n - 1) zeige(0);
-    spiel.textContent = Z.anhalten;
-    z.timer = setInterval(() => { if (z.i >= n - 1) return halt(); zeige(z.i + 1); }, 350);
+    if (z.i >= n - 1) zeige(startI);
+    los();
   });
   $('zm-regler').addEventListener('input', (e) => { halt(); zeige(Number(e.target.value)); });
-  if (!zustand.atlasFehler) {
-    try {
-      await ladeAtlas();
-      if (zustand.zm === z) z.globus = erstelleGlobus($('zm-globus'), { start: [-40, 30], beschriften: 2 });
-    } catch { /* ohne Kugel weiter */ }
-  }
-  // Start beim Ereignis, sonst am Ende
-  const evI = daten.eventStart ? frames.findIndex((f) => Date.parse(f.t) >= Date.parse(daten.eventStart)) : -1;
-  if (zustand.zm !== z) return;
-  if (sofort) { zeige(0); spiel.click(); } else zeige(evI >= 0 ? evI : n - 1);
+  $('zl-zurueck').addEventListener('click', zurueckZuJetzt);
+  const g = zustand.globus;
+  if (g) { g.drehen(false); const [lon, lat] = rbOrt(daten, frames); g.zuOrt(lon, lat); }
+  zeige(startI);
+  los();
+  $('ansage').textContent = R.ansage(rbTitel(r));
+}
+
+function zmStopp() {
+  const z = zustand.zm;
+  if (!z) return;
+  clearTimeout(z.timer);
+  zustand.zm = null;
+}
+
+/** Rückblick beenden: Bühne zeigt wieder die Gegenwart */
+function zurueckZuJetzt() {
+  if (!zustand.zm && !document.body.classList.contains('im-rueckblick')) return;
+  const y = scrollY;
+  zmStopp();
+  document.body.classList.remove('im-rueckblick');
+  renderKopf();
+  renderLinse().then(() => { scrollTo({ top: y }); $('zl-jetzt')?.focus({ preventScroll: true }); });
+}
+
+/** Ehrliche Bilanz: große Ereignisse, wie viele sichtbar */
+function zmBilanz() {
+  const ev = gueltigeReplays().filter((r) => r.kind === 'event');
+  if (!ev.length) return '';
+  const mitZeit = ev.filter((r) => Number.isFinite(r.firstSeenHours));
+  const keinesVorher = mitZeit.length > 0 && mitZeit.every((r) => r.firstSeenHours >= 0);
+  return L.zeitmaschine.bilanz(ev.filter((r) => sawVon(r) === 'ja').length, ev.filter((r) => sawVon(r) === 'teilweise').length, ev.length, keinesVorher);
+}
+
+function zmKarte(r) {
+  const Z = L.zeitmaschine;
+  const saw = r.kind === 'event' ? sawVon(r) : null;
+  const marke = r.kind === 'control' || r.control === 'quiet' ? `<span class="zm-saw saw-ruhig">${esc(Z.ruhigGeblieben)}</span>` : r.kind === 'recent' ? `<span class="zm-saw saw-nein">${esc(Z.verlaufMarke)}</span>` : saw ? `<span class="zm-saw saw-${saw}">${esc(Z.saw[saw])}</span>` : '';
+  const titel = (sprache === 'en' && r.title_en) || r.title_de || r.title_en;
+  return `<li><button type="button" class="zm-eintrag" data-rb="${esc(r.id)}">
+          ${marke}<span class="zm-titel">${esc(titel)}</span>
+          <span class="zm-meta">${r.date && Number.isFinite(Date.parse(r.date)) ? esc(datum(r.date)) + ' · ' : ''}${esc(zmText(r))}</span>
+        </button></li>`;
+}
+
+/** Kurze Liste unten; jede Zeile steuert dieselbe Bühne oben */
+function zeitmaschine(sc) {
+  const Z = L.zeitmaschine;
+  const alle = gueltigeReplays();
+  if (!alle.length) return '';
+  const neu = (a, b) => String(b.date).localeCompare(String(a.date));
+  const rang = { ja: 0, teilweise: 1, nein: 2 };
+  const ev = alle.filter((r) => r.kind === 'event').sort((a, b) => (rang[sawVon(a)] ?? 3) - (rang[sawVon(b)] ?? 3) || neu(a, b));
+  const sonst = [...alle.filter((r) => r.kind === 'recent' && r.scenario === sc.id), ...alle.filter((r) => r.kind === 'control').sort(neu)];
+  const bilanz = zmBilanz();
+  return `<section class="zeitmaschine abschnitt" aria-labelledby="zm-titel">
+      <h2 id="zm-titel" class="abschnitt-titel">${esc(Z.titel)}</h2>
+      ${bilanz ? `<p class="zm-bilanz">${esc(bilanz)}</p>` : ''}
+      <details class="zm-mehr"><summary>${esc(Z.alleEreignisse(ev.length))}</summary><ul class="zm-liste">${ev.map(zmKarte).join('')}</ul></details>
+      ${sonst.length ? `<details class="zm-mehr"><summary>${esc(Z.vergleich(sonst.length))}</summary><ul class="zm-liste">${sonst.map(zmKarte).join('')}</ul></details>` : ''}
+    </section>`;
 }
 
 // ---------- Für Neugierige ----------
@@ -763,7 +896,6 @@ function neugierig(sc, ms) {
   return `<section class="neugierig abschnitt" aria-labelledby="neu-titel">
       <h2 id="neu-titel" class="abschnitt-titel">${esc(N.titel)}</h2>
       <details><summary>${esc(N.spuren)}</summary>${spuren}</details>
-      <details><summary>${esc(N.alle)}</summary><div class="alle">${alle}${geplant ? `<p class="klein">${esc(N.geplant(geplant))}</p>` : ''}</div></details>
       <details><summary>${esc(N.rechnen)}</summary><div class="text">${N.rechnenText.map((p) => `<p>${esc(p)}</p>`).join('')}
         <h4>${esc(N.beispieleTitel)}</h4><ul class="punkte">${N.beispiele.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
         <p class="klein">${esc(N.empfindlich[zustand.snap.sensitivity] ?? '')}</p></div></details>
@@ -788,27 +920,61 @@ function quellenBlock() {
 }
 
 // ---------- Karte „Was wird hier gemessen?" ----------
+const MIN_BAND = 12; // so viele Verlaufswerte braucht das Normal-Band mindestens
 function sparkSvg(s) {
-  const v = s.spark;
-  if (!v || v.length < 2) return '';
+  const v = (s.spark ?? []).filter(Number.isFinite);
+  if (v.length < 2) return '';
   const w = 320, h = 64;
-  const reif = !!s.baseline?.mature;
-  const alle = v.concat(reif ? [s.baseline.center] : []);
-  let lo = Math.min(...alle), hi = Math.max(...alle);
+  const sortiert = [...v].sort((a, b) => a - b);
+  const q = (p) => sortiert[Math.min(sortiert.length - 1, Math.max(0, Math.round(p * (sortiert.length - 1))))];
+  const band = v.length >= MIN_BAND ? [q(0.05), q(0.95)] : null;
+  let lo = sortiert[0], hi = sortiert[sortiert.length - 1];
   if (hi === lo) { hi += 1; lo -= 1; }
-  const x = (i) => (i / (v.length - 1)) * (w - 8) + 2;
-  const y = (q) => h - 5 - ((q - lo) / (hi - lo)) * (h - 10);
-  const d = v.map((q, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(q).toFixed(1)}`).join(' ');
-  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true" focusable="false">${reif ? `<line class="spark-normal" x1="0" x2="${w}" y1="${y(s.baseline.center).toFixed(1)}" y2="${y(s.baseline.center).toFixed(1)}"/>` : ''}<path class="spark-linie" d="${d}"/><circle class="spark-punkt" cx="${x(v.length - 1).toFixed(1)}" cy="${y(v[v.length - 1]).toFixed(1)}" r="3.5"/></svg>`;
+  const pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+  const x = (i) => (i / (v.length - 1)) * (w - 12) + 4;
+  const y = (z) => h - 4 - ((z - lo) / (hi - lo)) * (h - 8);
+  const d = v.map((z, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(z).toFixed(1)}`).join(' ');
+  const bandRect = band ? `<rect class="spark-band" x="0" width="${w}" y="${y(band[1]).toFixed(1)}" height="${Math.max(2, y(band[0]) - y(band[1])).toFixed(1)}"/>` : '';
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" aria-hidden="true" focusable="false">${bandRect}<path class="spark-linie" d="${d}"/><circle class="spark-punkt" cx="${x(v.length - 1).toFixed(1)}" cy="${y(v[v.length - 1]).toFixed(1)}" r="4"/></svg>`;
 }
 
-function oeffneKarte(id) {
+/** Gruppe (Punkt mit Zahl): ganze Liste der Messungen an diesem Ort, jede antippbar */
+function oeffneGruppe(ids) {
+  const ms = ids.map((i) => signalIndex.get(i)).filter(Boolean);
+  if (!ms.length) return;
+  const K = L.karte;
+  const sc = aktuell();
+  const ort = ms.find((m) => m.s.geo)?.s.geo;
+  const zahl = {};
+  for (const m of ms) zahl[m.zustand] = (zahl[m.zustand] ?? 0) + 1;
+  const teile = ['auf', 'erhoeht', 'ruhig', 'leer'].filter((k) => zahl[k]).map((k) => `${zahl[k]} ${L.globus.zustand[k]}`).join(', ');
+  const rang = { auf: 0, erhoeht: 1, ruhig: 2, leer: 3 };
+  $('karte-inhalt').innerHTML = `
+    <p class="karte-frage">${esc(K.frage)}</p>
+    <h2 id="karte-titel">${esc(K.gruppe(ms.length, ort ? ortName(ort) : L.globus.weltweit))}</h2>
+    <p class="karte-ort">${esc(teile)}</p>
+    <ul class="gruppe-liste">${[...ms].sort((a, b) => rang[a.zustand] - rang[b.zustand]).map((m) => `<li>${ortKnopf(sc, m, false)}</li>`).join('')}</ul>`;
+  $('karte-zu').setAttribute('aria-label', K.schliessen);
+  zeigeKarte(null);
+}
+
+function zeigeKarte(id) {
+  const dlg = $('karte');
+  if (!dlg.open) zustand.karteVon = document.activeElement;
+  if (id) zustand.globus?.waehle(id);
+  zustand.globus?.pause();
+  if (!dlg.open) dlg.showModal();
+  dlg.scrollTop = 0;
+  $('karte-zu').focus();
+}
+
+function oeffneKarte(id, gruppe) {
+  if (Array.isArray(gruppe) && gruppe.length > 1) return oeffneGruppe(gruppe);
   const eintrag = signalIndex.get(id);
   if (!eintrag) return;
   const { s, d, zustand: z } = eintrag;
   const K = L.karte;
   const sc = aktuell();
-  const dlg = $('karte');
   const ohne = OHNE_EINHEIT.has(s.unit);
   const eh = EINHEIT[s.unit];
   const normal = s.baseline ? (s.baseline.mature ? (ohne ? K.normalOhne : mitEinheit(s.baseline.center, eh ? eh[sprache === 'en' ? 1 : 0] : sUnit(s))) : K.lernt(s.baseline.n)) : K.lernt(0);
@@ -821,19 +987,15 @@ function oeffneKarte(id) {
     <p class="karte-zustand z-${z} l-${Math.max(1, sc.level)}"><i aria-hidden="true"></i>${esc(K.zustand[z])}</p>
     ${z === 'leer' ? `<p class="karte-alt">${esc(K.alt(s.ts ? kurz(s.ts) : ''))}</p>` : `<dl class="karte-werte">
       <div><dt>${esc(K.jetzt)}</dt><dd>${esc(wertText(s))}</dd></div>
-      <div><dt>${esc(K.normal)}</dt><dd>${esc(normal)}</dd></div></dl>
+      <div><dt>${esc(K.normal)}</dt><dd${s.baseline?.mature ? '' : ' class="wort"'}>${esc(normal)}</dd></div></dl>
       ${seltenheit(s) ? `<p class="karte-selten">${esc(seltenheit(s))}</p>` : ''}`}
-    ${s.spark?.length > 1 ? `<figure class="karte-verlauf">${sparkSvg(s)}<figcaption>${esc(K.verlauf(kurz(s.sparkStart), kurz(s.sparkEnd)))}</figcaption></figure>` : ''}
+    ${s.spark?.length > 1 ? `<figure class="karte-verlauf">${sparkSvg(s)}<figcaption>${esc(K.verlauf(kurz(s.sparkStart), kurz(s.sparkEnd)))}${s.spark.filter(Number.isFinite).length >= MIN_BAND ? ` ${esc(K.band)}` : ''}</figcaption></figure>` : ''}
     ${s.damp ? `<p class="karte-daempf">${esc(K.daempf(s.damp.reason))}</p>` : ''}
     <p class="karte-art"><span>${esc(K.art)}:</span> ${esc(K.klasse[s.evidenceClass] ?? s.evidenceClass)}</p>
     ${s.sourceUrl ? `<p class="karte-roh">${extern(s.sourceUrl, `${esc(K.roh)}: ${esc(s.sourceName || s.sourceUrl)}`)}</p>` : ''}
     ${a && s.ts ? `<p class="karte-pflicht">${esc(K.pflicht)} ${quellenLink(a)}</p>` : ''}`;
   $('karte-zu').setAttribute('aria-label', K.schliessen);
-  zustand.karteVon = document.activeElement;
-  zustand.globus?.waehle(id);
-  zustand.globus?.pause();
-  if (!dlg.open) dlg.showModal();
-  $('karte-zu').focus();
+  zeigeKarte(id);
 }
 
 function karteZu() {
@@ -859,6 +1021,7 @@ async function renderLinse() {
   zustand.globus?.zerstoere();
   zustand.globus = null;
   zmStopp();
+  document.body.classList.remove('im-rueckblick');
   const main = $('inhalt');
   main.setAttribute('aria-busy', 'false');
   main.innerHTML = `<section class="buehne">
@@ -881,6 +1044,8 @@ async function renderLinse() {
     e.preventDefault();
     const ziel = $(`geruecht-${a.dataset.zuGeruecht}`);
     if (!ziel) return;
+    const d = ziel.querySelector('details[data-oben]');
+    if (d) d.open = true;
     ziel.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     ziel.focus({ preventScroll: true });
   }));
@@ -891,16 +1056,12 @@ async function renderLinse() {
     b.querySelector('.an-aus').textContent = an ? L.globus.an : L.globus.aus;
     zustand.globus?.setze(globusDaten(sc, ms, sichtbareSchichten(sc)));
   }));
-  main.querySelector('[data-beispiel]')?.addEventListener('click', async (e) => {
-    const knopf = document.querySelector(`.zm-eintrag[data-replay="${e.currentTarget.dataset.beispiel}"]`);
-    if (!knopf) return;
-    const mehr = knopf.closest('details');
-    if (mehr) mehr.open = true;
-    knopf.focus({ preventScroll: true });
-    await zmOeffne(knopf.dataset.replay, knopf, true);
-    $('zm-panel')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-  });
-  main.querySelectorAll('[data-replay]').forEach((b) => b.addEventListener('click', () => zmOeffne(b.dataset.replay, b)));
+  main.querySelectorAll('[data-rb]').forEach((b) => b.addEventListener('click', () => {
+    const oben = !b.closest('.zeitleiste');
+    rueckblick(b.dataset.rb);
+    if (oben) $('globus')?.closest('.globus-feld')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  }));
+  $('zl-jetzt')?.addEventListener('click', zurueckZuJetzt);
   $('teilen')?.addEventListener('click', teilen);
   renderFuss();
   if (zustand.atlasFehler) return;
@@ -974,6 +1135,7 @@ async function start() {
     if (z && document.contains(z)) z.focus({ preventScroll: true });
   });
   document.addEventListener('click', (e) => { if (e.target.closest?.('[data-quellen]')) oeffneQuellen(e); });
+  $('karte-inhalt').addEventListener('click', (e) => { const b = e.target.closest?.('[data-sig]'); if (b) oeffneKarte(b.dataset.sig); });
   renderKopf();
   try {
     const [snap, ger, erkl, rep] = await Promise.all([laden(), ladeOptional('data/rumors.json'), ladeOptional('data/explain.json'), ladeOptional('data/replays/index.json'), ladeEn()]);
@@ -986,7 +1148,7 @@ async function start() {
     renderKopf();
     renderLinsen();
     await renderLinse();
-    if (snap.mode === 'live') setInterval(renderKopf, 60000);
+    if (snap.mode === 'live') setInterval(() => { renderKopf(); const p = $('puls-zeile'); if (p && !zustand.zm) p.innerHTML = pulsText(aktuell()); }, 60000);
     window.addEventListener('hashchange', () => waehle(decodeURIComponent(location.hash.slice(1)), false));
   } catch (e) {
     renderFehler(e);

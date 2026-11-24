@@ -130,7 +130,7 @@ function report(e: Evaluation, rs: BacktestResult[], evs: BacktestEvent[]): stri
     L.push(`**Engine-Befund:** ${e.diagnostics.stepsL1WithoutActiveDomain} Zeitschritte ab Stufe 1 (davon ${e.diagnostics.stepsL2WithoutActiveDomain} ab Stufe 2) hatten `
       + '**keinen einzigen** Bereich über der Schwelle „weicht ab“ (0,25). Ursache: `CONVERGENCE_GATE[0]` in `src/engine/score.ts` ist 1, die Konvergenz-Schranke '
       + 'greift also nur, wenn mindestens ein Bereich abweicht. Mehrere knapp unterschwellige Bereiche addieren sich per Noisy-OR ungedeckelt. '
-      + 'Das widerspricht `docs/SCORING.md` („Ein einzelner Bereich kann nie mehr als Leicht erhöht auslösen“, erst recht nicht null Bereiche). '
+      + 'Das widerspricht `docs/SCORING.md` („Ein einzelner Bereich kann nie mehr als Einzelne Auffälligkeit auslösen“, erst recht nicht null Bereiche). '
       + 'Vorschlag für die Engine (hier nicht geändert): Schranke für 0 Bereiche auf 0 oder höchstens 0,29 setzen.');
     L.push('');
   }

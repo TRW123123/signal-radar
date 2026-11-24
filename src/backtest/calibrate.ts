@@ -28,6 +28,7 @@ import type { Observation, SignalDef } from '../core/types.ts';
 import { BASELINE_RULES, baselineAt, directionalZ, SENSITIVITY } from '../engine/anomaly.ts';
 import { CONVERGENCE_GATE, DOMAIN_ACTIVE, LEVEL_LABELS, LEVEL_THRESHOLDS } from '../engine/score.ts';
 import { applyTransform } from '../pipeline/snapshot.ts';
+import { LEVEL_DE, LEVEL_EN } from './replays.ts';
 import { type BacktestEvent, type BacktestResult, computeTimeline, DAY, DEFAULT_EVAL, HOUR, shiftToAvailability } from './lib.ts';
 
 // ---------------------------------------------------------------- target (the one place where it is set)
@@ -422,23 +423,23 @@ const lvl = summary.levels;
 const explainLevels = [
   {
     level: 1,
-    text_de: 'Leicht erhöht: Mindestens ein Bereich weicht deutlich ab, zum Beispiel der Zahlungsverkehr. Das kommt immer wieder vor und ist meist harmlos.',
-    text_en: 'Slightly raised: at least one area deviates clearly, for example payments. This happens from time to time and is usually harmless.',
+    text_de: `${LEVEL_DE[1]}: Mindestens ein Bereich weicht deutlich ab, zum Beispiel der Zahlungsverkehr. Das kommt immer wieder vor und ist meist harmlos.`,
+    text_en: `${LEVEL_EN[1]}: at least one area deviates clearly, for example payments. This happens from time to time and is usually harmless.`,
   },
   {
     level: 2,
-    text_de: 'Erhöht: Mindestens zwei voneinander unabhängige Bereiche weichen gleichzeitig ab. Erst ab hier lohnt genaueres Hinsehen.',
-    text_en: 'Raised: at least two independent areas deviate at the same time. From here on it is worth a closer look.',
+    text_de: `${LEVEL_DE[2]}: Mindestens zwei voneinander unabhängige Bereiche weichen gleichzeitig ab. Erst ab hier lohnt genaueres Hinsehen.`,
+    text_en: `${LEVEL_EN[2]}: at least two independent areas deviate at the same time. From here on it is worth a closer look.`,
   },
   {
     level: 3,
-    text_de: 'Hoch: Mindestens drei unabhängige Bereiche weichen gleichzeitig und stark ab.',
-    text_en: 'High: at least three independent areas deviate strongly at the same time.',
+    text_de: `${LEVEL_DE[3]}: Mindestens drei unabhängige Bereiche weichen gleichzeitig und stark ab.`,
+    text_en: `${LEVEL_EN[3]}: at least three independent areas deviate strongly at the same time.`,
   },
   {
     level: 4,
-    text_de: 'Akut: Vier oder mehr unabhängige Bereiche weichen gleichzeitig sehr stark ab.',
-    text_en: 'Acute: four or more independent areas deviate very strongly at the same time.',
+    text_de: `${LEVEL_DE[4]}: Vier oder mehr unabhängige Bereiche weichen gleichzeitig sehr stark ab.`,
+    text_en: `${LEVEL_EN[4]}: four or more independent areas deviate very strongly at the same time.`,
   },
 ].map((x) => {
   const m = x.level <= 3 ? lvl[x.level - 1].meanShare : r4(mean(scen.map((s) => s.levelCounts[4] / Math.max(1, s.steps))) ?? 0);
@@ -477,8 +478,8 @@ const explain = {
     target: TARGET.domainShare,
   },
   convergenceRule: {
-    text_de: 'Ein einzelner ungewöhnlicher Bereich hebt ein Thema höchstens auf „Leicht erhöht". Für jede höhere Stufe müssen mehr voneinander unabhängige Bereiche gleichzeitig abweichen.',
-    text_en: 'A single unusual area raises a topic to "slightly raised" at most. Every higher level needs more independent areas deviating at the same time.',
+    text_de: 'Ein einzelner ungewöhnlicher Bereich hebt ein Thema höchstens auf „${LEVEL_DE[1]}". Für jede höhere Stufe müssen mehr voneinander unabhängige Bereiche gleichzeitig abweichen.',
+    text_en: 'A single unusual area raises a topic to "${LEVEL_EN[1]}" at most. Every higher level needs more independent areas deviating at the same time.',
   },
   levelRules: explainLevels,
   examples,

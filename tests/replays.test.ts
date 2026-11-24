@@ -188,10 +188,9 @@ test('weak: a single measurement that also swung before is "teilweise" with a re
 
 test('recent replays: whole span is the window, summary without event wording', () => {
   const j = judgeSawIt({ frames: [frame(-200, { signals: [s('a', 'routing', 0.5)] }), frame(0)], eventStart: null, eventEnd: null });
-  assert.equal(j.sawIt, 'teilweise');
-  assert.equal(j.notable[0].firstHours, null);
   const sum = summarize(j, { kind: 'recent', measuredSignals: 1, days: 14 });
-  assert.match(sum.de, /letzten 14 Tagen/);
+  assert.equal(j.notable[0].firstHours, null);
+  assert.match(sum.de, /letzten 14 Tagen blieb das Radar auf „Ruhig“\. Einzelne Messungen wichen kurz ab; das allein hebt die Stufe nicht\./);
   assert.doesNotMatch(sum.de, /Beginn/);
 });
 
@@ -219,26 +218,29 @@ test('history adapters read old fixture names with the full window, only before 
 });
 
 test('exported index and replay files keep the contract (if present)', () => {
-  let index: { id: string; kind: string; sawIt: string; steps: number; control?: string; maxLevel: number; firstSeenHours: number | null; summary_de: string }[];
+  let index: { id: string; kind: string; sawIt?: string; steps: number; control?: string; maxLevel: number; firstSeenHours: number | null; summary_de: string }[];
   try {
     index = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'frontend', 'data', 'replays', 'index.json'), 'utf8'));
   } catch {
     return; // not exported yet
   }
   for (const e of index) {
-    assert.ok(['ja', 'teilweise', 'nein'].includes(e.sawIt));
+    if (e.kind === 'recent') assert.ok(!('sawIt' in e), `${e.id}: recent ohne Urteil`);
+    else assert.ok(['ja', 'teilweise', 'nein'].includes(e.sawIt!));
     assert.ok(Number.isInteger(e.maxLevel) && e.maxLevel >= 0 && e.maxLevel <= 4, `${e.id}: maxLevel`);
     assert.ok(e.firstSeenHours === null || Number.isFinite(e.firstSeenHours), `${e.id}: firstSeenHours`);
     if (e.kind === 'control') {
       assert.equal(e.sawIt, 'nein', `${e.id}: Kontrolle nie teilweise`);
       assert.equal(e.control, e.maxLevel >= 1 ? 'false-alarm' : 'quiet');
     } else assert.equal(e.control, undefined);
-    assert.doesNotMatch(e.summary_de, /Leicht erhöht|\b1 Stunden/, e.id);
-    for (const k of ['id', 'title_de', 'title_en', 'date', 'scenario', 'summary_de', 'summary_en', 'sawIt', 'steps']) assert.ok(k in e, `${e.id}: ${k}`);
+    assert.doesNotMatch(e.summary_de, /Leicht erhöht|Erhöht|Akut|Elevated|\b1 Stunden/, e.id);
+    for (const k of ['id', 'title_de', 'title_en', 'date', 'scenario', 'summary_de', 'summary_en', 'steps']) assert.ok(k in e, `${e.id}: ${k}`);
     const raw = readFileSync(join(import.meta.dirname, '..', 'frontend', 'data', 'replays', `${e.id}.json`), 'utf8');
     assert.ok(Buffer.byteLength(raw) < MAX_BYTES, `${e.id} zu groß`);
     const r = JSON.parse(raw);
     for (const k of ['id', 'start', 'end', 'eventStart', 'stepHours', 'frames']) assert.ok(k in r, `${e.id}: ${k}`);
     assert.equal(r.frames.length, e.steps);
+    assert.doesNotMatch(raw, /Leicht erhöht|Stark erhöht|Erhöht|Akut|Elevated|Slightly raised/, `${e.id}: alter Stufenname`);
+    assert.doesNotMatch(e.summary_en, /Elevated|Slightly raised|Acute/, e.id);
   }
 });

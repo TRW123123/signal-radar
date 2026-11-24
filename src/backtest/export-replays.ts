@@ -19,7 +19,7 @@ import { fileStore } from '../core/store.ts';
 import type { Observation, SignalDef } from '../core/types.ts';
 import { type BacktestEvent, type BacktestResult, computeTimeline, DAY, HOUR } from './lib.ts';
 import { probeSignalDefs, probesOf } from './history-adapters.ts';
-import { buildReplay, fitReplay, judgeSawIt, priorNoiseCounts, type ReplayIndexEntry, summarize } from './replays.ts';
+import { buildReplay, fitReplay, judgeSawIt, LEVEL_DE, LEVEL_EN, priorNoiseCounts, type ReplayIndexEntry, summarize } from './replays.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = process.argv.slice(2);
@@ -75,8 +75,8 @@ const NOTE: Record<string, { de: string; en: string }> = {
     en: 'Spain’s grid load is missing from the data for the outage hours (no complete hours) and therefore did not count.',
   },
   'israel-iran-2025-06': {
-    de: 'Stufe „Erhöht“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.',
-    en: 'Level “Elevated” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.',
+    de: `Stufe „${LEVEL_DE[2]}“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.`,
+    en: `Level “${LEVEL_EN[2]}” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.`,
   },
 };
 
@@ -148,9 +148,9 @@ if (!args.includes('--no-recent')) {
       const s = summarize(j, { kind: 'recent', measuredSignals: measured, days: recentDays });
       index.push({
         id, kind: 'recent', title_de: `Letzte ${recentDays} Tage: ${scenario.title}`, title_en: `Last ${recentDays} days: ${scenario.id}`,
-        date: new Date(to).toISOString(), scenario: scenario.id, summary_de: s.de, summary_en: s.en, sawIt: j.sawIt, maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, steps: replay.frames.length,
+        date: new Date(to).toISOString(), scenario: scenario.id, summary_de: s.de, summary_en: s.en, maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, steps: replay.frames.length,
       });
-      console.log(`${id.padEnd(28)} ${j.sawIt.padEnd(10)} ${replay.frames.length} Frames, ${measured} Signale, max ${replay.maxSignalsPerFrame}/Frame, ${(json.length / 1000).toFixed(1)} kB`);
+      console.log(`${id.padEnd(28)} ${'-'.padEnd(10)} ${replay.frames.length} Frames, ${measured} Signale, max ${replay.maxSignalsPerFrame}/Frame, ${(json.length / 1000).toFixed(1)} kB`);
     }
   }
 }

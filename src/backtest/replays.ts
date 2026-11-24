@@ -56,7 +56,8 @@ export interface ReplayIndexEntry {
   scenario: string;
   summary_de: string;
   summary_en: string;
-  sawIt: SawIt;
+  /** verdict; absent for kind "recent" (not an event, no judgement) */
+  sawIt?: SawIt;
   /** only for kind "control": quiet = stayed calm (as it should), false-alarm = level rose to 1 or more without a known event */
   control?: 'quiet' | 'false-alarm';
   /** highest level from the event start to the end of the window (0..4) */
@@ -302,8 +303,8 @@ export function summarize(j: SawItResult, ctx: { kind: 'event' | 'control' | 're
       };
     }
     return {
-      de: `In den letzten ${days} Tagen blieb das Radar auf „Ruhig“.${top.length ? ` Einzeln auffällig ${plural ? 'waren' : 'war'} ${namesDe}, das allein hebt die Stufe nicht.` : ''}`,
-      en: `Over the last ${days} days the radar stayed “Calm”.${top.length ? ` Individually unusual: ${namesEn}, which alone does not raise the level.` : ''}`,
+      de: `In den letzten ${days} Tagen blieb das Radar auf „${LEVEL_DE[0]}“.${top.length ? ' Einzelne Messungen wichen kurz ab; das allein hebt die Stufe nicht.' : ''}`,
+      en: `Over the last ${days} days the radar stayed “${LEVEL_EN[0]}”.${top.length ? ' Individual measurements deviated briefly; that alone does not raise the level.' : ''}`,
     };
   }
   const preDe = j.preNoise.length ? ` ${PRE_NOISE_DE}` : '';

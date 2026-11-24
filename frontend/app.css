@@ -210,7 +210,7 @@ button { font: inherit; color: inherit; }
 .gehoert { display: grid; gap: 0.1rem; margin-top: 0.7rem; padding: 0.55rem 0.75rem; border-radius: var(--radius); background: var(--flaeche); border-left: 3px solid var(--att); text-decoration: none; font-size: var(--t-14); line-height: 1.35; }
 .gehoert:hover { background: var(--flaeche-2); }
 .gehoert-wort { font-size: var(--t-12); text-transform: uppercase; letter-spacing: 0.06em; color: var(--att); font-weight: 700; }
-.gehoert-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.gehoert-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .gehoert-daten { color: var(--ok); font-weight: 700; font-size: var(--t-12); }
 .gehoert.lv-2 .gehoert-daten { color: var(--l2); }
 .gehoert.lv-3 .gehoert-daten, .gehoert.lv-4 .gehoert-daten { color: var(--l3); }

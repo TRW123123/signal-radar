@@ -40,6 +40,8 @@ const ISO_NUM = {
 // ---------- Formatierung ----------
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+/** Sinnvoll gerundet für „üblich sind etwa …": zwei gültige Stellen */
+const rund = (v) => { if (!Number.isFinite(v) || v === 0) return v; const f = 10 ** (Math.floor(Math.log10(Math.abs(v))) - 1); return Math.round(v / f) * f; };
 function nf(v) {
   if (v == null || !Number.isFinite(v)) return '–';
   const a = Math.abs(v);
@@ -172,8 +174,8 @@ function wertText(s) {
   if (!s.fresh || s.value == null) return L.globus.zustand.leer;
   if (ZEIGBAR.has(s.unit)) return mitEinheit(s.value, sUnit(s), s.unit);
   if (OHNE_EINHEIT.has(s.unit)) {
-    if (staerke(s) < SIGNAL_AUF) return L.vergleich.wie;
     const c = s.baseline?.center;
+    if (staerke(s) <= 0 && !(Math.abs(Number(s.z)) >= 2.5)) return L.vergleich.wie;
     return Number.isFinite(c) && s.value < c ? L.vergleich.tiefer : L.vergleich.hoeher;
   }
   const e = EINHEIT[s.unit];
@@ -216,9 +218,13 @@ const rT = (r, k) => (sprache === 'en' && r[`${k}_en`] !== undefined ? r[`${k}_e
 /** Zustand einer Messung. „ungewöhnlich" nur, wenn ihr Bereich zählt; sonst „etwas erhöht" (zählt allein nicht). */
 function zustandVon(sc, s, d) {
   if (!s.fresh || s.value == null) return 'leer';
-  if (staerke(s) < SIGNAL_AUF) return 'ruhig';
-  return d.active && !zuWenig(sc) ? 'auf' : 'erhoeht';
+  const a = staerke(s);
+  if (a >= SIGNAL_AUF) return d.active && !zuWenig(sc) ? 'auf' : 'erhoeht';
+  // Kleine Abweichung oder klar außerhalb der Streuung (|z| ≥ 2,5): ehrlich „etwas erhöht", nicht „normal"
+  return a > 0 || Math.abs(Number(s.z)) >= 2.5 ? 'erhoeht' : 'ruhig';
 }
+/** Gleicher Wert, Zeitpunkt, Ort und Grundname (z. B. …vix und …vix_spike): nur eine Auswertung zeigen */
+const doppelKey = (s) => `${String(s.id).split('.').at(-1).split('_')[0]}|${s.value}|${s.ts}|${s.geo?.label ?? ''}`;
 
 /** Die einzige Zählung ungewöhnlicher Bereiche: Satz, Liste, Lämpchen und Globus nutzen genau diese. */
 function ungewoehnlicheBereiche(sc) {
@@ -233,7 +239,18 @@ function stufenFarbe(k) {
 /** Alle gebauten Messungen der Linse mit Bereich und Zustand */
 function messungen(sc) {
   const out = [];
-  for (const d of sc.domains) for (const s of gebaut(d.signals)) out.push({ s, d, zustand: zustandVon(sc, s, d) });
+  const seen = new Map();
+  for (const d of sc.domains) for (const s of gebaut(d.signals)) {
+    if (s.value == null && s.status !== 'active') continue;
+    const m = { s, d, zustand: zustandVon(sc, s, d) };
+    if (s.value != null && s.ts) {
+      const k = doppelKey(s);
+      const i = seen.get(k);
+      if (i !== undefined) { if ((Number(s.anomaly) || 0) > (Number(out[i].s.anomaly) || 0)) out[i] = m; continue; }
+      seen.set(k, out.length);
+    }
+    out.push(m);
+  }
   return out;
 }
 
@@ -362,8 +379,12 @@ function antwortTexte(sc) {
   return { art: 'ja', wort: K.ja, satz: K.jaSatz, zusatz: K.jaZusatz(k, namen), k, mit };
 }
 
+// Gerüchte, die nur lose einem Thema zugeordnet sind, nicht als Gerücht dieses Themas zeigen
+const PASST = { finance: /Börse|Bank|Geld|Markt|Aktie|Krypto|Bitcoin|Inflation|Finanz|Zins|Dollar|Euro|Crash/i };
+/** Satz auf höchstens n Zeichen an einer Wortgrenze kürzen, dann „…" */
+const kuerze = (s, n) => { const t = String(s ?? '').trim(); if (t.length <= n) return t; const c = t.slice(0, n).replace(/[\s,;:–-]+\S*$/, ''); return `${c}…`; };
 function aktuellesGeruecht(sc) {
-  const eigene = zustand.geruechte.filter((r) => r.scenario === sc.id);
+  const eigene = zustand.geruechte.filter((r) => r.scenario === sc.id && (!PASST[sc.id] || PASST[sc.id].test(String(r.title ?? ''))));
   return [...eigene].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0] ?? null;
 }
 const geruechtLevel = (r) => zustand.snap.scenarios.find((x) => x.id === r.scenario)?.level ?? 0;
@@ -373,7 +394,7 @@ function antwort(sc) {
   zustand.kurz = `${a.wort} ${a.satz}`;
   const lv = zuWenig(sc) ? 'x' : sc.level;
   const r = istDemo() ? null : aktuellesGeruecht(sc);
-  const aufl = r ? ersterSatz(rT(r, 'factcheck') || rT(r, 'outcome') || '') : '';
+  const aufl = r ? kuerze(ersterSatz(rT(r, 'factcheck') || rT(r, 'outcome') || ''), Math.max(30, 110 - String(rT(r, 'title') ?? '').length)) : '';
   const zeile = r ? `<a class="gehoert lv-${geruechtLevel(r)}" href="#geruecht-${esc(r.id)}" data-zu-geruecht="${esc(r.id)}">
       <span class="gehoert-wort">${esc(L.gehoert.wort)}${r.date && Number.isFinite(Date.parse(r.date)) ? ` · ${esc(tagJahr(Date.parse(r.date)))}` : ''}</span>
       <span class="gehoert-text"><strong>${esc(rT(r, 'title'))}?</strong> ${esc(aufl)}</span>
@@ -399,7 +420,7 @@ function teilInhalt() {
   const frage = r ? `${String(rT(r, 'title')).replace(/[?.!]+$/, '')}?` : scFrage(sc);
   const text = L.kopf.teilText(frage, zustand.kurz, kurz(snap.generatedAt));
   const basis = `${location.origin}${location.pathname.replace(/[^/]*$/, '')}`;
-  const url = r && /^[a-z0-9-]+$/.test(r.id) ? `${basis}g/${r.id}/` : `${location.origin}${location.pathname}${sprache === 'en' ? '?lang=en' : ''}#${encodeURIComponent(sc.id)}`;
+  const url = r && /^[a-z0-9-]+$/.test(r.id) ? `${basis}g/${r.id}/${sprache === 'en' ? 'en/' : ''}` : `${location.origin}${location.pathname}${sprache === 'en' ? '?lang=en' : ''}#${encodeURIComponent(sc.id)}`;
   return { text, url };
 }
 
@@ -435,7 +456,7 @@ function globusBlock(sc, ms, schichten) {
   const z = zaehlung(sc);
   const auf = ms.filter((m) => m.zustand === 'auf').length;
   return `<figure class="globus-feld">
-      <p class="globus-erkl">${esc(G.erkl)}${schichten.some((x) => x.an) ? ` ${esc(G.erklSchicht)}` : ''}</p>
+      <p class="globus-erkl">${esc(G.erkl)}</p>
       <div class="globus-rahmen">
         <canvas id="globus" class="globus" role="img" aria-label="${esc(G.label(z.mitOrt, auf))}"></canvas>
         <p class="puls-zeile" id="puls-zeile">${pulsText(sc)}</p>
@@ -446,6 +467,7 @@ function globusBlock(sc, ms, schichten) {
         <span class="leg leg-ruhig"><i aria-hidden="true"></i>${esc(G.legende4[0])}</span>
         <span class="leg leg-auf l-${Math.max(1, sc.level)}"><i aria-hidden="true"></i>${esc(G.legende4[1])}</span>
         <span class="leg leg-etwas"><i aria-hidden="true"></i>${esc(G.legende4[2])}</span>
+        ${schichten.filter((x) => x.an).map((x) => `<span class="leg ${x.form === 'raute' ? 'leg-schicht' : 'leg-schicht2'}"><i aria-hidden="true"></i>${esc(G.legSchicht(schichtKurz(x.l)))}</span>`).join('')}
         <span class="leg-zahl">${esc(G.alltag)}</span>
       </figcaption>
       ${schichten.length ? `<div class="schichten" role="group" aria-label="${esc(G.schicht)}">${schichten.map((x) => `<button type="button" class="schalter" data-schicht="${esc(x.l.id)}" aria-pressed="${x.an}" title="${esc(schichtTitel(x.l))}"><i class="form ${x.form}" aria-hidden="true"></i>${esc(schichtKurz(x.l))} <span class="an-aus" aria-hidden="true">${x.an ? esc(G.an) : esc(G.aus)}</span></button>`).join('')}<span class="schichten-hinweis">${esc(G.schichtHinweis)}</span></div>` : ''}
@@ -815,7 +837,8 @@ function vergleichKnopf(sc) {
   if (!v) return '';
   const G = L.globus;
   const ziel = zustand.snap.scenarios.find((x) => x.id === v.r.scenario);
-  const text = v.eigen || !ziel ? G.vergleichKnopf(rbTitel(v.r)) : G.vergleichNah(rbTitel(v.r), linsenName(ziel));
+  const technik = G.vergleichTechnik?.[v.r.id];
+  const text = technik ? G.vergleichTechnikKnopf(technik) : v.eigen || !ziel ? G.vergleichKnopf(rbTitel(v.r)) : G.vergleichNah(rbTitel(v.r), linsenName(ziel));
   return `<button type="button" class="vergleich-knopf" id="vergleich" data-vergleich="${esc(v.r.id)}"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg><span>${esc(text)}</span></button>`;
 }
 
@@ -872,7 +895,8 @@ async function rueckblick(id, { vergleich = false } = {}) {
   const bereichName = (id) => { const d = scR?.domains.find((x) => x.id === id); return d ? dTitel(scR, d) : id; };
   function endText(f) {
     const aktiv = Array.isArray(f.activeDomains) ? f.activeDomains : [];
-    const vs = vergleich ? `<strong>${esc(L.globus.vergleichSatz(heute, aktiv.length, aktiv.map(bereichName).join(', ')))}</strong> ` : '';
+    const technik = L.globus.vergleichTechnik?.[r.id];
+    const vs = vergleich ? `${technik ? `<strong>${esc(L.globus.vergleichTechnikSatz(technik))}</strong> ` : ''}${Math.min(aktiv.length, 4) === Math.max(0, Math.min(4, Number(f.level) || 0)) ? `<strong>${esc(L.globus.vergleichSatz(heute, aktiv.length, aktiv.map(bereichName).join(', ')))}</strong> ` : ''}` : '';
     return `<p class="rb-fazit" id="rb-fazit">${vs}<span>${esc(R.fazit)} ${esc(rbErgebnis(daten, frames))}</span>
       <button type="button" class="knopf rb-zurueck" id="rb-zurueck">${esc(R.zurueck)}</button></p>`;
   }
@@ -890,7 +914,7 @@ async function rueckblick(id, { vergleich = false } = {}) {
       kopf.className = `antwort a-l${lv} art-rb`;
       rbText.innerHTML = `<p class="antwort-frage"><span class="rb-marke">${esc(R.marke)}</span> ${esc(R.kopf(rbTitel(r).replace(/\s*\d{4}$/, ''), monat(r.date)))}</p>
         <h1 class="antwort-kopf rb-kopf">${esc(satz)}</h1>
-        <p class="antwort-stufe"><i class="lampe-klein" aria-hidden="true"></i>${esc(R.stufe(L.stufen[lv], aktiv.length))}</p>
+        <p class="antwort-stufe"><i class="lampe-klein" aria-hidden="true"></i>${esc(R.stufe(L.stufen[lv], Math.min(aktiv.length, 4) === lv ? aktiv.length : null))}</p>
         ${i >= endI ? endText(f) : ''}`;
       if (i >= endI) {
         $('rb-zurueck')?.addEventListener('click', zurueckZuJetzt);
@@ -1155,7 +1179,8 @@ function oeffneKarte(id, gruppe) {
     <h2 id="karte-titel">${esc(alltag(s))}</h2>
     <p class="karte-fach">${esc(K.fachname)}: ${esc(sName(s))}</p>
     <p class="karte-ort"><span>${esc(s.geo ? ortName(s.geo) : L.globus.weltweit)}</span> · <span>${esc(K.bereich)}: ${esc(dTitel(sc, d))}</span></p>
-    <p class="karte-zustand z-${z} l-${Math.max(1, sc.level)}"><i aria-hidden="true"></i>${esc(K.zustand[z])}</p>
+    <p class="karte-zustand z-${z} l-${Math.max(1, sc.level)}"><i aria-hidden="true"></i>${esc(z === 'erhoeht' && Number.isFinite(s.baseline?.center) && s.value < s.baseline.center ? K.zustandTief : K.zustand[z])}</p>
+    ${z !== 'leer' && Number.isFinite(s.value) && Number.isFinite(s.baseline?.center) ? `<p class="karte-ueblich">${esc(K.ueblich(nf(s.value), nf(rund(s.baseline.center))))}</p>` : ''}
     ${z === 'leer' ? `<p class="karte-alt">${esc(K.alt(s.ts ? kurz(s.ts) : ''))}</p>` : `<dl class="karte-werte">
       <div><dt>${wannLabel}</dt><dd>${esc(zahlText(s, s.value))}</dd></div>
       ${normal ? `<div><dt>${esc(K.normal)}</dt><dd${band || s.baseline?.mature ? '' : ' class="wort"'}>${esc(normal)}</dd></div>` : ''}</dl>

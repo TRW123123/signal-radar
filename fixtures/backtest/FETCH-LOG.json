@@ -1,0 +1,299 @@
+{
+ "at": "2026-11-24T01:07:21.167Z",
+ "log": [
+  {
+   "fixture": "backtest/crowdstrike-2024-07/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 13108
+  },
+  {
+   "fixture": "backtest/crowdstrike-2024-07/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8442
+  },
+  {
+   "fixture": "backtest/crowdstrike-2024-07/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16809
+  },
+  {
+   "fixture": "backtest/crowdstrike-2024-07/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 11140
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 13546
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8525
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16807
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 10959
+  },
+  {
+   "fixture": "backtest/change-healthcare-2024-02/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 12394
+  },
+  {
+   "fixture": "backtest/change-healthcare-2024-02/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8252
+  },
+  {
+   "fixture": "backtest/change-healthcare-2024-02/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16813
+  },
+  {
+   "fixture": "backtest/change-healthcare-2024-02/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 11174
+  },
+  {
+   "fixture": "backtest/log4shell-2021-12/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 13089
+  },
+  {
+   "fixture": "backtest/log4shell-2021-12/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8640
+  },
+  {
+   "fixture": "backtest/log4shell-2021-12/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16805
+  },
+  {
+   "fixture": "backtest/log4shell-2021-12/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 11102
+  },
+  {
+   "fixture": "backtest/moveit-2023-05/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 12632
+  },
+  {
+   "fixture": "backtest/moveit-2023-05/yahoo/VIX-6mo-1d.json",
+   "status": "HTTP 500"
+  },
+  {
+   "fixture": "backtest/moveit-2023-05/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16811
+  },
+  {
+   "fixture": "backtest/moveit-2023-05/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 11143
+  },
+  {
+   "fixture": "backtest/colonial-pipeline-2021-05/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 13331
+  },
+  {
+   "fixture": "backtest/colonial-pipeline-2021-05/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8514
+  },
+  {
+   "fixture": "backtest/colonial-pipeline-2021-05/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16805
+  },
+  {
+   "fixture": "backtest/colonial-pipeline-2021-05/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 10881
+  },
+  {
+   "fixture": "backtest/rogers-2022-07/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 12820
+  },
+  {
+   "fixture": "backtest/rogers-2022-07/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8339
+  },
+  {
+   "fixture": "backtest/rogers-2022-07/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16801
+  },
+  {
+   "fixture": "backtest/rogers-2022-07/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 11072
+  },
+  {
+   "fixture": "backtest/dyn-ddos-2016-10/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8477
+  },
+  {
+   "fixture": "backtest/dyn-ddos-2016-10/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16737
+  },
+  {
+   "fixture": "backtest/dyn-ddos-2016-10/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 10461
+  },
+  {
+   "fixture": "backtest/notpetya-2017-06/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8484
+  },
+  {
+   "fixture": "backtest/notpetya-2017-06/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16809
+  },
+  {
+   "fixture": "backtest/notpetya-2017-06/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 10875
+  },
+  {
+   "fixture": "backtest/control-2019-08/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 13584
+  },
+  {
+   "fixture": "backtest/control-2019-08/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8531
+  },
+  {
+   "fixture": "backtest/control-2019-08/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16805
+  },
+  {
+   "fixture": "backtest/control-2019-08/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 10881
+  },
+  {
+   "fixture": "backtest/control-2023-08/nyfed/sofr-last60.json",
+   "status": "ok",
+   "bytes": 13346
+  },
+  {
+   "fixture": "backtest/control-2023-08/yahoo/VIX-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8563
+  },
+  {
+   "fixture": "backtest/control-2023-08/ripe-stat/country-routing-stats-DE.json",
+   "status": "ok",
+   "bytes": 16811
+  },
+  {
+   "fixture": "backtest/control-2023-08/ooni/web-connectivity-us-daily.json",
+   "status": "ok",
+   "bytes": 11145
+  },
+  {
+   "fixture": "backtest/crowdstrike-2024-07/sec-edgar/item105-0.json",
+   "status": "ok",
+   "bytes": 7783
+  },
+  {
+   "fixture": "backtest/change-healthcare-2024-02/sec-edgar/item105-0.json",
+   "status": "ok",
+   "bytes": 10291
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/tor-metrics/bandwidth.csv",
+   "status": "ok",
+   "bytes": 2859
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/ooni/web-connectivity-de-daily.json",
+   "status": "ok",
+   "bytes": 10686
+  },
+  {
+   "fixture": "backtest/rogers-2022-07/tor-metrics/bandwidth.csv",
+   "status": "ok",
+   "bytes": 2889
+  },
+  {
+   "fixture": "backtest/rogers-2022-07/ooni/web-connectivity-de-daily.json",
+   "status": "ok",
+   "bytes": 10940
+  },
+  {
+   "fixture": "backtest/dyn-ddos-2016-10/tor-metrics/bandwidth.csv",
+   "status": "ok",
+   "bytes": 2857
+  },
+  {
+   "fixture": "backtest/dyn-ddos-2016-10/ooni/web-connectivity-de-daily.json",
+   "status": "ok",
+   "bytes": 7169
+  },
+  {
+   "fixture": "backtest/crowdstrike-2024-07/yahoo/CIBR-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8597
+  },
+  {
+   "fixture": "backtest/crowdstrike-2024-07/yahoo/HACK-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8513
+  },
+  {
+   "fixture": "backtest/crowdstrike-2024-07/yahoo/BUG-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8714
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/yahoo/CIBR-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8673
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/yahoo/HACK-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8641
+  },
+  {
+   "fixture": "backtest/facebook-bgp-2021-10/yahoo/BUG-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8748
+  },
+  {
+   "fixture": "backtest/change-healthcare-2024-02/yahoo/CIBR-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8371
+  },
+  {
+   "fixture": "backtest/change-healthcare-2024-02/yahoo/HACK-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8247
+  },
+  {
+   "fixture": "backtest/change-healthcare-2024-02/yahoo/BUG-6mo-1d.json",
+   "status": "ok",
+   "bytes": 8246
+  }
+ ]
+}

@@ -1,0 +1,2265 @@
+{
+ "scenarios": {
+  "cyber": {
+   "title": "Cyberattack",
+   "question": "Is a major attack on the internet, banks or digital infrastructure under way right now?",
+   "tagline": "Internet, payments, cloud services, power grid controls",
+   "domains": {
+    "routing": {
+     "title": "Internet routes",
+     "plain": "Can networks and whole countries be reached on the internet?"
+    },
+    "outages": {
+     "title": "Measured outages",
+     "plain": "Independent measurement networks that detect internet outages"
+    },
+    "dns_core": {
+     "title": "Core services",
+     "plain": "The internet's address book, security certificates and time services"
+    },
+    "threat": {
+     "title": "Attack telemetry",
+     "plain": "Sensors that count attack attempts, malware and ransomware"
+    },
+    "vuln": {
+     "title": "Vulnerabilities",
+     "plain": "Newly exploited security flaws and emergency updates"
+    },
+    "finance": {
+     "title": "Payment systems",
+     "plain": "Banks, transfer systems and the money market"
+    },
+    "services": {
+     "title": "Services and company filings",
+     "plain": "Status pages of major providers and mandatory company disclosures"
+    },
+    "markets": {
+     "title": "Markets and insiders",
+     "plain": "Prices, trading volume, insider trades and betting markets"
+    },
+    "physical": {
+     "title": "Power, transport, radio",
+     "plain": "Power grid, air traffic, GPS and phone networks"
+    }
+   }
+  },
+  "war": {
+   "title": "War escalation",
+   "question": "Is a war getting dangerously worse somewhere right now?",
+   "tagline": "Military flights, straits, air-raid alerts, internet outages, oil price, travel warnings",
+   "domains": {
+    "military": {
+     "title": "Military in air, sea and space",
+     "plain": "Military aircraft, satellites, GPS jamming and closed airspace"
+    },
+    "conflict": {
+     "title": "Measured fighting",
+     "plain": "Air-raid alerts, fires seen by satellite, explosions in earthquake data"
+    },
+    "shipping": {
+     "title": "Shipping and straits",
+     "plain": "Ships through Hormuz, the Red Sea and the Taiwan Strait, freight rates, insurance"
+    },
+    "connectivity": {
+     "title": "Internet and power in conflict zones",
+     "plain": "Are internet, mobile networks or power failing in affected countries?"
+    },
+    "government": {
+     "title": "Government behavior",
+     "plain": "Travel warnings, embassy withdrawals, sanctions, special sessions of the UN Security Council"
+    },
+    "energy": {
+     "title": "Energy supply",
+     "plain": "Gas storage, gas flows, oil reserves and electricity prices"
+    },
+    "markets": {
+     "title": "Markets and bets",
+     "plain": "Oil, gold, defense stocks, currencies of the parties to the conflict"
+    }
+   }
+  },
+  "blackout": {
+   "title": "Blackout and energy crisis",
+   "question": "Is a major power outage or energy emergency looming?",
+   "tagline": "Grid frequency, gas storage, electricity prices, cold, power plant outages, river levels",
+   "domains": {
+    "grid": {
+     "title": "Power grid",
+     "plain": "Grid frequency, demand, generation, reserves and bottlenecks in the power grid"
+    },
+    "gas": {
+     "title": "Gas supply",
+     "plain": "Gas storage, gas flows, LNG (liquefied natural gas) deliveries and withdrawal rate"
+    },
+    "prices": {
+     "title": "Energy prices",
+     "plain": "Wholesale electricity prices, price spikes, negative prices and balancing energy costs"
+    },
+    "weather": {
+     "title": "Weather",
+     "plain": "Cold, low-wind and low-sun periods, storms, ice and solar storms"
+    },
+    "plants": {
+     "title": "Power plants and river levels",
+     "plain": "Unplanned power plant outages, French nuclear power, river levels and water reservoirs"
+    },
+    "outages": {
+     "title": "Measured power outages",
+     "plain": "Reported power outages, fault portals and resulting internet outages"
+    },
+    "markets": {
+     "title": "Markets",
+     "plain": "Gas and oil prices, energy stocks, bets"
+    }
+   }
+  },
+  "ai": {
+   "title": "AI incident",
+   "question": "Is an AI system getting out of control or being abused on a large scale right now?",
+   "tagline": "Model platforms, malicious packages, agent traffic, incident databases, computing power",
+   "domains": {
+    "platforms": {
+     "title": "Model platforms",
+     "plain": "Uploads, status pages and takedowns at Hugging Face and the AI providers"
+    },
+    "supply_chain": {
+     "title": "Software supply chain",
+     "plain": "Malicious packages, floods of new versions and security flaws in AI software"
+    },
+    "agents": {
+     "title": "Activity of autonomous agents",
+     "plain": "How much traffic and code comes from bots and AI agents"
+    },
+    "incidents": {
+     "title": "Incident collections",
+     "plain": "Databases that count reported AI incidents"
+    },
+    "compute": {
+     "title": "Computing power and electricity",
+     "plain": "GPU rental prices, power load and utilization of data centers"
+    },
+    "markets": {
+     "title": "Markets and bets",
+     "plain": "AI stocks, prediction markets and mandatory company filings"
+    }
+   }
+  },
+  "finance": {
+   "title": "Financial crisis and bank stress",
+   "question": "Is a financial crisis or a run on banks building up?",
+   "tagline": "Money market, credit spreads, banks, volatility, crypto, insolvencies",
+   "domains": {
+    "money_market": {
+     "title": "Money market",
+     "plain": "What banks have to pay to borrow overnight money from each other and from central banks"
+    },
+    "credit": {
+     "title": "Credit spreads",
+     "plain": "Extra cost of risky loans, gaps between government bond yields, yield curve"
+    },
+    "banks": {
+     "title": "Banks",
+     "plain": "Bank stocks, failures, deposits, mandatory filings"
+    },
+    "volatility": {
+     "title": "Volatility",
+     "plain": "Fear gauges in stock, bond and currency markets"
+    },
+    "crypto": {
+     "title": "Crypto",
+     "plain": "Stablecoins, outflows, fees"
+    },
+    "real_economy": {
+     "title": "Real economy",
+     "plain": "Insolvencies, unemployment claims, freight rates, metal prices"
+    },
+    "markets": {
+     "title": "Markets",
+     "plain": "Betting markets, gold, safe-haven currencies"
+    }
+   }
+  },
+  "nuclear": {
+   "title": "Nuclear incident",
+   "question": "Are there signs of a nuclear accident or attack?",
+   "tagline": "Radiation monitoring networks, earthquake data, power plant output, warning systems",
+   "domains": {
+    "radiation": {
+     "title": "Radiation in the environment",
+     "plain": "Are Europe's radiation monitoring networks measuring more than usual?"
+    },
+    "seismic": {
+     "title": "Earthquakes and explosions",
+     "plain": "Does the seismological service report explosions at known test sites?"
+    },
+    "plants": {
+     "title": "Power plants",
+     "plain": "Are nuclear power plants running normally, or are several failing unplanned?"
+    },
+    "alerts": {
+     "title": "Official warnings",
+     "plain": "Number of warnings from authorities, shown only as context"
+    },
+    "military": {
+     "title": "Military and airspace",
+     "plain": "Command aircraft, missile test warnings, satellite launches as a total"
+    },
+    "markets": {
+     "title": "Markets, bets and precautionary buying",
+     "plain": "Uranium, defense stocks, prediction markets and the price of iodine tablets"
+    }
+   }
+  },
+  "bio": {
+   "title": "Pandemic and outbreaks",
+   "question": "Is a dangerous pathogen spreading right now?",
+   "tagline": "Wastewater, doctor visits, hospitals, bird flu, new virus variants, medicine shortages",
+   "domains": {
+    "wastewater": {
+     "title": "Wastewater",
+     "plain": "How much viral genetic material do sewage treatment plants measure?"
+    },
+    "clinical": {
+     "title": "Doctor visits and hospitals",
+     "plain": "How many people with respiratory infections are in doctors' offices and hospitals?"
+    },
+    "outbreaks": {
+     "title": "Outbreak reports",
+     "plain": "What do WHO, ECDC and Africa CDC report? (Statements by organizations, so low weight)"
+    },
+    "animal": {
+     "title": "Animal diseases",
+     "plain": "Bird flu in poultry, wild birds and cattle"
+    },
+    "genomic": {
+     "title": "Genomic surveillance",
+     "plain": "New virus lineages and variants"
+    },
+    "mortality": {
+     "title": "Deaths",
+     "plain": "Are more people dying than expected?"
+    },
+    "behaviour": {
+     "title": "Behavior and supply",
+     "plain": "Medicine shortages, travel advisories and sick leave"
+    },
+    "markets": {
+     "title": "Markets",
+     "plain": "Stocks of vaccine, test and poultry producers"
+    }
+   }
+  }
+ },
+ "signals": {
+  "ai.platforms.hf_malware_hosting": {
+   "name": "Malware URLs on huggingface.co",
+   "plain": "Counts reported malicious URLs hosted on Hugging Face.",
+   "unit": "URLs"
+  },
+  "ai.platforms.hf_new_models_rate": {
+   "name": "New models on Hugging Face per hour",
+   "plain": "How many new AI models are uploaded to Hugging Face per hour; a flood of uploads can point to mass abuse of the platform.",
+   "unit": "models/hour"
+  },
+  "ai.supply_chain.osv_malware_ai": {
+   "name": "Malicious package reports related to AI (GHSA)",
+   "plain": "Counts reported malicious packages whose names target AI tools (LLM, OpenAI, MCP, agent and similar).",
+   "unit": "reports/day"
+  },
+  "ai.supply_chain.pypi_ai_name_typosquats": {
+   "name": "New PyPI names close to AI libraries",
+   "plain": "How many new package names per hour closely resemble a well-known AI package (openai, langchain, litellm, transformers ...).",
+   "unit": "projects/hour"
+  },
+  "ai.supply_chain.pypi_ai_release_burst": {
+   "name": "Release burst in an AI package",
+   "plain": "How many versions the most frequently updated of eight key AI packages publishes in one day; a flood can indicate a hijacked account.",
+   "unit": "releases/day (maximum for one package)"
+  },
+  "ai.supply_chain.ai_exposed_servers": {
+   "name": "Openly reachable LLM servers on the internet",
+   "plain": "Counts model servers (Ollama, vLLM, Jupyter with AI) that can be reached from the internet without a login.",
+   "unit": "servers"
+  },
+  "ai.supply_chain.cve_ai_keywords": {
+   "name": "New CVEs for AI frameworks (NVD)",
+   "plain": "Counts new vulnerability entries (CVEs, public security-flaw records) whose description mentions AI software (LangChain, Ollama, vLLM, Langflow, MLflow, ComfyUI, MCP).",
+   "unit": "CVEs/day"
+  },
+  "ai.supply_chain.mcp_repo_growth": {
+   "name": "New repositories for MCP servers",
+   "plain": "Counts new GitHub repositories per week tagged mcp-server, as a measure of the attack surface of AI agents.",
+   "unit": "repos/week"
+  },
+  "ai.supply_chain.pypi_new_projects_rate": {
+   "name": "New PyPI projects per hour",
+   "plain": "How many new package names are created on PyPI (the Python package index) per hour; waves occur during mass registrations.",
+   "unit": "projects/hour"
+  },
+  "ai.supply_chain.pypi_serial_rate": {
+   "name": "PyPI releases per hour (total)",
+   "plain": "How many new package versions appear on PyPI per hour; a jump can point to automatically spread releases.",
+   "unit": "releases/hour"
+  },
+  "ai.agents.ai_crawler_share": {
+   "name": "Share of AI crawlers in web traffic",
+   "plain": "Share of Cloudflare traffic that comes from AI crawlers.",
+   "unit": "%"
+  },
+  "ai.agents.greynoise_ai_tags": {
+   "name": "GreyNoise tags for AI services",
+   "plain": "Counts source IP addresses tagged as targeting AI services (for example scanning for Ollama or OpenAI keys) in a sensor network.",
+   "unit": "tags"
+  },
+  "ai.agents.github_agent_pr_rate": {
+   "name": "Pull requests opened by coding agents per day",
+   "plain": "Counts pull requests per day that agent apps (Copilot Coding Agent, Devin) opened themselves.",
+   "unit": "pull requests/day"
+  },
+  "ai.agents.ai_crawl_to_refer": {
+   "name": "Crawl-to-referral ratio",
+   "plain": "Ratio of page requests by AI crawlers to visitors referred back by AI services.",
+   "unit": "ratio"
+  },
+  "ai.agents.github_agent_coauthor_commits": {
+   "name": "Commits with an AI co-author line",
+   "plain": "Counts public commits per day with a co-author line from Claude or Copilot.",
+   "unit": "commits/day"
+  },
+  "ai.agents.agent_ddos_layer7": {
+   "name": "Layer 7 attacks as a companion measure",
+   "plain": "Total application-layer attacks, where automated attacks accumulate.",
+   "unit": "attacks"
+  },
+  "ai.agents.bot_traffic_share_total": {
+   "name": "Overall bot share of web traffic",
+   "plain": "Share of automated requests in all traffic.",
+   "unit": "%"
+  },
+  "ai.compute.gpu_rental_price": {
+   "name": "GPU rental prices (H100)",
+   "plain": "Hourly rental price for an H100 on the open market.",
+   "unit": "USD/hour"
+  },
+  "ai.compute.gpu_marketplace_availability": {
+   "name": "GPUs available on the marketplace",
+   "plain": "Number of rented and free GPUs by type.",
+   "unit": "offers"
+  },
+  "ai.compute.datacenter_load_pjm": {
+   "name": "Power load Virginia/PJM",
+   "plain": "Hourly load in the region with the most data centers.",
+   "unit": "MW",
+   "geoLabel": "Virginia (PJM), data centers"
+  },
+  "ai.compute.ai_traffic_domain_rank": {
+   "name": "Domain ranking of AI services (Cloudflare Radar)",
+   "plain": "Rank of chatgpt.com, claude.ai and gemini.google.com in the domain ranking.",
+   "unit": "rank"
+  },
+  "ai.markets.ai_stock_volume": {
+   "name": "Relative trading volume of AI chip stocks (NVDA, AMD, AVGO)",
+   "plain": "How heavily the shares of the leading AI chip makers are currently traded compared with the previous 10 trading days.",
+   "unit": "x 10-day median"
+  },
+  "ai.attention.ai_local_community_activity": {
+   "name": "Community activity around local models",
+   "plain": "Number of members and active users in r/LocalLLaMA.",
+   "unit": "users online"
+  },
+  "bio.wastewater.amelag_sars2": {
+   "name": "Germany wastewater: coronavirus viral load",
+   "plain": "How much coronavirus genetic material do sewage treatment plants measure nationwide in the week? The raw series fluctuates with the season.",
+   "unit": "viral load (normalized)",
+   "geoLabel": "Germany"
+  },
+  "bio.wastewater.amelag_flu": {
+   "name": "Germany wastewater: influenza A",
+   "plain": "How much influenza A genetic material do sewage treatment plants measure nationwide in the week? The raw series fluctuates with the season.",
+   "unit": "viral load (normalized)",
+   "geoLabel": "Germany"
+  },
+  "bio.wastewater.amelag_rsv": {
+   "name": "Germany wastewater: RSV",
+   "plain": "How much RSV (respiratory syncytial virus) genetic material do sewage treatment plants measure nationwide in the week? The raw series fluctuates with the season.",
+   "unit": "viral load (normalized)",
+   "geoLabel": "Germany"
+  },
+  "bio.wastewater.amelag_flub": {
+   "name": "Germany wastewater: influenza B",
+   "plain": "How much influenza B genetic material do sewage treatment plants measure nationwide in the week? The raw series fluctuates with the season.",
+   "unit": "viral load (normalized)",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.sari_unexplained": {
+   "name": "Severe respiratory infections not caused by coronavirus, flu or RSV",
+   "plain": "What share of severe respiratory infections in hospital cannot be attributed to coronavirus, flu or RSV? This is the remainder after the three monitored pathogens; the raw series fluctuates with the season.",
+   "unit": "% of SARI cases",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.sari_total": {
+   "name": "Severe respiratory infections in hospital (SARI)",
+   "plain": "How many people per 100,000 are admitted to hospital with a severe respiratory infection each week? The raw series fluctuates strongly with the season.",
+   "unit": "cases per 100,000",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.are_konsultation": {
+   "name": "Doctor visits for respiratory infections",
+   "plain": "How many people per 100,000 see a doctor for an acute respiratory illness each week? The raw series fluctuates strongly with the season.",
+   "unit": "doctor visits per 100,000",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.are_bl_spread": {
+   "name": "Respiratory infections: number of states above the prior-year average",
+   "plain": "In how many of Germany's 16 federal states are doctor visits for respiratory infections above the average for the same calendar weeks of previous years?",
+   "unit": "federal states",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.icu_picu": {
+   "name": "Children's intensive care beds occupied (PICU)",
+   "plain": "What percentage of children's intensive care beds are occupied? High values occur in the RSV season in winter.",
+   "unit": "% occupied",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.are_kids": {
+   "name": "Doctor visits, young children aged 0 to 4",
+   "plain": "How many children under 5 per 100,000 see a doctor for a respiratory illness each week? The raw series fluctuates strongly with the season.",
+   "unit": "doctor visits per 100,000",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.cdc_fluview": {
+   "name": "USA: FluView ILINet and laboratory positivity rate",
+   "plain": "How common are influenza-like illnesses in the USA?",
+   "unit": "%",
+   "geoLabel": "USA"
+  },
+  "bio.clinical.icu_covid_current": {
+   "name": "Intensive care units: current coronavirus patients",
+   "plain": "How many coronavirus patients are currently in intensive care units in Germany?",
+   "unit": "patients",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.icu_free_vent": {
+   "name": "Intensive care units: free ventilator beds",
+   "plain": "How many ventilator beds in intensive care units in Germany are still free? If the number falls sharply, capacity becomes tight.",
+   "unit": "beds",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.sari_kids": {
+   "name": "Severe respiratory infections in young children (aged 0 to 4)",
+   "plain": "How many children under 5 per 100,000 are admitted to hospital with a severe respiratory infection each week? The raw series fluctuates strongly with the season.",
+   "unit": "cases per 100,000",
+   "geoLabel": "Germany"
+  },
+  "bio.genomic.gisaid_counts": {
+   "name": "GISAID sequence counts",
+   "plain": "How many virus genome sequences do countries upload?",
+   "unit": "sequences"
+  },
+  "bio.markets.poultry_stocks": {
+   "name": "US egg price (per dozen, BLS)",
+   "plain": "Average US store price for a dozen eggs; it rises sharply when bird flu kills many laying hens.",
+   "unit": "USD per dozen",
+   "geoLabel": "USA"
+  },
+  "bio.attention.grippeweb_ili": {
+   "name": "GrippeWeb: self-reported influenza-like illness",
+   "plain": "How many people per 100,000 report fever with a cough or sore throat to the RKI (Germany's public health institute) portal GrippeWeb each week? The raw series fluctuates strongly with the season.",
+   "unit": "illnesses per 100,000",
+   "geoLabel": "Germany"
+  },
+  "bio.context.amelag_covered_pop": {
+   "name": "Wastewater: share of the population monitored",
+   "plain": "What percentage of the population lives in the catchment area of the measuring sites? If the share falls, the wastewater signals are less meaningful.",
+   "unit": "% of population",
+   "geoLabel": "Germany"
+  },
+  "blackout.grid.frequency_de_deviation": {
+   "name": "Germany grid frequency: deviation from 50 Hz (hourly maximum)",
+   "plain": "The grid frequency is supposed to stay at 50 Hz; large deviations show that generation and consumption are getting out of balance.",
+   "unit": "mHz",
+   "geoLabel": "Germany"
+  },
+  "blackout.grid.balancing_energy_activation": {
+   "name": "Balancing energy activation, Germany",
+   "plain": "How much balancing power must grid operators call on at short notice?",
+   "unit": "MW",
+   "geoLabel": "Germany"
+  },
+  "blackout.grid.net_load_de": {
+   "name": "Grid load Germany (SMARD)",
+   "plain": "How much electricity Germany is using right now; a sudden drop without a public holiday or weather explanation can indicate an outage.",
+   "unit": "MW",
+   "geoLabel": "Germany"
+  },
+  "blackout.grid.wind_solar_infeed_de": {
+   "name": "Wind and solar feed-in, Germany",
+   "plain": "How much electricity wind and sun are currently delivering into the German grid; a drop during high demand is the pattern of a Dunkelflaute (a spell of little wind and sun).",
+   "unit": "MW",
+   "geoLabel": "Germany"
+  },
+  "blackout.gas.storage_fill_de": {
+   "name": "Gas storage Germany: fill level (daily series, about 1 week delay)",
+   "plain": "How full Germany's gas storage is; an unusually fast drop shows that more gas is needed than is arriving.",
+   "unit": "%",
+   "geoLabel": "Germany"
+  },
+  "blackout.gas.storage_withdrawal_rate": {
+   "name": "Gas storage Germany: net withdrawal (daily series, about 1 week delay)",
+   "plain": "How much gas is taken out of German storage per day on balance; a jump upward means consumption or supply failures exceed deliveries.",
+   "unit": "GWh/day",
+   "geoLabel": "Germany"
+  },
+  "blackout.gas.lng_terminal_sendout": {
+   "name": "LNG send-out, EU",
+   "plain": "How much gas European LNG (liquefied natural gas) terminals feed into the grid per day.",
+   "unit": "GWh/day",
+   "geoLabel": "European Union"
+  },
+  "blackout.gas.lng_inventory_eu": {
+   "name": "LNG tank fill level at EU terminals",
+   "plain": "How full are the LNG tanks at European terminals?",
+   "unit": "%",
+   "geoLabel": "European Union"
+  },
+  "blackout.gas.storage_by_site_critical": {
+   "name": "Fill level of individual large storage sites",
+   "plain": "Fill level of the Rehden gas storage site (SEFE Storage, EIC 21Z000000000271O), Germany's largest.",
+   "unit": "%",
+   "geoLabel": "Rehden gas storage"
+  },
+  "blackout.prices.imbalance_price_rebap": {
+   "name": "Imbalance price reBAP",
+   "plain": "What does a shortfall or surplus of electricity in a balancing group cost?",
+   "unit": "EUR/MWh",
+   "geoLabel": "Germany"
+  },
+  "blackout.prices.day_ahead_de": {
+   "name": "Electricity price day-ahead Germany (daily average)",
+   "plain": "What electricity for the next day costs on average on the exchange; price spikes indicate scarcity.",
+   "unit": "EUR/MWh",
+   "geoLabel": "Germany"
+  },
+  "blackout.prices.intraday_price_index": {
+   "name": "Intraday price index (ID1/ID3)",
+   "plain": "The price for short-term trading on the same day.",
+   "unit": "EUR/MWh",
+   "geoLabel": "Germany"
+  },
+  "blackout.weather.cold_wave_temperature": {
+   "name": "Cold in Germany (daily minimum, average of Berlin, Frankfurt, Munich)",
+   "plain": "How cold the nights in Germany are; lasting frost drives heating load and electricity demand and worsens any shortage.",
+   "unit": "°C",
+   "geoLabel": "Germany"
+  },
+  "blackout.weather.geomagnetic_storm": {
+   "name": "Solar storm: geomagnetic activity (Kp index)",
+   "plain": "How strongly solar storms are currently disturbing Earth's magnetic field; in rare cases strong storms can strain high-voltage grids.",
+   "unit": "Kp"
+  },
+  "blackout.plants.entsoe_unavailability_gen": {
+   "name": "Unplanned power plant outages (ENTSO-E)",
+   "plain": "Which power plants report outages or reduced output?",
+   "unit": "MW",
+   "geoLabel": "European Union"
+  },
+  "blackout.outages.cloudflare_radar_outages": {
+   "name": "Outage Center with power-outage causes (Cloudflare Radar)",
+   "plain": "Cloudflare lists internet outages with their cause, including power outages.",
+   "unit": "count"
+  },
+  "blackout.outages.ioda_country_internet": {
+   "name": "IODA: German networks in routing (effect of power outages)",
+   "plain": "How many German network blocks are visible on the internet; if the value collapses, a large-scale power outage may be behind it.",
+   "unit": "/24 networks",
+   "geoLabel": "Germany"
+  },
+  "blackout.outages.us_outage_counts_eaglei": {
+   "name": "US power outage counters (EAGLE-I, PowerOutage.us)",
+   "plain": "Millions of affected customers, as a reference for the pattern.",
+   "unit": "count",
+   "geoLabel": "USA"
+  },
+  "blackout.markets.brent_oil": {
+   "name": "Brent crude oil price (daily series, about 1 week delay)",
+   "plain": "The price of North Sea crude oil with a delay of about a week; if it rises sharply, energy and heating oil generally become more expensive.",
+   "unit": "USD/barrel",
+   "geoLabel": "North Sea (Brent)"
+  },
+  "blackout.markets.henry_hub_gas": {
+   "name": "Henry Hub natural gas price (USA, daily series, about 1 week delay)",
+   "plain": "The US gas price with a delay of about a week, as a comparison with the European gas price; a gap shows how scarce liquefied gas is for Europe.",
+   "unit": "USD/MMBtu",
+   "geoLabel": "Henry Hub, Louisiana"
+  },
+  "cyber.routing.country_prefix_visibility_de": {
+   "name": "Visibility of German networks in routing",
+   "plain": "How many network blocks from Germany the RIPE measurement network sees in routing worldwide; a drop means networks are disappearing.",
+   "unit": "prefixes",
+   "geoLabel": "Germany"
+  },
+  "cyber.routing.asn_visibility_critical_de": {
+   "name": "Visibility of critical German ASNs",
+   "plain": "Share of measurement points that see major German networks (Telekom, Vodafone, DE-CIX, Hetzner, IONOS) in routing; average across five networks. An ASN is a network's identification number on the internet.",
+   "unit": "share (0 to 1)",
+   "geoLabel": "Germany"
+  },
+  "cyber.routing.hijack_events": {
+   "name": "BGP hijack events (suspicious MOAS)",
+   "plain": "How many suspicious cases per hour are detected in which one network claims address ranges (prefixes) that belong to another. BGP is the system that routes traffic between networks; MOAS means multiple origin networks for one address range.",
+   "unit": "events/hour"
+  },
+  "cyber.dns_core.servfail_rate": {
+   "name": "SERVFAIL rate (resolvers)",
+   "plain": "Share of DNS requests (internet address lookups) that the resolver cannot answer.",
+   "unit": "count"
+  },
+  "cyber.dns_core.dnssec_failures": {
+   "name": "DNSSEC validation failures",
+   "plain": "How often DNS answers fail because of invalid signatures (DNSSEC is the security signature system for internet address lookups).",
+   "unit": "count"
+  },
+  "cyber.dns_core.cf_query_volume_and_nxdomain": {
+   "name": "DNS traffic and NXDOMAIN share",
+   "plain": "Cloudflare resolver statistics: total volume and share of failed lookups (NXDOMAIN means the requested name does not exist).",
+   "unit": "count"
+  },
+  "cyber.dns_core.top_domain_rank_volatility": {
+   "name": "Ranking volatility of top domains",
+   "plain": "Changes in the Cloudflare Radar ranking of the most visited domains.",
+   "unit": "count"
+  },
+  "cyber.dns_core.openintel_dns_dependency": {
+   "name": "DNS dependencies on large providers",
+   "plain": "How many domains depend on a few DNS and mail providers.",
+   "unit": "count"
+  },
+  "cyber.outages.ioda_outage_events_global": {
+   "name": "IODA outage events worldwide",
+   "plain": "How many country-level internet outages IODA (a measurement project run by Georgia Tech) detects automatically per day.",
+   "unit": "events/day"
+  },
+  "cyber.outages.cf_radar_outages": {
+   "name": "Cloudflare Radar outage reports",
+   "plain": "How many new internet outages (countries, networks, cables) Cloudflare Radar records per day.",
+   "unit": "reports/day"
+  },
+  "cyber.outages.ioda_country_signals_de": {
+   "name": "IODA: German networks in routing",
+   "plain": "How many German network blocks (/24, small address ranges) are visible in routing worldwide; a drop means networks are disappearing.",
+   "unit": "/24 networks",
+   "geoLabel": "Germany"
+  },
+  "cyber.outages.atlas_probe_connectivity": {
+   "name": "RIPE Atlas probes connected in Germany",
+   "plain": "How many RIPE measurement devices in Germany are online right now; a sudden drop points to network or power problems.",
+   "unit": "probes",
+   "geoLabel": "Germany"
+  },
+  "cyber.outages.cf_http_error_rates": {
+   "name": "HTTP errors and bot share (Cloudflare)",
+   "plain": "Share of 5xx server errors and automated requests in the Cloudflare network.",
+   "unit": "count"
+  },
+  "cyber.outages.cf_traffic_de": {
+   "name": "Cloudflare traffic Germany",
+   "plain": "How much internet traffic from Germany arrives in the Cloudflare network (index, hourly).",
+   "unit": "index 0-1",
+   "geoLabel": "Germany"
+  },
+  "cyber.outages.cf_outage_cause_cable": {
+   "name": "Outages caused by submarine cables",
+   "plain": "Number of outages that Cloudflare classifies as cable damage.",
+   "unit": "count"
+  },
+  "cyber.outages.cf_iqi_quality": {
+   "name": "Cloudflare Internet Quality Index",
+   "plain": "Combined bandwidth, latency and DNS response time by country.",
+   "unit": "measured value"
+  },
+  "cyber.outages.users_de": {
+   "name": "Tor user estimate Germany",
+   "plain": "Estimated number of direct Tor connections (an anonymity network) from Germany per day; a drop points to a network outage, a rise to people working around blocks.",
+   "unit": "users/day",
+   "geoLabel": "Germany"
+  },
+  "cyber.outages.mlab_ndt_throughput": {
+   "name": "M-Lab throughput and loss",
+   "plain": "Millions of user speed tests: median throughput and packet loss by country.",
+   "unit": "measured value"
+  },
+  "cyber.outages.mix_protocol_shift": {
+   "name": "Shift in traffic mix (QUIC/HTTP versions)",
+   "plain": "Shares of HTTP/3, HTTP/2 and TLS versions in total traffic.",
+   "unit": "count"
+  },
+  "cyber.outages.mobile_vs_desktop_shift": {
+   "name": "Device split in traffic",
+   "plain": "Share of mobile and desktop in traffic.",
+   "unit": "count"
+  },
+  "cyber.threat.wiper_reports": {
+   "name": "Wiper (data-destroying) malware reports",
+   "plain": "Reports of data-destroying malware in feeds.",
+   "unit": "count"
+  },
+  "cyber.threat.greynoise_cve_tag_ips": {
+   "name": "GreyNoise scanners per CVE tag",
+   "plain": "Number of IP addresses scanning for one specific vulnerability.",
+   "unit": "count"
+  },
+  "cyber.threat.cloudflare_l3_attacks": {
+   "name": "DDoS layer 3/4 volume",
+   "plain": "How strong attack traffic at the network level (layer 3/4) in the Cloudflare network is compared with the peak of recent weeks. DDoS attacks try to overwhelm a service with traffic.",
+   "unit": "index 0-1"
+  },
+  "cyber.threat.dshield_port_scan_spike": {
+   "name": "DShield sensor reports per day",
+   "plain": "How many connection attempts the volunteer sensors of the SANS Internet Storm Center report per day.",
+   "unit": "reports/day"
+  },
+  "cyber.threat.cloudflare_l7_attacks": {
+   "name": "DDoS layer 7 HTTP attacks",
+   "plain": "How strong attack traffic against web applications (HTTP) in the Cloudflare network is compared with the peak of recent weeks.",
+   "unit": "index 0-1"
+  },
+  "cyber.threat.leak_posts_daily": {
+   "name": "Ransomware leak posts per day",
+   "plain": "How many new victims ransomware groups name on their leak sites per day (only counted, no names).",
+   "unit": "victims/day"
+  },
+  "cyber.threat.osv_malware_advisories": {
+   "name": "New package malware advisories (GHSA)",
+   "plain": "How many malicious packages (npm, PyPI and others) are reported in the GitHub Advisory Database in one day.",
+   "unit": "advisories/day"
+  },
+  "cyber.threat.targets_by_country": {
+   "name": "DDoS targets by country/industry",
+   "plain": "Shift in targets by country and industry.",
+   "unit": "count"
+  },
+  "cyber.threat.greynoise_noise_volume": {
+   "name": "GreyNoise total background noise",
+   "plain": "Total number of active scanner IP addresses.",
+   "unit": "count"
+  },
+  "cyber.threat.shadowserver_reflectors": {
+   "name": "Open DDoS reflectors",
+   "plain": "How many open services (DNS, NTP, Memcached and similar) worldwide can be used to amplify DDoS attacks.",
+   "unit": "IPs"
+  },
+  "cyber.threat.threatfox_ioc_volume": {
+   "name": "ThreatFox new indicators per hour",
+   "plain": "How many new indicators of malware infrastructure (IP, domain, hash) are reported per hour.",
+   "unit": "IOCs/hour"
+  },
+  "cyber.threat.urlhaus_volume": {
+   "name": "URLhaus malware URLs per hour",
+   "plain": "How many new web addresses distributing malware are reported per hour.",
+   "unit": "URLs/hour"
+  },
+  "cyber.threat.malwarebazaar_volume": {
+   "name": "MalwareBazaar samples per hour",
+   "plain": "How many new malware samples are reported per hour to the research platform MalwareBazaar.",
+   "unit": "samples/hour"
+  },
+  "cyber.vuln.msrc_out_of_band": {
+   "name": "Microsoft security bulletin outside Patch Tuesday",
+   "plain": "How often Microsoft publishes or revises its security bulletin outside the fixed Patch Tuesday (its monthly update day).",
+   "unit": "documents/day"
+  },
+  "cyber.vuln.emergency_releases": {
+   "name": "Chrome stable releases per day",
+   "plain": "How often Google updates its Chrome browser; unusually many updates point to emergency patches.",
+   "unit": "releases/day"
+  },
+  "cyber.vuln.kev_additions_rate": {
+   "name": "New additions to the CISA KEV catalog (7-day total)",
+   "plain": "How many actively exploited vulnerabilities were newly added to the list of the US agency CISA (known as KEV) in the last seven days.",
+   "unit": "entries/7 days"
+  },
+  "cyber.vuln.epss_high_count": {
+   "name": "Number of CVEs with EPSS above 0.5",
+   "plain": "How many vulnerabilities, according to the FIRST model (EPSS), are very likely to be exploited soon.",
+   "unit": "CVEs"
+  },
+  "cyber.vuln.nuclei_templates": {
+   "name": "Nuclei templates for new CVEs",
+   "plain": "New detection templates.",
+   "unit": "count"
+  },
+  "cyber.vuln.shadowserver_exposed": {
+   "name": "Shadowserver exposed vulnerable hosts (DE)",
+   "plain": "How many servers in Germany with a known security flaw are openly reachable on the internet.",
+   "unit": "IPs",
+   "geoLabel": "Germany"
+  },
+  "cyber.vuln.kev_ransomware_flag": {
+   "name": "Share of new KEV entries used in ransomware (28 days)",
+   "plain": "What share of the recently listed exploited vulnerabilities is already used by ransomware (extortion malware).",
+   "unit": "%"
+  },
+  "cyber.vuln.exposed_ot_protocols": {
+   "name": "Exposed OT protocols",
+   "plain": "How many industrial control systems (Modbus, S7 and similar) worldwide are openly reachable on the internet.",
+   "unit": "IPs"
+  },
+  "cyber.vuln.metasploit_modules": {
+   "name": "New Metasploit exploit modules",
+   "plain": "New modules in the Metasploit framework (a security testing toolkit).",
+   "unit": "count"
+  },
+  "cyber.vuln.nvd_critical_share": {
+   "name": "Share of critical CVEs (CVSS >= 9)",
+   "plain": "How high the share of very severe vulnerabilities is among new CVEs (CVSS is a severity score from 0 to 10).",
+   "unit": "%"
+  },
+  "cyber.vuln.shodan_exposed_service_trend": {
+   "name": "Exposed services (trend)",
+   "plain": "Number of open services that may be vulnerable.",
+   "unit": "count"
+  },
+  "cyber.vuln.vulnerable_host_decay": {
+   "name": "Decline of vulnerable hosts (DE, 7 days)",
+   "plain": "By how many the number of vulnerable servers in Germany has fallen within a week.",
+   "unit": "IPs/7 days",
+   "geoLabel": "Germany"
+  },
+  "cyber.vuln.advisory_volume": {
+   "name": "GitHub advisories volume (reviewed)",
+   "plain": "How many new GitHub-reviewed security notices about software packages appear in one day.",
+   "unit": "advisories/day"
+  },
+  "cyber.vuln.github_security_issue_spike": {
+   "name": "Severe GitHub advisories (high/critical)",
+   "plain": "How many new reviewed security notices with high or critical severity appear in one day.",
+   "unit": "advisories/day"
+  },
+  "cyber.vuln.nvd_cve_volume": {
+   "name": "CVE publication volume (NVD)",
+   "plain": "How many new vulnerability entries the US database NVD publishes in one day.",
+   "unit": "CVEs/day"
+  },
+  "cyber.vuln.cisa_ics_advisories": {
+   "name": "ICS advisories per week",
+   "plain": "How many new or revised security notices the US agency CISA publishes per week about industrial control systems (ICS).",
+   "unit": "advisories/week"
+  },
+  "cyber.finance.sofr_tail": {
+   "name": "SOFR: spread of 99th percentile minus median",
+   "plain": "How much more the most expensive US repo (short-term secured lending) deals pay in interest compared with the normal case; it widens when money is scarce.",
+   "unit": "basis points",
+   "geoLabel": "US money market, New York"
+  },
+  "cyber.finance.estr_percentile_spread": {
+   "name": "€STR: dispersion of interest rates",
+   "plain": "How far apart interest rates in euro interbank trading are; it widens under money market stress.",
+   "unit": "basis points",
+   "geoLabel": "Euro money market, Frankfurt"
+  },
+  "cyber.finance.stablecoin_peg_deviation": {
+   "name": "Stablecoin deviation from the dollar peg",
+   "plain": "How far the largest stablecoins (USDT, USDC, DAI) deviate from a price of one dollar; it grows when trust in or access to crypto payment channels is disrupted.",
+   "unit": "%"
+  },
+  "cyber.finance.bitcoin_network_nodes": {
+   "name": "Reachable Bitcoin nodes",
+   "plain": "How many Bitcoin computers worldwide are reachable; a drop can point to internet disruptions.",
+   "unit": "nodes"
+  },
+  "cyber.finance.fed_repo_facility_usage": {
+   "name": "Fed Standing Repo Facility: usage",
+   "plain": "How much money banks borrow from the US central bank's emergency facility; almost always close to zero, spikes show bottlenecks.",
+   "unit": "USD billion",
+   "geoLabel": "US money market, New York"
+  },
+  "cyber.finance.banknotes_in_circulation": {
+   "name": "US currency in circulation (weekly average)",
+   "plain": "How much US cash is in circulation; it rises when people hoard cash.",
+   "unit": "USD million",
+   "geoLabel": "US money market, New York"
+  },
+  "cyber.finance.mempool_fee_spike": {
+   "name": "Bitcoin: recommended fee",
+   "plain": "How much a fast Bitcoin transfer costs; it rises when many people move money at the same time.",
+   "unit": "sat/vB"
+  },
+  "cyber.services.sec_8k_item105_daily_count": {
+   "name": "SEC 8-K Item 1.05 filings per day",
+   "plain": "Listed US companies must report material cyber incidents within four business days; the number of filings per day shows waves.",
+   "unit": "reports/day",
+   "geoLabel": "US Securities and Exchange Commission (SEC), Washington"
+  },
+  "cyber.services.statuspage_incident_rate": {
+   "name": "Share of providers with a major disruption",
+   "plain": "What percentage of around 44 cloud, SaaS (software as a service), payment and crypto providers are currently reporting a major or critical disruption.",
+   "unit": "% of providers"
+  },
+  "cyber.services.sam_gov_justifications": {
+   "name": "SAM.gov justification notices (no competition)",
+   "plain": "How many US agencies per day justify IT contracts awarded without competition (Justification & Approval), often a sign of urgent need.",
+   "unit": "count",
+   "geoLabel": "US federal agencies, Washington"
+  },
+  "cyber.markets.polymarket_cyber": {
+   "name": "Prediction market: highest \"yes\" probability for cyber events",
+   "plain": "The highest probability that bettors on Polymarket assign to a cyberattack or major outage (only if a matching market exists).",
+   "unit": "%"
+  },
+  "cyber.markets.cyber_etf_volume": {
+   "name": "Relative trading volume of cyber ETFs (CIBR, HACK, BUG)",
+   "plain": "How heavily cybersecurity ETFs (exchange-traded funds) are currently traded compared with the previous 10 trading days.",
+   "unit": "x 10-day median",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "cyber.markets.market_volume_cyber": {
+   "name": "Trading volume in cyber prediction markets (24 hours)",
+   "plain": "How much was bet on cyberattacks and major outages in the last 24 hours.",
+   "unit": "USD/24h"
+  },
+  "cyber.markets.single_name_options": {
+   "name": "Options activity on cyber and cloud stocks",
+   "plain": "Unusually many puts and calls (bets on falling or rising prices) on individual cyber or cloud stocks.",
+   "unit": "count",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "cyber.markets.financial_stress_index": {
+   "name": "St. Louis Financial Stress Index",
+   "plain": "An index built from 18 market indicators for stress in the financial system.",
+   "unit": "index points",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "cyber.markets.vix_spike": {
+   "name": "VIX volatility",
+   "plain": "Market fear.",
+   "unit": "index points",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "cyber.markets.vix_term_structure": {
+   "name": "VIX term structure (VIX/VIX3M)",
+   "plain": "Ratio of the short-term to the three-month fear gauge; above 1 means acute fear is greater than longer-term fear.",
+   "unit": "ratio VIX/VIX3M",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "cyber.markets.bitcoin_vs_gold_divergence": {
+   "name": "Bitcoin versus gold (divergence)",
+   "plain": "How many ounces of gold one bitcoin is worth; it falls when investors prefer gold to bitcoin.",
+   "unit": "ounces of gold per BTC"
+  },
+  "cyber.markets.safe_haven_fx": {
+   "name": "Swiss franc as a safe-haven currency (USD per CHF)",
+   "plain": "How many US dollars one franc costs; it rises when investors flee into the franc.",
+   "unit": "USD per CHF"
+  },
+  "cyber.physical.frequency_deviation_de": {
+   "name": "Grid frequency deviation (maximum of the last 4 minutes per hour)",
+   "plain": "The grid frequency is supposed to stay at 50 Hz; the largest deviation in a 4-minute window each hour shows whether generation and consumption are getting out of balance.",
+   "unit": "mHz",
+   "geoLabel": "Continental European power grid"
+  },
+  "cyber.physical.generation_unit_outages_eu": {
+   "name": "Unplanned power plant outages, EU",
+   "plain": "Number and capacity of generating units in Europe that failed unplanned.",
+   "unit": "%",
+   "geoLabel": "European Union"
+  },
+  "cyber.physical.us_ground_stops": {
+   "name": "US airports with a ground stop",
+   "plain": "How many US airports are currently not allowed to let flights depart; many at once point to a nationwide system failure.",
+   "unit": "airports",
+   "geoLabel": "USA"
+  },
+  "cyber.physical.us_outage_customers": {
+   "name": "US power outages (customers without power)",
+   "plain": "Total number of households without power in the USA.",
+   "unit": "count",
+   "geoLabel": "USA"
+  },
+  "cyber.physical.cancellation_rate": {
+   "name": "Flight cancellation rate",
+   "plain": "Share of cancelled flights out of the schedule.",
+   "unit": "%"
+  },
+  "cyber.physical.cross_border_flow_anomaly": {
+   "name": "Cross-border electricity flows",
+   "plain": "Physical electricity flows between countries; unusual patterns show grid stress.",
+   "unit": "count",
+   "geoLabel": "European Union"
+  },
+  "cyber.physical.opensky_flight_count": {
+   "name": "Flight movements (aggregate)",
+   "plain": "Number of aircraft in the air over an area.",
+   "unit": "count"
+  },
+  "cyber.physical.solar_wind_feedin_sudden_drop": {
+   "name": "Wind and solar feed-in, Germany",
+   "plain": "How much electricity wind and sun are currently delivering into the German grid; a sudden drop without a weather cause would be unusual.",
+   "unit": "MW",
+   "geoLabel": "Germany"
+  },
+  "cyber.physical.adsb_coverage_loss": {
+   "name": "ADS-B coverage loss",
+   "plain": "Share of visible aircraft compared with scheduled flights (ADS-B is the signal aircraft broadcast to report their position).",
+   "unit": "count"
+  },
+  "cyber.physical.grid_load_germany": {
+   "name": "Grid load Germany (SMARD)",
+   "plain": "How much electricity Germany is using right now; a sudden drop without a public holiday or weather explanation would be unusual.",
+   "unit": "MW",
+   "geoLabel": "Germany"
+  },
+  "cyber.physical.us_demand_balancing_authorities": {
+   "name": "US electricity demand, total (Lower 48)",
+   "plain": "Hourly electricity consumption of the USA excluding Alaska and Hawaii; a sudden drop can point to large-scale outages.",
+   "unit": "MW",
+   "geoLabel": "USA"
+  },
+  "cyber.physical.ais_position_jumps": {
+   "name": "AIS position jumps",
+   "plain": "How many ships in a sample jump implausibly far (a sign of GPS jamming or spoofing). AIS is the position signal ships broadcast.",
+   "unit": "ships"
+  },
+  "cyber.physical.lng_sendout_anomaly": {
+   "name": "LNG send-out Germany",
+   "plain": "How much gas German LNG (liquefied natural gas) terminals feed into the grid per day.",
+   "unit": "GWh/day",
+   "geoLabel": "Germany"
+  },
+  "cyber.physical.storage_level_anomaly_eu": {
+   "name": "EU gas storage: net withdrawal",
+   "plain": "How much gas EU storage sites release per day on balance; a sudden rise can point to supply stress.",
+   "unit": "GWh/day",
+   "geoLabel": "European Union"
+  },
+  "cyber.physical.notam_gps_interference": {
+   "name": "NOTAMs on GPS outages",
+   "plain": "Number of currently valid aviation warnings about disrupted GPS in the USA (NOTAMs are notices to pilots).",
+   "unit": "NOTAMs",
+   "geoLabel": "USA"
+  },
+  "cyber.physical.port_congestion": {
+   "name": "Port congestion",
+   "plain": "How many ships are anchored waiting to enter off Rotterdam and the Elbe (sample).",
+   "unit": "ships",
+   "geoLabel": "Rotterdam and the Elbe"
+  },
+  "cyber.physical.satellite_decay_events": {
+   "name": "Satellite decay and anomalies",
+   "plain": "How many satellites and rocket parts re-entered the atmosphere the previous day, according to official reports.",
+   "unit": "objects/day"
+  },
+  "cyber.attention.crowd_outage_aggregators": {
+   "name": "Crowd-sourced outage reports (Downdetector substitute)",
+   "plain": "How many users report disruptions at the same time.",
+   "unit": "count"
+  },
+  "cyber.attention.mobile_outage_crowd": {
+   "name": "Mobile network outage reports",
+   "plain": "Crowd-sourced reports of mobile network outages.",
+   "unit": "count"
+  },
+  "cyber.attention.reddit_sysadmin_activity": {
+   "name": "Reddit r/sysadmin activity",
+   "plain": "Active users in the system administrator community.",
+   "unit": "users online"
+  },
+  "cyber.attention.hackernews_volume": {
+   "name": "Hacker News stories on outages and cyberattacks",
+   "plain": "How many new Hacker News posts per day have terms such as outage, ransomware or breach in the title.",
+   "unit": "stories/day"
+  },
+  "cyber.attention.bluesky_mastodon_keywords": {
+   "name": "Mastodon use of cyber hashtags",
+   "plain": "How often per day the hashtags infosec, cybersecurity, ransomware and outage are used on Mastodon.",
+   "unit": "uses/day"
+  },
+  "cyber.attention.eu_outage_reports_crowd": {
+   "name": "Crowd-sourced power outage reports, Germany",
+   "plain": "Number of user reports of power outages.",
+   "unit": "count",
+   "geoLabel": "Germany"
+  },
+  "cyber.attention.gdelt_cyber_volume": {
+   "name": "Media volume on cyberattacks (GDELT, English)",
+   "plain": "What share of English-language news articles worldwide is about cyberattacks, ransomware or data leaks.",
+   "unit": "% of articles"
+  },
+  "cyber.attention.cloudflare_domain_rankings": {
+   "name": "Cloudflare Radar domain rankings of emergency and government sites",
+   "plain": "Rank of government and emergency domains.",
+   "unit": "count"
+  },
+  "cyber.attention.gsmr_outage": {
+   "name": "Railway radio disruptions",
+   "plain": "Reports of GSM-R (railway radio) and signal box outages.",
+   "unit": "count"
+  },
+  "cyber.attention.vt_malware_stats": {
+   "name": "VirusTotal submission statistics",
+   "plain": "Aggregate daily statistics of malware submissions.",
+   "unit": "count"
+  },
+  "cyber.attention.domain_registrations_crisis_terms": {
+   "name": "Newly registered domains with crisis terms",
+   "plain": "New domains with terms such as \"notstrom\" (emergency power) or \"cyberangriff\" (cyberattack).",
+   "unit": "%"
+  },
+  "cyber.attention.fuel_station_outage": {
+   "name": "Filling station outages",
+   "plain": "Reports of filling stations that are closed or cannot accept payments.",
+   "unit": "count",
+   "geoLabel": "Germany"
+  },
+  "cyber.attention.metaculus_manifold": {
+   "name": "Metaculus: new questions on cyberattacks",
+   "plain": "How many new forecasting questions about cyberattacks the Metaculus community opens per day.",
+   "unit": "questions/day"
+  },
+  "cyber.attention.security_repo_commit_hours": {
+   "name": "Commit time patterns in public security repositories",
+   "plain": "How many commits per hour land in OpenSSL, curl and OpenSSH; unusual night work can point to an emergency.",
+   "unit": "commits/hour"
+  },
+  "cyber.attention.incident_response_postings": {
+   "name": "Incident response job postings",
+   "plain": "Open positions for emergency response teams.",
+   "unit": "count",
+   "geoLabel": "Germany"
+  },
+  "cyber.attention.ship_ais_aggregate": {
+   "name": "Cable-laying ships and vessel aggregates",
+   "plain": "How many ships are almost stationary over Baltic Sea cable routes (total count only, no individual ships).",
+   "unit": "ships",
+   "geoLabel": "Baltic Sea"
+  },
+  "finance.money_market.fed_discount_window": {
+   "name": "Fed discount window: loans",
+   "plain": "How much banks in distress borrow directly from the Fed (the US central bank).",
+   "unit": "USD million",
+   "geoLabel": "US money market, New York"
+  },
+  "finance.money_market.fed_btfp_other_credit": {
+   "name": "Fed: other credit to institutions",
+   "plain": "Shows special emergency programs and rescue loans from the Fed.",
+   "unit": "USD million",
+   "geoLabel": "US money market, New York"
+  },
+  "finance.money_market.sofr_tail": {
+   "name": "SOFR: upper spread",
+   "plain": "How far the most expensive overnight money deals in the USA deviate from the average; stress shows up at the edge first.",
+   "unit": "basis points",
+   "geoLabel": "US money market, New York"
+  },
+  "finance.money_market.estr_spread": {
+   "name": "€STR: dispersion of interest rates",
+   "plain": "How far apart euro overnight interest rates are.",
+   "unit": "basis points",
+   "geoLabel": "Euro money market, Frankfurt"
+  },
+  "finance.money_market.us_tbill_stress": {
+   "name": "T-bill yields: deviation from the policy rate",
+   "plain": "Gap between the 1-month US T-bill yield (short-term government debt) and the rate on central bank reserves (IORB); strongly negative means a flight to safety.",
+   "unit": "basis points",
+   "geoLabel": "US money market, New York"
+  },
+  "finance.money_market.us_tga_balance": {
+   "name": "US Treasury account at the Fed (TGA)",
+   "plain": "How much money the US government holds at the Fed; rapid refilling drains reserves from the market.",
+   "unit": "USD million",
+   "geoLabel": "US money market, New York"
+  },
+  "finance.credit.eur_ig_financial_oas": {
+   "name": "Euro bank bonds: spread",
+   "plain": "Extra yield on bonds of European financial firms compared with safe bonds.",
+   "unit": "percentage points",
+   "geoLabel": "Euro area"
+  },
+  "finance.credit.eur_hy_oas": {
+   "name": "Euro high-yield spread",
+   "plain": "How much risky euro-area companies pay extra for credit.",
+   "unit": "percentage points",
+   "geoLabel": "Euro area"
+  },
+  "finance.credit.hy_oas": {
+   "name": "High-yield bonds: risk premium",
+   "plain": "Extra yield that risky US companies pay for credit.",
+   "unit": "percentage points",
+   "geoLabel": "US bond market, New York"
+  },
+  "finance.credit.ig_oas": {
+   "name": "Investment-grade spread",
+   "plain": "Extra yield on good-quality US corporate bonds.",
+   "unit": "percentage points",
+   "geoLabel": "US bond market, New York"
+  },
+  "finance.credit.ccc_oas": {
+   "name": "CCC spread (weakest borrowers)",
+   "plain": "Extra yield on bonds of the weakest companies.",
+   "unit": "percentage points",
+   "geoLabel": "US bond market, New York"
+  },
+  "finance.credit.ecb_yield_curve_spread": {
+   "name": "ECB yield curve: 10 years minus 3 months",
+   "plain": "Interest gap between long and short terms in the euro area; an inverted curve points to recession, and a sudden rise afterward often accompanies crises.",
+   "unit": "percentage points",
+   "geoLabel": "Euro area"
+  },
+  "finance.credit.sloos_tightening": {
+   "name": "US credit survey (SLOOS): share of banks tightening standards",
+   "plain": "Net share of US banks lending to companies more strictly (Fed survey, quarterly).",
+   "unit": "% of banks",
+   "geoLabel": "US bond market, New York"
+  },
+  "finance.credit.us_curve_10y3m": {
+   "name": "US yield curve 10Y minus 3M",
+   "plain": "A recession measure used by the Fed.",
+   "unit": "percentage points",
+   "geoLabel": "US bond market, New York"
+  },
+  "finance.credit.us_curve_10y2y": {
+   "name": "US yield curve 10Y minus 2Y",
+   "plain": "Gap between long-term and short-term US interest rates.",
+   "unit": "percentage points",
+   "geoLabel": "US bond market, New York"
+  },
+  "finance.banks.fdic_failed_list": {
+   "name": "FDIC: bank closures (last 90 days)",
+   "plain": "How many US banks were closed by the deposit insurer in the last 90 days; single cases are normal, a cluster is a warning sign.",
+   "unit": "count",
+   "geoLabel": "USA"
+  },
+  "finance.banks.h8_deposits": {
+   "name": "Fed H.8: deposits at all US banks",
+   "plain": "Weekly total of customer deposits at US banks.",
+   "unit": "USD billion",
+   "geoLabel": "USA"
+  },
+  "finance.banks.h8_borrowings": {
+   "name": "Fed H.8: bank borrowings",
+   "plain": "How much banks have to borrow themselves.",
+   "unit": "USD billion",
+   "geoLabel": "USA"
+  },
+  "finance.volatility.fx_vol": {
+   "name": "Currencies: swings of the euro against the dollar, yen and franc",
+   "plain": "How strongly the euro swings against the dollar, yen and Swiss franc (safe-haven currencies) in one day; stress often shows up first in currencies.",
+   "unit": "% (daily return, absolute value)"
+  },
+  "finance.crypto.stablecoin_depeg": {
+   "name": "Stablecoin deviations",
+   "plain": "How far the largest stablecoins (USDT, USDC, DAI) deviate from the 1-dollar price; losing the peg is a sign of panic.",
+   "unit": "%"
+  },
+  "finance.real_economy.cre_delinq": {
+   "name": "Commercial real estate loans: delinquency rate",
+   "plain": "Defaults on office and retail property loans.",
+   "unit": "%",
+   "geoLabel": "USA"
+  },
+  "finance.real_economy.consumer_credit_delinq": {
+   "name": "Consumer credit delinquencies",
+   "plain": "Share of overdue loans on credit cards and cars.",
+   "unit": "%",
+   "geoLabel": "USA"
+  },
+  "finance.real_economy.jobless_claims": {
+   "name": "US initial jobless claims (weekly)",
+   "plain": "New unemployment claims each week.",
+   "unit": "claims",
+   "geoLabel": "USA"
+  },
+  "finance.real_economy.destatis_insolvenzen": {
+   "name": "German regular insolvencies (early indicator)",
+   "plain": "Monthly number of company insolvency filings in Germany.",
+   "unit": "number of cases",
+   "geoLabel": "Germany"
+  },
+  "finance.real_economy.oil_price": {
+   "name": "Brent oil price (daily series, about 1 week delay)",
+   "plain": "Measures the Brent oil price per barrel with a delay of about a week; an oil shock drives up inflation, interest rates and thus credit stress.",
+   "unit": "USD per barrel",
+   "geoLabel": "North Sea (Brent)"
+  },
+  "finance.markets.us_10y_yield": {
+   "name": "US 10-year yield",
+   "plain": "Yield on long-term US government bonds.",
+   "unit": "%",
+   "geoLabel": "US bond market, New York"
+  },
+  "nuclear.radiation.bfs_stations_above_normal": {
+   "name": "Monitoring stations clearly above the natural range (sample)",
+   "plain": "How many of 15 fixed German radiation monitoring stations currently measure more than 0.3 microsieverts per hour; normally none do.",
+   "unit": "stations (of 15)",
+   "geoLabel": "Germany"
+  },
+  "nuclear.radiation.bfs_median_dose_rate": {
+   "name": "Average ambient dose rate, Germany (sample)",
+   "plain": "The average value of 15 fixed German radiation monitoring stations in microsieverts per hour, a very calm value.",
+   "unit": "µSv/h",
+   "geoLabel": "Germany"
+  },
+  "nuclear.radiation.uradmonitor_europe": {
+   "name": "uRADMonitor: sensors in Europe",
+   "plain": "Public sensors of a private measurement network for radiation and air readings.",
+   "unit": "µSv/h",
+   "geoLabel": "European Union"
+  },
+  "nuclear.seismic.events_near_punggye_ri": {
+   "name": "Seismic events near Punggye-ri (North Korea)",
+   "plain": "Number of shallow earthquake or explosion reports in the last 24 hours near the known test site Punggye-ri (North Korea).",
+   "unit": "events/24 h",
+   "geoLabel": "Punggye-ri (North Korea)"
+  },
+  "nuclear.seismic.events_near_novaya_zemlya": {
+   "name": "Seismic events near Novaya Zemlya (Russia)",
+   "plain": "Number of shallow earthquake or explosion reports in the last 24 hours near the known test site Novaya Zemlya (Russia).",
+   "unit": "events/24 h",
+   "geoLabel": "Novaya Zemlya (Russia)"
+  },
+  "nuclear.seismic.events_near_lop_nur": {
+   "name": "Seismic events near Lop Nur (China)",
+   "plain": "Number of shallow earthquake or explosion reports in the last 24 hours near the known test site Lop Nur (China).",
+   "unit": "events/24 h",
+   "geoLabel": "Lop Nur (China)"
+  },
+  "nuclear.seismic.events_near_nevada_nnss": {
+   "name": "Seismic events near Nevada (USA)",
+   "plain": "Number of shallow earthquake or explosion reports in the last 24 hours near the known test site in Nevada (USA).",
+   "unit": "events/24 h",
+   "geoLabel": "Nevada test site (USA)"
+  },
+  "nuclear.seismic.events_near_chagai": {
+   "name": "Seismic events near Chagai (Pakistan)",
+   "plain": "Number of shallow earthquake or explosion reports in the last 24 hours near the known test site Chagai (Pakistan).",
+   "unit": "events/24 h",
+   "geoLabel": "Chagai (Pakistan)"
+  },
+  "nuclear.seismic.events_near_pokhran": {
+   "name": "Seismic events near Pokhran (India)",
+   "plain": "Number of shallow earthquake or explosion reports in the last 24 hours near the known test site Pokhran (India).",
+   "unit": "events/24 h",
+   "geoLabel": "Pokhran (India)"
+  },
+  "nuclear.seismic.explosion_type_global_count": {
+   "name": "Explosions reported worldwide in the earthquake catalog",
+   "plain": "Number of events in the last 24 hours that seismologists classify as an explosion rather than an earthquake.",
+   "unit": "events/24 h"
+  },
+  "nuclear.plants.entsoe_unavailability_nuclear": {
+   "name": "ENTSO-E: nuclear power plant unavailability",
+   "plain": "Reported planned and unplanned outages of European nuclear power plants.",
+   "unit": "count",
+   "geoLabel": "European Union"
+  },
+  "nuclear.plants.entsoe_nuclear_generation_per_unit": {
+   "name": "ENTSO-E: generation per nuclear power plant",
+   "plain": "Output of individual units at European nuclear power plants.",
+   "unit": "MW",
+   "geoLabel": "European Union"
+  },
+  "nuclear.plants.fi_fingrid_nuclear": {
+   "name": "Finland: nuclear power (Fingrid)",
+   "plain": "How much electricity Finland's nuclear power plants are currently generating (hourly average).",
+   "unit": "MW",
+   "geoLabel": "Finland"
+  },
+  "nuclear.plants.entsoe_ukraine_grid": {
+   "name": "Ukraine: grid load flow at the border",
+   "plain": "Cross-border electricity flows from Ukraine into the EU, as a health measure of the grid.",
+   "unit": "MW",
+   "geoLabel": "Ukraine"
+  },
+  "nuclear.alerts.nina_keyword_radiological": {
+   "name": "Active NINA warnings with a radiation or nuclear keyword",
+   "plain": "How many active warnings contain terms such as radioactive, radiation or nuclear in the title; normally zero. NINA is Germany's official emergency warning app.",
+   "unit": "reports",
+   "geoLabel": "Germany"
+  },
+  "nuclear.alerts.nina_mowas_count": {
+   "name": "Active warnings in NINA (MoWaS)",
+   "plain": "How many official warnings in the German federal Modular Warning System are currently active; a jump shows a major situation, usually weather.",
+   "unit": "reports",
+   "geoLabel": "Germany"
+  },
+  "nuclear.military.faa_notam_us_closures": {
+   "name": "FAA: airspace closures (NOTAM)",
+   "plain": "Number of currently valid temporary closures of US airspace (TFRs, temporary flight restrictions).",
+   "unit": "TFRs",
+   "geoLabel": "USA"
+  },
+  "nuclear.military.adsb_mil_total": {
+   "name": "Military aircraft visible worldwide (nuclear view)",
+   "plain": "How many military aircraft are currently visible on public flight radars; a clear rise can indicate redeployments and higher readiness.",
+   "unit": "count"
+  },
+  "nuclear.markets.polymarket_nuclear": {
+   "name": "Nuclear weapons prediction markets: highest \"yes\" probability",
+   "plain": "The highest probability that bettors on Polymarket assign to a use of nuclear weapons, a nuclear test or a detonation (only if a matching market exists).",
+   "unit": "%"
+  },
+  "nuclear.markets.uranium_etf_urnm": {
+   "name": "Uranium mining ETF (URNM)",
+   "plain": "The price of a fund of uranium producers; it rises when higher demand for nuclear energy is expected, but can also reflect fear of crisis.",
+   "unit": "USD",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "nuclear.markets.cameco_ccj": {
+   "name": "Cameco stock (uranium)",
+   "plain": "The share price of Cameco, one of the world's largest uranium producers.",
+   "unit": "USD",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "nuclear.markets.uranium_trust_sprott": {
+   "name": "Sprott Physical Uranium Trust",
+   "plain": "The price of a fund that holds physical uranium; it follows the uranium price.",
+   "unit": "CAD"
+  },
+  "nuclear.markets.defense_stocks": {
+   "name": "Daily swings of major defense stocks (LMT, NOC, Rheinmetall)",
+   "plain": "How much the shares of Lockheed Martin, Northrop Grumman and Rheinmetall rise or fall on average in one day.",
+   "unit": "% (absolute value)"
+  },
+  "nuclear.markets.vix_gold": {
+   "name": "Daily swings of the fear index (VIX) and gold",
+   "plain": "How much the US stock market fear index and the gold price rise or fall on average in one day; both react to fear of crisis.",
+   "unit": "% (absolute value)"
+  },
+  "nuclear.markets.fred_uranium_price": {
+   "name": "IMF uranium price (monthly, FRED)",
+   "plain": "Global uranium price as an official monthly series.",
+   "unit": "USD"
+  },
+  "nuclear.attention.wiki_plants_sites": {
+   "name": "Wikipedia views on nuclear plants and reactor accidents (English)",
+   "plain": "How often English Wikipedia articles on the Zaporizhzhia plant, Chernobyl, Fukushima, Three Mile Island and nuclear meltdowns are viewed.",
+   "unit": "views/day"
+  },
+  "nuclear.attention.gdelt_nuclear_volume": {
+   "name": "Media volume on nuclear, radiation and reactor (GDELT, English)",
+   "plain": "What share of English-language news articles worldwide is about nuclear, radiation or reactors.",
+   "unit": "% of articles"
+  },
+  "nuclear.attention.wiki_nuclear_de": {
+   "name": "Wikipedia views on nuclear war and radiation protection (German)",
+   "plain": "How often German-language Wikipedia articles on potassium iodide, nuclear war, radioactive fallout, radiation sickness, nuclear weapons and nuclear weapons tests are viewed.",
+   "unit": "views/day"
+  },
+  "nuclear.attention.wiki_nuclear_en": {
+   "name": "Wikipedia views on nuclear war and fallout (English)",
+   "plain": "How often English Wikipedia articles on potassium iodide, nuclear warfare, nuclear fallout, acute radiation syndrome, nuclear weapons and nuclear weapons testing are viewed.",
+   "unit": "views/day"
+  },
+  "nuclear.attention.metaculus_nuclear": {
+   "name": "Metaculus: questions on nuclear weapons",
+   "plain": "Community forecasts on nuclear weapons.",
+   "unit": "%"
+  },
+  "war.military.faa_closures": {
+   "name": "Airspace restrictions (NOTAM) at hotspots",
+   "plain": "Counts new airspace restrictions (NOTAMs, notices to pilots) for Kyiv, Baku, Tehran and Taipei per day.",
+   "unit": "NOTAMs/day"
+  },
+  "war.military.satellite_imagery_airbases": {
+   "name": "Satellite images of airbases",
+   "plain": "Counts aircraft at military airbases in freely available satellite images.",
+   "unit": "count"
+  },
+  "war.conflict.israel_oref": {
+   "name": "Israel: alert waves per day (rockets and drones)",
+   "plain": "Counts how often per day rocket or drone alerts were triggered in Israel.",
+   "unit": "alert waves/day",
+   "geoLabel": "Israel"
+  },
+  "war.conflict.firms_gulf_energy": {
+   "name": "Heat points at Gulf energy facilities",
+   "plain": "Detects by satellite fires at oil and gas facilities on the coasts of the Persian Gulf (per day).",
+   "unit": "heat points/day",
+   "geoLabel": "Gulf region"
+  },
+  "war.conflict.ua_air_alerts": {
+   "name": "Ukraine: air-raid alerts per day (all regions)",
+   "plain": "Adds up the daily air-raid alerts in all Ukrainian regions; jumps show larger waves of missile and drone attacks.",
+   "unit": "alerts/day",
+   "geoLabel": "Ukraine"
+  },
+  "war.conflict.firms_korea_dmz": {
+   "name": "Hotspots in Korea (border)",
+   "plain": "Counts heat points detected by satellite near the inter-Korean border (per day).",
+   "unit": "heat points/day",
+   "geoLabel": "Korean border (DMZ)"
+  },
+  "war.conflict.fires_infrastructure": {
+   "name": "Satellite heat points in Iran and the Gulf",
+   "plain": "Counts heat points detected by satellite in Iran and around the Gulf, where refineries, ports and depots are located (per day).",
+   "unit": "heat points/day",
+   "geoLabel": "Iran and Gulf region"
+  },
+  "war.conflict.firms_front_ukraine": {
+   "name": "Heat sources along the front",
+   "plain": "Counts fires and heat points detected by satellite in eastern Ukraine (per day).",
+   "unit": "heat points/day",
+   "geoLabel": "Ukraine front line"
+  },
+  "war.conflict.firms_refineries_russia": {
+   "name": "Strong fires in European Russia (refinery belt)",
+   "plain": "Counts strong fires detected by satellite (from 10 MW radiative power) in European Russia, where the large refineries are located.",
+   "unit": "heat points/day",
+   "geoLabel": "European Russia (refineries)"
+  },
+  "war.conflict.acled_events_weekly": {
+   "name": "ACLED: events and fatalities per week",
+   "plain": "Counts documented violent events per country and week.",
+   "unit": "count"
+  },
+  "war.conflict.ucdp_candidate": {
+   "name": "UCDP candidate events: fatalities by country",
+   "plain": "Measures provisional estimated fatalities of organized violence per country and month.",
+   "unit": "count"
+  },
+  "war.conflict.reliefweb_reports": {
+   "name": "ReliefWeb: situation reports by country and day",
+   "plain": "Counts humanitarian situation reports from the UN and NGOs about a country.",
+   "unit": "count"
+  },
+  "war.conflict.ua_losses_reported": {
+   "name": "Ukraine: Russian losses per day, as reported by Ukraine (a party to the war)",
+   "plain": "Daily number of Russian personnel losses as reported by the Ukrainian General Staff; a claim by a party to the war that cannot be independently verified, it only shows the published intensity.",
+   "unit": "people/day",
+   "geoLabel": "Ukraine"
+  },
+  "war.conflict.ukraine_drone_missile_daily": {
+   "name": "Ukraine: drones and missiles downed per day, as reported by Ukraine",
+   "plain": "Daily number of drones and cruise missiles shot down according to the Ukrainian General Staff; a claim by a party to the war that cannot be independently verified.",
+   "unit": "drones and cruise missiles/day",
+   "geoLabel": "Ukraine"
+  },
+  "war.shipping.ais_gaps_gulf": {
+   "name": "AIS shutoffs in the Gulf region",
+   "plain": "Counts ships in the Gulf that deliberately switch off their tracking signal (per day, with a delay of a few days). AIS is the position signal ships broadcast.",
+   "unit": "AIS gaps/day",
+   "geoLabel": "Gulf region"
+  },
+  "war.shipping.baltic_dark_vessels": {
+   "name": "Dark vessels in the Baltic Sea",
+   "plain": "Counts ships in the Baltic Sea that deliberately switch off their tracking signal (per day, with a delay of a few days).",
+   "unit": "AIS gaps/day",
+   "geoLabel": "Baltic Sea"
+  },
+  "war.shipping.baltic_dry_dirty_tanker": {
+   "name": "Baltic Dry and tanker rates",
+   "plain": "Measures freight rates for bulk cargo and oil tankers.",
+   "unit": "count"
+  },
+  "war.connectivity.ioda_ir": {
+   "name": "IODA: Iran in routing",
+   "plain": "How many network blocks (/24, small address ranges) from Iran are visible in routing worldwide; a drop means networks are disappearing (power grid, attack or shutdown).",
+   "unit": "/24 networks",
+   "geoLabel": "Iran"
+  },
+  "war.connectivity.ioda_tw": {
+   "name": "IODA: Taiwan in routing",
+   "plain": "How many network blocks (/24, small address ranges) from Taiwan are visible in routing worldwide; a drop means networks are disappearing (power grid, attack or shutdown).",
+   "unit": "/24 networks",
+   "geoLabel": "Taiwan"
+  },
+  "war.connectivity.ioda_il": {
+   "name": "IODA: Israel in routing",
+   "plain": "How many network blocks (/24, small address ranges) from Israel are visible in routing worldwide; a drop means networks are disappearing (power grid, attack or shutdown).",
+   "unit": "/24 networks",
+   "geoLabel": "Israel"
+  },
+  "war.connectivity.ioda_ua": {
+   "name": "IODA: Ukraine in routing",
+   "plain": "How many network blocks (/24, small address ranges) from Ukraine are visible in routing worldwide; a drop means networks are disappearing (power grid, attack or shutdown).",
+   "unit": "/24 networks",
+   "geoLabel": "Ukraine"
+  },
+  "war.connectivity.gulf_states_internet": {
+   "name": "IODA: Gulf states in routing (total)",
+   "plain": "Total of the network blocks visible in routing from Saudi Arabia, the Emirates and Qatar; a drop points to a large-scale outage in the Gulf.",
+   "unit": "/24 networks",
+   "geoLabel": "Gulf states"
+  },
+  "war.connectivity.ioda_ru": {
+   "name": "IODA: Russia in routing",
+   "plain": "How many network blocks (/24, small address ranges) from Russia are visible in routing worldwide; a drop means networks are disappearing (power grid, attack or shutdown).",
+   "unit": "/24 networks",
+   "geoLabel": "Russia"
+  },
+  "war.connectivity.power_grid_frontline": {
+   "name": "Electricity flows Ukraine, Baltics, Moldova (ENTSO-E)",
+   "plain": "Measures cross-border electricity flows and outages near the front.",
+   "unit": "MW",
+   "geoLabel": "Ukraine, Baltics, Moldova"
+  },
+  "war.connectivity.traffic_by_network": {
+   "name": "Data traffic by country and network (mobile, data centers)",
+   "plain": "Measures traffic drops in countries and networks as a sign of power and network outages.",
+   "unit": "measured value"
+  },
+  "war.government.defense_procurement": {
+   "name": "US ammunition tenders (SAM.gov)",
+   "plain": "How many new US federal tenders per day concern ammunition (NAICS 332993, the industry code for ammunition manufacturing).",
+   "unit": "count",
+   "geoLabel": "US federal agencies, Washington"
+  },
+  "war.government.school_closures": {
+   "name": "School closures in conflict areas",
+   "plain": "Counts school closures for security reasons.",
+   "unit": "count"
+  },
+  "war.government.ammo_trade": {
+   "name": "Ammunition foreign trade",
+   "plain": "Measures foreign trade in ammunition according to customs statistics.",
+   "unit": "count"
+  },
+  "war.energy.lng_terminals": {
+   "name": "LNG stocks at German terminals",
+   "plain": "How much LNG (liquefied natural gas, in GWh of gas equivalent) is stored in the German terminals.",
+   "unit": "GWh",
+   "geoLabel": "Germany"
+  },
+  "war.energy.us_spr_stocks": {
+   "name": "US Strategic Petroleum Reserve and stocks",
+   "plain": "Measures the stocks of the Strategic Petroleum Reserve and oil storage in the USA.",
+   "unit": "thousand barrels",
+   "geoLabel": "USA"
+  },
+  "war.energy.eu_gas_storage": {
+   "name": "EU gas storage fill level",
+   "plain": "Measures how full the gas storage sites in the EU are.",
+   "unit": "%",
+   "geoLabel": "European Union"
+  },
+  "war.markets.brent_price": {
+   "name": "Brent crude oil price (daily series, about 1 week delay)",
+   "plain": "Measures the oil price (Brent) per barrel with a delay of about a week; fear of war in producing regions and closures of sea routes push it up.",
+   "unit": "USD/barrel",
+   "geoLabel": "North Sea (Brent)"
+  },
+  "war.markets.defense_stocks_eu": {
+   "name": "Rheinmetall stock",
+   "plain": "The share price of Rheinmetall, Germany's largest defense company; it reflects expectations of orders and escalation.",
+   "unit": "EUR",
+   "geoLabel": "Rheinmetall stock, Düsseldorf"
+  },
+  "war.markets.ovx": {
+   "name": "OVX oil volatility",
+   "plain": "Measures how strongly investors expect swings in the oil price.",
+   "unit": "index points",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "war.markets.defense_etf_us": {
+   "name": "US defense ETF (ITA)",
+   "plain": "The price of a fund of US defense and aerospace companies; it rises when higher military spending is expected.",
+   "unit": "USD",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "war.markets.wti_price": {
+   "name": "WTI crude oil price (daily series, about 1 week delay)",
+   "plain": "Measures the US oil price (WTI) per barrel with a delay of about a week.",
+   "unit": "USD/barrel",
+   "geoLabel": "Cushing, Oklahoma (WTI)"
+  },
+  "war.markets.gas_henry_vs_ttf": {
+   "name": "Gas spread: TTF versus Henry Hub",
+   "plain": "Monthly gap between the European and the US gas price (IMF series); it widens when supply fears grow in Europe.",
+   "unit": "USD per MMBtu"
+  },
+  "war.markets.wheat_prices": {
+   "name": "Wheat price",
+   "plain": "The world market price of wheat; Ukraine and Russia are major exporters, and wars push the price up.",
+   "unit": "US cents per bushel"
+  },
+  "war.markets.fuel_bunker_prices": {
+   "name": "Jet fuel price, US Gulf Coast",
+   "plain": "Wholesale price of jet fuel on the US Gulf Coast (ship fuel prices are not available on FRED).",
+   "unit": "USD per gallon",
+   "geoLabel": "US Gulf Coast"
+  },
+  "war.markets.breakeven_inflation": {
+   "name": "Inflation expectations (breakeven)",
+   "plain": "Measures what inflation the bond markets expect; an oil shock pushes it up.",
+   "unit": "%",
+   "geoLabel": "US bond market, New York"
+  },
+  "war.markets.fertilizer_prices": {
+   "name": "Producer prices for nitrogen fertilizer (USA)",
+   "plain": "Producer price index for nitrogen fertilizer in the USA; it rises when gas is scarce or deliveries are disrupted.",
+   "unit": "index",
+   "geoLabel": "USA"
+  },
+  "war.markets.gold_price": {
+   "name": "Gold price",
+   "plain": "The gold price; investors flee into gold when they are afraid.",
+   "unit": "USD per ounce"
+  },
+  "war.markets.gvz_and_move": {
+   "name": "Gold volatility (GVZ)",
+   "plain": "Measures how strongly investors expect swings in the gold price (the MOVE bond volatility index is not available on FRED).",
+   "unit": "index points",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "war.markets.crypto_stablecoin_flows": {
+   "name": "Tether in circulation (market capitalization of USDT)",
+   "plain": "How many Tether dollars are in circulation; sudden growth shows capital flight into stablecoins.",
+   "unit": "USD"
+  },
+  "war.markets.safe_haven_jpy": {
+   "name": "Japanese yen (USD per 100 JPY)",
+   "plain": "How many US dollars 100 yen cost; it rises when investors flee into the yen.",
+   "unit": "USD per 100 JPY"
+  },
+  "war.markets.vix": {
+   "name": "VIX (fear index of the US stock market), war view",
+   "plain": "How nervous the US stock market is overall; it rises in any kind of crisis, including fear of war.",
+   "unit": "points",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "war.markets.hy_credit_spread": {
+   "name": "Credit spreads on corporate bonds",
+   "plain": "Measures the extra interest that risky companies pay; it rises with general fear.",
+   "unit": "basis points",
+   "geoLabel": "US bond market, New York"
+  },
+  "war.markets.us_10y_yield": {
+   "name": "US 10-year yield",
+   "plain": "Measures the interest rate on ten-year US government bonds; a flight to safety lowers it, fear of inflation raises it.",
+   "unit": "%",
+   "geoLabel": "US bond market, New York"
+  },
+  "war.attention.frontline_area_change": {
+   "name": "Ukraine: front line shift (change in occupied area per day)",
+   "plain": "Measures how much area is drawn as occupied from one day to the next on the volunteer map DeepStateMap; large jumps show offensives or map corrections.",
+   "unit": "km²/day",
+   "geoLabel": "Ukraine"
+  },
+  "war.attention.prediction_markets_war": {
+   "name": "War prediction markets: highest \"yes\" probability",
+   "plain": "The highest probability that bettors on Polymarket assign to a world war, use of nuclear weapons, an attack or a blockade (only if a matching market exists).",
+   "unit": "%"
+  },
+  "war.attention.prediction_volume_spike": {
+   "name": "Trading volume in war prediction markets (24 hours)",
+   "plain": "How much was bet on war, nuclear weapons, attacks and blockades in the last 24 hours; sudden jumps stand out.",
+   "unit": "USD/24h"
+  },
+  "war.attention.gdelt_coverage_share": {
+   "name": "GDELT: share of world-war coverage in news volume",
+   "plain": "What share of English-language news articles is about a world war or nuclear war.",
+   "unit": "% of articles"
+  },
+  "war.attention.hackernews_mentions": {
+   "name": "Hacker News stories on war and escalation",
+   "plain": "How many new Hacker News posts per day have terms such as World War, nuclear war or Hormuz in the title.",
+   "unit": "stories/day"
+  },
+  "war.attention.pizza_index": {
+   "name": "Pizza index: delivery rush at military sites (weak idea)",
+   "plain": "Idea: unusually many pizza deliveries to defense sites as a hint of overtime.",
+   "unit": "count"
+  },
+  "cyber.physical.military_aircraft_visible": {
+   "name": "Military aircraft visible worldwide",
+   "plain": "How many military aircraft are currently visible on public flight radars; unusually many or suddenly very few stand out.",
+   "unit": "count"
+  },
+  "war.military.mil_aircraft_visible_global": {
+   "name": "Military aircraft visible worldwide (war view)",
+   "plain": "How many military aircraft are currently visible on public flight radars; a clear rise can indicate redeployments and higher readiness.",
+   "unit": "count"
+  },
+  "war.conflict.ua_active_air_raid_oblasts": {
+   "name": "Ukraine: regions with active air-raid alert (live)",
+   "plain": "In how many Ukrainian regions an air-raid alert is currently in force.",
+   "unit": "regions (oblasts)",
+   "geoLabel": "Ukraine"
+  },
+  "war.conflict.ua_active_missile_threats": {
+   "name": "Ukraine: regions with missile warning (live)",
+   "plain": "In how many Ukrainian regions there is currently an explicit warning about missiles or launch platforms.",
+   "unit": "regions (oblasts)",
+   "geoLabel": "Ukraine"
+  },
+  "cyber.outages.cf_traffic_us": {
+   "name": "Cloudflare traffic USA",
+   "plain": "How much internet traffic from the USA arrives in the Cloudflare network (index, hourly).",
+   "unit": "index 0-1",
+   "geoLabel": "USA"
+  },
+  "cyber.routing.cf_bgp_hijacks_24h": {
+   "name": "BGP hijack events (24 h, Radar)",
+   "plain": "How many suspected diversions of internet address ranges Cloudflare Radar detected in the last 24 hours.",
+   "unit": "events/24 h"
+  },
+  "cyber.routing.cf_route_leaks_24h": {
+   "name": "BGP route leaks (24 h, Radar)",
+   "plain": "How many misdirected routing announcements (route leaks) Cloudflare Radar detected in the last 24 hours.",
+   "unit": "events/24 h"
+  },
+  "cyber.dns_core.ct_tree_size_argon": {
+   "name": "Certificate issuance rate, Google Argon",
+   "plain": "How many new certificates per hour are entered in the Google Argon transparency log (a public record of security certificates); a drop or jump points to outages at certificate authorities or mass issuance.",
+   "unit": "certificates/hour"
+  },
+  "cyber.dns_core.ct_tree_size_xenon": {
+   "name": "Certificate issuance rate, Google Xenon",
+   "plain": "How many new certificates per hour are entered in the Google Xenon transparency log (a public record of security certificates); a drop or jump points to outages at certificate authorities or mass issuance.",
+   "unit": "certificates/hour"
+  },
+  "cyber.dns_core.ct_tree_size_nimbus": {
+   "name": "Certificate issuance rate, Cloudflare Nimbus",
+   "plain": "How many new certificates per hour are entered in the Cloudflare Nimbus transparency log (a public record of security certificates); a drop or jump points to outages at certificate authorities or mass issuance.",
+   "unit": "certificates/hour"
+  },
+  "cyber.vuln.cve_published_daily": {
+   "name": "Newly published CVEs per day",
+   "plain": "How many new security flaws with a CVE number are published per day; a jump shows unusual waves of reports.",
+   "unit": "CVEs/day"
+  },
+  "cyber.vuln.cve_updated_daily": {
+   "name": "Updated CVEs per day",
+   "plain": "How many existing CVE entries are revised per day; jumps are mostly bulk corrections, rarely crises.",
+   "unit": "CVEs/day"
+  },
+  "cyber.finance.estr_volume": {
+   "name": "€STR: trading volume",
+   "plain": "How much money banks in the euro area lend each other overnight; drops or jumps point to disruptions in the money market.",
+   "unit": "EUR million",
+   "geoLabel": "Euro money market, Frankfurt"
+  },
+  "cyber.physical.frequency_stddev_de": {
+   "name": "Grid frequency unrest (standard deviation, 4-minute window per hour)",
+   "plain": "How strongly the grid frequency fluctuates in a 4-minute window each hour; a calm grid stays tightly around 50 Hz.",
+   "unit": "mHz",
+   "geoLabel": "Continental European power grid"
+  },
+  "cyber.physical.us_ground_delay_programs": {
+   "name": "US airports with a ground delay program",
+   "plain": "How many US airports are currently holding flights at the departure airport, usually because of weather or congestion.",
+   "unit": "airports",
+   "geoLabel": "USA"
+  },
+  "cyber.physical.us_airport_closures": {
+   "name": "Closed US airports",
+   "plain": "How many US airports are currently fully closed according to the FAA (excluding partial closures for occasional traffic or night closures).",
+   "unit": "airports",
+   "geoLabel": "USA"
+  },
+  "finance.money_market.sofr_volume": {
+   "name": "SOFR: trading volume",
+   "plain": "How much money is turned over in the US repo market (short-term secured lending) overnight; strong deviations point to disruptions.",
+   "unit": "USD billion",
+   "geoLabel": "US money market, New York"
+  },
+  "finance.money_market.estr_volume": {
+   "name": "€STR: trading volume",
+   "plain": "How much money banks in the euro area lend each other overnight; drops or jumps point to disruptions in the money market.",
+   "unit": "EUR billion",
+   "geoLabel": "Euro money market, Frankfurt"
+  },
+  "blackout.grid.frequency_nordic_deviation": {
+   "name": "Nordic grid frequency (Fingrid): largest deviation",
+   "plain": "The maximum by which the grid frequency in the Nordic power system deviated from 50 Hz in the last hour.",
+   "unit": "mHz",
+   "geoLabel": "Northern European power grid"
+  },
+  "cyber.threat.firehol_blocklist_de_entries": {
+   "name": "Blocklist.de: attacker IPs (48 hours)",
+   "plain": "How many IP addresses were reported to Blocklist.de as attackers (break-in attempts on servers) in the last 48 hours.",
+   "unit": "IP addresses"
+  },
+  "cyber.threat.firehol_greensnow_entries": {
+   "name": "GreenSnow: attacker IPs",
+   "plain": "How many IP addresses GreenSnow currently lists as attackers (port scans, brute-force password guessing).",
+   "unit": "IP addresses"
+  },
+  "cyber.threat.firehol_bruteforceblocker_entries": {
+   "name": "BruteForceBlocker: attacker IPs",
+   "plain": "How many IP addresses were caught guessing passwords against SSH services (remote server logins).",
+   "unit": "IP addresses"
+  },
+  "cyber.threat.firehol_abusers_1d_entries": {
+   "name": "FireHOL: attackers in the last 24 hours",
+   "plain": "How many IP addresses were caught in the last 24 hours attacking web servers, mail servers and blogs (a combination of several sources).",
+   "unit": "IP addresses"
+  },
+  "cyber.threat.firehol_cybercrime_entries": {
+   "name": "CyberCrime Tracker: malware servers",
+   "plain": "How many IP addresses are currently listed as control servers of malware.",
+   "unit": "IP addresses"
+  },
+  "cyber.threat.firehol_level2_entries": {
+   "name": "FireHOL Level 2: attacks in the last 48 hours",
+   "plain": "A combination of several blocklists: how many IP addresses carried out attacks in the last 48 hours.",
+   "unit": "IP addresses"
+  },
+  "cyber.threat.firehol_tor_exits_entries": {
+   "name": "Tor exit nodes (number of IPs)",
+   "plain": "How many Tor exit nodes are currently on the network; a drop or jump points to interference with the Tor network.",
+   "unit": "IP addresses"
+  },
+  "cyber.attention.gdelt_cyber_volume_de": {
+   "name": "Media volume on cyberattacks (GDELT, German)",
+   "plain": "What share of German-language news articles is about cyberattacks, hacker attacks or ransomware.",
+   "unit": "% of articles"
+  },
+  "war.attention.gdelt_hotspot_iran_hormuz": {
+   "name": "Media volume on Iran and Hormuz (GDELT, English)",
+   "plain": "What share of English-language news articles worldwide is about Iran or the Strait of Hormuz.",
+   "unit": "% of articles"
+  },
+  "war.attention.gdelt_hotspot_ukraine_nato": {
+   "name": "Media volume on Ukraine and NATO's eastern flank (GDELT, English)",
+   "plain": "What share of English-language news articles worldwide is about Ukraine or NATO.",
+   "unit": "% of articles"
+  },
+  "war.attention.gdelt_hotspot_taiwan": {
+   "name": "Media volume on Taiwan (GDELT, English)",
+   "plain": "What share of English-language news articles worldwide is about Taiwan.",
+   "unit": "% of articles"
+  },
+  "war.conflict.ua_air_alert_regions": {
+   "name": "Ukraine: regions with an air-raid alert per day",
+   "plain": "Counts in how many of the 24 regions at least one air-raid alert was triggered during the day; a rise shows that western regions are affected too.",
+   "unit": "regions/day",
+   "geoLabel": "Ukraine"
+  },
+  "war.markets.gas_henry_hub": {
+   "name": "Henry Hub natural gas price, USA (daily series, about 1 week delay)",
+   "plain": "Measures the US natural gas price with a delay of about a week; a sharp rise is usually due to weather or LNG exports, and wars in producing regions pull it up too.",
+   "unit": "USD/MMBtu",
+   "geoLabel": "Henry Hub, Louisiana"
+  },
+  "blackout.gas.storage_fill_eu": {
+   "name": "EU gas storage: fill level (daily series, about 1 week delay)",
+   "plain": "How full gas storage in the EU is overall; if the level falls faster than usual, gas becomes scarcer in winter.",
+   "unit": "%",
+   "geoLabel": "European Union"
+  },
+  "war.markets.brent_wti_spread": {
+   "name": "Price gap Brent minus WTI (daily series)",
+   "plain": "Measures by how many dollars Brent is more expensive than WTI; the gap widens when shipping routes in the Middle East are disrupted.",
+   "unit": "USD/barrel"
+  },
+  "ai.incidents.hackernews_ai_incidents": {
+   "name": "Hacker News stories on AI incidents",
+   "plain": "How many new Hacker News posts per day have terms such as jailbreak, prompt injection or model leak in the title.",
+   "unit": "stories/day"
+  },
+  "cyber.outages.ioda_ping_de": {
+   "name": "IODA: reachable German networks (ping)",
+   "plain": "How many German network blocks (/24, small address ranges) respond to active requests; measured independently of routing.",
+   "unit": "/24 networks",
+   "geoLabel": "Germany"
+  },
+  "cyber.outages.ioda_bgp_big_countries": {
+   "name": "IODA: routing visibility of large countries (total)",
+   "plain": "Total of the network blocks visible in routing from eight large countries; a drop points to a large-scale outage.",
+   "unit": "/24 networks"
+  },
+  "cyber.threat.ipsum_ips_ge3": {
+   "name": "IPsum: IPs on at least 3 blocklists",
+   "plain": "How many IP addresses appear on at least three of many public blocklists; it rises during waves of attacks and scans.",
+   "unit": "IP addresses"
+  },
+  "cyber.threat.ipsum_ips_ge5": {
+   "name": "IPsum: IPs on at least 5 blocklists",
+   "plain": "How many IP addresses appear on at least five blocklists, meaning they are especially certain to be malicious.",
+   "unit": "IP addresses"
+  },
+  "cyber.finance.mempool_size": {
+   "name": "Bitcoin: size of the queue",
+   "plain": "How many Bitcoin transfers are waiting for confirmation; it grows during a rush or disruptions.",
+   "unit": "MvB"
+  },
+  "cyber.vuln.msrc_cve_publications": {
+   "name": "New Microsoft CVE reports per day",
+   "plain": "How many new security flaws Microsoft publishes daily in its Update Guide.",
+   "unit": "CVEs/day"
+  },
+  "nuclear.alerts.nina_mowas_severe": {
+   "name": "Severe active warnings in NINA",
+   "plain": "How many of the active warnings are classified as severe or extreme.",
+   "unit": "reports",
+   "geoLabel": "Germany"
+  },
+  "cyber.context.geomagnetic_kp": {
+   "name": "Geomagnetic activity (Kp index)",
+   "plain": "How strongly solar storms are currently disturbing Earth's magnetic field; high values naturally explain GPS, radio and satellite problems.",
+   "unit": "Kp"
+  },
+  "cyber.finance.sofr_volume": {
+   "name": "SOFR: trading volume",
+   "plain": "How much money is turned over in the US repo market (short-term secured lending) overnight; strong deviations point to disruptions.",
+   "unit": "USD billion",
+   "geoLabel": "US money market, New York"
+  },
+  "cyber.outages.ooni_anomaly_share_de": {
+   "name": "Share of anomalous web measurements (Germany)",
+   "plain": "What share of OONI measurements of website reachability in Germany show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "Germany"
+  },
+  "cyber.outages.ooni_anomaly_share_us": {
+   "name": "Share of anomalous web measurements (USA)",
+   "plain": "What share of OONI measurements of website reachability in the USA show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "USA"
+  },
+  "cyber.outages.ooni_anomaly_share_gb": {
+   "name": "Share of anomalous web measurements (United Kingdom)",
+   "plain": "What share of OONI measurements of website reachability in the United Kingdom show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "United Kingdom"
+  },
+  "cyber.outages.ooni_anomaly_share_fr": {
+   "name": "Share of anomalous web measurements (France)",
+   "plain": "What share of OONI measurements of website reachability in France show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "France"
+  },
+  "cyber.outages.ooni_anomaly_share_nl": {
+   "name": "Share of anomalous web measurements (Netherlands)",
+   "plain": "What share of OONI measurements of website reachability in the Netherlands show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "Netherlands"
+  },
+  "war.connectivity.ooni_anomaly_share_ir": {
+   "name": "Share of anomalous web measurements (Iran)",
+   "plain": "What share of OONI measurements of website reachability in Iran show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "Iran"
+  },
+  "war.connectivity.ooni_anomaly_share_il": {
+   "name": "Share of anomalous web measurements (Israel)",
+   "plain": "What share of OONI measurements of website reachability in Israel show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "Israel"
+  },
+  "war.connectivity.ooni_anomaly_share_ua": {
+   "name": "Share of anomalous web measurements (Ukraine)",
+   "plain": "What share of OONI measurements of website reachability in Ukraine show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "Ukraine"
+  },
+  "war.connectivity.ooni_anomaly_share_ru": {
+   "name": "Share of anomalous web measurements (Russia)",
+   "plain": "What share of OONI measurements of website reachability in Russia show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "Russia"
+  },
+  "war.connectivity.ooni_anomaly_share_tw": {
+   "name": "Share of anomalous web measurements (Taiwan)",
+   "plain": "What share of OONI measurements of website reachability in Taiwan show conspicuous failures or blocking.",
+   "unit": "% anomalous",
+   "geoLabel": "Taiwan"
+  },
+  "war.conflict.israel_oref_localities": {
+   "name": "Israel: localities alerted per day",
+   "plain": "Counts in how many different localities per day rocket or drone alerts were triggered; many locations mean a broad attack.",
+   "unit": "localities/day",
+   "geoLabel": "Israel"
+  },
+  "cyber.threat.otx_wiper_pulses": {
+   "name": "OTX reports on wiper malware",
+   "plain": "How many new reports about data-destroying malware (wipers) appear in the OTX community (AlienVault Open Threat Exchange).",
+   "unit": "pulses/day"
+  },
+  "cyber.threat.otx_ics_pulses": {
+   "name": "OTX reports on industrial systems (ICS/SCADA)",
+   "plain": "How many new reports about attacks on industrial control systems appear in the OTX community.",
+   "unit": "pulses/day"
+  },
+  "nuclear.markets.polymarket_nuclear_volume": {
+   "name": "Trading volume in nuclear weapons prediction markets (24 hours)",
+   "plain": "How much was bet on the use of nuclear weapons or nuclear tests in the last 24 hours; sudden jumps stand out.",
+   "unit": "USD/24h"
+  },
+  "cyber.threat.ransomware_active_groups": {
+   "name": "Active ransomware groups per day",
+   "plain": "How many different ransomware groups publish at least one new victim per day.",
+   "unit": "groups/day"
+  },
+  "cyber.outages.atlas_probes_connected_global": {
+   "name": "RIPE Atlas probes connected worldwide",
+   "plain": "How many RIPE measurement devices worldwide are online right now; a drop points to a large-scale disruption.",
+   "unit": "probes"
+  },
+  "bio.wastewater.amelag_sars2_saison": {
+   "name": "Germany wastewater: coronavirus viral load compared with previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years is coronavirus genetic material in wastewater? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.wastewater.amelag_flu_saison": {
+   "name": "Germany wastewater: influenza A compared with previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years is influenza A genetic material in wastewater? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.wastewater.amelag_flub_saison": {
+   "name": "Germany wastewater: influenza B compared with previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years is influenza B genetic material in wastewater? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.wastewater.amelag_rsv_saison": {
+   "name": "Germany wastewater: RSV compared with previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years is RSV genetic material in wastewater? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.are_konsultation_saison": {
+   "name": "Doctor visits for respiratory infections compared with previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years are doctor visits for respiratory infections? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.are_kids_saison": {
+   "name": "Doctor visits, young children, compared with previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years are doctor visits by children under 5? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.attention.grippeweb_ili_saison": {
+   "name": "GrippeWeb: influenza-like illness compared with previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years are self-reports of influenza-like illness? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.sari_total_saison": {
+   "name": "Severe respiratory infections in hospital compared with previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years are hospital cases with a severe respiratory infection? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.sari_kids_saison": {
+   "name": "Severe respiratory infections, young children, vs. previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years are hospital cases of children under 5? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "bio.clinical.sari_unexplained_saison": {
+   "name": "Severe respiratory infections of unknown cause vs. previous years",
+   "plain": "How much higher or lower than the average of the same calendar weeks in previous years is the share of severe respiratory infections not attributed to any of the three monitored pathogens? 1 means usual for the time of year.",
+   "unit": "x prior-year average",
+   "geoLabel": "Germany"
+  },
+  "cyber.services.statuspage_disruption_share": {
+   "name": "Share of providers with any disruption",
+   "plain": "What percentage of the observed providers are currently reporting any disruption, even a minor one.",
+   "unit": "% of providers"
+  },
+  "cyber.finance.statuspage_payment_disruption": {
+   "name": "Payment services with a disruption",
+   "plain": "What percentage of the observed payment services (Braintree, Mollie, Square and others) are currently reporting a disruption.",
+   "unit": "% of providers"
+  },
+  "cyber.services.statuspage_cloud_disruption": {
+   "name": "Cloud and CDN providers with a disruption",
+   "plain": "What percentage of the observed cloud and CDN providers (Cloudflare, Fastly, DigitalOcean and others) are currently reporting a disruption. A CDN is a network that delivers websites faster.",
+   "unit": "% of providers"
+  },
+  "cyber.services.statuspage_incident_starts_day": {
+   "name": "New disruptions per day (8 lead providers)",
+   "plain": "How many new disruptions (minor to critical) the eight major cloud, payment and developer services reported yesterday.",
+   "unit": "disruptions/day"
+  },
+  "cyber.services.statuspage_major_starts_day": {
+   "name": "New severe disruptions per day (8 lead providers)",
+   "plain": "How many new severe (major/critical) disruptions the eight major cloud, payment and developer services reported yesterday.",
+   "unit": "severe disruptions/day"
+  },
+  "cyber.outages.tor_advertised_bandwidth": {
+   "name": "Tor relay bandwidth",
+   "plain": "Total capacity that all Tor relays advertise; a drop shows problems in the Tor network.",
+   "unit": "Gbit/s"
+  },
+  "cyber.outages.tor_exit_nodes": {
+   "name": "Tor exit nodes (IPv4)",
+   "plain": "How many exit nodes the Tor network currently has; a drop shows interference or disruptions in the Tor network.",
+   "unit": "nodes"
+  },
+  "cyber.threat.tweetfeed_iocs_daily": {
+   "name": "TweetFeed: reported IOCs per day",
+   "plain": "How many phishing addresses, malware servers and file fingerprints (IOCs, indicators of compromise) security researchers publicly report per day.",
+   "unit": "IOCs/day"
+  },
+  "cyber.threat.tweetfeed_malware_iocs_daily": {
+   "name": "TweetFeed: malware, C2 and ransomware reports per day",
+   "plain": "How many of the daily reports concern malware, control servers (C2), ransomware or state-backed hackers.",
+   "unit": "IOCs/day"
+  },
+  "nuclear.seismic.nuclear_explosion_type_global_count": {
+   "name": "Events classified as nuclear explosions worldwide",
+   "plain": "Number of events in the last 24 hours that the USGS catalog classifies as a nuclear explosion; normally zero.",
+   "unit": "events/24 h"
+  },
+  "cyber.attention.wikipedia_de": {
+   "name": "Wikipedia views on cyber topics (German)",
+   "plain": "How often German-language Wikipedia articles on hackers, ransomware, phishing and power outages are viewed.",
+   "unit": "views/day"
+  },
+  "cyber.attention.wikipedia_en": {
+   "name": "Wikipedia views on cyber topics (English)",
+   "plain": "How often English Wikipedia articles on cyberattacks, ransomware, phishing and data leaks are viewed.",
+   "unit": "views/day"
+  },
+  "war.attention.wikipedia_de": {
+   "name": "Wikipedia views on war topics (German)",
+   "plain": "How often German-language Wikipedia articles on World War III, nuclear war, mobilization, conscription or martial law are viewed.",
+   "unit": "views/day"
+  },
+  "war.attention.wikipedia_en": {
+   "name": "Wikipedia views on war topics (English)",
+   "plain": "How often English Wikipedia articles on World War III, nuclear war, conscription, martial law, Taiwan or the Strait of Hormuz are viewed.",
+   "unit": "views/day"
+  },
+  "cyber.markets.cyber_etf_abs_return": {
+   "name": "Daily swings of cyber ETFs",
+   "plain": "How much cybersecurity ETFs rise or fall in one day (absolute value of the daily return).",
+   "unit": "% (absolute value)",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "cyber.markets.vix": {
+   "name": "VIX (fear index of the US stock market)",
+   "plain": "How nervous the US stock market is overall; it rises in any kind of crisis.",
+   "unit": "points",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "cyber.markets.gold_abs_return": {
+   "name": "Daily swings of the gold price",
+   "plain": "How much the gold price jumps in one day, a classic sign of flight movements.",
+   "unit": "% (absolute value)"
+  },
+  "cyber.markets.btc_abs_return": {
+   "name": "Daily swings of Bitcoin",
+   "plain": "How much Bitcoin jumps in one day; Bitcoin depends on the network and reacts to outages and risk aversion.",
+   "unit": "% (absolute value)"
+  },
+  "war.markets.brent_futures": {
+   "name": "Brent futures (exchange price)",
+   "plain": "The price of North Sea crude oil (Brent); fear of war in producing regions pushes it up.",
+   "unit": "USD per barrel",
+   "geoLabel": "North Sea (Brent)"
+  },
+  "war.markets.wti_futures": {
+   "name": "WTI futures (exchange price)",
+   "plain": "The price of US crude oil (WTI); it follows the Brent price and reacts to risks in the Gulf.",
+   "unit": "USD per barrel",
+   "geoLabel": "Cushing, Oklahoma (WTI)"
+  },
+  "war.markets.oil_volatility_ovx": {
+   "name": "Oil volatility (OVX)",
+   "plain": "How strongly investors expect large swings in the oil price; it rises with worry about supply disruptions.",
+   "unit": "points",
+   "geoLabel": "US stock exchanges, New York"
+  },
+  "ai.markets.ai_stock_abs_return": {
+   "name": "Daily swings of AI chip stocks (NVDA, AMD, AVGO)",
+   "plain": "How much the shares of AI chip makers rise or fall in one day (absolute value of the daily return).",
+   "unit": "% (absolute value)"
+  }
+ }
+}

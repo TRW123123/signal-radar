@@ -32,6 +32,8 @@ try {
     });
     const page = await context.newPage();
     const errors = [];
+    const fremd = [];
+    page.on('request', (r) => { const h = new URL(r.url()).hostname; if (!['localhost', '127.0.0.1', 'raw.githubusercontent.com'].includes(h) && !r.url().startsWith('data:')) fremd.push(h); });
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
     await page.goto(j.url, { waitUntil: 'networkidle' });
@@ -40,7 +42,9 @@ try {
     mkdirSync(dirname(j.out), { recursive: true });
     await page.screenshot({ path: j.out, fullPage: j.fullPage ?? true });
     const h = await page.evaluate(() => document.documentElement.scrollHeight);
-    console.log(`${j.out}  ${j.width}x${h} ${j.colorScheme ?? 'light'}${errors.length ? '  FEHLER: ' + errors.join(' | ') : ''}`);
+    const breit = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    const probleme = [...errors, ...(fremd.length ? [`fremde Hosts: ${[...new Set(fremd)].join(', ')}`] : []), ...(breit > 0 ? [`waagerechter Überlauf ${breit}px`] : [])];
+    console.log(`${j.out}  ${j.width}x${h} ${j.colorScheme ?? 'light'}${probleme.length ? '  FEHLER: ' + probleme.join(' | ') : ''}`);
     await context.close();
   }
 } finally {

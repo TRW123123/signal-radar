@@ -83,5 +83,20 @@
     "fixture": "yahoo/NOC-1mo-1d.json",
     "url": "https://query1.finance.yahoo.com/v8/finance/chart/NOC?range=1mo&interval=1d",
     "maxChars": 6000
+  },
+  {
+    "fixture": "yahoo/NVDA-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=1mo&interval=1d",
+    "maxChars": 4500
+  },
+  {
+    "fixture": "yahoo/AMD-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/AMD?range=1mo&interval=1d",
+    "maxChars": 4500
+  },
+  {
+    "fixture": "yahoo/AVGO-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/AVGO?range=1mo&interval=1d",
+    "maxChars": 4500
   }
 ]

@@ -17,3 +17,4 @@ fixtures/_truncated/
 cloudflare/wrangler.jsonc
 frontend/_headers
 frontend/_redirects
+fixtures/rki-are/ARE-Konsultationsinzidenz-tail.tsv

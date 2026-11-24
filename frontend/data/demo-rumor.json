@@ -120,8 +120,13 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "rarity": {
+        "share": 1,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.routing.demo_withdrawals",
@@ -208,8 +213,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 52.37,
+        "lon": 4.9,
+        "label": "Internet-Knoten Amsterdam",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 0.2083,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.routing.bgp_withdrawals_global",
@@ -230,8 +246,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPEstat Data API",
-       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/"
+       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/",
+       "license": "RIPE NCC Terms, frei nutzbar",
+       "collector": "ripe-stat"
       },
       {
        "id": "cyber.routing.visible_prefixes_v4_v6",
@@ -252,8 +271,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPEstat Data API",
-       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/"
+       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/",
+       "license": "RIPE NCC Terms, frei nutzbar",
+       "collector": "ripe-stat"
       },
       {
        "id": "cyber.routing.country_prefix_visibility_de",
@@ -274,8 +296,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPEstat Data API",
-       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/"
+       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/",
+       "license": "RIPE NCC Terms, frei nutzbar",
+       "collector": "ripe-stat"
       },
       {
        "id": "cyber.routing.asn_visibility_critical_de",
@@ -296,8 +321,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPEstat Data API",
-       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/"
+       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/",
+       "license": "RIPE NCC Terms, frei nutzbar",
+       "collector": "ripe-stat"
       },
       {
        "id": "cyber.routing.hijack_events",
@@ -318,8 +346,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GRIP BGP-Event-Feed (Georgia Tech)",
-       "sourceUrl": "https://api.grip.inetintel.cc.gatech.edu/json/events"
+       "sourceUrl": "https://api.grip.inetintel.cc.gatech.edu/json/events",
+       "license": "unklar",
+       "collector": "grip"
       },
       {
        "id": "cyber.routing.bgp_update_rate",
@@ -340,8 +371,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPE RIS Live (WebSocket)",
-       "sourceUrl": "https://ris-live.ripe.net/manual/"
+       "sourceUrl": "https://ris-live.ripe.net/manual/",
+       "license": "RIPE NCC, frei",
+       "collector": "ris-live"
       },
       {
        "id": "cyber.routing.route_leaks",
@@ -362,8 +396,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GRIP BGP-Event-Feed (Georgia Tech)",
-       "sourceUrl": "https://api.grip.inetintel.cc.gatech.edu/json/events"
+       "sourceUrl": "https://api.grip.inetintel.cc.gatech.edu/json/events",
+       "license": "unklar",
+       "collector": "grip"
       },
       {
        "id": "cyber.routing.ddos_scrubbing_diversions",
@@ -384,8 +421,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPEstat Data API",
-       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/"
+       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/",
+       "license": "RIPE NCC Terms, frei nutzbar",
+       "collector": "ripe-stat"
       },
       {
        "id": "cyber.routing.new_origin_asn_rate",
@@ -406,8 +446,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPE RIS Live (WebSocket)",
-       "sourceUrl": "https://ris-live.ripe.net/manual/"
+       "sourceUrl": "https://ris-live.ripe.net/manual/",
+       "license": "RIPE NCC, frei",
+       "collector": "ris-live"
       },
       {
        "id": "cyber.routing.as_path_length_shift",
@@ -428,8 +471,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPEstat Data API",
-       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/"
+       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/",
+       "license": "RIPE NCC Terms, frei nutzbar",
+       "collector": "ripe-stat"
       },
       {
        "id": "cyber.routing.rpki_invalid_share",
@@ -450,8 +496,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPEstat Data API",
-       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/"
+       "sourceUrl": "https://stat.ripe.net/docs/02.data-api/",
+       "license": "RIPE NCC Terms, frei nutzbar",
+       "collector": "ripe-stat"
       },
       {
        "id": "cyber.routing.rpki_repository_health",
@@ -472,8 +521,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "NIST RPKI Monitor / Routinator VRP",
-       "sourceUrl": "https://rpki-monitor.antd.nist.gov/"
+       "sourceUrl": "https://rpki-monitor.antd.nist.gov/",
+       "license": "unklar",
+       "collector": "rpkimon"
       },
       {
        "id": "cyber.routing.manrs_adoption",
@@ -494,8 +546,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "MANRS Observatory",
-       "sourceUrl": "https://observatory.manrs.org/"
+       "sourceUrl": "https://observatory.manrs.org/",
+       "license": "unklar",
+       "collector": "manrs"
       },
       {
        "id": "cyber.routing.member_port_changes",
@@ -516,8 +571,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "PeeringDB API",
-       "sourceUrl": "https://www.peeringdb.com/apidocs/"
+       "sourceUrl": "https://www.peeringdb.com/apidocs/",
+       "license": "CC0 / AUP",
+       "collector": "peeringdb"
       },
       {
        "id": "cyber.routing.pch_global_counts",
@@ -538,8 +596,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Packet Clearing House IXP-Statistiken",
-       "sourceUrl": "https://www.pch.net/ixp/dir"
+       "sourceUrl": "https://www.pch.net/ixp/dir",
+       "license": "unklar",
+       "collector": "tg-ixp"
       }
      ]
     },
@@ -636,8 +697,20 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 32.4,
+        "lon": 53.7,
+        "label": "Iran",
+        "kind": "country",
+        "cc": "IR"
+       },
+       "rarity": {
+        "share": 0.2421,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.outages.demo_cloud",
@@ -724,8 +797,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 38.95,
+        "lon": -77.45,
+        "label": "Rechenzentren Virginia",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 0.1984,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.outages.ioda_outage_events_global",
@@ -746,8 +830,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "IODA (Georgia Tech)",
-       "sourceUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/"
+       "sourceUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+       "license": "frei fuer Forschung, Bedingungen auf Website",
+       "collector": "ioda"
       },
       {
        "id": "cyber.outages.cf_radar_outages",
@@ -768,8 +855,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.outages.ioda_country_signals_de",
@@ -790,8 +880,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "IODA (Georgia Tech)",
-       "sourceUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/"
+       "sourceUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+       "license": "frei fuer Forschung, Bedingungen auf Website",
+       "collector": "ioda"
       },
       {
        "id": "cyber.outages.atlas_probe_connectivity",
@@ -812,8 +905,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPE Atlas API",
-       "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/"
+       "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+       "license": "RIPE NCC, frei",
+       "collector": "ripe-atlas"
       },
       {
        "id": "cyber.outages.traffic_anomalies",
@@ -834,8 +930,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "IODA (Georgia Tech)",
-       "sourceUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/"
+       "sourceUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+       "license": "CC BY 4.0 (pruefen)",
+       "collector": "ioda"
       },
       {
        "id": "cyber.outages.cf_http_error_rates",
@@ -856,8 +955,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.outages.decix_frankfurt_traffic",
@@ -878,8 +980,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "DE-CIX Verkehrsstatistik",
-       "sourceUrl": "https://www.de-cix.net/en/locations/frankfurt/statistics"
+       "sourceUrl": "https://www.de-cix.net/en/locations/frankfurt/statistics",
+       "license": "unklar",
+       "collector": "decix"
       },
       {
        "id": "cyber.outages.amsix_linx_traffic",
@@ -900,8 +1005,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "AMS-IX Statistiken",
-       "sourceUrl": "https://stats.ams-ix.net/"
+       "sourceUrl": "https://stats.ams-ix.net/",
+       "license": "unklar",
+       "collector": "amsix"
       },
       {
        "id": "cyber.outages.cf_traffic_de",
@@ -922,8 +1030,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.outages.atlas_ping_global",
@@ -944,8 +1055,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPE Atlas API",
-       "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/"
+       "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+       "license": "RIPE NCC, frei",
+       "collector": "ripe-atlas"
       },
       {
        "id": "cyber.outages.cf_outage_cause_cable",
@@ -966,8 +1080,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.outages.thousandeyes_internet_report",
@@ -988,8 +1105,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ThousandEyes Internet Report",
-       "sourceUrl": "https://www.thousandeyes.com/"
+       "sourceUrl": "https://www.thousandeyes.com/",
+       "license": "unklar",
+       "collector": "thousandeyes"
       },
       {
        "id": "cyber.outages.latency_shift_regional",
@@ -1010,8 +1130,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPE Atlas API",
-       "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/"
+       "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+       "license": "RIPE NCC, frei",
+       "collector": "ripe-atlas"
       },
       {
        "id": "cyber.outages.cf_iqi_quality",
@@ -1032,8 +1155,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.outages.users_de",
@@ -1054,8 +1180,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Tor Metrics / Onionoo",
-       "sourceUrl": "https://metrics.torproject.org/"
+       "sourceUrl": "https://metrics.torproject.org/",
+       "license": "CC0",
+       "collector": "tor-metrics"
       },
       {
        "id": "cyber.outages.github_push_volume",
@@ -1076,8 +1205,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GH Archive",
-       "sourceUrl": "https://www.gharchive.org/"
+       "sourceUrl": "https://www.gharchive.org/",
+       "license": "CC BY 4.0 fuer Archiv, Inhalte unterliegen Autorenrechten",
+       "collector": "gharchive"
       },
       {
        "id": "cyber.outages.mlab_ndt_throughput",
@@ -1098,8 +1230,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "M-Lab NDT (BigQuery/Open Data)",
-       "sourceUrl": "https://www.measurementlab.net/data/"
+       "sourceUrl": "https://www.measurementlab.net/data/",
+       "license": "CC0",
+       "collector": "mlab"
       },
       {
        "id": "cyber.outages.relay_count_bandwidth",
@@ -1120,8 +1255,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Tor Metrics / Onionoo",
-       "sourceUrl": "https://metrics.torproject.org/"
+       "sourceUrl": "https://metrics.torproject.org/",
+       "license": "CC0",
+       "collector": "tor-metrics"
       },
       {
        "id": "cyber.outages.ipv6_share_shift",
@@ -1142,8 +1280,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "APNIC Labs Statistiken",
-       "sourceUrl": "https://stats.labs.apnic.net/"
+       "sourceUrl": "https://stats.labs.apnic.net/",
+       "license": "unklar",
+       "collector": "apnic"
       },
       {
        "id": "cyber.outages.mix_protocol_shift",
@@ -1164,8 +1305,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.outages.package_downloads_npm_pypi",
@@ -1186,8 +1330,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "npm Download Counts API",
-       "sourceUrl": "https://github.com/npm/registry/blob/main/docs/download-counts.md"
+       "sourceUrl": "https://github.com/npm/registry/blob/main/docs/download-counts.md",
+       "license": "npm ToS; Daten offen",
+       "collector": "npm-downloads"
       },
       {
        "id": "cyber.outages.mobile_vs_desktop_shift",
@@ -1208,8 +1355,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.outages.speedtest_open_data",
@@ -1230,8 +1380,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Ookla Open Data",
-       "sourceUrl": "https://registry.opendata.aws/speedtest-global-performance/"
+       "sourceUrl": "https://registry.opendata.aws/speedtest-global-performance/",
+       "license": "CC BY-NC-SA 4.0",
+       "collector": "ookla"
       }
      ]
     },
@@ -1328,8 +1481,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": -33.87,
+        "lon": 151.21,
+        "label": "DNS-Knoten Sydney",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 1,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.dns_core.root_atlas_reachability",
@@ -1350,8 +1514,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPE Labs Atlas Built-in DNS/Ping zu Root-Servern",
-       "sourceUrl": "https://atlas.ripe.net/measurements/"
+       "sourceUrl": "https://atlas.ripe.net/measurements/",
+       "license": "RIPE NCC, frei",
+       "collector": "ripe-atlas"
       },
       {
        "id": "cyber.dns_core.servfail_rate",
@@ -1372,8 +1539,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.dns_core.tld_nameserver_reachability",
@@ -1394,8 +1564,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RIPE Atlas API",
-       "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/"
+       "sourceUrl": "https://atlas.ripe.net/docs/apis/rest-api-manual/",
+       "license": "RIPE NCC, frei",
+       "collector": "ripe-atlas"
       },
       {
        "id": "cyber.dns_core.dnssec_failures",
@@ -1416,8 +1589,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.dns_core.cf_query_volume_and_nxdomain",
@@ -1438,8 +1614,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.dns_core.mass_revocation",
@@ -1460,8 +1639,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "crt.sh",
-       "sourceUrl": "https://crt.sh/"
+       "sourceUrl": "https://crt.sh/",
+       "license": "frei",
+       "collector": "crtsh"
       },
       {
        "id": "cyber.dns_core.ca_incidents_and_root_removals",
@@ -1482,8 +1664,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Statuspage-APIs weiterer Dienste (GitHub, Akamai, Let's Encrypt etc.)",
-       "sourceUrl": "https://www.githubstatus.com/api"
+       "sourceUrl": "https://www.githubstatus.com/api",
+       "license": "unklar",
+       "collector": "statuspage"
       },
       {
        "id": "cyber.dns_core.lookalike_issuance_gov_banks",
@@ -1504,8 +1689,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "crt.sh",
-       "sourceUrl": "https://crt.sh/"
+       "sourceUrl": "https://crt.sh/",
+       "license": "frei",
+       "collector": "crtsh"
       },
       {
        "id": "cyber.dns_core.ntp_pool_health_de",
@@ -1526,8 +1714,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "NTP Pool Project",
-       "sourceUrl": "https://www.ntppool.org/"
+       "sourceUrl": "https://www.ntppool.org/",
+       "license": "frei",
+       "collector": "ntppool"
       },
       {
        "id": "cyber.dns_core.root_rssac002_volume",
@@ -1548,8 +1739,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "RSSAC002 Daten (Root-Server-Operatoren)",
-       "sourceUrl": "https://github.com/rssac-caucus/RSSAC002-data"
+       "sourceUrl": "https://github.com/rssac-caucus/RSSAC002-data",
+       "license": "unklar",
+       "collector": "rssac"
       },
       {
        "id": "cyber.dns_core.issuance_volume",
@@ -1570,8 +1764,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Certificate-Transparency-Logs (RFC 6962 / Static CT)",
-       "sourceUrl": "https://www.gstatic.com/ct/log_list/v3/log_list.json"
+       "sourceUrl": "https://www.gstatic.com/ct/log_list/v3/log_list.json",
+       "license": "frei",
+       "collector": "ct-logs"
       },
       {
        "id": "cyber.dns_core.log_availability",
@@ -1592,8 +1789,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Certificate-Transparency-Logs (RFC 6962 / Static CT)",
-       "sourceUrl": "https://www.gstatic.com/ct/log_list/v3/log_list.json"
+       "sourceUrl": "https://www.gstatic.com/ct/log_list/v3/log_list.json",
+       "license": "frei",
+       "collector": "ct-logs"
       },
       {
        "id": "cyber.dns_core.root_instance_count",
@@ -1614,8 +1814,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "DNS-OARC / root-servers.org",
-       "sourceUrl": "https://www.root-servers.org/"
+       "sourceUrl": "https://www.root-servers.org/",
+       "license": "unklar",
+       "collector": "dnsoarc"
       },
       {
        "id": "cyber.dns_core.root_zone_changes",
@@ -1636,8 +1839,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "InterNIC Root Zone File",
-       "sourceUrl": "https://www.internic.net/domain/root.zone"
+       "sourceUrl": "https://www.internic.net/domain/root.zone",
+       "license": "frei",
+       "collector": "internic"
       },
       {
        "id": "cyber.dns_core.top_domain_rank_volatility",
@@ -1658,8 +1864,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.dns_core.openintel_dns_dependency",
@@ -1680,8 +1889,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "OpenINTEL",
-       "sourceUrl": "https://www.openintel.nl/"
+       "sourceUrl": "https://www.openintel.nl/",
+       "license": "CC BY 4.0 (unklar je Datensatz)",
+       "collector": "openintel"
       }
      ]
     },
@@ -1778,8 +1990,13 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "rarity": {
+        "share": 1,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.threat.demo_ransom",
@@ -1866,8 +2083,20 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": -29,
+        "lon": 24.7,
+        "label": "Südafrika",
+        "kind": "country",
+        "cc": "ZA"
+       },
+       "rarity": {
+        "share": 0.4067,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.threat.wiper_reports",
@@ -1888,8 +2117,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "MalwareBazaar Tag-Suche",
-       "sourceUrl": "https://bazaar.abuse.ch/api/"
+       "sourceUrl": "https://bazaar.abuse.ch/api/",
+       "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
+       "collector": "malwarebazaar"
       },
       {
        "id": "cyber.threat.ics_malware",
@@ -1910,8 +2142,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "CISA ICS Advisories (CSAF auf GitHub)",
-       "sourceUrl": "https://github.com/cisagov/CSAF"
+       "sourceUrl": "https://github.com/cisagov/CSAF",
+       "license": "Public Domain (US Gov)",
+       "collector": "cisa-ics"
       },
       {
        "id": "cyber.threat.simultaneous_victims",
@@ -1932,8 +2167,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ransomware.live API",
-       "sourceUrl": "https://www.ransomware.live/api"
+       "sourceUrl": "https://www.ransomware.live/api",
+       "license": "CC BY-NC-SA (laut Seite, pruefen)",
+       "collector": "ransomware-live"
       },
       {
        "id": "cyber.threat.greynoise_cve_tag_ips",
@@ -1954,8 +2192,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GreyNoise Community/Trends",
-       "sourceUrl": "https://docs.greynoise.io/"
+       "sourceUrl": "https://docs.greynoise.io/",
+       "license": "Community-API eingeschraenkt, ToS",
+       "collector": "greynoise"
       },
       {
        "id": "cyber.threat.victims_critical_sector",
@@ -1976,8 +2217,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ransomware.live API",
-       "sourceUrl": "https://www.ransomware.live/api"
+       "sourceUrl": "https://www.ransomware.live/api",
+       "license": "CC BY-NC-SA (laut Seite, pruefen)",
+       "collector": "ransomware-live"
       },
       {
        "id": "cyber.threat.cloudflare_l3_attacks",
@@ -1998,8 +2242,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.threat.dshield_port_scan_spike",
@@ -2020,8 +2267,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SANS ISC / DShield API",
-       "sourceUrl": "https://isc.sans.edu/api/"
+       "sourceUrl": "https://isc.sans.edu/api/",
+       "license": "CC BY-NC-SA (laut ISC, pruefen)",
+       "collector": "sans-isc"
       },
       {
        "id": "cyber.threat.cloudflare_l7_attacks",
@@ -2042,8 +2292,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.threat.leak_posts_daily",
@@ -2064,8 +2317,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ransomware.live API",
-       "sourceUrl": "https://www.ransomware.live/api"
+       "sourceUrl": "https://www.ransomware.live/api",
+       "license": "CC BY-NC-SA (laut Seite, pruefen)",
+       "collector": "ransomware-live"
       },
       {
        "id": "cyber.threat.port_scanning_ot_protocols",
@@ -2086,8 +2342,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SANS ISC API",
-       "sourceUrl": "https://isc.sans.edu/api/"
+       "sourceUrl": "https://isc.sans.edu/api/",
+       "license": "CC BY-NC-SA",
+       "collector": "sans-isc"
       },
       {
        "id": "cyber.threat.victims_by_country_de",
@@ -2108,8 +2367,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ransomware.live API",
-       "sourceUrl": "https://www.ransomware.live/api"
+       "sourceUrl": "https://www.ransomware.live/api",
+       "license": "CC BY-NC-SA (laut Seite, pruefen)",
+       "collector": "ransomware-live"
       },
       {
        "id": "cyber.threat.osv_malware_advisories",
@@ -2130,8 +2392,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "OSV.dev API",
-       "sourceUrl": "https://google.github.io/osv.dev/api/"
+       "sourceUrl": "https://google.github.io/osv.dev/api/",
+       "license": "CC BY 4.0 / Datenquellen je Oekosystem",
+       "collector": "osv"
       },
       {
        "id": "cyber.threat.targets_by_country",
@@ -2152,8 +2417,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Radar API",
-       "sourceUrl": "https://developers.cloudflare.com/radar/"
+       "sourceUrl": "https://developers.cloudflare.com/radar/",
+       "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+       "collector": "cf-radar"
       },
       {
        "id": "cyber.threat.brand_domains_nrd",
@@ -2174,8 +2442,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "crt.sh Certificate Transparency",
-       "sourceUrl": "https://crt.sh/"
+       "sourceUrl": "https://crt.sh/",
+       "license": "unklar",
+       "collector": "crtsh"
       },
       {
        "id": "cyber.threat.greynoise_noise_volume",
@@ -2196,8 +2467,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GreyNoise Community/Trends",
-       "sourceUrl": "https://docs.greynoise.io/"
+       "sourceUrl": "https://docs.greynoise.io/",
+       "license": "Community-API eingeschraenkt, ToS",
+       "collector": "greynoise"
       },
       {
        "id": "cyber.threat.npm_pypi_takedowns",
@@ -2218,8 +2492,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "npm Registry Security Advisories",
-       "sourceUrl": "https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities"
+       "sourceUrl": "https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities",
+       "license": "npm ToS",
+       "collector": "npm-registry"
       },
       {
        "id": "cyber.threat.cowrie_ssh_telnet",
@@ -2240,8 +2517,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cowrie Community-Daten (z. B. SANS/DShield, BitNinja)",
-       "sourceUrl": "https://github.com/cowrie/cowrie"
+       "sourceUrl": "https://github.com/cowrie/cowrie",
+       "license": "unklar",
+       "collector": "cowrie-community"
       },
       {
        "id": "cyber.threat.feodo_c2_count",
@@ -2262,8 +2542,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "abuse.ch Feodo Tracker",
-       "sourceUrl": "https://feodotracker.abuse.ch/"
+       "sourceUrl": "https://feodotracker.abuse.ch/",
+       "license": "CC0",
+       "collector": "feodo"
       },
       {
        "id": "cyber.threat.new_ddos_botnet_ips",
@@ -2284,8 +2567,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Spamhaus DROP/BGPCC Listen",
-       "sourceUrl": "https://www.spamhaus.org/drop/"
+       "sourceUrl": "https://www.spamhaus.org/drop/",
+       "license": "frei fuer nicht-kommerziell",
+       "collector": "spamhaus"
       },
       {
        "id": "cyber.threat.shadowserver_reflectors",
@@ -2306,8 +2592,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Shadowserver Dashboard",
-       "sourceUrl": "https://dashboard.shadowserver.org/"
+       "sourceUrl": "https://dashboard.shadowserver.org/",
+       "license": "CC BY (laut Dashboard, pruefen)",
+       "collector": "shadowserver"
       },
       {
        "id": "cyber.threat.threatfox_ioc_volume",
@@ -2328,8 +2617,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "abuse.ch ThreatFox",
-       "sourceUrl": "https://threatfox.abuse.ch/api/"
+       "sourceUrl": "https://threatfox.abuse.ch/api/",
+       "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
+       "collector": "threatfox"
       },
       {
        "id": "cyber.threat.urlhaus_volume",
@@ -2350,8 +2642,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "abuse.ch URLhaus",
-       "sourceUrl": "https://urlhaus.abuse.ch/api/"
+       "sourceUrl": "https://urlhaus.abuse.ch/api/",
+       "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
+       "collector": "urlhaus"
       },
       {
        "id": "cyber.threat.malwarebazaar_volume",
@@ -2372,8 +2667,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "abuse.ch MalwareBazaar",
-       "sourceUrl": "https://bazaar.abuse.ch/api/"
+       "sourceUrl": "https://bazaar.abuse.ch/api/",
+       "license": "abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling, kein Massen-Harvesting; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)",
+       "collector": "malwarebazaar"
       },
       {
        "id": "cyber.threat.c2_hosting_concentration",
@@ -2394,8 +2692,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "abuse.ch Feodo Tracker",
-       "sourceUrl": "https://feodotracker.abuse.ch/"
+       "sourceUrl": "https://feodotracker.abuse.ch/",
+       "license": "CC0",
+       "collector": "feodo"
       },
       {
        "id": "cyber.threat.group_activity_new",
@@ -2416,8 +2717,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ransomware.live API",
-       "sourceUrl": "https://www.ransomware.live/api"
+       "sourceUrl": "https://www.ransomware.live/api",
+       "license": "CC BY-NC-SA (laut Seite, pruefen)",
+       "collector": "ransomware-live"
       },
       {
        "id": "cyber.threat.openphish_volume",
@@ -2438,8 +2742,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "OpenPhish Community Feed",
-       "sourceUrl": "https://openphish.com/phishing_feeds.html"
+       "sourceUrl": "https://openphish.com/phishing_feeds.html",
+       "license": "nur nicht-kommerziell (Community)",
+       "collector": "openphish"
       },
       {
        "id": "cyber.threat.spam_volume",
@@ -2460,8 +2767,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Talos Reputation Center",
-       "sourceUrl": "https://talosintelligence.com/reputation"
+       "sourceUrl": "https://talosintelligence.com/reputation",
+       "license": "ToS",
+       "collector": "talos-reputation"
       },
       {
        "id": "cyber.threat.apwg_quarterly",
@@ -2482,8 +2792,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "APWG Phishing Activity Trends",
-       "sourceUrl": "https://apwg.org/trendsreports/"
+       "sourceUrl": "https://apwg.org/trendsreports/",
+       "license": "unklar",
+       "collector": "apwg"
       }
      ]
     },
@@ -2580,8 +2893,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 38.9,
+        "lon": -77.03,
+        "label": "Washington",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 0.1885,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.vuln.msrc_out_of_band",
@@ -2602,8 +2926,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Microsoft MSRC Security Update Guide API",
-       "sourceUrl": "https://api.msrc.microsoft.com/cvrf/v3.0/updates"
+       "sourceUrl": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+       "license": "Microsoft ToS",
+       "collector": "msrc-cvrf"
       },
       {
        "id": "cyber.vuln.emergency_releases",
@@ -2624,8 +2951,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Chromium Dash Releases",
-       "sourceUrl": "https://chromiumdash.appspot.com/releases"
+       "sourceUrl": "https://chromiumdash.appspot.com/releases",
+       "license": "BSD/Chromium; API inoffiziell",
+       "collector": "chromiumdash"
       },
       {
        "id": "cyber.vuln.epss_jumps",
@@ -2646,8 +2976,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "FIRST EPSS API",
-       "sourceUrl": "https://www.first.org/epss/api"
+       "sourceUrl": "https://www.first.org/epss/api",
+       "license": "frei nutzbar mit Quellenangabe (laut FIRST)",
+       "collector": "first-epss"
       },
       {
        "id": "cyber.vuln.kev_additions_rate",
@@ -2668,8 +3001,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "CISA Known Exploited Vulnerabilities",
-       "sourceUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+       "sourceUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+       "license": "CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprueft)",
+       "collector": "cisa-kev"
       },
       {
        "id": "cyber.vuln.kev_network_edge_share",
@@ -2690,8 +3026,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "CISA Known Exploited Vulnerabilities",
-       "sourceUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+       "sourceUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+       "license": "CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprueft)",
+       "collector": "cisa-kev"
       },
       {
        "id": "cyber.vuln.epss_high_count",
@@ -2712,8 +3051,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "EPSS Tagesdump",
-       "sourceUrl": "https://www.first.org/epss/data_stats"
+       "sourceUrl": "https://www.first.org/epss/data_stats",
+       "license": "unklar",
+       "collector": "first-epss"
       },
       {
        "id": "cyber.vuln.msrc_zero_day_count",
@@ -2734,8 +3076,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Microsoft MSRC Security Update Guide API",
-       "sourceUrl": "https://api.msrc.microsoft.com/cvrf/v3.0/updates"
+       "sourceUrl": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+       "license": "Microsoft ToS",
+       "collector": "msrc-cvrf"
       },
       {
        "id": "cyber.vuln.nuclei_templates",
@@ -2756,8 +3101,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ProjectDiscovery nuclei-templates",
-       "sourceUrl": "https://github.com/projectdiscovery/nuclei-templates"
+       "sourceUrl": "https://github.com/projectdiscovery/nuclei-templates",
+       "license": "MIT (Repo)",
+       "collector": "nuclei-templates"
       },
       {
        "id": "cyber.vuln.shadowserver_exposed",
@@ -2778,8 +3126,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Shadowserver Dashboard",
-       "sourceUrl": "https://dashboard.shadowserver.org/"
+       "sourceUrl": "https://dashboard.shadowserver.org/",
+       "license": "CC BY 4.0 (unklar)",
+       "collector": "shadowserver"
       },
       {
        "id": "cyber.vuln.kev_ransomware_flag",
@@ -2800,8 +3151,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "CISA Known Exploited Vulnerabilities",
-       "sourceUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+       "sourceUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+       "license": "CC0 / US Gov Public Domain (laut CISA-Seite, nicht geprueft)",
+       "collector": "cisa-kev"
       },
       {
        "id": "cyber.vuln.exposed_ot_protocols",
@@ -2822,8 +3176,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Censys Search/Open Data",
-       "sourceUrl": "https://search.censys.io/api"
+       "sourceUrl": "https://search.censys.io/api",
+       "license": "ToS",
+       "collector": "censys"
       },
       {
        "id": "cyber.vuln.metasploit_modules",
@@ -2844,8 +3201,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Metasploit Framework Commits/Releases",
-       "sourceUrl": "https://github.com/rapid7/metasploit-framework"
+       "sourceUrl": "https://github.com/rapid7/metasploit-framework",
+       "license": "BSD-3 (Repo)",
+       "collector": "metasploit-commits"
       },
       {
        "id": "cyber.vuln.nvd_critical_share",
@@ -2866,8 +3226,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "NVD CVE API 2.0",
-       "sourceUrl": "https://nvd.nist.gov/developers/vulnerabilities"
+       "sourceUrl": "https://nvd.nist.gov/developers/vulnerabilities",
+       "license": "NVD-Bedingungen: Pflichthinweis \"not endorsed\", veränderte Inhalte nicht als NVD ausgeben, Rate-Limits, Key nicht weitergeben",
+       "collector": "nvd-cve-api"
       },
       {
        "id": "cyber.vuln.shodan_exposed_service_trend",
@@ -2888,8 +3251,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Censys Search/Open Data",
-       "sourceUrl": "https://search.censys.io/api"
+       "sourceUrl": "https://search.censys.io/api",
+       "license": "ToS",
+       "collector": "censys"
       },
       {
        "id": "cyber.vuln.vulnerable_host_decay",
@@ -2910,8 +3276,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Shadowserver Dashboard",
-       "sourceUrl": "https://dashboard.shadowserver.org/"
+       "sourceUrl": "https://dashboard.shadowserver.org/",
+       "license": "CC BY (laut Dashboard, pruefen)",
+       "collector": "shadowserver"
       },
       {
        "id": "cyber.vuln.exploitdb_rate",
@@ -2932,8 +3301,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Exploit-DB (GitLab CSV)",
-       "sourceUrl": "https://gitlab.com/exploit-database/exploitdb"
+       "sourceUrl": "https://gitlab.com/exploit-database/exploitdb",
+       "license": "GPLv2 (Repo)",
+       "collector": "exploit-db"
       },
       {
        "id": "cyber.vuln.advisory_volume",
@@ -2954,8 +3326,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "OSV.dev API",
-       "sourceUrl": "https://google.github.io/osv.dev/api/"
+       "sourceUrl": "https://google.github.io/osv.dev/api/",
+       "license": "CC BY 4.0 / Datenquellen je Oekosystem",
+       "collector": "osv"
       },
       {
        "id": "cyber.vuln.github_security_issue_spike",
@@ -2976,8 +3351,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GitHub Advisory Database",
-       "sourceUrl": "https://github.com/github/advisory-database"
+       "sourceUrl": "https://github.com/github/advisory-database",
+       "license": "CC BY 4.0",
+       "collector": "ghsa"
       },
       {
        "id": "cyber.vuln.nvd_cve_volume",
@@ -2998,8 +3376,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "CVE Project cvelistV5 (GitHub)",
-       "sourceUrl": "https://github.com/CVEProject/cvelistV5"
+       "sourceUrl": "https://github.com/CVEProject/cvelistV5",
+       "license": "CVE Terms of Use (frei)",
+       "collector": "cvelist-v5"
       }
      ]
     },
@@ -3096,8 +3477,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 50.11,
+        "lon": 8.68,
+        "label": "Frankfurt am Main",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 0.2738,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.finance.demo_stable",
@@ -3184,8 +3576,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 35.68,
+        "lon": 139.69,
+        "label": "Tokio",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 0.1607,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.finance.fed_services_status",
@@ -3206,8 +3609,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Federal Reserve Financial Services Status (Fedwire, FedACH, FedNow)",
-       "sourceUrl": "https://www.frbservices.org/"
+       "sourceUrl": "https://www.frbservices.org/",
+       "license": "unklar",
+       "collector": "frbservices-status"
       },
       {
        "id": "cyber.finance.swift_status",
@@ -3228,8 +3634,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SWIFT Operational Status",
-       "sourceUrl": "https://www.swift.com/"
+       "sourceUrl": "https://www.swift.com/",
+       "license": "unklar",
+       "collector": "swift-status"
       },
       {
        "id": "cyber.finance.target_services_status",
@@ -3250,8 +3659,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ECB TARGET Services Betriebsstatus",
-       "sourceUrl": "https://www.ecb.europa.eu/paym/target/html/index.en.html"
+       "sourceUrl": "https://www.ecb.europa.eu/paym/target/html/index.en.html",
+       "license": "ECB Copyright, Nutzung mit Quellenangabe",
+       "collector": "ecb-target-status"
       },
       {
        "id": "cyber.finance.payment_providers",
@@ -3272,8 +3684,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Stripe Status",
-       "sourceUrl": "https://docs.stripe.com/api/"
+       "sourceUrl": "https://docs.stripe.com/api/",
+       "license": "unklar",
+       "collector": "stripe-status"
       },
       {
        "id": "cyber.finance.sepa_instant_rt1",
@@ -3294,8 +3709,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "EBA Clearing RT1/STEP2 Status und Statistik",
-       "sourceUrl": "https://www.ebaclearing.eu/"
+       "sourceUrl": "https://www.ebaclearing.eu/",
+       "license": "unklar",
+       "collector": "ebaclearing"
       },
       {
        "id": "cyber.finance.uk_chaps_faster_payments",
@@ -3316,8 +3734,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Bank of England RTGS/CHAPS und Pay.UK (Bacs, Faster Payments) Status",
-       "sourceUrl": "https://www.bankofengland.co.uk/payment-and-settlement/rtgs-renewal-programme"
+       "sourceUrl": "https://www.bankofengland.co.uk/payment-and-settlement/rtgs-renewal-programme",
+       "license": "BoE Copyright / OGL",
+       "collector": "boe-chaps-payuk"
       },
       {
        "id": "cyber.finance.open_banking_uk",
@@ -3338,8 +3759,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Open Banking UK API Performance",
-       "sourceUrl": "https://www.openbanking.org.uk/api-performance/"
+       "sourceUrl": "https://www.openbanking.org.uk/api-performance/",
+       "license": "unklar",
+       "collector": "openbanking-uk"
       },
       {
        "id": "cyber.finance.target_daily_volume",
@@ -3360,8 +3784,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ECB Data Portal: TARGET-Zahlungsstatistik",
-       "sourceUrl": "https://data.ecb.europa.eu/help/api/data"
+       "sourceUrl": "https://data.ecb.europa.eu/help/api/data",
+       "license": "ECB Reuse Policy, Quellenangabe",
+       "collector": "ecb-data"
       },
       {
        "id": "cyber.finance.exchange_api_availability",
@@ -3382,8 +3809,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Binance Public API (ping/time)",
-       "sourceUrl": "https://developers.binance.com/docs/binance-spot-api-docs/rest-api"
+       "sourceUrl": "https://developers.binance.com/docs/binance-spot-api-docs/rest-api",
+       "license": "Binance API ToS",
+       "collector": "binance-public"
       },
       {
        "id": "cyber.finance.sofr_tail",
@@ -3404,8 +3834,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "NY Fed Markets API (SOFR)",
-       "sourceUrl": "https://markets.newyorkfed.org/static/docs/markets-api.html"
+       "sourceUrl": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+       "license": "NY Fed Terms of Use (frei mit Quelle)",
+       "collector": "nyfed-markets-api"
       },
       {
        "id": "cyber.finance.crypto_exchange_statuspages",
@@ -3426,8 +3859,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
-       "sourceUrl": "https://developer.statuspage.io/"
+       "sourceUrl": "https://developer.statuspage.io/",
+       "license": "je Anbieter unklar",
+       "collector": "statuspage"
       },
       {
        "id": "cyber.finance.estr_percentile_spread",
@@ -3448,8 +3884,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ECB Euro Short-Term Rate (EST) Datenreihe",
-       "sourceUrl": "https://data.ecb.europa.eu/help/api/data"
+       "sourceUrl": "https://data.ecb.europa.eu/help/api/data",
+       "license": "ECB Reuse Policy",
+       "collector": "ecb-data"
       },
       {
        "id": "cyber.finance.pix_upi_volumes",
@@ -3470,8 +3909,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Banco Central do Brasil Open Data Pix",
-       "sourceUrl": "https://dadosabertos.bcb.gov.br/dataset/pix"
+       "sourceUrl": "https://dadosabertos.bcb.gov.br/dataset/pix",
+       "license": "CC BY 4.0 (BCB Dados Abertos)",
+       "collector": "bcb-pix"
       },
       {
        "id": "cyber.finance.stablecoin_peg_deviation",
@@ -3492,8 +3934,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "DefiLlama Stablecoins API",
-       "sourceUrl": "https://defillama.com/docs/api"
+       "sourceUrl": "https://defillama.com/docs/api",
+       "license": "frei, Quellenangabe",
+       "collector": "defillama"
       },
       {
        "id": "cyber.finance.bitcoin_network_nodes",
@@ -3514,8 +3959,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Bitnodes API",
-       "sourceUrl": "https://bitnodes.io/api/"
+       "sourceUrl": "https://bitnodes.io/api/",
+       "license": "oeffentlich, Nutzungsbedingungen unklar",
+       "collector": "bitnodes"
       },
       {
        "id": "cyber.finance.ecb_marginal_lending",
@@ -3536,8 +3984,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ECB Liquiditätsbedingungen (Einlage-/Spitzenrefinanzierungsfazilität)",
-       "sourceUrl": "https://www.ecb.europa.eu/mopo/liq_ops/html/index.en.html"
+       "sourceUrl": "https://www.ecb.europa.eu/mopo/liq_ops/html/index.en.html",
+       "license": "ECB Reuse Policy",
+       "collector": "ecb-data"
       },
       {
        "id": "cyber.finance.fed_repo_facility_usage",
@@ -3558,8 +4009,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "NY Fed Repo/Reverse-Repo Operations Results",
-       "sourceUrl": "https://markets.newyorkfed.org/static/docs/markets-api.html"
+       "sourceUrl": "https://markets.newyorkfed.org/static/docs/markets-api.html",
+       "license": "NY Fed Terms of Use",
+       "collector": "nyfed-repo"
       },
       {
        "id": "cyber.finance.defi_tvl_drop",
@@ -3580,8 +4034,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "DefiLlama TVL API",
-       "sourceUrl": "https://defillama.com/docs/api"
+       "sourceUrl": "https://defillama.com/docs/api",
+       "license": "frei, Quellenangabe",
+       "collector": "defillama"
       },
       {
        "id": "cyber.finance.exchange_reserves_outflow",
@@ -3602,8 +4059,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Börsen-Reserven (DefiLlama CEX Transparency / CryptoQuant)",
-       "sourceUrl": "https://defillama.com/cexs"
+       "sourceUrl": "https://defillama.com/cexs",
+       "license": "unklar",
+       "collector": "defillama"
       },
       {
        "id": "cyber.finance.banknotes_in_circulation",
@@ -3624,8 +4084,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ECB Data Portal: Banknoten im Umlauf (Eurosystem-Wochenausweis)",
-       "sourceUrl": "https://data.ecb.europa.eu/help/api/data"
+       "sourceUrl": "https://data.ecb.europa.eu/help/api/data",
+       "license": "ECB Reuse Policy",
+       "collector": "ecb-data"
       },
       {
        "id": "cyber.finance.mempool_fee_spike",
@@ -3646,8 +4109,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "mempool.space REST API",
-       "sourceUrl": "https://mempool.space/docs/api/rest"
+       "sourceUrl": "https://mempool.space/docs/api/rest",
+       "license": "AGPL-Software, API frei",
+       "collector": "mempool-space"
       }
      ]
     },
@@ -3744,8 +4210,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 37.77,
+        "lon": -122.42,
+        "label": "San Francisco",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 1,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.services.demo_8k",
@@ -3832,8 +4309,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 40.71,
+        "lon": -74,
+        "label": "New York",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 1,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.services.sec_8k_item105_same_vendor_cluster",
@@ -3854,8 +4342,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC EDGAR Full-Text Search (efts)",
-       "sourceUrl": "https://www.sec.gov/edgar/search/"
+       "sourceUrl": "https://www.sec.gov/edgar/search/",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.services.cdn_dns_providers",
@@ -3876,8 +4367,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cloudflare Status (Statuspage)",
-       "sourceUrl": "https://www.cloudflarestatus.com/api"
+       "sourceUrl": "https://www.cloudflarestatus.com/api",
+       "license": "unklar",
+       "collector": "statuspage"
       },
       {
        "id": "cyber.services.hyperscaler_incidents",
@@ -3898,8 +4392,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "AWS Health Dashboard RSS",
-       "sourceUrl": "https://status.aws.amazon.com/"
+       "sourceUrl": "https://status.aws.amazon.com/",
+       "license": "unklar",
+       "collector": "aws-health"
       },
       {
        "id": "cyber.services.saas_identity_m365",
@@ -3920,8 +4417,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Atlassian Statuspage Standard-API (Host-Liste in notes)",
-       "sourceUrl": "https://developer.statuspage.io/"
+       "sourceUrl": "https://developer.statuspage.io/",
+       "license": "je Anbieter unklar",
+       "collector": "statuspage"
       },
       {
        "id": "cyber.services.sec_8k_item105_daily_count",
@@ -3942,8 +4442,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC EDGAR Full-Text Search (efts)",
-       "sourceUrl": "https://www.sec.gov/edgar/search/"
+       "sourceUrl": "https://www.sec.gov/edgar/search/",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.services.sec_8k_financial_sector",
@@ -3964,8 +4467,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC EDGAR submissions API (data.sec.gov)",
-       "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces"
+       "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.services.statuspage_incident_rate",
@@ -3986,8 +4492,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GitHub Status (Atlassian Statuspage)",
-       "sourceUrl": "https://www.githubstatus.com/api"
+       "sourceUrl": "https://www.githubstatus.com/api",
+       "license": "unklar (Statuspage-API oeffentlich, ToS pruefen)",
+       "collector": "statuspage"
       },
       {
        "id": "cyber.services.eqs_adhoc_cyber",
@@ -4008,8 +4517,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "EQS-News / EQS Group Ad-hoc und Pflichtmitteilungen (Feeds)",
-       "sourceUrl": "https://www.eqs-news.com/"
+       "sourceUrl": "https://www.eqs-news.com/",
+       "license": "unklar (Pressetexte der Emittenten; nur Metadaten nutzen)",
+       "collector": "eqs-news"
       },
       {
        "id": "cyber.services.cpaas_telecom",
@@ -4030,8 +4542,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Telekom/CPaaS Statuspages (Twilio, Vonage, Bandwidth, Sinch)",
-       "sourceUrl": "https://status.twilio.com/"
+       "sourceUrl": "https://status.twilio.com/",
+       "license": "unklar",
+       "collector": "statuspage"
       },
       {
        "id": "cyber.services.sec_8k_keywords_outage",
@@ -4052,8 +4567,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC EDGAR Full-Text Search (efts)",
-       "sourceUrl": "https://www.sec.gov/edgar/search/"
+       "sourceUrl": "https://www.sec.gov/edgar/search/",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.services.uk_rns_cyber",
@@ -4074,8 +4592,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "FCA National Storage Mechanism (UK RNS-Pflichtmitteilungen)",
-       "sourceUrl": "https://data.fca.org.uk/#/nsm/nationalstoragemechanism"
+       "sourceUrl": "https://data.fca.org.uk/#/nsm/nationalstoragemechanism",
+       "license": "unklar",
+       "collector": "fca-nsm"
       },
       {
        "id": "cyber.services.bnetza_disruption_reports",
@@ -4096,8 +4617,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Bundesnetzagentur Breitbandmessung / Netzstörungen",
-       "sourceUrl": "https://www.bundesnetzagentur.de/"
+       "sourceUrl": "https://www.bundesnetzagentur.de/",
+       "license": "dl-de/by-2-0 (unklar je Datensatz)",
+       "collector": "bnetza"
       },
       {
        "id": "cyber.services.hhs_ocr_hacking_incidents",
@@ -4118,8 +4642,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "HHS OCR Breach Portal (Wall of Shame)",
-       "sourceUrl": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+       "sourceUrl": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+       "license": "US-Regierungsdaten",
+       "collector": "hhs-ocr-breach"
       },
       {
        "id": "cyber.services.state_ag_notifications",
@@ -4140,8 +4667,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Maine AG Data Breach Notifications",
-       "sourceUrl": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html"
+       "sourceUrl": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html",
+       "license": "oeffentliche Behoerdendaten",
+       "collector": "maine-ag-breach"
       },
       {
        "id": "cyber.services.sec_8k_item105_amendments",
@@ -4162,8 +4692,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC EDGAR Full-Text Search (efts)",
-       "sourceUrl": "https://www.sec.gov/edgar/search/"
+       "sourceUrl": "https://www.sec.gov/edgar/search/",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.services.sam_gov_justifications",
@@ -4184,8 +4717,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SAM.gov Opportunities API",
-       "sourceUrl": "https://open.gsa.gov/api/get-opportunities-public-api/"
+       "sourceUrl": "https://open.gsa.gov/api/get-opportunities-public-api/",
+       "license": "US-Public-Domain",
+       "collector": "sam-gov"
       },
       {
        "id": "cyber.services.ted_emergency_it",
@@ -4206,8 +4742,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "TED Search API (EU Ausschreibungen)",
-       "sourceUrl": "https://docs.ted.europa.eu/api/latest/index.html"
+       "sourceUrl": "https://docs.ted.europa.eu/api/latest/index.html",
+       "license": "CC BY 4.0",
+       "collector": "ted"
       },
       {
        "id": "cyber.services.8k_ciso_departures",
@@ -4228,8 +4767,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC EDGAR Full-Text Search",
-       "sourceUrl": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K"
+       "sourceUrl": "https://efts.sec.gov/LATEST/search-index?q=%22Item%201.05%22&forms=8-K",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.services.dora_ico_incident_stats",
@@ -4250,8 +4792,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "UK ICO Data security incident trends",
-       "sourceUrl": "https://ico.org.uk/action-weve-taken/data-security-incident-trends/"
+       "sourceUrl": "https://ico.org.uk/action-weve-taken/data-security-incident-trends/",
+       "license": "Open Government Licence (vermutet)",
+       "collector": "ico-trends"
       }
      ]
     },
@@ -4348,8 +4893,19 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 51.51,
+        "lon": -0.13,
+        "label": "London",
+        "kind": "point"
+       },
+       "rarity": {
+        "share": 1,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.markets.sip_feed_status",
@@ -4370,8 +4926,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "CTA/UTP SIP Systemstatus",
-       "sourceUrl": "https://www.ctaplan.com/"
+       "sourceUrl": "https://www.ctaplan.com/",
+       "license": "unklar",
+       "collector": "sip-status"
       },
       {
        "id": "cyber.markets.nasdaq_nyse_halts",
@@ -4392,8 +4951,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Nasdaq Trader Trading Halts RSS",
-       "sourceUrl": "https://www.nasdaqtrader.com/Trader.aspx?id=TradeHalts"
+       "sourceUrl": "https://www.nasdaqtrader.com/Trader.aspx?id=TradeHalts",
+       "license": "Nasdaq ToS",
+       "collector": "nasdaqtrader-halts"
       },
       {
        "id": "cyber.markets.xetra_market_status",
@@ -4414,8 +4976,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Deutsche Börse Xetra Marktstatus / Handelsunterbrechungen",
-       "sourceUrl": "https://www.xetra.com/xetra-de/handel/handelsinformationen"
+       "sourceUrl": "https://www.xetra.com/xetra-de/handel/handelsinformationen",
+       "license": "Deutsche Boerse ToS",
+       "collector": "xetra-status"
       },
       {
        "id": "cyber.markets.polymarket_cyber",
@@ -4436,8 +5001,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Polymarket Gamma API",
-       "sourceUrl": "https://docs.polymarket.com/"
+       "sourceUrl": "https://docs.polymarket.com/",
+       "license": "Polymarket ToS; Nutzung in einigen Laendern eingeschraenkt",
+       "collector": "polymarket-gamma"
       },
       {
        "id": "cyber.markets.cyber_etf_volume",
@@ -4458,8 +5026,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Yahoo Finance Chart (inoffizielle API)",
-       "sourceUrl": "https://finance.yahoo.com"
+       "sourceUrl": "https://finance.yahoo.com",
+       "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+       "collector": "yahoo-chart"
       },
       {
        "id": "cyber.markets.cyber_pureplay_volume",
@@ -4480,8 +5051,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Yahoo Finance Chart (inoffizielle API)",
-       "sourceUrl": "https://finance.yahoo.com"
+       "sourceUrl": "https://finance.yahoo.com",
+       "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+       "collector": "yahoo-chart"
       },
       {
        "id": "cyber.markets.market_volume_cyber",
@@ -4502,8 +5076,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Polymarket Gamma API",
-       "sourceUrl": "https://docs.polymarket.com/"
+       "sourceUrl": "https://docs.polymarket.com/",
+       "license": "Polymarket ToS; Nutzung in einigen Laendern eingeschraenkt",
+       "collector": "polymarket-gamma"
       },
       {
        "id": "cyber.markets.cdn_cloud_stress",
@@ -4524,8 +5101,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Yahoo Finance Chart (inoffizielle API)",
-       "sourceUrl": "https://finance.yahoo.com"
+       "sourceUrl": "https://finance.yahoo.com",
+       "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+       "collector": "yahoo-chart"
       },
       {
        "id": "cyber.markets.form4_cyber_cloud",
@@ -4546,8 +5126,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC Insider Transactions Data Sets",
-       "sourceUrl": "https://www.sec.gov/data-research/sec-markets-data/insider-transactions-data-sets"
+       "sourceUrl": "https://www.sec.gov/data-research/sec-markets-data/insider-transactions-data-sets",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.markets.single_name_options",
@@ -4568,8 +5151,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Polygon.io Options",
-       "sourceUrl": "https://polygon.io/docs/options"
+       "sourceUrl": "https://polygon.io/docs/options",
+       "license": "Polygon ToS",
+       "collector": "polygon"
       },
       {
        "id": "cyber.markets.bafin_dealings",
@@ -4590,8 +5176,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "BaFin Eigengeschäfte von Führungskräften",
-       "sourceUrl": "https://portal.mvp.bafin.de/database/DealingsInfo/"
+       "sourceUrl": "https://portal.mvp.bafin.de/database/DealingsInfo/",
+       "license": "Datenlizenz Deutschland? unklar",
+       "collector": "bafin-dd"
       },
       {
        "id": "cyber.markets.cyber_insurer_prices",
@@ -4612,8 +5201,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Yahoo Finance Chart (inoffizielle API)",
-       "sourceUrl": "https://finance.yahoo.com"
+       "sourceUrl": "https://finance.yahoo.com",
+       "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+       "collector": "yahoo-chart"
       },
       {
        "id": "cyber.markets.form144_planned_sales",
@@ -4634,8 +5226,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC EDGAR",
-       "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces"
+       "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.markets.bank_equity_index",
@@ -4656,8 +5251,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Stooq historische Kurse (CSV)",
-       "sourceUrl": "https://stooq.com/db/h/"
+       "sourceUrl": "https://stooq.com/db/h/",
+       "license": "unklar (privater Dienst)",
+       "collector": "stooq"
       },
       {
        "id": "cyber.markets.bank_stocks",
@@ -4678,8 +5276,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Yahoo Finance Chart (inoffizielle API)",
-       "sourceUrl": "https://finance.yahoo.com"
+       "sourceUrl": "https://finance.yahoo.com",
+       "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+       "collector": "yahoo-chart"
       },
       {
        "id": "cyber.markets.form4_banks",
@@ -4700,8 +5301,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SEC EDGAR",
-       "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces"
+       "sourceUrl": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+       "license": "US-Regierungsdaten, gemeinfrei; Fair Access: User-Agent mit Kontakt Pflicht, max. 10 Anfragen/s",
+       "collector": "sec-edgar"
       },
       {
        "id": "cyber.markets.short_interest_cyber",
@@ -4722,8 +5326,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "FINRA Short Interest / Daily Short Volume",
-       "sourceUrl": "https://www.finra.org/finra-data/browse-catalog/short-sale-volume-data"
+       "sourceUrl": "https://www.finra.org/finra-data/browse-catalog/short-sale-volume-data",
+       "license": "FINRA Nutzungsbedingungen",
+       "collector": "finra-short"
       },
       {
        "id": "cyber.markets.financial_stress_index",
@@ -4744,8 +5351,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "FRED API (St. Louis Fed)",
-       "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/"
+       "sourceUrl": "https://fred.stlouisfed.org/docs/api/fred/",
+       "license": "FRED API Terms of Use: Pflichthinweis \"not endorsed\" im Dashboard, keine FRED-Logos; Drittanbieter-Serien nur mit Erlaubnis des Rechteinhabers",
+       "collector": "fred"
       },
       {
        "id": "cyber.markets.putcall_ratio",
@@ -4766,8 +5376,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cboe Put/Call Ratios",
-       "sourceUrl": "https://www.cboe.com/us/options/market_statistics/daily/"
+       "sourceUrl": "https://www.cboe.com/us/options/market_statistics/daily/",
+       "license": "Cboe Nutzungsbedingungen",
+       "collector": "cboe"
       },
       {
        "id": "cyber.markets.vix_spike",
@@ -4788,8 +5401,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cboe VIX History CSV",
-       "sourceUrl": "https://www.cboe.com/tradable_products/vix/vix_historical_data/"
+       "sourceUrl": "https://www.cboe.com/tradable_products/vix/vix_historical_data/",
+       "license": "Cboe ToS",
+       "collector": "cboe"
       },
       {
        "id": "cyber.markets.vix_term_structure",
@@ -4810,8 +5426,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Cboe VIX9D/VIX3M CSV",
-       "sourceUrl": "https://www.cboe.com/tradable_products/vix/vix_historical_data/"
+       "sourceUrl": "https://www.cboe.com/tradable_products/vix/vix_historical_data/",
+       "license": "Cboe Nutzungsbedingungen",
+       "collector": "cboe"
       },
       {
        "id": "cyber.markets.bitcoin_vs_gold_divergence",
@@ -4832,8 +5451,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Yahoo Finance Chart (inoffizielle API)",
-       "sourceUrl": "https://finance.yahoo.com"
+       "sourceUrl": "https://finance.yahoo.com",
+       "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+       "collector": "yahoo-chart"
       },
       {
        "id": "cyber.markets.gold",
@@ -4854,8 +5476,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Yahoo Finance Chart (inoffizielle API)",
-       "sourceUrl": "https://finance.yahoo.com"
+       "sourceUrl": "https://finance.yahoo.com",
+       "license": "inoffiziell, ToS erlauben keine systematische Nutzung; Lizenz unklar",
+       "collector": "yahoo-chart"
       },
       {
        "id": "cyber.markets.safe_haven_fx",
@@ -4876,8 +5501,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ECB Data Portal API",
-       "sourceUrl": "https://data.ecb.europa.eu/help/api/overview"
+       "sourceUrl": "https://data.ecb.europa.eu/help/api/overview",
+       "license": "ECB Reuse Policy (Quellenangabe)",
+       "collector": "ecb-data"
       },
       {
        "id": "cyber.markets.cat_bond_cyber",
@@ -4898,8 +5526,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Artemis Cyber Cat Bonds",
-       "sourceUrl": "https://www.artemis.bm/"
+       "sourceUrl": "https://www.artemis.bm/",
+       "license": "urheberrechtlich geschuetzt",
+       "collector": "artemis"
       },
       {
        "id": "cyber.markets.cyber_premium_index",
@@ -4920,8 +5551,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Marsh Global Insurance Market Index (Cyber-Preise)",
-       "sourceUrl": "https://www.marsh.com/en/services/global-insurance-market-index.html"
+       "sourceUrl": "https://www.marsh.com/en/services/global-insurance-market-index.html",
+       "license": "unklar",
+       "collector": "marsh-cyber-pricing"
       }
      ]
     },
@@ -5018,8 +5652,20 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 51.1,
+        "lon": 10.4,
+        "label": "Deutschland",
+        "kind": "country",
+        "cc": "DE"
+       },
+       "rarity": {
+        "share": 0.1567,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.physical.demo_faa",
@@ -5106,8 +5752,20 @@
        ],
        "sparkStart": "2026-11-14T19:00:00.000Z",
        "sparkEnd": "2026-11-17T06:00:00.000Z",
+       "geo": {
+        "lat": 39.8,
+        "lon": -98.6,
+        "label": "USA",
+        "kind": "country",
+        "cc": "US"
+       },
+       "rarity": {
+        "share": 0.2817,
+        "n": 504
+       },
        "sourceName": "Demo-Daten",
-       "sourceUrl": "https://example.org/demo"
+       "sourceUrl": "https://example.org/demo",
+       "collector": "demo"
       },
       {
        "id": "cyber.physical.emergency_number_outage",
@@ -5128,8 +5786,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "NINA / MoWaS Warn-API (BBK)",
-       "sourceUrl": "https://nina.api.bund.dev/"
+       "sourceUrl": "https://nina.api.bund.dev/",
+       "license": "Datenlizenz Deutschland, unklar im Detail",
+       "collector": "nina-mowas"
       },
       {
        "id": "cyber.physical.airline_it_ground_stops",
@@ -5150,8 +5811,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "OpenSky States",
-       "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html"
+       "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
+       "license": "OpenSky: nur gemeinnützige Forschung/Lehre; Nutzung in diesem Dienst (auch anonym) erst nach schriftlicher Vereinbarung, angefragt 17.11.2026",
+       "collector": "opensky"
       },
       {
        "id": "cyber.physical.hospital_it_outage",
@@ -5172,8 +5836,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "IVENA / Leitstellen-Abmeldungen",
-       "sourceUrl": "https://www.ivena.de/"
+       "sourceUrl": "https://www.ivena.de/",
+       "license": "unklar",
+       "collector": "ivena"
       },
       {
        "id": "cyber.physical.eurocontrol_delays_it",
@@ -5194,8 +5861,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Eurocontrol Network Manager / Aviation Intelligence",
-       "sourceUrl": "https://www.eurocontrol.int/dashboard/aviation-intelligence-portal"
+       "sourceUrl": "https://www.eurocontrol.int/dashboard/aviation-intelligence-portal",
+       "license": "Eurocontrol Nutzungsbedingungen, unklar",
+       "collector": "eurocontrol"
       },
       {
        "id": "cyber.physical.fcc_dirs_reports",
@@ -5216,8 +5886,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "FCC DIRS Summary",
-       "sourceUrl": "https://www.fcc.gov/disaster-information-reporting-system-dirs-0"
+       "sourceUrl": "https://www.fcc.gov/disaster-information-reporting-system-dirs-0",
+       "license": "gemeinfrei",
+       "collector": "fcc-dirs"
       },
       {
        "id": "cyber.physical.frequency_deviation_de",
@@ -5238,8 +5911,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Energy-Charts API (Fraunhofer ISE)",
-       "sourceUrl": "https://api.energy-charts.info/"
+       "sourceUrl": "https://api.energy-charts.info/",
+       "license": "CC BY 4.0 (laut Seite, pruefen)",
+       "collector": "energy-charts"
       },
       {
        "id": "cyber.physical.generation_unit_outages_eu",
@@ -5260,8 +5936,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ENTSO-E Transparency Platform",
-       "sourceUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html"
+       "sourceUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+       "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
+       "collector": "entsoe"
       },
       {
        "id": "cyber.physical.us_ground_stops",
@@ -5282,8 +5961,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "FAA NAS Status",
-       "sourceUrl": "https://nasstatus.faa.gov/"
+       "sourceUrl": "https://nasstatus.faa.gov/",
+       "license": "US-Regierungsdaten, gemeinfrei (typisch)",
+       "collector": "faa-nas"
       },
       {
        "id": "cyber.physical.us_outage_customers",
@@ -5304,8 +5986,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "PowerOutage.us",
-       "sourceUrl": "https://poweroutage.us/"
+       "sourceUrl": "https://poweroutage.us/",
+       "license": "Nutzung laut ToS eingeschraenkt",
+       "collector": "poweroutage-us"
       },
       {
        "id": "cyber.physical.frequency_rocof",
@@ -5326,8 +6011,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Energy-Charts API (Fraunhofer ISE)",
-       "sourceUrl": "https://api.energy-charts.info/"
+       "sourceUrl": "https://api.energy-charts.info/",
+       "license": "CC BY 4.0 (laut Seite, pruefen)",
+       "collector": "energy-charts"
       },
       {
        "id": "cyber.physical.gtfsrt_feed_availability",
@@ -5348,8 +6036,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GTFS-Realtime Feeds (z.B. gtfs.de)",
-       "sourceUrl": "https://gtfs.de/"
+       "sourceUrl": "https://gtfs.de/",
+       "license": "CC BY 4.0 (gtfs.de), pruefen",
+       "collector": "gtfs-rt"
       },
       {
        "id": "cyber.physical.load_vs_forecast_de",
@@ -5370,8 +6061,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SMARD Bundesnetzagentur",
-       "sourceUrl": "https://smard.api.proxy.bund.dev/"
+       "sourceUrl": "https://smard.api.proxy.bund.dev/",
+       "license": "CC BY 4.0, Namensnennung SMARD",
+       "collector": "smard"
       },
       {
        "id": "cyber.physical.cancellation_rate",
@@ -5392,8 +6086,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "FlightAware AeroAPI",
-       "sourceUrl": "https://www.flightaware.com/commercial/aeroapi/"
+       "sourceUrl": "https://www.flightaware.com/commercial/aeroapi/",
+       "license": "kommerziell",
+       "collector": "flightaware"
       },
       {
        "id": "cyber.physical.continuity_aircraft",
@@ -5414,8 +6111,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "adsb.lol API und Historie",
-       "sourceUrl": "https://api.adsb.lol/docs"
+       "sourceUrl": "https://api.adsb.lol/docs",
+       "license": "ODbL / frei (Community)",
+       "collector": "adsb-lol"
       },
       {
        "id": "cyber.physical.cross_border_flow_anomaly",
@@ -5436,8 +6136,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ENTSO-E Transparency Platform",
-       "sourceUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html"
+       "sourceUrl": "https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html",
+       "license": "laut Katalog CC BY 4.0; Bedingungen noch nicht selbst gelesen (API-Zugang beantragt, 17.11.2026)",
+       "collector": "entsoe"
       },
       {
        "id": "cyber.physical.galileo_service_status",
@@ -5458,8 +6161,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GSC Galileo Notices",
-       "sourceUrl": "https://www.gsc-europa.eu/system-service-status/constellation-information"
+       "sourceUrl": "https://www.gsc-europa.eu/system-service-status/constellation-information",
+       "license": "EU, unklar",
+       "collector": "gsc-galileo"
       },
       {
        "id": "cyber.physical.irish_datacenter_load",
@@ -5480,8 +6186,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "EirGrid Smart Grid Dashboard",
-       "sourceUrl": "https://www.smartgriddashboard.com/"
+       "sourceUrl": "https://www.smartgriddashboard.com/",
+       "license": "CC BY 4.0",
+       "collector": "eirgrid"
       },
       {
        "id": "cyber.physical.opensky_flight_count",
@@ -5502,8 +6211,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "OpenSky Network REST API",
-       "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html"
+       "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
+       "license": "OpenSky: nur gemeinnützige Forschung/Lehre; Nutzung in diesem Dienst (auch anonym) erst nach schriftlicher Vereinbarung, angefragt 17.11.2026",
+       "collector": "opensky"
       },
       {
        "id": "cyber.physical.solar_wind_feedin_sudden_drop",
@@ -5524,8 +6236,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Energy-Charts API (Fraunhofer ISE)",
-       "sourceUrl": "https://api.energy-charts.info/"
+       "sourceUrl": "https://api.energy-charts.info/",
+       "license": "CC BY 4.0 (laut Seite, pruefen)",
+       "collector": "energy-charts"
       },
       {
        "id": "cyber.physical.adsb_coverage_loss",
@@ -5546,8 +6261,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "OpenSky Network REST API",
-       "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html"
+       "sourceUrl": "https://openskynetwork.github.io/opensky-api/rest.html",
+       "license": "OpenSky: nur gemeinnützige Forschung/Lehre; Nutzung in diesem Dienst (auch anonym) erst nach schriftlicher Vereinbarung, angefragt 17.11.2026",
+       "collector": "opensky"
       },
       {
        "id": "cyber.physical.db_cancellation_rate",
@@ -5568,8 +6286,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GTFS-Realtime Feeds (z.B. gtfs.de)",
-       "sourceUrl": "https://gtfs.de/"
+       "sourceUrl": "https://gtfs.de/",
+       "license": "CC BY 4.0 (gtfs.de), pruefen",
+       "collector": "gtfs-rt"
       },
       {
        "id": "cyber.physical.gnss_interference",
@@ -5590,8 +6311,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "GPSJam",
-       "sourceUrl": "https://gpsjam.org/"
+       "sourceUrl": "https://gpsjam.org/",
+       "license": "unklar",
+       "collector": "gpsjam"
       },
       {
        "id": "cyber.physical.grid_load_germany",
@@ -5612,8 +6336,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "SMARD (Bundesnetzagentur)",
-       "sourceUrl": "https://smard.de/page/home/downloadcenter/download-marktdaten"
+       "sourceUrl": "https://smard.de/page/home/downloadcenter/download-marktdaten",
+       "license": "CC BY 4.0",
+       "collector": "smard"
       },
       {
        "id": "cyber.physical.ioda_starlink_asn",
@@ -5634,8 +6361,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "IODA (Georgia Tech)",
-       "sourceUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/"
+       "sourceUrl": "https://api.ioda.inetintel.cc.gatech.edu/v2/",
+       "license": "frei fuer Forschung, Bedingungen auf Website",
+       "collector": "ioda"
       },
       {
        "id": "cyber.physical.us_demand_balancing_authorities",
@@ -5656,8 +6386,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "US EIA Hourly Electric Grid Monitor API",
-       "sourceUrl": "https://www.eia.gov/opendata/"
+       "sourceUrl": "https://www.eia.gov/opendata/",
+       "license": "US-Regierungsdaten; Quelle \"U.S. Energy Information Administration (EIA)\" nennen, veränderte Daten nicht als EIA, kein Logo/Endorsement, Rate-Limits einhalten",
+       "collector": "eia"
       },
       {
        "id": "cyber.physical.water_utility_alerts",
@@ -5678,8 +6411,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "EPA SDWIS / ECHO",
-       "sourceUrl": "https://echo.epa.gov/tools/web-services"
+       "sourceUrl": "https://echo.epa.gov/tools/web-services",
+       "license": "gemeinfrei",
+       "collector": "epa-sdwis"
       },
       {
        "id": "cyber.physical.ais_position_jumps",
@@ -5700,8 +6436,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "AISHub / aisstream.io",
-       "sourceUrl": "https://aisstream.io/documentation"
+       "sourceUrl": "https://aisstream.io/documentation",
+       "license": "aisstream.io ToS, unklar",
+       "collector": "aisstream"
       },
       {
        "id": "cyber.physical.cross_border_flow_drop",
@@ -5722,8 +6461,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ENTSOG Transparency Platform API",
-       "sourceUrl": "https://transparency.entsog.eu/api/archiveDirectory/swagger/"
+       "sourceUrl": "https://transparency.entsog.eu/api/archiveDirectory/swagger/",
+       "license": "ENTSOG, Namensnennung, unklar",
+       "collector": "entsog"
       },
       {
        "id": "cyber.physical.bizjet_nz_aggregate",
@@ -5744,8 +6486,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "adsb.lol API und Historie",
-       "sourceUrl": "https://api.adsb.lol/docs"
+       "sourceUrl": "https://api.adsb.lol/docs",
+       "license": "ODbL / frei (Community)",
+       "collector": "adsb-lol"
       },
       {
        "id": "cyber.physical.bizjet_remote_havens",
@@ -5766,8 +6511,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "adsb.lol API und Historie",
-       "sourceUrl": "https://api.adsb.lol/docs"
+       "sourceUrl": "https://api.adsb.lol/docs",
+       "license": "ODbL / frei (Community)",
+       "collector": "adsb-lol"
       },
       {
        "id": "cyber.physical.lng_sendout_anomaly",
@@ -5788,8 +6536,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "ALSI+ LNG Storage",
-       "sourceUrl": "https://alsi.gie.eu/api"
+       "sourceUrl": "https://alsi.gie.eu/api",
+       "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
+       "collector": "alsi"
       },
       {
        "id": "cyber.physical.price_spike_de",
@@ -5810,8 +6561,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Energy-Charts API (Fraunhofer ISE)",
-       "sourceUrl": "https://api.energy-charts.info/"
+       "sourceUrl": "https://api.energy-charts.info/",
+       "license": "CC BY 4.0 (laut Seite, pruefen)",
+       "collector": "energy-charts"
       },
       {
        "id": "cyber.physical.starlink_fleet_count",
@@ -5832,8 +6586,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "CelesTrak GP-Daten",
-       "sourceUrl": "https://celestrak.org/NORAD/documentation/gp-data-formats.php"
+       "sourceUrl": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+       "license": "frei, Quellenangabe",
+       "collector": "celestrak"
       },
       {
        "id": "cyber.physical.storage_level_anomaly_eu",
@@ -5854,8 +6611,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "AGSI+ Gas Infrastructure Europe",
-       "sourceUrl": "https://agsi.gie.eu/api"
+       "sourceUrl": "https://agsi.gie.eu/api",
+       "license": "GIE AGSI+/ALSI+: Weiterverarbeitung frei, Quellenangabe \"GIE AGSI / ALSI platform\" Pflicht (sonst Key-Sperre möglich)",
+       "collector": "agsi"
       },
       {
        "id": "cyber.physical.port_congestion",
@@ -5876,8 +6636,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "AISHub / aisstream.io",
-       "sourceUrl": "https://aisstream.io/documentation"
+       "sourceUrl": "https://aisstream.io/documentation",
+       "license": "aisstream.io ToS, unklar",
+       "collector": "aisstream"
       },
       {
        "id": "cyber.physical.satellite_decay_events",
@@ -5898,8 +6661,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "Space-Track.org API",
-       "sourceUrl": "https://www.space-track.org/documentation"
+       "sourceUrl": "https://www.space-track.org/documentation",
+       "license": "Space-Track ToS, keine Weitergabe roher Daten",
+       "collector": "space-track"
       },
       {
        "id": "cyber.physical.map_inventory",
@@ -5920,8 +6686,11 @@
        "spark": [],
        "sparkStart": null,
        "sparkEnd": null,
+       "rarity": null,
        "sourceName": "TeleGeography Submarine Cable Map",
-       "sourceUrl": "https://www.submarinecablemap.com/"
+       "sourceUrl": "https://www.submarinecablemap.com/",
+       "license": "CC BY-NC-SA 4.0",
+       "collector": "subcable"
       }
      ]
     }
@@ -6012,8 +6781,20 @@
      ],
      "sparkStart": "2026-11-14T19:00:00.000Z",
      "sparkEnd": "2026-11-17T06:00:00.000Z",
+     "geo": {
+      "lat": -15.8,
+      "lon": -47.9,
+      "label": "Brasilien",
+      "kind": "country",
+      "cc": "BR"
+     },
+     "rarity": {
+      "share": 0,
+      "n": 504
+     },
      "sourceName": "Demo-Daten",
-     "sourceUrl": "https://example.org/demo"
+     "sourceUrl": "https://example.org/demo",
+     "collector": "demo"
     },
     {
      "id": "cyber.attention.demo_search",
@@ -6100,8 +6881,13 @@
      ],
      "sparkStart": "2026-11-14T19:00:00.000Z",
      "sparkEnd": "2026-11-17T06:00:00.000Z",
+     "rarity": {
+      "share": 0,
+      "n": 504
+     },
      "sourceName": "Demo-Daten",
-     "sourceUrl": "https://example.org/demo"
+     "sourceUrl": "https://example.org/demo",
+     "collector": "demo"
     },
     {
      "id": "cyber.attention.crowd_outage_aggregators",
@@ -6122,8 +6908,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "StatusGator / IsDown (Aggregation von Statusseiten)",
-     "sourceUrl": "https://statusgator.com/"
+     "sourceUrl": "https://statusgator.com/",
+     "license": "kommerziell, ToS pruefen",
+     "collector": "isdown-statusgator"
     },
     {
      "id": "cyber.attention.mobile_outage_crowd",
@@ -6144,8 +6933,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
-     "sourceUrl": "https://downdetector.com/"
+     "sourceUrl": "https://downdetector.com/",
+     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+     "collector": "downdetector"
     },
     {
      "id": "cyber.attention.reddit_sysadmin_activity",
@@ -6166,8 +6958,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Reddit about.json",
-     "sourceUrl": "https://www.reddit.com/dev/api/"
+     "sourceUrl": "https://www.reddit.com/dev/api/",
+     "license": "Reddit Data API Terms, kommerziell eingeschraenkt",
+     "collector": "reddit-json"
     },
     {
      "id": "cyber.attention.stoerungsmelder_card_banking",
@@ -6188,8 +6983,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Störungsmelder / allestörungen.de Crowd-Meldungen",
-     "sourceUrl": "https://stoerungsmelder.de/"
+     "sourceUrl": "https://stoerungsmelder.de/",
+     "license": "unklar, ToS verbieten ggf. Scraping",
+     "collector": "stoerungsmelder"
     },
     {
      "id": "cyber.attention.hackernews_volume",
@@ -6210,8 +7008,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Hacker News Algolia API",
-     "sourceUrl": "https://hn.algolia.com/api"
+     "sourceUrl": "https://hn.algolia.com/api",
+     "license": "Daten oeffentlich, ToS Algolia/HN beachten",
+     "collector": "hn-algolia"
     },
     {
      "id": "cyber.attention.wikipedia_cyber_terms",
@@ -6232,8 +7033,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Wikimedia Pageviews REST API",
-     "sourceUrl": "https://doc.wikimedia.org/generated-contents/examples/pageviews/"
+     "sourceUrl": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "license": "CC0 fuer Daten",
+     "collector": "wikimedia-pageviews"
     },
     {
      "id": "cyber.attention.bank_app_review_spike",
@@ -6254,8 +7058,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Apple iTunes Customer Reviews RSS (Banking-Apps)",
-     "sourceUrl": "https://rss.applemarketingtools.com/"
+     "sourceUrl": "https://rss.applemarketingtools.com/",
+     "license": "Apple ToS, nur Aggregate",
+     "collector": "apple-rss"
     },
     {
      "id": "cyber.attention.bluesky_mastodon_keywords",
@@ -6276,8 +7083,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Mastodon Trends API",
-     "sourceUrl": "https://docs.joinmastodon.org/methods/trends/"
+     "sourceUrl": "https://docs.joinmastodon.org/methods/trends/",
+     "license": "je Instanz, offen",
+     "collector": "mastodon-trends"
     },
     {
      "id": "cyber.attention.eu_outage_reports_crowd",
@@ -6298,8 +7108,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
-     "sourceUrl": "https://downdetector.com/"
+     "sourceUrl": "https://downdetector.com/",
+     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+     "collector": "downdetector"
     },
     {
      "id": "cyber.attention.gdelt_cyber_bank_volume",
@@ -6320,8 +7133,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "GDELT DOC 2.0 API",
-     "sourceUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/"
+     "sourceUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "license": "frei nutzbar mit Quellenangabe",
+     "collector": "gdelt-doc"
     },
     {
      "id": "cyber.attention.gdelt_cyber_volume",
@@ -6342,8 +7158,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "GDELT DOC 2.0 API",
-     "sourceUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/"
+     "sourceUrl": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+     "license": "frei nutzbar mit Quellenangabe",
+     "collector": "gdelt-doc"
     },
     {
      "id": "cyber.attention.ooni_anomalies",
@@ -6364,8 +7183,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "OONI API",
-     "sourceUrl": "https://docs.ooni.org/api/"
+     "sourceUrl": "https://docs.ooni.org/api/",
+     "license": "CC BY 4.0",
+     "collector": "ooni"
     },
     {
      "id": "cyber.attention.poc_github",
@@ -6386,8 +7208,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "nomi-sec PoC-in-GitHub",
-     "sourceUrl": "https://github.com/nomi-sec/PoC-in-GitHub"
+     "sourceUrl": "https://github.com/nomi-sec/PoC-in-GitHub",
+     "license": "unklar",
+     "collector": "poc-in-github"
     },
     {
      "id": "cyber.attention.google_trends_crisis",
@@ -6408,8 +7233,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Google Trends (pytrends, inoffiziell)",
-     "sourceUrl": "https://github.com/GeneralMills/pytrends"
+     "sourceUrl": "https://github.com/GeneralMills/pytrends",
+     "license": "Google ToS verbieten automatisierte Abfragen; keine offene Lizenz",
+     "collector": "google-trends-unofficial"
     },
     {
      "id": "cyber.attention.wikipedia_cash_prep",
@@ -6430,8 +7258,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Wikimedia Pageviews REST API",
-     "sourceUrl": "https://doc.wikimedia.org/generated-contents/examples/pageviews/"
+     "sourceUrl": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "license": "CC0 fuer Daten",
+     "collector": "wikimedia-pageviews"
     },
     {
      "id": "cyber.attention.cloudflare_domain_rankings",
@@ -6452,8 +7283,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Cloudflare Radar API",
-     "sourceUrl": "https://developers.cloudflare.com/radar/"
+     "sourceUrl": "https://developers.cloudflare.com/radar/",
+     "license": "CC BY-NC 4.0, nur nicht-kommerziell; Namensnennung \"Cloudflare Radar\"",
+     "collector": "cf-radar"
     },
     {
      "id": "cyber.attention.gsmr_outage",
@@ -6474,8 +7308,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Statusseiten Mobilfunk (Beispiel Downdetector-Alternativen)",
-     "sourceUrl": "https://downdetector.com/"
+     "sourceUrl": "https://downdetector.com/",
+     "license": "Downdetector ToS, kein Scraping; nur Crowd-Signal",
+     "collector": "downdetector"
     },
     {
      "id": "cyber.attention.vt_malware_stats",
@@ -6496,8 +7333,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "VirusTotal Public API",
-     "sourceUrl": "https://docs.virustotal.com/reference/overview"
+     "sourceUrl": "https://docs.virustotal.com/reference/overview",
+     "license": "Public-API nur nicht-kommerziell",
+     "collector": "virustotal"
     },
     {
      "id": "cyber.attention.wikipedia_edit_rate_outage_pages",
@@ -6518,8 +7358,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Wikimedia EventStreams recentchange",
-     "sourceUrl": "https://stream.wikimedia.org/?doc"
+     "sourceUrl": "https://stream.wikimedia.org/?doc",
+     "license": "CC0",
+     "collector": "wikimedia-eventstreams"
     },
     {
      "id": "cyber.attention.wikipedia_traffic_baseline",
@@ -6540,8 +7383,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Wikimedia Aggregate Pageviews",
-     "sourceUrl": "https://doc.wikimedia.org/generated-contents/examples/pageviews/"
+     "sourceUrl": "https://doc.wikimedia.org/generated-contents/examples/pageviews/",
+     "license": "CC0",
+     "collector": "wikimedia-pageviews"
     },
     {
      "id": "cyber.attention.app_store_survival_apps",
@@ -6562,8 +7408,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Apple Marketing Tools RSS (App-Charts)",
-     "sourceUrl": "https://rss.applemarketingtools.com/"
+     "sourceUrl": "https://rss.applemarketingtools.com/",
+     "license": "Apple-Bedingungen, unklar",
+     "collector": "apple-rss"
     },
     {
      "id": "cyber.attention.domain_registrations_crisis_terms",
@@ -6584,8 +7433,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "WhoisDS Newly Registered Domains",
-     "sourceUrl": "https://whoisds.com/newly-registered-domains"
+     "sourceUrl": "https://whoisds.com/newly-registered-domains",
+     "license": "unklar",
+     "collector": "whoisds"
     },
     {
      "id": "cyber.attention.fuel_station_outage",
@@ -6606,8 +7458,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Tankerkönig API",
-     "sourceUrl": "https://creativecommons.tankerkoenig.de/"
+     "sourceUrl": "https://creativecommons.tankerkoenig.de/",
+     "license": "CC BY 4.0",
+     "collector": "tankerkoenig"
     },
     {
      "id": "cyber.attention.metaculus_manifold",
@@ -6628,8 +7483,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Manifold Markets API",
-     "sourceUrl": "https://docs.manifold.markets/api"
+     "sourceUrl": "https://docs.manifold.markets/api",
+     "license": "Manifold ToS, Daten offen",
+     "collector": "manifold"
     },
     {
      "id": "cyber.attention.security_repo_commit_hours",
@@ -6650,8 +7508,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "GitHub REST API",
-     "sourceUrl": "https://docs.github.com/en/rest"
+     "sourceUrl": "https://docs.github.com/en/rest",
+     "license": "GitHub ToS, Commit-Metadaten oeffentlich",
+     "collector": "github-rest"
     },
     {
      "id": "cyber.attention.steam_twitch_activity",
@@ -6672,8 +7533,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Steam Web API (Gleichzeitige Spieler)",
-     "sourceUrl": "https://partner.steamgames.com/doc/webapi/ISteamUserStats"
+     "sourceUrl": "https://partner.steamgames.com/doc/webapi/ISteamUserStats",
+     "license": "Steam Web API Terms",
+     "collector": "steam-players"
     },
     {
      "id": "cyber.attention.traffic_lights_outage",
@@ -6694,8 +7558,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Autobahn App API",
-     "sourceUrl": "https://autobahn.api.bund.dev/"
+     "sourceUrl": "https://autobahn.api.bund.dev/",
+     "license": "Datenlizenz Deutschland, unklar",
+     "collector": "autobahn-api"
     },
     {
      "id": "cyber.attention.conference_cancellations",
@@ -6716,8 +7583,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "confs.tech",
-     "sourceUrl": "https://confs.tech/"
+     "sourceUrl": "https://confs.tech/",
+     "license": "MIT",
+     "collector": "confs-tech"
     },
     {
      "id": "cyber.attention.ham_radio_activity",
@@ -6738,8 +7608,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "PSKReporter",
-     "sourceUrl": "https://pskreporter.info/pskdev.html"
+     "sourceUrl": "https://pskreporter.info/pskdev.html",
+     "license": "unklar, Fair Use",
+     "collector": "pskreporter"
     },
     {
      "id": "cyber.attention.incident_response_postings",
@@ -6760,8 +7633,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Bundesagentur für Arbeit Jobsuche API",
-     "sourceUrl": "https://jobsuche.api.bund.dev/"
+     "sourceUrl": "https://jobsuche.api.bund.dev/",
+     "license": "bund.dev, offene Nutzung; Bedingungen pruefen",
+     "collector": "bundesagentur-jobsuche"
     },
     {
      "id": "cyber.attention.meshtastic_nodes",
@@ -6782,8 +7658,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "Meshtastic Public Map (liamcottle)",
-     "sourceUrl": "https://meshtastic.liamcottle.net/"
+     "sourceUrl": "https://meshtastic.liamcottle.net/",
+     "license": "Community, unklar",
+     "collector": "meshtastic-map"
     },
     {
      "id": "cyber.attention.ship_ais_aggregate",
@@ -6804,8 +7683,11 @@
      "spark": [],
      "sparkStart": null,
      "sparkEnd": null,
+     "rarity": null,
      "sourceName": "AISStream.io",
-     "sourceUrl": "https://aisstream.io/documentation"
+     "sourceUrl": "https://aisstream.io/documentation",
+     "license": "unklar",
+     "collector": "aisstream"
     }
    ],
    "anomalies": [
@@ -6894,8 +7776,20 @@
      ],
      "sparkStart": "2026-11-14T19:00:00.000Z",
      "sparkEnd": "2026-11-17T06:00:00.000Z",
+     "geo": {
+      "lat": -15.8,
+      "lon": -47.9,
+      "label": "Brasilien",
+      "kind": "country",
+      "cc": "BR"
+     },
+     "rarity": {
+      "share": 0,
+      "n": 504
+     },
      "sourceName": "Demo-Daten",
-     "sourceUrl": "https://example.org/demo"
+     "sourceUrl": "https://example.org/demo",
+     "collector": "demo"
     },
     {
      "id": "cyber.attention.demo_search",
@@ -6982,8 +7876,13 @@
      ],
      "sparkStart": "2026-11-14T19:00:00.000Z",
      "sparkEnd": "2026-11-17T06:00:00.000Z",
+     "rarity": {
+      "share": 0,
+      "n": 504
+     },
      "sourceName": "Demo-Daten",
-     "sourceUrl": "https://example.org/demo"
+     "sourceUrl": "https://example.org/demo",
+     "collector": "demo"
     }
    ],
    "context": [],

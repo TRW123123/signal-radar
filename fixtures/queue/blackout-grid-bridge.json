@@ -1,0 +1,7 @@
+[
+  {
+    "fixture": "energy-charts/price-de-lu-2d.json",
+    "url": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-15T00%3A00Z&end=2026-11-17T00%3A00Z",
+    "maxChars": 6000
+  }
+]

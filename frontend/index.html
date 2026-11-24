@@ -3,39 +3,53 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Signal Radar – wie ungewöhnlich sind die Messwerte gerade?</title>
-<meta name="description" content="Signal Radar zeigt je Krisen-Szenario, wie stark öffentlich messbare Rohdaten gerade von ihrem eigenen Normalwert abweichen. Keine Wahrscheinlichkeit, keine Vorhersage.">
-<meta name="robots" content="noindex, nofollow">
+<title>Signal Radar: Stimmt das Gerücht? Live-Blick in die Messdaten der Welt</title>
+<meta name="description" content="Gerüchte gibt es viele. Signal Radar zeigt live auf einer Weltkugel, ob in öffentlichen Messdaten wirklich etwas passiert: Internet, Stromnetze, Zahlungsdienste, Luftverkehr und mehr. Keine Vorhersage.">
+<meta name="robots" content="index, follow">
 <meta name="referrer" content="no-referrer">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark light">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f1ea">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121519">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0e13">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Signal Radar">
+<meta property="og:title" content="Signal Radar: Stimmt das Gerücht?">
+<meta property="og:description" content="Gerüchte gibt es viele. Hier siehst du live, ob in den Messdaten der Welt wirklich etwas passiert.">
+<meta property="og:locale" content="de_DE">
+<meta property="og:locale:alternate" content="en_GB">
+<meta name="twitter:card" content="summary">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://raw.githubusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/martian-mono-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/vendor/countries-110m.json" as="fetch" type="application/json" crossorigin>
+<link rel="modulepreload" href="js/globus.js">
+<link rel="modulepreload" href="assets/vendor/d3-geo.min.js">
 <link rel="stylesheet" href="app.css">
 <script type="module" src="app.js"></script>
 </head>
 <body>
-<a class="sprung" href="#inhalt">Zum Inhalt springen</a>
+<a class="sprung" id="sprung" href="#inhalt">Zum Inhalt springen</a>
 <div id="betrieb" class="betrieb" hidden></div>
 <div class="seite">
   <header class="kopf">
-    <p class="marke"><svg class="marke-zeichen" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="mz-t" d="M3 9.5h20"/><path class="mz-a" d="M3 17h15l2.5-5.5L23 17"/><path class="mz-a" d="M3 24.5h16l2-4 2 4"/><path class="mz-t" d="M27 5v22"/></g></svg><span>Signal Radar</span></p>
+    <p class="marke"><svg class="marke-zeichen" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 13.5c4 2 8 2.5 11 1.5s7-1.5 11 .5M7 22c3-1.5 6-1.5 9-.5s6 1 9-.5" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".55"/><circle class="marke-licht" cx="20.5" cy="11.5" r="3.2"/></svg><span>Signal Radar</span></p>
+    <p class="satz" id="satz">Gerüchte gibt es viele. Hier siehst du live, ob in den Messdaten der Welt wirklich etwas passiert.</p>
+    <div class="sprachwahl" id="sprachwahl" role="group" aria-label="Sprache">
+      <button type="button" data-sprache="de" aria-pressed="true" lang="de">DE</button><button type="button" data-sprache="en" aria-pressed="false" lang="en">EN</button>
+    </div>
     <p id="stand" class="stand"></p>
   </header>
   <div id="hinweise" aria-live="polite"></div>
-  <nav id="wahl" class="wahl-rahmen" aria-label="Szenarien" hidden></nav>
+  <nav id="linsen" class="linsen" aria-label="Szenarien" hidden></nav>
   <main id="inhalt" class="inhalt" tabindex="-1" aria-busy="true">
-    <div class="laden" role="status">
-      <p class="laden-text">Öffentliche Messwerte werden geprüft …</p><p class="laden-hinweis">Die Einordnung erscheint, sobald die Daten geladen sind.</p>
-      <div class="laden-spuren" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-    </div>
+    <div class="laden" role="status"><span class="laden-kugel" aria-hidden="true"></span><p>Messdaten werden geladen …</p></div>
     <noscript><p class="noscript">Diese Anzeige braucht JavaScript, um die Messdaten zu laden. Die Rohdaten liegen als Datei unter <a href="data/snapshot.json">data/snapshot.json</a>.</p></noscript>
   </main>
   <footer id="fuss" class="fuss"></footer>
 </div>
+<dialog id="karte" class="karte" aria-labelledby="karte-titel">
+  <button type="button" id="karte-zu" class="karte-zu" aria-label="Schließen"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  <div id="karte-inhalt"></div>
+</dialog>
 <p id="ansage" class="nur-vorleser" aria-live="polite"></p>
 </body>
 </html>

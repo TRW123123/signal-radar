@@ -1,0 +1,72 @@
+[
+  {
+    "id": "trump-90-tage-vorraete-fake-post",
+    "title": "Angebliche Trump-Warnung: 90 Tage Vorräte anlegen",
+    "claim": "Ein Social-Media-Beitrag behauptete, der US-Präsident habe dazu aufgerufen, mindestens 90 Tage Lebensmittel, Wasser und Vorräte zu horten, weil Störungen bei Versorgung, Banken und kritischen Diensten drohten.",
+    "date": "2026-11-18",
+    "scenario": "finance",
+    "factcheck": "Media Bias/Fact Check fand weder auf dem genannten Account noch in einem Archiv einen solchen Beitrag und stufte die Behauptung als klar falsch ein. Auch Mimikama bezeichnet den zugehörigen Screenshot als gefälscht.",
+    "outcome": null,
+    "sources": [
+      { "title": "Media Bias/Fact Check: Did Trump urge Americans to stock up on 90 days of food, water and supplies?", "url": "https://mediabiasfactcheck.com/fact-check-did-trump-urge-americans-to-stock-up-on-90-days-of-food-water-and-supplies/" },
+      { "title": "Mimikama: Trump warnt vor 90 Tagen Notvorräten? Screenshot ist gefälscht", "url": "https://www.mimikama.org/?p=439885" }
+    ]
+  },
+  {
+    "id": "weltweiter-cyberangriff-17-november",
+    "title": "Weltweiter Cyberangriff am 17. November 2026",
+    "claim": "In sozialen Netzwerken hieß es, am 17. November 2026 komme ein KI-gestützter Cyberangriff auf Internet oder Stromnetz, Bankkonten würden zurückgesetzt und das Internet für drei Monate abgeschaltet.",
+    "date": "2026-11-17",
+    "scenario": "cyber",
+    "factcheck": "IFLScience und Mimikama fanden keine Belege für die Behauptungen; als reale Grundlage gilt ein angekündigter landesweiter US-Test des Notfallwarnsystems durch FEMA und FCC. FEMA erklärte, es handle sich um einen routinemäßigen, gesetzlich vorgeschriebenen Test ohne verborgenen Notfall.",
+    "outcome": "Der Test lief am 17.11. gegen 14:20 Uhr Ostküstenzeit über Radio und Fernsehen, dauerte etwa 18 Sekunden und löste keine Handy-Warnungen aus. Es wurden keine größeren technischen Probleme gemeldet, FEMA nannte den Test erfolgreich abgeschlossen und wies Behauptungen über einen Hack als falsch zurück; Mimikama meldete danach, der angekündigte Blackout sei ausgeblieben.",
+    "sources": [
+      { "title": "IFLScience: No, the internet is not going into global shutdown on November 17", "url": "https://www.iflscience.com/no-the-internet-is-not-going-into-global-shutdown-on-november-17-hopefully-85195" },
+      { "title": "Mimikama: Cyberangriff am 17. November? Keine Belege für leere Konten", "url": "https://www.mimikama.org/?p=439231" },
+      { "title": "Mimikama: Blackout am 17. November ausgeblieben – jetzt kommen die Ausreden", "url": "https://www.mimikama.org/?p=440094" },
+      { "title": "TV Technology: Nationwide EAS Test Runs Without Apparent Hiccups", "url": "https://www.tvtechnology.com/regulatory-legal/nationwide-eas-test-runs-without-major-hiccups" },
+      { "title": "NewscastStudio: Nationwide EAS test completed successfully, but full results remain pending", "url": "https://www.newscaststudio.com/2026/11/18/emergency-alert-system-test-1126-pending/" },
+      { "title": "NBC Palm Springs: FEMA's emergency alert test went smoothly, officials say", "url": "https://www.nbcpalmsprings.com/ca-us-and-world/2026/11/17/this-is-only-a-test-femas-emergency-alert-test-went-smoothly-officials-say" }
+    ]
+  },
+  {
+    "id": "weltweiter-stromausfall-17-november",
+    "title": "Weltweiter Stromausfall am 17. November 2026",
+    "claim": "In sozialen Netzwerken hieß es, am 17. November 2026 stünden weltweit Millionen Menschen ohne Strom und Kommunikation da.",
+    "date": "2026-11-17",
+    "scenario": "blackout",
+    "factcheck": "FEMA und FCC dementierten eine Warnung vor einem globalen Stromausfall; geplant war nur ein landesweiter Test des Notfallwarnsystems über Radio und Fernsehen. Als Ursprung des Datums nennt der Bericht eine Simpsons-Folge, die einen Stromausfall an einem 17. November zeigt.",
+    "outcome": "Der Warntest fand wie angekündigt statt, ohne gemeldete größere Störungen; ein Stromausfall im behaupteten Ausmaß wurde in den ausgewerteten Quellen nicht berichtet.",
+    "sources": [
+      { "title": "KTTC: Apagón mundial el 17 de noviembre: es un rumor, lo que sí ocurrirá es una prueba nacional de alertas", "url": "https://www.kttc.com/2026/11/14/apagn-mundial-el-17-de-noviembre-es-un-rumor-lo-que-s-ocurrir-es-una-prueba-nacional-de-alertas/" },
+      { "title": "NBC Chicago: FEMA addresses online rumors over nationwide test", "url": "https://www.nbcchicago.com/news/local/fema-addresses-online-rumors-over-nationwide-test-no-secret-emergency/4017927/" },
+      { "title": "Mimikama: Blackout am 17. November? Wie Fakten und erfundene Behauptungen vermischt werden", "url": "https://www.mimikama.org/?p=439909" },
+      { "title": "TV Technology: Nationwide EAS Test Runs Without Apparent Hiccups", "url": "https://www.tvtechnology.com/regulatory-legal/nationwide-eas-test-runs-without-major-hiccups" }
+    ]
+  },
+  {
+    "id": "microsoft-365-ausfall-cyberangriff-ki",
+    "title": "Microsoft-365-Ausfall: Cyberangriff oder KI-Agenten?",
+    "claim": "Zum rund 24-stündigen weltweiten Ausfall von Outlook, Teams und Microsoft 365 wurde spekuliert, dahinter stecke ein Cyberangriff oder KI-Agenten.",
+    "date": "2026-11-13",
+    "scenario": "cyber",
+    "factcheck": "Microsoft erklärte, es habe sich um ein technisches Problem nach einer Netzwerkänderung gehandelt, ohne Bezug zu Cyberangriff oder KI. Die Spekulation wurde in Berichten ausdrücklich zurückgewiesen.",
+    "outcome": null,
+    "sources": [
+      { "title": "Windows Central: Microsoft apologizes for major outage, insists it wasn't AI that caused it", "url": "https://www.windowscentral.com/microsoft/we-are-deeply-sorry-microsoft-apologizes-for-major-outage-that-knocked-outlook-teams-and-microsoft-365-offline-for-24-hours-insists-it-wasnt-ai-that-caused-it" },
+      { "title": "IFLScience: No, the internet is not going into global shutdown on November 17", "url": "https://www.iflscience.com/no-the-internet-is-not-going-into-global-shutdown-on-november-17-hopefully-85195" }
+    ]
+  },
+  {
+    "id": "gehackte-warn-apps-atomwarnung-ukraine-russland",
+    "title": "Atom- und Strahlungsalarm über gehackte Warn-Apps",
+    "claim": "Über die offiziellen Warn-Apps in der Ukraine und in Russland erschienen Meldungen über atomare und chemische Bedrohungen sowie angeblich gestartete Atomsprengköpfe.",
+    "date": "2026-11-01",
+    "scenario": "nuclear",
+    "factcheck": "Die ukrainische Luftwaffe erklärte, es bestehe keine Strahlungsgefahr, und die App sei offenbar von außen beeinflusst worden; Russlands Zivilschutzministerium sprach von einem massiven Cyberangriff und falschen Informationen. Laut Al Jazeera war die Verwirrung in Kiew nach weniger als einer Stunde geklärt.",
+    "outcome": "Eine tatsächliche Freisetzung von Strahlung wird im Bericht nicht erwähnt; die Meldungen gingen auf gehackte Warn-Apps am 1. und 2. November zurück.",
+    "sources": [
+      { "title": "Al Jazeera: Nuclear radiation in Russia, Ukraine? No, just hacked warning alerts", "url": "https://aljazeera.com/news/2026/11/2/nuclear-radiation-in-russia-ukraine-no-just-hacked-warning-alerts" }
+    ]
+  }
+]

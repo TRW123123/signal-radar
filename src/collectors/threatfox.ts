@@ -79,6 +79,10 @@ const collector: Collector = {
     evidenceClass: 'A', direction: 'up', kind: 'count', weight: 0.45, manipulability: 'medium',
     independenceGroup: 'threatfox', unit: 'IOCs/Stunde', intervalMinutes: 60, holdHours: 6,
     baseline: { method: 'hour-of-week', windowDays: 28, minPoints: 48 },
+    // Calibration 2026-11-24 (docs/CALIBRATION.md): hourly counts arrive in batch imports; 2 % of all hours reach
+    // z of about 10. At the global 2.5 the signal crossed the threshold in 5 to 11 % of all hours and kept the threat
+    // domain "unusual" 17 % of the time. Its own threshold sits at its own 1-in-50 point.
+    thresholds: { z0: 10, z1: 20 },
     license: 'abuse.ch-Nutzungsbedingungen: kostenlos nur nicht-gewinnorientiert, moderates Polling; Quelle abuse.ch nennen (Daten laut abuse.ch CC0)',
   }],
   async collect(ctx) {

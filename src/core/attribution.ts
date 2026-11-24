@@ -22,6 +22,14 @@ const GIE_NOTICE = `Gasspeicher- und LNG-Daten: ${GIE_CREDIT} (Gas Infrastructur
 
 export const SOURCE_ATTRIBUTIONS: SourceAttribution[] = [
   {
+    id: 'rki', name: 'Robert Koch-Institut', collectors: ['rki-amelag-github', 'rki-are-github', 'rki-sari-github', 'rki-grippeweb-github', 'rki-intensivregister-github'],
+    sourceNameHints: ['Robert Koch-Institut', 'RKI'],
+    attribution: 'Robert Koch-Institut (RKI)', attributionUrl: 'https://github.com/robert-koch-institut', license: 'CC BY 4.0',
+    footerNotices: ['Surveillance-Daten zu Atemwegserkrankungen und Abwasser: Robert Koch-Institut (RKI), lizenziert unter CC BY 4.0.'],
+    restrictions: ['Namensnennung'],
+    status: 'active-collector',
+  },
+  {
     id: 'cf-radar', name: 'Cloudflare Radar', collectors: ['cloudflare-radar', 'cf-radar'], sourceNameHints: ['Cloudflare Radar'],
     attribution: 'Cloudflare Radar', attributionUrl: 'https://radar.cloudflare.com/', license: 'CC BY-NC 4.0',
     footerNotices: ['Internetdaten: Cloudflare Radar, lizenziert unter CC BY-NC 4.0 (nicht-kommerzielle Nutzung).'],

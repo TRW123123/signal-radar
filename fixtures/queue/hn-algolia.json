@@ -48,5 +48,25 @@
   "fixture": "hn-algolia/war-missile-strike-24h.json",
   "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22missile%20strike%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
   "maxChars": 1000
+ },
+ {
+  "fixture": "hn-algolia/ai-jailbreak-24h.json",
+  "url": "https://hn.algolia.com/api/v1/search_by_date?query=jailbreak&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+  "maxChars": 1000
+ },
+ {
+  "fixture": "hn-algolia/ai-prompt-injection-24h.json",
+  "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22prompt%20injection%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+  "maxChars": 1000
+ },
+ {
+  "fixture": "hn-algolia/ai-model-leak-24h.json",
+  "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22model%20leak%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+  "maxChars": 1000
+ },
+ {
+  "fixture": "hn-algolia/ai-AI-incident-24h.json",
+  "url": "https://hn.algolia.com/api/v1/search_by_date?query=%22AI%20incident%22&tags=story&restrictSearchableAttributes=title&numericFilters=created_at_i%3E%3D1794787200%2Ccreated_at_i%3C1794873600&hitsPerPage=0",
+  "maxChars": 1000
  }
 ]

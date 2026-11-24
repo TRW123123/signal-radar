@@ -1,0 +1,7 @@
+[
+  {
+    "fixture": "open-meteo/de-cold-min-30d.json",
+    "url": "https://api.open-meteo.com/v1/forecast?latitude=52.52,50.11,48.14&longitude=13.41,8.68,11.58&daily=temperature_2m_min&timezone=UTC&past_days=30&forecast_days=1",
+    "maxChars": 4000
+  }
+]

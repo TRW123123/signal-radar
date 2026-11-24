@@ -5,7 +5,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadCatalog, normalizeSignal } from '../src/core/catalog.ts';
-import type { Observation, SignalDef, Snapshot } from '../src/core/types.ts';
+import type { GeoRef, Observation, SignalDef, Snapshot } from '../src/core/types.ts';
 import { scoreScenario } from '../src/engine/score.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -34,12 +34,31 @@ const defs: [string, string, string, string, 'A' | 'B' | 'D', number, string][] 
   ['cyber.attention.demo_search', 'Diskussionen zu „Cyberangriff“', 'Wie oft in großen Foren über einen Cyberangriff geschrieben wird.', 'attention', 'D', 140, 'pro Stunde'],
 ];
 
+// Demo places on several continents; two measurements stay worldwide (no geo), like global counts in real data.
+const GEO: Record<string, GeoRef> = {
+  'cyber.routing.demo_withdrawals': { lat: 52.37, lon: 4.9, label: 'Internet-Knoten Amsterdam', kind: 'point' },
+  'cyber.outages.demo_ioda': { lat: 32.4, lon: 53.7, label: 'Iran', kind: 'country', cc: 'IR' },
+  'cyber.outages.demo_cloud': { lat: 38.95, lon: -77.45, label: 'Rechenzentren Virginia', kind: 'point' },
+  'cyber.dns_core.demo_root': { lat: -33.87, lon: 151.21, label: 'DNS-Knoten Sydney', kind: 'point' },
+  'cyber.threat.demo_ransom': { lat: -29.0, lon: 24.7, label: 'Südafrika', kind: 'country', cc: 'ZA' },
+  'cyber.vuln.demo_kev': { lat: 38.9, lon: -77.03, label: 'Washington', kind: 'point' },
+  'cyber.finance.demo_target': { lat: 50.11, lon: 8.68, label: 'Frankfurt am Main', kind: 'point' },
+  'cyber.finance.demo_stable': { lat: 35.68, lon: 139.69, label: 'Tokio', kind: 'point' },
+  'cyber.services.demo_status': { lat: 37.77, lon: -122.42, label: 'San Francisco', kind: 'point' },
+  'cyber.services.demo_8k': { lat: 40.71, lon: -74.0, label: 'New York', kind: 'point' },
+  'cyber.markets.demo_etf': { lat: 51.51, lon: -0.13, label: 'London', kind: 'point' },
+  'cyber.physical.demo_freq': { lat: 51.1, lon: 10.4, label: 'Deutschland', kind: 'country', cc: 'DE' },
+  'cyber.physical.demo_faa': { lat: 39.8, lon: -98.6, label: 'USA', kind: 'country', cc: 'US' },
+  'cyber.attention.demo_wiki': { lat: -15.8, lon: -47.9, label: 'Brasilien', kind: 'country', cc: 'BR' },
+};
+
 function mkSignals(): SignalDef[] {
   return defs.map(([id, name, plain, domain, cls, , unit], i) => normalizeSignal({
     id, name, plain, domain, evidenceClass: cls, scenarios: ['cyber'], direction: id.includes('prefixes') ? 'down' : 'up',
     kind: 'gauge', weight: cls === 'D' ? 0.6 : 0.75, manipulability: 'low', independenceGroup: `src${i}`, collector: 'demo',
     unit, intervalMinutes: 60, status: 'active', baseline: { method: 'rolling', windowDays: 21, minPoints: 48 },
     sourceName: 'Demo-Daten', sourceUrl: 'https://example.org/demo', holdHours: 12,
+    ...(GEO[id] ? { geo: GEO[id] } : {}),
   }));
 }
 

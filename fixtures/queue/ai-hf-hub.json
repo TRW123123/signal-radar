@@ -1,0 +1,7 @@
+[
+  {
+    "fixture": "huggingface/models-newest-40.json",
+    "url": "https://huggingface.co/api/models?sort=createdAt&direction=-1&limit=40&expand%5B%5D=createdAt",
+    "maxChars": 6000
+  }
+]

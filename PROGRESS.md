@@ -15,11 +15,21 @@ Arbeitsweise: Runden aus Messen, drei Lücken wählen, bauen, unabhängig prüfe
 | 3 | Globus als dunkle Bühne mit leuchtenden, gebündelten Punkten, Schichten schaltbar, Handy-Erstbildschirm, Zeitmaschinen-Texte ohne falschen Vorlauf | ausgeliefert |
 | 4 | Kritik 3 (`KRITIK-RUNDE-3.md`: 3 von 5). Frage über der Antwort, eine erklärte Zählung, Alltagssprache statt Kürzel, Ernstfall-Satz, Vorschaubild `assets/og.png`, Englisch vollständig. KI-Thema: `ai-provider-incidents`. Stufennamen überall gleich (Engine, Doku, Wiedergaben) | ausgeliefert |
 | 5 | Kritik 4 (`KRITIK-RUNDE-4.md`). Zeitmaschine auf der Hauptbühne (Zeitleiste, Sprungmarken), Verlaufsbild mit Normalbereich, Gruppen-Listen, Seite deutlich kürzer. Blackout: erreichbare Netze für 11 Länder, Last FR/ES/IT. Teilbare Seite je Gerücht (`scripts/build_rumor_pages.ts` → `frontend/g/`), Sitemap. README neu | ausgeliefert |
-| 6 | Kritik 5 (`KRITIK-RUNDE-5.md`: Fehlerliste nach den neuen Funktionen). Fehler-Runde im Frontend. Zeitmaschine: Ereignisse je Thema (Bankenkrise 2023, Chile 2025, Kuba 2024, Corona 2020, Saporischschja 2022) mit Kontrollen | Frontend läuft, Rücktest ausgeliefert |
+| 6 | Kritik 5 (`KRITIK-RUNDE-5.md`). Fehler-Runde im Frontend (Rückblick/Themenwechsel, Messungs-Karte, Demo, Absender). Zeitmaschine: Ereignisse je Thema (Bankenkrise 2023, Chile 2025, Kuba 2024, Corona 2020, Saporischschja 2022) mit Kontrollen. Kartenschicht `layer-ioda-outages` (Länder mit Internet-Störungen). Live-Prüfung aller Collectors (`docs/LIVE-CHECK-2026-11-24.md`) | ausgeliefert |
+| 7 | Kritik 6 (`KRITIK-RUNDE-6.md`). Vergleichs-Zeitraffer „so sah ein echtes Ereignis aus" im Hauptglobus mit Fazit über dem Globus, Schicht-Hinweise in Worten, Teilen-Text mit Gerüchte-Seite. Wiedergabe-Fenster reichen bis zur höchsten Stufe (`peakAt`), Fazit nur aus berechneten Zeiten | ausgeliefert |
+| 8 | Kritik 7 (`KRITIK-RUNDE-7.md`). Eine Status-Regel überall (`zustandVon`: VIX 35,9 bei üblich 19 heißt „etwas erhöht", nicht „normal"), Doppelte zusammengelegt, Vergleich ehrlich benannt (Rogers: technischer Fehler, kein Angriff), Trefferquote aus den Wiedergaben gezählt. Finanz-Thema misst jetzt VIX, Regionalbanken (KRE), Gold | ausgeliefert |
 
 **Verlauf der unabhängigen Prüfungen** (Noten 1 bis 10: Sofort-Verständnis / Mehrwert / Globus / Sprache / Vertrauen / Teilbarkeit / Handy; Zweck verstanden von 5 Testpersonen):
-Runde 2: 4/3/2/5/4/2/5, 2 von 5. Runde 3: 7/6/5/5/5/5/6, 3 von 5. Runde 4: 7/5/4/7/6/6/7, 3 von 5. Runde 5: 7/5/4/7/5/6/6, 3 von 5.
-Hängt seit Runde 3 an: Globus wirkt im Ruhezustand leer, Mehrwert nicht sofort greifbar, Absender fehlt.
+Runde 2: 4/3/2/5/4/2/5, 2 von 5. Runde 3: 7/6/5/5/5/5/6, 3 von 5. Runde 4: 7/5/4/7/6/6/7, 3 von 5. Runde 5: 7/5/4/7/5/6/6, 3 von 5. Runde 6: 7/5/5/7/5/6/7, 3 von 5. Runde 7: 7/6/5/7/5/6/7, 3 von 5.
+Hängt seit Runde 3 bei 3 von 5: Azubi und Rentner verstehen den Zweck nur halb. Globus-Wirkung und Vertrauen bleiben bei 5. Runde 8 ist nicht mehr unabhängig geprüft.
+
+**Nächste Schritte (Vorschlag für die nächste Schleife):**
+1. Unabhängige Prüfung von Runde 8, danach gezielt Azubi und Rentner (Einstieg ohne Text: kurzer Zeitraffer beim ersten Besuch; wer steckt dahinter).
+2. Dauerhafter Sammel-Takt (externer Zeitgeber, braucht Token des Betreibers).
+3. Zeitmaschine über Stufe 2 hinaus: mehr Bereiche für die Vergangenheit nachladen (ACLED, GDELT-Historie, Statusseiten-Historie); Indien–Pakistan 2025, Kurssturz 05.08.2024, ein echter Cyberangriff mit offenen Spuren.
+4. `layer-gdacs` Format klären (0 Punkte). VIX-Terminstruktur für Finanzen (Yahoo-Collector kann kein Verhältnis zweier Symbole).
+5. Mehr Gerüchte im Register (Krieg, Finanzen, Pandemie, KI haben keins bzw. kein passendes), `node scripts/build_rumor_pages.ts` danach neu laufen lassen.
+6. LICENSE wählen; Yahoo-Nutzungsbedingungen klären oder Quelle wechseln; Kontraste im hellen Schema nachmessen.
 
 **Arbeitsweise in der Schleife:** je Aufgabe ein eigener Git-Worktree unter `/tmp/wt*` vom aktuellen `master`, Agent ohne Commit, Hauptprozess prüft, committet, `pull --rebase`, pusht. Nie zwei Agents auf denselben Dateien.
 

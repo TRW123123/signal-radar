@@ -130,9 +130,46 @@ export interface HttpResponse {
   body: string;
 }
 
+/**
+ * A map layer: current events or readings at many places (earthquakes, natural events, stations).
+ * Layers are shown on the globe for orientation. They are never scored and never raise a level.
+ */
+export interface MapLayer {
+  id: string;
+  title: string;
+  title_en?: string;
+  /** one sentence for laypeople: what the points are */
+  plain: string;
+  plain_en?: string;
+  /** scenario ids where this layer is shown; empty = all */
+  scenarios: string[];
+  sourceName: string;
+  sourceUrl: string;
+  license?: string;
+  /** ISO time of the newest data in this layer */
+  ts: string;
+  points: MapPoint[];
+}
+
+export interface MapPoint {
+  lat: number;
+  lon: number;
+  label: string;
+  /** optional reading, e.g. magnitude */
+  value?: number;
+  unit?: string;
+  /** 0..1 display strength (size/brightness), set by the collector from the reading */
+  strength?: number;
+  /** ISO time of this event/reading */
+  t?: string;
+  url?: string;
+}
+
 export interface CollectorResult {
   observations: Observation[];
   context?: ContextItem[];
+  /** map layers replace the stored layer with the same id */
+  layers?: MapLayer[];
 }
 
 export interface Collector {
@@ -298,6 +335,8 @@ export interface Snapshot {
    * Optional: older snapshots and the demo files do not have it; the frontend falls back to a static line.
    */
   attributions?: SourceAttribution[];
+  /** unscored map layers for the globe (at most 400 points each) */
+  layers?: MapLayer[];
 }
 
 // ---------- source terms / required attribution (registry in src/core/attribution.ts) ----------

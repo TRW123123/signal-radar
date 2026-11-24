@@ -1,6 +1,6 @@
 // Runs collectors with bounded concurrency. One failing source never stops the others.
 
-import type { CollectContext, Collector, ContextItem, HttpClient } from '../core/types.ts';
+import type { CollectContext, Collector, ContextItem, HttpClient, MapLayer } from '../core/types.ts';
 import type { Store } from '../core/store.ts';
 import { redactText } from '../core/http.ts';
 
@@ -40,6 +40,7 @@ export async function runCollectors(collectors: Collector[], store: Store, opts:
   const queue = collectors.filter((c) => !opts.only || opts.only.includes(c.id));
   const reports: CollectReport[] = [];
   const newContext: ContextItem[] = [];
+  const newLayers: MapLayer[] = [];
   let i = 0;
 
   async function worker(): Promise<void> {
@@ -63,6 +64,10 @@ export async function runCollectors(collectors: Collector[], store: Store, opts:
         const res = await c.collect(ctx);
         const added = await store.append(res.observations);
         if (res.context?.length) newContext.push(...res.context);
+        for (const layer of res.layers ?? []) {
+          const points = layer.points.filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon) && Math.abs(p.lat) <= 90 && Math.abs(p.lon) <= 180).slice(0, 400);
+          newLayers.push({ ...layer, points });
+        }
         lastRun[c.id] = opts.now.toISOString();
         reports.push({ id: c.id, ok: true, observations: res.observations.length, added, ms: Date.now() - t0 });
       } catch (e) {
@@ -73,6 +78,11 @@ export async function runCollectors(collectors: Collector[], store: Store, opts:
   await Promise.all(Array.from({ length: Math.max(1, opts.concurrency ?? 6) }, worker));
 
   await store.setJson('last-run', lastRun);
+  if (newLayers.length) {
+    const all = (await store.getJson<Record<string, MapLayer>>('layers')) ?? {};
+    for (const l of newLayers) all[l.id] = l;
+    await store.setJson('layers', all);
+  }
   if (newContext.length) {
     const old = (await store.getJson<ContextItem[]>('context')) ?? [];
     const seen = new Set<string>();

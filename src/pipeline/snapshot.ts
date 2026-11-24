@@ -1,7 +1,7 @@
 // Turns stored series into the snapshot the frontend reads. Pure function of (catalog, store, now).
 
 import type { Catalog } from '../core/catalog.ts';
-import type { ContextItem, Observation, ScenarioView, SignalDef, SignalView, Snapshot } from '../core/types.ts';
+import type { ContextItem, Observation, ScenarioView, SignalDef, SignalView, Snapshot , MapLayer } from '../core/types.ts';
 import { attributionsForSignals } from '../core/attribution.ts';
 import type { Store } from '../core/store.ts';
 import { scoreScenario } from '../engine/score.ts';
@@ -60,9 +60,13 @@ export async function buildSnapshot(catalog: Catalog, store: Store, opts: Snapsh
   }
   // Required source notices for every signal that shows data in this snapshot (planned signals without data need none).
   const shown: SignalView[] = scenarios.flatMap((sc) => [...sc.domains.flatMap((d) => d.signals), ...sc.anomalies, ...sc.attentionSignals]);
+  // map layers older than three days are dropped: a stale layer would show yesterday's world as today's
+  const storedLayers = Object.values((await store.getJson<Record<string, MapLayer>>('layers')) ?? {});
+  const layers = storedLayers.filter((l) => opts.now.getTime() - Date.parse(l.ts) < 3 * 86400_000);
   const attributions = attributionsForSignals(shown.filter((v) => v.ts !== null));
   return {
     schema: 1, generatedAt: opts.now.toISOString(), mode: opts.mode, sensitivity: opts.sensitivity, note: opts.note, scenarios,
     ...(attributions.length ? { attributions } : {}),
+    ...(layers.length ? { layers } : {}),
   };
 }

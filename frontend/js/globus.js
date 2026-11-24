@@ -117,13 +117,25 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
   }
 
   function etikett(x, y, cx, cy, p, w, belegt, immer) {
-    const zeilen = [p.anzahl > 1 ? `${p.titel} (+${p.anzahl - 1})` : p.titel, p.info].filter(Boolean);
-    if (!zeilen.length) return;
+    const name = p.marke || p.titel || '';
+    const kopf = p.anzahl > 1 ? `${name} (+${p.anzahl - 1})` : name;
+    const maxB = Math.max(120, w * 0.56) - 14;
+    // Überschrift auf höchstens zwei Zeilen umbrechen statt abschneiden
     ctx.font = `700 12px ${farben.schrift}`;
-    const b1 = ctx.measureText(zeilen[0]).width;
-    ctx.font = `400 11px ${farben.schrift}`;
-    const b2 = zeilen[1] ? ctx.measureText(zeilen[1]).width : 0;
-    const bw = Math.min(Math.max(b1, b2) + 14, w * 0.62);
+    const oben = [];
+    let rest = kopf.split(/\s+/).filter(Boolean);
+    while (rest.length && oben.length < 2) {
+      let n = rest.length;
+      while (n > 1 && ctx.measureText(rest.slice(0, n).join(' ')).width > maxB) n--;
+      oben.push(rest.slice(0, n).join(' '));
+      rest = rest.slice(n);
+    }
+    if (rest.length && oben.length) oben[oben.length - 1] += ' ' + rest.join(' ');
+    const zeilen = [...oben, p.info].filter(Boolean);
+    if (!zeilen.length) return;
+    const nOben = oben.length;
+    const breiten = zeilen.map((z, i) => { ctx.font = i < nOben ? `700 12px ${farben.schrift}` : `400 11px ${farben.schrift}`; return ctx.measureText(z).width; });
+    const bw = Math.min(Math.max(...breiten) + 14, maxB + 14);
     const bh = zeilen.length * 15 + 8;
     const rechts = x >= cx;
     let lx = rechts ? x + 14 : x - 14 - bw;
@@ -144,8 +156,7 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
     ctx.globalAlpha = 1; ctx.strokeStyle = p.farbe || farben.rand; ctx.stroke();
     ctx.fillStyle = farben.tinte; ctx.textBaseline = 'top';
     const kuerze = (s, max) => { if (ctx.measureText(s).width <= max) return s; while (s.length > 3 && ctx.measureText(s + '…').width > max) s = s.slice(0, -1); return s + '…'; };
-    ctx.font = `700 12px ${farben.schrift}`; ctx.fillText(kuerze(zeilen[0], bw - 14), lx + 7, ly + 5);
-    if (zeilen[1]) { ctx.font = `400 11px ${farben.schrift}`; ctx.fillText(kuerze(zeilen[1], bw - 14), lx + 7, ly + 20); }
+    zeilen.forEach((z, i) => { ctx.font = i < nOben ? `700 12px ${farben.schrift}` : `400 11px ${farben.schrift}`; ctx.fillText(kuerze(z, bw - 14), lx + 7, ly + 5 + i * 15); });
   }
 
   function zeichnen(t = performance.now()) {
@@ -233,11 +244,17 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
       else if (p.zustand === 'erhoeht') leuchtpunkt(x, y, pr * 0.85 * k, farben.etwas, t, p.ph, false);
       else if (p.zustand === 'leer') { ctx.strokeStyle = farben.ruhig; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.6 + 0.25 * welle(p.ph); kreis(x, y, pr * 1.1 * k); ctx.stroke(); }
       else {
-        const a = welle(p.ph);
-        const hof = ctx.createRadialGradient(x, y, 0, x, y, pr * 3.2 * k);
+        const a = welle(p.ph, 1400);
+        const hof = ctx.createRadialGradient(x, y, 0, x, y, pr * (3.2 + 0.8 * a) * k);
         hof.addColorStop(0, farben.ruhig); hof.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.globalAlpha = 0.4 + 0.12 * a; ctx.fillStyle = hof; kreis(x, y, pr * 3.2 * k); ctx.fill();
-        ctx.globalAlpha = 1; ctx.fillStyle = farben.ruhig; kreis(x, y, pr * 0.95 * k); ctx.fill();
+        ctx.globalAlpha = 0.42 + 0.22 * a; ctx.fillStyle = hof; kreis(x, y, pr * (3.2 + 0.8 * a) * k); ctx.fill();
+        if (bewegt()) {
+          // leiser Ring, der langsam nach außen läuft
+          const kk = ((t / 3600 + p.ph / (2 * Math.PI)) % 1);
+          ctx.strokeStyle = farben.ruhig; ctx.lineWidth = 1; ctx.globalAlpha = 0.45 * (1 - kk);
+          kreis(x, y, pr * (1.2 + kk * 3.2) * k); ctx.stroke();
+        }
+        ctx.globalAlpha = 1; ctx.fillStyle = farben.ruhig; kreis(x, y, pr * (0.95 + 0.12 * a) * k); ctx.fill();
         ctx.fillStyle = farben.kern; ctx.globalAlpha = 0.8; kreis(x, y, pr * 0.35 * k); ctx.fill();
       }
       ctx.globalAlpha = 1;

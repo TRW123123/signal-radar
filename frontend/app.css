@@ -620,3 +620,17 @@ button { font: inherit; color: inherit; }
 .puls-zeile i { display: inline-block; margin-right: 0.35rem; vertical-align: 0.05em; }
 .zeitleiste { margin-bottom: 0.4rem; }
 .antwort.art-rb .zl-steuer { margin-top: 1rem; }
+
+/* ---------- Runde 6: Schliff ---------- */
+[hidden] { display: none !important; }
+.globus-erkl { max-width: 36rem; margin: 0 auto; padding: 0.6rem var(--rand) 0; color: var(--tinte); font-size: var(--t-14); line-height: 1.35; text-align: center; }
+.linsen { position: relative; }
+.linsen-mehr { display: none; }
+@media (max-width: 59.99rem) {
+  .linsen-reihe.hat-mehr { mask-image: linear-gradient(90deg, #000 70%, transparent 92%); -webkit-mask-image: linear-gradient(90deg, #000 70%, transparent 92%); }
+  .linsen-mehr { position: absolute; right: 0; bottom: 6px; display: inline-flex; align-items: center; min-height: 2.4rem; padding: 0 0.1rem 0 1.6rem; border: 0; background: linear-gradient(90deg, transparent, var(--grund) 40%); color: var(--tinte); font-size: var(--t-12); font-weight: 700; cursor: pointer; }
+  .linsen-mehr[hidden] { display: none !important; }
+}
+.karte-wann { font-weight: 400; color: var(--grau); font-size: var(--t-12); }
+.herkunft { overflow-wrap: anywhere; }
+@media (max-width: 47.99rem) { .herkunft { position: relative; min-width: 0; max-width: 100%; font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .herkunft-quellen { display: none; } }

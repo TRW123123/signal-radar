@@ -1052,6 +1052,18 @@ function zmKarte(r) {
         </button></li>`;
 }
 
+/** Trefferbild: ein Punkt je nachgerechnetem Ereignis, große Zahl davor (Zahlen kommen nur aus den Replays) */
+function trefferBild(ev) {
+  if (!ev.length) return '';
+  const ja = ev.filter((r) => sawVon(r) === 'ja').length;
+  const punkte = ev.map((r) => {
+    const saw = sawVon(r) ?? 'nein';
+    const titel = (sprache === 'en' && r.title_en) || r.title_de || r.title_en;
+    return `<li><button type="button" class="tb-punkt saw-${saw}" data-rb="${esc(r.id)}" title="${esc(titel)}" aria-label="${esc(titel)}: ${esc(L.zeitmaschine.saw[saw] ?? saw)}"></button></li>`;
+  }).join('');
+  return `<div class="treffer"><p class="treffer-zahl"><b>${ja}</b><span>${sprache === 'en' ? `of ${ev.length}` : `von ${ev.length}`}</span></p><ul class="treffer-punkte" aria-label="${sprache === 'en' ? 'Replayed events' : 'Nachgerechnete Ereignisse'}">${punkte}</ul></div>`;
+}
+
 /** Kurze Liste unten; jede Zeile steuert dieselbe Bühne oben */
 function zeitmaschine(sc) {
   const Z = L.zeitmaschine;
@@ -1065,7 +1077,8 @@ function zeitmaschine(sc) {
   return `<section class="zeitmaschine abschnitt" aria-labelledby="zm-titel">
       <h2 id="zm-titel" class="abschnitt-titel">${esc(Z.titel)}</h2>
       ${bilanz ? `<p class="zm-bilanz">${esc(bilanz)}</p>` : ''}
-      <details class="zm-mehr"><summary>${esc(Z.alleEreignisse(ev.length))}</summary><ul class="zm-liste">${ev.map(zmKarte).join('')}</ul></details>
+      ${trefferBild(ev)}
+      <details class="zm-mehr" open><summary>${esc(Z.alleEreignisse(ev.length))}</summary><ul class="zm-liste">${ev.map(zmKarte).join('')}</ul></details>
       ${sonst.length ? `<details class="zm-mehr"><summary>${esc(Z.vergleich(sonst.length))}</summary><ul class="zm-liste">${sonst.map(zmKarte).join('')}</ul></details>` : ''}
     </section>`;
 }

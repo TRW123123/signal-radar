@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://signal-radar.safak-t.workers.dev/sitemap.xml

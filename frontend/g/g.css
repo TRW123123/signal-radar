@@ -1,0 +1,46 @@
+/* Gerüchte-Seiten: Farben und Schrift wie die Startseite (app.css), hell/dunkel über prefers-color-scheme. */
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('/assets/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2') format('woff2');
+  font-weight: 200 800;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+FEFF, U+FFFD;
+}
+:root {
+  color-scheme: dark light;
+  --grund: #0a0e13; --flaeche: #121820; --tinte: #ebe8e1; --grau: #a5aeb8; --linie: #2a333d; --l1: #6db4d8; --l3: #f08454;
+  --sans: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: light) {
+  :root { --grund: #f4f1ea; --flaeche: #ebe7dc; --tinte: #1c1f23; --grau: #555b62; --linie: #cfc8b9; --l1: #1f6a8a; --l3: #b1431a; }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--grund); color: var(--tinte); font: 1.0625rem/1.6 var(--sans); }
+a { color: var(--l1); text-underline-offset: 0.18em; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--l1); outline-offset: 3px; }
+.sprung { position: absolute; left: 0.5rem; top: -4rem; z-index: 20; background: var(--tinte); color: var(--grund); padding: 0.5rem 0.75rem; }
+.sprung:focus { top: 0.5rem; }
+.seite { max-width: 40rem; margin: 0 auto; padding: 0 clamp(1rem, 0.5rem + 3vw, 1.75rem) 3rem; }
+.kopf { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--linie); }
+.kopf p { margin: 0; }
+.marke a { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--tinte); font-weight: 650; text-decoration: none; }
+.sprachen a { color: var(--grau); }
+h1 { font-size: clamp(1.5rem, 1.2rem + 1.6vw, 2rem); line-height: 1.22; margin: 0.4rem 0 1.25rem; text-wrap: balance; overflow-wrap: anywhere; }
+h2 { font-size: 0.9rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--grau); margin: 0 0 0.3rem; font-weight: 650; }
+section { margin: 0 0 1.5rem; }
+section p { margin: 0; overflow-wrap: anywhere; }
+.datum { color: var(--grau); font-size: 0.875rem; margin: 1.5rem 0 0; }
+.live { background: var(--flaeche); border: 1px solid var(--linie); border-radius: 10px; padding: 1rem 1.1rem; }
+.live #live-satz { font-size: 1.2rem; font-weight: 600; }
+.stand { color: var(--grau); font-size: 0.875rem; margin-top: 0.4rem !important; }
+.knoepfe { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 2rem; }
+.knopf { font: inherit; font-weight: 650; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: 0.6rem 1.1rem; border-radius: 10px; border: 1px solid var(--linie); background: var(--flaeche); color: var(--tinte); text-decoration: none; }
+.knopf[hidden] { display: none; }
+.knopf-gross { flex: 1 1 14rem; background: var(--l1); border-color: var(--l1); color: var(--grund); font-size: 1.1rem; }
+.quellen, .liste { padding-left: 1.2rem; margin: 0; }
+.quellen li, .liste li { margin: 0 0 0.5rem; overflow-wrap: anywhere; }
+.liste { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+.liste li { padding: 0.75rem 0; border-bottom: 1px solid var(--linie); }
+.liste .datum { display: block; margin: 0; }
+.fuss { border-top: 1px solid var(--linie); padding-top: 1rem; color: var(--grau); font-size: 0.9rem; }

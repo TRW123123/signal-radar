@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { normalizeSignal } from '../src/core/catalog.ts';
 import type { Observation, ScenarioDef, SignalDef } from '../src/core/types.ts';
 import { computeTimeline, type BacktestResult } from '../src/backtest/lib.ts';
-import { buildReplay, fitReplay, judgeSawIt, MAX_BYTES, MAX_SIGNALS_PER_FRAME, type ReplayFrame, summarize } from '../src/backtest/replays.ts';
+import { buildReplay, fitReplay, judgeSawIt, LEVEL_DE, LEVEL_EN, MAX_BYTES, MAX_SIGNALS_PER_FRAME, type ReplayFrame, summarize } from '../src/backtest/replays.ts';
 import { historyObservations } from '../src/backtest/history-adapters.ts';
 
 const H = 3600_000;
@@ -121,11 +121,69 @@ test('sawIt "nein": quiet, wrong domain, weak, or an excursion that began before
   const held = [frame(-60, { signals: [s('a', 'routing', 0.9)] }), frame(-30, { signals: [s('a', 'routing', 0.7)] }), frame(0, { signals: [s('a', 'routing', 0.5)] })];
   assert.equal(judgeSawIt({ ...ev, frames: held, expectedDomains: ['routing'] }).sawIt, 'nein');
   // with a 72 h window the same excursion counts
-  assert.equal(judgeSawIt({ ...ev, frames: held, expectedDomains: ['routing'], preHours: 72 }).sawIt, 'teilweise');
+  assert.equal(judgeSawIt({ ...ev, frames: held, expectedDomains: ['routing'], preHours: 72, priorNoise: new Map() }).sawIt, 'teilweise');
   // a level rise outside the window does not count
   assert.equal(judgeSawIt({ ...ev, frames: [frame(-100, { level: 2, activeDomains: ['routing', 'outages'] }), frame(0)] }).sawIt, 'nein');
   const sum = summarize(judgeSawIt({ ...ev, frames: [frame(0)] }), { kind: 'control', measuredSignals: 4 });
   assert.match(sum.de, /ruhigen Zeit/);
+});
+
+test('level names and grammar', () => {
+  assert.deepEqual(LEVEL_DE, ['Ruhig', 'Einzelne Auffälligkeit', 'Mehrere Auffälligkeiten', 'Deutliche Häufung', 'Starke Häufung']);
+  assert.deepEqual(LEVEL_EN, ['Calm', 'Single anomaly', 'Several anomalies', 'Clear cluster', 'Strong cluster']);
+  const j = judgeSawIt({ ...ev, frames: [frame(0), frame(1, { level: 1, activeDomains: ['routing'], signals: [s('a', 'routing', 0.6), s('b', 'routing', 0.6)] })], expectedDomains: ['routing'] });
+  const t = summarize(j, { kind: 'event', measuredSignals: 2 });
+  assert.match(t.de, /„Einzelne Auffälligkeit“.*1 Stunde nach Beginn/);
+  assert.doesNotMatch(t.de, /1 Stunden/);
+  assert.match(t.en, /“Single anomaly”.*1 hour after/);
+  assert.equal(j.maxLevel, 1);
+  assert.equal(j.firstSeenHours, 1);
+});
+
+test('swing before the start counts only if the measurement was quiet in the 4 weeks before', () => {
+  const frames = [frame(-23, { signals: [s('a', 'routing', 0.9)] }), frame(0, { level: 1, activeDomains: ['outages'], signals: [s('b', 'outages', 0.6), s('c', 'outages', 0.6)] })];
+  const noisy = judgeSawIt({ ...ev, frames, priorNoise: new Map([['a', 18]]) });
+  assert.equal(noisy.notable.some((n) => n.id === 'a'), false);
+  assert.equal(noisy.preNoise[0].id, 'a');
+  assert.equal(noisy.sawIt, 'ja');
+  assert.equal(noisy.firstSeenHours, 0);
+  assert.match(summarize(noisy, { kind: 'event', measuredSignals: 3 }).de, /Ausschläge davor gab es auch an gewöhnlichen Tagen und zählen nicht als Vorwarnung/);
+  const quiet = judgeSawIt({ ...ev, frames, priorNoise: new Map() });
+  assert.equal(quiet.notable[0].firstHours, -23);
+  assert.equal(quiet.preNoise.length, 0);
+  // unknown history: treated as noise
+  assert.equal(judgeSawIt({ ...ev, frames }).preNoise.length, 1);
+  // a level that was already raised before the start is not "first seen" at the start
+  const early = judgeSawIt({ ...ev, frames: [frame(-12, { level: 1, activeDomains: ['routing'] }), frame(0, { level: 1, activeDomains: ['routing'] })] });
+  assert.equal(early.firstSeenHours, null);
+  assert.equal(early.sawIt, 'nein');
+});
+
+test('control windows are never "teilweise": quiet or false alarm', () => {
+  const swing = [frame(0, { signals: [s('a', 'routing', 0.6)] })];
+  const q = judgeSawIt({ ...ev, frames: swing, control: true });
+  assert.equal(q.sawIt, 'nein');
+  assert.equal(q.control, 'quiet');
+  const sq = summarize(q, { kind: 'control', measuredSignals: 1 });
+  assert.match(sq.de, /ruhigen Zeit/);
+  assert.doesNotMatch(sq.de, /war nur/);
+  const f = judgeSawIt({ ...ev, frames: [frame(0, { level: 1, activeDomains: ['routing'], signals: [s('a', 'routing', 0.6)] })], control: true });
+  assert.equal(f.sawIt, 'nein');
+  assert.equal(f.control, 'false-alarm');
+  assert.match(summarize(f, { kind: 'control', measuredSignals: 1 }).de, /Fehlalarm/);
+  assert.match(summarize(f, { kind: 'control', measuredSignals: 1 }).en, /false alarm/);
+  assert.equal(judgeSawIt({ ...ev, frames: swing }).control, null);
+});
+
+test('weak: a single measurement that also swung before is "teilweise" with a reason', () => {
+  const frames = [frame(0, { level: 1, activeDomains: ['routing'], signals: [s('a', 'routing', 0.9)] })];
+  const w = judgeSawIt({ ...ev, frames, priorNoise: new Map([['a', 5]]) });
+  assert.equal(w.sawIt, 'teilweise');
+  assert.equal(w.weak?.id, 'a');
+  assert.match(summarize(w, { kind: 'event', measuredSignals: 1 }).de, /einzige Messung.*schwaches Signal/);
+  assert.equal(judgeSawIt({ ...ev, frames, priorNoise: new Map() }).sawIt, 'ja');
+  const two = [frame(0, { level: 1, activeDomains: ['routing'], signals: [s('a', 'routing', 0.9), s('b', 'routing', 0.9)] })];
+  assert.equal(judgeSawIt({ ...ev, frames: two, priorNoise: new Map([['a', 5]]) }).sawIt, 'ja');
 });
 
 test('recent replays: whole span is the window, summary without event wording', () => {
@@ -161,7 +219,7 @@ test('history adapters read old fixture names with the full window, only before 
 });
 
 test('exported index and replay files keep the contract (if present)', () => {
-  let index: { id: string; sawIt: string; steps: number }[];
+  let index: { id: string; kind: string; sawIt: string; steps: number; control?: string; maxLevel: number; firstSeenHours: number | null; summary_de: string }[];
   try {
     index = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'frontend', 'data', 'replays', 'index.json'), 'utf8'));
   } catch {
@@ -169,6 +227,13 @@ test('exported index and replay files keep the contract (if present)', () => {
   }
   for (const e of index) {
     assert.ok(['ja', 'teilweise', 'nein'].includes(e.sawIt));
+    assert.ok(Number.isInteger(e.maxLevel) && e.maxLevel >= 0 && e.maxLevel <= 4, `${e.id}: maxLevel`);
+    assert.ok(e.firstSeenHours === null || Number.isFinite(e.firstSeenHours), `${e.id}: firstSeenHours`);
+    if (e.kind === 'control') {
+      assert.equal(e.sawIt, 'nein', `${e.id}: Kontrolle nie teilweise`);
+      assert.equal(e.control, e.maxLevel >= 1 ? 'false-alarm' : 'quiet');
+    } else assert.equal(e.control, undefined);
+    assert.doesNotMatch(e.summary_de, /Leicht erhöht|\b1 Stunden/, e.id);
     for (const k of ['id', 'title_de', 'title_en', 'date', 'scenario', 'summary_de', 'summary_en', 'sawIt', 'steps']) assert.ok(k in e, `${e.id}: ${k}`);
     const raw = readFileSync(join(import.meta.dirname, '..', 'frontend', 'data', 'replays', `${e.id}.json`), 'utf8');
     assert.ok(Buffer.byteLength(raw) < MAX_BYTES, `${e.id} zu groß`);

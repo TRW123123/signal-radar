@@ -9,6 +9,8 @@
   "summary_de": "Mit den 10 damals verfügbaren Messungen blieb das Radar auf „Ruhig“ und zeigte nichts Auffälliges: Das Ereignis war in diesen Daten nicht zu sehen.",
   "summary_en": "With the 10 measurements available back then, the radar stayed “Calm” and showed nothing unusual: the event was not visible in this data.",
   "sawIt": "nein",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 40
  },
  {
@@ -21,6 +23,8 @@
   "summary_de": "Mit den 5 damals verfügbaren Messungen blieb das Radar auf „Ruhig“ und zeigte nichts Auffälliges: Das Ereignis war in diesen Daten nicht zu sehen.",
   "summary_en": "With the 5 measurements available back then, the radar stayed “Calm” and showed nothing unusual: the event was not visible in this data.",
   "sawIt": "nein",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 40
  },
  {
@@ -30,9 +34,12 @@
   "title_en": "Control period August 2019 (no known major event)",
   "date": "2019-08-05T00:00:00Z",
   "scenario": "cyber",
-  "summary_de": "Mit den 5 damals verfügbaren Messungen blieb das Radar auf „Ruhig“; auffällig war nur „VIX (Angstindex der US-Börse)“ 27 Stunden nach Beginn. In einer Vergleichszeit ohne bekanntes Cyber-Ereignis ist das ein Ausschlag ohne Bezug, die Stufe blieb trotzdem ruhig.",
-  "summary_en": "With the 5 measurements available back then, the radar stayed “Calm”; only “VIX (Angstindex der US-Börse)” 27 hours after the start stood out. In a comparison period without a known cyber event this is an unrelated swing; the level still stayed calm.",
-  "sawIt": "teilweise",
+  "summary_de": "Mit den 5 damals verfügbaren Messungen blieb das Radar auf „Ruhig“, wie es in einer ruhigen Zeit sein soll. Einzelne Ausschläge („VIX (Angstindex der US-Börse)“ 27 Stunden nach Beginn) hoben die Stufe nicht.",
+  "summary_en": "With the 5 measurements available back then, the radar stayed “Calm”, as it should in a quiet period. Single swings (“VIX (Angstindex der US-Börse)” 27 hours after the start) did not raise the level.",
+  "sawIt": "nein",
+  "control": "quiet",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 40
  },
  {
@@ -45,6 +52,9 @@
   "summary_de": "Mit den 7 damals verfügbaren Messungen blieb das Radar auf „Ruhig“, wie es in einer ruhigen Zeit sein soll.",
   "summary_en": "With the 7 measurements available back then, the radar stayed “Calm”, as it should in a quiet period.",
   "sawIt": "nein",
+  "control": "quiet",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 40
  },
  {
@@ -57,6 +67,9 @@
   "summary_de": "Mit den 11 damals verfügbaren Messungen blieb das Radar auf „Ruhig“, wie es in einer ruhigen Zeit sein soll.",
   "summary_en": "With the 11 measurements available back then, the radar stayed “Calm”, as it should in a quiet period.",
   "sawIt": "nein",
+  "control": "quiet",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 41
  },
  {
@@ -69,6 +82,9 @@
   "summary_de": "Mit den 15 damals verfügbaren Messungen blieb das Radar auf „Ruhig“, wie es in einer ruhigen Zeit sein soll.",
   "summary_en": "With the 15 measurements available back then, the radar stayed “Calm”, as it should in a quiet period.",
   "sawIt": "nein",
+  "control": "quiet",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 41
  },
  {
@@ -78,9 +94,11 @@
   "title_en": "CrowdStrike Falcon update crashes Windows machines worldwide",
   "date": "2024-07-19T04:00:00Z",
   "scenario": "cyber",
-  "summary_de": "Mit den 10 damals verfügbaren Messungen blieb das Radar auf „Ruhig“; auffällig war nur „VIX (Angstindex der US-Börse)“ zum Beginn. Der VIX misst die Unruhe an der ganzen US-Börse und war schon am Vortag gestiegen; einen Bezug zum Ausfall belegt er nicht.",
-  "summary_en": "With the 10 measurements available back then, the radar stayed “Calm”; only “VIX (Angstindex der US-Börse)” at the start stood out. The VIX measures unrest across the whole US stock market and had already risen the day before; it does not show a link to the outage.",
+  "summary_de": "Mit den 10 damals verfügbaren Messungen blieb das Radar auf „Ruhig“; auffällig war nur „VIX (Angstindex der US-Börse)“ 3 Stunden vor Beginn. Der VIX misst die Unruhe an der ganzen US-Börse und war schon am Vortag gestiegen; einen Bezug zum Ausfall belegt er nicht.",
+  "summary_en": "With the 10 measurements available back then, the radar stayed “Calm”; only “VIX (Angstindex der US-Börse)” 3 hours before the start stood out. The VIX measures unrest across the whole US stock market and had already risen the day before; it does not show a link to the outage.",
   "sawIt": "teilweise",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 41
  },
  {
@@ -93,6 +111,8 @@
   "summary_de": "Mit den 5 damals verfügbaren Messungen blieb das Radar auf „Ruhig“ und zeigte nichts Auffälliges: Das Ereignis war in diesen Daten nicht zu sehen.",
   "summary_en": "With the 5 measurements available back then, the radar stayed “Calm” and showed nothing unusual: the event was not visible in this data.",
   "sawIt": "nein",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 35
  },
  {
@@ -102,9 +122,11 @@
   "title_en": "Facebook/Meta disappears from the internet (BGP withdrawal, DNS unreachable)",
   "date": "2021-10-04T15:30:00Z",
   "scenario": "cyber",
-  "summary_de": "Das Radar wäre bis „Leicht erhöht“ gestiegen, erstmals 3 Stunden nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „BGP-Meldungen für Facebook (AS32934, RIPEstat)“ 3 Stunden nach Beginn. Die BGP-Meldungen schlugen auch Tage vorher ohne Ereignis aus; die sichtbaren Präfixe gibt RIPEstat nur alle 8 Stunden, der Rückgang (391 auf 369) blieb unter der Schwelle.",
-  "summary_en": "The radar would have risen to “Slightly elevated”, first 3 hours after the start, because measured areas deviated. Unusual: “BGP-Meldungen für Facebook (AS32934, RIPEstat)” 3 hours after the start. The BGP update count also swung days earlier without an event; RIPEstat gives visible prefixes only every 8 hours, and the drop (391 to 369) stayed below the threshold.",
-  "sawIt": "ja",
+  "summary_de": "Das Radar stieg bis „Einzelne Auffälligkeit“, erstmals zum Beginn, aber nur durch eine einzige Messung („BGP-Meldungen für Facebook (AS32934, RIPEstat)“), die auch vorher an gewöhnlichen Tagen ausschlug. Das ist ein schwaches Signal, keine belastbare Erkennung. Die sichtbaren Präfixe gibt RIPEstat nur alle 8 Stunden, der Rückgang (391 auf 369) blieb unter der Schwelle.",
+  "summary_en": "The radar rose to “Single anomaly”, first at the start, but only through one single measurement (“BGP-Meldungen für Facebook (AS32934, RIPEstat)”) that also swung before on ordinary days. That is a weak signal, not a reliable detection. RIPEstat gives visible prefixes only every 8 hours, and the drop (391 to 369) stayed below the threshold.",
+  "sawIt": "teilweise",
+  "maxLevel": 1,
+  "firstSeenHours": 0,
   "steps": 34
  },
  {
@@ -114,9 +136,11 @@
   "title_en": "Power blackout across the Iberian Peninsula (Spain and Portugal)",
   "date": "2025-04-28T10:33:00Z",
   "scenario": "blackout",
-  "summary_de": "Das Radar wäre bis „Leicht erhöht“ gestiegen, erstmals 1 Stunden nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „IODA: anpingbare Netze in Portugal“ 1 Stunden nach Beginn und „IODA: anpingbare Netze in Spanien“ 1 Stunden nach Beginn. Die Netzlast Spaniens fehlt in den Ausfallstunden in den Daten (keine vollständigen Stunden) und zählte deshalb nicht.",
-  "summary_en": "The radar would have risen to “Slightly elevated”, first 1 hours after the start, because measured areas deviated. Unusual: “IODA: anpingbare Netze in Portugal” 1 hours after the start and “IODA: anpingbare Netze in Spanien” 1 hours after the start. Spain’s grid load is missing from the data for the outage hours (no complete hours) and therefore did not count.",
+  "summary_de": "Das Radar wäre bis „Einzelne Auffälligkeit“ gestiegen, erstmals 1 Stunde nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „IODA: anpingbare Netze in Portugal“ 1 Stunde nach Beginn und „IODA: anpingbare Netze in Spanien“ 1 Stunde nach Beginn. Die Netzlast Spaniens fehlt in den Ausfallstunden in den Daten (keine vollständigen Stunden) und zählte deshalb nicht.",
+  "summary_en": "The radar would have risen to “Single anomaly”, first 1 hour after the start, because measured areas deviated. Unusual: “IODA: anpingbare Netze in Portugal” 1 hour after the start and “IODA: anpingbare Netze in Spanien” 1 hour after the start. Spain’s grid load is missing from the data for the outage hours (no complete hours) and therefore did not count.",
   "sawIt": "ja",
+  "maxLevel": 1,
+  "firstSeenHours": 1,
   "steps": 39
  },
  {
@@ -126,9 +150,11 @@
   "title_en": "War between Israel and Iran (twelve days)",
   "date": "2025-06-13T00:00:00Z",
   "scenario": "war",
-  "summary_de": "Das Radar wäre bis „Leicht erhöht“ gestiegen, erstmals 2 Tage nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „Israel: Alarmwellen pro Tag (Raketen und Drohnen)“ 27 Stunden nach Beginn und „Anteil anomaler Web-Messungen (Israel)“ 3 Tage nach Beginn. Stufe „Erhöht“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.",
-  "summary_en": "The radar would have risen to “Slightly elevated”, first 2 days after the start, because measured areas deviated. Unusual: “Israel: Alarmwellen pro Tag (Raketen und Drohnen)” 27 hours after the start and “Anteil anomaler Web-Messungen (Israel)” 3 days after the start. Level “Elevated” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.",
+  "summary_de": "Das Radar wäre bis „Mehrere Auffälligkeiten“ gestiegen, erstmals 2 Tage nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „Öl-Volatilität (OVX)“ 27 Stunden nach Beginn und „Israel: Alarmwellen pro Tag (Raketen und Drohnen)“ 27 Stunden nach Beginn. Stufe „Erhöht“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.",
+  "summary_en": "The radar would have risen to “Several anomalies”, first 2 days after the start, because measured areas deviated. Unusual: “Öl-Volatilität (OVX)” 27 hours after the start and “Israel: Alarmwellen pro Tag (Raketen und Drohnen)” 27 hours after the start. Level “Elevated” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.",
   "sawIt": "ja",
+  "maxLevel": 2,
+  "firstSeenHours": 51,
   "steps": 40
  },
  {
@@ -141,6 +167,8 @@
   "summary_de": "Mit den 7 damals verfügbaren Messungen blieb das Radar auf „Ruhig“ und zeigte nichts Auffälliges: Das Ereignis war in diesen Daten nicht zu sehen.",
   "summary_en": "With the 7 measurements available back then, the radar stayed “Calm” and showed nothing unusual: the event was not visible in this data.",
   "sawIt": "nein",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 40
  },
  {
@@ -153,6 +181,8 @@
   "summary_de": "Mit den 6 damals verfügbaren Messungen blieb das Radar auf „Ruhig“ und zeigte nichts Auffälliges: Das Ereignis war in diesen Daten nicht zu sehen.",
   "summary_en": "With the 6 measurements available back then, the radar stayed “Calm” and showed nothing unusual: the event was not visible in this data.",
   "sawIt": "nein",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 40
  },
  {
@@ -165,6 +195,8 @@
   "summary_de": "Mit den 3 damals verfügbaren Messungen blieb das Radar auf „Ruhig“ und zeigte nichts Auffälliges: Das Ereignis war in diesen Daten nicht zu sehen.",
   "summary_en": "With the 3 measurements available back then, the radar stayed “Calm” and showed nothing unusual: the event was not visible in this data.",
   "sawIt": "nein",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 40
  },
  {
@@ -174,9 +206,11 @@
   "title_en": "Nationwide Rogers network outage in Canada (incl. Interac)",
   "date": "2022-07-08T08:00:00Z",
   "scenario": "cyber",
-  "summary_de": "Das Radar wäre bis „Leicht erhöht“ gestiegen, erstmals 23 Stunden vor Beginn, weil gemessene Bereiche abwichen. Auffällig: „BGP-Meldungen für Rogers (AS812, RIPEstat)“ 23 Stunden vor Beginn und „IODA: anpingbare Netze bei Rogers (AS812)“ 1 Stunden nach Beginn. Der frühe Ausschlag 23 Stunden vorher kommt von den BGP-Meldungen, die auch in den Wochen davor mehrfach ausschlugen; ein Vorlauf ist das nicht. Den Ausfall selbst zeigen die IODA-Messungen für AS812 ab der ersten Stunde.",
-  "summary_en": "The radar would have risen to “Slightly elevated”, first 23 hours before the start, because measured areas deviated. Unusual: “BGP-Meldungen für Rogers (AS812, RIPEstat)” 23 hours before the start and “IODA: anpingbare Netze bei Rogers (AS812)” 1 hours after the start. The early swing 23 hours before comes from the BGP update count, which also swung several times in the weeks before; it is not a lead. The outage itself shows in the IODA measurements for AS812 from the first hour.",
+  "summary_de": "Das Radar wäre bis „Einzelne Auffälligkeit“ gestiegen, erstmals 1 Stunde nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „IODA: anpingbare Netze bei Rogers (AS812)“ 1 Stunde nach Beginn und „IODA: Rogers-Netz (AS812) im Routing“ 1 Stunde nach Beginn. Ausschläge davor gab es auch an gewöhnlichen Tagen und zählen nicht als Vorwarnung. Den Ausfall selbst zeigen die IODA-Messungen für AS812 ab der ersten Stunde.",
+  "summary_en": "The radar would have risen to “Single anomaly”, first 1 hour after the start, because measured areas deviated. Unusual: “IODA: anpingbare Netze bei Rogers (AS812)” 1 hour after the start and “IODA: Rogers-Netz (AS812) im Routing” 1 hour after the start. Swings before the start also occurred on ordinary days and do not count as early warning. The outage itself shows in the IODA measurements for AS812 from the first hour.",
   "sawIt": "ja",
+  "maxLevel": 1,
+  "firstSeenHours": 1,
   "steps": 39
  },
  {
@@ -184,11 +218,13 @@
   "kind": "recent",
   "title_de": "Letzte 14 Tage: Cyberangriff",
   "title_en": "Last 14 days: cyber",
-  "date": "2026-11-23T21:00:00.000Z",
+  "date": "2026-11-24T01:00:00.000Z",
   "scenario": "cyber",
   "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“. Einzeln auffällig waren „Anteil anomaler Web-Messungen (Frankreich)“ und „Medienvolumen zu Cyberangriffen (GDELT, englisch)“, das allein hebt die Stufe nicht.",
   "summary_en": "Over the last 14 days the radar stayed “Calm”. Individually unusual: “Anteil anomaler Web-Messungen (Frankreich)” and “Medienvolumen zu Cyberangriffen (GDELT, englisch)”, which alone does not raise the level.",
   "sawIt": "teilweise",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 57
  },
  {
@@ -196,11 +232,13 @@
   "kind": "recent",
   "title_de": "Letzte 14 Tage: Kriegseskalation",
   "title_en": "Last 14 days: war",
-  "date": "2026-11-23T21:00:00.000Z",
+  "date": "2026-11-24T01:00:00.000Z",
   "scenario": "war",
   "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“. Einzeln auffällig waren „GDELT: Anteil der Weltkriegs-Berichte am Nachrichtenvolumen“ und „Handelsvolumen in Kriegs-Prognosemärkten (24 Stunden)“, das allein hebt die Stufe nicht.",
   "summary_en": "Over the last 14 days the radar stayed “Calm”. Individually unusual: “GDELT: Anteil der Weltkriegs-Berichte am Nachrichtenvolumen” and “Handelsvolumen in Kriegs-Prognosemärkten (24 Stunden)”, which alone does not raise the level.",
   "sawIt": "teilweise",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 57
  },
  {
@@ -208,11 +246,13 @@
   "kind": "recent",
   "title_de": "Letzte 14 Tage: Blackout und Energiekrise",
   "title_en": "Last 14 days: blackout",
-  "date": "2026-11-23T21:00:00.000Z",
+  "date": "2026-11-24T01:00:00.000Z",
   "scenario": "blackout",
-  "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“.",
-  "summary_en": "Over the last 14 days the radar stayed “Calm”.",
-  "sawIt": "nein",
+  "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“. Einzeln auffällig war „Sonnensturm: geomagnetische Aktivität (Kp-Index)“, das allein hebt die Stufe nicht.",
+  "summary_en": "Over the last 14 days the radar stayed “Calm”. Individually unusual: “Sonnensturm: geomagnetische Aktivität (Kp-Index)”, which alone does not raise the level.",
+  "sawIt": "teilweise",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 57
  },
  {
@@ -220,11 +260,13 @@
   "kind": "recent",
   "title_de": "Letzte 14 Tage: KI-Vorfall",
   "title_en": "Last 14 days: ai",
-  "date": "2026-11-23T21:00:00.000Z",
+  "date": "2026-11-24T01:00:00.000Z",
   "scenario": "ai",
   "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“.",
   "summary_en": "Over the last 14 days the radar stayed “Calm”.",
   "sawIt": "nein",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 57
  },
  {
@@ -232,11 +274,13 @@
   "kind": "recent",
   "title_de": "Letzte 14 Tage: Finanzkrise und Bankenstress",
   "title_en": "Last 14 days: finance",
-  "date": "2026-11-23T21:00:00.000Z",
+  "date": "2026-11-24T01:00:00.000Z",
   "scenario": "finance",
   "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“. Einzeln auffällig war „€STR: Streuung der Zinssätze“, das allein hebt die Stufe nicht.",
   "summary_en": "Over the last 14 days the radar stayed “Calm”. Individually unusual: “€STR: Streuung der Zinssätze”, which alone does not raise the level.",
   "sawIt": "teilweise",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 57
  },
  {
@@ -244,11 +288,13 @@
   "kind": "recent",
   "title_de": "Letzte 14 Tage: Nuklearer Zwischenfall",
   "title_en": "Last 14 days: nuclear",
-  "date": "2026-11-23T21:00:00.000Z",
+  "date": "2026-11-24T01:00:00.000Z",
   "scenario": "nuclear",
-  "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“. Einzeln auffällig waren „Handelsvolumen in Atomwaffen-Prognosemärkten (24 Stunden)“ und „Tagesschwankung von Angstindex (VIX) und Gold“, das allein hebt die Stufe nicht.",
-  "summary_en": "Over the last 14 days the radar stayed “Calm”. Individually unusual: “Handelsvolumen in Atomwaffen-Prognosemärkten (24 Stunden)” and “Tagesschwankung von Angstindex (VIX) und Gold”, which alone does not raise the level.",
+  "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“. Einzeln auffällig war „Handelsvolumen in Atomwaffen-Prognosemärkten (24 Stunden)“, das allein hebt die Stufe nicht.",
+  "summary_en": "Over the last 14 days the radar stayed “Calm”. Individually unusual: “Handelsvolumen in Atomwaffen-Prognosemärkten (24 Stunden)”, which alone does not raise the level.",
   "sawIt": "teilweise",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 57
  },
  {
@@ -256,11 +302,13 @@
   "kind": "recent",
   "title_de": "Letzte 14 Tage: Pandemie und Ausbrüche",
   "title_en": "Last 14 days: bio",
-  "date": "2026-11-23T21:00:00.000Z",
+  "date": "2026-11-24T01:00:00.000Z",
   "scenario": "bio",
   "summary_de": "In den letzten 14 Tagen blieb das Radar auf „Ruhig“.",
   "summary_en": "Over the last 14 days the radar stayed “Calm”.",
   "sawIt": "nein",
+  "maxLevel": 0,
+  "firstSeenHours": null,
   "steps": 57
  }
 ]

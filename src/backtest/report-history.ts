@@ -3,9 +3,9 @@
 
 import type { BacktestEvent, BacktestResult } from './lib.ts';
 import { DAY } from './lib.ts';
-import { buildReplay, judgeSawIt, NOTABLE_ANOMALY } from './replays.ts';
+import { buildReplay, judgeSawIt, LEVEL_DE, NOTABLE_ANOMALY, priorNoiseCounts } from './replays.ts';
 
-const LABEL = ['Ruhig', 'Leicht erhöht', 'Erhöht', 'Hoch', 'Akut'];
+const LABEL = LEVEL_DE;
 const num = (x: number, d = 1) => x.toFixed(d).replace('.', ',');
 const hrs = (h: number | null) => (h === null ? '–' : `${h > 0 ? '+' : ''}${h} h`);
 
@@ -23,14 +23,14 @@ const HISTORY_NOTES: string[] = [
     + 'Einbruch der anpingbaren Netze im Iran (z 19); Ölpreis-Volatilität (OVX) auffällig, aber nicht ausschlaggebend. Kein Vorlauf. '
     + '**Rogers:** IODA AS812 (Routing und Ping) ab +1 h; die BGP-Meldungen (RIPEstat, Anzahl Announcements) schlugen schon 23 h vorher aus, '
     + 'aber auch 18 Tage vorher mehrfach (18 Zeitschritte Stufe 1 vor Beginn): Rauschen, kein Vorlauf. '
-    + '**Facebook:** Stufe 1 ab +3 h durch die BGP-Meldungen für AS32934; dieselbe Reihe schlug auch am 26./27.09. ohne Ereignis aus (5 Zeitschritte). '
+    + '**Facebook:** Stufe 1 zum Beginn (Zeitschritt 15:00 UTC) durch die BGP-Meldungen für AS32934, die einzige auffällige Messung im betroffenen Bereich; dieselbe Reihe schlug auch am 26./27.09. ohne Ereignis aus (5 Zeitschritte). '
     + 'Sichtbare Präfixe gibt RIPEstat nur in 8-Stunden-Schritten (Rückgang 391 auf 369 ab 16 Uhr UTC, nach Verschiebung um ein Intervall gegen Vorausschau), '
     + 'unter der Schwelle. IODA hat für AS32934 im Jahr 2021 keine Daten (leere Antwort). '
-    + '**Kontrollen:** Spanien/Portugal vier Wochen vorher und Nahost vier Wochen vorher blieben mit denselben Messungen auf Stufe 0.',
+    + '**Kontrollen:** Spanien/Portugal vier Wochen vorher und Nahost vier Wochen vorher blieben mit denselben Messungen auf Stufe 0 („ruhig geblieben“). Facebook zählt wegen der einzigen, auch vorher auffälligen Messung nur als „teilweise“ (schwach).',
   '',
   'Nicht prüfbar bzw. nicht gesehen: CrowdStrike, Change Healthcare, Log4Shell, MOVEit, Colonial, Dyn, NotPetya sind Firmen- oder Software-Vorfälle; '
     + 'für sie gibt es keine offene Messung mit Historie, die das Ereignis physisch zeigt (FAA-Flugausfälle nur live). Sie bleiben mit „nein“ bzw. '
-    + '„teilweise“ (VIX, ohne Bezug) in der Liste. RIPEstat liefert für eine ASN keine Rücknahmen (withdrawals = null), nur Announcements. '
+    + '„nein“ in der Liste (Ausschläge des VIX bei CrowdStrike lagen vor dem Beginn und schlugen auch in den 4 Wochen davor aus: Rauschen, keine Vorwarnung). RIPEstat liefert für eine ASN keine Rücknahmen (withdrawals = null), nur Announcements. '
     + 'Der Luftalarm-Datensatz (65 MB) wurde direkt von raw.githubusercontent.com geladen und als Ausschnitt gespeichert (März bis Juli 2025, Kategorien 1 und 2). '
     + 'Weiter fehlend: `moveit-2023-05/yahoo/VIX-6mo-1d.json` (HTTP 500); SOFR erst ab April 2018, KEV ab November 2021, SEC Item 1.05 ab Dezember 2023.',
 ];
@@ -54,7 +54,9 @@ export function historySection(results: { file: string; result: BacktestResult }
   L.push('');
   L.push(`„Auffällig“ heißt hier: Anomalie der Engine ≥ ${num(NOTABLE_ANOMALY, 2)} (z deutlich über der Schwelle). Zeiten relativ zum Ereignisbeginn, `
     + 'gesucht von 3 Tagen davor bis 1 Tag nach dem Ende. „Gesehen?“ ist dieselbe Regel wie in den Wiedergaben (`src/backtest/replays.ts`): '
-    + '„ja“ nur bei Stufenanstieg durch abweichende Bereiche, „teilweise“ bei einzelnen auffälligen Messungen in einem erwarteten Bereich, sonst „nein“.');
+    + '„ja“ nur bei Stufenanstieg ab Ereignisbeginn durch abweichende Bereiche (nicht, wenn nur eine einzige Messung anschlug, die auch in den 4 Wochen davor ausschlug: dann „teilweise“), '
+    + '„teilweise“ bei einzelnen auffälligen Messungen in einem erwarteten Bereich, sonst „nein“. Ausschläge vor Beginn zählen nur, wenn dieselbe Messung in den 4 Wochen davor ruhig war; sonst sind sie als Rauschen markiert. '
+    + 'Kontroll-Zeiträume sind immer „nein“; Spalte „Kontrolle“ zeigt „ruhig geblieben“ oder „Fehlalarm“ (Stufe ≥ 1).');
   L.push('');
   L.push('| Zeitraum | Art | Signale mit Daten | Bereiche mit Daten | erwartete Bereiche ohne Daten | höchste Stufe (Wert) | auffällige Messungen (Beginn, max. z) | Gesehen? |');
   L.push('|---|---|---:|---|---|---|---|---|');
@@ -79,16 +81,21 @@ export function historySection(results: { file: string; result: BacktestResult }
     // all signals with data, not only the expected domains, to list every notable measurement
     let notableTxt = '–';
     let saw = '–';
+    let ctlState: 'quiet' | 'false-alarm' | null = null;
+    let weakName: string | null = null;
     if (win.some((s) => s.v)) {
       const replay = buildReplay(result, new Map(), { id, from, to, stepHours: result.stepHours, eventStart: ev.start, maxSignals: 1000 });
-      const all = judgeSawIt({ frames: replay.frames, eventStart: ev.start, eventEnd: ev.end, preHours: 72, postHours: 24 });
-      const scored = judgeSawIt({ frames: replay.frames, eventStart: ev.start, eventEnd: ev.end, expectedDomains: ev.kind === 'event' ? ev.expectedDomains : [] });
+      const all = judgeSawIt({ frames: replay.frames, eventStart: ev.start, eventEnd: ev.end, preHours: 72, postHours: 24, priorNoise: priorNoiseCounts(result, start, 4, 72) });
+      const scored = judgeSawIt({ frames: replay.frames, eventStart: ev.start, eventEnd: ev.end, expectedDomains: ev.kind === 'event' ? ev.expectedDomains : [], control: ev.kind === 'control', priorNoise: priorNoiseCounts(result, start) });
       saw = scored.sawIt;
-      notableTxt = all.notable.map((n) => `\`${n.id.replace(/^[a-z]+\./, '')}\` ${hrs(n.firstHours)}, z ${n.z === null ? '–' : num(n.z)}${ev.kind === 'event' && !ev.expectedDomains.includes(n.domain) ? ' (nicht erwarteter Bereich)' : ''}`).join('; ') || 'keine';
+      ctlState = scored.control;
+      weakName = scored.weak?.name ?? null;
+      const noise = all.preNoise.map((n) => `\`${n.id.replace(/^[a-z]+\./, '')}\` ${hrs(n.firstHours)} (Rauschen: schlug auch in den 4 Wochen davor aus)`);
+      notableTxt = [...noise, ...all.notable.map((n) => `\`${n.id.replace(/^[a-z]+\./, '')}\` ${hrs(n.firstHours)}, z ${n.z === null ? '–' : num(n.z)}${ev.kind === 'event' && !ev.expectedDomains.includes(n.domain) ? ' (nicht erwarteter Bereich)' : ''}`)].join('; ') || 'keine';
     }
     if (ev.kind === 'event' && tally[saw]) tally[saw].push(id);
-    if (ev.kind === 'control') ctl.push(`${id}: höchste Stufe ${maxLevel}${saw === 'teilweise' ? ', eine einzelne Messung auffällig' : ''}`);
-    L.push(`| ${ev.title} (\`${id}\`) | ${ev.kind === 'event' ? 'Ereignis' : 'Kontrolle'} | ${sigs.length} | ${dataDomains.join(', ') || '–'} | ${missing.join(', ') || (ev.kind === 'event' ? 'keine' : '–')} | ${maxLevel} ${LABEL[maxLevel]} (${num(maxScore, 3)}) | ${notableTxt} | **${saw}** |`);
+    if (ev.kind === 'control') ctl.push(`${id}: höchste Stufe ${maxLevel}${ctlState === 'false-alarm' ? ' (Fehlalarm)' : ' (ruhig geblieben)'}`);
+    L.push(`| ${ev.title} (\`${id}\`) | ${ev.kind === 'event' ? 'Ereignis' : 'Kontrolle'} | ${sigs.length} | ${dataDomains.join(', ') || '–'} | ${missing.join(', ') || (ev.kind === 'event' ? 'keine' : '–')} | ${maxLevel} ${LABEL[maxLevel]} (${num(maxScore, 3)}) | ${notableTxt} | **${saw}**${ev.kind === 'control' ? (ctlState === 'false-alarm' ? ' (Fehlalarm)' : ' (ruhig geblieben)') : weakName ? ` (schwach: nur \`${weakName}\`, schlug auch vorher aus)` : ''} |`);
     details.push(`- \`${id}\`: ${sigs.map((s) => `\`${s.id.replace(/^[a-z]+\./, '')}\` (${s.evidenceClass})`).join(', ') || 'keine'}`);
   }
   L.push('');

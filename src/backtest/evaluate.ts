@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { historySection } from './report-history.ts';
 import { type BacktestEvent, type BacktestResult, DEFAULT_EVAL, type EventEval, type Evaluation, evaluateResults, MIN_DOMAINS } from './lib.ts';
 
-const LABEL = ['Ruhig', 'Leicht erhöht', 'Erhöht', 'Hoch', 'Akut'];
+const LABEL = ['Ruhig', 'Einzelne Auffälligkeit', 'Mehrere Auffälligkeiten', 'Deutliche Häufung', 'Starke Häufung'];
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = process.argv.slice(2);
 const opt = (name: string): string | undefined => {

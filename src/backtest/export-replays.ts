@@ -19,7 +19,7 @@ import { fileStore } from '../core/store.ts';
 import type { Observation, SignalDef } from '../core/types.ts';
 import { type BacktestEvent, type BacktestResult, computeTimeline, DAY, HOUR } from './lib.ts';
 import { probeSignalDefs, probesOf } from './history-adapters.ts';
-import { fitReplay, judgeSawIt, type ReplayIndexEntry, summarize } from './replays.ts';
+import { buildReplay, fitReplay, judgeSawIt, priorNoiseCounts, type ReplayIndexEntry, summarize } from './replays.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = process.argv.slice(2);
@@ -63,12 +63,12 @@ const NOTE: Record<string, { de: string; en: string }> = {
     en: 'The VIX measures unrest across the whole US stock market and had already risen the day before; it does not show a link to the outage.',
   },
   'rogers-2022-07': {
-    de: 'Der frühe Ausschlag 23 Stunden vorher kommt von den BGP-Meldungen, die auch in den Wochen davor mehrfach ausschlugen; ein Vorlauf ist das nicht. Den Ausfall selbst zeigen die IODA-Messungen für AS812 ab der ersten Stunde.',
-    en: 'The early swing 23 hours before comes from the BGP update count, which also swung several times in the weeks before; it is not a lead. The outage itself shows in the IODA measurements for AS812 from the first hour.',
+    de: 'Den Ausfall selbst zeigen die IODA-Messungen für AS812 ab der ersten Stunde.',
+    en: 'The outage itself shows in the IODA measurements for AS812 from the first hour.',
   },
   'facebook-bgp-2021-10': {
-    de: 'Die BGP-Meldungen schlugen auch Tage vorher ohne Ereignis aus; die sichtbaren Präfixe gibt RIPEstat nur alle 8 Stunden, der Rückgang (391 auf 369) blieb unter der Schwelle.',
-    en: 'The BGP update count also swung days earlier without an event; RIPEstat gives visible prefixes only every 8 hours, and the drop (391 to 369) stayed below the threshold.',
+    de: 'Die sichtbaren Präfixe gibt RIPEstat nur alle 8 Stunden, der Rückgang (391 auf 369) blieb unter der Schwelle.',
+    en: 'RIPEstat gives visible prefixes only every 8 hours, and the drop (391 to 369) stayed below the threshold.',
   },
   'iberia-blackout-2025-04': {
     de: 'Die Netzlast Spaniens fehlt in den Ausfallstunden in den Daten (keine vollständigen Stunden) und zählte deshalb nicht.',
@@ -77,10 +77,6 @@ const NOTE: Record<string, { de: string; en: string }> = {
   'israel-iran-2025-06': {
     de: 'Stufe „Erhöht“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.',
     en: 'Level “Elevated” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.',
-  },
-  'control-2019-08': {
-    de: 'In einer Vergleichszeit ohne bekanntes Cyber-Ereignis ist das ein Ausschlag ohne Bezug, die Stufe blieb trotzdem ruhig.',
-    en: 'In a comparison period without a known cyber event this is an unrelated swing; the level still stayed calm.',
   },
 };
 
@@ -107,12 +103,15 @@ for (const f of readdirSync(resultsDir).filter((x) => /^history-.+\.json$/.test(
   const { replay, json } = fitReplay(res, evDefs, { id, from: start - SPAN, to: start + SPAN, stepHours: STEP_HOURS, eventStart: ev.start });
   writeFileSync(join(outDir, `${id}.json`), json);
   written.push(`${id}.json`);
-  const j = judgeSawIt({ frames: replay.frames, eventStart: ev.start, eventEnd: ev.end, expectedDomains: ev.kind === 'event' ? ev.expectedDomains : [] });
+  // judged on the full result grid (not the 6-hour frames) from 5 days before to 1 day after the end, like the report
+  const fine = buildReplay(res, evDefs, { id, from: start - SPAN, to: Date.parse(ev.end) + DAY, stepHours: res.stepHours, eventStart: ev.start, maxSignals: 1000 });
+  const j = judgeSawIt({ frames: fine.frames, eventStart: ev.start, eventEnd: ev.end, expectedDomains: ev.kind === 'event' ? ev.expectedDomains : [], control: ev.kind === 'control', priorNoise: priorNoiseCounts(res, start) });
   const measured = new Set(replay.frames.flatMap((fr) => fr.signals.map((s) => s.id))).size;
   const s = summarize(j, { kind: ev.kind, measuredSignals: measured, note: NOTE[id] });
   index.push({
     id, kind: ev.kind, title_de: ev.title, title_en: TITLE_EN[id] ?? ev.title, date: ev.start, scenario: res.scenario,
-    summary_de: s.de, summary_en: s.en, sawIt: j.sawIt, steps: replay.frames.length,
+    summary_de: s.de, summary_en: s.en, sawIt: j.sawIt, ...(j.control ? { control: j.control } : {}),
+    maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, steps: replay.frames.length,
   });
   console.log(`${id.padEnd(28)} ${j.sawIt.padEnd(10)} ${replay.frames.length} Frames, ${measured} Signale, ${(json.length / 1000).toFixed(1)} kB`);
 }
@@ -149,7 +148,7 @@ if (!args.includes('--no-recent')) {
       const s = summarize(j, { kind: 'recent', measuredSignals: measured, days: recentDays });
       index.push({
         id, kind: 'recent', title_de: `Letzte ${recentDays} Tage: ${scenario.title}`, title_en: `Last ${recentDays} days: ${scenario.id}`,
-        date: new Date(to).toISOString(), scenario: scenario.id, summary_de: s.de, summary_en: s.en, sawIt: j.sawIt, steps: replay.frames.length,
+        date: new Date(to).toISOString(), scenario: scenario.id, summary_de: s.de, summary_en: s.en, sawIt: j.sawIt, maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, steps: replay.frames.length,
       });
       console.log(`${id.padEnd(28)} ${j.sawIt.padEnd(10)} ${replay.frames.length} Frames, ${measured} Signale, max ${replay.maxSignalsPerFrame}/Frame, ${(json.length / 1000).toFixed(1)} kB`);
     }

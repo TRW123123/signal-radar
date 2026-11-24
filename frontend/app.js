@@ -404,10 +404,31 @@ function antwort(sc) {
       <p class="antwort-frage">${esc(scFrage(sc))}</p>
       <h1 class="antwort-kopf"><span class="antwort-wort">${esc(a.wort)}</span> ${esc(a.satz)}</h1>
       ${a.zusatz ? `<p class="antwort-satz">${esc(a.zusatz)}</p>` : ''}
+      ${warumZeile(sc, a)}
       <p class="antwort-stufe"><i class="lampe-klein" aria-hidden="true"></i>${esc(zuWenig(sc) ? L.zuWenig : L.kopf.stufe(stufenName(sc), a.k, a.mit))}
         <button type="button" class="teilen" id="teilen"${istDemo() ? ` disabled title="${esc(L.kopf.demoGesperrt)}"` : ''}><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M10 3v10M6 7l4-4 4 4M4 12v4h12v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>${esc(L.kopf.teilen)}</button></p>
       ${zeile}
     </div>`;
+}
+
+/** Begründung mit greifbaren Absendern: die drei Quellen mit den meisten frischen Messungen dieses Themas */
+function warumZeile(sc, a) {
+  if (zuWenig(sc)) return '';
+  const K = L.kopf;
+  let text;
+  if (sc.level >= 1 && a.k > 0) {
+    text = K.warumAb(a.k, a.mit, ungewoehnlicheBereiche(sc).map((b) => dTitel(sc, b.d)).join(', '));
+  } else {
+    const frisch = messungen(sc).filter((m) => m.s.fresh && m.s.value != null);
+    const zahl = new Map();
+    for (const m of frisch) {
+      const q = quellenEintrag(m.s)?.name ?? m.s.sourceName;
+      if (q) zahl.set(q, (zahl.get(q) ?? 0) + 1);
+    }
+    const top = [...zahl].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0])).slice(0, 3).map(([q]) => q.replace(/\s*\([^)]*\)/g, '').trim()); // Zusätze in Klammern sind für Laien Ballast
+    text = K.warumNein(frisch.length, top);
+  }
+  return `<a class="warum" href="#quellen" data-quellen>${esc(text)} <span aria-hidden="true">→</span></a>`;
 }
 
 const istDemo = () => demo != null || zustand.snap?.mode === 'demo';
@@ -460,8 +481,8 @@ function globusBlock(sc, ms, schichten) {
       <div class="globus-rahmen">
         <canvas id="globus" class="globus" role="img" aria-label="${esc(G.label(z.mitOrt, auf))}"></canvas>
         <p class="puls-zeile" id="puls-zeile">${pulsText(sc)}</p>
+        ${vergleichKnopf(sc)}
       </div>
-      ${vergleichKnopf(sc)}
       ${zeitleiste(sc)}
       <figcaption class="globus-legende">
         <span class="leg leg-ruhig"><i aria-hidden="true"></i>${esc(G.legende4[0])}</span>
@@ -837,9 +858,10 @@ function vergleichKnopf(sc) {
   if (!v) return '';
   const G = L.globus;
   const ziel = zustand.snap.scenarios.find((x) => x.id === v.r.scenario);
-  const technik = G.vergleichTechnik?.[v.r.id];
-  const text = technik ? G.vergleichTechnikKnopf(technik) : v.eigen || !ziel ? G.vergleichKnopf(rbTitel(v.r)) : G.vergleichNah(rbTitel(v.r), linsenName(ziel));
-  return `<button type="button" class="vergleich-knopf" id="vergleich" data-vergleich="${esc(v.r.id)}"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg><span>${esc(text)}</span></button>`;
+  // Kurzer Text auf dem Globus; der volle Ereignisname steht im Fazit und im Vorlese-Text
+  const voll = v.eigen || !ziel ? rbTitel(v.r) : `${rbTitel(v.r)}, ${linsenName(ziel)}`;
+  const text = G.vergleichKnopf();
+  return `<button type="button" class="vergleich-knopf" id="vergleich" data-vergleich="${esc(v.r.id)}" aria-label="${esc(`${text} (${voll})`)}"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg><span>${esc(text)}</span></button>`;
 }
 
 /** Rückblick auf der Hauptbühne starten; `vergleich`: schneller Zeitraffer bis zum Höhepunkt mit Vergleichssatz */
@@ -1300,10 +1322,10 @@ async function renderLinse() {
 }
 
 const REPO = 'https://github.com/TRW123123/signal-radar';
-// Absender: „Unabhängiges Open-Source-Projekt · 97 öffentliche Messungen"; der Projektname führt zum Quellcode
+// Absender: „Unabhängig, ohne Werbung, alle Daten offen einsehbar"; der zweite Teil führt zum Quellcode
 const herkunftHtml = () => {
-  const [vor, projekt, zahl] = L.herkunft.absender;
-  return `${esc(vor)} ${extern(REPO, esc(projekt))} · ${esc(zahl(zustand.snap ? zaehlung(aktuell()).alle : 0))}<span class="herkunft-quellen"> · ${extern(REPO, esc(L.herkunft.code))} · <a href="#quellen" data-quellen>${esc(L.herkunft.quellen)}</a></span>`;
+  const [vor, projekt] = L.herkunft.absender;
+  return `${esc(vor)} ${extern(REPO, esc(projekt))}<span class="herkunft-quellen"> · ${extern(REPO, esc(L.herkunft.code))} · <a href="#quellen" data-quellen>${esc(L.herkunft.quellen)}</a></span>`;
 };
 function oeffneQuellen(e) {
   const d = $('quellen');

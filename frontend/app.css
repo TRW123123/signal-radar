@@ -654,3 +654,21 @@ button { font: inherit; color: inherit; }
   .zl-mehr { position: absolute; right: 0; top: 0; bottom: 0.3rem; display: inline-flex; align-items: center; padding: 0 0.1rem 0 1.6rem; border: 0; background: linear-gradient(90deg, transparent, var(--grund) 40%); color: var(--tinte); font-size: var(--t-12); font-weight: 700; cursor: pointer; }
   .zl-mehr[hidden] { display: none !important; }
 }
+
+/* ---------- Runde 9 ---------- */
+/* Vergleichs-Knopf liegt auf dem unteren Rand des Globus (im ersten Handy-Bildschirm) */
+.globus-rahmen .vergleich-knopf { position: absolute; left: 50%; bottom: 2rem; transform: translateX(-50%); z-index: 2; margin: 0; white-space: nowrap; background: var(--tinte); color: var(--grund); border-color: var(--tinte); box-shadow: 0 2px 10px color-mix(in srgb, var(--tinte) 30%, transparent); }
+.globus-rahmen .vergleich-knopf svg { color: var(--grund); }
+.globus-rahmen .vergleich-knopf:hover { opacity: 0.9; }
+.globus-rahmen .vergleich-knopf:focus-visible { outline: 3px solid var(--g-etwas); outline-offset: 2px; }
+/* Begründung unter dem Antwortsatz, führt zu den Quellen */
+.warum { display: block; margin-top: 0.3rem; font-size: var(--t-14); line-height: 1.35; color: var(--tinte); text-decoration: underline; text-decoration-color: var(--g-etwas); text-underline-offset: 0.2em; }
+@media (max-width: 47.99rem) {
+  /* Erster Handy-Bildschirm: Gerüchte-Zeile auf zwei Zeilen (Marke + Datenlage oben, Titel darunter) */
+  .gehoert { grid-template-columns: auto 1fr; column-gap: 0.6rem; margin-top: 0.5rem; padding: 0.4rem 0.7rem; }
+  .gehoert-wort { grid-row: 1; grid-column: 1; }
+  .gehoert-daten { grid-row: 1; grid-column: 2; justify-self: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .gehoert-text { grid-row: 2; grid-column: 1 / -1; -webkit-line-clamp: 1; }
+  .warum { font-size: var(--t-12); margin-top: 0.2rem; }
+  .globus-rahmen .vergleich-knopf { bottom: 19%; }
+}

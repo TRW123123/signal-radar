@@ -12,13 +12,23 @@ Arbeitsweise: Runden aus Messen, drei Lücken wählen, bauen, unabhängig prüfe
 |---|---|---|
 | 1 | Globus-Frontend (V2), Orte je Messung (`catalog/geo.json`), `rarity` je Messung, RKI-Collectors, Kalibrierung der Schwellen aus Live-Daten (`docs/CALIBRATION.md`, `frontend/data/explain.json`), englische Datentexte, Gerüchte-Register | ausgeliefert |
 | 2 | Unabhängige Kritik mit 5-Sekunden-Test (`frontend/design/KRITIK-RUNDE-2.md`: 2 von 5 verstehen den Zweck, Globus Note 2); Frontend danach: Ja/Nein-Antwort oben, Gerüchte-Zeile, belebter Globus, „Warum ungewöhnlich", Zeitmaschine, DE/EN, Teilen. Ungewertete Kartenschichten (`MapLayer`, Collectors `layer-usgs-quakes`, `layer-eonet`, `layer-gdacs`). Zeitmaschine mit passenden Ereignissen (Stromausfall Iberien 2025, Israel–Iran 2025, Rogers 2022, Facebook 2021). `collect` startet zusätzlich nach Pushes auf `src/**`/`catalog/**`, Push mit Wiederholung | ausgeliefert |
-| 3 | Globus als dunkle Bühne, Schichten schaltbar, Handy-Erstbildschirm, Zeitmaschinen-Texte ohne falschen Vorlauf | läuft |
+| 3 | Globus als dunkle Bühne mit leuchtenden, gebündelten Punkten, Schichten schaltbar, Handy-Erstbildschirm, Zeitmaschinen-Texte ohne falschen Vorlauf | ausgeliefert |
+| 4 | Kritik 3 (`KRITIK-RUNDE-3.md`: 3 von 5). Frage über der Antwort, eine erklärte Zählung, Alltagssprache statt Kürzel, Ernstfall-Satz, Vorschaubild `assets/og.png`, Englisch vollständig. KI-Thema: `ai-provider-incidents`. Stufennamen überall gleich (Engine, Doku, Wiedergaben) | ausgeliefert |
+| 5 | Kritik 4 (`KRITIK-RUNDE-4.md`). Zeitmaschine auf der Hauptbühne (Zeitleiste, Sprungmarken), Verlaufsbild mit Normalbereich, Gruppen-Listen, Seite deutlich kürzer. Blackout: erreichbare Netze für 11 Länder, Last FR/ES/IT. Teilbare Seite je Gerücht (`scripts/build_rumor_pages.ts` → `frontend/g/`), Sitemap. README neu | ausgeliefert |
+| 6 | Kritik 5 (`KRITIK-RUNDE-5.md`: Fehlerliste nach den neuen Funktionen). Fehler-Runde im Frontend. Zeitmaschine: Ereignisse je Thema (Bankenkrise 2023, Chile 2025, Kuba 2024, Corona 2020, Saporischschja 2022) mit Kontrollen | Frontend läuft, Rücktest ausgeliefert |
+
+**Verlauf der unabhängigen Prüfungen** (Noten 1 bis 10: Sofort-Verständnis / Mehrwert / Globus / Sprache / Vertrauen / Teilbarkeit / Handy; Zweck verstanden von 5 Testpersonen):
+Runde 2: 4/3/2/5/4/2/5, 2 von 5. Runde 3: 7/6/5/5/5/5/6, 3 von 5. Runde 4: 7/5/4/7/6/6/7, 3 von 5. Runde 5: 7/5/4/7/5/6/6, 3 von 5.
+Hängt seit Runde 3 an: Globus wirkt im Ruhezustand leer, Mehrwert nicht sofort greifbar, Absender fehlt.
+
+**Arbeitsweise in der Schleife:** je Aufgabe ein eigener Git-Worktree unter `/tmp/wt*` vom aktuellen `master`, Agent ohne Commit, Hauptprozess prüft, committet, `pull --rebase`, pusht. Nie zwei Agents auf denselben Dateien.
 
 **Ehrliche Befunde, die offen bleiben:**
-- Zeitmaschine: Das Radar bestätigt Ereignisse nach Stunden (Stufe 1 bis 2), es warnte in keinem Fall vorher. Firmen-Vorfälle (Log4Shell, MOVEit, Colonial …) sind mit offenen Daten nicht sichtbar. Siehe `backtest/REPORT.md`.
+- Zeitmaschine: Das Radar bestätigt Ereignisse nach Stunden (Stufe 1 bis 2), es warnte in keinem Fall vorher. Höher als Stufe 2 kam kein Rücktest, weil für die Vergangenheit je Ereignis nur ein bis zwei Bereiche nachladbar sind und ein Bereich allein höchstens Stufe 1 ergibt. Nicht gesehen: Kuba 2024 (anpingbare Netze nur etwa 18 % tiefer), Saporischschja 2022, Corona 2020 nur teilweise. Firmen-Vorfälle (Log4Shell, MOVEit, Colonial …) sind mit offenen Daten nicht sichtbar. Siehe `backtest/REPORT.md`.
 - Der geplante 15-Minuten-Takt von `collect` wurde von GitHub nur alle 6 bis 12 Stunden ausgeführt (Commits vom 22./23.11.). Ursache ungeprüft (Actions-Protokolle von der Bau-Umgebung aus nicht lesbar). Abhilfe bisher: Start nach Code-Push. Dauerhafte Lösung offen (externer Zeitgeber, z. B. Cloudflare-Cron, der `workflow_dispatch` auslöst; braucht ein Token vom Betreiber).
-- `layer-gdacs` lieferte im ersten Live-Lauf keine Schicht (USGS und EONET ja); `blackout-open-meteo`, `ai-hf-hub`, alle `layer-*`: `VERIFIED: nein`.
+- `layer-gdacs` läuft seit der Korrektur fehlerfrei, liefert aber 0 Punkte (Format oder gerade keine Warnung Orange/Rot: ungeprüft); `ai-provider-incidents` live geprüft (135 Werte); neue Blackout-Abrufe und `blackout-open-meteo`, `ai-hf-hub`, alle `layer-*`: `VERIFIED: nein`.
 - Orte: KI 1 von 11, Cyber 38 von 97 Messungen mit Daten haben einen Ort; viele Cyber-Messungen sind weltweite Zählungen und haben zu Recht keinen.
+- Keine `LICENSE`-Datei im Repo (Entscheidung des Betreibers). Yahoo-Kursdaten kommen über eine inoffizielle Schnittstelle, Nutzungsbedingungen ungeklärt (`src/collectors/yahoo-chart.ts`).
 - `scripts/build_single.py` wurde entfernt (Einzeldatei-Fassung passt nicht zu den Modulen); ältere Abschnitte unten nennen es noch.
 
 **Arbeitsverzeichnis:** Push nur über die alte Repo-Adresse (`…/TRW123123/autohaus-eckenberger-website`, leitet weiter). Nie eine lokal gebaute `frontend/data/snapshot.json` committen.

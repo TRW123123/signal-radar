@@ -93,7 +93,9 @@ const collector: Collector = {
   needsKey: KEY_ENV,
   intervalMinutes: 60,
   signals: [
-    { ...CATALOG[SIG_PJM], ...SOURCE, sourceUrl: 'https://www.eia.gov/electricity/gridmonitor/', collector: 'eia', id: SIG_PJM },
+    // EIA-930 meldet mit 1 bis 2 Stunden Verzug, die 2 jüngsten Stunden entfallen zusätzlich (s. o.), Läufe kommen unregelmäßig:
+    // der jüngste Wert ist deshalb meist 3 bis 6 Stunden alt; mit dem Standard (3 Stunden) galt die Reihe fast immer als veraltet.
+    { ...CATALOG[SIG_PJM], ...SOURCE, sourceUrl: 'https://www.eia.gov/electricity/gridmonitor/', collector: 'eia', id: SIG_PJM, maxAgeHours: 8 },
     { ...CATALOG[SIG_US48], ...SOURCE, sourceUrl: 'https://www.eia.gov/electricity/gridmonitor/', collector: 'eia', id: SIG_US48,
       name: 'US-Stromlast gesamt (Lower 48)', plain: 'Stündlicher Stromverbrauch der USA ohne Alaska und Hawaii; ein plötzlicher Einbruch kann auf großflächige Ausfälle hindeuten.' },
     { ...CATALOG[SIG_SPR], ...SOURCE, sourceUrl: 'https://www.eia.gov/petroleum/supply/weekly/', collector: 'eia', id: SIG_SPR,

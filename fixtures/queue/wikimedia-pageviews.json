@@ -198,5 +198,35 @@
     "fixture": "wikimedia/en.wikipedia-Nuclear_power_plant-30d.json",
     "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Nuclear_power_plant/daily/20261018/20261116",
     "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-AI_safety-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/AI_safety/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Prompt_injection-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Prompt_injection/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Existential_risk_from_artificial_intelligence-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Existential_risk_from_artificial_intelligence/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-AI_alignment-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/AI_alignment/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Deepfake-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Deepfake/daily/20261018/20261116",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "wikimedia/en.wikipedia-Hugging_Face-30d.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Hugging_Face/daily/20261018/20261116",
+    "maxChars": 6000
   }
 ]

@@ -1,0 +1,12 @@
+[
+  {
+    "fixture": "ai-provider-incidents/status.openai.com.json",
+    "url": "https://status.openai.com/api/v2/incidents.json",
+    "maxChars": 8000
+  },
+  {
+    "fixture": "ai-provider-incidents/status.anthropic.com.json",
+    "url": "https://status.anthropic.com/api/v2/incidents.json",
+    "maxChars": 8000
+  }
+]

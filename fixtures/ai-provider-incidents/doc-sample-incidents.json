@@ -1,0 +1,10 @@
+{
+  "page": { "id": "tymt9n04zgry", "name": "Beispiel (nach Doku nachgebaut, keine echte Antwort)", "url": "https://status.example.com", "time_zone": "Etc/UTC", "updated_at": "2026-11-17T00:00:00Z" },
+  "incidents": [
+    { "id": "a1", "name": "Erhöhte Fehlerraten", "status": "resolved", "impact": "minor", "created_at": "2026-11-16T14:02:11.000Z", "started_at": "2026-11-16T13:55:00.000Z", "resolved_at": "2026-11-16T15:10:00.000Z", "incident_updates": [] },
+    { "id": "a2", "name": "API nicht erreichbar", "status": "resolved", "impact": "major", "created_at": "2026-11-16T03:40:00.000Z", "started_at": "2026-11-16T03:31:00.000Z", "resolved_at": "2026-11-16T04:20:00.000Z", "incident_updates": [] },
+    { "id": "a3", "name": "Hinweis ohne Auswirkung", "status": "resolved", "impact": "none", "created_at": "2026-11-14T09:00:00.000Z", "started_at": "2026-11-14T09:00:00.000Z", "resolved_at": "2026-11-14T10:00:00.000Z", "incident_updates": [] },
+    { "id": "a4", "name": "Langsame Antworten", "status": "resolved", "impact": "minor", "created_at": "2026-11-12T22:15:00.000Z", "started_at": "2026-11-12T22:05:00.000Z", "resolved_at": "2026-11-13T01:00:00.000Z", "incident_updates": [] },
+    { "id": "a5", "name": "Schwere Störung", "status": "resolved", "impact": "critical", "created_at": "2026-11-02T08:00:00.000Z", "started_at": "2026-11-02T07:58:00.000Z", "resolved_at": "2026-11-02T09:30:00.000Z", "incident_updates": [] }
+  ]
+}

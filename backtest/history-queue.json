@@ -430,14 +430,14 @@
     "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/bgp-update-activity-AS32934.json",
     "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00&sampling_period=3600",
     "maxChars": 3000000,
-    "signal": "cyber.routing.bgp_withdrawals_as32934",
+    "signal": "cyber.routing.bgp_updates_as32934",
     "event": "facebook-bgp-2021-10"
   },
   {
     "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/bgp-update-activity-AS32934-auto.json",
     "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00",
     "maxChars": 3000000,
-    "signal": "cyber.routing.bgp_withdrawals_as32934",
+    "signal": "cyber.routing.bgp_updates_as32934",
     "event": "facebook-bgp-2021-10"
   },
   {
@@ -588,7 +588,7 @@
     "event": "iberia-blackout-2025-04"
   },
   {
-    "fixture": "backtest/iberia-blackout-2025-04/wikimedia/es.wikipedia-Apagón.json",
+    "fixture": "backtest/iberia-blackout-2025-04/wikimedia/es.wikipedia-Apag\u00f3n.json",
     "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia/all-access/user/Apag%C3%B3n/daily/20250127/20250503",
     "maxChars": 3000000,
     "signal": "blackout.attention.wiki_es_apagon",
@@ -637,7 +637,7 @@
     "event": "israel-iran-2025-06"
   },
   {
-    "fixture": "backtest/israel-iran-2025-06/wikimedia/en.wikipedia-Iran–Israel_relations.json",
+    "fixture": "backtest/israel-iran-2025-06/wikimedia/en.wikipedia-Iran\u2013Israel_relations.json",
     "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Iran%E2%80%93Israel_relations/daily/20250310/20250628",
     "maxChars": 3000000,
     "signal": "war.attention.wiki_en_iran",
@@ -766,14 +766,14 @@
     "fixture": "backtest/rogers-2022-07/ripe-stat/bgp-update-activity-AS812.json",
     "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS812&starttime=2022-05-27T00:00&endtime=2022-07-13T00:00&sampling_period=3600",
     "maxChars": 3000000,
-    "signal": "cyber.routing.bgp_withdrawals_as812",
+    "signal": "cyber.routing.bgp_updates_as812",
     "event": "rogers-2022-07"
   },
   {
     "fixture": "backtest/rogers-2022-07/ripe-stat/bgp-update-activity-AS812-auto.json",
     "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS812&starttime=2022-05-27T00:00&endtime=2022-07-13T00:00",
     "maxChars": 3000000,
-    "signal": "cyber.routing.bgp_withdrawals_as812",
+    "signal": "cyber.routing.bgp_updates_as812",
     "event": "rogers-2022-07"
   },
   {
@@ -782,5 +782,236 @@
     "maxChars": 3000000,
     "signal": "cyber.attention.wiki_en_rogers",
     "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/KRE-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/KRE?period1=1667260800&period2=1680220800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "finance.banks.kre_abs_return",
+    "event": "svb-bank-crisis-2023-03"
+  },
+  {
+    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/EUFN-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EUFN?period1=1667260800&period2=1680220800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "finance.banks.eufn_abs_return",
+    "event": "svb-bank-crisis-2023-03"
+  },
+  {
+    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1667260800&period2=1680220800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "finance.volatility.vix",
+    "event": "svb-bank-crisis-2023-03"
+  },
+  {
+    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/GC_F-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?period1=1667260800&period2=1680220800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "finance.markets.gold",
+    "event": "svb-bank-crisis-2023-03"
+  },
+  {
+    "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/HYG-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/HYG?period1=1667260800&period2=1680220800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "finance.credit.hyg_close",
+    "event": "svb-bank-crisis-2023-03"
+  },
+  {
+    "fixture": "backtest/svb-bank-crisis-2023-03/wikimedia/en.wikipedia-Bank_run.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Bank_run/daily/20221101/20230331",
+    "maxChars": 3000000,
+    "signal": "finance.attention.wiki_en_bank_run",
+    "event": "svb-bank-crisis-2023-03"
+  },
+  {
+    "fixture": "backtest/svb-bank-crisis-2023-03/wikimedia/en.wikipedia-Silicon_Valley_Bank.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Silicon_Valley_Bank/daily/20221101/20230331",
+    "maxChars": 3000000,
+    "signal": "finance.attention.wiki_en_svb",
+    "event": "svb-bank-crisis-2023-03"
+  },
+  {
+    "fixture": "backtest/covid-europe-2020-02/wikimedia/en.wikipedia-Coronavirus.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Coronavirus/daily/20191001/20200321",
+    "maxChars": 3000000,
+    "signal": "bio.attention.wiki_en_coronavirus",
+    "event": "covid-europe-2020-02"
+  },
+  {
+    "fixture": "backtest/covid-europe-2020-02/wikimedia/en.wikipedia-Pandemic.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Pandemic/daily/20191001/20200321",
+    "maxChars": 3000000,
+    "signal": "bio.attention.wiki_en_pandemic",
+    "event": "covid-europe-2020-02"
+  },
+  {
+    "fixture": "backtest/covid-europe-2020-02/wikimedia/de.wikipedia-Pandemie.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Pandemie/daily/20191001/20200321",
+    "maxChars": 3000000,
+    "signal": "bio.attention.wiki_de_pandemie",
+    "event": "covid-europe-2020-02"
+  },
+  {
+    "fixture": "backtest/covid-europe-2020-02/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1569888000&period2=1584748800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "bio.markets.vix",
+    "event": "covid-europe-2020-02"
+  },
+  {
+    "fixture": "backtest/covid-europe-2020-02/yahoo/MRNA-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/MRNA?period1=1569888000&period2=1584748800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "bio.markets.mrna",
+    "event": "covid-europe-2020-02"
+  },
+  {
+    "fixture": "backtest/covid-europe-2020-02/yahoo/GILD-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GILD?period1=1569888000&period2=1584748800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "bio.markets.gild",
+    "event": "covid-europe-2020-02"
+  },
+  {
+    "fixture": "backtest/cuba-blackout-2024-10/ioda/country-CU.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CU?from=1725926400&until=1729987200&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_cu_bgp",
+    "event": "cuba-blackout-2024-10"
+  },
+  {
+    "fixture": "backtest/cuba-blackout-2024-10/ioda/country-CU-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CU?from=1725926400&until=1729987200&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_cu_bgp",
+    "event": "cuba-blackout-2024-10"
+  },
+  {
+    "fixture": "backtest/cuba-blackout-2024-10/ioda/country-CU-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CU?from=1725926400&until=1729987200&datasource=ping-slash24",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_cu_ping",
+    "event": "cuba-blackout-2024-10"
+  },
+  {
+    "fixture": "backtest/cuba-blackout-2024-10/ioda/country-CU-ping-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CU?from=1725926400&until=1729987200&datasource=ping-slash24&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_cu_ping",
+    "event": "cuba-blackout-2024-10"
+  },
+  {
+    "fixture": "backtest/chile-blackout-2025-02/ioda/country-CL.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CL?from=1736899200&until=1740873600&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_cl_bgp",
+    "event": "chile-blackout-2025-02"
+  },
+  {
+    "fixture": "backtest/chile-blackout-2025-02/ioda/country-CL-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CL?from=1736899200&until=1740873600&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_cl_bgp",
+    "event": "chile-blackout-2025-02"
+  },
+  {
+    "fixture": "backtest/chile-blackout-2025-02/ioda/country-CL-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CL?from=1736899200&until=1740873600&datasource=ping-slash24",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_cl_ping",
+    "event": "chile-blackout-2025-02"
+  },
+  {
+    "fixture": "backtest/chile-blackout-2025-02/ioda/country-CL-ping-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CL?from=1736899200&until=1740873600&datasource=ping-slash24&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_cl_ping",
+    "event": "chile-blackout-2025-02"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/wikimedia/en.wikipedia-Zaporizhzhia_Nuclear_Power_Plant.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Zaporizhzhia_Nuclear_Power_Plant/daily/20211101/20220312",
+    "maxChars": 3000000,
+    "signal": "nuclear.attention.wiki_en_znpp",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/wikimedia/de.wikipedia-Kernkraftwerk_Saporischschja.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kernkraftwerk_Saporischschja/daily/20211101/20220312",
+    "maxChars": 3000000,
+    "signal": "nuclear.attention.wiki_de_znpp",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/wikimedia/de.wikipedia-Kaliumiodid.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Kaliumiodid/daily/20211101/20220312",
+    "maxChars": 3000000,
+    "signal": "nuclear.attention.wiki_de_kaliumiodid",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/wikimedia/en.wikipedia-Potassium_iodide.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Potassium_iodide/daily/20211101/20220312",
+    "maxChars": 3000000,
+    "signal": "nuclear.attention.wiki_en_potassium_iodide",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/URNM-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/URNM?period1=1634256000&period2=1647043200&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/CCJ-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CCJ?period1=1634256000&period2=1647043200&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/U_UN_TO-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/U-UN.TO?period1=1634256000&period2=1647043200&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1634256000&period2=1647043200&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/GC_F-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?period1=1634256000&period2=1647043200&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/LMT-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/LMT?period1=1634256000&period2=1647043200&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/NOC-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NOC?period1=1634256000&period2=1647043200&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "zaporizhzhia-2022-03"
+  },
+  {
+    "fixture": "backtest/zaporizhzhia-2022-03/yahoo/RHM_DE-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/RHM.DE?period1=1634256000&period2=1647043200&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "zaporizhzhia-2022-03"
   }
 ]

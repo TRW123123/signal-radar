@@ -105,7 +105,7 @@ test('IODA-Störungen: Länderpunkte, logarithmische Stärke, Defekte übersprun
   assert.deepEqual(l.scenarios, ['cyber', 'blackout', 'war']);
   assert.equal(l.title, 'Internet-Störungen je Land (letzte 24 Stunden)');
   assert.equal(l.points[0].label, 'Kuba');
-  assert.equal(l.points[0].value, 125001);
+  assert.equal(l.points[0].value, undefined);
   assert.equal(l.points[0].unit, undefined);
   assert.ok(l.points[0].strength! > l.points[1].strength! && l.points[1].strength! > l.points[2].strength!);
   assert.ok(strengthOf(0) === 0 && strengthOf(1e12) === 1);
@@ -115,7 +115,7 @@ test('IODA-Störungen: Ereignisform, leer, unerwartet, Tabelle', () => {
   const ev = { data: [{ location: 'country/GU', score: 10, location_name: 'Guam' }, { location: 'country/GU', score: 5 }, { location: 'asn/1', score: 3 }] };
   const pts = parseIodaOutages(ev);
   assert.equal(pts.length, 1);
-  assert.equal(pts[0].value, 15);
+  assert.equal(pts[0].value, undefined);
   assert.deepEqual(parseIodaOutages({ data: [] }), []);
   assert.throws(() => parseIodaOutages({}), /data/);
   assert.throws(() => parseIodaOutages(null), /data/);

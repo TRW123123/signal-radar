@@ -63,7 +63,8 @@ export function parseIodaOutages(body: unknown): MapPoint[] {
   for (const [code, v] of byCode) {
     const c = countryCentroid(code);
     if (!c) continue;
-    out.push({ lat: c.lat, lon: c.lon, label: c.de || v.name || code, value: Math.round(v.score), strength: strengthOf(v.score) });
+    // The raw score spans many orders of magnitude and means nothing to a reader: it only drives the dot size.
+    out.push({ lat: c.lat, lon: c.lon, label: c.de || v.name || code, strength: strengthOf(v.score) });
   }
   return out;
 }

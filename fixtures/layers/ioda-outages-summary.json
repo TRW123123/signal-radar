@@ -1,0 +1,9 @@
+{"type":"outages.summary","metadata":{"requestTime":"2026-11-24T00:00:00+00:00"},"error":null,"data":[
+{"entity":{"code":"CU","name":"Cuba","type":"country"},"scores":{"overall":125000.5,"ping-slash24":90000,"bgp":35000.5}},
+{"entity":{"code":"IR","name":"Iran","type":"country"},"scores":{"overall":2400}},
+{"entity":{"code":"DE","name":"Germany","type":"country"},"scores":{"overall":12}},
+{"entity":{"code":"ZZ","name":"Unbekanntes Land","type":"country"},"scores":{"overall":500}},
+{"entity":{"code":"FR","name":"France","type":"country"},"scores":{}},
+"kaputt",
+{"entity":{"code":"AS12345","name":"Ein Netz","type":"asn"},"scores":{"overall":99}}
+]}

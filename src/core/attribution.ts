@@ -108,6 +108,12 @@ export const SOURCE_ATTRIBUTIONS: SourceAttribution[] = [
     status: 'active-collector',
   },
   {
+    id: 'ioda', name: 'IODA (Georgia Tech)', collectors: ['layer-ioda-outages'], sourceNameHints: ['IODA (Georgia Tech)'],
+    attribution: 'IODA (Georgia Tech)', attributionUrl: 'https://ioda.inetintel.cc.gatech.edu/', license: 'frei für Forschung und Beobachtung, Quellenangabe',
+    footerNotices: ['Internet-Störungen auf der Karte: IODA (Internet Outage Detection and Analysis, Georgia Tech).'],
+    status: 'active-collector',
+  },
+  {
     id: 'sec-edgar', name: 'SEC EDGAR', collectors: ['sec-edgar'], sourceNameHints: ['SEC EDGAR', 'EDGAR'],
     attribution: 'U.S. Securities and Exchange Commission (SEC EDGAR)', attributionUrl: 'https://www.sec.gov/edgar/search/',
     license: 'US-Regierungsdaten, gemeinfrei; Fair Access',

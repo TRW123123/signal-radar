@@ -32,7 +32,7 @@ import { activate, discoverCollectors } from '../core/registry.ts';
 import { fileStore } from '../core/store.ts';
 import type { HttpClient, HttpInit, Observation } from '../core/types.ts';
 import { runCollectors } from '../pipeline/collect.ts';
-import { ADAPTED_COLLECTORS, historyObservations, SOURCE_SINCE } from './history-adapters.ts';
+import { ADAPTED_COLLECTORS, historyObservations, probeObservations, probeSignalDefs, probesOf, SOURCE_SINCE } from './history-adapters.ts';
 import { type BacktestEvent, computeTimeline, DAY, FULL_HISTORY_COLLECTORS, historyAnchor } from './lib.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -60,10 +60,14 @@ function layeredReplay(dirs: string[]): HttpClient {
   };
 }
 
-const scenarioId = opt('scenario') ?? 'cyber';
+const historyId = opt('history');
+const fixturesDirEarly = join(root, 'fixtures');
+const allEvents = JSON.parse(readFileSync(join(root, 'backtest', 'events.json'), 'utf8')) as BacktestEvent[];
+const historyEvent = historyId ? allEvents.find((e) => e.id === historyId) : undefined;
+if (historyId && !historyEvent) throw new Error(`Ereignis ${historyId} nicht in backtest/events.json`);
+const scenarioId = opt('scenario') ?? historyEvent?.scenario ?? 'cyber';
 const stepHours = Number(opt('step-hours') ?? 3);
 const sensitivity = process.env.SR_SENSITIVITY === 'normal' ? 'normal' : 'high';
-const historyId = opt('history');
 
 const collectors = await discoverCollectors(root);
 const catalog = activate(loadCatalog(root), collectors, process.env);
@@ -85,14 +89,17 @@ if (opt('data')) {
   dataDir = resolve(opt('data')!);
   source = `data:${relative(root, dataDir) || dataDir}`;
 } else if (historyId) {
-  const events = JSON.parse(readFileSync(join(root, 'backtest', 'events.json'), 'utf8')) as BacktestEvent[];
-  const ev = events.find((e) => e.id === historyId);
-  if (!ev) throw new Error(`Ereignis ${historyId} nicht in backtest/events.json`);
+  const ev = historyEvent!;
+  // event-specific probes (also borrowed by controls via probesFrom); their signals join the catalog for this run
+  const { probes, dir: probeDir } = probesOf(ev, allEvents, fixturesDirEarly);
+  const probeIds = new Set(probes.map((p) => p.id));
+  catalog.signals.push(...probeSignalDefs(probes, catalog.signals));
   const queueFile = join(root, 'backtest', 'history-queue.json');
   const queue = existsSync(queueFile) ? (JSON.parse(readFileSync(queueFile, 'utf8')) as { event: string; signal: string }[]) : [];
   const sigToCollector = new Map(catalog.signals.map((s) => [s.id, s.collector]));
-  const only = [...new Set([...queue.filter((q) => q.event === historyId).map((q) => sigToCollector.get(q.signal) ?? ''), ...FULL_HISTORY_COLLECTORS])].filter(Boolean);
-  const evDir = join(fixturesDir, 'backtest', historyId);
+  const only = [...new Set([...queue.filter((q) => q.event === historyId && !probeIds.has(q.signal)).map((q) => sigToCollector.get(q.signal) ?? ''), ...FULL_HISTORY_COLLECTORS])].filter(Boolean);
+  // controls with probesFrom read the fixtures of their event (cut at their own, earlier anchor)
+  const evDir = ev.probesFrom ? probeDir : join(fixturesDir, 'backtest', historyId);
   const anchor = historyAnchor(ev);
   dataDir = mkdtempSync(join(tmpdir(), `sr-backtest-${historyId}-`));
   // per-event fixtures first; the main fixtures only for datasets that carry their full history
@@ -102,6 +109,9 @@ if (opt('data')) {
   // OONI, Yahoo and RIPEstat are read by history-adapters.ts (old fixture names, full window instead of the live cut)
   const adapted = historyObservations(evDir, anchor);
   await store.append(adapted.observations);
+  const probed = probeObservations(probes, probeDir, anchor);
+  await store.append(probed.observations);
+  for (const r of probed.reports) console.error(`${('Probe ' + r.id).padEnd(52)} ${r.file ? `ok, ${r.observations} Werte aus ${r.file}` : 'keine Daten'}${r.notes.length && !r.file ? `; ${r.notes.join('; ')}` : ''}`);
   for (const r of adapted.reports) console.error(`${(r.id + ' (Adapter)').padEnd(28)} ${r.files.length ? `ok, ${r.observations} Werte aus ${r.files.length} Datei(en)` : 'keine Datei'}${r.notes.length ? `; ${r.notes.join('; ')}` : ''}`);
   const reports = [
     ...await runCollectors(collectors.filter((c) => !FULL_HISTORY_COLLECTORS.includes(c.id) && !ADAPTED_COLLECTORS.includes(c.id)), store, { now: anchor, http, env: process.env, only, log: () => {} }),

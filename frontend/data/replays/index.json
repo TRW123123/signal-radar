@@ -48,6 +48,30 @@
   "steps": 40
  },
  {
+  "id": "control-iberia-2025-03",
+  "kind": "control",
+  "title_de": "Vergleichszeitraum Spanien/Portugal, vier Wochen vor dem Stromausfall",
+  "title_en": "Control period Spain/Portugal, four weeks before the blackout",
+  "date": "2025-03-31T00:00:00Z",
+  "scenario": "blackout",
+  "summary_de": "Mit den 11 damals verfügbaren Messungen blieb das Radar auf „Ruhig“, wie es in einer ruhigen Zeit sein soll.",
+  "summary_en": "With the 11 measurements available back then, the radar stayed “Calm”, as it should in a quiet period.",
+  "sawIt": "nein",
+  "steps": 41
+ },
+ {
+  "id": "control-israel-iran-2025-05",
+  "kind": "control",
+  "title_de": "Vergleichszeitraum Nahost, vier Wochen vor dem Israel-Iran-Krieg",
+  "title_en": "Control period Middle East, four weeks before the Israel–Iran war",
+  "date": "2025-05-16T00:00:00Z",
+  "scenario": "war",
+  "summary_de": "Mit den 15 damals verfügbaren Messungen blieb das Radar auf „Ruhig“, wie es in einer ruhigen Zeit sein soll.",
+  "summary_en": "With the 15 measurements available back then, the radar stayed “Calm”, as it should in a quiet period.",
+  "sawIt": "nein",
+  "steps": 41
+ },
+ {
   "id": "crowdstrike-2024-07",
   "kind": "event",
   "title_de": "CrowdStrike-Falcon-Update legt weltweit Windows-Rechner lahm",
@@ -78,10 +102,34 @@
   "title_en": "Facebook/Meta disappears from the internet (BGP withdrawal, DNS unreachable)",
   "date": "2021-10-04T15:30:00Z",
   "scenario": "cyber",
-  "summary_de": "Mit den 9 damals verfügbaren Messungen blieb das Radar auf „Ruhig“ und zeigte nichts Auffälliges: Das Ereignis war in diesen Daten nicht zu sehen.",
-  "summary_en": "With the 9 measurements available back then, the radar stayed “Calm” and showed nothing unusual: the event was not visible in this data.",
-  "sawIt": "nein",
+  "summary_de": "Das Radar wäre bis „Leicht erhöht“ gestiegen, erstmals 3 Stunden nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „BGP-Meldungen für Facebook (AS32934, RIPEstat)“ 3 Stunden nach Beginn. Die BGP-Meldungen schlugen auch Tage vorher ohne Ereignis aus; die sichtbaren Präfixe gibt RIPEstat nur alle 8 Stunden, der Rückgang (391 auf 369) blieb unter der Schwelle.",
+  "summary_en": "The radar would have risen to “Slightly elevated”, first 3 hours after the start, because measured areas deviated. Unusual: “BGP-Meldungen für Facebook (AS32934, RIPEstat)” 3 hours after the start. The BGP update count also swung days earlier without an event; RIPEstat gives visible prefixes only every 8 hours, and the drop (391 to 369) stayed below the threshold.",
+  "sawIt": "ja",
   "steps": 34
+ },
+ {
+  "id": "iberia-blackout-2025-04",
+  "kind": "event",
+  "title_de": "Stromausfall auf der Iberischen Halbinsel (Spanien und Portugal)",
+  "title_en": "Power blackout across the Iberian Peninsula (Spain and Portugal)",
+  "date": "2025-04-28T10:33:00Z",
+  "scenario": "blackout",
+  "summary_de": "Das Radar wäre bis „Leicht erhöht“ gestiegen, erstmals 1 Stunden nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „IODA: anpingbare Netze in Portugal“ 1 Stunden nach Beginn und „IODA: anpingbare Netze in Spanien“ 1 Stunden nach Beginn. Die Netzlast Spaniens fehlt in den Ausfallstunden in den Daten (keine vollständigen Stunden) und zählte deshalb nicht.",
+  "summary_en": "The radar would have risen to “Slightly elevated”, first 1 hours after the start, because measured areas deviated. Unusual: “IODA: anpingbare Netze in Portugal” 1 hours after the start and “IODA: anpingbare Netze in Spanien” 1 hours after the start. Spain’s grid load is missing from the data for the outage hours (no complete hours) and therefore did not count.",
+  "sawIt": "ja",
+  "steps": 39
+ },
+ {
+  "id": "israel-iran-2025-06",
+  "kind": "event",
+  "title_de": "Krieg zwischen Israel und Iran (zwölf Tage)",
+  "title_en": "War between Israel and Iran (twelve days)",
+  "date": "2025-06-13T00:00:00Z",
+  "scenario": "war",
+  "summary_de": "Das Radar wäre bis „Leicht erhöht“ gestiegen, erstmals 2 Tage nach Beginn, weil gemessene Bereiche abwichen. Auffällig: „Israel: Alarmwellen pro Tag (Raketen und Drohnen)“ 27 Stunden nach Beginn und „Anteil anomaler Web-Messungen (Israel)“ 3 Tage nach Beginn. Stufe „Erhöht“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.",
+  "summary_en": "The radar would have risen to “Slightly elevated”, first 2 days after the start, because measured areas deviated. Unusual: “Israel: Alarmwellen pro Tag (Raketen und Drohnen)” 27 hours after the start and “Anteil anomaler Web-Messungen (Israel)” 3 days after the start. Level “Elevated” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.",
+  "sawIt": "ja",
+  "steps": 40
  },
  {
   "id": "log4shell-2021-12",
@@ -126,9 +174,9 @@
   "title_en": "Nationwide Rogers network outage in Canada (incl. Interac)",
   "date": "2022-07-08T08:00:00Z",
   "scenario": "cyber",
-  "summary_de": "Mit den 9 damals verfügbaren Messungen blieb das Radar auf „Ruhig“ und zeigte nichts Auffälliges: Das Ereignis war in diesen Daten nicht zu sehen.",
-  "summary_en": "With the 9 measurements available back then, the radar stayed “Calm” and showed nothing unusual: the event was not visible in this data.",
-  "sawIt": "nein",
+  "summary_de": "Das Radar wäre bis „Leicht erhöht“ gestiegen, erstmals 23 Stunden vor Beginn, weil gemessene Bereiche abwichen. Auffällig: „BGP-Meldungen für Rogers (AS812, RIPEstat)“ 23 Stunden vor Beginn und „IODA: anpingbare Netze bei Rogers (AS812)“ 1 Stunden nach Beginn. Der frühe Ausschlag 23 Stunden vorher kommt von den BGP-Meldungen, die auch in den Wochen davor mehrfach ausschlugen; ein Vorlauf ist das nicht. Den Ausfall selbst zeigen die IODA-Messungen für AS812 ab der ersten Stunde.",
+  "summary_en": "The radar would have risen to “Slightly elevated”, first 23 hours before the start, because measured areas deviated. Unusual: “BGP-Meldungen für Rogers (AS812, RIPEstat)” 23 hours before the start and “IODA: anpingbare Netze bei Rogers (AS812)” 1 hours after the start. The early swing 23 hours before comes from the BGP update count, which also swung several times in the weeks before; it is not a lead. The outage itself shows in the IODA measurements for AS812 from the first hour.",
+  "sawIt": "ja",
   "steps": 39
  },
  {

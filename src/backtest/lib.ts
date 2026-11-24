@@ -4,7 +4,7 @@
 // Rule of the game: at every step t only data with timestamp <= t is used (same as buildSnapshot's history).
 // The engine is imported unchanged; nothing here re-implements scoring.
 
-import type { BanalRule, Observation, ScenarioDef, SignalDef } from '../core/types.ts';
+import type { BanalRule, GeoRef, Observation, ScenarioDef, SignalDef } from '../core/types.ts';
 import { applyTransform } from '../pipeline/snapshot.ts';
 import { scoreScenario } from '../engine/score.ts';
 
@@ -210,6 +210,32 @@ export interface BacktestEvent {
   sources: string[];
   notes?: string;
   verified?: boolean;
+  /** scenario the event belongs to (default cyber) */
+  scenario?: string;
+  /** event-specific historical measurements (history-adapters.ts), also for places the live collectors do not ask for */
+  probes?: Probe[];
+  /** controls: reuse the probes and fixtures of this event (read at the control's own, earlier anchor) */
+  probesFrom?: string;
+  /** additional queue fetches under names the standard adapters already read (Yahoo, OONI) */
+  extraFetches?: { fixture: string; url: string }[];
+}
+
+/** One replay signal of an event: where its history comes from and how it is turned into observations. */
+export interface Probe {
+  /** signal id in the replay; may equal an existing catalog signal measuring the same thing */
+  id: string;
+  /** catalog signal whose engine settings (domain, baseline, thresholds, weight, direction, class) are reused */
+  template: string;
+  adapter: 'ioda' | 'energy-charts' | 'wikipedia' | 'ooni' | 'oref' | 'csv-daily' | 'ripe-updates' | 'ripe-prefixes';
+  params?: Record<string, string>;
+  name: string;
+  /** one sentence for laypeople */
+  plain: string;
+  geo?: GeoRef | null;
+  /** fields that differ from the template (e.g. scenarios, domain) */
+  override?: Partial<SignalDef>;
+  /** variants in order of preference; fixture is relative to fixtures/backtest/<event>/ */
+  sources: { fixture: string; url: string; local?: string }[];
 }
 
 /**

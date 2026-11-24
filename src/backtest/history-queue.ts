@@ -4,7 +4,7 @@
 // fixtures/<fixture>; `node src/backtest/run.ts --history <event>` then replays the collectors at the event's
 // anchor time against exactly these files.
 //
-//   node src/backtest/history-queue.ts [--max 60]
+//   node src/backtest/history-queue.ts [--max 60] [--probes-only]
 //
 // How URL and parser are kept in step: every collector is run once at the anchor time with a recording HTTP
 // client. Only fixture names the collector really asks for are queued, so the replay finds them. Where the
@@ -102,10 +102,15 @@ const events = JSON.parse(readFileSync(join(root, 'backtest', 'events.json'), 'u
 // recent events are covered by the normal fixtures; only the past needs extra fetches
 const capturedAt = Date.parse(JSON.parse(readFileSync(join(root, 'fixtures', 'META.json'), 'utf8')).capturedAt);
 const past = events.filter((e) => Date.parse(e.start) < capturedAt - 60 * DAY);
-const collectors = new Map((await discoverCollectors(root)).map((c) => [c.id, c]));
+// the generic SPECS below are cyber series; events of other scenarios get only their own probes
+const pastCyber = past.filter((e) => (e.scenario ?? 'cyber') === 'cyber');
+// --probes-only: keep the existing queue and only (re)append the probe entries. Needed because the live collectors
+// have since renamed their fixtures (window in the name), so the generic SPECS can no longer be re-derived.
+const probesOnly = args.includes('--probes-only');
+const collectors = new Map((probesOnly ? [] : await discoverCollectors(root)).map((c) => [c.id, c]));
 
 const candidates: (QueueEntry & { tier: number; order: number; group?: string })[] = [];
-for (const [order, ev] of past.entries()) {
+for (const [order, ev] of (probesOnly ? [] : pastCyber).entries()) {
   const anchor = historyAnchor(ev).getTime();
   const recorded = new Map<string, { url: string; fixture: string }[]>();
   for (const spec of SPECS) {
@@ -139,7 +144,21 @@ for (const c of candidates) {
   } else if (picked.length < MAX) picked.push(c);
   else skipped.push(c);
 }
-const queue: QueueEntry[] = picked.map(({ tier: _t, order: _o, group: _g, ...q }) => q);
+const probeEvents = new Set(past.filter((e) => e.probes?.length || e.extraFetches?.length).map((e) => e.id));
+const queue: QueueEntry[] = probesOnly
+  ? (JSON.parse(readFileSync(join(root, 'backtest', 'history-queue.json'), 'utf8')) as QueueEntry[]).filter((q) => !(probeEvents.has(q.event) && q.maxChars === 3_000_000))
+  : picked.map(({ tier: _t, order: _o, group: _g, ...q }) => q);
+// Per-event probes (backtest/events.json, field probes): the measurements that should show the event physically.
+// Not counted against --max; sources marked `local` are too large for the queue and were stored by hand.
+for (const ev of past) {
+  for (const p of ev.probes ?? []) {
+    for (const s of p.sources) {
+      if (s.local) continue;
+      queue.push({ fixture: `backtest/${ev.id}/${s.fixture}`, url: s.url, maxChars: 3_000_000, signal: p.id, event: ev.id });
+    }
+  }
+  for (const s of ev.extraFetches ?? []) queue.push({ fixture: `backtest/${ev.id}/${s.fixture}`, url: s.url, maxChars: 3_000_000, signal: '', event: ev.id });
+}
 writeFileSync(join(root, 'backtest', 'history-queue.json'), JSON.stringify(queue, null, 2) + '\n');
 console.log(`${queue.length} Abrufe (von ${candidates.length} möglichen) für ${new Set(queue.map((q) => q.event)).size} Zeiträume -> backtest/history-queue.json`);
 if (skipped.length) console.log(`weggelassen: ${skipped.map((c) => `${c.event}:${c.fixture.split('/').slice(2).join('/')}`).join(', ')}`);

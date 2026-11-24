@@ -220,8 +220,8 @@ export function summarize(j: SawItResult, ctx: { kind: 'event' | 'control' | 're
   }
   if (j.sawIt === 'ja') {
     return {
-      de: `Das Radar wäre bis „${LEVEL_DE[j.maxLevel]}“ gestiegen, erstmals${whenDe(j.firstLevelHours)}, weil gemessene Bereiche abwichen.`,
-      en: `The radar would have risen to “${LEVEL_EN[j.maxLevel]}”, first${whenEn(j.firstLevelHours)}, because measured areas deviated.`,
+      de: `Das Radar wäre bis „${LEVEL_DE[j.maxLevel]}“ gestiegen, erstmals${whenDe(j.firstLevelHours)}, weil gemessene Bereiche abwichen.${top.length ? ` Auffällig: ${namesDe}.` : ''}${ctx.note ? ` ${ctx.note.de}` : ''}`,
+      en: `The radar would have risen to “${LEVEL_EN[j.maxLevel]}”, first${whenEn(j.firstLevelHours)}, because measured areas deviated.${top.length ? ` Unusual: ${namesEn}.` : ''}${ctx.note ? ` ${ctx.note.en}` : ''}`,
     };
   }
   const calmDe = `Mit den ${ctx.measuredSignals} damals verfügbaren Messungen blieb das Radar auf „${LEVEL_DE[j.maxLevel]}“`;

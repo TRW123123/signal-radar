@@ -65,12 +65,12 @@
         ]
       },
       {
-        "id": "cyber.routing.bgp_withdrawals_as32934",
+        "id": "cyber.routing.bgp_updates_as32934",
         "template": "cyber.routing.bgp_withdrawals_global",
         "adapter": "ripe-updates",
         "params": {},
-        "name": "BGP-Rücknahmen für Facebook (AS32934, RIPEstat)",
-        "plain": "Wie viele Routen von Facebook/Meta pro Stunde zurückgezogen werden.",
+        "name": "BGP-Meldungen für Facebook (AS32934, RIPEstat)",
+        "plain": "Wie viele Routing-Meldungen zu Netzen von Facebook pro Stunde weltweit verschickt werden; ein Ausfall oder Umbau zeigt sich als Welle von Meldungen.",
         "geo": {
           "lat": 37.48,
           "lon": -122.15,
@@ -80,6 +80,10 @@
         },
         "override": {},
         "sources": [
+          {
+            "fixture": "ripe-stat/bgp-update-activity-AS32934-hourly.json",
+            "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00&max_samples=2000"
+          },
           {
             "fixture": "ripe-stat/bgp-update-activity-AS32934.json",
             "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00&sampling_period=3600"
@@ -578,7 +582,7 @@
           {
             "fixture": "oref-github/israel-alerts.csv",
             "url": "https://raw.githubusercontent.com/dleshem/israel-alerts-data/main/israel-alerts.csv",
-            "local": "Ausschnitt 2025-03-01 bis 2025-07-31 der 65-MB-Datei, direkt von raw.githubusercontent.com geladen (zu groß für die Queue)"
+            "local": "Ausschnitt der 65-MB-Datei (01.03. bis 15.07.2025, nur Kategorien 1 und 2 = Raketen und Drohnen), direkt von raw.githubusercontent.com geladen (zu groß für die Queue)"
           }
         ]
       },
@@ -885,12 +889,12 @@
         ]
       },
       {
-        "id": "cyber.routing.bgp_withdrawals_as812",
+        "id": "cyber.routing.bgp_updates_as812",
         "template": "cyber.routing.bgp_withdrawals_global",
         "adapter": "ripe-updates",
         "params": {},
-        "name": "BGP-Rücknahmen für Rogers (AS812, RIPEstat)",
-        "plain": "Wie viele Routen des Rogers-Netzes pro Stunde zurückgezogen werden; ein Ausfall zeigt sich als Welle von Rücknahmen.",
+        "name": "BGP-Meldungen für Rogers (AS812, RIPEstat)",
+        "plain": "Wie viele Routing-Meldungen zu Netzen von Rogers pro Stunde weltweit verschickt werden; ein Ausfall oder Umbau zeigt sich als Welle von Meldungen.",
         "geo": {
           "lat": 43.65,
           "lon": -79.38,
@@ -900,6 +904,10 @@
         },
         "override": {},
         "sources": [
+          {
+            "fixture": "ripe-stat/bgp-update-activity-AS812-hourly.json",
+            "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS812&starttime=2022-05-27T00:00&endtime=2022-07-13T00:00&max_samples=2000"
+          },
           {
             "fixture": "ripe-stat/bgp-update-activity-AS812.json",
             "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS812&starttime=2022-05-27T00:00&endtime=2022-07-13T00:00&sampling_period=3600"

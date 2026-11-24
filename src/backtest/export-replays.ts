@@ -18,6 +18,7 @@ import { activate, discoverCollectors } from '../core/registry.ts';
 import { fileStore } from '../core/store.ts';
 import type { Observation, SignalDef } from '../core/types.ts';
 import { type BacktestEvent, type BacktestResult, computeTimeline, DAY, HOUR } from './lib.ts';
+import { probeSignalDefs, probesOf } from './history-adapters.ts';
 import { fitReplay, judgeSawIt, type ReplayIndexEntry, summarize } from './replays.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -46,6 +47,10 @@ const TITLE_EN: Record<string, string> = {
   'notpetya-2017-06': 'NotPetya wiper attack',
   'control-2019-08': 'Control period August 2019 (no known major event)',
   'control-2023-08': 'Control period August 2023 (no known major event)',
+  'iberia-blackout-2025-04': 'Power blackout across the Iberian Peninsula (Spain and Portugal)',
+  'israel-iran-2025-06': 'War between Israel and Iran (twelve days)',
+  'control-iberia-2025-03': 'Control period Spain/Portugal, four weeks before the blackout',
+  'control-israel-iran-2025-05': 'Control period Middle East, four weeks before the Israel–Iran war',
 };
 
 /**
@@ -56,6 +61,22 @@ const NOTE: Record<string, { de: string; en: string }> = {
   'crowdstrike-2024-07': {
     de: 'Der VIX misst die Unruhe an der ganzen US-Börse und war schon am Vortag gestiegen; einen Bezug zum Ausfall belegt er nicht.',
     en: 'The VIX measures unrest across the whole US stock market and had already risen the day before; it does not show a link to the outage.',
+  },
+  'rogers-2022-07': {
+    de: 'Der frühe Ausschlag 23 Stunden vorher kommt von den BGP-Meldungen, die auch in den Wochen davor mehrfach ausschlugen; ein Vorlauf ist das nicht. Den Ausfall selbst zeigen die IODA-Messungen für AS812 ab der ersten Stunde.',
+    en: 'The early swing 23 hours before comes from the BGP update count, which also swung several times in the weeks before; it is not a lead. The outage itself shows in the IODA measurements for AS812 from the first hour.',
+  },
+  'facebook-bgp-2021-10': {
+    de: 'Die BGP-Meldungen schlugen auch Tage vorher ohne Ereignis aus; die sichtbaren Präfixe gibt RIPEstat nur alle 8 Stunden, der Rückgang (391 auf 369) blieb unter der Schwelle.',
+    en: 'The BGP update count also swung days earlier without an event; RIPEstat gives visible prefixes only every 8 hours, and the drop (391 to 369) stayed below the threshold.',
+  },
+  'iberia-blackout-2025-04': {
+    de: 'Die Netzlast Spaniens fehlt in den Ausfallstunden in den Daten (keine vollständigen Stunden) und zählte deshalb nicht.',
+    en: 'Spain’s grid load is missing from the data for the outage hours (no complete hours) and therefore did not count.',
+  },
+  'israel-iran-2025-06': {
+    de: 'Stufe „Erhöht“ erst ab dem 18.06. (+5,6 Tage), als IODA die landesweite Internet-Abschaltung im Iran zeigte; Luftalarme sind Tageswerte und erst nach Tagesende sichtbar.',
+    en: 'Level “Elevated” only from 18 June (+5.6 days), when IODA showed Iran’s nationwide internet shutdown; air-raid alerts are daily values, visible only after the day ends.',
   },
   'control-2019-08': {
     de: 'In einer Vergleichszeit ohne bekanntes Cyber-Ereignis ist das ein Ausschlag ohne Bezug, die Stufe blieb trotzdem ruhig.',
@@ -80,7 +101,10 @@ for (const f of readdirSync(resultsDir).filter((x) => /^history-.+\.json$/.test(
   if (!ev) { console.error(`${f}: Ereignis ${id} nicht in backtest/events.json, übersprungen`); continue; }
   if (!res.steps.some((s) => s.v)) { console.error(`${f}: ohne Signalwerte (run.ts --history ${id} neu laufen lassen), übersprungen`); continue; }
   const start = Date.parse(ev.start);
-  const { replay, json } = fitReplay(res, defs, { id, from: start - SPAN, to: start + SPAN, stepHours: STEP_HOURS, eventStart: ev.start });
+  // names, plain texts and places of the event's own replay signals (probes)
+  const evDefs = new Map(defs);
+  for (const d of probeSignalDefs(probesOf(ev, events, join(root, 'fixtures')).probes, catalog.signals)) evDefs.set(d.id, d);
+  const { replay, json } = fitReplay(res, evDefs, { id, from: start - SPAN, to: start + SPAN, stepHours: STEP_HOURS, eventStart: ev.start });
   writeFileSync(join(outDir, `${id}.json`), json);
   written.push(`${id}.json`);
   const j = judgeSawIt({ frames: replay.frames, eventStart: ev.start, eventEnd: ev.end, expectedDomains: ev.kind === 'event' ? ev.expectedDomains : [] });

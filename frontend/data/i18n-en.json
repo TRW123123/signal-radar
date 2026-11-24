@@ -2260,6 +2260,101 @@
    "name": "Daily swings of AI chip stocks (NVDA, AMD, AVGO)",
    "plain": "How much the shares of AI chip makers rise or fall in one day (absolute value of the daily return).",
    "unit": "% (absolute value)"
+  },
+  "ai.attention.ai_attention_wiki": {
+   "name": "Wikipedia views on AI risks (English)",
+   "plain": "How often English-language Wikipedia articles on AI safety, prompt injection and AI risks are viewed.",
+   "unit": "views/day"
+  },
+  "blackout.plants.nuclear_generation_fr_measured": {
+   "name": "Nuclear generation France, measured",
+   "plain": "How much power the French nuclear plants are delivering right now. If many units fail unexpectedly, power is missing across Europe.",
+   "unit": "MW"
+  },
+  "ai.platforms.ai_provider_incident_starts": {
+   "name": "New outages at OpenAI and Anthropic per day",
+   "plain": "How many new outages the two big AI providers, OpenAI and Anthropic, report per day on their status pages.",
+   "unit": "outages/day"
+  },
+  "ai.platforms.openai_incident_starts": {
+   "name": "New outages at OpenAI per day",
+   "plain": "How many new outages OpenAI reports per day on its public status page.",
+   "unit": "outages/day"
+  },
+  "ai.platforms.anthropic_incident_starts": {
+   "name": "New outages at Anthropic per day",
+   "plain": "How many new outages Anthropic reports per day on its public status page.",
+   "unit": "outages/day"
+  },
+  "blackout.grid.load_fr": {
+   "name": "Power consumption France (grid load)",
+   "plain": "How much power is being used in France right now. In a large blackout the value suddenly collapses.",
+   "unit": "MW"
+  },
+  "blackout.grid.load_es": {
+   "name": "Power consumption Spain (grid load)",
+   "plain": "How much power is being used in Spain right now. In a large blackout the value suddenly collapses.",
+   "unit": "MW"
+  },
+  "blackout.grid.load_it": {
+   "name": "Power consumption Italy (grid load)",
+   "plain": "How much power is being used in Italy right now. In a large blackout the value suddenly collapses.",
+   "unit": "MW"
+  },
+  "blackout.outages.ioda_ping_de": {
+   "name": "IODA: reachable networks Germany (ping)",
+   "plain": "How many networks in Germany can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_es": {
+   "name": "IODA: reachable networks Spain (ping)",
+   "plain": "How many networks in Spain can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_pt": {
+   "name": "IODA: reachable networks Portugal (ping)",
+   "plain": "How many networks in Portugal can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_fr": {
+   "name": "IODA: reachable networks France (ping)",
+   "plain": "How many networks in France can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_it": {
+   "name": "IODA: reachable networks Italy (ping)",
+   "plain": "How many networks in Italy can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_pl": {
+   "name": "IODA: reachable networks Poland (ping)",
+   "plain": "How many networks in Poland can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_gb": {
+   "name": "IODA: reachable networks United Kingdom (ping)",
+   "plain": "How many networks in the United Kingdom can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_ua": {
+   "name": "IODA: reachable networks Ukraine (ping)",
+   "plain": "How many networks in Ukraine can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_tr": {
+   "name": "IODA: reachable networks Turkey (ping)",
+   "plain": "How many networks in Turkey can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_us": {
+   "name": "IODA: reachable networks USA (ping)",
+   "plain": "How many networks in the USA can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
+  },
+  "blackout.outages.ioda_ping_in": {
+   "name": "IODA: reachable networks India (ping)",
+   "plain": "How many networks in India can be reached from outside. In a large blackout this drops sharply.",
+   "unit": "/24 networks"
   }
  }
 }

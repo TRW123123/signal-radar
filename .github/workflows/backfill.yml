@@ -1,0 +1,36 @@
+# Lädt historische Antworten für den Backtest (backtest/history-queue.json) und legt sie als Fixtures ab.
+# Startet von Hand oder wenn sich die Liste ändert. Schreibt nur unter fixtures/backtest/.
+name: backfill
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'backtest/history-queue.json'
+      - 'scripts/fetch_queue.ts'
+      - '.github/workflows/backfill.yml'
+permissions:
+  contents: write
+concurrency:
+  group: backfill
+  cancel-in-progress: false
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch history
+        run: node scripts/fetch_queue.ts backtest/history-queue.json
+        env:
+          SR_SEC_USER_AGENT: ${{ secrets.SR_SEC_USER_AGENT }}
+      - name: Commit fixtures
+        run: |
+          git config user.name "signal-radar-bot"
+          git config user.email "signal-radar-bot@users.noreply.github.com"
+          git add -f fixtures/backtest
+          git diff --cached --quiet || git commit -m "backfill: historische Antworten $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do git pull --rebase -q origin master && git push && break; sleep 5; done

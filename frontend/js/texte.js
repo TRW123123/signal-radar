@@ -639,6 +639,44 @@ export const T = {
   },
 };
 
+// Quellennamen (ohne Klammerzusatz), die im Snapshot nur deutsch vorliegen, für die englische Begründungszeile; unbekannte bleiben unverändert
+export const QUELLEN_EN = {
+  'Anbieter-Feeds': 'Provider feeds',
+  'Atlassian-Statuspage-Anbieter': 'Atlassian Statuspage providers',
+  'Auswärtiges Amt OpenData travelwarning': 'German Foreign Office travel warnings',
+  'BaFin Eigengeschäfte von Führungskräften': 'BaFin managers\' transactions',
+  'Bank of England RTGS/CHAPS und Pay.UK Status': 'Bank of England RTGS/CHAPS and Pay.UK status',
+  'BfArM Lieferengpass-Meldungen': 'BfArM drug shortage reports',
+  'Bundesagentur für Arbeit Jobsuche API': 'German Federal Employment Agency job search API',
+  'Bundesnetzagentur Breitbandmessung / Netzstörungen': 'Bundesnetzagentur broadband measurement / network outages',
+  'Bundesnetzagentur Gasversorgung Lage und Verbrauch': 'Bundesnetzagentur gas supply and consumption',
+  'Börsen-Reserven': 'Exchange reserves',
+  'CelesTrak GP-Daten': 'CelesTrak GP data',
+  'Cowrie Community-Daten': 'Cowrie community data',
+  'Deutsche Börse Xetra Marktstatus / Handelsunterbrechungen': 'Deutsche Börse Xetra market status / trading halts',
+  'EBA Clearing RT1/STEP2 Status und Statistik': 'EBA Clearing RT1/STEP2 status and statistics',
+  'ECB Liquiditätsbedingungen': 'ECB liquidity conditions',
+  'ECB TARGET Services Betriebsstatus': 'ECB TARGET Services operational status',
+  'EQS-News / EQS Group Ad-hoc und Pflichtmitteilungen': 'EQS News / EQS Group ad-hoc and regulatory news',
+  'EUROCONTROL Aviation Intelligence / Network Manager Daten': 'EUROCONTROL Aviation Intelligence / Network Manager data',
+  'NINA / MoWaS Warn-API': 'NINA / MoWaS warning API',
+  'NINA/BBK Warn-API': 'NINA/BBK warning API',
+  'RSSAC002 Daten': 'RSSAC002 data',
+  'Robert Koch-Institut': 'Robert Koch Institute',
+  'Spamhaus DROP/BGPCC Listen': 'Spamhaus DROP/BGPCC lists',
+  'Statusseiten OpenAI und Anthropic': 'OpenAI and Anthropic status pages',
+  'Störungsmelder / allestörungen.de Crowd-Meldungen': 'Outage reports / allestörungen.de crowd reports',
+  'Störungsmelder Westnetz, Stromnetz Berlin, Netze BW, Bayernwerk': 'Outage maps of Westnetz, Stromnetz Berlin, Netze BW, Bayernwerk',
+  'Taiwan MND Tagesmeldung PLA-Aktivität': 'Taiwan MND daily PLA activity report',
+  'Tankerkönig API': 'Tankerkönig fuel price API',
+  'Telegram öffentliche Kanalvorschau': 'Telegram public channel preview',
+  'URLhaus Host-Abfrage': 'URLhaus host lookup',
+  'WHO COVID-19 / FluNet Daten': 'WHO COVID-19 / FluNet data',
+  'WastewaterSCAN Dashboard-Daten': 'WastewaterSCAN dashboard data',
+  'adsb.lol API Typ-Abfrage': 'adsb.lol API type lookup',
+  'adsb.lol API und Historie': 'adsb.lol API and history',
+};
+
 // Ortsnamen aus dem Katalog (deutsch) für die englische Ansicht
 export const ORTE_EN = {
   'Deutschland': 'Germany', 'US-Geldmarkt, New York': 'US money market, New York', 'Euro-Zahlungsverkehr, Frankfurt': 'Euro payments, Frankfurt',

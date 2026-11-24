@@ -118,7 +118,9 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
 
   function etikett(x, y, cx, cy, p, w, belegt, immer) {
     const name = p.marke || p.titel || '';
-    const kopf = p.anzahl > 1 ? `${name} (+${p.anzahl - 1})` : name;
+    // Zählt Messungen am selben Ort, nicht alle auffälligen Messungen: so sagen, damit es nicht der Überschrift widerspricht
+    const amOrt = /^en/i.test(document.documentElement.lang || '') ? 'at this place' : 'am selben Ort';
+    const kopf = p.anzahl > 1 ? `${name} (+${p.anzahl - 1} ${amOrt})` : name;
     const maxB = Math.max(120, w * 0.56) - 14;
     // Überschrift auf höchstens zwei Zeilen umbrechen statt abschneiden
     ctx.font = `700 12px ${farben.schrift}`;

@@ -1,6 +1,6 @@
 // Signal Radar – Globus-Fassung. Statisch, kein Build, keine Anfragen an fremde Hosts außer dem Snapshot-Abruf.
 // Datenvertrag: Snapshot aus src/core/types.ts. Oberflächen-Texte: js/texte.js. Englische Daten-Texte: data/i18n-en.json.
-import { T, ORTE_EN } from './js/texte.js';
+import { T, ORTE_EN, QUELLEN_EN } from './js/texte.js';
 import { ladeAtlas, erstelleGlobus } from './js/globus.js';
 
 const params = new URLSearchParams(location.search);
@@ -193,6 +193,8 @@ function zahlText(s, v) {
 /** Quelle mit ungeklärter Lizenz: kein öffentlicher Rohdaten-Link, kein interner Vermerk */
 const lizenzOffen = (s) => /unklar|klären|inoffiziell/i.test(`${s.license ?? ''} ${s.sourceName ?? ''}`);
 const quellName = (s) => String(s.sourceName || s.sourceUrl || '').replace(/\s*\([^)]*\)/g, '').trim();
+/** Bereichsnamen aufzählen; enthält ein Name selbst Kommas ("Strom, Verkehr, Funk"), mit "; " trennen, damit die Zahl der Namen zur Zählung passt */
+const namenListe = (a) => a.join(a.some((n) => String(n).includes(',')) ? '; ' : ', ');
 const dTitel = (sc, d) => klarEn(en() && EN.scenarios?.[sc.id]?.domains?.[d.id]?.title) || klar(d.title);
 const scFrage = (sc) => (en() && EN.scenarios?.[sc.id]?.question) || sc.question;
 
@@ -377,7 +379,7 @@ function waehle(id, nutzer) {
 function antwortTexte(sc) {
   const K = L.kopf;
   const ub = ungewoehnlicheBereiche(sc);
-  const namen = ub.map((b) => dTitel(sc, b.d)).join(', ');
+  const namen = namenListe(ub.map((b) => dTitel(sc, b.d)));
   const mit = sc.coverage?.domainsWithData ?? sc.domains.filter(hatDaten).length;
   const alle = sc.coverage?.domainsTotal ?? sc.domains.length;
   if (zuWenig(sc)) return { art: 'offen', wort: K.offen, satz: K.offenSatz, zusatz: K.zuWenig(mit, alle), k: 0, mit };
@@ -427,7 +429,7 @@ function warumZeile(sc, a) {
   const K = L.kopf;
   let text;
   if (sc.level >= 1 && a.k > 0) {
-    text = K.warumAb(a.k, a.mit, ungewoehnlicheBereiche(sc).map((b) => dTitel(sc, b.d)).join(', '));
+    text = K.warumAb(a.k, a.mit, namenListe(ungewoehnlicheBereiche(sc).map((b) => dTitel(sc, b.d))));
   } else {
     const frisch = messungen(sc).filter((m) => m.s.fresh && m.s.value != null);
     const zahl = new Map();
@@ -435,7 +437,7 @@ function warumZeile(sc, a) {
       const q = quellenEintrag(m.s)?.name ?? m.s.sourceName;
       if (q) zahl.set(q, (zahl.get(q) ?? 0) + 1);
     }
-    const top = [...zahl].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0])).slice(0, 3).map(([q]) => q.replace(/\s*\([^)]*\)/g, '').trim()); // Zusätze in Klammern sind für Laien Ballast
+    const top = [...zahl].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0])).slice(0, 3).map(([q]) => q.replace(/\s*\([^)]*\)/g, '').trim()).map((q) => (en() && QUELLEN_EN[q]) || q); // Zusätze in Klammern sind für Laien Ballast
     text = K.warumNein(frisch.length, top);
   }
   return `<a class="warum" href="#quellen" data-quellen>${esc(text)} <span aria-hidden="true">→</span></a>`;
@@ -928,7 +930,7 @@ async function rueckblick(id, { vergleich = false } = {}) {
   function endText(f) {
     const aktiv = Array.isArray(f.activeDomains) ? f.activeDomains : [];
     const technik = L.globus.vergleichTechnik?.[r.id];
-    const vs = vergleich ? `${technik ? `<strong>${esc(L.globus.vergleichTechnikSatz(technik))}</strong> ` : ''}${Math.min(aktiv.length, 4) === Math.max(0, Math.min(4, Number(f.level) || 0)) ? `<strong>${esc(L.globus.vergleichSatz(heute, aktiv.length, aktiv.map(bereichName).join(', ')))}</strong> ` : ''}` : '';
+    const vs = vergleich ? `${technik ? `<strong>${esc(L.globus.vergleichTechnikSatz(technik))}</strong> ` : ''}${Math.min(aktiv.length, 4) === Math.max(0, Math.min(4, Number(f.level) || 0)) ? `<strong>${esc(L.globus.vergleichSatz(heute, aktiv.length, namenListe(aktiv.map(bereichName))))}</strong> ` : ''}` : '';
     return `<p class="rb-fazit" id="rb-fazit">${vs}<span>${esc(R.fazit)} ${esc(rbErgebnis(daten, frames))}</span>
       <button type="button" class="knopf rb-zurueck" id="rb-zurueck">${esc(R.zurueck)}</button></p>`;
   }

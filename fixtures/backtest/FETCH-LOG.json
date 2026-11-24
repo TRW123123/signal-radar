@@ -1,5 +1,5 @@
 {
- "at": "2026-11-24T01:35:50.383Z",
+ "at": "2026-11-24T01:39:11.230Z",
  "log": [
   {
    "fixture": "backtest/crowdstrike-2024-07/nyfed/sofr-last60.json",
@@ -448,16 +448,6 @@
   {
    "fixture": "backtest/rogers-2022-07/wikimedia/en.wikipedia-Rogers_Communications.json",
    "status": "vorhanden"
-  },
-  {
-   "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/bgp-update-activity-AS32934-hourly.json",
-   "status": "ok",
-   "bytes": 84691
-  },
-  {
-   "fixture": "backtest/rogers-2022-07/ripe-stat/bgp-update-activity-AS812-hourly.json",
-   "status": "ok",
-   "bytes": 87020
   }
  ]
 }

@@ -131,7 +131,18 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
       rest = rest.slice(n);
     }
     if (rest.length && oben.length) oben[oben.length - 1] += ' ' + rest.join(' ');
-    const zeilen = [...oben, p.info].filter(Boolean);
+    // Infozeile ebenfalls umbrechen (höchstens zwei Zeilen), damit nichts abgeschnitten wird
+    ctx.font = `400 11px ${farben.schrift}`;
+    const unten = [];
+    let wr = String(p.info ?? '').split(/\s+/).filter(Boolean);
+    while (wr.length && unten.length < 2) {
+      let n = wr.length;
+      while (n > 1 && ctx.measureText(wr.slice(0, n).join(' ')).width > maxB) n--;
+      unten.push(wr.slice(0, n).join(' '));
+      wr = wr.slice(n);
+    }
+    if (wr.length && unten.length) unten[unten.length - 1] += ' ' + wr.join(' ');
+    const zeilen = [...oben, ...unten].filter(Boolean);
     if (!zeilen.length) return;
     const nOben = oben.length;
     const breiten = zeilen.map((z, i) => { ctx.font = i < nOben ? `700 12px ${farben.schrift}` : `400 11px ${farben.schrift}`; return ctx.measureText(z).width; });
@@ -209,8 +220,8 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
       if (!istVorne(p)) { p.xy = null; continue; }
       const [x, y] = proj([p.lon, p.lat]);
       p.xy = [x, y];
-      const s = pr * (1.25 + (p.staerke ?? 0.3) * 1.3);
-      ctx.globalAlpha = 0.75 + 0.2 * (p.staerke ?? 0.3);
+      const s = pr * (1.05 + (p.staerke ?? 0.3) * 0.9);
+      ctx.globalAlpha = 0.6 + 0.25 * (p.staerke ?? 0.3);
       ctx.fillStyle = p.form === 'dreieck' ? farben.schicht2 : farben.schicht;
       ctx.strokeStyle = farben.zahl; ctx.lineWidth = 1;
       ctx.beginPath();
@@ -327,15 +338,19 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
   }
 
   // ---------- Zeiger ----------
+  // Messpunkte haben Vorrang: Orientierungspunkte nur, wenn kein Messpunkt in Reichweite liegt
   function naechster(x, y, max) {
-    let best = null;
-    let bd = max * max;
-    for (const p of [...punkte, ...ring, ...schicht]) {
-      if (!p.xy) continue;
-      const d = (p.xy[0] - x) ** 2 + (p.xy[1] - y) ** 2;
-      if (d < bd) { bd = d; best = p; }
-    }
-    return best;
+    const suche = (liste) => {
+      let best = null;
+      let bd = max * max;
+      for (const p of liste) {
+        if (!p.xy) continue;
+        const d = (p.xy[0] - x) ** 2 + (p.xy[1] - y) ** 2;
+        if (d < bd) { bd = d; best = p; }
+      }
+      return best;
+    };
+    return suche([...punkte, ...ring]) ?? suche(schicht);
   }
   const lokal = (e) => { const b = canvas.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
 

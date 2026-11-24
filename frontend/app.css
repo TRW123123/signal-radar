@@ -634,3 +634,23 @@ button { font: inherit; color: inherit; }
 .karte-wann { font-weight: 400; color: var(--grau); font-size: var(--t-12); }
 .herkunft { overflow-wrap: anywhere; }
 @media (max-width: 47.99rem) { .herkunft { position: relative; min-width: 0; max-width: 100%; font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .herkunft-quellen { display: none; } }
+
+/* ---------- Runde 7 ---------- */
+.karte-zustand.z-erhoeht i { background: var(--g-etwas); }
+.ger-alle { margin-top: 0.75rem; font-weight: 700; }
+.vergleich-knopf { display: flex; align-items: center; gap: 0.5rem; width: fit-content; max-width: calc(100% - 2 * var(--rand)); margin: 0.5rem auto 0.25rem; min-height: 2.75rem; padding: 0.45rem 0.95rem; border-radius: 999px; border: 1px solid var(--g-etwas); background: var(--flaeche); color: var(--tinte); font: inherit; font-size: var(--t-14); font-weight: 700; line-height: 1.25; text-align: left; cursor: pointer; }
+.vergleich-knopf svg { flex: none; width: 1rem; height: 1rem; color: var(--g-etwas); }
+.vergleich-knopf:hover { border-color: var(--tinte); }
+.im-rueckblick .vergleich-knopf { display: none; }
+.rb-fazit { margin-top: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 8px; border-left: 3px solid var(--g-etwas); background: var(--grund); font-size: var(--t-14); line-height: 1.45; }
+.rb-fazit strong { display: block; margin-bottom: 0.25rem; }
+.rb-zurueck { display: flex; margin-top: 0.5rem; }
+.teilen:disabled { opacity: 0.45; cursor: not-allowed; }
+.zl-marken-wrap { position: relative; min-width: 0; max-width: 100%; }
+.zl-mehr { display: none; }
+@media (max-width: 47.99rem) {
+  .zl-marken.hat-mehr { mask-image: linear-gradient(90deg, #000 70%, transparent 92%); -webkit-mask-image: linear-gradient(90deg, #000 70%, transparent 92%); }
+  .zl-marken:not(.hat-mehr) { mask-image: none; -webkit-mask-image: none; }
+  .zl-mehr { position: absolute; right: 0; top: 0; bottom: 0.3rem; display: inline-flex; align-items: center; padding: 0 0.1rem 0 1.6rem; border: 0; background: linear-gradient(90deg, transparent, var(--grund) 40%); color: var(--tinte); font-size: var(--t-12); font-weight: 700; cursor: pointer; }
+  .zl-mehr[hidden] { display: none !important; }
+}

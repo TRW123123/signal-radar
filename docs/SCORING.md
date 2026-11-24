@@ -99,13 +99,13 @@ jenseits der Einzelschwelle.
 | abweichende Bereiche | Schranke | höchste erreichbare Stufe |
 |---|---|---|
 | 0 | 0,11 | 0 Ruhig (Unruhe unter der Grenze erreicht nie Stufe 1) |
-| 1 | 0,29 | 1 Leicht erhöht |
-| 2 | 0,54 | 2 Erhöht |
-| 3 | 0,77 | 3 Hoch |
-| 4 und mehr | 1,00 | 4 Akut |
+| 1 | 0,29 | 1 Einzelne Auffälligkeit |
+| 2 | 0,54 | 2 Mehrere Auffälligkeiten |
+| 3 | 0,77 | 3 Deutliche Häufung |
+| 4 und mehr | 1,00 | 4 Starke Häufung |
 
-Stufen: `< 0,12` Ruhig, `< 0,30` Leicht erhöht, `< 0,55` Erhöht, `< 0,78` Hoch, sonst Akut.
-Ein einzelner Bereich kann also nie mehr als „Leicht erhöht“ auslösen, egal wie stark er ausschlägt.
+Stufen: `< 0,12` Ruhig, `< 0,30` Einzelne Auffälligkeit, `< 0,55` Mehrere Auffälligkeiten, `< 0,78` Deutliche Häufung, sonst Starke Häufung.
+Ein einzelner Bereich kann also nie mehr als „Einzelne Auffälligkeit“ auslösen, egal wie stark er ausschlägt.
 
 **Die Stufen-Grenzen und die Schranke liegen dort, weil** sie zusammen die Konvergenz-Regel umsetzen: Die Schranke für
 n abweichende Bereiche liegt jeweils knapp unter der Grenze von Stufe n + 1 (0,11 < 0,12, 0,29 < 0,30, 0,54 < 0,55,

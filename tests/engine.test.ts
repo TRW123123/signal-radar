@@ -99,7 +99,7 @@ test('a spike keeps counting during the hold window and decays', () => {
   assert.ok(r.anomaly > 0.7 && r.anomaly < 1, `anomaly ${r.anomaly}`);
 });
 
-test('a single domain cannot push the scenario beyond "Leicht erhöht"', () => {
+test('a single domain cannot push the scenario beyond level 1', () => {
   const a = sig('cyber.routing.a');
   const b = sig('cyber.routing.b', { independenceGroup: 'other' });
   const v = run([a, b], [series(a.id, 100, 5), series(b.id, 50, 5)]);

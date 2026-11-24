@@ -244,3 +244,18 @@ test('exported index and replay files keep the contract (if present)', () => {
     assert.doesNotMatch(e.summary_en, /Elevated|Slightly raised|Acute/, e.id);
   }
 });
+
+test('probe adapter yahoo: close and absolute daily return from one symbol, cut before the anchor day', async () => {
+  const { probeObservations } = await import('../src/backtest/history-adapters.ts');
+  const dir = mkdtempSync(join(tmpdir(), 'probe-yahoo-'));
+  mkdirSync(join(dir, 'yahoo'));
+  const day = (d: string) => Date.parse(`${d}T14:30:00Z`) / 1000;
+  writeFileSync(join(dir, 'yahoo', 'KRE-6mo-1d.json'), JSON.stringify({ chart: { result: [{ meta: { gmtoffset: -18000 }, timestamp: ['2023-03-07', '2023-03-08', '2023-03-09', '2023-03-10'].map(day), indicators: { quote: [{ close: [100, 102, 94, 90], volume: [1, 1, 1, 1] }] } }] } }));
+  const probe = (id: string, metric?: string) => ({ id, template: 't', adapter: 'yahoo' as const, params: metric ? { metric } : {}, name: id, plain: '', sources: [{ fixture: 'yahoo/KRE-6mo-1d.json', url: 'x' }] });
+  const { observations, reports } = probeObservations([probe('c'), probe('r', 'abs-return-mean')], dir, new Date('2023-03-10T00:00:00Z'));
+  assert.deepEqual(observations.filter((o) => o.signalId === 'c').map((o) => o.value), [100, 102, 94]);
+  const r = observations.filter((o) => o.signalId === 'r');
+  assert.deepEqual(r.map((o) => o.ts.slice(0, 10)), ['2023-03-08', '2023-03-09']);
+  assert.ok(Math.abs(r[1].value - (1 - 94 / 102) * 100) < 1e-9);
+  assert.equal(reports[0].file, 'yahoo/KRE-6mo-1d.json');
+});

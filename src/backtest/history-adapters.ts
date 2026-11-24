@@ -214,6 +214,12 @@ const PARSERS: Record<Probe['adapter'], ProbeParser> = {
       return /^\d{4}-\d{2}-\d{2}$/.test(r[0] ?? '') && Number.isFinite(v) && r[1] !== '' ? [{ signalId: p.id, ts: `${r[0]}T00:00:00Z`, value: v }] : [];
     });
   },
+  // Yahoo chart (period1/period2): one symbol, the collector's own parser and metric (params.metric: close |
+  // abs-return-mean, default close); daily values, cut before the anchor day like the other daily series
+  yahoo(body, p) {
+    const metric = (p.params?.metric ?? 'close') as Parameters<typeof yahoo.compute>[0];
+    return [...yahoo.compute(metric, [yahoo.parse(JSON.parse(body))])].sort().map(([d, v]) => ({ signalId: p.id, ts: `${d}T00:00:00Z`, value: v, meta: { metric } }));
+  },
   // RIPEstat bgp-update-activity: BGP updates per sampling period. For an ASN only announcements carry a number
   // (withdrawals have no origin AS and come back as null), so the count of announcements (route churn) is used.
   'ripe-updates'(body, p, anchor) {

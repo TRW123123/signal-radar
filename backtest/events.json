@@ -1167,7 +1167,7 @@
         ]
       },
       {
-        "id": "finance.volatility.vix",
+        "id": "finance.volatility.vix_close",
         "template": "finance.volatility.vix",
         "adapter": "yahoo",
         "params": {},
@@ -1189,7 +1189,7 @@
         ]
       },
       {
-        "id": "finance.markets.gold",
+        "id": "finance.markets.gold_close",
         "template": "finance.markets.gold",
         "adapter": "yahoo",
         "params": {},
@@ -1378,7 +1378,7 @@
         ]
       },
       {
-        "id": "bio.markets.mrna",
+        "id": "bio.markets.mrna_close",
         "template": "bio.markets.mrna",
         "adapter": "yahoo",
         "params": {},
@@ -1608,12 +1608,12 @@
       "IAEA: Mitteilungen vom 04.03.2022 zum Brand im Ausbildungsgebäude des AKW Saporischschja",
       "Wikipedia: Zaporizhzhia Nuclear Power Plant crisis"
     ],
-    "notes": "Kämpfe und Brand in der Nacht zum 04.03.2022 (gegen Mitternacht Ortszeit, UTC+2), hier auf 03.03. 22:00 UTC gesetzt. Keine erhöhte Strahlung gemeldet. Die Börsen standen seit dem russischen Angriff am 24.02.2022 ohnehin unter Spannung, die Vergleichsbasis ist also nicht ruhig. Strahlungs-Messnetze (EURDEP) haben keine abrufbare Historie in kleinen Antworten.",
+    "notes": "Kämpfe und Brand in der Nacht zum 04.03.2022 (gegen Mitternacht Ortszeit, UTC+2), hier auf 03.03. 22:00 UTC gesetzt. Keine erhöhte Strahlung gemeldet. Die Börsen standen seit dem russischen Angriff am 24.02.2022 ohnehin unter Spannung, die Vergleichsbasis ist also nicht ruhig. Strahlungs-Messnetze (EURDEP) haben keine abrufbare Historie in kleinen Antworten. Die Wikipedia-Aufrufe (Klasse D, nie gewertet) waren seit dem 24.02. ohnehin stark erhöht; ihr Ausschlag am 04.03. beginnt also nicht im Ereignisfenster und zählt nicht.",
     "verified": true,
     "probes": [
       {
         "id": "nuclear.attention.wiki_en_znpp",
-        "template": "nuclear.attention.wiki_plants_sites",
+        "template": "bio.attention.wiki_outbreak",
         "adapter": "wikipedia",
         "params": {},
         "name": "Wikipedia-Aufrufe „Zaporizhzhia Nuclear Power Plant“ (englisch)",
@@ -1625,7 +1625,11 @@
           "kind": "point",
           "cc": "UA"
         },
-        "override": {},
+        "override": {
+          "scenarios": [
+            "nuclear"
+          ]
+        },
         "sources": [
           {
             "fixture": "wikimedia/en.wikipedia-Zaporizhzhia_Nuclear_Power_Plant.json",
@@ -1635,7 +1639,7 @@
       },
       {
         "id": "nuclear.attention.wiki_de_znpp",
-        "template": "nuclear.attention.wiki_plants_sites",
+        "template": "bio.attention.wiki_outbreak",
         "adapter": "wikipedia",
         "params": {},
         "name": "Wikipedia-Aufrufe „Kernkraftwerk Saporischschja“ (deutsch)",
@@ -1647,7 +1651,11 @@
           "kind": "point",
           "cc": "UA"
         },
-        "override": {},
+        "override": {
+          "scenarios": [
+            "nuclear"
+          ]
+        },
         "sources": [
           {
             "fixture": "wikimedia/de.wikipedia-Kernkraftwerk_Saporischschja.json",
@@ -1657,13 +1665,17 @@
       },
       {
         "id": "nuclear.attention.wiki_de_kaliumiodid",
-        "template": "nuclear.attention.wiki_nuclear_de",
+        "template": "bio.attention.wiki_outbreak",
         "adapter": "wikipedia",
         "params": {},
         "name": "Wikipedia-Aufrufe „Kaliumiodid“ (Jodtabletten, deutsch)",
         "plain": "Wie oft der deutsche Wikipedia-Artikel über Kaliumiodid (Jodtabletten) pro Tag aufgerufen wird; steigt, wenn Menschen Strahlung fürchten.",
         "geo": null,
-        "override": {},
+        "override": {
+          "scenarios": [
+            "nuclear"
+          ]
+        },
         "sources": [
           {
             "fixture": "wikimedia/de.wikipedia-Kaliumiodid.json",
@@ -1673,13 +1685,17 @@
       },
       {
         "id": "nuclear.attention.wiki_en_potassium_iodide",
-        "template": "nuclear.attention.wiki_nuclear_en",
+        "template": "bio.attention.wiki_outbreak",
         "adapter": "wikipedia",
         "params": {},
         "name": "Wikipedia-Aufrufe „Potassium iodide“ (englisch)",
         "plain": "Wie oft der englische Wikipedia-Artikel über Kaliumiodid (Jodtabletten) pro Tag aufgerufen wird.",
         "geo": null,
-        "override": {},
+        "override": {
+          "scenarios": [
+            "nuclear"
+          ]
+        },
         "sources": [
           {
             "fixture": "wikimedia/en.wikipedia-Potassium_iodide.json",

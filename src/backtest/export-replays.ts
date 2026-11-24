@@ -109,7 +109,7 @@ for (const f of readdirSync(resultsDir).filter((x) => /^history-.+\.json$/.test(
   const measured = new Set(replay.frames.flatMap((fr) => fr.signals.map((s) => s.id))).size;
   const s = summarize(j, { kind: ev.kind, measuredSignals: measured, note: NOTE[id] });
   index.push({
-    id, kind: ev.kind, title_de: ev.title, title_en: TITLE_EN[id] ?? ev.title, date: ev.start, scenario: res.scenario,
+    id, kind: ev.kind, title_de: ev.title, title_en: ev.title_en ?? TITLE_EN[id] ?? ev.title, date: ev.start, scenario: res.scenario,
     summary_de: s.de, summary_en: s.en, sawIt: j.sawIt, ...(j.control ? { control: j.control } : {}),
     maxLevel: j.maxLevel, firstSeenHours: j.firstSeenHours, steps: replay.frames.length,
   });

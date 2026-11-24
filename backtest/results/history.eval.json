@@ -1,6 +1,6 @@
 {
  "schema": "backtest-eval/1",
- "generatedAt": "2026-11-24T01:23:16.299Z",
+ "generatedAt": "2026-11-24T02:20:25.122Z",
  "results": [
   {
    "file": "backtest/results/history-change-healthcare-2024-02.json",
@@ -9,6 +9,15 @@
    "to": "2024-03-08T23:59:00.000Z",
    "stepHours": 3,
    "steps": 304,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-chile-blackout-2025-02.json",
+   "source": "history:chile-blackout-2025-02 (anchor 2025-03-02T00:00:00.000Z)",
+   "from": "2025-02-04T21:00:00.000Z",
+   "to": "2025-03-02T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 202,
    "availability": "end-of-day"
   },
   {
@@ -39,10 +48,73 @@
    "availability": "end-of-day"
   },
   {
+   "file": "backtest/results/history-control-bio-2019-12.json",
+   "source": "history:control-bio-2019-12 (anchor 2019-12-15T00:00:00.000Z)",
+   "from": "2019-11-19T00:00:00.000Z",
+   "to": "2019-12-15T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 209,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-control-finance-2023-02.json",
+   "source": "history:control-finance-2023-02 (anchor 2023-02-13T00:00:00.000Z)",
+   "from": "2023-01-18T00:00:00.000Z",
+   "to": "2023-02-13T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 209,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-control-iberia-2025-03.json",
+   "source": "history:control-iberia-2025-03 (anchor 2025-04-05T00:00:00.000Z)",
+   "from": "2025-03-10T00:00:00.000Z",
+   "to": "2025-04-05T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 209,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-control-israel-iran-2025-05.json",
+   "source": "history:control-israel-iran-2025-05 (anchor 2025-05-21T00:00:00.000Z)",
+   "from": "2025-04-25T00:00:00.000Z",
+   "to": "2025-05-21T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 209,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-control-nuclear-2022-01.json",
+   "source": "history:control-nuclear-2022-01 (anchor 2022-01-24T00:00:00.000Z)",
+   "from": "2021-12-29T00:00:00.000Z",
+   "to": "2022-01-24T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 209,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-covid-europe-2020-02.json",
+   "source": "history:covid-europe-2020-02 (anchor 2020-03-15T00:00:00.000Z)",
+   "from": "2020-01-31T02:59:00.000Z",
+   "to": "2020-03-12T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 336,
+   "availability": "end-of-day"
+  },
+  {
    "file": "backtest/results/history-crowdstrike-2024-07.json",
    "source": "history:crowdstrike-2024-07 (anchor 2024-07-25T00:00:00.000Z)",
    "from": "2024-06-28T04:00:00.000Z",
    "to": "2024-07-24T04:00:00.000Z",
+   "stepHours": 3,
+   "steps": 209,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-cuba-blackout-2024-10.json",
+   "source": "history:cuba-blackout-2024-10 (anchor 2024-10-25T00:00:00.000Z)",
+   "from": "2024-09-27T15:00:00.000Z",
+   "to": "2024-10-23T15:00:00.000Z",
    "stepHours": 3,
    "steps": 209,
    "availability": "end-of-day"
@@ -63,6 +135,24 @@
    "to": "2021-10-08T00:00:00.000Z",
    "stepHours": 3,
    "steps": 195,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-iberia-blackout-2025-04.json",
+   "source": "history:iberia-blackout-2025-04 (anchor 2025-05-03T00:00:00.000Z)",
+   "from": "2025-04-07T12:00:00.000Z",
+   "to": "2025-05-03T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 205,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-israel-iran-2025-06.json",
+   "source": "history:israel-iran-2025-06 (anchor 2025-06-28T00:00:00.000Z)",
+   "from": "2025-05-23T02:59:00.000Z",
+   "to": "2025-06-25T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 272,
    "availability": "end-of-day"
   },
   {
@@ -100,6 +190,24 @@
    "stepHours": 3,
    "steps": 206,
    "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-svb-bank-crisis-2023-03.json",
+   "source": "history:svb-bank-crisis-2023-03 (anchor 2023-03-24T00:00:00.000Z)",
+   "from": "2023-02-17T02:59:00.000Z",
+   "to": "2023-03-21T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 264,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-zaporizhzhia-2022-03.json",
+   "source": "history:zaporizhzhia-2022-03 (anchor 2022-03-08T00:00:00.000Z)",
+   "from": "2022-02-11T00:00:00.000Z",
+   "to": "2022-03-08T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 201,
+   "availability": "end-of-day"
   }
  ],
  "options": {
@@ -110,23 +218,23 @@
  "coverage": {
   "signalsInScenario": 306,
   "signalsActive": 86,
-  "signalsWithDataEver": 12,
+  "signalsWithDataEver": 73,
   "domainsInScenario": 9,
-  "domainsWithDataEver": 6,
-  "stepsTotal": 2748,
-  "stepsWithMinDomains": 2748,
+  "domainsWithDataEver": 12,
+  "stepsTotal": 5482,
+  "stepsWithMinDomains": 3702,
   "perDomain": [
    {
     "id": "routing",
     "title": "Internet-Routen",
     "stepsWithData": 2748,
-    "share": 1
+    "share": 0.5013
    },
    {
     "id": "outages",
     "title": "Gemessene Ausfälle",
-    "stepsWithData": 2748,
-    "share": 1
+    "stepsWithData": 3573,
+    "share": 0.6518
    },
    {
     "id": "dns_core",
@@ -144,25 +252,25 @@
     "id": "vuln",
     "title": "Schwachstellen",
     "stepsWithData": 1583,
-    "share": 0.5761
+    "share": 0.2888
    },
    {
     "id": "finance",
     "title": "Zahlungsverkehr",
     "stepsWithData": 2314,
-    "share": 0.8421
+    "share": 0.4221
    },
    {
     "id": "services",
     "title": "Dienste und Firmenmeldungen",
     "stepsWithData": 513,
-    "share": 0.1867
+    "share": 0.0936
    },
    {
     "id": "markets",
     "title": "Märkte und Insider",
-    "stepsWithData": 2436,
-    "share": 0.8865
+    "stepsWithData": 4345,
+    "share": 0.7926
    },
    {
     "id": "physical",
@@ -175,18 +283,18 @@
  "levelDistribution": [
   {
    "level": 0,
-   "steps": 2748,
-   "share": 1
+   "steps": 5319,
+   "share": 0.9703
   },
   {
    "level": 1,
-   "steps": 0,
-   "share": 0
+   "steps": 151,
+   "share": 0.0275
   },
   {
    "level": 2,
-   "steps": 0,
-   "share": 0
+   "steps": 12,
+   "share": 0.0022
   },
   {
    "level": 3,
@@ -266,26 +374,32 @@
    "covered": true,
    "domainsWithDataMedian": 4,
    "domainsWithDataMax": 4,
-   "signalsWithDataMax": 9,
-   "maxLevel": 0,
-   "maxScore": 0.019,
-   "leadL1Hours": null,
+   "signalsWithDataMax": 12,
+   "maxLevel": 1,
+   "maxScore": 0.25,
+   "leadL1Hours": -0.5,
    "leadL2Hours": null,
-   "firedDomains": [],
+   "firedDomains": [
+    "routing"
+   ],
    "expectedDomains": [
     "routing",
     "dns_core",
     "outages",
     "services"
    ],
-   "expectedHit": [],
+   "expectedHit": [
+    "routing"
+   ],
    "expectedWithData": [
     "routing",
     "outages"
    ],
    "expectedSignals": {
     "routing": [
-     "cyber.routing.country_prefix_visibility_de"
+     "cyber.routing.country_prefix_visibility_de",
+     "cyber.routing.visible_prefixes_as32934",
+     "cyber.routing.bgp_updates_as32934"
     ],
     "outages": [
      "cyber.outages.ooni_anomaly_share_de",
@@ -293,10 +407,18 @@
      "cyber.outages.tor_advertised_bandwidth"
     ]
    },
-   "shareL1": 0,
+   "shareL1": 0.1471,
    "shareL2": 0,
-   "outcome": "verpasst",
+   "outcome": "schwach",
    "topSignals": [
+    {
+     "id": "cyber.routing.bgp_updates_as32934",
+     "maxC": 0.85
+    },
+    {
+     "id": "cyber.attention.wiki_en_facebook",
+     "maxC": 0.22
+    },
     {
      "id": "cyber.outages.ooni_anomaly_share_de",
      "maxC": 0.176
@@ -304,6 +426,154 @@
     {
      "id": "cyber.markets.cyber_etf_abs_return",
      "maxC": 0.03
+    }
+   ]
+  },
+  {
+   "id": "iberia-blackout-2025-04",
+   "title": "Stromausfall auf der Iberischen Halbinsel (Spanien und Portugal)",
+   "kind": "event",
+   "start": "2025-04-28T10:33:00Z",
+   "end": "2025-04-29T06:00:00Z",
+   "steps": 78,
+   "covered": false,
+   "domainsWithDataMedian": 2.5,
+   "domainsWithDataMax": 3,
+   "signalsWithDataMax": 15,
+   "maxLevel": 1,
+   "maxScore": 0.202,
+   "leadL1Hours": 1.5,
+   "leadL2Hours": null,
+   "firedDomains": [
+    "outages"
+   ],
+   "expectedDomains": [
+    "grid",
+    "outages"
+   ],
+   "expectedHit": [
+    "outages"
+   ],
+   "expectedWithData": [
+    "grid",
+    "outages"
+   ],
+   "expectedSignals": {
+    "outages": [
+     "blackout.outages.ioda_es_bgp",
+     "blackout.outages.ioda_es_ping",
+     "blackout.outages.ooni_anomaly_share_es",
+     "blackout.outages.ioda_pt_bgp",
+     "blackout.outages.ioda_pt_ping",
+     "blackout.outages.ooni_anomaly_share_pt"
+    ],
+    "grid": [
+     "blackout.grid.load_es",
+     "blackout.grid.load_pt"
+    ]
+   },
+   "shareL1": 0.0769,
+   "shareL2": 0,
+   "outcome": "nicht prüfbar",
+   "topSignals": [
+    {
+     "id": "blackout.outages.ioda_es_ping",
+     "maxC": 0.6
+    },
+    {
+     "id": "blackout.outages.ioda_pt_ping",
+     "maxC": 0.6
+    },
+    {
+     "id": "blackout.grid.load_pt",
+     "maxC": 0.245
+    },
+    {
+     "id": "blackout.attention.wiki_de_stromausfall",
+     "maxC": 0.138
+    },
+    {
+     "id": "blackout.attention.wiki_en_power_outage",
+     "maxC": 0.138
+    }
+   ]
+  },
+  {
+   "id": "israel-iran-2025-06",
+   "title": "Krieg zwischen Israel und Iran (zwölf Tage)",
+   "kind": "event",
+   "start": "2025-06-13T00:00:00Z",
+   "end": "2025-06-24T23:59:00Z",
+   "steps": 128,
+   "covered": true,
+   "domainsWithDataMedian": 3,
+   "domainsWithDataMax": 3,
+   "signalsWithDataMax": 15,
+   "maxLevel": 2,
+   "maxScore": 0.49,
+   "leadL1Hours": 51,
+   "leadL2Hours": 135,
+   "firedDomains": [
+    "conflict",
+    "connectivity"
+   ],
+   "expectedDomains": [
+    "conflict",
+    "connectivity",
+    "markets"
+   ],
+   "expectedHit": [
+    "conflict",
+    "connectivity"
+   ],
+   "expectedWithData": [
+    "conflict",
+    "connectivity",
+    "markets"
+   ],
+   "expectedSignals": {
+    "conflict": [
+     "war.conflict.israel_oref"
+    ],
+    "connectivity": [
+     "war.connectivity.ioda_ir",
+     "war.connectivity.ioda_il",
+     "war.connectivity.ooni_anomaly_share_ir",
+     "war.connectivity.ooni_anomaly_share_il",
+     "war.connectivity.ioda_ir_ping"
+    ],
+    "markets": [
+     "war.markets.gold_price",
+     "war.markets.vix",
+     "war.markets.brent_futures",
+     "war.markets.wti_futures",
+     "war.markets.oil_volatility_ovx",
+     "war.markets.brent_spot_github"
+    ]
+   },
+   "shareL1": 0.4141,
+   "shareL2": 0.0938,
+   "outcome": "erkannt",
+   "topSignals": [
+    {
+     "id": "war.connectivity.ioda_ir_ping",
+     "maxC": 0.85
+    },
+    {
+     "id": "war.conflict.israel_oref",
+     "maxC": 0.64
+    },
+    {
+     "id": "war.markets.oil_volatility_ovx",
+     "maxC": 0.24
+    },
+    {
+     "id": "war.connectivity.ooni_anomaly_share_il",
+     "maxC": 0.2
+    },
+    {
+     "id": "war.connectivity.ooni_anomaly_share_ir",
+     "maxC": 0.132
     }
    ]
   },
@@ -470,19 +740,25 @@
    "covered": true,
    "domainsWithDataMedian": 5,
    "domainsWithDataMax": 5,
-   "signalsWithDataMax": 9,
-   "maxLevel": 0,
-   "maxScore": 0,
-   "leadL1Hours": null,
+   "signalsWithDataMax": 15,
+   "maxLevel": 1,
+   "maxScore": 0.281,
+   "leadL1Hours": -26,
    "leadL2Hours": null,
-   "firedDomains": [],
+   "firedDomains": [
+    "outages",
+    "routing"
+   ],
    "expectedDomains": [
     "routing",
     "outages",
     "finance",
     "services"
    ],
-   "expectedHit": [],
+   "expectedHit": [
+    "routing",
+    "outages"
+   ],
    "expectedWithData": [
     "routing",
     "outages",
@@ -490,7 +766,8 @@
    ],
    "expectedSignals": {
     "routing": [
-     "cyber.routing.country_prefix_visibility_de"
+     "cyber.routing.country_prefix_visibility_de",
+     "cyber.routing.bgp_updates_as812"
     ],
     "finance": [
      "cyber.finance.sofr_tail",
@@ -499,13 +776,38 @@
     "outages": [
      "cyber.outages.ooni_anomaly_share_de",
      "cyber.outages.ooni_anomaly_share_us",
-     "cyber.outages.tor_advertised_bandwidth"
+     "cyber.outages.tor_advertised_bandwidth",
+     "cyber.outages.ioda_ca_bgp",
+     "cyber.outages.ioda_ca_ping",
+     "cyber.outages.ioda_as812_bgp",
+     "cyber.outages.ioda_as812_ping"
     ]
    },
-   "shareL1": 0,
+   "shareL1": 0.4444,
    "shareL2": 0,
-   "outcome": "verpasst",
-   "topSignals": []
+   "outcome": "schwach",
+   "topSignals": [
+    {
+     "id": "cyber.routing.bgp_updates_as812",
+     "maxC": 0.85
+    },
+    {
+     "id": "cyber.outages.ioda_as812_bgp",
+     "maxC": 0.8
+    },
+    {
+     "id": "cyber.outages.ioda_as812_ping",
+     "maxC": 0.8
+    },
+    {
+     "id": "cyber.outages.ioda_ca_ping",
+     "maxC": 0.242
+    },
+    {
+     "id": "cyber.attention.wiki_en_rogers",
+     "maxC": 0.22
+    }
+   ]
   },
   {
    "id": "dyn-ddos-2016-10",
@@ -667,6 +969,286 @@
    "shareL2": null,
    "outcome": "nicht prüfbar",
    "topSignals": []
+  },
+  {
+   "id": "svb-bank-crisis-2023-03",
+   "title": "Bankenkrise März 2023 (Silicon Valley Bank, Credit Suisse)",
+   "kind": "event",
+   "start": "2023-03-10T00:00:00Z",
+   "end": "2023-03-20T23:59:00Z",
+   "steps": 120,
+   "covered": true,
+   "domainsWithDataMedian": 4,
+   "domainsWithDataMax": 4,
+   "signalsWithDataMax": 7,
+   "maxLevel": 1,
+   "maxScore": 0.234,
+   "leadL1Hours": 3,
+   "leadL2Hours": null,
+   "firedDomains": [
+    "banks"
+   ],
+   "expectedDomains": [
+    "banks",
+    "volatility",
+    "credit",
+    "markets"
+   ],
+   "expectedHit": [
+    "banks"
+   ],
+   "expectedWithData": [
+    "banks",
+    "volatility",
+    "credit",
+    "markets"
+   ],
+   "expectedSignals": {
+    "banks": [
+     "finance.banks.kre_abs_return",
+     "finance.banks.eufn_abs_return"
+    ],
+    "volatility": [
+     "finance.volatility.vix_close"
+    ],
+    "markets": [
+     "finance.markets.gold_close"
+    ],
+    "credit": [
+     "finance.credit.hyg_close"
+    ]
+   },
+   "shareL1": 0.4,
+   "shareL2": 0,
+   "outcome": "schwach",
+   "topSignals": [
+    {
+     "id": "finance.banks.kre_abs_return",
+     "maxC": 0.8
+    },
+    {
+     "id": "finance.attention.wiki_en_svb",
+     "maxC": 0.248
+    },
+    {
+     "id": "finance.attention.wiki_en_bank_run",
+     "maxC": 0.248
+    },
+    {
+     "id": "finance.volatility.vix_close",
+     "maxC": 0.038
+    }
+   ]
+  },
+  {
+   "id": "covid-europe-2020-02",
+   "title": "Corona erreicht Europa (Ausbruch in Norditalien bis zur Pandemie-Erklärung)",
+   "kind": "event",
+   "start": "2020-02-21T00:00:00Z",
+   "end": "2020-03-11T23:59:00Z",
+   "steps": 192,
+   "covered": false,
+   "domainsWithDataMedian": 1,
+   "domainsWithDataMax": 1,
+   "signalsWithDataMax": 6,
+   "maxLevel": 0,
+   "maxScore": 0.035,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [
+    "markets"
+   ],
+   "expectedDomains": [
+    "clinical",
+    "outbreaks",
+    "markets"
+   ],
+   "expectedHit": [
+    "markets"
+   ],
+   "expectedWithData": [
+    "markets"
+   ],
+   "expectedSignals": {
+    "markets": [
+     "bio.markets.vix",
+     "bio.markets.mrna_close",
+     "bio.markets.gild"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "nicht prüfbar",
+   "topSignals": [
+    {
+     "id": "bio.markets.vix",
+     "maxC": 0.3
+    },
+    {
+     "id": "bio.markets.mrna_close",
+     "maxC": 0.201
+    },
+    {
+     "id": "bio.attention.wiki_de_pandemie",
+     "maxC": 0.2
+    },
+    {
+     "id": "bio.attention.wiki_en_pandemic",
+     "maxC": 0.2
+    },
+    {
+     "id": "bio.markets.gild",
+     "maxC": 0.012
+    }
+   ]
+  },
+  {
+   "id": "cuba-blackout-2024-10",
+   "title": "Landesweiter Stromausfall auf Kuba",
+   "kind": "event",
+   "start": "2024-10-18T15:00:00Z",
+   "end": "2024-10-21T23:59:00Z",
+   "steps": 59,
+   "covered": false,
+   "domainsWithDataMedian": 1,
+   "domainsWithDataMax": 1,
+   "signalsWithDataMax": 2,
+   "maxLevel": 0,
+   "maxScore": 0.011,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "grid",
+    "outages"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "outages"
+   ],
+   "expectedSignals": {
+    "outages": [
+     "blackout.outages.ioda_cu_bgp",
+     "blackout.outages.ioda_cu_ping"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "nicht prüfbar",
+   "topSignals": [
+    {
+     "id": "blackout.outages.ioda_cu_ping",
+     "maxC": 0.098
+    }
+   ]
+  },
+  {
+   "id": "chile-blackout-2025-02",
+   "title": "Landesweiter Stromausfall in Chile",
+   "kind": "event",
+   "start": "2025-02-25T18:16:00Z",
+   "end": "2025-02-26T06:00:00Z",
+   "steps": 36,
+   "covered": false,
+   "domainsWithDataMedian": 1,
+   "domainsWithDataMax": 1,
+   "signalsWithDataMax": 2,
+   "maxLevel": 1,
+   "maxScore": 0.174,
+   "leadL1Hours": -0.3,
+   "leadL2Hours": null,
+   "firedDomains": [
+    "outages"
+   ],
+   "expectedDomains": [
+    "grid",
+    "outages"
+   ],
+   "expectedHit": [
+    "outages"
+   ],
+   "expectedWithData": [
+    "outages"
+   ],
+   "expectedSignals": {
+    "outages": [
+     "blackout.outages.ioda_cl_bgp",
+     "blackout.outages.ioda_cl_ping"
+    ]
+   },
+   "shareL1": 0.1389,
+   "shareL2": 0,
+   "outcome": "nicht prüfbar",
+   "topSignals": [
+    {
+     "id": "blackout.outages.ioda_cl_ping",
+     "maxC": 0.6
+    }
+   ]
+  },
+  {
+   "id": "zaporizhzhia-2022-03",
+   "title": "Beschuss und Brand am AKW Saporischschja",
+   "kind": "event",
+   "start": "2022-03-03T22:00:00Z",
+   "end": "2022-03-04T23:59:00Z",
+   "steps": 40,
+   "covered": false,
+   "domainsWithDataMedian": 1,
+   "domainsWithDataMax": 1,
+   "signalsWithDataMax": 9,
+   "maxLevel": 0,
+   "maxScore": 0.044,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [
+    "markets"
+   ],
+   "expectedDomains": [
+    "plants",
+    "radiation",
+    "markets"
+   ],
+   "expectedHit": [
+    "markets"
+   ],
+   "expectedWithData": [
+    "markets"
+   ],
+   "expectedSignals": {
+    "markets": [
+     "nuclear.markets.uranium_etf_urnm",
+     "nuclear.markets.cameco_ccj",
+     "nuclear.markets.uranium_trust_sprott",
+     "nuclear.markets.defense_stocks",
+     "nuclear.markets.vix_gold"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "nicht prüfbar",
+   "topSignals": [
+    {
+     "id": "nuclear.markets.defense_stocks",
+     "maxC": 0.3
+    },
+    {
+     "id": "nuclear.attention.wiki_en_znpp",
+     "maxC": 0.2
+    },
+    {
+     "id": "nuclear.attention.wiki_de_znpp",
+     "maxC": 0.2
+    },
+    {
+     "id": "nuclear.attention.wiki_de_kaliumiodid",
+     "maxC": 0.2
+    },
+    {
+     "id": "nuclear.attention.wiki_en_potassium_iodide",
+     "maxC": 0.2
+    }
+   ]
   }
  ],
  "controls": [
@@ -758,18 +1340,220 @@
      "maxC": 0.019
     }
    ]
+  },
+  {
+   "id": "control-iberia-2025-03",
+   "title": "Vergleichszeitraum Spanien/Portugal, vier Wochen vor dem Stromausfall",
+   "kind": "control",
+   "start": "2025-03-31T00:00:00Z",
+   "end": "2025-04-01T23:59:00Z",
+   "steps": 16,
+   "covered": false,
+   "domainsWithDataMedian": 2,
+   "domainsWithDataMax": 2,
+   "signalsWithDataMax": 11,
+   "maxLevel": 0,
+   "maxScore": 0,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "nicht prüfbar",
+   "topSignals": []
+  },
+  {
+   "id": "control-israel-iran-2025-05",
+   "title": "Vergleichszeitraum Nahost, vier Wochen vor dem Israel-Iran-Krieg",
+   "kind": "control",
+   "start": "2025-05-16T00:00:00Z",
+   "end": "2025-05-17T23:59:00Z",
+   "steps": 16,
+   "covered": true,
+   "domainsWithDataMedian": 3,
+   "domainsWithDataMax": 3,
+   "signalsWithDataMax": 15,
+   "maxLevel": 0,
+   "maxScore": 0,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "ruhig",
+   "topSignals": []
+  },
+  {
+   "id": "control-finance-2023-02",
+   "title": "Vergleichszeitraum Finanzmärkte, vier Wochen vor der Bankenkrise",
+   "kind": "control",
+   "start": "2023-02-08T00:00:00Z",
+   "end": "2023-02-09T23:59:00Z",
+   "steps": 16,
+   "covered": true,
+   "domainsWithDataMedian": 4,
+   "domainsWithDataMax": 4,
+   "signalsWithDataMax": 7,
+   "maxLevel": 0,
+   "maxScore": 0,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "ruhig",
+   "topSignals": []
+  },
+  {
+   "id": "control-bio-2019-12",
+   "title": "Vergleichszeitraum Seuchen, vor dem Bekanntwerden des neuen Coronavirus",
+   "kind": "control",
+   "start": "2019-12-10T00:00:00Z",
+   "end": "2019-12-11T23:59:00Z",
+   "steps": 16,
+   "covered": false,
+   "domainsWithDataMedian": 1,
+   "domainsWithDataMax": 1,
+   "signalsWithDataMax": 6,
+   "maxLevel": 0,
+   "maxScore": 0,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "nicht prüfbar",
+   "topSignals": [
+    {
+     "id": "bio.attention.wiki_de_pandemie",
+     "maxC": 0.128
+    }
+   ]
+  },
+  {
+   "id": "control-nuclear-2022-01",
+   "title": "Vergleichszeitraum Kernkraft, vor dem russischen Angriff auf die Ukraine",
+   "kind": "control",
+   "start": "2022-01-19T00:00:00Z",
+   "end": "2022-01-20T23:59:00Z",
+   "steps": 16,
+   "covered": false,
+   "domainsWithDataMedian": 1,
+   "domainsWithDataMax": 1,
+   "signalsWithDataMax": 9,
+   "maxLevel": 0,
+   "maxScore": 0.008,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "nicht prüfbar",
+   "topSignals": [
+    {
+     "id": "nuclear.markets.vix_gold",
+     "maxC": 0.152
+    },
+    {
+     "id": "nuclear.attention.wiki_de_znpp",
+     "maxC": 0.046
+    }
+   ]
   }
  ],
  "outside": {
-  "steps": 1933,
-  "coveredSteps": 1933,
-  "shareL1": 0,
+  "steps": 4014,
+  "coveredSteps": 2600,
+  "shareL1": 0.0065,
   "shareL2": 0,
-  "shareL1Covered": 0,
+  "shareL1Covered": 0.01,
   "shareL2Covered": 0,
-  "episodesL1": 0
+  "episodesL1": 9
  },
  "noise": [
+  {
+   "id": "cyber.routing.bgp_updates_as812",
+   "domain": "routing",
+   "evidenceClass": "A",
+   "daysWithData": 20.1,
+   "excursions": 13,
+   "per30d": 19.4,
+   "hotSteps": 38
+  },
+  {
+   "id": "cyber.routing.bgp_updates_as32934",
+   "domain": "routing",
+   "evidenceClass": "A",
+   "daysWithData": 20.1,
+   "excursions": 5,
+   "per30d": 7.5,
+   "hotSteps": 15
+  },
+  {
+   "id": "bio.attention.wiki_de_pandemie",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 44.1,
+   "excursions": 4,
+   "per30d": 2.7,
+   "hotSteps": 88
+  },
+  {
+   "id": "nuclear.attention.wiki_de_znpp",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 46.3,
+   "excursions": 4,
+   "per30d": 2.6,
+   "hotSteps": 234
+  },
+  {
+   "id": "nuclear.attention.wiki_en_znpp",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 46.3,
+   "excursions": 4,
+   "per30d": 2.6,
+   "hotSteps": 162
+  },
+  {
+   "id": "nuclear.markets.defense_stocks",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 46.3,
+   "excursions": 4,
+   "per30d": 2.6,
+   "hotSteps": 112
+  },
+  {
+   "id": "nuclear.markets.vix_gold",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 46.3,
+   "excursions": 3,
+   "per30d": 1.9,
+   "hotSteps": 153
+  },
   {
    "id": "cyber.markets.cyber_etf_abs_return",
    "domain": "markets",
@@ -778,6 +1562,42 @@
    "excursions": 3,
    "per30d": 1.6,
    "hotSteps": 77
+  },
+  {
+   "id": "war.connectivity.ooni_anomaly_share_il",
+   "domain": "connectivity",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 2,
+   "per30d": 1.5,
+   "hotSteps": 28
+  },
+  {
+   "id": "war.connectivity.ooni_anomaly_share_ir",
+   "domain": "connectivity",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 2,
+   "per30d": 1.5,
+   "hotSteps": 17
+  },
+  {
+   "id": "blackout.outages.ioda_es_ping",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 46.9,
+   "excursions": 2,
+   "per30d": 1.3,
+   "hotSteps": 8
+  },
+  {
+   "id": "blackout.outages.ioda_pt_ping",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 46.9,
+   "excursions": 2,
+   "per30d": 1.3,
+   "hotSteps": 9
   },
   {
    "id": "cyber.outages.ooni_anomaly_share_us",
@@ -798,6 +1618,51 @@
    "hotSteps": 224
   },
   {
+   "id": "war.markets.oil_volatility_ovx",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 1,
+   "per30d": 0.8,
+   "hotSteps": 40
+  },
+  {
+   "id": "bio.attention.wiki_en_coronavirus",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 44.1,
+   "excursions": 1,
+   "per30d": 0.7,
+   "hotSteps": 8
+  },
+  {
+   "id": "bio.attention.wiki_en_pandemic",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 44.1,
+   "excursions": 1,
+   "per30d": 0.7,
+   "hotSteps": 8
+  },
+  {
+   "id": "bio.markets.mrna_close",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 44.1,
+   "excursions": 1,
+   "per30d": 0.7,
+   "hotSteps": 16
+  },
+  {
+   "id": "bio.markets.vix",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 44.1,
+   "excursions": 1,
+   "per30d": 0.7,
+   "hotSteps": 24
+  },
+  {
    "id": "cyber.finance.sofr_tail",
    "domain": "finance",
    "evidenceClass": "A",
@@ -805,6 +1670,60 @@
    "excursions": 4,
    "per30d": 0.6,
    "hotSteps": 124
+  },
+  {
+   "id": "blackout.attention.wiki_de_stromausfall",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 46.9,
+   "excursions": 1,
+   "per30d": 0.6,
+   "hotSteps": 31
+  },
+  {
+   "id": "blackout.attention.wiki_en_power_outage",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 46.9,
+   "excursions": 1,
+   "per30d": 0.6,
+   "hotSteps": 46
+  },
+  {
+   "id": "blackout.attention.wiki_es_apagon",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 46.9,
+   "excursions": 1,
+   "per30d": 0.6,
+   "hotSteps": 17
+  },
+  {
+   "id": "blackout.outages.ooni_anomaly_share_es",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 46.9,
+   "excursions": 1,
+   "per30d": 0.6,
+   "hotSteps": 32
+  },
+  {
+   "id": "nuclear.attention.wiki_de_kaliumiodid",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 46.3,
+   "excursions": 1,
+   "per30d": 0.6,
+   "hotSteps": 48
+  },
+  {
+   "id": "nuclear.attention.wiki_en_potassium_iodide",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 46.3,
+   "excursions": 1,
+   "per30d": 0.6,
+   "hotSteps": 64
   },
   {
    "id": "cyber.markets.cyber_etf_volume",
@@ -843,6 +1762,150 @@
    "hotSteps": 48
   },
   {
+   "id": "bio.markets.gild",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 44.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.grid.load_es",
+   "domain": "grid",
+   "evidenceClass": "A",
+   "daysWithData": 46.9,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.grid.load_pt",
+   "domain": "grid",
+   "evidenceClass": "A",
+   "daysWithData": 46.9,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.outages.ioda_cl_bgp",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 20.8,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.outages.ioda_cl_ping",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 20.8,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.outages.ioda_cu_bgp",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 18.8,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.outages.ioda_cu_ping",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 18.8,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.outages.ioda_es_bgp",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 46.8,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.outages.ioda_pt_bgp",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 46.8,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "blackout.outages.ooni_anomaly_share_pt",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 46.9,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "cyber.attention.wiki_en_facebook",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 20.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 17
+  },
+  {
+   "id": "cyber.attention.wiki_en_rogers",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 20.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 17
+  },
+  {
+   "id": "cyber.outages.ioda_as812_bgp",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 20.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "cyber.outages.ioda_as812_ping",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 20.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "cyber.outages.ioda_ca_bgp",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 20.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "cyber.outages.ioda_ca_ping",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 20.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
    "id": "cyber.outages.tor_advertised_bandwidth",
    "domain": "outages",
    "evidenceClass": "A",
@@ -856,6 +1919,15 @@
    "domain": "routing",
    "evidenceClass": "A",
    "daysWithData": 241.6,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "cyber.routing.visible_prefixes_as32934",
+   "domain": "routing",
+   "evidenceClass": "A",
+   "daysWithData": 20.1,
    "excursions": 0,
    "per30d": 0,
    "hotSteps": 0
@@ -877,6 +1949,204 @@
    "excursions": 0,
    "per30d": 0,
    "hotSteps": 0
+  },
+  {
+   "id": "finance.attention.wiki_en_bank_run",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 44.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "finance.attention.wiki_en_svb",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 44.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "finance.banks.eufn_abs_return",
+   "domain": "banks",
+   "evidenceClass": "A",
+   "daysWithData": 44.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "finance.banks.kre_abs_return",
+   "domain": "banks",
+   "evidenceClass": "A",
+   "daysWithData": 44.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "finance.credit.hyg_close",
+   "domain": "credit",
+   "evidenceClass": "A",
+   "daysWithData": 44.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "finance.markets.gold_close",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 44.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "finance.volatility.vix_close",
+   "domain": "volatility",
+   "evidenceClass": "A",
+   "daysWithData": 44.1,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "nuclear.markets.cameco_ccj",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 46.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "nuclear.markets.uranium_etf_urnm",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 46.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 16
+  },
+  {
+   "id": "nuclear.markets.uranium_trust_sprott",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 46.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 17
+  },
+  {
+   "id": "war.attention.wiki_de_iran",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.attention.wiki_en_iran",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.attention.wiki_en_world_ww3",
+   "domain": "attention",
+   "evidenceClass": "D",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.conflict.israel_oref",
+   "domain": "conflict",
+   "evidenceClass": "B",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.connectivity.ioda_il",
+   "domain": "connectivity",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.connectivity.ioda_ir",
+   "domain": "connectivity",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.connectivity.ioda_ir_ping",
+   "domain": "connectivity",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.markets.brent_futures",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.markets.brent_spot_github",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.markets.gold_price",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.markets.vix",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "war.markets.wti_futures",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 39.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
   }
  ],
  "diagnostics": {
@@ -885,18 +2155,18 @@
   "levelDistributionIfNoDomainIsCalm": [
    {
     "level": 0,
-    "steps": 2748,
-    "share": 1
+    "steps": 5319,
+    "share": 0.9703
    },
    {
     "level": 1,
-    "steps": 0,
-    "share": 0
+    "steps": 151,
+    "share": 0.0275
    },
    {
     "level": 2,
-    "steps": 0,
-    "share": 0
+    "steps": 12,
+    "share": 0.0022
    },
    {
     "level": 3,

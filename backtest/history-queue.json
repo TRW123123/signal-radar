@@ -801,14 +801,14 @@
     "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/VIX-6mo-1d.json",
     "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1667260800&period2=1680220800&interval=1d",
     "maxChars": 3000000,
-    "signal": "finance.volatility.vix",
+    "signal": "finance.volatility.vix_close",
     "event": "svb-bank-crisis-2023-03"
   },
   {
     "fixture": "backtest/svb-bank-crisis-2023-03/yahoo/GC_F-6mo-1d.json",
     "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?period1=1667260800&period2=1680220800&interval=1d",
     "maxChars": 3000000,
-    "signal": "finance.markets.gold",
+    "signal": "finance.markets.gold_close",
     "event": "svb-bank-crisis-2023-03"
   },
   {
@@ -864,7 +864,7 @@
     "fixture": "backtest/covid-europe-2020-02/yahoo/MRNA-6mo-1d.json",
     "url": "https://query1.finance.yahoo.com/v8/finance/chart/MRNA?period1=1569888000&period2=1584748800&interval=1d",
     "maxChars": 3000000,
-    "signal": "bio.markets.mrna",
+    "signal": "bio.markets.mrna_close",
     "event": "covid-europe-2020-02"
   },
   {

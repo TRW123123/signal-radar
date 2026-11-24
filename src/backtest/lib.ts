@@ -216,6 +216,8 @@ export interface BacktestEvent {
   probes?: Probe[];
   /** controls: reuse the probes and fixtures of this event (read at the control's own, earlier anchor) */
   probesFrom?: string;
+  /** English title for the time machine (else TITLE_EN in export-replays.ts, else the German title) */
+  title_en?: string;
   /** additional queue fetches under names the standard adapters already read (Yahoo, OONI) */
   extraFetches?: { fixture: string; url: string }[];
 }
@@ -226,7 +228,7 @@ export interface Probe {
   id: string;
   /** catalog signal whose engine settings (domain, baseline, thresholds, weight, direction, class) are reused */
   template: string;
-  adapter: 'ioda' | 'energy-charts' | 'wikipedia' | 'ooni' | 'oref' | 'csv-daily' | 'ripe-updates' | 'ripe-prefixes';
+  adapter: 'ioda' | 'energy-charts' | 'wikipedia' | 'ooni' | 'oref' | 'csv-daily' | 'ripe-updates' | 'ripe-prefixes' | 'yahoo';
   params?: Record<string, string>;
   name: string;
   /** one sentence for laypeople */

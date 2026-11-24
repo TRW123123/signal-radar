@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { normalizeSignal } from '../src/core/catalog.ts';
 import type { BanalRule, Observation, ScenarioDef, SignalDef } from '../src/core/types.ts';
-import { baselineAt, evaluate, SENSITIVITY } from '../src/engine/anomaly.ts';
+import { BASELINE_RULES, baselineAt, evaluate, SENSITIVITY } from '../src/engine/anomaly.ts';
 import { banalDamp, globMatch } from '../src/engine/banal.ts';
 import { levelOf, scoreScenario } from '../src/engine/score.ts';
 import { mad, median, noisyOr } from '../src/engine/stats.ts';
@@ -54,6 +54,17 @@ test('baseline uses only the past and is robust against an old incident', () => 
   const b = baselineAt(s, data, NOW)!;
   assert.ok(Math.abs(b.center - 100) < 5, `center ${b.center}`);
   assert.ok(b.scale < 10, `scale ${b.scale}`);
+});
+
+test('a baseline needs at least 7 comparison values (calibration 2026-11-24)', () => {
+  assert.equal(BASELINE_RULES.minValues, 7);
+  const s = sig('war.conflict.x', { intervalMinutes: 1440, baseline: { method: 'rolling', windowDays: 28, minPoints: 14 } });
+  const daily = (n: number) => Array.from({ length: n }, (_, i) => ({ signalId: s.id, ts: new Date(NOW - (n - i) * 24 * H).toISOString(), value: 600 + (i % 3) * 20 }));
+  assert.equal(baselineAt(s, daily(6), NOW), null, 'six values are not enough');
+  assert.ok(baselineAt(s, daily(7), NOW), 'seven values are');
+  // a jump after five days of history cannot raise anything yet
+  const young = [...daily(5), { signalId: s.id, ts: new Date(NOW).toISOString(), value: 2000 }];
+  assert.equal(evaluate(s, young, NOW, SENSITIVITY.high).anomaly, 0);
 });
 
 test('quiet series produces no anomaly', () => {

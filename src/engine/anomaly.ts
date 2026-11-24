@@ -19,6 +19,13 @@ export const SENSITIVITY: Record<'normal' | 'high', Sensitivity> = {
   high: { z0: 2.5, z1: 7, flagZ: 2 },
 };
 
+/**
+ * Fewest comparison values a baseline needs before a signal is judged at all. Calibration 2026-11-24
+ * (docs/CALIBRATION.md): with 3 to 6 values 5,3 % of all comparisons crossed the threshold, 2,6 times the target
+ * of 1 in 50, and single short-lived signals (FIRMS) kept a whole domain "unusual". 7 = one week of daily values.
+ */
+export const BASELINE_RULES = { minValues: 7 };
+
 export interface Baseline {
   center: number;
   /** typical spread for upward deviations */
@@ -58,7 +65,7 @@ export function baselineAt(def: SignalDef, series: Observation[], t: number): Ba
     // only trust the seasonal bucket when it has enough points on its own
     if (seasonal.length >= Math.max(4, Math.ceil(spec.minPoints / 4))) values = seasonal;
   }
-  if (values.length < 3) return null;
+  if (values.length < BASELINE_RULES.minValues) return null;
   const center = median(values);
   let scale = mad(values, center);
   const th = def.thresholds ?? {};

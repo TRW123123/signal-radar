@@ -46,6 +46,8 @@ export interface StepRecord {
   triggers?: { id: string; domain: string; c: number; z: number | null }[];
   /** indices into BacktestResult.signals of the signals with fresh data */
   fresh: number[];
+  /** only with TimelineInput.details: per fresh signal [index into signals, value, z, anomaly] (for replays) */
+  v?: [number, number | null, number | null, number][];
 }
 
 export interface SignalSummary {
@@ -104,7 +106,12 @@ export interface TimelineInput {
    * before the day ended; they become visible 24 h later. Avoids look-ahead in lead times.
    */
   availability?: 'as-stamped' | 'end-of-day';
+  /** record value, z and anomaly of every fresh signal per step (StepRecord.v), needed by export-replays.ts */
+  details?: boolean;
 }
+
+/** rounds to 4 significant digits (values of very different magnitude: shares, counts, prices) */
+export const sig4 = (x: number | null): number | null => (x === null || !Number.isFinite(x) ? null : Number(x.toPrecision(4)));
 
 /** Moves daily aggregates (signal interval >= 12 h, stamped exactly 00:00 UTC) to the end of their day. */
 export function shiftToAvailability(def: SignalDef, series: Observation[]): Observation[] {
@@ -154,6 +161,10 @@ export function computeTimeline(input: TimelineInput): BacktestResult {
       d: Object.fromEntries(v.domains.filter((d) => d.score > 0).map((d) => [d.id, d.score])),
       hot, fresh,
     };
+    if (input.details) {
+      rec.v = all.filter((s) => s.fresh && idx.has(s.id)).map((s) => [idx.get(s.id)!, sig4(s.value), s.z === null ? null : r3(s.z), r3(s.anomaly)] as [number, number | null, number | null, number])
+        .sort((a, b) => a[0] - b[0]);
+    }
     if (v.level >= 1) {
       rec.triggers = v.domains.flatMap((d) => d.signals.filter((s) => s.contribution > 0).map((s) => ({ id: s.id, domain: d.id, c: s.contribution, z: s.z })))
         .sort((a, b) => b.c - a.c);

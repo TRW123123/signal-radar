@@ -12,10 +12,14 @@
 //   --history <event-id>  run only the history-capable collectors at the event's anchor time against
 //                         fixtures/backtest/<event-id>/ (filled from backtest/history-queue.json), plus the
 //                         datasets whose current file carries their full history (CISA KEV, CISA ICS)
-// Defaults: --to = capture time (replay) or event end + 1 day (history) or latest observation (--data);
+// Defaults: --to = capture time (replay) or max(event end + 1 day, start + 5 days), capped at the anchor (history)
+//           or latest observation (--data);
 //           --from = to - 30 days (replay/data) or event start - 21 days (history).
 // --as-stamped: use stored timestamps as they are (like the dashboard history). Default: daily values stamped
 //   00:00 UTC become visible only at the end of their day (no look-ahead into a day that has not ended yet).
+// --details: store value, z and anomaly per fresh signal and step (always on with --history; needed by export-replays.ts)
+// History runs read OONI, Yahoo and RIPEstat through history-adapters.ts (old fixture names, full window) and drop
+// values of datasets from before they existed (CISA KEV before 2021-11-03).
 // Env: SR_SENSITIVITY=normal|high (default high, as cli.ts)
 
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -28,6 +32,7 @@ import { activate, discoverCollectors } from '../core/registry.ts';
 import { fileStore } from '../core/store.ts';
 import type { HttpClient, HttpInit, Observation } from '../core/types.ts';
 import { runCollectors } from '../pipeline/collect.ts';
+import { ADAPTED_COLLECTORS, historyObservations, SOURCE_SINCE } from './history-adapters.ts';
 import { type BacktestEvent, computeTimeline, DAY, FULL_HISTORY_COLLECTORS, historyAnchor } from './lib.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -94,14 +99,19 @@ if (opt('data')) {
   const http = layeredReplay([evDir]);
   const httpFull = layeredReplay([evDir, fixturesDir]);
   const store = fileStore(dataDir);
+  // OONI, Yahoo and RIPEstat are read by history-adapters.ts (old fixture names, full window instead of the live cut)
+  const adapted = historyObservations(evDir, anchor);
+  await store.append(adapted.observations);
+  for (const r of adapted.reports) console.error(`${(r.id + ' (Adapter)').padEnd(28)} ${r.files.length ? `ok, ${r.observations} Werte aus ${r.files.length} Datei(en)` : 'keine Datei'}${r.notes.length ? `; ${r.notes.join('; ')}` : ''}`);
   const reports = [
-    ...await runCollectors(collectors.filter((c) => !FULL_HISTORY_COLLECTORS.includes(c.id)), store, { now: anchor, http, env: process.env, only, log: () => {} }),
+    ...await runCollectors(collectors.filter((c) => !FULL_HISTORY_COLLECTORS.includes(c.id) && !ADAPTED_COLLECTORS.includes(c.id)), store, { now: anchor, http, env: process.env, only, log: () => {} }),
     ...await runCollectors(collectors.filter((c) => FULL_HISTORY_COLLECTORS.includes(c.id)), store, { now: anchor, http: httpFull, env: process.env, only, log: () => {} }),
   ];
   for (const r of reports) console.error(`${r.id.padEnd(28)} ${r.ok ? `ok, ${r.observations} Werte` : `FEHLER ${r.error}`}`);
   if (!existsSync(evDir)) console.error(`Hinweis: ${relative(root, evDir)} fehlt noch; nur Datensätze mit voller Historie im Fixture verfügbar.`);
   source = `history:${historyId} (anchor ${anchor.toISOString()})`;
-  defaultTo = Math.min(Date.parse(ev.end) + DAY, anchor.getTime());
+  // at least 5 days after the start (replay window of export-replays.ts), never past the anchor (no data after it)
+  defaultTo = Math.min(Math.max(Date.parse(ev.end) + DAY, Date.parse(ev.start) + 5 * DAY), anchor.getTime());
   defaultFrom = Date.parse(ev.start) - 21 * DAY;
 } else {
   if (!capturedAt) throw new Error('fixtures/META.json fehlt; ohne Aufzeichnungszeitpunkt kein Replay');
@@ -130,7 +140,9 @@ const raw = new Map<string, Observation[]>();
 let latest = 0;
 for (const s of catalog.signals) {
   if (s.status !== 'active') continue;
-  const obs = await store.read(s.id);
+  let obs = await store.read(s.id);
+  const since = historyId ? SOURCE_SINCE[s.collector] : undefined;
+  if (since) obs = obs.filter((o) => o.ts >= since);
   raw.set(s.id, obs);
   for (const o of obs) latest = Math.max(latest, Date.parse(o.ts));
 }
@@ -145,6 +157,8 @@ const alignedFrom = to - Math.floor((to - from) / step) * step;
 const result = computeTimeline({
   scenario, signals: catalog.signals, raw, rules: catalog.rules, from: alignedFrom, to, stepHours, sensitivity, source,
   availability: args.includes('--as-stamped') ? 'as-stamped' : 'end-of-day',
+  // per-signal values for the frontend replays (export-replays.ts); small for history runs, opt-in otherwise
+  details: Boolean(historyId) || args.includes('--details'),
 });
 
 const name = historyId ? `history-${historyId}` : `${scenarioId}-${new Date(alignedFrom).toISOString().slice(0, 10)}_${new Date(to).toISOString().slice(0, 10)}`;

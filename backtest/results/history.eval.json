@@ -1,0 +1,913 @@
+{
+ "schema": "backtest-eval/1",
+ "generatedAt": "2026-11-24T01:23:16.299Z",
+ "results": [
+  {
+   "file": "backtest/results/history-change-healthcare-2024-02.json",
+   "source": "history:change-healthcare-2024-02 (anchor 2024-03-11T00:00:00.000Z)",
+   "from": "2024-01-31T02:59:00.000Z",
+   "to": "2024-03-08T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 304,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-colonial-pipeline-2021-05.json",
+   "source": "history:colonial-pipeline-2021-05 (anchor 2021-05-19T00:00:00.000Z)",
+   "from": "2021-04-16T02:59:00.000Z",
+   "to": "2021-05-16T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 248,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-control-2019-08.json",
+   "source": "history:control-2019-08 (anchor 2019-08-22T00:00:00.000Z)",
+   "from": "2019-07-15T02:59:00.000Z",
+   "to": "2019-08-19T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 288,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-control-2023-08.json",
+   "source": "history:control-2023-08 (anchor 2023-08-31T00:00:00.000Z)",
+   "from": "2023-07-24T02:59:00.000Z",
+   "to": "2023-08-28T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 288,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-crowdstrike-2024-07.json",
+   "source": "history:crowdstrike-2024-07 (anchor 2024-07-25T00:00:00.000Z)",
+   "from": "2024-06-28T04:00:00.000Z",
+   "to": "2024-07-24T04:00:00.000Z",
+   "stepHours": 3,
+   "steps": 209,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-dyn-ddos-2016-10.json",
+   "source": "history:dyn-ddos-2016-10 (anchor 2016-10-25T00:00:00.000Z)",
+   "from": "2016-09-30T12:00:00.000Z",
+   "to": "2016-10-25T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 197,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-facebook-bgp-2021-10.json",
+   "source": "history:facebook-bgp-2021-10 (anchor 2021-10-08T00:00:00.000Z)",
+   "from": "2021-09-13T18:00:00.000Z",
+   "to": "2021-10-08T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 195,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-log4shell-2021-12.json",
+   "source": "history:log4shell-2021-12 (anchor 2021-12-24T00:00:00.000Z)",
+   "from": "2021-11-19T02:59:00.000Z",
+   "to": "2021-12-21T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 264,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-moveit-2023-05.json",
+   "source": "history:moveit-2023-05 (anchor 2023-06-20T00:00:00.000Z)",
+   "from": "2023-05-10T02:59:00.000Z",
+   "to": "2023-06-17T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 312,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-notpetya-2017-06.json",
+   "source": "history:notpetya-2017-06 (anchor 2017-07-08T00:00:00.000Z)",
+   "from": "2017-06-06T11:59:00.000Z",
+   "to": "2017-07-05T23:59:00.000Z",
+   "stepHours": 3,
+   "steps": 237,
+   "availability": "end-of-day"
+  },
+  {
+   "file": "backtest/results/history-rogers-2022-07.json",
+   "source": "history:rogers-2022-07 (anchor 2022-07-13T00:00:00.000Z)",
+   "from": "2022-06-17T09:00:00.000Z",
+   "to": "2022-07-13T00:00:00.000Z",
+   "stepHours": 3,
+   "steps": 206,
+   "availability": "end-of-day"
+  }
+ ],
+ "options": {
+  "preHours": 72,
+  "postHours": 24,
+  "minDomains": 3
+ },
+ "coverage": {
+  "signalsInScenario": 306,
+  "signalsActive": 86,
+  "signalsWithDataEver": 12,
+  "domainsInScenario": 9,
+  "domainsWithDataEver": 6,
+  "stepsTotal": 2748,
+  "stepsWithMinDomains": 2748,
+  "perDomain": [
+   {
+    "id": "routing",
+    "title": "Internet-Routen",
+    "stepsWithData": 2748,
+    "share": 1
+   },
+   {
+    "id": "outages",
+    "title": "Gemessene Ausfälle",
+    "stepsWithData": 2748,
+    "share": 1
+   },
+   {
+    "id": "dns_core",
+    "title": "Kern-Dienste",
+    "stepsWithData": 0,
+    "share": 0
+   },
+   {
+    "id": "threat",
+    "title": "Angriffs-Telemetrie",
+    "stepsWithData": 0,
+    "share": 0
+   },
+   {
+    "id": "vuln",
+    "title": "Schwachstellen",
+    "stepsWithData": 1583,
+    "share": 0.5761
+   },
+   {
+    "id": "finance",
+    "title": "Zahlungsverkehr",
+    "stepsWithData": 2314,
+    "share": 0.8421
+   },
+   {
+    "id": "services",
+    "title": "Dienste und Firmenmeldungen",
+    "stepsWithData": 513,
+    "share": 0.1867
+   },
+   {
+    "id": "markets",
+    "title": "Märkte und Insider",
+    "stepsWithData": 2436,
+    "share": 0.8865
+   },
+   {
+    "id": "physical",
+    "title": "Strom, Verkehr, Funk",
+    "stepsWithData": 0,
+    "share": 0
+   }
+  ]
+ },
+ "levelDistribution": [
+  {
+   "level": 0,
+   "steps": 2748,
+   "share": 1
+  },
+  {
+   "level": 1,
+   "steps": 0,
+   "share": 0
+  },
+  {
+   "level": 2,
+   "steps": 0,
+   "share": 0
+  },
+  {
+   "level": 3,
+   "steps": 0,
+   "share": 0
+  },
+  {
+   "level": 4,
+   "steps": 0,
+   "share": 0
+  }
+ ],
+ "events": [
+  {
+   "id": "crowdstrike-2024-07",
+   "title": "CrowdStrike-Falcon-Update legt weltweit Windows-Rechner lahm",
+   "kind": "event",
+   "start": "2024-07-19T04:00:00Z",
+   "end": "2024-07-21T23:59:00Z",
+   "steps": 55,
+   "covered": true,
+   "domainsWithDataMedian": 6,
+   "domainsWithDataMax": 6,
+   "signalsWithDataMax": 10,
+   "maxLevel": 0,
+   "maxScore": 0.012,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "services",
+    "physical",
+    "finance",
+    "markets"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "services",
+    "finance",
+    "markets"
+   ],
+   "expectedSignals": {
+    "finance": [
+     "cyber.finance.sofr_tail",
+     "cyber.finance.sofr_volume"
+    ],
+    "services": [
+     "cyber.services.sec_8k_item105_daily_count"
+    ],
+    "markets": [
+     "cyber.markets.cyber_etf_volume",
+     "cyber.markets.cyber_etf_abs_return",
+     "cyber.markets.vix"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": [
+    {
+     "id": "cyber.markets.vix",
+     "maxC": 0.176
+    },
+    {
+     "id": "cyber.outages.ooni_anomaly_share_us",
+     "maxC": 0.002
+    }
+   ]
+  },
+  {
+   "id": "facebook-bgp-2021-10",
+   "title": "Facebook/Meta verschwindet aus dem Internet (BGP-Rücknahme, DNS unerreichbar)",
+   "kind": "event",
+   "start": "2021-10-04T15:30:00Z",
+   "end": "2021-10-04T22:00:00Z",
+   "steps": 34,
+   "covered": true,
+   "domainsWithDataMedian": 4,
+   "domainsWithDataMax": 4,
+   "signalsWithDataMax": 9,
+   "maxLevel": 0,
+   "maxScore": 0.019,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "routing",
+    "dns_core",
+    "outages",
+    "services"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "routing",
+    "outages"
+   ],
+   "expectedSignals": {
+    "routing": [
+     "cyber.routing.country_prefix_visibility_de"
+    ],
+    "outages": [
+     "cyber.outages.ooni_anomaly_share_de",
+     "cyber.outages.ooni_anomaly_share_us",
+     "cyber.outages.tor_advertised_bandwidth"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": [
+    {
+     "id": "cyber.outages.ooni_anomaly_share_de",
+     "maxC": 0.176
+    },
+    {
+     "id": "cyber.markets.cyber_etf_abs_return",
+     "maxC": 0.03
+    }
+   ]
+  },
+  {
+   "id": "change-healthcare-2024-02",
+   "title": "Ransomware-Angriff auf Change Healthcare (UnitedHealth)",
+   "kind": "event",
+   "start": "2024-02-21T00:00:00Z",
+   "end": "2024-03-07T23:59:00Z",
+   "steps": 160,
+   "covered": true,
+   "domainsWithDataMedian": 6,
+   "domainsWithDataMax": 6,
+   "signalsWithDataMax": 10,
+   "maxLevel": 0,
+   "maxScore": 0.009,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "services",
+    "threat"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "services"
+   ],
+   "expectedSignals": {
+    "services": [
+     "cyber.services.sec_8k_item105_daily_count"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": [
+    {
+     "id": "cyber.markets.cyber_etf_abs_return",
+     "maxC": 0.136
+    },
+    {
+     "id": "cyber.markets.cyber_etf_volume",
+     "maxC": 0.031
+    }
+   ]
+  },
+  {
+   "id": "log4shell-2021-12",
+   "title": "Log4Shell (CVE-2021-44228) wird öffentlich und massenhaft ausgenutzt",
+   "kind": "event",
+   "start": "2021-12-10T00:00:00Z",
+   "end": "2021-12-20T23:59:00Z",
+   "steps": 120,
+   "covered": true,
+   "domainsWithDataMedian": 5,
+   "domainsWithDataMax": 5,
+   "signalsWithDataMax": 7,
+   "maxLevel": 0,
+   "maxScore": 0,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "vuln",
+    "threat"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "vuln"
+   ],
+   "expectedSignals": {
+    "vuln": [
+     "cyber.vuln.kev_additions_rate",
+     "cyber.vuln.kev_ransomware_flag"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": []
+  },
+  {
+   "id": "moveit-2023-05",
+   "title": "MOVEit-Transfer-Lücke (CVE-2023-34362), Massenausnutzung durch Cl0p",
+   "kind": "event",
+   "start": "2023-05-31T00:00:00Z",
+   "end": "2023-06-16T23:59:00Z",
+   "steps": 168,
+   "covered": true,
+   "domainsWithDataMedian": 4,
+   "domainsWithDataMax": 4,
+   "signalsWithDataMax": 6,
+   "maxLevel": 0,
+   "maxScore": 0.006,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "vuln",
+    "threat",
+    "services"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "vuln"
+   ],
+   "expectedSignals": {
+    "vuln": [
+     "cyber.vuln.kev_additions_rate",
+     "cyber.vuln.kev_ransomware_flag"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": [
+    {
+     "id": "cyber.finance.sofr_tail",
+     "maxC": 0.059
+    }
+   ]
+  },
+  {
+   "id": "colonial-pipeline-2021-05",
+   "title": "Ransomware-Angriff auf Colonial Pipeline, Abschaltung der Pipeline",
+   "kind": "event",
+   "start": "2021-05-07T00:00:00Z",
+   "end": "2021-05-15T23:59:00Z",
+   "steps": 104,
+   "covered": true,
+   "domainsWithDataMedian": 4,
+   "domainsWithDataMax": 4,
+   "signalsWithDataMax": 5,
+   "maxLevel": 0,
+   "maxScore": 0.01,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "physical",
+    "services",
+    "threat"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": [
+    {
+     "id": "cyber.markets.vix",
+     "maxC": 0.156
+    }
+   ]
+  },
+  {
+   "id": "rogers-2022-07",
+   "title": "Landesweiter Ausfall des Rogers-Netzes in Kanada (inkl. Interac)",
+   "kind": "event",
+   "start": "2022-07-08T08:00:00Z",
+   "end": "2022-07-09T23:59:00Z",
+   "steps": 45,
+   "covered": true,
+   "domainsWithDataMedian": 5,
+   "domainsWithDataMax": 5,
+   "signalsWithDataMax": 9,
+   "maxLevel": 0,
+   "maxScore": 0,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "routing",
+    "outages",
+    "finance",
+    "services"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "routing",
+    "outages",
+    "finance"
+   ],
+   "expectedSignals": {
+    "routing": [
+     "cyber.routing.country_prefix_visibility_de"
+    ],
+    "finance": [
+     "cyber.finance.sofr_tail",
+     "cyber.finance.sofr_volume"
+    ],
+    "outages": [
+     "cyber.outages.ooni_anomaly_share_de",
+     "cyber.outages.ooni_anomaly_share_us",
+     "cyber.outages.tor_advertised_bandwidth"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": []
+  },
+  {
+   "id": "dyn-ddos-2016-10",
+   "title": "DDoS-Angriff (Mirai) auf den DNS-Anbieter Dyn",
+   "kind": "event",
+   "start": "2016-10-21T11:00:00Z",
+   "end": "2016-10-21T23:59:00Z",
+   "steps": 36,
+   "covered": true,
+   "domainsWithDataMedian": 3,
+   "domainsWithDataMax": 3,
+   "signalsWithDataMax": 5,
+   "maxLevel": 0,
+   "maxScore": 0.006,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "dns_core",
+    "outages",
+    "services",
+    "threat"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "outages"
+   ],
+   "expectedSignals": {
+    "outages": [
+     "cyber.outages.ooni_anomaly_share_de",
+     "cyber.outages.ooni_anomaly_share_us",
+     "cyber.outages.tor_advertised_bandwidth"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": [
+    {
+     "id": "cyber.outages.ooni_anomaly_share_de",
+     "maxC": 0.054
+    }
+   ]
+  },
+  {
+   "id": "notpetya-2017-06",
+   "title": "NotPetya-Wiper verbreitet sich weltweit (Maersk, Merck u. a.)",
+   "kind": "event",
+   "start": "2017-06-27T09:00:00Z",
+   "end": "2017-07-04T23:59:00Z",
+   "steps": 93,
+   "covered": true,
+   "domainsWithDataMedian": 3,
+   "domainsWithDataMax": 3,
+   "signalsWithDataMax": 3,
+   "maxLevel": 0,
+   "maxScore": 0,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "threat",
+    "services",
+    "physical",
+    "markets"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [
+    "markets"
+   ],
+   "expectedSignals": {
+    "markets": [
+     "cyber.markets.vix"
+    ]
+   },
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "verpasst",
+   "topSignals": []
+  },
+  {
+   "id": "ms365-outage-2026-11",
+   "title": "Microsoft-365-Ausfall (Outlook, Teams) laut Sekundärquelle",
+   "kind": "event",
+   "start": "2026-11-12T00:00:00Z",
+   "end": "2026-11-14T23:59:00Z",
+   "steps": 0,
+   "covered": false,
+   "domainsWithDataMedian": 0,
+   "domainsWithDataMax": 0,
+   "signalsWithDataMax": 0,
+   "maxLevel": null,
+   "maxScore": null,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "services"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": null,
+   "shareL2": null,
+   "outcome": "nicht prüfbar",
+   "topSignals": []
+  },
+  {
+   "id": "faa-ground-stop-2026-11-13",
+   "title": "Landesweiter FAA-Ground-Stop in den USA laut Sekundärquelle",
+   "kind": "event",
+   "start": "2026-11-13T00:00:00Z",
+   "end": "2026-11-13T23:59:00Z",
+   "steps": 0,
+   "covered": false,
+   "domainsWithDataMedian": 0,
+   "domainsWithDataMax": 0,
+   "signalsWithDataMax": 0,
+   "maxLevel": null,
+   "maxScore": null,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "physical"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": null,
+   "shareL2": null,
+   "outcome": "nicht prüfbar",
+   "topSignals": []
+  },
+  {
+   "id": "us-banks-2026-11-16",
+   "title": "Störungen beim Online-Banking großer US-Banken laut Sekundärquelle",
+   "kind": "event",
+   "start": "2026-11-16T00:00:00Z",
+   "end": "2026-11-16T23:59:00Z",
+   "steps": 0,
+   "covered": false,
+   "domainsWithDataMedian": 0,
+   "domainsWithDataMax": 0,
+   "signalsWithDataMax": 0,
+   "maxLevel": null,
+   "maxScore": null,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [
+    "finance",
+    "services"
+   ],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": null,
+   "shareL2": null,
+   "outcome": "nicht prüfbar",
+   "topSignals": []
+  }
+ ],
+ "controls": [
+  {
+   "id": "control-2026-10-19",
+   "title": "Vergleichszeitraum ohne kuratiertes Großereignis (Okt./Nov. 2026)",
+   "kind": "control",
+   "start": "2026-10-19T00:00:00Z",
+   "end": "2026-11-04T23:59:00Z",
+   "steps": 0,
+   "covered": false,
+   "domainsWithDataMedian": 0,
+   "domainsWithDataMax": 0,
+   "signalsWithDataMax": 0,
+   "maxLevel": null,
+   "maxScore": null,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": null,
+   "shareL2": null,
+   "outcome": "nicht prüfbar",
+   "topSignals": []
+  },
+  {
+   "id": "control-2019-08",
+   "title": "Historischer Vergleichszeitraum August 2019",
+   "kind": "control",
+   "start": "2019-08-05T00:00:00Z",
+   "end": "2019-08-18T23:59:00Z",
+   "steps": 112,
+   "covered": true,
+   "domainsWithDataMedian": 4,
+   "domainsWithDataMax": 4,
+   "signalsWithDataMax": 5,
+   "maxLevel": 0,
+   "maxScore": 0.015,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "ruhig",
+   "topSignals": [
+    {
+     "id": "cyber.markets.vix",
+     "maxC": 0.233
+    },
+    {
+     "id": "cyber.finance.sofr_tail",
+     "maxC": 0.024
+    }
+   ]
+  },
+  {
+   "id": "control-2023-08",
+   "title": "Historischer Vergleichszeitraum August 2023",
+   "kind": "control",
+   "start": "2023-08-14T00:00:00Z",
+   "end": "2023-08-27T23:59:00Z",
+   "steps": 112,
+   "covered": true,
+   "domainsWithDataMedian": 5,
+   "domainsWithDataMax": 5,
+   "signalsWithDataMax": 7,
+   "maxLevel": 0,
+   "maxScore": 0.002,
+   "leadL1Hours": null,
+   "leadL2Hours": null,
+   "firedDomains": [],
+   "expectedDomains": [],
+   "expectedHit": [],
+   "expectedWithData": [],
+   "expectedSignals": {},
+   "shareL1": 0,
+   "shareL2": 0,
+   "outcome": "ruhig",
+   "topSignals": [
+    {
+     "id": "cyber.outages.ooni_anomaly_share_us",
+     "maxC": 0.019
+    }
+   ]
+  }
+ ],
+ "outside": {
+  "steps": 1933,
+  "coveredSteps": 1933,
+  "shareL1": 0,
+  "shareL2": 0,
+  "shareL1Covered": 0,
+  "shareL2Covered": 0,
+  "episodesL1": 0
+ },
+ "noise": [
+  {
+   "id": "cyber.markets.cyber_etf_abs_return",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 57.4,
+   "excursions": 3,
+   "per30d": 1.6,
+   "hotSteps": 77
+  },
+  {
+   "id": "cyber.outages.ooni_anomaly_share_us",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 241.6,
+   "excursions": 8,
+   "per30d": 1,
+   "hotSteps": 193
+  },
+  {
+   "id": "cyber.markets.vix",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 223.6,
+   "excursions": 6,
+   "per30d": 0.8,
+   "hotSteps": 224
+  },
+  {
+   "id": "cyber.finance.sofr_tail",
+   "domain": "finance",
+   "evidenceClass": "A",
+   "daysWithData": 203.5,
+   "excursions": 4,
+   "per30d": 0.6,
+   "hotSteps": 124
+  },
+  {
+   "id": "cyber.markets.cyber_etf_volume",
+   "domain": "markets",
+   "evidenceClass": "A",
+   "daysWithData": 57.4,
+   "excursions": 1,
+   "per30d": 0.5,
+   "hotSteps": 32
+  },
+  {
+   "id": "cyber.outages.ooni_anomaly_share_de",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 57.5,
+   "excursions": 1,
+   "per30d": 0.5,
+   "hotSteps": 4
+  },
+  {
+   "id": "cyber.vuln.kev_ransomware_flag",
+   "domain": "vuln",
+   "evidenceClass": "B",
+   "daysWithData": 129.4,
+   "excursions": 1,
+   "per30d": 0.2,
+   "hotSteps": 32
+  },
+  {
+   "id": "cyber.finance.sofr_volume",
+   "domain": "finance",
+   "evidenceClass": "A",
+   "daysWithData": 203.5,
+   "excursions": 1,
+   "per30d": 0.1,
+   "hotSteps": 48
+  },
+  {
+   "id": "cyber.outages.tor_advertised_bandwidth",
+   "domain": "outages",
+   "evidenceClass": "A",
+   "daysWithData": 60.4,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "cyber.routing.country_prefix_visibility_de",
+   "domain": "routing",
+   "evidenceClass": "A",
+   "daysWithData": 241.6,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "cyber.services.sec_8k_item105_daily_count",
+   "domain": "services",
+   "evidenceClass": "B",
+   "daysWithData": 37.3,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  },
+  {
+   "id": "cyber.vuln.kev_additions_rate",
+   "domain": "vuln",
+   "evidenceClass": "B",
+   "daysWithData": 129.4,
+   "excursions": 0,
+   "per30d": 0,
+   "hotSteps": 0
+  }
+ ],
+ "diagnostics": {
+  "stepsL1WithoutActiveDomain": 0,
+  "stepsL2WithoutActiveDomain": 0,
+  "levelDistributionIfNoDomainIsCalm": [
+   {
+    "level": 0,
+    "steps": 2748,
+    "share": 1
+   },
+   {
+    "level": 1,
+    "steps": 0,
+    "share": 0
+   },
+   {
+    "level": 2,
+    "steps": 0,
+    "share": 0
+   },
+   {
+    "level": 3,
+    "steps": 0,
+    "share": 0
+   },
+   {
+    "level": 4,
+    "steps": 0,
+    "share": 0
+   }
+  ]
+ }
+}

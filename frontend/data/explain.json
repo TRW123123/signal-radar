@@ -1,0 +1,75 @@
+{
+ "generatedAt": "2026-11-24T01:23:41.274Z",
+ "source": "src/backtest/calibrate.ts, Details in docs/CALIBRATION.md",
+ "basis": {
+  "days": 30,
+  "signals": 184,
+  "points": 8824,
+  "from": "2026-10-24T21:29:27.164Z",
+  "to": "2026-11-23T21:29:27.164Z"
+ },
+ "signalRule": {
+  "text_de": "Eine Messung gilt als ungewöhnlich, wenn sie weiter von ihrem Normalwert entfernt ist, als diese Messreihe es sonst fast immer tut. Der Normalwert kommt nur aus der eigenen Vergangenheit der Messung. Bei Messreihen mit genug Vergangenheit war das im Mittel 1,8 % der Zeit der Fall, also etwa an 1 von 55 Zeitpunkten. Neue Messreihen mit kurzer Vergangenheit schlagen öfter aus (4,8 %); sie zählen deshalb erst, wenn es mindestens sieben frühere Werte zum Vergleich gibt, und danach zunächst nur halb.",
+  "text_en": "A measurement counts as unusual when it is further from its normal value than this series almost always is. The normal value comes only from the measurement's own past. For series with enough past this was the case 1.8 % of the time on average, about 1 in 55 points in time. New series with a short past deviate more often (4.8 %); they only count once there are at least seven earlier values to compare with, and then only half until they have settled.",
+  "measuredShare": 0.0183,
+  "measuredShareNewSeries": 0.0482,
+  "target": 0.02
+ },
+ "domainRule": {
+  "text_de": "Ein Bereich (zum Beispiel Zahlungsverkehr oder Stromnetz) gilt als ungewöhnlich, wenn mindestens eine seiner Quellen deutlich ausschlägt. Mehrere Kennzahlen derselben Quelle zählen nur einmal. In den letzten 30 Tagen war ein Bereich im Mittel 0,2 % der Zeit ungewöhnlich, also etwa an 1 von 588 Stunden.",
+  "text_en": "An area (for example payments or the power grid) counts as unusual when at least one of its sources deviates clearly. Several figures from the same source count only once. Over the last 30 days an area was unusual 0.2 % of the time on average, about 1 in 588 hours.",
+  "measuredShare": 0.0017,
+  "target": 0.05
+ },
+ "convergenceRule": {
+  "text_de": "Ein einzelner ungewöhnlicher Bereich hebt ein Thema höchstens auf „Leicht erhöht\". Für jede höhere Stufe müssen mehr voneinander unabhängige Bereiche gleichzeitig abweichen.",
+  "text_en": "A single unusual area raises a topic to \"slightly raised\" at most. Every higher level needs more independent areas deviating at the same time."
+ },
+ "levelRules": [
+  {
+   "level": 1,
+   "label_de": "Leicht erhöht",
+   "text_de": "Leicht erhöht: Mindestens ein Bereich weicht deutlich ab, zum Beispiel der Zahlungsverkehr. Das kommt immer wieder vor und ist meist harmlos. In den letzten 30 Tagen war ein Thema im Mittel 0,3 % der Zeit auf dieser Stufe oder höher.",
+   "text_en": "Slightly raised: at least one area deviates clearly, for example payments. This happens from time to time and is usually harmless. Over the last 30 days a topic was at this level or higher 0.3 % of the time on average.",
+   "measuredShareOfTime": 0.0028
+  },
+  {
+   "level": 2,
+   "label_de": "Erhöht",
+   "text_de": "Erhöht: Mindestens zwei voneinander unabhängige Bereiche weichen gleichzeitig ab. Erst ab hier lohnt genaueres Hinsehen. In den letzten 30 Tagen kam diese Stufe bei keinem Thema vor.",
+   "text_en": "Raised: at least two independent areas deviate at the same time. From here on it is worth a closer look. Over the last 30 days no topic reached this level.",
+   "measuredShareOfTime": 0
+  },
+  {
+   "level": 3,
+   "label_de": "Hoch",
+   "text_de": "Hoch: Mindestens drei unabhängige Bereiche weichen gleichzeitig und stark ab. In den letzten 30 Tagen kam diese Stufe bei keinem Thema vor.",
+   "text_en": "High: at least three independent areas deviate strongly at the same time. Over the last 30 days no topic reached this level.",
+   "measuredShareOfTime": 0
+  },
+  {
+   "level": 4,
+   "label_de": "Akut",
+   "text_de": "Akut: Vier oder mehr unabhängige Bereiche weichen gleichzeitig sehr stark ab. In den letzten 30 Tagen kam diese Stufe bei keinem Thema vor.",
+   "text_en": "Acute: four or more independent areas deviate very strongly at the same time. Over the last 30 days no topic reached this level.",
+   "measuredShareOfTime": 0
+  }
+ ],
+ "examples": [
+  {
+   "scenario": "cyber",
+   "title": "Cyberangriff",
+   "date": "2026-11-23T19:29:27.164Z",
+   "level": 1,
+   "label_de": "Leicht erhöht",
+   "what_de": "Am 23.11.2026 stand „Cyberangriff\" auf „Leicht erhöht\". Ungewöhnlich war: Angriffs-Telemetrie. Beteiligt waren vor allem: ThreatFox neue Indikatoren pro Stunde; Zahlungsdienste mit Störung; Microsoft-Monatsbulletin außerhalb des Patch-Dienstags.",
+   "signals": [
+    "cyber.threat.threatfox_ioc_volume",
+    "cyber.finance.statuspage_payment_disruption",
+    "cyber.vuln.msrc_out_of_band",
+    "cyber.markets.cyber_etf_volume",
+    "cyber.markets.vix"
+   ]
+  }
+ ]
+}

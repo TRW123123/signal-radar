@@ -9,6 +9,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { historySection } from './report-history.ts';
 import { type BacktestEvent, type BacktestResult, DEFAULT_EVAL, type EventEval, type Evaluation, evaluateResults, MIN_DOMAINS } from './lib.ts';
 
 const LABEL = ['Ruhig', 'Leicht erhöht', 'Erhöht', 'Hoch', 'Akut'];
@@ -199,6 +200,9 @@ function report(e: Evaluation, rs: BacktestResult[], evs: BacktestEvent[]): stri
   L.push('');
   L.push(`${e.noise.length - loud.length} Signale mit Daten schlugen außerhalb von Ereignissen nie aus.`);
   L.push('');
+
+  // --- history runs: per event detail
+  L.push(...historySection(rs.map((r, i) => ({ file: e.results[i]?.file ?? '', result: r })), evs));
 
   // --- conclusion
   L.push('## Fazit');

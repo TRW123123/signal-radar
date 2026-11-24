@@ -3,6 +3,26 @@
 Fortschrittsprotokoll für nahtloses Weiterarbeiten. Neuester Stand oben. Ein neuer Lauf liest diese Datei,
 `docs/OPEN-QUESTIONS.md` und `git log` und macht beim ersten offenen Punkt weiter.
 
+## Stand (24.11.2026, Verbesserungsschleife nach docs/PLAN-V2.md)
+
+**Live:** https://signal-radar.safak-t.workers.dev/ (Cloudflare, Deploy bei jedem Push auf `master`, der `frontend/**` berührt).
+Arbeitsweise: Runden aus Messen, drei Lücken wählen, bauen, unabhängig prüfen, ausliefern. Jede Runde endet gepusht.
+
+| Runde | Inhalt | Stand |
+|---|---|---|
+| 1 | Globus-Frontend (V2), Orte je Messung (`catalog/geo.json`), `rarity` je Messung, RKI-Collectors, Kalibrierung der Schwellen aus Live-Daten (`docs/CALIBRATION.md`, `frontend/data/explain.json`), englische Datentexte, Gerüchte-Register | ausgeliefert |
+| 2 | Unabhängige Kritik mit 5-Sekunden-Test (`frontend/design/KRITIK-RUNDE-2.md`: 2 von 5 verstehen den Zweck, Globus Note 2); Frontend danach: Ja/Nein-Antwort oben, Gerüchte-Zeile, belebter Globus, „Warum ungewöhnlich", Zeitmaschine, DE/EN, Teilen. Ungewertete Kartenschichten (`MapLayer`, Collectors `layer-usgs-quakes`, `layer-eonet`, `layer-gdacs`). Zeitmaschine mit passenden Ereignissen (Stromausfall Iberien 2025, Israel–Iran 2025, Rogers 2022, Facebook 2021). `collect` startet zusätzlich nach Pushes auf `src/**`/`catalog/**`, Push mit Wiederholung | ausgeliefert |
+| 3 | Globus als dunkle Bühne, Schichten schaltbar, Handy-Erstbildschirm, Zeitmaschinen-Texte ohne falschen Vorlauf | läuft |
+
+**Ehrliche Befunde, die offen bleiben:**
+- Zeitmaschine: Das Radar bestätigt Ereignisse nach Stunden (Stufe 1 bis 2), es warnte in keinem Fall vorher. Firmen-Vorfälle (Log4Shell, MOVEit, Colonial …) sind mit offenen Daten nicht sichtbar. Siehe `backtest/REPORT.md`.
+- Der geplante 15-Minuten-Takt von `collect` wurde von GitHub nur alle 6 bis 12 Stunden ausgeführt (Commits vom 22./23.11.). Ursache ungeprüft (Actions-Protokolle von der Bau-Umgebung aus nicht lesbar). Abhilfe bisher: Start nach Code-Push. Dauerhafte Lösung offen (externer Zeitgeber, z. B. Cloudflare-Cron, der `workflow_dispatch` auslöst; braucht ein Token vom Betreiber).
+- `layer-gdacs` lieferte im ersten Live-Lauf keine Schicht (USGS und EONET ja); `blackout-open-meteo`, `ai-hf-hub`, alle `layer-*`: `VERIFIED: nein`.
+- Orte: KI 1 von 11, Cyber 38 von 97 Messungen mit Daten haben einen Ort; viele Cyber-Messungen sind weltweite Zählungen und haben zu Recht keinen.
+- `scripts/build_single.py` wurde entfernt (Einzeldatei-Fassung passt nicht zu den Modulen); ältere Abschnitte unten nennen es noch.
+
+**Arbeitsverzeichnis:** Push nur über die alte Repo-Adresse (`…/TRW123123/autohaus-eckenberger-website`, leitet weiter). Nie eine lokal gebaute `frontend/data/snapshot.json` committen.
+
 ## Stand (20.11.2026)
 
 **Collector-Welle 1 und 2.** 79 Collectors (STATUS.md: 56 VERIFIED ja, 4 teilweise, 19 nein). Welle 1 (Gruppen A, B, C) hat 21 Collectors mit

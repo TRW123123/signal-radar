@@ -11,7 +11,14 @@ import type { Collector, MapPoint } from '../core/types.ts';
 import { num } from './_helpers.ts';
 import { isoOrNull, newestTs, topPoints, validCoord } from './_layer-util.ts';
 
-export const FEED_URL = 'https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?alertlevel=Orange;Red';
+// The first live run answered HTTP 400 to `MAP?alertlevel=Orange;Red`. The alert level is filtered here anyway,
+// so the variants below are tried in order and the first usable answer wins.
+export const FEED_URLS = [
+  'https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP',
+  'https://www.gdacs.org/gdacsapi/api/events/geteventlist/EVENTS4APP',
+  'https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?alertlevel=orange%3Bred&eventlist=EQ%3BTC%3BFL%3BVO%3BWF',
+];
+export const FEED_URL = FEED_URLS[0];
 
 const TYPE_DE: Record<string, string> = { EQ: 'Erdbeben', TC: 'Wirbelsturm', FL: 'Überschwemmung', VO: 'Vulkan', DR: 'Dürre', WF: 'Waldbrand', TS: 'Tsunami' };
 
@@ -49,7 +56,16 @@ const collector: Collector = {
   intervalMinutes: 30,
   signals: [],
   async collect(ctx) {
-    const points = topPoints(parseGdacs(await ctx.http.json<unknown>(FEED_URL, { fixture: 'layers/gdacs-orange-red.json' })));
+    let parsed: MapPoint[] | null = null;
+    let lastError: unknown = null;
+    for (const url of FEED_URLS) {
+      try {
+        parsed = parseGdacs(await ctx.http.json<unknown>(url, { fixture: 'layers/gdacs-orange-red.json' }));
+        break;
+      } catch (e) { lastError = e; }
+    }
+    if (!parsed) throw lastError;
+    const points = topPoints(parsed);
     return {
       observations: [],
       layers: [{

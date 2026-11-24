@@ -755,7 +755,8 @@ function rbSatz(daten, f) {
   const name = rbName(s);
   const z = Number(s.z) || 0;
   // Zählt der Bereich damals nicht, heißt es „etwas erhöht" – passend zu „Stufe damals: Ruhig"
-  const richtung = !aktivIn(f, s) ? R.richtung[z < 0 ? 'etwasUnter' : 'etwasUeber'] : R.richtung[s.anomaly >= 0.75 ? (z < 0 ? 'weitUnter' : 'weitUeber') : z < 0 ? 'unter' : 'ueber'];
+  const richtung = !aktivIn(f, s) ? R.richtung[z < 0 ? 'etwasUnter' : 'etwasUeber'] : R.richtung[s.anomaly >= 0.75 ? 'weit' : 'abweichend'];
+  // Die Wiedergabe-Dateien tragen die Größe der Abweichung, keine verlässliche Richtung (ein Netz-Einbruch hat dort ein positives z): neutral bleiben
   return `${wann}: ${name} ${richtung}${auf.length > 1 ? R.weitere(auf.length - 1) : ''}.`;
 }
 

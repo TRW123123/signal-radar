@@ -350,6 +350,15 @@ function renderLinsen() {
   });
 }
 
+/** Auf dem Handy ist die Themen-Leiste breiter als der Bildschirm: den gewählten Reiter sichtbar halten (nur waagerecht) */
+function zeigeAktivenReiter() {
+  const t = document.querySelector('.linse[aria-selected="true"]');
+  const leiste = t?.parentElement;
+  if (!t || !leiste || leiste.scrollWidth <= leiste.clientWidth) return;
+  leiste.scrollLeft = Math.max(0, t.offsetLeft - (leiste.clientWidth - t.offsetWidth) / 2);
+}
+window.addEventListener('load', () => setTimeout(zeigeAktivenReiter, 600));
+
 function waehle(id, nutzer) {
   if (!zustand.snap.scenarios.some((s) => s.id === id) || id === zustand.id) return;
   zustand.id = id;
@@ -359,6 +368,7 @@ function waehle(id, nutzer) {
     t.setAttribute('aria-selected', String(an));
     t.tabIndex = an ? 0 : -1;
   }
+  zeigeAktivenReiter();
   renderLinse();
   if (nutzer) $('ansage').textContent = zustand.kurz;
 }

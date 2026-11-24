@@ -20,8 +20,8 @@ Arbeitsweise: Runden aus Messen, drei Lücken wählen, bauen, unabhängig prüfe
 | 8 | Kritik 7 (`KRITIK-RUNDE-7.md`). Eine Status-Regel überall (`zustandVon`: VIX 35,9 bei üblich 19 heißt „etwas erhöht", nicht „normal"), Doppelte zusammengelegt, Vergleich ehrlich benannt (Rogers: technischer Fehler, kein Angriff), Trefferquote aus den Wiedergaben gezählt. Finanz-Thema misst jetzt VIX, Regionalbanken (KRE), Gold | ausgeliefert |
 
 **Verlauf der unabhängigen Prüfungen** (Noten 1 bis 10: Sofort-Verständnis / Mehrwert / Globus / Sprache / Vertrauen / Teilbarkeit / Handy; Zweck verstanden von 5 Testpersonen):
-Runde 2: 4/3/2/5/4/2/5, 2 von 5. Runde 3: 7/6/5/5/5/5/6, 3 von 5. Runde 4: 7/5/4/7/6/6/7, 3 von 5. Runde 5: 7/5/4/7/5/6/6, 3 von 5. Runde 6: 7/5/5/7/5/6/7, 3 von 5. Runde 7: 7/6/5/7/5/6/7, 3 von 5. Runde 8: 8/6/6/7/6/6/7, 3 von 5 (`KRITIK-RUNDE-8.md`; danach nur noch Wortlaut-Korrekturen und Runde 9 für Azubi und Rentner: Vergleichs-Knopf im ersten Handy-Bildschirm, Begründungszeile mit Quellen).
-Hängt seit Runde 3 bei 3 von 5: Azubi und Rentner verstehen den Zweck nur halb. Globus-Wirkung und Vertrauen bleiben bei 5. Runde 9 ist nicht mehr unabhängig geprüft.
+Runde 2: 4/3/2/5/4/2/5, 2 von 5. Runde 3: 7/6/5/5/5/5/6, 3 von 5. Runde 4: 7/5/4/7/6/6/7, 3 von 5. Runde 5: 7/5/4/7/5/6/6, 3 von 5. Runde 6: 7/5/5/7/5/6/7, 3 von 5. Runde 7: 7/6/5/7/5/6/7, 3 von 5. Runde 8: 8/6/6/7/6/6/7, 3 von 5. Runde 9: 8/7/7/7/7/6/7, 4 von 5 (`KRITIK-RUNDE-9.md`; Azubi weiter nur halb: der Globus lädt nicht von selbst zum Zusehen ein).
+Nach Runde 9 offen laut Prüfung: Demo zählt „5 von 9 Bereichen“, nennt aber 7 Namen; im Vergleich „dazu 3 weitere Messungen“ gegen „(+5)“ am Globus; Quellennamen in der Begründungszeile bleiben auf Englisch deutsch („Atlassian-Statuspage-Anbieter“). Die letzten drei Korrekturen (Begründungstext, gewählter Reiter sichtbar, Gerüchte-Kopf auf Englisch/320 px) sind nicht mehr unabhängig geprüft.
 
 **Nächste Schritte (Vorschlag für die nächste Schleife):**
 1. Unabhängige Prüfung von Runde 8, danach gezielt Azubi und Rentner (Einstieg ohne Text: kurzer Zeitraffer beim ersten Besuch; wer steckt dahinter).

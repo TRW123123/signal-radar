@@ -3,5 +3,70 @@
     "fixture": "energy-charts/price-de-lu-2d.json",
     "url": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-15T00%3A00Z&end=2026-11-17T00%3A00Z",
     "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-6h-1.json",
+    "url": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16T12%3A00Z&end=2026-11-16T18%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-6h-2.json",
+    "url": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16T06%3A00Z&end=2026-11-16T12%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-6h-3.json",
+    "url": "https://api.energy-charts.info/public_power?country=de&start=2026-11-16T00%3A00Z&end=2026-11-16T06%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-fr-6h.json",
+    "url": "https://api.energy-charts.info/public_power?country=fr&start=2026-11-16T18%3A00Z&end=2026-11-17T00%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-fr-6h-1.json",
+    "url": "https://api.energy-charts.info/public_power?country=fr&start=2026-11-16T12%3A00Z&end=2026-11-16T18%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-es-6h.json",
+    "url": "https://api.energy-charts.info/public_power?country=es&start=2026-11-16T18%3A00Z&end=2026-11-17T00%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-es-6h-1.json",
+    "url": "https://api.energy-charts.info/public_power?country=es&start=2026-11-16T12%3A00Z&end=2026-11-16T18%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-it-6h.json",
+    "url": "https://api.energy-charts.info/public_power?country=it&start=2026-11-16T18%3A00Z&end=2026-11-17T00%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/public_power-it-6h-1.json",
+    "url": "https://api.energy-charts.info/public_power?country=it&start=2026-11-16T12%3A00Z&end=2026-11-16T18%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/price-de-lu-2d-1.json",
+    "url": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-13T00%3A00Z&end=2026-11-15T00%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/price-de-lu-2d-2.json",
+    "url": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-11T00%3A00Z&end=2026-11-13T00%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/price-de-lu-2d-3.json",
+    "url": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-09T00%3A00Z&end=2026-11-11T00%3A00Z",
+    "maxChars": 6000
+  },
+  {
+    "fixture": "energy-charts/price-de-lu-2d-4.json",
+    "url": "https://api.energy-charts.info/price?bzn=DE-LU&start=2026-11-07T00%3A00Z&end=2026-11-09T00%3A00Z",
+    "maxChars": 6000
   }
 ]

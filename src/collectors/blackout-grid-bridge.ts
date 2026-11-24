@@ -5,11 +5,20 @@
 // Neu und noch nicht gegen eine echte Antwort geprüft: /price?bzn=DE-LU (Day-Ahead, Form laut Energy-Charts-Doku { unix_seconds, price[], unit }),
 // Fenster = 2 volle UTC-Tage (bis 15-Minuten-Raster, ca. 4 500 Zeichen); je UTC-Tag Mittelwert, nur wenn der Tag lückenlos ist.
 // Harmlose Ursachen für Ausschläge: Handelsviertelstunden-Sprünge, Feiertage, Wetter, Gaspreis, Zeitumstellung, Sonnenstürme (Kp).
-// VERIFIED: teilweise (Frequenz, Einspeisung, Netzlast, Kp: ja, Replay gegen echte Aufzeichnungen; Preis: nein, Test nach Doku)
+// Sofort-Historie (24.11.2026): Einspeisung DE über 4 Abschnitte à 6 Stunden (24 Stundenwerte), Preis über 5 Abschnitte à 2 Tage (10 Tageswerte),
+// damit die Vergleichsbasis (mindestens 7 Werte) schon nach dem ersten Lauf steht. Abschnitte statt eines großen Fensters, weil jede Antwort
+// unter ca. 6 000 Zeichen bleiben soll (Aufzeichnungs-Umgebung). Abschnitt 0 ist jeweils die bisherige URL mit dem bisherigen Fixture-Namen.
+// Neu: Netzlast (production_types "Load") für Frankreich, Spanien, Italien aus /public_power?country=<cc>, je 2 Abschnitte à 6 Stunden;
+// aus der französischen Antwort zusätzlich die Kernkraft-Erzeugung ("Nuclear"), ohne weiteren Request. Netzfrequenz für weitere Länder ist
+// zwecklos: Kontinentaleuropa ist ein Synchrongebiet, die Frequenz ist überall gleich.
+// Netzlast SMARD erscheint mit bis zu ca. 20 Stunden Verzug, daher maxAgeHours 36.
+// Harmlose Ursachen (Last/Kernkraft): Feiertage, Wetter, Revisionen, Lastfolgebetrieb, Streiks in Frankreich.
+// VERIFIED: teilweise (Frequenz, Einspeisung, Netzlast, Kp: ja, Replay gegen echte Aufzeichnungen; Preis, Abschnitte 1 bis n, Netzlast FR/ES/IT,
+// Kernkraft FR: nein, Form wie public_power DE angenommen, Test nach Doku)
 
 import type { Collector, GeoRef, Observation } from '../core/types.ts';
 import { DAY_MS, expect, floorDay, floorHour, num, obs } from './_helpers.ts';
-import { FREQ_WINDOW_MIN, POWER_WINDOW_H, parseFrequency, parseRenewables } from './energy-charts.ts';
+import { FREQ_WINDOW_MIN, POWER_WINDOW_H, byHour, parseFrequency, parseRenewables, toSeries } from './energy-charts.ts';
 import { parseSeries, weekStarts } from './smard.ts';
 import { parseKp } from './noaa-swpc.ts';
 
@@ -22,6 +31,33 @@ export const S_FEEDIN = 'blackout.grid.wind_solar_infeed_de';
 export const S_LOAD = 'blackout.grid.net_load_de';
 export const S_KP = 'blackout.weather.geomagnetic_storm';
 export const S_PRICE = 'blackout.prices.day_ahead_de';
+export const S_NUCLEAR_FR = 'blackout.plants.nuclear_generation_fr_measured';
+/** Abschnitte für Sofort-Historie: Einspeisung DE (je POWER_WINDOW_H Stunden), Preis (je 2 Tage), Netzlast je Land (je POWER_WINDOW_H Stunden). */
+export const FEEDIN_CHUNKS = 4;
+export const PRICE_CHUNKS = 5;
+export const LOAD_CHUNKS = 2;
+export const LOAD_COUNTRIES: { cc: string; label: string; lat: number; lon: number }[] = [
+  { cc: 'FR', label: 'Frankreich', lat: 46.6, lon: 2.4 },
+  { cc: 'ES', label: 'Spanien', lat: 40.2, lon: -3.7 },
+  { cc: 'IT', label: 'Italien', lat: 42.8, lon: 12.6 },
+];
+export const loadSignalId = (cc: string) => `blackout.grid.load_${cc.toLowerCase()}`;
+/** Fixture-Name eines Abschnitts; Abschnitt 0 behält den bisherigen Namen. */
+export function chunkFixture(base: string, ext: string, i: number): string { return i === 0 ? `${base}.${ext}` : `${base}-${i}.${ext}`; }
+
+/** /public_power -> Stundenmittel (MW) einer Erzeugungsart bzw. der Last ("Load") je vollständiger Stunde vor `before`. */
+export function parseTypeHourly(body: { unix_seconds?: unknown; production_types?: { name?: string; data?: unknown }[] }, name: string, before: number): { hour: number; mw: number }[] {
+  const types = expect(Array.isArray(body?.production_types) ? body.production_types : null, 'production_types');
+  const t = types.find((x) => x?.name === name);
+  if (!t) throw new Error(`unerwartete Antwort: Reihe ${name} fehlt`);
+  const out: { hour: number; mw: number }[] = [];
+  for (const [hour, v] of byHour(toSeries(body.unix_seconds, t.data, name), before)) {
+    const mw = v.reduce((a, b) => a + b, 0) / v.length;
+    if (mw < 0 || mw > 500_000) continue; // Plausibilität: andere Einheit
+    out.push({ hour, mw });
+  }
+  return out.sort((a, b) => a.hour - b.hour);
+}
 
 interface PriceResp { unix_seconds?: unknown; price?: unknown }
 
@@ -82,7 +118,7 @@ const collector: Collector = {
     {
       ...common, id: S_LOAD, domain: 'grid', name: 'Netzlast Deutschland (SMARD)',
       plain: 'Wie viel Strom in Deutschland gerade verbraucht wird; ein abrupter Einbruch ohne Feiertag oder Wetter kann einen Ausfall anzeigen.',
-      direction: 'down', weight: 0.5, unit: 'MW', intervalMinutes: 60, holdHours: 6, baseline: hourly, thresholds: { relFloor: 0.05 },
+      direction: 'down', weight: 0.5, unit: 'MW', intervalMinutes: 60, holdHours: 6, maxAgeHours: 36, baseline: hourly, thresholds: { relFloor: 0.05 },
       independenceGroup: 'smard', license: 'CC BY 4.0 (Bundesnetzagentur | SMARD.de)', sourceName: 'SMARD (Bundesnetzagentur)', sourceUrl: 'https://www.smard.de/',
       banalCauses: ['Feiertage und Brückentage', 'Wetter', 'Zeitumstellung'],
     },
@@ -101,13 +137,29 @@ const collector: Collector = {
       thresholds: { relFloor: 0.1 }, independenceGroup: 'energy-charts', license: CCBY, sourceName: 'Energy-Charts (Fraunhofer ISE)', sourceUrl: 'https://api.energy-charts.info/',
       banalCauses: ['Gaspreis', 'CO2-Preis', 'Windflaute im Winter', 'Feiertage'],
     },
+    ...LOAD_COUNTRIES.map((c) => ({
+      ...common, id: loadSignalId(c.cc), domain: 'grid', name: `Stromverbrauch ${c.label} (Netzlast)`,
+      plain: `Wie viel Strom in ${c.label} gerade verbraucht wird. Bei einem großen Stromausfall bricht der Wert plötzlich ein.`,
+      direction: 'down' as const, weight: 0.5, unit: 'MW', intervalMinutes: 60, holdHours: 6, baseline: hourly, thresholds: { relFloor: 0.05 },
+      geo: { lat: c.lat, lon: c.lon, label: c.label, kind: 'country' as const, cc: c.cc },
+      independenceGroup: 'energy-charts', license: CCBY, sourceName: 'Energy-Charts (Fraunhofer ISE)', sourceUrl: 'https://api.energy-charts.info/',
+      banalCauses: ['Feiertage und Brückentage', 'Wetter', 'Zeitumstellung', 'Nachmeldungen der Netzbetreiber'],
+    })),
+    {
+      ...common, id: S_NUCLEAR_FR, domain: 'plants', name: 'Kernkrafterzeugung Frankreich gemessen',
+      plain: 'Wie viel Strom die französischen Kernkraftwerke gerade liefern. Fallen viele Blöcke unerwartet aus, fehlt Strom in ganz Europa.',
+      direction: 'down', weight: 0.7, unit: 'MW', intervalMinutes: 60, holdHours: 6, baseline: hourly, thresholds: { relFloor: 0.05 },
+      geo: { lat: 46.6, lon: 2.4, label: 'Frankreich', kind: 'country', cc: 'FR' },
+      independenceGroup: 'energy-charts', license: CCBY, sourceName: 'Energy-Charts (Fraunhofer ISE)', sourceUrl: 'https://api.energy-charts.info/',
+      banalCauses: ['Lastfolgebetrieb', 'Geplante Revisionen', 'Kühlwasser-Grenzen im Sommer', 'Streiks'],
+    },
   ],
   async collect(ctx) {
     const observations: Observation[] = [];
     const before = floorHour(ctx.now).getTime();
     const enc = (d: Date) => encodeURIComponent(d.toISOString().slice(0, 16) + 'Z');
     let failures = 0;
-    const attempts = 5;
+    const attempts = 5 + LOAD_COUNTRIES.length;
     const tryPart = async (what: string, fn: () => Promise<void>) => {
       try { await fn(); } catch (e) { failures++; ctx.log(`${what} übersprungen: ${(e as Error).message}`); }
     };
@@ -119,10 +171,38 @@ const collector: Collector = {
       for (const r of parseFrequency(body, before, FREQ_WINDOW_MIN * 60_000)) observations.push(obs(S_FREQ, r.hour, r.maxDevMHz, { samples: r.n }));
     });
     await tryPart('Einspeisung', async () => {
-      const url = `${BASE}/public_power?country=de&start=${enc(new Date(before - POWER_WINDOW_H * HOUR))}&end=${enc(new Date(before))}`;
-      const body = await ctx.http.json<Parameters<typeof parseRenewables>[0]>(url, { fixture: `energy-charts/public_power-${POWER_WINDOW_H}h.json` });
-      for (const r of parseRenewables(body, before)) observations.push(obs(S_FEEDIN, r.hour, r.mw));
+      // Abschnitt 0 = jüngste 6 Stunden, ältere Abschnitte für die Sofort-Historie; Fehler je Abschnitt nur protokollieren.
+      let ok = 0;
+      for (let i = 0; i < FEEDIN_CHUNKS; i++) {
+        const end = before - i * POWER_WINDOW_H * HOUR;
+        const url = `${BASE}/public_power?country=de&start=${enc(new Date(end - POWER_WINDOW_H * HOUR))}&end=${enc(new Date(end))}`;
+        try {
+          const body = await ctx.http.json<Parameters<typeof parseRenewables>[0]>(url, { fixture: chunkFixture(`energy-charts/public_power-${POWER_WINDOW_H}h`, 'json', i) });
+          for (const r of parseRenewables(body, end)) observations.push(obs(S_FEEDIN, r.hour, r.mw));
+          ok++;
+        } catch (e) { ctx.log(`Einspeisung Abschnitt ${i} übersprungen: ${(e as Error).message}`); }
+      }
+      if (!ok) throw new Error('kein Abschnitt lesbar');
     });
+    for (const c of LOAD_COUNTRIES) {
+      await tryPart(`Netzlast ${c.cc}`, async () => {
+        let ok = 0;
+        for (let i = 0; i < LOAD_CHUNKS; i++) {
+          const end = before - i * POWER_WINDOW_H * HOUR;
+          const url = `${BASE}/public_power?country=${c.cc.toLowerCase()}&start=${enc(new Date(end - POWER_WINDOW_H * HOUR))}&end=${enc(new Date(end))}`;
+          try {
+            const body = await ctx.http.json<Parameters<typeof parseTypeHourly>[0]>(url, { fixture: chunkFixture(`energy-charts/public_power-${c.cc.toLowerCase()}-${POWER_WINDOW_H}h`, 'json', i) });
+            for (const r of parseTypeHourly(body, 'Load', end)) observations.push(obs(loadSignalId(c.cc), r.hour, Math.round(r.mw)));
+            if (c.cc === 'FR') {
+              try { for (const r of parseTypeHourly(body, 'Nuclear', end)) observations.push(obs(S_NUCLEAR_FR, r.hour, Math.round(r.mw))); }
+              catch (e) { ctx.log(`Kernkraft FR Abschnitt ${i} übersprungen: ${(e as Error).message}`); }
+            }
+            ok++;
+          } catch (e) { ctx.log(`Netzlast ${c.cc} Abschnitt ${i} übersprungen: ${(e as Error).message}`); }
+        }
+        if (!ok) throw new Error('kein Abschnitt lesbar');
+      });
+    }
     await tryPart('Netzlast', async () => {
       let ok = 0;
       for (const w of weekStarts(before, 4)) {
@@ -139,10 +219,17 @@ const collector: Collector = {
       for (const p of parseKp(body)) observations.push(obs(S_KP, p.ts, p.kp));
     });
     await tryPart('Strompreis', async () => {
-      const end = floorDay(ctx.now);
-      const url = `${BASE}/price?bzn=DE-LU&start=${enc(new Date(end.getTime() - 2 * DAY_MS))}&end=${enc(end)}`;
-      const body = await ctx.http.json<PriceResp>(url, { fixture: 'energy-charts/price-de-lu-2d.json' });
-      for (const r of parseDayAheadDaily(body, end.getTime())) observations.push(obs(S_PRICE, `${r.day}T00:00:00Z`, r.eurMwh));
+      let ok = 0;
+      for (let i = 0; i < PRICE_CHUNKS; i++) {
+        const end = floorDay(ctx.now).getTime() - i * 2 * DAY_MS;
+        const url = `${BASE}/price?bzn=DE-LU&start=${enc(new Date(end - 2 * DAY_MS))}&end=${enc(new Date(end))}`;
+        try {
+          const body = await ctx.http.json<PriceResp>(url, { fixture: chunkFixture('energy-charts/price-de-lu-2d', 'json', i) });
+          for (const r of parseDayAheadDaily(body, end)) observations.push(obs(S_PRICE, `${r.day}T00:00:00Z`, r.eurMwh));
+          ok++;
+        } catch (e) { ctx.log(`Strompreis Abschnitt ${i} übersprungen: ${(e as Error).message}`); }
+      }
+      if (!ok) throw new Error('kein Abschnitt lesbar');
     });
     if (failures === attempts) throw new Error('Blackout-Brücke: alle Abfragen fehlgeschlagen');
     return { observations };

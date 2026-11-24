@@ -141,3 +141,18 @@ test('Länderreihen: jede (Land, Datenquelle) nur einmal je Lauf, Fixture-Namen 
   assert.equal(r.observations.find((o) => o.signalId === 'cyber.outages.ioda_bgp_big_countries')!.meta!.countries, 8);
   assert.equal(r.observations.find((o) => o.signalId === 'war.connectivity.ioda_ir')!.meta, undefined);
 });
+
+test('Blackout: erreichbare Netze (Ping) je Land, mit Ort und Alltagssatz', () => {
+  const ping = GROUPS.filter((g) => g.signalId.startsWith('blackout.outages.ioda_ping_'));
+  assert.ok(ping.length >= 10);
+  for (const g of ping) {
+    assert.equal(g.datasource, 'ping-slash24');
+    assert.equal(g.countries.length, 1);
+    const s = collector.signals.find((x) => x.id === g.signalId)!;
+    assert.equal(s.geo?.kind, 'country');
+    assert.equal(s.geo?.cc, g.countries[0]);
+    assert.match(s.plain, /Stromausfall bricht das ein\.$/);
+    assert.equal(fixtureName(g.countries[0], g.datasource), `ioda/country-${g.countries[0]}-ping.json`);
+  }
+  assert.ok(ping.some((g) => g.countries[0] === 'ES') && ping.some((g) => g.countries[0] === 'PT'));
+});

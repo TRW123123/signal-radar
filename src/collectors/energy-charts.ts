@@ -26,7 +26,7 @@ export interface Series { ts: number[]; values: (number | null)[] }
 interface FreqResp { unix_seconds?: unknown; data?: unknown }
 interface PowerResp { unix_seconds?: unknown; production_types?: { name?: string; data?: unknown }[] }
 
-function toSeries(unix: unknown, data: unknown, what: string): Series {
+export function toSeries(unix: unknown, data: unknown, what: string): Series {
   if (!Array.isArray(unix) || !Array.isArray(data)) throw new Error(`unerwartete Antwort: ${what} fehlt`);
   const n = Math.min(unix.length, data.length);
   const ts: number[] = [];
@@ -46,7 +46,7 @@ function median(a: number[]): number {
 }
 
 /** Group by UTC hour; returns only hours before `before` with enough valid samples. */
-function byHour(s: Series, before: number, windowMs = HOUR): Map<number, number[]> {
+export function byHour(s: Series, before: number, windowMs = HOUR): Map<number, number[]> {
   const gaps: number[] = [];
   for (let i = 1; i < s.ts.length; i++) gaps.push(s.ts[i] - s.ts[i - 1]);
   const step = median(gaps);

@@ -103,5 +103,55 @@
     "fixture": "ioda/events-18h.json",
     "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=1794852000&until=1794873600&entityType=country&limit=20&extendWindow=0",
     "maxChars": 6000
+  },
+  {
+    "fixture": "ioda/country-ES-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-PT-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-FR-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/FR?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-IT-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IT?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-PL-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PL?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-GB-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/GB?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-UA-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/UA?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-TR-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/TR?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-US-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/US?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
+  },
+  {
+    "fixture": "ioda/country-IN-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IN?from=1794787200&until=1794873600&datasource=ping-slash24",
+    "maxChars": 4000
   }
 ]

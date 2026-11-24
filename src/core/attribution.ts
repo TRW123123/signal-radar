@@ -90,6 +90,24 @@ export const SOURCE_ATTRIBUTIONS: SourceAttribution[] = [
     status: 'active-collector',
   },
   {
+    id: 'usgs-quakes', name: 'USGS Earthquake Hazards Program', collectors: ['usgs-quakes', 'layer-usgs-quakes'], sourceNameHints: ['USGS'],
+    attribution: 'U.S. Geological Survey (USGS)', attributionUrl: 'https://earthquake.usgs.gov/', license: 'gemeinfrei (US-Regierung)',
+    footerNotices: [],
+    status: 'active-collector',
+  },
+  {
+    id: 'nasa-eonet', name: 'NASA EONET', collectors: ['layer-eonet'], sourceNameHints: ['EONET'],
+    attribution: 'NASA EONET', attributionUrl: 'https://eonet.gsfc.nasa.gov/', license: 'NASA offene Daten, Quellenangabe',
+    footerNotices: ['Naturereignisse auf der Karte: NASA EONET (Earth Observatory Natural Event Tracker).'],
+    status: 'active-collector',
+  },
+  {
+    id: 'gdacs', name: 'GDACS', collectors: ['layer-gdacs'], sourceNameHints: ['GDACS'],
+    attribution: 'GDACS', attributionUrl: 'https://www.gdacs.org/', license: 'frei nutzbar mit Quellenangabe "GDACS"',
+    footerNotices: ['Katastrophenwarnungen auf der Karte: GDACS (Global Disaster Alert and Coordination System, UN/EU).'],
+    status: 'active-collector',
+  },
+  {
     id: 'sec-edgar', name: 'SEC EDGAR', collectors: ['sec-edgar'], sourceNameHints: ['SEC EDGAR', 'EDGAR'],
     attribution: 'U.S. Securities and Exchange Commission (SEC EDGAR)', attributionUrl: 'https://www.sec.gov/edgar/search/',
     license: 'US-Regierungsdaten, gemeinfrei; Fair Access',

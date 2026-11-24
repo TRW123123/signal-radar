@@ -36,9 +36,8 @@ Stand 24.11.2026. Selbstprüfung des Bauenden, kein unabhängiger Kritiker.
 5. **Ungewöhnliche Einzelmessung ohne ungewöhnlichen Bereich** (echte Daten: Zahlungsdienste) leuchtet auf dem Globus,
    während die Antwort „keiner ungewöhnlich“ sagt. Schwelle für das Leuchten: Anteil ≥ 0,25 nach Abschwächung.
    Ein erklärender Satz dazu fehlt noch.
-6. **Einzeldatei-Fassung** (`scripts/build_single.py`, nicht angefasst) bettet nur `app.js` ein; mit den neuen
-   ES-Modulen (`js/`, `assets/vendor/`) und dem Atlas-Abruf funktioniert sie so nicht mehr. Das Skript muss die Module
-   und den Atlas mit einbetten.
+6. **Einzeldatei-Fassung** entfernt (24.11.2026): `scripts/build_single.py` bettete nur `app.js` ein und passte nicht
+   mehr zu den ES-Modulen (`js/`, `assets/vendor/`) und dem Atlas-Abruf. `app.js` liest keinen eingebetteten Snapshot mehr.
 7. Der Hinweis „Namen nur auf Deutsch“ verschwindet im EN-Modus beim nächsten Neuzeichnen des Kopfs (spätestens nach
    einer Minute).
 8. Konsole: Fehlt `data/rumors.json` auf dem Server, meldet der Browser eine 404 in der Konsole (der Abschnitt entfällt

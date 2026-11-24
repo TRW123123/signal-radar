@@ -37,11 +37,16 @@
   --ruhig-punkt: #7d8a97;
 
   --g-meer: #0e1721;
-  --g-land: #243140;
+  --g-land: #2a3a4c;
   --g-grenze: rgba(170, 190, 210, 0.2);
   --g-netz: rgba(170, 190, 210, 0.07);
-  --g-ruhig: #8794a1;
-  --g-hof: rgba(109, 180, 216, 0.2);
+  --g-ruhig: #a9c4d6;
+  --g-etwas: #e8c77a;
+  --g-meer-hell: #16253a;
+  --g-nacht: rgba(2, 5, 10, 0.28);
+  --g-schicht: #b79be0;
+  --ok: #8fc7a4;
+  --g-hof: rgba(109, 180, 216, 0.28);
   --g-rand: rgba(160, 190, 220, 0.28);
   --g-kern: #fff7ea;
 
@@ -77,8 +82,13 @@
     --g-land: #fbfaf6;
     --g-grenze: rgba(60, 70, 80, 0.28);
     --g-netz: rgba(60, 80, 100, 0.08);
-    --g-ruhig: #69727b;
-    --g-hof: rgba(31, 106, 138, 0.16);
+    --g-ruhig: #3f6f8c;
+    --g-etwas: #9a6a00;
+    --g-meer-hell: #e8eef3;
+    --g-nacht: rgba(20, 35, 60, 0.12);
+    --g-schicht: #6e3a9a;
+    --ok: #2f6e4a;
+    --g-hof: rgba(31, 106, 138, 0.2);
     --g-rand: rgba(40, 60, 80, 0.3);
     --g-kern: #ffffff;
   }
@@ -184,11 +194,39 @@ button { font: inherit; color: inherit; }
 .buehne { display: grid; gap: 0.75rem; grid-template-columns: minmax(0, 1fr); padding-bottom: 1.5rem; }
 .antwort { padding-top: 0.5rem; }
 .antwort-frage { color: var(--grau); font-size: var(--t-14); }
-.antwort-stufe { display: flex; align-items: center; gap: 0.6rem; font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3.25rem); line-height: 1.05; letter-spacing: -0.02em; font-weight: 750; margin: 0.25rem 0 0.5rem; }
-.lampe-gross { width: 0.55em; height: 0.55em; flex: none; border-radius: 50%; background: var(--ruhig-punkt); }
-.a-l1 .lampe-gross, .a-l2 .lampe-gross, .a-l3 .lampe-gross, .a-l4 .lampe-gross { background: var(--stufe); box-shadow: 0 0 0 0.12em color-mix(in srgb, var(--stufe) 28%, transparent), 0 0 1.2em color-mix(in srgb, var(--stufe) 55%, transparent); }
-.a-l1 .antwort-stufe, .a-l2 .antwort-stufe, .a-l3 .antwort-stufe, .a-l4 .antwort-stufe { color: var(--stufe); }
-.a-lx .lampe-gross { background: none; border: 0.09em solid var(--grau); }
+/* Antwort: Ja/Nein zuerst, Stufe nur als kleine Zeile */
+.antwort-kopf { font-size: clamp(1.5rem, 1.2rem + 1.6vw, 2.4rem); line-height: 1.15; letter-spacing: -0.015em; font-weight: 700; margin: 0.2rem 0 0.45rem; max-width: 30rem; text-wrap: balance; }
+.antwort-wort { font-weight: 800; color: var(--ok); }
+.art-unklar .antwort-wort { color: var(--l2); }
+.art-ja .antwort-wort { color: var(--stufe); }
+.art-offen .antwort-wort { color: var(--grau); }
+.antwort-stufe { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.5rem; font-size: var(--t-14); color: var(--grau); margin-top: 0.5rem; }
+.a-l0 .antwort-stufe .lampe-klein { background: var(--ok); }
+.a-l1 .antwort-stufe .lampe-klein, .a-l2 .antwort-stufe .lampe-klein, .a-l3 .antwort-stufe .lampe-klein, .a-l4 .antwort-stufe .lampe-klein { background: var(--stufe); }
+.a-lx .antwort-stufe .lampe-klein { background: none; border: 1.5px solid var(--grau); }
+.teilen { margin-left: auto; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 2.25rem; padding: 0.25rem 0.75rem; border-radius: 999px; border: 1px solid var(--linie); background: var(--flaeche); color: var(--tinte); font-size: var(--t-14); font-weight: 700; cursor: pointer; }
+.teilen svg { width: 1rem; height: 1rem; }
+.teilen.ok { border-color: var(--ok); color: var(--ok); }
+.gehoert { display: grid; gap: 0.1rem; margin-top: 0.7rem; padding: 0.55rem 0.75rem; border-radius: var(--radius); background: var(--flaeche); border-left: 3px solid var(--att); text-decoration: none; font-size: var(--t-14); line-height: 1.35; }
+.gehoert:hover { background: var(--flaeche-2); }
+.gehoert-wort { font-size: var(--t-12); text-transform: uppercase; letter-spacing: 0.06em; color: var(--att); font-weight: 700; }
+.gehoert-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.gehoert-daten { color: var(--ok); font-weight: 700; font-size: var(--t-12); }
+.gehoert.lv-2 .gehoert-daten { color: var(--l2); }
+.gehoert.lv-3 .gehoert-daten, .gehoert.lv-4 .gehoert-daten { color: var(--l3); }
+@media (max-width: 47.99rem) {
+  .kopf { padding: 0.5rem 0 0.4rem; gap: 0.2rem 1rem; }
+  .satz { font-size: var(--t-14); }
+  .antwort-frage { font-size: var(--t-12); }
+  .antwort-kopf { font-size: 1.4rem; margin-bottom: 0.3rem; }
+  .antwort .antwort-satz { font-size: var(--t-14); line-height: 1.4; }
+  .antwort-stufe { font-size: var(--t-12); margin-top: 0.35rem; flex-wrap: nowrap; }
+  .teilen { min-height: 2rem; padding: 0.2rem 0.6rem; font-size: var(--t-12); flex: none; }
+  .gehoert { margin-top: 0.5rem; padding: 0.45rem 0.65rem; font-size: var(--t-14); }
+  .buehne { gap: 0.25rem; }
+}
+@media (min-width: 60rem) { .antwort-kopf { font-size: 2.1rem; max-width: 26rem; } }
+.stand-alt { color: var(--grau); }
 .antwort-satz { font-size: var(--t-18); line-height: 1.45; max-width: 34rem; }
 .antwort-zusatz { padding-bottom: 0.25rem; }
 .antwort-messbar { font-size: var(--t-14); color: var(--grau); max-width: 34rem; }
@@ -205,6 +243,10 @@ button { font: inherit; color: inherit; }
 .leg-ruhig i { background: var(--g-ruhig); }
 .leg-auf i { background: var(--stufe); box-shadow: 0 0 0.5rem 0.1rem color-mix(in srgb, var(--stufe) 60%, transparent); }
 .leg-leer i { border: 1.5px solid var(--g-ruhig); }
+.leg-etwas i { background: var(--g-etwas); }
+.leg-ring i { border: 1.5px dotted var(--g-ruhig); width: 0.8rem; height: 0.8rem; }
+.leg-schicht i { width: 0.55rem; height: 0.55rem; border-radius: 1px; transform: rotate(45deg); background: var(--g-schicht); }
+.leg-klein { opacity: 0.85; }
 .leg-hilfe { flex-basis: 100%; text-align: center; }
 
 .globus-neben { display: grid; gap: 1rem; align-content: start; }
@@ -218,6 +260,49 @@ button { font: inherit; color: inherit; }
 .ort i { width: 0.6rem; height: 0.6rem; border-radius: 50%; flex: none; align-self: center; background: var(--g-ruhig); }
 .ort.z-auf i { background: var(--stufe); box-shadow: 0 0 0.45rem 0.1rem color-mix(in srgb, var(--stufe) 55%, transparent); }
 .ort.z-leer i { background: none; border: 1.5px solid var(--g-ruhig); }
+.ort.z-erhoeht i { background: var(--g-etwas); }
+.ort-selten { flex-basis: 100%; padding-left: 1.05rem; font-size: var(--t-12); color: var(--grau); }
+.abweichung { display: grid; gap: 0.4rem; }
+.bereich-name { display: flex; align-items: center; gap: 0.45rem; font-weight: 700; margin-top: 0.3rem; }
+.bereich-name i { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--stufe); box-shadow: 0 0 0.5rem 0.1rem color-mix(in srgb, var(--stufe) 55%, transparent); }
+.bereich > ul { border-left: 1px solid var(--linie); margin-left: 0.32rem; padding-left: 0.3rem; }
+.liste-keine { color: var(--grau); }
+.liste-etwas { font-size: var(--t-14); color: var(--grau); margin-top: 0.4rem; }
+.alle-bereich { font-size: var(--t-14); font-weight: 700; color: var(--grau); margin-top: 0.5rem; }
+.warum { margin-top: 1.25rem; border-top: 1px solid var(--linie); border-bottom: 1px solid var(--linie); max-width: 46rem; }
+.warum > summary { cursor: pointer; padding: 0.7rem 0; font-weight: 700; min-height: 2.75rem; }
+.warum .text { display: grid; gap: 0.6rem; padding-bottom: 1rem; }
+/* Zeitmaschine */
+.zm-liste { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+.zm-eintrag { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.2rem 0.6rem; width: 100%; text-align: left; padding: 0.7rem 0.8rem; border-radius: var(--radius); border: 1px solid var(--linie); background: var(--flaeche); cursor: pointer; line-height: 1.35; }
+.zm-eintrag[aria-expanded='true'] { border-color: var(--tinte); }
+.zm-saw { grid-row: span 3; align-self: start; font-size: var(--t-12); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.15rem 0.45rem; border-radius: 999px; border: 1.5px solid currentColor; }
+.saw-ja { color: var(--ok); }
+.saw-teilweise { color: var(--l2); }
+.saw-nein { color: var(--grau); }
+.zm-titel { font-weight: 700; }
+.zm-meta { font-size: var(--t-12); color: var(--grau); }
+.zm-text { font-size: var(--t-14); color: var(--grau); }
+.zm-panel { grid-column: 1 / -1; padding: 1rem; border-radius: var(--radius); border: 1px solid var(--linie); background: var(--flaeche); }
+.zm-kopf { font-size: var(--t-18); margin-bottom: 0.6rem; }
+.zm-buehne { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); align-items: center; }
+.zm-globus { width: min(100%, 22rem); aspect-ratio: 1; margin: 0 auto; }
+@media (min-width: 48rem) { .zm-buehne { grid-template-columns: 20rem minmax(0, 1fr); } }
+.zm-steuer { display: grid; gap: 0.5rem; }
+.zm-streifen { width: 100%; height: 2.5rem; display: block; background: var(--grund); border-radius: 6px; }
+.zm-l { fill: var(--l1); }
+.zm-l.null { fill: var(--g-ruhig); opacity: 0.45; }
+.zm-l.f-l2 { fill: var(--l2); } .zm-l.f-l3 { fill: var(--l3); } .zm-l.f-l4 { fill: var(--l4); }
+.zm-ereignis { stroke: var(--att); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 4 3; }
+.zm-marke { stroke: var(--tinte); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.zm-achse { display: flex; justify-content: space-between; gap: 0.5rem; }
+.zm-ev { color: var(--att); }
+.zm-knoepfe { display: flex; align-items: center; gap: 0.75rem; }
+.zm-knoepfe input { flex: 1; min-width: 0; accent-color: var(--tinte); }
+.zm-jetzt { font-weight: 700; }
+.ger-daten { font-size: var(--t-14); font-weight: 700; color: var(--ok); }
+.ger-teil .ger-daten { color: var(--l2); }
+.ger:focus { outline: 2px solid var(--att); }
 .ort-name { font-weight: 700; }
 .ort-mess { flex: 1 1 10rem; min-width: 0; }
 .ort-zustand { font-size: var(--t-12); color: var(--grau); }

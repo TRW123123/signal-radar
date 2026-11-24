@@ -39,6 +39,8 @@ export interface SignalDef {
    * once per domain, and one upstream can make at most one domain count towards convergence.
    */
   upstream?: string;
+  /** Where on Earth this measurement belongs (catalog/geo.json). Absent = worldwide, no single place. */
+  geo?: GeoRef;
   collector: string;
   unit?: string;
   baseline: BaselineSpec;
@@ -163,6 +165,19 @@ export interface ScenarioDef {
   order: number;
 }
 
+/** A place for the globe. `cc` is an ISO 3166-1 alpha-2 country code when the signal describes a whole country. */
+export interface GeoRef {
+  lat: number;
+  lon: number;
+  label: string;
+  kind: 'point' | 'country' | 'region' | 'route';
+  cc?: string;
+}
+
+export interface GeoRule extends GeoRef {
+  appliesTo: string[];
+}
+
 export interface UpstreamRule {
   id: string;
   reason: string;
@@ -204,6 +219,14 @@ export interface SignalView {
   /** ISO timestamps of the first and last spark point (points are in time order, spacing may be uneven) */
   sparkStart: string | null;
   sparkEnd: string | null;
+  /** place on the globe; absent for worldwide measurements */
+  geo?: GeoRef;
+  /**
+   * How rare the current value is in this series' own recent history: `share` = fraction of the last `n`
+   * comparison values that were at least as far from normal (in the watched direction) as the current one.
+   * Display only ("so stark wie an 1 von 20 Tagen").
+   */
+  rarity: { share: number; n: number } | null;
   sourceName: string;
   sourceUrl: string;
   /** license / terms label from the catalog or collector (per-signal metadata for the UI) */

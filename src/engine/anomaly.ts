@@ -102,6 +102,8 @@ export interface AnomalyResult {
   /** z of the latest point reached the flag threshold */
   flagged: boolean;
   fresh: boolean;
+  /** share of the last n comparison values at least as extreme as the latest one (display only) */
+  rarity: { share: number; n: number } | null;
 }
 
 /**
@@ -111,7 +113,7 @@ export interface AnomalyResult {
 export function evaluate(def: SignalDef, series: Observation[], now: number, sens: Sensitivity): AnomalyResult {
   const sorted = [...series].filter((o) => Date.parse(o.ts) <= now).sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
   const last = sorted[sorted.length - 1];
-  if (!last) return { value: null, ts: null, baseline: null, z: null, anomaly: 0, flagged: false, fresh: false };
+  if (!last) return { value: null, ts: null, baseline: null, z: null, anomaly: 0, flagged: false, fresh: false, rarity: null };
   const lastT = Date.parse(last.ts);
   // The series' own rhythm: a daily series stays current for days, a 5-minute series for minutes.
   // Agents often declare the polling interval instead of the data cadence, so the data decides.
@@ -148,7 +150,22 @@ export function evaluate(def: SignalDef, series: Observation[], now: number, sen
       bestZ = z;
     }
   }
+  // Empirical rarity of the latest value within the series' own baseline window.
+  let rarity: { share: number; n: number } | null = null;
+  if (lastBaseline && lastZ !== null && def.baseline.method !== 'fixed') {
+    const from = lastT - def.baseline.windowDays * DAY;
+    let n = 0;
+    let ge = 0;
+    for (const o of sorted) {
+      const t = Date.parse(o.ts);
+      if (t < from || t >= lastT) continue;
+      n++;
+      if (directionalZ(def, o.value, lastBaseline) >= lastZ) ge++;
+    }
+    if (n >= 10) rarity = { share: ge / n, n };
+  }
   return {
+    rarity,
     value: last.value,
     ts: last.ts,
     baseline: lastBaseline,

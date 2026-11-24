@@ -3,7 +3,7 @@
 
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import type { BanalRule, ScenarioDef, SignalDef, UpstreamRule } from './types.ts';
+import type { BanalRule, GeoRule, ScenarioDef, SignalDef, UpstreamRule } from './types.ts';
 import { globMatch } from '../engine/banal.ts';
 
 export interface Catalog {
@@ -11,6 +11,18 @@ export interface Catalog {
   signals: SignalDef[];
   rules: BanalRule[];
   upstreams: UpstreamRule[];
+  geo: GeoRule[];
+}
+
+/** Assigns a place from catalog/geo.json to every matching signal (first matching rule wins). */
+export function applyGeo(signals: SignalDef[], geo: GeoRule[]): SignalDef[] {
+  return signals.map((s) => {
+    if (s.geo) return s;
+    const g = geo.find((r) => r.appliesTo.some((p) => globMatch(p, s.id)));
+    if (!g) return s;
+    const { appliesTo: _a, ...ref } = g;
+    return { ...s, geo: ref };
+  });
 }
 
 /** Assigns the shared upstream from catalog/upstreams.json to every matching signal. */
@@ -63,5 +75,7 @@ export function loadCatalog(root: string): Catalog {
   const rules = existsSync(rulesFile) ? (JSON.parse(readFileSync(rulesFile, 'utf8')) as BanalRule[]) : [];
   const upFile = join(dir, 'upstreams.json');
   const upstreams = existsSync(upFile) ? (JSON.parse(readFileSync(upFile, 'utf8')) as UpstreamRule[]) : [];
-  return { scenarios: scenarios.sort((a, b) => a.order - b.order), signals, rules, upstreams };
+  const geoFile = join(dir, 'geo.json');
+  const geo = existsSync(geoFile) ? (JSON.parse(readFileSync(geoFile, 'utf8')) as GeoRule[]) : [];
+  return { scenarios: scenarios.sort((a, b) => a.order - b.order), signals, rules, upstreams, geo };
 }

@@ -66,7 +66,7 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
   for (const def of mine) {
     const series = input.series.get(def.id) ?? [];
     const r = def.status === 'active' ? evaluate(def, series, now, sens)
-      : { value: null, ts: null, baseline: null, z: null, anomaly: 0, flagged: false, fresh: false };
+      : { value: null, ts: null, baseline: null, z: null, anomaly: 0, flagged: false, fresh: false, rarity: null };
     const damp = r.anomaly > 0 || r.flagged ? banalDamp(rules, def.id, now, { latest }) : null;
     const potential = clamp01(def.weight) * CLASS_WEIGHT[def.evidenceClass] * MANIP_FACTOR[def.manipulability];
     // immature baselines count half: we do not know yet what "normal" looks like
@@ -80,7 +80,8 @@ export function scoreScenario(input: ScoreInput): Omit<ScenarioView, 'history'> 
         ? { center: round(r.baseline.center, 4), scale: round(r.baseline.scale, 4), n: Number.isFinite(r.baseline.n) ? r.baseline.n : -1, mature: r.baseline.mature }
         : null,
       z: r.z === null ? null : round(r.z, 2), anomaly: round(r.anomaly), damp, contribution: round(contribution),
-      spark: spark.v, sparkStart: spark.start, sparkEnd: spark.end, sourceName: def.sourceName, sourceUrl: def.sourceUrl,
+      spark: spark.v, sparkStart: spark.start, sparkEnd: spark.end, ...(def.geo ? { geo: def.geo } : {}),
+      rarity: r.rarity ? { share: round(r.rarity.share, 4), n: r.rarity.n } : null, sourceName: def.sourceName, sourceUrl: def.sourceUrl,
       license: def.license, collector: def.collector,
       def, flagged: r.flagged, potential,
     });

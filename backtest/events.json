@@ -16,7 +16,7 @@
       "Microsoft-Blog zum Vorfall (20.07.2024)",
       "Wikipedia: 2024 CrowdStrike-related IT outages"
     ],
-    "notes": "Kein Angriff, fehlerhaftes Inhalts-Update (Auslieferung ca. 04:09 UTC). Flugausfälle, Banken, Kliniken. Ende als Fenster-Ende gewählt, Nachwirkungen dauerten länger.",
+    "notes": "Kein Angriff, fehlerhaftes Inhalts-Update (Auslieferung ca. 04:09 UTC). Flugausfälle, Banken, Kliniken. Ende als Fenster-Ende gewählt, Nachwirkungen dauerten länger. Zeitmaschine: keine offene Quelle mit Historie gefunden, die den Ausfall physisch zeigt (Flugausfälle der FAA sind nur live abrufbar); deshalb keine eigenen Messungen, Ereignis als Firmen-Vorfall nur eingeschränkt prüfbar.",
     "verified": true
   },
   {
@@ -36,7 +36,648 @@
       "Cloudflare-Blog: Understanding how Facebook disappeared from the Internet (04.10.2021)"
     ],
     "notes": "Kein Angriff, Konfigurationsfehler. Dauer rund sechs Stunden. Uhrzeiten auf halbe Stunden gerundet.",
-    "verified": true
+    "verified": true,
+    "probes": [
+      {
+        "id": "cyber.routing.visible_prefixes_as32934",
+        "template": "cyber.routing.asn_visibility_critical_de",
+        "adapter": "ripe-prefixes",
+        "params": {},
+        "name": "Sichtbare Netzblöcke von Facebook (AS32934, RIPEstat)",
+        "plain": "Wie viele Netzblöcke von Facebook/Meta im weltweiten Routing angekündigt sind; verschwinden sie, ist Facebook nicht mehr erreichbar.",
+        "geo": {
+          "lat": 37.48,
+          "lon": -122.15,
+          "label": "Meta/Facebook (AS32934, Menlo Park)",
+          "kind": "point",
+          "cc": "US"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ripe-stat/announced-prefixes-AS32934.json",
+            "url": "https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00"
+          },
+          {
+            "fixture": "ripe-stat/routing-history-AS32934.json",
+            "url": "https://stat.ripe.net/data/routing-history/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00"
+          }
+        ]
+      },
+      {
+        "id": "cyber.routing.bgp_withdrawals_as32934",
+        "template": "cyber.routing.bgp_withdrawals_global",
+        "adapter": "ripe-updates",
+        "params": {},
+        "name": "BGP-Rücknahmen für Facebook (AS32934, RIPEstat)",
+        "plain": "Wie viele Routen von Facebook/Meta pro Stunde zurückgezogen werden.",
+        "geo": {
+          "lat": 37.48,
+          "lon": -122.15,
+          "label": "Meta/Facebook (AS32934, Menlo Park)",
+          "kind": "point",
+          "cc": "US"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ripe-stat/bgp-update-activity-AS32934.json",
+            "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00&sampling_period=3600"
+          },
+          {
+            "fixture": "ripe-stat/bgp-update-activity-AS32934-auto.json",
+            "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00"
+          }
+        ]
+      },
+      {
+        "id": "cyber.outages.ioda_as32934_bgp",
+        "template": "cyber.outages.ioda_country_signals_de",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "bgp"
+        },
+        "name": "IODA: Facebook-Netz (AS32934) im Routing",
+        "plain": "Wie viele Netzblöcke von Facebook/Meta (AS32934) laut IODA im Routing sichtbar sind.",
+        "geo": {
+          "lat": 37.48,
+          "lon": -122.15,
+          "label": "Meta/Facebook (AS32934, Menlo Park)",
+          "kind": "point",
+          "cc": "US"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/asn-32934.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/32934?from=1629676800&until=1633651200&datasource=bgp"
+          },
+          {
+            "fixture": "ioda/asn-32934-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/32934?from=1629676800&until=1633651200&datasource=bgp&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "cyber.outages.ioda_as32934_ping",
+        "template": "cyber.outages.ioda_country_signals_de",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "ping-slash24"
+        },
+        "name": "IODA: anpingbare Netze bei Facebook (AS32934)",
+        "plain": "Wie viele Netzblöcke von Facebook/Meta auf Ping antworten.",
+        "geo": {
+          "lat": 37.48,
+          "lon": -122.15,
+          "label": "Meta/Facebook (AS32934, Menlo Park)",
+          "kind": "point",
+          "cc": "US"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/asn-32934-ping.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/32934?from=1629676800&until=1633651200&datasource=ping-slash24"
+          },
+          {
+            "fixture": "ioda/asn-32934-ping-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/32934?from=1629676800&until=1633651200&datasource=ping-slash24&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "cyber.attention.wiki_en_facebook",
+        "template": "cyber.attention.wikipedia_cyber_terms",
+        "adapter": "wikipedia",
+        "params": {},
+        "name": "Wikipedia-Aufrufe „Facebook“ (englisch)",
+        "plain": "Wie oft der Wikipedia-Artikel „Facebook“ pro Tag aufgerufen wird.",
+        "geo": {
+          "lat": 37.48,
+          "lon": -122.15,
+          "label": "Meta/Facebook (AS32934, Menlo Park)",
+          "kind": "point",
+          "cc": "US"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "wikimedia/en.wikipedia-Facebook.json",
+            "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Facebook/daily/20210726/20211008"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "iberia-blackout-2025-04",
+    "title": "Stromausfall auf der Iberischen Halbinsel (Spanien und Portugal)",
+    "start": "2025-04-28T10:33:00Z",
+    "end": "2025-04-29T06:00:00Z",
+    "kind": "event",
+    "scenario": "blackout",
+    "expectedDomains": [
+      "grid",
+      "outages"
+    ],
+    "sources": [
+      "Red Eléctrica / ENTSO-E: Bericht zum Netzzusammenbruch vom 28.04.2025",
+      "Wikipedia: 2025 Iberian Peninsula blackout"
+    ],
+    "notes": "Netzzusammenbruch um 12:33 Uhr Ortszeit (10:33 UTC). Ende: Versorgung bis zum frühen Morgen des 29.04. weitgehend wiederhergestellt, auf 06:00 UTC gesetzt.",
+    "verified": true,
+    "probes": [
+      {
+        "id": "blackout.outages.ioda_es_bgp",
+        "template": "blackout.outages.ioda_country_internet",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "bgp"
+        },
+        "name": "IODA: Spanien im Routing",
+        "plain": "Wie viele Netzblöcke (/24) aus Spanien weltweit im Routing sichtbar sind; fällt der Strom aus, verschwinden Netze.",
+        "geo": {
+          "lat": 40.42,
+          "lon": -3.7,
+          "label": "Spanien",
+          "kind": "country",
+          "cc": "ES"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-ES.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1740355200&until=1746230400&datasource=bgp"
+          },
+          {
+            "fixture": "ioda/country-ES-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1740355200&until=1746230400&datasource=bgp&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "blackout.outages.ioda_es_ping",
+        "template": "blackout.outages.ioda_country_internet",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "ping-slash24"
+        },
+        "name": "IODA: anpingbare Netze in Spanien",
+        "plain": "Wie viele Netzblöcke in Spanien auf Ping antworten; ohne Strom antworten Router und Rechner nicht mehr.",
+        "geo": {
+          "lat": 40.42,
+          "lon": -3.7,
+          "label": "Spanien",
+          "kind": "country",
+          "cc": "ES"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-ES-ping.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1740355200&until=1746230400&datasource=ping-slash24"
+          },
+          {
+            "fixture": "ioda/country-ES-ping-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1740355200&until=1746230400&datasource=ping-slash24&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "blackout.grid.load_es",
+        "template": "blackout.grid.energy_charts_signal",
+        "adapter": "energy-charts",
+        "params": {},
+        "name": "Stromverbrauch Spanien (Last, Energy-Charts)",
+        "plain": "Wie viel Strom in Spanien gerade verbraucht wird (Netzlast); bricht sie ein, ist das Netz ausgefallen.",
+        "geo": {
+          "lat": 40.42,
+          "lon": -3.7,
+          "label": "Spanien",
+          "kind": "country",
+          "cc": "ES"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "energy-charts/public_power-es.json",
+            "url": "https://api.energy-charts.info/public_power?country=es&start=2025-02-24T00%3A00Z&end=2025-05-03T00%3A00Z"
+          },
+          {
+            "fixture": "energy-charts/public_power-es-days.json",
+            "url": "https://api.energy-charts.info/public_power?country=es&start=2025-02-24&end=2025-05-03"
+          }
+        ]
+      },
+      {
+        "id": "blackout.outages.ooni_anomaly_share_es",
+        "template": "cyber.outages.ooni_anomaly_share_us",
+        "adapter": "ooni",
+        "params": {},
+        "name": "Anteil anomaler Web-Messungen (Spanien)",
+        "plain": "Welcher Anteil der OONI-Messungen zur Erreichbarkeit von Webseiten in Spanien auffällig ausfällt.",
+        "geo": {
+          "lat": 40.42,
+          "lon": -3.7,
+          "label": "Spanien",
+          "kind": "country",
+          "cc": "ES"
+        },
+        "override": {
+          "scenarios": [
+            "blackout"
+          ],
+          "domain": "outages"
+        },
+        "sources": [
+          {
+            "fixture": "ooni/probe-es.json",
+            "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=ES&test_name=web_connectivity&since=2025-02-24&until=2025-05-03&axis_x=measurement_start_day"
+          }
+        ]
+      },
+      {
+        "id": "blackout.outages.ioda_pt_bgp",
+        "template": "blackout.outages.ioda_country_internet",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "bgp"
+        },
+        "name": "IODA: Portugal im Routing",
+        "plain": "Wie viele Netzblöcke (/24) aus Portugal weltweit im Routing sichtbar sind; fällt der Strom aus, verschwinden Netze.",
+        "geo": {
+          "lat": 38.72,
+          "lon": -9.14,
+          "label": "Portugal",
+          "kind": "country",
+          "cc": "PT"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-PT.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1740355200&until=1746230400&datasource=bgp"
+          },
+          {
+            "fixture": "ioda/country-PT-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1740355200&until=1746230400&datasource=bgp&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "blackout.outages.ioda_pt_ping",
+        "template": "blackout.outages.ioda_country_internet",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "ping-slash24"
+        },
+        "name": "IODA: anpingbare Netze in Portugal",
+        "plain": "Wie viele Netzblöcke in Portugal auf Ping antworten; ohne Strom antworten Router und Rechner nicht mehr.",
+        "geo": {
+          "lat": 38.72,
+          "lon": -9.14,
+          "label": "Portugal",
+          "kind": "country",
+          "cc": "PT"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-PT-ping.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1740355200&until=1746230400&datasource=ping-slash24"
+          },
+          {
+            "fixture": "ioda/country-PT-ping-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1740355200&until=1746230400&datasource=ping-slash24&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "blackout.grid.load_pt",
+        "template": "blackout.grid.energy_charts_signal",
+        "adapter": "energy-charts",
+        "params": {},
+        "name": "Stromverbrauch Portugal (Last, Energy-Charts)",
+        "plain": "Wie viel Strom in Portugal gerade verbraucht wird (Netzlast); bricht sie ein, ist das Netz ausgefallen.",
+        "geo": {
+          "lat": 38.72,
+          "lon": -9.14,
+          "label": "Portugal",
+          "kind": "country",
+          "cc": "PT"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "energy-charts/public_power-pt.json",
+            "url": "https://api.energy-charts.info/public_power?country=pt&start=2025-02-24T00%3A00Z&end=2025-05-03T00%3A00Z"
+          },
+          {
+            "fixture": "energy-charts/public_power-pt-days.json",
+            "url": "https://api.energy-charts.info/public_power?country=pt&start=2025-02-24&end=2025-05-03"
+          }
+        ]
+      },
+      {
+        "id": "blackout.outages.ooni_anomaly_share_pt",
+        "template": "cyber.outages.ooni_anomaly_share_us",
+        "adapter": "ooni",
+        "params": {},
+        "name": "Anteil anomaler Web-Messungen (Portugal)",
+        "plain": "Welcher Anteil der OONI-Messungen zur Erreichbarkeit von Webseiten in Portugal auffällig ausfällt.",
+        "geo": {
+          "lat": 38.72,
+          "lon": -9.14,
+          "label": "Portugal",
+          "kind": "country",
+          "cc": "PT"
+        },
+        "override": {
+          "scenarios": [
+            "blackout"
+          ],
+          "domain": "outages"
+        },
+        "sources": [
+          {
+            "fixture": "ooni/probe-pt.json",
+            "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=PT&test_name=web_connectivity&since=2025-02-24&until=2025-05-03&axis_x=measurement_start_day"
+          }
+        ]
+      },
+      {
+        "id": "blackout.attention.wiki_de_stromausfall",
+        "template": "blackout.attention.wikipedia_pageviews_blackout",
+        "adapter": "wikipedia",
+        "params": {},
+        "name": "Wikipedia-Aufrufe „Stromausfall“ (deutsch)",
+        "plain": "Wie oft der Wikipedia-Artikel „Stromausfall“ pro Tag aufgerufen wird; steigt, wenn viele Menschen von einem Stromausfall betroffen sind.",
+        "geo": null,
+        "override": {},
+        "sources": [
+          {
+            "fixture": "wikimedia/de.wikipedia-Stromausfall.json",
+            "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stromausfall/daily/20250127/20250503"
+          }
+        ]
+      },
+      {
+        "id": "blackout.attention.wiki_en_power_outage",
+        "template": "blackout.attention.wikipedia_pageviews_blackout",
+        "adapter": "wikipedia",
+        "params": {},
+        "name": "Wikipedia-Aufrufe „Power outage“ (englisch)",
+        "plain": "Wie oft der Wikipedia-Artikel „Power outage“ pro Tag aufgerufen wird; steigt, wenn viele Menschen von einem Stromausfall betroffen sind.",
+        "geo": null,
+        "override": {},
+        "sources": [
+          {
+            "fixture": "wikimedia/en.wikipedia-Power_outage.json",
+            "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Power_outage/daily/20250127/20250503"
+          }
+        ]
+      },
+      {
+        "id": "blackout.attention.wiki_es_apagon",
+        "template": "blackout.attention.wikipedia_pageviews_blackout",
+        "adapter": "wikipedia",
+        "params": {},
+        "name": "Wikipedia-Aufrufe „Apagón“ (spanisch)",
+        "plain": "Wie oft der Wikipedia-Artikel „Apagón“ pro Tag aufgerufen wird; steigt, wenn viele Menschen von einem Stromausfall betroffen sind.",
+        "geo": null,
+        "override": {},
+        "sources": [
+          {
+            "fixture": "wikimedia/es.wikipedia-Apagón.json",
+            "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia/all-access/user/Apag%C3%B3n/daily/20250127/20250503"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "israel-iran-2025-06",
+    "title": "Krieg zwischen Israel und Iran (zwölf Tage)",
+    "start": "2025-06-13T00:00:00Z",
+    "end": "2025-06-24T23:59:00Z",
+    "kind": "event",
+    "scenario": "war",
+    "expectedDomains": [
+      "conflict",
+      "connectivity",
+      "markets"
+    ],
+    "sources": [
+      "Wikipedia: Iran–Israel war (13.–24.06.2025)",
+      "Waffenruhe ab 24.06.2025"
+    ],
+    "notes": "Israelische Angriffe in der Nacht zum 13.06.2025 (gegen 03:00 Ortszeit, 00:00 UTC), iranische Raketenangriffe ab dem Abend des 13.06., Waffenruhe am 24.06.2025.",
+    "verified": true,
+    "probes": [
+      {
+        "id": "war.connectivity.ioda_ir",
+        "template": "war.connectivity.ioda_ir",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "bgp"
+        },
+        "name": "IODA: Iran im Routing",
+        "plain": "Wie viele Netzblöcke (/24) aus dem Iran weltweit im Routing sichtbar sind; ein Einbruch heißt, dass Netze verschwinden (Stromnetz, Angriff oder Abschaltung).",
+        "geo": {
+          "lat": 35.69,
+          "lon": 51.39,
+          "label": "Iran",
+          "kind": "country",
+          "cc": "IR"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-IR.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=1743984000&until=1751068800&datasource=bgp"
+          },
+          {
+            "fixture": "ioda/country-IR-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=1743984000&until=1751068800&datasource=bgp&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "war.connectivity.ioda_ir_ping",
+        "template": "war.connectivity.ioda_ir",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "ping-slash24"
+        },
+        "name": "IODA: anpingbare Netze im Iran",
+        "plain": "Wie viele Netzblöcke im Iran auf Ping antworten; bei einer staatlichen Abschaltung bricht die Zahl ein.",
+        "geo": {
+          "lat": 35.69,
+          "lon": 51.39,
+          "label": "Iran",
+          "kind": "country",
+          "cc": "IR"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-IR-ping.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=1743984000&until=1751068800&datasource=ping-slash24"
+          },
+          {
+            "fixture": "ioda/country-IR-ping-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=1743984000&until=1751068800&datasource=ping-slash24&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "war.connectivity.ioda_il",
+        "template": "war.connectivity.ioda_il",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "bgp"
+        },
+        "name": "IODA: Israel im Routing",
+        "plain": "Wie viele Netzblöcke (/24) aus Israel weltweit im Routing sichtbar sind.",
+        "geo": {
+          "lat": 31.77,
+          "lon": 35.21,
+          "label": "Israel",
+          "kind": "country",
+          "cc": "IL"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-IL.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IL?from=1743984000&until=1751068800&datasource=bgp"
+          },
+          {
+            "fixture": "ioda/country-IL-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IL?from=1743984000&until=1751068800&datasource=bgp&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "war.conflict.israel_oref",
+        "template": "war.conflict.israel_oref",
+        "adapter": "oref",
+        "params": {},
+        "name": "Israel: Alarmwellen pro Tag (Raketen und Drohnen)",
+        "plain": "Zählt, wie oft pro Tag in Israel Raketen- oder Drohnenalarm ausgelöst wurde.",
+        "geo": {
+          "lat": 31.77,
+          "lon": 35.21,
+          "label": "Israel",
+          "kind": "country",
+          "cc": "IL"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "oref-github/israel-alerts.csv",
+            "url": "https://raw.githubusercontent.com/dleshem/israel-alerts-data/main/israel-alerts.csv",
+            "local": "Ausschnitt 2025-03-01 bis 2025-07-31 der 65-MB-Datei, direkt von raw.githubusercontent.com geladen (zu groß für die Queue)"
+          }
+        ]
+      },
+      {
+        "id": "war.markets.brent_spot_github",
+        "template": "war.markets.brent_futures",
+        "adapter": "csv-daily",
+        "params": {},
+        "name": "Brent-Rohöl (Tagespreis, GitHub-Datensatz)",
+        "plain": "Der Tagespreis für Nordsee-Rohöl (Brent) aus einem offenen Datensatz; Kriegsangst in Förderregionen treibt ihn nach oben.",
+        "geo": null,
+        "override": {},
+        "sources": [
+          {
+            "fixture": "oil-prices/brent-daily.csv",
+            "url": "https://raw.githubusercontent.com/datasets/oil-prices/main/data/brent-daily.csv",
+            "local": "Kopie von fixtures/oil-prices/brent-daily.csv (Stand 17.11.2026)"
+          }
+        ]
+      },
+      {
+        "id": "war.attention.wiki_en_iran",
+        "template": "war.attention.wikipedia_en",
+        "adapter": "wikipedia",
+        "params": {},
+        "name": "Wikipedia-Aufrufe „Iran–Israel relations“ (englisch)",
+        "plain": "Wie oft der Wikipedia-Artikel „Iran–Israel relations“ pro Tag aufgerufen wird; ein Sprung zeigt, dass viele Menschen ein Kriegsthema nachschlagen.",
+        "geo": null,
+        "override": {},
+        "sources": [
+          {
+            "fixture": "wikimedia/en.wikipedia-Iran–Israel_relations.json",
+            "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Iran%E2%80%93Israel_relations/daily/20250310/20250628"
+          }
+        ]
+      },
+      {
+        "id": "war.attention.wiki_de_iran",
+        "template": "war.attention.wikipedia_en",
+        "adapter": "wikipedia",
+        "params": {},
+        "name": "Wikipedia-Aufrufe „Iran“ (deutsch)",
+        "plain": "Wie oft der Wikipedia-Artikel „Iran“ pro Tag aufgerufen wird; ein Sprung zeigt, dass viele Menschen ein Kriegsthema nachschlagen.",
+        "geo": null,
+        "override": {},
+        "sources": [
+          {
+            "fixture": "wikimedia/de.wikipedia-Iran.json",
+            "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Iran/daily/20250310/20250628"
+          }
+        ]
+      },
+      {
+        "id": "war.attention.wiki_en_world_ww3",
+        "template": "war.attention.wikipedia_en",
+        "adapter": "wikipedia",
+        "params": {},
+        "name": "Wikipedia-Aufrufe „World War III“ (englisch)",
+        "plain": "Wie oft der Wikipedia-Artikel „World War III“ pro Tag aufgerufen wird; ein Sprung zeigt, dass viele Menschen ein Kriegsthema nachschlagen.",
+        "geo": null,
+        "override": {},
+        "sources": [
+          {
+            "fixture": "wikimedia/en.wikipedia-World_War_III.json",
+            "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/World_War_III/daily/20250310/20250628"
+          }
+        ]
+      }
+    ],
+    "extraFetches": [
+      {
+        "fixture": "yahoo/BZ_F-6mo-1d.json",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/BZ%3DF?period1=1743984000&period2=1751068800&interval=1d"
+      },
+      {
+        "fixture": "yahoo/GC_F-6mo-1d.json",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?period1=1743984000&period2=1751068800&interval=1d"
+      },
+      {
+        "fixture": "yahoo/OVX-6mo-1d.json",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EOVX?period1=1743984000&period2=1751068800&interval=1d"
+      },
+      {
+        "fixture": "yahoo/VIX-6mo-1d.json",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1743984000&period2=1751068800&interval=1d"
+      },
+      {
+        "fixture": "yahoo/CL_F-6mo-1d.json",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL%3DF?period1=1743984000&period2=1751068800&interval=1d"
+      },
+      {
+        "fixture": "ooni/web-connectivity-ir-daily.json",
+        "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=IR&test_name=web_connectivity&since=2025-04-07&until=2025-06-28&axis_x=measurement_start_day"
+      },
+      {
+        "fixture": "ooni/web-connectivity-il-daily.json",
+        "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=IL&test_name=web_connectivity&since=2025-04-07&until=2025-06-28&axis_x=measurement_start_day"
+      }
+    ]
   },
   {
     "id": "change-healthcare-2024-02",
@@ -125,7 +766,173 @@
       "Wikipedia: 2022 Rogers Communications outage"
     ],
     "notes": "Kein Angriff, Wartungsfehler im Kernnetz. Beginn am frühen Morgen Ortszeit (ca. 08:45 UTC), hier auf 08:00 UTC abgerundet. Kein Collector misst Kanada direkt.",
-    "verified": true
+    "verified": true,
+    "probes": [
+      {
+        "id": "cyber.outages.ioda_ca_bgp",
+        "template": "cyber.outages.ioda_country_signals_de",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "bgp"
+        },
+        "name": "IODA: Kanada im Routing",
+        "plain": "Wie viele Netzblöcke (/24) aus Kanada weltweit im Routing sichtbar sind.",
+        "geo": {
+          "lat": 43.65,
+          "lon": -79.38,
+          "label": "Kanada (Rogers, Toronto)",
+          "kind": "country",
+          "cc": "CA"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-CA.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CA?from=1653609600&until=1657670400&datasource=bgp"
+          },
+          {
+            "fixture": "ioda/country-CA-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CA?from=1653609600&until=1657670400&datasource=bgp&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "cyber.outages.ioda_ca_ping",
+        "template": "cyber.outages.ioda_country_signals_de",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "ping-slash24"
+        },
+        "name": "IODA: anpingbare Netze in Kanada",
+        "plain": "Wie viele Netzblöcke in Kanada auf Ping antworten.",
+        "geo": {
+          "lat": 43.65,
+          "lon": -79.38,
+          "label": "Kanada (Rogers, Toronto)",
+          "kind": "country",
+          "cc": "CA"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ioda/country-CA-ping.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CA?from=1653609600&until=1657670400&datasource=ping-slash24"
+          },
+          {
+            "fixture": "ioda/country-CA-ping-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CA?from=1653609600&until=1657670400&datasource=ping-slash24&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "cyber.outages.ioda_as812_bgp",
+        "template": "cyber.outages.ioda_country_signals_de",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "bgp"
+        },
+        "name": "IODA: Rogers-Netz (AS812) im Routing",
+        "plain": "Wie viele Netzblöcke des Rogers-Netzes (AS812) weltweit im Routing sichtbar sind.",
+        "geo": {
+          "lat": 43.65,
+          "lon": -79.38,
+          "label": "Kanada (Rogers, Toronto)",
+          "kind": "country",
+          "cc": "CA"
+        },
+        "override": {
+          "independenceGroup": "ioda-asn"
+        },
+        "sources": [
+          {
+            "fixture": "ioda/asn-812.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/812?from=1653609600&until=1657670400&datasource=bgp"
+          },
+          {
+            "fixture": "ioda/asn-812-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/812?from=1653609600&until=1657670400&datasource=bgp&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "cyber.outages.ioda_as812_ping",
+        "template": "cyber.outages.ioda_country_signals_de",
+        "adapter": "ioda",
+        "params": {
+          "datasource": "ping-slash24"
+        },
+        "name": "IODA: anpingbare Netze bei Rogers (AS812)",
+        "plain": "Wie viele Netzblöcke im Rogers-Netz (AS812) auf Ping antworten.",
+        "geo": {
+          "lat": 43.65,
+          "lon": -79.38,
+          "label": "Kanada (Rogers, Toronto)",
+          "kind": "country",
+          "cc": "CA"
+        },
+        "override": {
+          "independenceGroup": "ioda-asn"
+        },
+        "sources": [
+          {
+            "fixture": "ioda/asn-812-ping.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/812?from=1653609600&until=1657670400&datasource=ping-slash24"
+          },
+          {
+            "fixture": "ioda/asn-812-ping-max.json",
+            "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/812?from=1653609600&until=1657670400&datasource=ping-slash24&maxPoints=20000"
+          }
+        ]
+      },
+      {
+        "id": "cyber.routing.bgp_withdrawals_as812",
+        "template": "cyber.routing.bgp_withdrawals_global",
+        "adapter": "ripe-updates",
+        "params": {},
+        "name": "BGP-Rücknahmen für Rogers (AS812, RIPEstat)",
+        "plain": "Wie viele Routen des Rogers-Netzes pro Stunde zurückgezogen werden; ein Ausfall zeigt sich als Welle von Rücknahmen.",
+        "geo": {
+          "lat": 43.65,
+          "lon": -79.38,
+          "label": "Kanada (Rogers, Toronto)",
+          "kind": "country",
+          "cc": "CA"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "ripe-stat/bgp-update-activity-AS812.json",
+            "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS812&starttime=2022-05-27T00:00&endtime=2022-07-13T00:00&sampling_period=3600"
+          },
+          {
+            "fixture": "ripe-stat/bgp-update-activity-AS812-auto.json",
+            "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS812&starttime=2022-05-27T00:00&endtime=2022-07-13T00:00"
+          }
+        ]
+      },
+      {
+        "id": "cyber.attention.wiki_en_rogers",
+        "template": "cyber.attention.wikipedia_cyber_terms",
+        "adapter": "wikipedia",
+        "params": {},
+        "name": "Wikipedia-Aufrufe „Rogers Communications“",
+        "plain": "Wie oft der Wikipedia-Artikel zum Netzbetreiber Rogers pro Tag aufgerufen wird.",
+        "geo": {
+          "lat": 43.65,
+          "lon": -79.38,
+          "label": "Kanada (Rogers, Toronto)",
+          "kind": "country",
+          "cc": "CA"
+        },
+        "override": {},
+        "sources": [
+          {
+            "fixture": "wikimedia/en.wikipedia-Rogers_Communications.json",
+            "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Rogers_Communications/daily/20220501/20220713"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "dyn-ddos-2016-10",
@@ -250,5 +1057,35 @@
     ],
     "notes": "Ruhe nicht verifiziert; kleinere Vorfälle sind möglich. Februar 2023 wurde verworfen, weil dort die ESXiArgs-Ransomware-Welle lief. Dient nur als grober Fehlalarm-Vergleich.",
     "verified": false
+  },
+  {
+    "id": "control-iberia-2025-03",
+    "title": "Vergleichszeitraum Spanien/Portugal, vier Wochen vor dem Stromausfall",
+    "start": "2025-03-31T00:00:00Z",
+    "end": "2025-04-01T23:59:00Z",
+    "kind": "control",
+    "scenario": "blackout",
+    "expectedDomains": [],
+    "sources": [
+      "eigene Auswahl: vier Wochen vor dem 28.04.2025, kein bekannter Großausfall"
+    ],
+    "notes": "Dieselben Messungen wie beim Stromausfall (probesFrom), nur früher eingelesen.",
+    "verified": false,
+    "probesFrom": "iberia-blackout-2025-04"
+  },
+  {
+    "id": "control-israel-iran-2025-05",
+    "title": "Vergleichszeitraum Nahost, vier Wochen vor dem Israel-Iran-Krieg",
+    "start": "2025-05-16T00:00:00Z",
+    "end": "2025-05-17T23:59:00Z",
+    "kind": "control",
+    "scenario": "war",
+    "expectedDomains": [],
+    "sources": [
+      "eigene Auswahl: vier Wochen vor dem 13.06.2025"
+    ],
+    "notes": "Nicht ruhig im engeren Sinn: vereinzelte Raketen aus dem Jemen auf Israel waren in dieser Zeit üblich. Dieselben Messungen wie beim Krieg (probesFrom).",
+    "verified": false,
+    "probesFrom": "israel-iran-2025-06"
   }
 ]

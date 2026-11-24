@@ -411,5 +411,376 @@
     "maxChars": 20000,
     "signal": "cyber.markets.cyber_etf_volume",
     "event": "change-healthcare-2024-02"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/announced-prefixes-AS32934.json",
+    "url": "https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00",
+    "maxChars": 3000000,
+    "signal": "cyber.routing.visible_prefixes_as32934",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/routing-history-AS32934.json",
+    "url": "https://stat.ripe.net/data/routing-history/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00",
+    "maxChars": 3000000,
+    "signal": "cyber.routing.visible_prefixes_as32934",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/bgp-update-activity-AS32934.json",
+    "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00&sampling_period=3600",
+    "maxChars": 3000000,
+    "signal": "cyber.routing.bgp_withdrawals_as32934",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ripe-stat/bgp-update-activity-AS32934-auto.json",
+    "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS32934&starttime=2021-08-23T00:00&endtime=2021-10-08T00:00",
+    "maxChars": 3000000,
+    "signal": "cyber.routing.bgp_withdrawals_as32934",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ioda/asn-32934.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/32934?from=1629676800&until=1633651200&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_as32934_bgp",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ioda/asn-32934-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/32934?from=1629676800&until=1633651200&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_as32934_bgp",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ioda/asn-32934-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/32934?from=1629676800&until=1633651200&datasource=ping-slash24",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_as32934_ping",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/ioda/asn-32934-ping-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/32934?from=1629676800&until=1633651200&datasource=ping-slash24&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_as32934_ping",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/facebook-bgp-2021-10/wikimedia/en.wikipedia-Facebook.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Facebook/daily/20210726/20211008",
+    "maxChars": 3000000,
+    "signal": "cyber.attention.wiki_en_facebook",
+    "event": "facebook-bgp-2021-10"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-ES.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1740355200&until=1746230400&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_es_bgp",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-ES-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1740355200&until=1746230400&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_es_bgp",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-ES-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1740355200&until=1746230400&datasource=ping-slash24",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_es_ping",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-ES-ping-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/ES?from=1740355200&until=1746230400&datasource=ping-slash24&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_es_ping",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/energy-charts/public_power-es.json",
+    "url": "https://api.energy-charts.info/public_power?country=es&start=2025-02-24T00%3A00Z&end=2025-05-03T00%3A00Z",
+    "maxChars": 3000000,
+    "signal": "blackout.grid.load_es",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/energy-charts/public_power-es-days.json",
+    "url": "https://api.energy-charts.info/public_power?country=es&start=2025-02-24&end=2025-05-03",
+    "maxChars": 3000000,
+    "signal": "blackout.grid.load_es",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ooni/probe-es.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=ES&test_name=web_connectivity&since=2025-02-24&until=2025-05-03&axis_x=measurement_start_day",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ooni_anomaly_share_es",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-PT.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1740355200&until=1746230400&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_pt_bgp",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-PT-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1740355200&until=1746230400&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_pt_bgp",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-PT-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1740355200&until=1746230400&datasource=ping-slash24",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_pt_ping",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ioda/country-PT-ping-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/PT?from=1740355200&until=1746230400&datasource=ping-slash24&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ioda_pt_ping",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/energy-charts/public_power-pt.json",
+    "url": "https://api.energy-charts.info/public_power?country=pt&start=2025-02-24T00%3A00Z&end=2025-05-03T00%3A00Z",
+    "maxChars": 3000000,
+    "signal": "blackout.grid.load_pt",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/energy-charts/public_power-pt-days.json",
+    "url": "https://api.energy-charts.info/public_power?country=pt&start=2025-02-24&end=2025-05-03",
+    "maxChars": 3000000,
+    "signal": "blackout.grid.load_pt",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/ooni/probe-pt.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=PT&test_name=web_connectivity&since=2025-02-24&until=2025-05-03&axis_x=measurement_start_day",
+    "maxChars": 3000000,
+    "signal": "blackout.outages.ooni_anomaly_share_pt",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/wikimedia/de.wikipedia-Stromausfall.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Stromausfall/daily/20250127/20250503",
+    "maxChars": 3000000,
+    "signal": "blackout.attention.wiki_de_stromausfall",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/wikimedia/en.wikipedia-Power_outage.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Power_outage/daily/20250127/20250503",
+    "maxChars": 3000000,
+    "signal": "blackout.attention.wiki_en_power_outage",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/iberia-blackout-2025-04/wikimedia/es.wikipedia-Apagón.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia/all-access/user/Apag%C3%B3n/daily/20250127/20250503",
+    "maxChars": 3000000,
+    "signal": "blackout.attention.wiki_es_apagon",
+    "event": "iberia-blackout-2025-04"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/ioda/country-IR.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=1743984000&until=1751068800&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "war.connectivity.ioda_ir",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/ioda/country-IR-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=1743984000&until=1751068800&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "war.connectivity.ioda_ir",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/ioda/country-IR-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=1743984000&until=1751068800&datasource=ping-slash24",
+    "maxChars": 3000000,
+    "signal": "war.connectivity.ioda_ir_ping",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/ioda/country-IR-ping-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IR?from=1743984000&until=1751068800&datasource=ping-slash24&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "war.connectivity.ioda_ir_ping",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/ioda/country-IL.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IL?from=1743984000&until=1751068800&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "war.connectivity.ioda_il",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/ioda/country-IL-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/IL?from=1743984000&until=1751068800&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "war.connectivity.ioda_il",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/wikimedia/en.wikipedia-Iran–Israel_relations.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Iran%E2%80%93Israel_relations/daily/20250310/20250628",
+    "maxChars": 3000000,
+    "signal": "war.attention.wiki_en_iran",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/wikimedia/de.wikipedia-Iran.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/de.wikipedia/all-access/user/Iran/daily/20250310/20250628",
+    "maxChars": 3000000,
+    "signal": "war.attention.wiki_de_iran",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/wikimedia/en.wikipedia-World_War_III.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/World_War_III/daily/20250310/20250628",
+    "maxChars": 3000000,
+    "signal": "war.attention.wiki_en_world_ww3",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/yahoo/BZ_F-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BZ%3DF?period1=1743984000&period2=1751068800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/yahoo/GC_F-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?period1=1743984000&period2=1751068800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/yahoo/OVX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EOVX?period1=1743984000&period2=1751068800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/yahoo/VIX-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=1743984000&period2=1751068800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/yahoo/CL_F-6mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL%3DF?period1=1743984000&period2=1751068800&interval=1d",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/ooni/web-connectivity-ir-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=IR&test_name=web_connectivity&since=2025-04-07&until=2025-06-28&axis_x=measurement_start_day",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/israel-iran-2025-06/ooni/web-connectivity-il-daily.json",
+    "url": "https://api.ooni.io/api/v1/aggregation?probe_cc=IL&test_name=web_connectivity&since=2025-04-07&until=2025-06-28&axis_x=measurement_start_day",
+    "maxChars": 3000000,
+    "signal": "",
+    "event": "israel-iran-2025-06"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ioda/country-CA.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CA?from=1653609600&until=1657670400&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_ca_bgp",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ioda/country-CA-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CA?from=1653609600&until=1657670400&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_ca_bgp",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ioda/country-CA-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CA?from=1653609600&until=1657670400&datasource=ping-slash24",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_ca_ping",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ioda/country-CA-ping-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/CA?from=1653609600&until=1657670400&datasource=ping-slash24&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_ca_ping",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ioda/asn-812.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/812?from=1653609600&until=1657670400&datasource=bgp",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_as812_bgp",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ioda/asn-812-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/812?from=1653609600&until=1657670400&datasource=bgp&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_as812_bgp",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ioda/asn-812-ping.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/812?from=1653609600&until=1657670400&datasource=ping-slash24",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_as812_ping",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ioda/asn-812-ping-max.json",
+    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/asn/812?from=1653609600&until=1657670400&datasource=ping-slash24&maxPoints=20000",
+    "maxChars": 3000000,
+    "signal": "cyber.outages.ioda_as812_ping",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ripe-stat/bgp-update-activity-AS812.json",
+    "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS812&starttime=2022-05-27T00:00&endtime=2022-07-13T00:00&sampling_period=3600",
+    "maxChars": 3000000,
+    "signal": "cyber.routing.bgp_withdrawals_as812",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/ripe-stat/bgp-update-activity-AS812-auto.json",
+    "url": "https://stat.ripe.net/data/bgp-update-activity/data.json?resource=AS812&starttime=2022-05-27T00:00&endtime=2022-07-13T00:00",
+    "maxChars": 3000000,
+    "signal": "cyber.routing.bgp_withdrawals_as812",
+    "event": "rogers-2022-07"
+  },
+  {
+    "fixture": "backtest/rogers-2022-07/wikimedia/en.wikipedia-Rogers_Communications.json",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Rogers_Communications/daily/20220501/20220713",
+    "maxChars": 3000000,
+    "signal": "cyber.attention.wiki_en_rogers",
+    "event": "rogers-2022-07"
   }
 ]

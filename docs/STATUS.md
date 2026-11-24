@@ -1,6 +1,6 @@
 # Status
 
-Automatisch erzeugt von `scripts/status_report.py` am 2026-11-24 02:00 UTC. Nicht von Hand ändern; neu erzeugen mit `python3 -I scripts/status_report.py`.
+Automatisch erzeugt von `scripts/status_report.py` am 2026-11-24 02:31 UTC. Nicht von Hand ändern; neu erzeugen mit `python3 -I scripts/status_report.py`.
 
 Quellen der Zahlen: `catalog/scenarios.json`, `catalog/signals/*.json`, die geladenen Collectors (`src/collectors/*.ts`) und deren Kopfkommentar (`VERIFIED:`). Aufgezeichnete echte Antworten unter `fixtures/` stammen vom 2026-11-17T00:16:13Z.
 
@@ -12,13 +12,13 @@ Signale eines Szenarios = Katalog-Einträge plus Signale, die ein Collector zus�
 |---|---|---:|---:|---:|---:|---:|
 | `cyber` | Cyberangriff | 9 | 306 | 119 | 187 | 37 |
 | `war` | Kriegseskalation | 7 | 178 | 64 | 114 | 30 |
-| `blackout` | Blackout und Energiekrise | 7 | 75 | 16 | 59 | 3 |
+| `blackout` | Blackout und Energiekrise | 7 | 89 | 31 | 58 | 3 |
 | `ai` | KI-Vorfall | 6 | 77 | 19 | 58 | 16 |
 | `finance` | Finanzkrise und Bankenstress | 7 | 77 | 26 | 51 | 6 |
 | `nuclear` | Nuklearer Zwischenfall | 6 | 79 | 28 | 51 | 10 |
 | `bio` | Pandemie und Ausbrüche | 8 | 85 | 26 | 59 | 11 |
 
-Summe (je Signal einmal): **877 Signale**, davon **298 mit Collector**, 579 nur katalogisiert. Davon stehen 782 in den Katalog-Dateien und 95 nur im Collector.
+Summe (je Signal einmal): **891 Signale**, davon **313 mit Collector**, 578 nur katalogisiert. Davon stehen 782 in den Katalog-Dateien und 109 nur im Collector.
 
 ## Signale je Szenario und Bereich
 
@@ -56,12 +56,12 @@ Summe (je Signal einmal): **877 Signale**, davon **298 mit Collector**, 579 nur 
 
 | Bereich | Titel | Gewicht | Signale | mit Collector | Klasse D |
 |---|---|---:|---:|---:|---:|
-| `grid` | Stromnetz | 1 | 19 | 4 | 0 |
+| `grid` | Stromnetz | 1 | 22 | 7 | 0 |
 | `gas` | Gasversorgung | 1 | 14 | 6 | 0 |
 | `prices` | Energiepreise | 0.8 | 7 | 1 | 0 |
 | `weather` | Wetter | 0.9 | 10 | 2 | 0 |
-| `plants` | Kraftwerke und Pegel | 0.9 | 9 | 0 | 0 |
-| `outages` | Gemessene Stromausfälle | 1 | 8 | 1 | 0 |
+| `plants` | Kraftwerke und Pegel | 0.9 | 9 | 1 | 0 |
+| `outages` | Gemessene Stromausfälle | 1 | 19 | 12 | 0 |
 | `markets` | Märkte | 0.6 | 4 | 2 | 0 |
 | `attention` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 3 | 0 | 3 |
 | `context` | (kein Szenario-Bereich: Aufmerksamkeit oder Kontext, nie gewertet) | – | 1 | 0 | 0 |
@@ -129,20 +129,20 @@ Summe (je Signal einmal): **877 Signale**, davon **298 mit Collector**, 579 nur 
 |---|---|---|---|---:|---:|---|
 | `adsb-lol` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 3 | 15 | ja |
 | `agsi` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752) für die EU-Signale (36 Werte, war.energy.eu_gas_storage, cyber.physical.storage_level_anomaly_eu). Teilsignal blackout.gas.storage_by_site_critical: Live-Abruf mit der alten EIC sch… | `SR_AGSI_KEY` | 3 | 360 | ja |
-| `ai-hf-hub` | nein | (Test nach Doku nachgebaut; wird beim nächsten Actions-Lauf live geprüft) | nein | 1 | 60 | ja |
-| `ai-provider-incidents` | nein | (Form nach Doku und nach der vorhandenen statuspage-Implementierung; aus der Bau-Umgebung kein Internet; incidents.json ist groß, typisch 50 bis 200 kB, daher im Test ein nach Doku nachgebautes Beispiel; Queue: fixtures/queue/ai-… | nein | 3 | 360 | ja |
+| `ai-hf-hub` | ja | (Live-Lauf 24.11.2026, 1 Beobachtungen) | nein | 1 | 60 | ja |
+| `ai-provider-incidents` | ja | (Live-Lauf 24.11.2026, 135 Beobachtungen) | nein | 3 | 360 | ja |
 | `aisstream` | nein | (ungeprüft bis Key). Nachrichtenformat nach Doku; Fixture fixtures/aisstream/doc-sample-messages.json ist nach der Doku nachgebaut, keine echte Aufzeichnung. | `SR_AISSTREAM_KEY` | 3 | 60 | ja |
 | `alerts-in-ua` | nein | (ungeprüft bis Key). Ohne Token HTTP 401; Format nach offizieller Doku (Beispiel und Modell "Alert"). | `SR_ALERTS_IN_UA_KEY` | 2 | 15 | ja |
 | `alsi` | ja | (Live-Lauf Actions 20.11.2026, Run 44717048752): 72 Werte. | `SR_ALSI_KEY` | 4 | 360 | ja |
 | `bfs-odl` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 2 | 60 | nein |
 | `bitnodes` | ja | (17.11.2026, echte Antwort; 100 Snapshots, 17 680 bis 20 385 Knoten, Zeitstempel unregelmäßig) | nein | 1 | 60 | ja |
 | `blackout-energy-prices-github` | ja | (17.11.2026, echte Antwort) | nein | 2 | 1440 | ja |
-| `blackout-grid-bridge` | teilweise | (Frequenz, Einspeisung, Netzlast, Kp: ja, Replay gegen echte Aufzeichnungen; Preis: nein, Test nach Doku) | nein | 5 | 60 | ja |
-| `blackout-open-meteo` | nein | (Test nach Doku nachgebaut; wird beim nächsten Actions-Lauf live geprüft) | nein | 1 | 1440 | ja |
+| `blackout-grid-bridge` | teilweise | (Frequenz, Einspeisung, Netzlast, Kp: ja, Replay gegen echte Aufzeichnungen; Preis, Abschnitte 1 bis n, Netzlast FR/ES/IT, Kernkraft FR: nein, Form wie public_power DE angenommen, Test nach Doku) | nein | 9 | 60 | ja |
+| `blackout-open-meteo` | ja | (Live-Lauf 24.11.2026, 30 Beobachtungen) | nein | 1 | 1440 | ja |
 | `chromiumdash` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 1 | 360 | ja |
 | `cisa-ics` | ja | (17.11.2026, echte Antwort) | nein | 1 | 1440 | ja |
 | `cisa-kev` | ja | (17.11.2026, echte Antwort) | nein | 2 | 1440 | ja |
-| `cloudflare-radar` | nein | Response shape (result.serie_0.{timestamps,values}, result.annotations[], result.events[] with result_info.total_count) is reconstructed from the official docs/SDK types (the docs pages were only partly readable: query-parameter… | `SR_CLOUDFLARE_KEY` | 7 | 60 | ja |
+| `cloudflare-radar` | ja | (Live-Lauf 24.11.2026, 510 Beobachtungen) Hint for the orchestrator: the catalog entry lists this source as `cf-radar`; the file/collector id is `cloudflare-radar`. Not built: DNS signals (servfail_rate, dnssec_failures), ranking… | `SR_CLOUDFLARE_KEY` | 7 | 60 | ja |
 | `coingecko` | ja | (20.11.2026, echte Antworten ohne Key: fixtures/coingecko/bitcoin-30d.json, pax-gold-30d.json, tether-2d.json). Mit Demo-Key-Header noch nicht gelaufen (gleicher Endpunkt, gleiche Form laut Doku). | `SR_COINGECKO_KEY` | 2 | 60 | ja |
 | `ct-logs` | ja | (17.11.2026, echte Antwort): tree_size in the billions (3.0 to 6.8 billion), STH timestamp matches the capture time. | nein | 3 | 60 | ja |
 | `cvelist-delta` | ja | (17.11.2026, echte Antwort) | nein | 2 | 360 | ja |
@@ -173,12 +173,13 @@ Summe (je Signal einmal): **877 Signale**, davon **298 mit Collector**, 579 nur 
 | `github-ukraine-losses` | ja | (17.11.2026) | nein | 2 | 1440 | ja |
 | `grip` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 1 | 60 | ja |
 | `hn-algolia` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 3 | 720 | ja |
-| `ioda` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 11 | 60 | ja |
+| `ioda` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 22 | 60 | ja |
 | `ipsum` | ja | (17.11.2026) | nein | 2 | 360 | ja |
-| `layer-eonet` | nein | (Live-Prüfung steht aus; Fixture nach Doku nachgebaut) | nein | 0 | 30 | nein |
-| `layer-gdacs` | nein | (Live-Prüfung steht aus; Fixture nach Doku nachgebaut) | nein | 0 | 30 | nein |
-| `layer-usgs-quakes` | nein | (Live-Prüfung steht aus; Fixture nach Doku nachgebaut) | nein | 0 | 30 | nein |
-| `malwarebazaar` | nein | (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Spaltenlage nach Gedächtnis: first_seen_utc ist Spalte 0, Kopfzeile als #-Kommentar). | `SR_ABUSECH_KEY` | 1 | 60 | ja |
+| `layer-eonet` | ja | (Live-Lauf 24.11.2026, 14 Punkte) | nein | 0 | 30 | nein |
+| `layer-gdacs` | teilweise | (läuft fehlerfrei, liefert aber nichts; Format prüfen) | nein | 0 | 30 | nein |
+| `layer-ioda-outages` | ja | (Live-Lauf 24.11.2026, 25 Punkte) | nein | 0 | 30 | nein |
+| `layer-usgs-quakes` | ja | (Live-Lauf 24.11.2026, 50 Punkte) | nein | 0 | 30 | nein |
+| `malwarebazaar` | ja | (Live-Lauf 24.11.2026, 47 Beobachtungen) | `SR_ABUSECH_KEY` | 1 | 60 | ja |
 | `mastodon-trends` | ja | (17.11.2026, echte Antwort): history[] mit day (Unix-Sekunden, String), uses, accounts bestätigt; ohne Login abrufbar. Replay: 6 vollständige Tage (laufender Tag verworfen), Summe 834 bis 2909/Tag, Wochenende niedriger. | nein | 1 | 720 | ja |
 | `mempool-space` | ja | (17.11.2026, echte Antworten: fastestFee 2 sat/vB, Warteschlange 76 535 Transaktionen / 32,65 MvB; die Pool-Antwort enthält ein langes fee_histogram, die Werte sind plausibel). | nein | 2 | 15 | ja |
 | `metaculus` | nein | (ungeprüft bis Key). Format aus der OpenAPI-Spezifikation; 403 ohne Token echt geprüft. | `SR_METACULUS_KEY` | 1 | 360 | ja |
@@ -209,12 +210,12 @@ Summe (je Signal einmal): **877 Signale**, davon **298 mit Collector**, 579 nur 
 | `smard` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 1 | 60 | ja |
 | `space-track` | nein | (ungeprüft bis Key). Format und Login nach offizieller Doku. | `SR_SPACE_TRACK_USER` + `SR_SPACE_TRACK_PASS` | 1 | 1440 | ja |
 | `statuspage` | teilweise | (status.json: ja, 17.11.2026, 44 echte Antworten, Replay liefert Werte; incidents.json: nein, Form nach Doku, Fixtures statuspage-incidents/<host>.json stehen in der Queue; Antwortgröße ungeprüft, die Prüf-Umgebung kappt bei 24 0… | nein | 6 | 15 | ja |
-| `threatfox` | nein | (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Form nach Gedächtnis: Objekt { "<ioc_id>": [ { first_seen_utc, ... } ] }; Array wird ebenfalls akzeptiert). | `SR_ABUSECH_KEY` | 1 | 60 | ja |
+| `threatfox` | ja | (Live-Lauf 24.11.2026, 718 Beobachtungen) | `SR_ABUSECH_KEY` | 1 | 60 | ja |
 | `tor-metrics` | ja | (17.11.2026, echte Antwort): 73 plausible Tageswerte je Signal, letzter Tag 14.11.2026. | nein | 2 | 720 | ja |
 | `tor-relays-github` | ja | (17.11.2026) | nein | 1 | 360 | ja |
 | `treasury-fiscal` | ja | (17.11.2026, echte Antwort) | nein | 1 | 720 | ja |
 | `tweetfeed` | ja | (17.11.2026) | nein | 2 | 360 | ja |
-| `urlhaus` | nein | (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Kopfzeile nach Gedächtnis: "# id,dateadded,url,url_status,last_online,threat,tags,urlhaus_link,reporter"). | `SR_ABUSECH_KEY` | 1 | 60 | ja |
+| `urlhaus` | ja | (Live-Lauf 24.11.2026, 721 Beobachtungen) | `SR_ABUSECH_KEY` | 1 | 60 | ja |
 | `usgs-quakes` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 8 | 60 | nein |
 | `wikimedia-pageviews` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 8 | 360 | ja |
 | `yahoo-chart` | ja | (17.11.2026, echte Antwort live abgerufen; Parser läuft, Werte plausibel) | nein | 20 | 720 | ja |
@@ -222,14 +223,14 @@ Summe (je Signal einmal): **877 Signale**, davon **298 mit Collector**, 579 nur 
 ## Summen
 
 - Szenarien: 7 (cyber, war, blackout, ai, finance, nuclear, bio)
-- Signale gesamt: 877, davon mit Collector 298, nur katalogisiert 579
-- Collectors: 91, davon mit Pflicht-Key 23 (SR_ABUSECH_KEY, SR_AGSI_KEY, SR_AISSTREAM_KEY, SR_ALERTS_IN_UA_KEY, SR_ALSI_KEY, SR_CLOUDFLARE_KEY, SR_COINGECKO_KEY, SR_EIA_KEY, SR_FAA_NOTAM_PASS, SR_FAA_NOTAM_USER, SR_FINGRID_KEY, SR_FIRMS_KEY, SR_FRED_KEY, SR_GFW_KEY, SR_GITHUB_KEY, SR_METACULUS_KEY, SR_OTX_KEY, SR_REDDIT_PASS, SR_REDDIT_USER, SR_SAM_GOV_KEY, SR_SPACE_TRACK_PASS, SR_SPACE_TRACK_USER)
-- Von Collectors deklarierte Signale (Summe über Collectors): 298
+- Signale gesamt: 891, davon mit Collector 313, nur katalogisiert 578
+- Collectors: 92, davon mit Pflicht-Key 23 (SR_ABUSECH_KEY, SR_AGSI_KEY, SR_AISSTREAM_KEY, SR_ALERTS_IN_UA_KEY, SR_ALSI_KEY, SR_CLOUDFLARE_KEY, SR_COINGECKO_KEY, SR_EIA_KEY, SR_FAA_NOTAM_PASS, SR_FAA_NOTAM_USER, SR_FINGRID_KEY, SR_FIRMS_KEY, SR_FRED_KEY, SR_GFW_KEY, SR_GITHUB_KEY, SR_METACULUS_KEY, SR_OTX_KEY, SR_REDDIT_PASS, SR_REDDIT_USER, SR_SAM_GOV_KEY, SR_SPACE_TRACK_PASS, SR_SPACE_TRACK_USER)
+- Von Collectors deklarierte Signale (Summe über Collectors): 313
 
 | VERIFIED | Collectors | Signale dieser Collectors |
 |---|---:|---:|
-| ja | 66 | 239 |
-| teilweise | 5 | 24 |
-| nein | 20 | 35 |
+| ja | 76 | 265 |
+| teilweise | 6 | 28 |
+| nein | 10 | 20 |
 
 Collectors mit `VERIFIED: nein` oder `teilweise` sind die offenen Prüfaufgaben: Antwort aufzeichnen (`fixtures/queue/<collector>.json`), Parser dagegen testen, Vermerk ändern.

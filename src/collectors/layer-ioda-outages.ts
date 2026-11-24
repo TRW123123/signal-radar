@@ -9,7 +9,7 @@
 // Harmlose Ursachen: Stromausfälle, Messausfall einzelner IODA-Datenquellen, Wartung großer Provider, Prüfungsabschaltungen.
 // Parser tolerant: Liste unter `data` (auch Liste von Listen), Einträge mit entity.code/entity.name/scores.overall; unbekannte Formen
 // werden übersprungen, bei völlig unerwarteter Antwort (kein `data`-Array) wird ein Fehler geworfen.
-// VERIFIED: nein (Antwortformat der Zusammenfassung nicht live geprüft; Fixture nach Doku nachgebaut)
+// VERIFIED: ja (Live-Lauf 24.11.2026, 25 Punkte)
 
 import type { Collector, MapPoint } from '../core/types.ts';
 import { num } from './_helpers.ts';

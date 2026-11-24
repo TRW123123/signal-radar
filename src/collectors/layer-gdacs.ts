@@ -6,7 +6,7 @@
 // Antwort: GeoJSON-FeatureCollection; je Feature geometry (Point, [lon,lat]) und properties.{name, alertlevel, eventtype
 //   (EQ Erdbeben, TC Wirbelsturm, FL Überschwemmung, VO Vulkan, DR Dürre, WF Waldbrand, TS Tsunami), fromdate, url:{report}}.
 // Gemessen: nichts. Keine Beobachtungen, nie eine Stufe. strength: Orange 0.6, Rot 1.
-// VERIFIED: nein (Live-Prüfung steht aus; Fixture nach Doku nachgebaut)
+// VERIFIED: teilweise (läuft fehlerfrei, liefert aber nichts; Format prüfen)
 
 import type { Collector, MapPoint } from '../core/types.ts';
 import { num } from './_helpers.ts';

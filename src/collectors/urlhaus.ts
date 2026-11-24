@@ -9,7 +9,7 @@
 // Gemessen: URLs je voller UTC-Stunde aus `dateadded`; älteste Stunde der Antwort und laufende Stunde entfallen.
 // Harmlose Ursachen: Batch-Uploads einzelner Melder, Aufräumläufe, Quellenausfall (Lücke).
 // Ausgelassen: cyber.threat.c2_hosting_concentration (Hoster-Zuordnung fehlt im Export).
-// VERIFIED: nein (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Kopfzeile nach Gedächtnis: "# id,dateadded,url,url_status,last_online,threat,tags,urlhaus_link,reporter").
+// VERIFIED: ja (Live-Lauf 24.11.2026, 721 Beobachtungen)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, obs, parseCsv } from './_helpers.ts';

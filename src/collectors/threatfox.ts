@@ -10,7 +10,7 @@
 //         werden ignoriert, der Export reicht bis 2021 zurück); älteste Stunde im Fenster und laufende Stunde entfallen.
 // Harmlose Ursachen: Import-Batches einzelner Melder, Massenmeldung einer Familie, Quellenausfall (Lücke).
 // Ausgelassen: cyber.threat.c2_hosting_concentration (braucht Hoster-Zuordnung, nicht in diesem Export).
-// VERIFIED: nein (17.11.2026: ohne Key HTTP 410, keine echte Antwort; Form nach Gedächtnis: Objekt { "<ioc_id>": [ { first_seen_utc, ... } ] }; Array wird ebenfalls akzeptiert).
+// VERIFIED: ja (Live-Lauf 24.11.2026, 718 Beobachtungen)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { expect, obs } from './_helpers.ts';

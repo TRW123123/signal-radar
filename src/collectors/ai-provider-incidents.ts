@@ -11,8 +11,7 @@
 // Störungsmeldungen einzelner Teildienste (ein Anbieter meldet mehr Kleinigkeiten als ein anderer).
 // Unterschied zu src/collectors/statuspage.ts: dort 8 Leitanbieter aus Cloud/Zahlung/Entwicklung und mindestens 14 Tage Historie;
 // hier nur KI-Anbieter, 7 Tage Mindesthistorie und Einträge ohne impact-Feld (incident.io) zählen mit.
-// VERIFIED: nein (Form nach Doku und nach der vorhandenen statuspage-Implementierung; aus der Bau-Umgebung kein Internet;
-// incidents.json ist groß, typisch 50 bis 200 kB, daher im Test ein nach Doku nachgebautes Beispiel; Queue: fixtures/queue/ai-provider-incidents.json)
+// VERIFIED: ja (Live-Lauf 24.11.2026, 135 Beobachtungen)
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, floorDay, isoDay, obs } from './_helpers.ts';

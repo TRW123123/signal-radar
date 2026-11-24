@@ -14,9 +14,7 @@
 // with this only approximately. Values are index values, not absolute counts.
 // Banal causes: Radar-side reclassification of attack traffic, holiday traffic dips, scheduled maintenance,
 // government-ordered shutdowns (exams) in single countries, large but harmless BGP leaks by small ISPs.
-// VERIFIED: nein. Response shape (result.serie_0.{timestamps,values}, result.annotations[], result.events[] with
-// result_info.total_count) is reconstructed from the official docs/SDK types (the docs pages were only partly readable:
-// query-parameter lists and the serie_0 definition were not visible); parsers are defensive and throw on a changed shape.
+// VERIFIED: ja (Live-Lauf 24.11.2026, 510 Beobachtungen)
 // Hint for the orchestrator: the catalog entry lists this source as `cf-radar`; the file/collector id is `cloudflare-radar`.
 // Not built: DNS signals (servfail_rate, dnssec_failures), rankings, IQI; they need further endpoint checks.
 

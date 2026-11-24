@@ -5,7 +5,7 @@
 // Gemessen: neue Modelle pro Stunde = (n - 1) geteilt durch die Zeitspanne zwischen neuestem und ältestem der n zuletzt angelegten Modelle.
 // Ein Wert je Lauf (volle Stunde), Baseline baut sich über die Läufe auf (Wochentag und Tageszeit).
 // Harmlose Ursachen für Ausschläge: Modellreleases großer Labs mit vielen Varianten, Quantisierungs-Bots, Wettbewerbe und Kurse, Tageszeit und Wochentag.
-// VERIFIED: nein (Test nach Doku nachgebaut; wird beim nächsten Actions-Lauf live geprüft)
+// VERIFIED: ja (Live-Lauf 24.11.2026, 1 Beobachtungen)
 
 import type { Collector } from '../core/types.ts';
 import { expect, floorHour, obs } from './_helpers.ts';

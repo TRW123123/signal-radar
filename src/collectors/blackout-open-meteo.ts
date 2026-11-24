@@ -7,7 +7,7 @@
 // Gemeldet: je abgeschlossenem UTC-Tag (der heutige Tag aus forecast_days=1 ist unvollständig/Vorhersage und fehlt) das Mittel der drei Tagesminima in °C;
 // Tage, an denen ein Ort null liefert, fehlen. Die Werte der Vergangenheit sind Modellanalysen (Reanalyse/Messungen), keine Prognose.
 // Harmlose Ursachen für Ausschläge: normale Jahreszeit (die Baseline gleitet mit, daher Fenster 28 Tage), kurze Frostnächte ohne Folgen.
-// VERIFIED: nein (Test nach Doku nachgebaut; wird beim nächsten Actions-Lauf live geprüft)
+// VERIFIED: ja (Live-Lauf 24.11.2026, 30 Beobachtungen)
 
 import type { Collector, GeoRef, Observation } from '../core/types.ts';
 import { DAY_MS, expect, floorDay, num, obs } from './_helpers.ts';

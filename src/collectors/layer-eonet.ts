@@ -5,7 +5,7 @@
 // Antwort: { events: [{ id, title, link, categories:[{id,title}], geometry:[{ date, type:'Point', coordinates:[lon,lat] }] }] };
 //   bei Flächen (type 'Polygon') wird der Mittelpunkt des äußeren Rings genommen. Je Ereignis zählt die jüngste Koordinate.
 // Gemessen: nichts. Keine Beobachtungen, nie eine Stufe. strength: Vulkane und Stürme 0.8, Brände/Überschwemmungen 0.6, sonst 0.4.
-// VERIFIED: nein (Live-Prüfung steht aus; Fixture nach Doku nachgebaut)
+// VERIFIED: ja (Live-Lauf 24.11.2026, 14 Punkte)
 
 import type { Collector, MapPoint } from '../core/types.ts';
 import { num } from './_helpers.ts';

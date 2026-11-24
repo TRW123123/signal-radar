@@ -4,7 +4,7 @@
 // Lizenz: gemeinfrei (US-Regierung). Antwort: FeatureCollection; je Feature properties.{mag,place,time(ms),url}, geometry.coordinates=[lon,lat,tiefe].
 // Gemessen: nichts. Die Punkte erzeugen keine Beobachtungen und heben nie eine Stufe. strength = (mag-2.5)/4.5, begrenzt auf 0..1.
 // Größe: der Feed hat meist 300 bis 500 Einträge; die Aufzeichnung kann gekürzt sein, kaputte Einträge werden übersprungen.
-// VERIFIED: nein (Live-Prüfung steht aus; Fixture nach Doku nachgebaut)
+// VERIFIED: ja (Live-Lauf 24.11.2026, 50 Punkte)
 
 import type { Collector, MapPoint } from '../core/types.ts';
 import { num } from './_helpers.ts';

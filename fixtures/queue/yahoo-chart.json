@@ -98,5 +98,10 @@
     "fixture": "yahoo/AVGO-1mo-1d.json",
     "url": "https://query1.finance.yahoo.com/v8/finance/chart/AVGO?range=1mo&interval=1d",
     "maxChars": 4500
+  },
+  {
+    "fixture": "yahoo/KRE-1mo-1d.json",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/KRE?range=1mo&interval=1d",
+    "maxChars": 6000
   }
 ]

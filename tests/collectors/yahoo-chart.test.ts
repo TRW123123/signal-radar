@@ -58,7 +58,7 @@ test('collect: laufender Tag fehlt, fehlendes Symbol lässt nur betroffene Signa
   assert.ok(r.observations.every((o) => o.ts < '2026-11-17'));
   assert.equal(buildUrl('^VIX'), 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=1mo&interval=1d');
   assert.equal(fixtureName('GC=F'), 'yahoo/GC_F-1mo-1d.json');
-  assert.ok(collector.signals.every((s) => s.weight! >= 0.2 && s.weight! <= 0.5));
+  assert.ok(collector.signals.filter((s) => !s.id.startsWith('finance.')).every((s) => s.weight! >= 0.2 && s.weight! <= 0.5)); // finance: Katalog-Gewichte bis 0,8
 });
 
 // Fehlerobjekt nach bekannter Yahoo-Form (nicht aufgezeichnet; echte Antworten bisher nur als Antwortbeginn vorhanden).
@@ -90,4 +90,18 @@ test('war: ein Symbol wird nur einmal geholt, ausgefallenes Symbol lässt nur se
   assert.ok(ids.has('war.markets.brent_futures') && ids.has('war.markets.vix') && ids.has('cyber.markets.vix'));
   assert.ok(!ids.has('war.markets.wheat_prices'));
   assert.equal(urls.length, new Set(urls).size);
+});
+
+// --- Szenario finance ---
+test('finance: Katalog-IDs (VIX, Regionalbanken, Gold) werden vom yahoo-chart-Collector deklariert, KRE nur einmal geholt', async () => {
+  const ids = new Set(collector.signals.map((s) => s.id));
+  for (const id of ['finance.volatility.vix', 'finance.banks.regional_bank_etf_return', 'finance.banks.regional_bank_volume', 'finance.markets.gold']) assert.ok(ids.has(id), id);
+  const body = sample([100, 101, 102, 103], [1, 1, 1, 1], '2026-11-13');
+  const urls: string[] = [];
+  const ctx = {
+    now: new Date('2026-11-17T00:00:00Z'), key: () => undefined, log: () => {},
+    http: { json: async (u: string) => { urls.push(u); return body; }, text: async () => '' },
+  };
+  await collector.collect(ctx as never);
+  assert.equal(urls.filter((u) => u.includes('/KRE?')).length, 1);
 });

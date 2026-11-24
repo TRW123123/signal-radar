@@ -469,3 +469,81 @@ button { font: inherit; color: inherit; }
   .laden-kugel { animation: atmen 2.4s ease-in-out infinite; }
   @keyframes atmen { 50% { opacity: 0.6; } }
 }
+
+/* ---------- Runde 3: Globus als Bühne (dunkler Weltraum in beiden Themen) ---------- */
+.globus-feld, .zm-globus {
+  --g-meer: #04101f;
+  --g-meer-hell: #0b2140;
+  --g-land: #2a4566;
+  --g-grenze: rgba(170, 210, 245, 0.55);
+  --g-netz: rgba(120, 170, 220, 0.09);
+  --g-ruhig: #4fd1c0;
+  --g-etwas: #f5b942;
+  --g-auf: #ff4b5c;
+  --g-nacht: rgba(0, 3, 12, 0.3);
+  --g-schicht: #c9a6ff;
+  --g-schicht2: #ff9fd0;
+  --g-hof: rgba(80, 165, 255, 0.42);
+  --g-rand: rgba(150, 210, 255, 0.75);
+  --g-kern: #ffffff;
+  --g-zahl: #05080f;
+  --tinte: #eef1f5;
+  --grau: #b4bfcb;
+  --grund: #0a1220;
+  --linie: #2b3a4d;
+  --flaeche: #111c2c;
+}
+.globus-feld {
+  color: var(--tinte);
+  background:
+    radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,.8), transparent 60%),
+    radial-gradient(1px 1px at 22% 78%, rgba(255,255,255,.6), transparent 60%),
+    radial-gradient(1.5px 1.5px at 35% 6%, rgba(255,255,255,.7), transparent 60%),
+    radial-gradient(1px 1px at 64% 90%, rgba(255,255,255,.6), transparent 60%),
+    radial-gradient(1px 1px at 78% 8%, rgba(255,255,255,.8), transparent 60%),
+    radial-gradient(1.5px 1.5px at 92% 30%, rgba(255,255,255,.6), transparent 60%),
+    radial-gradient(1px 1px at 88% 70%, rgba(255,255,255,.7), transparent 60%),
+    radial-gradient(1px 1px at 5% 52%, rgba(255,255,255,.6), transparent 60%),
+    radial-gradient(1px 1px at 50% 97%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,.35), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 50% 42%, #0e2240 0%, #060c1a 55%, #020409 100%);
+  padding-bottom: 0.75rem;
+}
+.zm-globus { background: radial-gradient(circle at 50% 50%, #0e2240 0%, #050a16 70%); border-radius: 50%; }
+@media (min-width: 60rem) { .globus-feld { border-radius: 18px; overflow: hidden; } }
+.globus-feld .globus-legende { color: var(--grau); }
+.leg-auf i { background: var(--g-auf); box-shadow: 0 0 0 2px var(--g-zahl), 0 0 0 3.5px var(--g-auf), 0 0 0.6rem 0.2rem color-mix(in srgb, var(--g-auf) 60%, transparent); }
+.leg-ruhig i { box-shadow: 0 0 0.4rem 0.1rem color-mix(in srgb, var(--g-ruhig) 55%, transparent); }
+.leg-etwas i { box-shadow: 0 0 0 1.5px var(--g-zahl), 0 0 0 2.5px var(--g-etwas); }
+.leg-schicht2 i { width: 0; height: 0; border-radius: 0; background: none; border-left: 0.36rem solid transparent; border-right: 0.36rem solid transparent; border-bottom: 0.62rem solid var(--g-schicht2); }
+.schichten { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.4rem; padding: 0.5rem var(--rand) 0; font-size: var(--t-12); color: var(--grau); }
+.schalter { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2rem; padding: 0.2rem 0.7rem; border-radius: 999px; border: 1px solid var(--linie); background: var(--flaeche); color: var(--tinte); font-size: var(--t-12); cursor: pointer; }
+.schalter[aria-pressed='true'] { border-color: color-mix(in srgb, var(--tinte) 55%, transparent); }
+.schalter[aria-pressed='false'] { color: var(--grau); }
+.schalter[aria-pressed='false'] .form { opacity: 0.35; }
+.schalter .form { width: 0.6rem; height: 0.6rem; background: var(--g-schicht); transform: rotate(45deg); border-radius: 1px; flex: none; }
+.schalter .form.dreieck { width: 0; height: 0; background: none; transform: none; border-radius: 0; border-left: 0.36rem solid transparent; border-right: 0.36rem solid transparent; border-bottom: 0.62rem solid var(--g-schicht2); }
+.schalter .an-aus { font-size: 0.7rem; color: var(--grau); }
+.schichten-hinweis { flex-basis: 100%; text-align: center; }
+.zm-hinweis { display: block; margin: 0.6rem var(--rand) 0; padding: 0.55rem 0.8rem; border-radius: var(--radius); border: 1px solid var(--linie); background: color-mix(in srgb, var(--flaeche) 85%, transparent); color: var(--tinte); text-decoration: none; font-size: var(--t-14); line-height: 1.35; text-align: center; }
+.zm-hinweis strong { color: var(--g-ruhig); }
+.zm-hinweis:hover { border-color: var(--tinte); }
+.zm-bilanz { font-weight: 700; margin-bottom: 0.75rem; }
+.etwas-liste .ort-mess, .bereiche .ort-mess { flex: 1 1 0; min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.etwas-liste .ort-zustand, .bereiche .ort-zustand { flex-basis: 100%; padding-left: 1.05rem; }
+.satz-kurz { display: none; }
+@media (max-width: 47.99rem) {
+  .satz-lang { display: none; }
+  .satz-kurz { display: inline; }
+  .kopf { grid-template-areas: 'marke sprache' 'satz satz' 'stand stand'; padding: 0.35rem 0 0.25rem; }
+  .linsen { margin-bottom: 0.2rem; }
+  .linse { min-height: 2.4rem; padding: 0.3rem 0.7rem; flex-direction: row; align-items: center; gap: 0.4rem; }
+  .linse-zustand { font-size: 0; gap: 0; }
+  .linse-zustand .lampe-klein { font-size: var(--t-12); }
+  .linse-name { font-size: var(--t-14); }
+  .antwort-frage { display: none; }
+  .antwort .antwort-satz { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .gehoert-text { -webkit-line-clamp: 2; }
+  .globus-feld { margin-top: 0.4rem; }
+  .sprachwahl button { min-height: 2.25rem; }
+}

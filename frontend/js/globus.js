@@ -78,7 +78,7 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
     farben = {
       meer: v('--g-meer'), meerHell: v('--g-meer-hell'), land: v('--g-land'), grenze: v('--g-grenze'), netz: v('--g-netz'),
       ruhig: v('--g-ruhig'), etwas: v('--g-etwas'), hof: v('--g-hof'), rand: v('--g-rand'), kern: v('--g-kern'),
-      nacht: v('--g-nacht'), schicht: v('--g-schicht'), tinte: v('--tinte'), grund: v('--grund'), schrift: cs.fontFamily,
+      nacht: v('--g-nacht'), schicht: v('--g-schicht'), schicht2: v('--g-schicht2') || v('--g-schicht'), auf: v('--g-auf'), zahl: v('--g-zahl') || '#05080f', tinte: v('--tinte'), grund: v('--grund'), schrift: cs.fontFamily,
     };
   }
 
@@ -101,7 +101,7 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
 
   function leuchtpunkt(x, y, pr, farbe, t, ph, gross) {
     // ausgehender Ring (Puls) + Hof + Kern
-    if (bewegt()) {
+    if (gross && bewegt()) {
       const k = ((t / 2200 + ph / (2 * Math.PI)) % 1);
       ctx.strokeStyle = farbe; ctx.globalAlpha = 0.7 * (1 - k); ctx.lineWidth = 1.5;
       kreis(x, y, pr * (1.6 + k * (gross ? 6 : 4))); ctx.stroke();
@@ -110,12 +110,13 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
     hof.addColorStop(0, farbe); hof.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.globalAlpha = 0.5; ctx.fillStyle = hof; kreis(x, y, pr * (gross ? 6 : 4)); ctx.fill();
     ctx.globalAlpha = 1; ctx.fillStyle = farbe; kreis(x, y, pr * (gross ? 1.6 : 1.25)); ctx.fill();
-    ctx.strokeStyle = farbe; ctx.lineWidth = 1.2; kreis(x, y, pr * (gross ? 2.6 : 2)); ctx.stroke();
+    ctx.strokeStyle = farbe; ctx.lineWidth = 1.4; kreis(x, y, pr * (gross ? 2.4 : 2)); ctx.stroke();
+    if (gross) { ctx.globalAlpha = 0.6; ctx.lineWidth = 1; kreis(x, y, pr * 3.3); ctx.stroke(); ctx.globalAlpha = 1; }
     ctx.fillStyle = farben.kern; kreis(x, y, pr * 0.55); ctx.fill();
   }
 
   function etikett(x, y, cx, cy, p, w, belegt, immer) {
-    const zeilen = [p.titel, p.info].filter(Boolean);
+    const zeilen = [p.anzahl > 1 ? `${p.titel} (+${p.anzahl - 1})` : p.titel, p.info].filter(Boolean);
     if (!zeilen.length) return;
     ctx.font = `700 12px ${farben.schrift}`;
     const b1 = ctx.measureText(zeilen[0]).width;
@@ -137,7 +138,7 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
     belegt.push([lx, ly, bw, bh]);
     ctx.globalAlpha = 0.85; ctx.strokeStyle = farben.tinte; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(rechts ? lx : lx + bw, ly + bh / 2); ctx.stroke();
-    ctx.globalAlpha = 0.9; ctx.fillStyle = farben.grund;
+    ctx.globalAlpha = 0.92; ctx.fillStyle = farben.grund;
     ctx.beginPath(); ctx.roundRect ? ctx.roundRect(lx, ly, bw, bh, 6) : ctx.rect(lx, ly, bw, bh); ctx.fill();
     ctx.globalAlpha = 1; ctx.strokeStyle = p.farbe || farben.rand; ctx.stroke();
     ctx.fillStyle = farben.tinte; ctx.textBaseline = 'top';
@@ -158,9 +159,9 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
     ctx.globalAlpha = 1;
 
     // Lufthülle
-    const saum = ctx.createRadialGradient(cx, cy, r * 0.97, cx, cy, r * 1.2);
-    saum.addColorStop(0, farben.hof); saum.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = saum; kreis(cx, cy, r * 1.2); ctx.fill();
+    const saum = ctx.createRadialGradient(cx, cy, r * 0.96, cx, cy, r * 1.22);
+    saum.addColorStop(0, farben.hof); saum.addColorStop(0.25, farben.hof); saum.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.globalAlpha = 0.9; ctx.fillStyle = saum; kreis(cx, cy, r * 1.22); ctx.fill(); ctx.globalAlpha = 1;
 
     // Meer mit leichter Wölbung
     const meer = ctx.createRadialGradient(cx - r * 0.35, cy - r * 0.4, r * 0.1, cx, cy, r);
@@ -172,8 +173,8 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
       const z = laender.get(f.id);
       if (!z) continue;
       ctx.beginPath(); path(f);
-      ctx.globalAlpha = z.auf ? 0.34 : 0.14;
-      ctx.fillStyle = z.auf ? z.farbe : farben.ruhig;
+      ctx.globalAlpha = z.auf ? 0.38 : 0.16;
+      ctx.fillStyle = z.auf ? farben.auf || z.farbe : farben.ruhig;
       ctx.fill();
       ctx.globalAlpha = 1;
     }
@@ -183,39 +184,71 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
       ctx.fillStyle = farben.nacht;
       for (const n of nacht) { ctx.beginPath(); path(n); ctx.fill(); }
     }
-    ctx.beginPath(); path({ type: 'Sphere' }); ctx.strokeStyle = farben.rand; ctx.lineWidth = 1.2; ctx.stroke();
+    // Lichtkante der Atmosphäre
+    ctx.beginPath(); path({ type: 'Sphere' }); ctx.strokeStyle = farben.rand; ctx.lineWidth = 1.6; ctx.stroke();
+    const glanz = ctx.createRadialGradient(cx - r * 0.45, cy - r * 0.5, 0, cx - r * 0.45, cy - r * 0.5, r * 1.1);
+    glanz.addColorStop(0, 'rgba(160,210,255,0.10)'); glanz.addColorStop(1, 'rgba(160,210,255,0)');
+    ctx.beginPath(); path({ type: 'Sphere' }); ctx.fillStyle = glanz; ctx.fill();
 
-    const pr = Math.max(2.4, w / 200);
+    const pr = Math.max(3.2, w / 125);
 
     // Orientierungs-Schichten (zählen nicht zur Bewertung): dezente Rauten
     for (const p of schicht) {
       if (!istVorne(p)) { p.xy = null; continue; }
       const [x, y] = proj([p.lon, p.lat]);
       p.xy = [x, y];
-      const s = pr * (0.6 + (p.staerke ?? 0.3) * 1.1);
-      ctx.globalAlpha = 0.45 + 0.2 * (p.staerke ?? 0.3);
-      ctx.fillStyle = farben.schicht;
-      ctx.beginPath(); ctx.moveTo(x, y - s); ctx.lineTo(x + s, y); ctx.lineTo(x, y + s); ctx.lineTo(x - s, y); ctx.closePath(); ctx.fill();
+      const s = pr * (0.7 + (p.staerke ?? 0.3) * 0.9);
+      ctx.globalAlpha = 0.6 + 0.3 * (p.staerke ?? 0.3);
+      ctx.fillStyle = p.form === 'dreieck' ? farben.schicht2 : farben.schicht;
+      ctx.strokeStyle = farben.zahl; ctx.lineWidth = 1;
+      ctx.beginPath();
+      if (p.form === 'dreieck') { ctx.moveTo(x, y - s * 1.1); ctx.lineTo(x + s, y + s * 0.75); ctx.lineTo(x - s, y + s * 0.75); }
+      else { ctx.moveTo(x, y - s); ctx.lineTo(x + s, y); ctx.lineTo(x, y + s); ctx.lineTo(x - s, y); }
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+      if (zeiger === p) { ctx.globalAlpha = 1; ctx.strokeStyle = farben.kern; ctx.lineWidth = 1.5; kreis(x, y, s * 1.8); ctx.stroke(); }
     }
     ctx.globalAlpha = 1;
 
-    // Messorte
+    // Messorte, nahe Punkte zu einem Punkt mit Zahl gebündelt (wichtigster Zustand zeigt sich)
     const rang = { leer: 0, ruhig: 1, erhoeht: 2, auf: 3 };
-    const sortiert = [...punkte].sort((a, b) => rang[a.zustand] - rang[b.zustand]);
+    const sortiert = [...punkte].sort((a, b) => rang[b.zustand] - rang[a.zustand] || (b.staerke ?? 0) - (a.staerke ?? 0));
+    const gruppen = [];
+    const nah = (pr * 3.2) ** 2;
     for (const p of sortiert) {
+      p.anzahl = 0;
       if (!istVorne(p)) { p.xy = null; continue; }
       const [x, y] = proj([p.lon, p.lat]);
+      const g = gruppen.find((q) => (q.x - x) ** 2 + (q.y - y) ** 2 < nah);
+      if (g) { g.n++; p.xy = null; if (auswahl === p.id) g.wahl = true; continue; }
       p.xy = [x, y];
-      if (p.zustand === 'auf') leuchtpunkt(x, y, pr, p.farbe, t, p.ph, true);
-      else if (p.zustand === 'erhoeht') leuchtpunkt(x, y, pr * 0.8, farben.etwas, t, p.ph, false);
-      else if (p.zustand === 'leer') { ctx.strokeStyle = farben.ruhig; ctx.lineWidth = 1.3; ctx.globalAlpha = 0.8; kreis(x, y, pr * 1.2); ctx.stroke(); }
+      gruppen.push({ p, x, y, n: 1, wahl: auswahl === p.id });
+    }
+    for (const g of gruppen.reverse()) {
+      const { p, x, y } = g;
+      p.anzahl = g.n;
+      const k = g.n > 1 ? 1 + 0.12 * Math.min(5, g.n - 1) : 1;
+      if (p.zustand === 'auf') leuchtpunkt(x, y, pr * k, farben.auf || p.farbe, t, p.ph, true);
+      else if (p.zustand === 'erhoeht') leuchtpunkt(x, y, pr * 0.85 * k, farben.etwas, t, p.ph, false);
+      else if (p.zustand === 'leer') { ctx.strokeStyle = farben.ruhig; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.85; kreis(x, y, pr * 1.1 * k); ctx.stroke(); }
       else {
         const a = welle(p.ph);
-        ctx.globalAlpha = 0.18 + 0.1 * a; ctx.fillStyle = farben.ruhig; kreis(x, y, pr * (2.4 + 0.5 * a)); ctx.fill();
-        ctx.globalAlpha = 0.85 + 0.15 * a; kreis(x, y, pr * 0.95); ctx.fill();
+        const hof = ctx.createRadialGradient(x, y, 0, x, y, pr * 3.2 * k);
+        hof.addColorStop(0, farben.ruhig); hof.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.globalAlpha = 0.4 + 0.12 * a; ctx.fillStyle = hof; kreis(x, y, pr * 3.2 * k); ctx.fill();
+        ctx.globalAlpha = 1; ctx.fillStyle = farben.ruhig; kreis(x, y, pr * 0.95 * k); ctx.fill();
+        ctx.fillStyle = farben.kern; ctx.globalAlpha = 0.8; kreis(x, y, pr * 0.35 * k); ctx.fill();
       }
       ctx.globalAlpha = 1;
-      if (auswahl === p.id) { ctx.strokeStyle = farben.kern; ctx.lineWidth = 2; kreis(x, y, pr * 3.4); ctx.stroke(); }
+      if (g.n > 1) {
+        const bx = x + pr * 1.7 * k, by = y - pr * 1.7 * k;
+        const txt = String(g.n);
+        ctx.font = `700 10px ${farben.schrift}`;
+        const bw = Math.max(15, ctx.measureText(txt).width + 8);
+        ctx.fillStyle = farben.zahl; ctx.strokeStyle = p.zustand === 'auf' ? farben.auf : p.zustand === 'erhoeht' ? farben.etwas : farben.ruhig; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.roundRect ? ctx.roundRect(bx - bw / 2, by - 7.5, bw, 15, 7.5) : ctx.rect(bx - bw / 2, by - 7.5, bw, 15); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = farben.kern; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(txt, bx, by + 0.5); ctx.textAlign = 'start';
+      }
+      if (g.wahl) { ctx.strokeStyle = farben.kern; ctx.lineWidth = 2; kreis(x, y, pr * 3.4 * k); ctx.stroke(); }
     }
 
     // Weltweite Messungen als Punktring um die Kugel; dreht leise mit
@@ -226,10 +259,10 @@ export function erstelleGlobus(canvas, { onPick, start = [10, 25], beschriften =
         const wkl = off + (i / ring.length) * 2 * Math.PI;
         const x = cx + R * Math.cos(wkl), y = cy + R * Math.sin(wkl);
         p.xy = [x, y];
-        if (p.zustand === 'auf') leuchtpunkt(x, y, pr * 0.9, p.farbe, t, p.ph, false);
-        else if (p.zustand === 'erhoeht') { ctx.fillStyle = farben.etwas; ctx.globalAlpha = 0.95; kreis(x, y, pr * 1.05); ctx.fill(); }
-        else if (p.zustand === 'leer') { ctx.strokeStyle = farben.ruhig; ctx.lineWidth = 1; ctx.globalAlpha = 0.6; kreis(x, y, pr * 0.7); ctx.stroke(); }
-        else { const a = welle(p.ph, 1500); ctx.fillStyle = farben.ruhig; ctx.globalAlpha = 0.6 + 0.3 * a; kreis(x, y, pr * (0.7 + 0.12 * a)); ctx.fill(); }
+        if (p.zustand === 'auf') leuchtpunkt(x, y, pr * 0.8, farben.auf || p.farbe, t, p.ph, false);
+        else if (p.zustand === 'erhoeht') { ctx.fillStyle = farben.etwas; ctx.globalAlpha = 0.95; kreis(x, y, pr * 0.7); ctx.fill(); ctx.strokeStyle = farben.etwas; ctx.lineWidth = 1; kreis(x, y, pr * 1.2); ctx.stroke(); }
+        else if (p.zustand === 'leer') { ctx.strokeStyle = farben.ruhig; ctx.lineWidth = 1; ctx.globalAlpha = 0.6; kreis(x, y, pr * 0.5); ctx.stroke(); }
+        else { const a = welle(p.ph, 1500); ctx.fillStyle = farben.ruhig; ctx.globalAlpha = 0.55 + 0.25 * a; kreis(x, y, pr * (0.42 + 0.08 * a)); ctx.fill(); }
         ctx.globalAlpha = 1;
         if (auswahl === p.id) { ctx.strokeStyle = farben.kern; ctx.lineWidth = 2; kreis(x, y, pr * 2.6); ctx.stroke(); }
       });

@@ -146,13 +146,13 @@ function messungen(sc) {
 function seltenheit(s) {
   const S = L.karte.selten;
   const r = s.rarity;
-  if (!r || !(r.n >= 10) || !s.fresh || !Number.isFinite(r.share)) return S.unbekannt;
+  if (!r || !(r.n >= 10) || !s.fresh || !Number.isFinite(r.share)) return '';
   if (r.share <= 0) return S.nie(r.n);
   return S.anteil(r.n, prozent(r.share));
 }
 
 // ---------- Zustand ----------
-const zustand = { snap: null, id: null, geruechte: [], erklaerung: null, replays: [], globus: null, zm: null, atlasFehler: false, karteVon: null, kurz: '' };
+const zustand = { schichtWahl: new Map(), snap: null, id: null, geruechte: [], erklaerung: null, replays: [], globus: null, zm: null, atlasFehler: false, karteVon: null, kurz: '' };
 const aktuell = () => zustand.snap.scenarios.find((x) => x.id === zustand.id) ?? zustand.snap.scenarios[0];
 const signalIndex = new Map();
 
@@ -166,7 +166,7 @@ function renderKopf() {
   const snap = zustand.snap;
   document.documentElement.lang = sprache;
   if (!snap) document.title = L.titel;
-  $('satz').textContent = L.satz;
+  $('satz').innerHTML = `<span class="satz-lang">${esc(L.satz)}</span><span class="satz-kurz">${esc(L.satzKurz ?? L.satz)}</span>`;
   $('sprung').textContent = L.sprung;
   for (const b of document.querySelectorAll('[data-sprache]')) b.setAttribute('aria-pressed', String(b.dataset.sprache === sprache));
   $('sprachwahl').setAttribute('aria-label', L.sprache);
@@ -302,15 +302,16 @@ function globusBlock(sc, ms, schichten) {
         <span class="leg leg-auf l-${Math.max(1, sc.level)}"><i aria-hidden="true"></i>${esc(G.legende4[1])}</span>
         <span class="leg leg-etwas"><i aria-hidden="true"></i>${esc(G.legende4[2])}</span>
         ${ohneOrt.length ? `<span class="leg leg-ring"><i aria-hidden="true"></i>${esc(G.ring(ohneOrt.length))}</span>` : ''}
-        ${schichten.length ? `<span class="leg leg-schicht"><i aria-hidden="true"></i>${esc(G.schicht)}: ${esc(schichten.map((l) => (sprache === 'en' && l.title_en) || l.title).join(', '))} <span class="leg-klein">(${esc(G.schichtHinweis)})</span></span>` : ''}
         <span class="leg-hilfe">${esc(G.ziehen)}</span>
       </figcaption>
+      ${schichten.length ? `<div class="schichten" role="group" aria-label="${esc(G.schicht)}">${schichten.map((x) => `<button type="button" class="schalter" data-schicht="${esc(x.l.id)}" aria-pressed="${x.an}" title="${esc(schichtTitel(x.l))}"><i class="form ${x.form}" aria-hidden="true"></i>${esc(schichtKurz(x.l))} <span class="an-aus" aria-hidden="true">${x.an ? esc(G.an) : esc(G.aus)}</span></button>`).join('')}<span class="schichten-hinweis">${esc(G.schichtHinweis)}</span></div>` : ''}
+      ${zmHinweis(sc)}
     </figure>`;
 }
 
 function ortKnopf(sc, m, mitSelten) {
   const wert = m.s.fresh && m.s.value != null ? mitEinheit(m.s.value, sUnit(m.s)) : L.globus.zustand.leer;
-  return `<button type="button" class="ort z-${m.zustand}" data-sig="${esc(m.s.id)}"><i aria-hidden="true"></i><span class="ort-mess">${m.s.geo ? `<span class="ort-name">${esc(m.s.geo.label)}</span> · ` : ''}${esc(sName(m.s))}</span> <span class="ort-zustand">${esc(wert)} · ${esc(L.globus.zustand[m.zustand])}</span>${mitSelten ? `<span class="ort-selten">${esc(seltenheit(m.s))}</span>` : ''}</button>`;
+  return `<button type="button" class="ort z-${m.zustand}" data-sig="${esc(m.s.id)}"><i aria-hidden="true"></i><span class="ort-mess">${m.s.geo ? `<span class="ort-name">${esc(m.s.geo.label)}</span> · ` : ''}${esc(sName(m.s))}</span> <span class="ort-zustand">${esc(wert)} · ${esc(L.globus.zustand[m.zustand])}</span>${mitSelten && seltenheit(m.s) ? `<span class="ort-selten">${esc(seltenheit(m.s))}</span>` : ''}</button>`;
 }
 
 function listeBlock(sc, ms) {
@@ -336,10 +337,17 @@ function listeBlock(sc, ms) {
     </div>`;
 }
 
+/** Alle Kartenschichten mit Punkten; `an` je Szenario: Standard an, wenn die Schicht zum Szenario gehört, sonst per Schalter */
 function sichtbareSchichten(sc) {
   const ls = Array.isArray(zustand.snap.layers) ? zustand.snap.layers : [];
-  return ls.filter((l) => l && Array.isArray(l.points) && l.points.length && (!Array.isArray(l.scenarios) || !l.scenarios.length || l.scenarios.includes(sc.id)));
+  return ls.filter((l) => l && typeof l.id === 'string' && Array.isArray(l.points) && l.points.length).map((l, i) => {
+    const passt = !Array.isArray(l.scenarios) || !l.scenarios.length || l.scenarios.includes(sc.id);
+    const wahl = zustand.schichtWahl.get(`${sc.id}:${l.id}`);
+    return { l, form: i % 2 ? 'dreieck' : 'raute', an: wahl ?? passt };
+  });
 }
+const schichtTitel = (l) => (sprache === 'en' && l.title_en) || l.title;
+const schichtKurz = (l) => L.globus.schichtKurz?.[l.id] ?? schichtTitel(l);
 
 function punktInfo(m) {
   const wert = m.s.fresh && m.s.value != null ? mitEinheit(m.s.value, sUnit(m.s)) : '';
@@ -348,7 +356,6 @@ function punktInfo(m) {
 
 function globusDaten(sc, ms, schichten) {
   const farbe = stufenFarbe(Math.max(1, sc.level));
-  const belegt = new Map();
   const punkte = [];
   const ring = [];
   const laender = new Map();
@@ -356,13 +363,8 @@ function globusDaten(sc, ms, schichten) {
     const g = m.s.geo;
     const basis = { id: m.s.id, zustand: m.zustand, farbe, staerke: staerke(m.s), info: punktInfo(m) };
     if (!g || !Number.isFinite(g.lat) || !Number.isFinite(g.lon)) { ring.push({ ...basis, titel: sName(m.s) }); continue; }
-    const key = `${g.lat.toFixed(1)},${g.lon.toFixed(1)}`;
-    const k = belegt.get(key) ?? 0;
-    belegt.set(key, k + 1);
-    // gleiche Stelle: kleine Spirale, damit jeder Punkt antippbar bleibt
-    const w = k * 2.4;
-    const r = k ? 1.1 * Math.sqrt(k) : 0;
-    punkte.push({ ...basis, lon: g.lon + r * Math.cos(w), lat: g.lat + r * Math.sin(w), titel: `${g.label} · ${sName(m.s)}` });
+    // gleiche oder nahe Orte bündelt der Globus selbst zu einem Punkt mit Zahl
+    punkte.push({ ...basis, lon: g.lon, lat: g.lat, titel: `${g.label} · ${sName(m.s)}` });
     if (g.kind === 'country' && g.cc && ISO_NUM[g.cc.toUpperCase()]) {
       const id = ISO_NUM[g.cc.toUpperCase()];
       const z = laender.get(id) ?? { auf: false, farbe };
@@ -371,18 +373,22 @@ function globusDaten(sc, ms, schichten) {
     }
   }
   const schicht = [];
-  for (const l of schichten) {
-    const lt = (sprache === 'en' && l.title_en) || l.title;
+  for (const { l, form, an } of schichten) {
+    if (!an) continue;
+    const lt = schichtKurz(l);
     for (const p of l.points) {
       if (!Number.isFinite(p?.lat) || !Number.isFinite(p?.lon)) continue;
-      schicht.push({ lon: p.lon, lat: p.lat, staerke: Number.isFinite(p.strength) ? Math.max(0, Math.min(1, p.strength)) : 0.3, titel: p.label || lt, info: [p.value != null ? mitEinheit(p.value, p.unit) : '', lt].filter(Boolean).join(' · ') });
+      schicht.push({ form, lon: p.lon, lat: p.lat, staerke: Number.isFinite(p.strength) ? Math.max(0, Math.min(1, p.strength)) : 0.3, titel: p.label || lt, info: [p.value != null ? mitEinheit(p.value, p.unit) : '', lt].filter(Boolean).join(' · ') });
     }
   }
   return { punkte, ring, schicht, laender };
 }
 
+/** Startansicht: dorthin, wo die ungewöhnlichen, sonst die etwas erhöhten, sonst die meisten Messorte liegen */
 function startOrt(ms) {
-  const auf = ms.filter((m) => m.s.geo && m.zustand === 'auf');
+  const mitGeo = ms.filter((m) => Number.isFinite(m.s.geo?.lat) && Number.isFinite(m.s.geo?.lon));
+  const wahl = ['auf', 'erhoeht'].map((z) => mitGeo.filter((m) => m.zustand === z)).find((g) => g.length);
+  const auf = wahl ?? mitGeo;
   if (!auf.length) return [10, 28];
   let x = 0, y = 0, z = 0;
   for (const m of auf) {
@@ -478,20 +484,44 @@ function geruechte() {
 
 // ---------- Zeitmaschine ----------
 const SAW = { ja: 'ja', yes: 'ja', teilweise: 'teilweise', partly: 'teilweise', nein: 'nein', no: 'nein' };
+const gueltigeReplays = () => zustand.replays.filter((r) => r && typeof r.id === 'string' && /^[a-z0-9-]+$/.test(r.id) && (r.title_de || r.title_en));
+const sawVon = (r) => SAW[String(r?.sawIt ?? '').toLowerCase()];
+
+/** Ehrliche Bilanz: große Ereignisse (ohne Vergleichszeiten und letzte 14 Tage), wie viele sichtbar */
+function zmBilanz() {
+  const ev = gueltigeReplays().filter((r) => r.kind === 'event');
+  if (!ev.length) return '';
+  const mitZeit = ev.filter((r) => Number.isFinite(r.firstSeenHours));
+  const keinesVorher = mitZeit.length > 0 && mitZeit.every((r) => r.firstSeenHours >= 0);
+  return L.zeitmaschine.bilanz(ev.filter((r) => sawVon(r) === 'ja').length, ev.filter((r) => sawVon(r) === 'teilweise').length, ev.length, keinesVorher);
+}
+
+/** Eine Zeile unter dem Globus: bevorzugt ein gesehenes Ereignis des gewählten Szenarios */
+function zmHinweis(sc) {
+  const ev = gueltigeReplays().filter((r) => r.kind === 'event');
+  const gesehen = ev.filter((r) => sawVon(r) === 'ja').sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const r = gesehen.find((x) => x.scenario === sc.id) ?? gesehen[0];
+  if (!r) return '';
+  const titel = L.zeitmaschine.kurzTitel?.[r.id] ?? ((sprache === 'en' && r.title_en) || r.title_de || r.title_en);
+  const jahr = Number.isFinite(Date.parse(r.date)) ? ` ${new Date(r.date).getUTCFullYear()}` : '';
+  return `<a class="zm-hinweis" href="#zm-titel" data-zu-zm="${esc(r.id)}">${esc(L.zeitmaschine.titel)} <strong>${esc(titel)}${esc(jahr)}: ${esc(L.zeitmaschine.gesehenNach(Number.isFinite(r.firstSeenHours) && r.firstSeenHours >= 0 ? r.firstSeenHours : null))}</strong> <span aria-hidden="true">→</span></a>`;
+}
 function zeitmaschine(sc) {
   const Z = L.zeitmaschine;
-  const alle = zustand.replays.filter((r) => r && typeof r.id === 'string' && /^[a-z0-9-]+$/.test(r.id) && (r.title_de || r.title_en));
+  const alle = gueltigeReplays();
   if (!alle.length) return '';
+  const bilanz = zmBilanz();
   const recent = alle.filter((r) => r.kind === 'recent' && r.scenario === sc.id);
   const rest = alle.filter((r) => r.kind !== 'recent').sort((a, b) => (a.kind === 'control') - (b.kind === 'control') || String(b.date).localeCompare(String(a.date)));
   const liste = [...recent, ...rest];
   return `<section class="zeitmaschine abschnitt" aria-labelledby="zm-titel">
       <h2 id="zm-titel" class="abschnitt-titel">${esc(Z.titel)}</h2>
+      ${bilanz ? `<p class="zm-bilanz">${esc(bilanz)}</p>` : ''}
       <p class="abschnitt-erkl">${esc(Z.erkl)}</p>
       <ul class="zm-liste">${liste.map((r) => {
         const saw = SAW[String(r.sawIt ?? '').toLowerCase()];
         const titel = (sprache === 'en' && r.title_en) || r.title_de || r.title_en;
-        const text = (sprache === 'en' && r.summary_en) || r.summary_de || '';
+        const text = sprache === 'en' ? klarEn(r.summary_en || '') : klar(r.summary_de || '');
         return `<li><button type="button" class="zm-eintrag" data-replay="${esc(r.id)}" aria-expanded="false">
           ${saw ? `<span class="zm-saw saw-${saw}">${esc(Z.saw[saw])}</span>` : ''}
           <span class="zm-titel">${esc(titel)}</span>
@@ -687,7 +717,7 @@ function oeffneKarte(id) {
     ${z === 'leer' ? `<p class="karte-alt">${esc(K.alt(s.ts ? kurz(s.ts) : ''))}</p>` : `<dl class="karte-werte">
       <div><dt>${esc(K.jetzt)}</dt><dd>${esc(mitEinheit(s.value, sUnit(s)))}</dd></div>
       <div><dt>${esc(K.normal)}</dt><dd>${esc(normal)}</dd></div></dl>
-      <p class="karte-selten">${esc(seltenheit(s))}</p>`}
+      ${seltenheit(s) ? `<p class="karte-selten">${esc(seltenheit(s))}</p>` : ''}`}
     ${s.spark?.length > 1 ? `<figure class="karte-verlauf">${sparkSvg(s)}<figcaption>${esc(K.verlauf(kurz(s.sparkStart), kurz(s.sparkEnd)))}</figcaption></figure>` : ''}
     ${s.damp ? `<p class="karte-daempf">${esc(K.daempf(s.damp.reason))}</p>` : ''}
     <p class="karte-art"><span>${esc(K.art)}:</span> ${esc(K.klasse[s.evidenceClass] ?? s.evidenceClass)}</p>
@@ -749,6 +779,21 @@ async function renderLinse() {
     ziel.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     ziel.focus({ preventScroll: true });
   }));
+  main.querySelectorAll('[data-schicht]').forEach((b) => b.addEventListener('click', () => {
+    const an = b.getAttribute('aria-pressed') !== 'true';
+    zustand.schichtWahl.set(`${sc.id}:${b.dataset.schicht}`, an);
+    b.setAttribute('aria-pressed', String(an));
+    b.querySelector('.an-aus').textContent = an ? L.globus.an : L.globus.aus;
+    zustand.globus?.setze(globusDaten(sc, ms, sichtbareSchichten(sc)));
+  }));
+  main.querySelector('[data-zu-zm]')?.addEventListener('click', (e) => {
+    const ziel = $('zm-titel');
+    if (!ziel) return;
+    e.preventDefault();
+    ziel.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    const knopf = document.querySelector(`[data-replay="${e.currentTarget.dataset.zuZm}"]`);
+    if (knopf) { knopf.focus({ preventScroll: true }); zmOeffne(knopf.dataset.replay, knopf); }
+  });
   main.querySelectorAll('[data-replay]').forEach((b) => b.addEventListener('click', () => zmOeffne(b.dataset.replay, b)));
   $('teilen')?.addEventListener('click', teilen);
   renderFuss();
@@ -762,7 +807,7 @@ async function renderLinse() {
   }
   const canvas = $('globus');
   if (!canvas || aktuell() !== sc || zustand.globus) return;
-  zustand.globus = erstelleGlobus(canvas, { onPick: oeffneKarte, start: startOrt(ms) });
+  zustand.globus = erstelleGlobus(canvas, { onPick: oeffneKarte, start: startOrt(ms), beschriften: innerWidth < 480 ? 2 : 3 });
   zustand.globus.setze(globusDaten(sc, ms, schichten));
 }
 

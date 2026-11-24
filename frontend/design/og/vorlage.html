@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<!-- Vorlage für assets/og.png (1200×630). Erzeugen: siehe frontend/design/og/LIESMICH.txt. Bewusst ohne Urteil. -->
+<title>og</title>
+<style>
+@font-face { font-family: 'Atkinson'; src: url('../../assets/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2') format('woff2'); font-weight: 200 800; }
+@font-face { font-family: 'Martian'; src: url('../../assets/fonts/martian-mono-latin-standard-normal.woff2') format('woff2'); }
+html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #05080f; }
+.bild { position: relative; width: 1200px; height: 630px; background: radial-gradient(ellipse 60% 80% at 78% 50%, #0e2240 0%, #060c1a 55%, #020409 100%); color: #eef1f5; font-family: 'Atkinson', sans-serif; }
+canvas { position: absolute; right: -90px; top: -45px; width: 720px; height: 720px; }
+.text { position: absolute; left: 72px; top: 0; bottom: 0; width: 560px; display: flex; flex-direction: column; justify-content: center; gap: 28px; }
+.marke { font-family: 'Martian', monospace; font-size: 34px; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 16px; }
+.marke i { width: 18px; height: 18px; border-radius: 50%; background: #5fd0b0; box-shadow: 0 0 0 6px rgba(95, 208, 176, .25); }
+h1 { margin: 0; font-size: 64px; line-height: 1.08; font-weight: 800; letter-spacing: -0.02em; }
+p { margin: 0; font-size: 30px; line-height: 1.35; color: #b9c3d0; }
+.fuss { font-size: 22px; color: #8a96a6; }
+</style>
+</head>
+<body>
+<div class="bild">
+  <canvas id="c" width="1440" height="1440"></canvas>
+  <div class="text">
+    <div class="marke"><i></i>Signal Radar</div>
+    <h1>Gerücht oder echt?</h1>
+    <p>Live-Blick in die Messdaten der Welt.</p>
+    <p class="fuss">Internet, Stromnetze, Zahlungsdienste, Luftverkehr und mehr. Offene Daten.</p>
+  </div>
+</div>
+<script type="module">
+import { geoOrthographic, geoPath, geoGraticule10, geoCircle } from '../../assets/vendor/d3-geo.min.js';
+import feature from '../../assets/vendor/topojson-client/feature.js';
+import mesh from '../../assets/vendor/topojson-client/mesh.js';
+const topo = await (await fetch('../../assets/vendor/countries-110m.json')).json();
+const c = document.getElementById('c'), ctx = c.getContext('2d');
+const R = 620, proj = geoOrthographic().scale(R).translate([720, 720]).rotate([-10, -38]).clipAngle(90);
+const path = geoPath(proj, ctx);
+ctx.save(); ctx.beginPath(); ctx.arc(720, 720, R + 40, 0, 2 * Math.PI);
+const halo = ctx.createRadialGradient(720, 720, R, 720, 720, R + 40); halo.addColorStop(0, 'rgba(90,160,255,.35)'); halo.addColorStop(1, 'rgba(90,160,255,0)');
+ctx.fillStyle = halo; ctx.fill(); ctx.restore();
+ctx.beginPath(); path({ type: 'Sphere' }); ctx.fillStyle = '#0b1a30'; ctx.fill();
+ctx.beginPath(); path(geoGraticule10()); ctx.strokeStyle = 'rgba(140,170,210,.10)'; ctx.lineWidth = 1.5; ctx.stroke();
+ctx.beginPath(); path(feature(topo, topo.objects.land)); ctx.fillStyle = '#1d3150'; ctx.fill();
+ctx.beginPath(); path(mesh(topo, topo.objects.countries, (a, b) => a !== b)); ctx.strokeStyle = 'rgba(150,180,220,.28)'; ctx.lineWidth = 1.2; ctx.stroke();
+// Nachtseite (fester Zeitpunkt, nur Gestaltung)
+for (const [r, a] of [[90, .30], [84, .25]]) { ctx.beginPath(); path(geoCircle().center([150, 10]).radius(r)()); ctx.fillStyle = `rgba(1,3,8,${a})`; ctx.fill(); }
+ctx.beginPath(); path({ type: 'Sphere' }); ctx.strokeStyle = 'rgba(120,180,255,.55)'; ctx.lineWidth = 3; ctx.stroke();
+// gedämpfte Messorte (neutral, kein Zustand)
+for (const [lon, lat] of [[8.7, 50.1], [13.4, 52.5], [2.3, 48.9], [-0.1, 51.5], [-3.7, 40.4], [4.9, 52.4], [30.5, 50.4], [35, 31.8], [51, 35.7], [10.7, 59.9], [24.9, 60.2], [21, 52.2], [37.6, 55.8], [55.3, 25.3]]) {
+  const p = proj([lon, lat]); if (!p) continue;
+  const g = ctx.createRadialGradient(p[0], p[1], 0, p[0], p[1], 22); g.addColorStop(0, 'rgba(95,208,176,.55)'); g.addColorStop(1, 'rgba(95,208,176,0)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p[0], p[1], 22, 0, 7); ctx.fill();
+  ctx.fillStyle = '#7fe0c4'; ctx.beginPath(); ctx.arc(p[0], p[1], 6, 0, 7); ctx.fill();
+}
+await document.fonts.ready;
+document.body.dataset.fertig = '1';
+</script>
+</body>
+</html>

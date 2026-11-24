@@ -1,6 +1,6 @@
 // Signal Radar – Globus-Fassung. Statisch, kein Build, keine Anfragen an fremde Hosts außer dem Snapshot-Abruf.
 // Datenvertrag: Snapshot aus src/core/types.ts. Oberflächen-Texte: js/texte.js. Englische Daten-Texte: data/i18n-en.json.
-import { T } from './js/texte.js';
+import { T, ORTE_EN } from './js/texte.js';
 import { ladeAtlas, erstelleGlobus } from './js/globus.js';
 
 const params = new URLSearchParams(location.search);
@@ -108,6 +108,62 @@ const klarEn = (t) => (t ? String(t).replace(/[Tt]elemetry/g, (m) => (m[0] === '
 const sName = (s) => klarEn(en() && EN.signals?.[s.id]?.name) || klar(s.name);
 const sPlain = (s) => klarEn(en() && EN.signals?.[s.id]?.plain) || klar(s.plain);
 const sUnit = (s) => (en() && EN.signals?.[s.id]?.unit) || s.unit;
+/** Alltagsbeschreibung als Überschrift: Klammern und Fachzusatz nach „;" weg */
+// Fachkürzel in den Beschreibungen: [Muster, deutsch, englisch]
+const KUERZEL = [
+  [/\s*(mit|with an?) CVE[- ](Nummer|number)/g, '', ''],
+  [/\bCVE[- ]?(Einträge|entries)/g, 'Einträge zu Sicherheitslücken', 'security flaw entries'],
+  [/\bCVEs?\b/g, 'Sicherheitslücken', 'security flaws'],
+  [/\b(das |the )?RIPE[- ]?(Messnetz|measurement network)/g, 'ein Messnetz', 'a measurement network'],
+  [/\b(der )?RIPE[- ]?(Messgeräte|measurement devices)/g, 'Messgeräte', 'measurement devices'],
+  [/\bIODA\b/g, 'ein Messdienst', 'a monitoring service'],
+  [/\bBGP\b/g, 'Internet-Wegweiser', 'internet routing'],
+  [/\bIOCs?\b/g, 'Schadsoftware-Hinweise', 'malware leads'],
+  [/\bPräfixe\b/g, 'Netzblöcke', 'address blocks'],
+];
+const alltag = (s) => {
+  let t = String(sPlain(s) || '').replace(/\s*\([^)]*\)/g, '').split(/;\s|(?<=[a-zäöü])\.\s/)[0].trim().replace(/[.:]?$/, '');
+  for (const [re, de, enT] of KUERZEL) t = t.replace(re, sprache === 'en' ? enT : de);
+  t = t
+    .replace(/Cyber-Sicherheits-ETFs/g, 'Aktienfonds für IT-Sicherheit').replace(/\b[Cc]ybersecurity ETFs\b/g, 'IT security funds').replace(/\bETFs?\b/g, sprache === 'en' ? 'funds' : 'Fonds');
+  return t || sName(s);
+};
+// Einheiten in Alltagssprache (Schlüssel: Einheit aus dem Katalog). null = Einheit weglassen, Vergleich mit „sonst".
+const EINHEIT = {
+  'IOCs/Stunde': ['neue Schadsoftware-Hinweise pro Stunde', 'new malware leads per hour'],
+  'CVEs/Tag': ['Sicherheitslücken pro Tag', 'security flaws per day'],
+  CVEs: ['Sicherheitslücken', 'security flaws'],
+  'Advisories/Tag': ['Sicherheitswarnungen pro Tag', 'security warnings per day'],
+  'Samples/Stunde': ['Schadsoftware-Proben pro Stunde', 'malware samples per hour'],
+  'URLs/Stunde': ['Webadressen pro Stunde', 'web addresses per hour'],
+  IPs: ['Internet-Adressen', 'internet addresses'],
+  'IP-Adressen': ['Internet-Adressen', 'internet addresses'],
+  'IPs/7 Tage': ['Internet-Adressen in 7 Tagen', 'internet addresses in 7 days'],
+  Probes: ['Messgeräte', 'measuring devices'],
+  '/24-Netze': ['Netzblöcke', 'network blocks'],
+  Präfixe: ['Netzblöcke', 'network blocks'],
+  'Releases/Tag': ['Updates pro Tag', 'updates per day'],
+  'Releases/Stunde': ['Updates pro Stunde', 'updates per hour'],
+  'Releases/Tag (Maximum eines Pakets)': ['Updates pro Tag', 'updates per day'],
+  'Pull Requests/Tag': ['Code-Änderungen pro Tag', 'code changes per day'],
+  'Commits/Tag': ['Code-Änderungen pro Tag', 'code changes per day'],
+  'Repos/Woche': ['Projekte pro Woche', 'projects per week'],
+  'Einträge/7 Tage': ['Einträge in 7 Tagen', 'entries in 7 days'],
+  'x Median 10 Tage': ['x normal', 'x normal'],
+  'x Vorjahresmittel': ['x normal', 'x normal'],
+};
+const OHNE_EINHEIT = new Set(['Index 0-1', 'Anteil (0 bis 1)', 'MvB', 'sat/vB', 'Verhältnis VIX/VIX3M', 'Kp', 'Viruslast (normalisiert)', 'Index', 'Punkte', 'Indexpunkte', 'Basispunkte', 'Prozentpunkte', '% (Betrag)', '% (Tagesrendite, Betrag)', 'USD je MMBtu', 'USD/MMBtu', 'mHz', 'µSv/h']);
+/** Wert einer Messung für Laien: Zahl mit Alltags-Einheit oder Vergleich mit dem Normalwert */
+function wertText(s) {
+  if (!s.fresh || s.value == null) return L.globus.zustand.leer;
+  if (OHNE_EINHEIT.has(s.unit)) {
+    if (staerke(s) < SIGNAL_AUF) return L.vergleich.wie;
+    const c = s.baseline?.center;
+    return Number.isFinite(c) && s.value < c ? L.vergleich.tiefer : L.vergleich.hoeher;
+  }
+  const e = EINHEIT[s.unit];
+  return mitEinheit(s.value, e ? e[sprache === 'en' ? 1 : 0] : sUnit(s));
+}
 const dTitel = (sc, d) => klarEn(en() && EN.scenarios?.[sc.id]?.domains?.[d.id]?.title) || klar(d.title);
 const scFrage = (sc) => (en() && EN.scenarios?.[sc.id]?.question) || sc.question;
 
@@ -118,6 +174,17 @@ const zuWenig = (sc) => (sc.coverage?.domainsWithData ?? 0) < 3;
 const linsenName = (sc) => L.linsenName[sc.id] ?? sc.title;
 const stufenName = (sc) => (zuWenig(sc) ? L.zuWenig : L.stufen[sc.level] ?? L.stufen[0]);
 const staerke = (s) => s.anomaly * (s.damp?.factor ?? 1);
+const ortName = (g) => (sprache === 'en' && ORTE_EN[g?.label]) || g?.label || '';
+const hatOrt = (s) => Number.isFinite(s.geo?.lat) && Number.isFinite(s.geo?.lon);
+
+/** Die eine Zählung der Messungen: überall dieselbe (Kopf, Globus-Legende, Liste, Fuß) */
+function zaehlung(sc) {
+  const ms = messungen(sc);
+  const mitOrt = ms.filter((m) => hatOrt(m.s)).length;
+  return { alle: ms.length, mitOrt, weltweit: ms.length - mitOrt, frisch: ms.filter((m) => m.s.fresh && m.s.value != null).length };
+}
+// Gerüchte-Texte je Sprache
+const rT = (r, k) => (sprache === 'en' && r[`${k}_en`] !== undefined ? r[`${k}_en`] : r[k]);
 
 /** Zustand einer Messung. „ungewöhnlich" nur, wenn ihr Bereich zählt; sonst „etwas erhöht" (zählt allein nicht). */
 function zustandVon(sc, s, d) {
@@ -155,6 +222,12 @@ function seltenheit(s) {
 const zustand = { schichtWahl: new Map(), snap: null, id: null, geruechte: [], erklaerung: null, replays: [], globus: null, zm: null, atlasFehler: false, karteVon: null, kurz: '' };
 const aktuell = () => zustand.snap.scenarios.find((x) => x.id === zustand.id) ?? zustand.snap.scenarios[0];
 const signalIndex = new Map();
+let signalAlle = null;
+/** Alle Messungen aller Szenarien nach id (für Namen in der Wiedergabe) */
+function alleSignale() {
+  if (!signalAlle) { signalAlle = new Map(); for (const sc of zustand.snap?.scenarios ?? []) for (const d of sc.domains) for (const s of d.signals) signalAlle.set(s.id, s); }
+  return signalAlle;
+}
 
 // ---------- Kopf ----------
 function standText() {
@@ -177,6 +250,8 @@ function renderKopf() {
   // Nie „Live" und „veraltet" gleichzeitig: alte Daten bekommen nur die sachliche Zeitangabe.
   $('stand').innerHTML = `${live && !veraltet ? `<span class="live-marke">${esc(L.live)}</span>` : ''}<time datetime="${esc(snap.generatedAt)}" title="${esc(zeit(snap.generatedAt))}">${esc(L.stand(standText()))}</time>`;
   $('stand').classList.toggle('stand-alt', live && veraltet);
+  $('herkunft').innerHTML = herkunftHtml();
+  $('herkunft').hidden = false;
   $('hinweise').innerHTML = ersatzkopie ? `<p class="hinweis" role="status">${esc(L.ersatz)}</p>` : '';
   const b = $('betrieb');
   const m = L.betrieb[snap.mode];
@@ -243,9 +318,8 @@ function antwortTexte(sc) {
 }
 
 function aktuellesGeruecht(sc) {
-  const g = zustand.geruechte;
-  const eigene = g.filter((r) => r.scenario === sc.id);
-  return [...(eigene.length ? eigene : g)].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0] ?? null;
+  const eigene = zustand.geruechte.filter((r) => r.scenario === sc.id);
+  return [...eigene].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0] ?? null;
 }
 const geruechtLevel = (r) => zustand.snap.scenarios.find((x) => x.id === r.scenario)?.level ?? 0;
 
@@ -254,10 +328,10 @@ function antwort(sc) {
   zustand.kurz = `${a.wort} ${a.satz}`;
   const lv = zuWenig(sc) ? 'x' : sc.level;
   const r = aktuellesGeruecht(sc);
-  const aufl = r ? ersterSatz(r.factcheck || r.outcome || '') : '';
+  const aufl = r ? ersterSatz(rT(r, 'factcheck') || rT(r, 'outcome') || '') : '';
   const zeile = r ? `<a class="gehoert lv-${geruechtLevel(r)}" href="#geruecht-${esc(r.id)}" data-zu-geruecht="${esc(r.id)}">
       <span class="gehoert-wort">${esc(L.gehoert.wort)}${r.date ? ` · ${esc(tag(Date.parse(r.date)))}` : ''}</span>
-      <span class="gehoert-text"><strong>${esc(r.title)}?</strong> ${esc(aufl)}</span>
+      <span class="gehoert-text"><strong>${esc(rT(r, 'title'))}?</strong> ${esc(aufl)}</span>
       <span class="gehoert-daten">${esc(L.gehoert.daten(geruechtLevel(r)))} <span aria-hidden="true">→</span><span class="nur-vorleser"> ${esc(L.gehoert.mehr)}</span></span>
     </a>` : '';
   return `<div class="antwort a-l${lv} art-${a.art}" id="antwort" role="tabpanel" aria-labelledby="tab-${esc(sc.id)}">
@@ -290,28 +364,27 @@ async function teilen() {
 // ---------- Globus und Liste ----------
 function globusBlock(sc, ms, schichten) {
   const G = L.globus;
-  const mitOrt = ms.filter((m) => m.s.geo);
-  const ohneOrt = ms.filter((m) => !m.s.geo);
+  const z = zaehlung(sc);
   const auf = ms.filter((m) => m.zustand === 'auf').length;
   return `<figure class="globus-feld">
       <div class="globus-rahmen">
-        <canvas id="globus" class="globus" role="img" aria-label="${esc(G.label(mitOrt.length, auf))}"></canvas>
+        <canvas id="globus" class="globus" role="img" aria-label="${esc(G.label(z.mitOrt, auf))}"></canvas>
       </div>
       <figcaption class="globus-legende">
         <span class="leg leg-ruhig"><i aria-hidden="true"></i>${esc(G.legende4[0])}</span>
         <span class="leg leg-auf l-${Math.max(1, sc.level)}"><i aria-hidden="true"></i>${esc(G.legende4[1])}</span>
         <span class="leg leg-etwas"><i aria-hidden="true"></i>${esc(G.legende4[2])}</span>
-        ${ohneOrt.length ? `<span class="leg leg-ring"><i aria-hidden="true"></i>${esc(G.ring(ohneOrt.length))}</span>` : ''}
+        <span class="leg-zahl">${esc(L.zaehl.satz(z))}</span>
         <span class="leg-hilfe">${esc(G.ziehen)}</span>
       </figcaption>
       ${schichten.length ? `<div class="schichten" role="group" aria-label="${esc(G.schicht)}">${schichten.map((x) => `<button type="button" class="schalter" data-schicht="${esc(x.l.id)}" aria-pressed="${x.an}" title="${esc(schichtTitel(x.l))}"><i class="form ${x.form}" aria-hidden="true"></i>${esc(schichtKurz(x.l))} <span class="an-aus" aria-hidden="true">${x.an ? esc(G.an) : esc(G.aus)}</span></button>`).join('')}<span class="schichten-hinweis">${esc(G.schichtHinweis)}</span></div>` : ''}
-      ${zmHinweis(sc)}
-    </figure>`;
+    </figure>
+    ${ernstfall(sc)}`;
 }
 
 function ortKnopf(sc, m, mitSelten) {
-  const wert = m.s.fresh && m.s.value != null ? mitEinheit(m.s.value, sUnit(m.s)) : L.globus.zustand.leer;
-  return `<button type="button" class="ort z-${m.zustand}" data-sig="${esc(m.s.id)}"><i aria-hidden="true"></i><span class="ort-mess">${m.s.geo ? `<span class="ort-name">${esc(m.s.geo.label)}</span> · ` : ''}${esc(sName(m.s))}</span> <span class="ort-zustand">${esc(wert)} · ${esc(L.globus.zustand[m.zustand])}</span>${mitSelten && seltenheit(m.s) ? `<span class="ort-selten">${esc(seltenheit(m.s))}</span>` : ''}</button>`;
+  const wert = wertText(m.s);
+  return `<button type="button" class="ort z-${m.zustand}" data-sig="${esc(m.s.id)}"><i aria-hidden="true"></i><span class="ort-mess">${m.s.geo ? `<span class="ort-name">${esc(ortName(m.s.geo))}</span> · ` : ''}${esc(alltag(m.s))}</span> <span class="ort-zustand">${esc(wert)} · ${esc(L.globus.zustand[m.zustand])}</span>${mitSelten && seltenheit(m.s) ? `<span class="ort-selten">${esc(seltenheit(m.s))}</span>` : ''}</button>`;
 }
 
 function listeBlock(sc, ms) {
@@ -333,7 +406,7 @@ function listeBlock(sc, ms) {
         ${etwas.length ? `<p class="liste-etwas">${esc(Li.etwas)}</p><ul class="etwas-liste">${etwas.map((m) => `<li>${ortKnopf(sc, m, false)}</li>`).join('')}</ul>` : ''}
       </section>
       <details class="ortsliste"><summary>${esc(Li.alle(ms.length))}</summary><ul class="alle-orte">${alle}</ul></details>
-      <p class="antwort-klein">${esc(L.antwort.messbar(sc.coverage?.fresh ?? 0, sc.coverage?.active ?? ms.length))} ${esc(L.antwort.keineVorhersage)}</p>
+      <p class="antwort-klein">${esc(L.zaehl.frisch(zaehlung(sc)))} ${esc(L.antwort.keineVorhersage)}</p>
     </div>`;
 }
 
@@ -350,7 +423,7 @@ const schichtTitel = (l) => (sprache === 'en' && l.title_en) || l.title;
 const schichtKurz = (l) => L.globus.schichtKurz?.[l.id] ?? schichtTitel(l);
 
 function punktInfo(m) {
-  const wert = m.s.fresh && m.s.value != null ? mitEinheit(m.s.value, sUnit(m.s)) : '';
+  const wert = m.s.fresh && m.s.value != null ? wertText(m.s) : '';
   return [wert, L.globus.zustand[m.zustand]].filter(Boolean).join(' · ');
 }
 
@@ -362,9 +435,9 @@ function globusDaten(sc, ms, schichten) {
   for (const m of ms) {
     const g = m.s.geo;
     const basis = { id: m.s.id, zustand: m.zustand, farbe, staerke: staerke(m.s), info: punktInfo(m) };
-    if (!g || !Number.isFinite(g.lat) || !Number.isFinite(g.lon)) { ring.push({ ...basis, titel: sName(m.s) }); continue; }
+    if (!g || !Number.isFinite(g.lat) || !Number.isFinite(g.lon)) { ring.push({ ...basis, titel: alltag(m.s) }); continue; }
     // gleiche oder nahe Orte bündelt der Globus selbst zu einem Punkt mit Zahl
-    punkte.push({ ...basis, lon: g.lon, lat: g.lat, titel: `${g.label} · ${sName(m.s)}` });
+    punkte.push({ ...basis, lon: g.lon, lat: g.lat, titel: `${ortName(g)} · ${alltag(m.s)}` });
     if (g.kind === 'country' && g.cc && ISO_NUM[g.cc.toUpperCase()]) {
       const id = ISO_NUM[g.cc.toUpperCase()];
       const z = laender.get(id) ?? { auf: false, farbe };
@@ -470,10 +543,10 @@ function geruechte() {
         const lv = geruechtLevel(r);
         return `<li class="ger ${lv <= 1 ? 'ger-kein' : 'ger-teil'}" id="geruecht-${esc(r.id)}" tabindex="-1">
           <p class="ger-kopf"><span class="ger-status">${esc(ziel ? linsenName(ziel) : '')}</span>${r.date && Number.isFinite(Date.parse(r.date)) ? `<time datetime="${esc(r.date)}">${esc(tag(Date.parse(r.date)))}</time>` : ''}</p>
-          <h3>${esc(r.title)}</h3>
-          ${r.outcome ? `<p class="ger-claim ger-danach"><span>${esc(G.danach)}:</span> ${esc(r.outcome)}</p>` : ''}
-          ${r.factcheck ? `<p class="ger-claim"><span>${esc(G.faktencheck)}:</span> ${esc(r.factcheck)}</p>` : ''}
-          ${r.claim ? `<details class="ger-quellen"><summary>${esc(G.behauptung)}</summary><p>${esc(r.claim)}</p></details>` : ''}
+          <h3>${esc(rT(r, 'title'))}</h3>
+          ${rT(r, 'factcheck') ? `<p class="ger-claim"><span>${esc(G.faktencheck)}:</span> ${esc(rT(r, 'factcheck'))}</p>` : ''}
+          ${rT(r, 'outcome') ? `<details class="ger-quellen"><summary>${esc(G.danach)}</summary><p>${esc(rT(r, 'outcome'))}</p></details>` : ''}
+          ${rT(r, 'claim') ? `<details class="ger-quellen"><summary>${esc(G.behauptung)}</summary><p>${esc(rT(r, 'claim'))}</p></details>` : ''}
           <p class="ger-daten">${esc(L.gehoert.daten(lv))}</p>
           ${Array.isArray(r.sources) && r.sources.length ? `<details class="ger-quellen"><summary>${esc(G.quellen)} (${r.sources.length})</summary><ul>${r.sources.filter((q) => q?.url).map((q) => `<li>${extern(q.url, esc(q.title || q.url))}</li>`).join('')}</ul></details>` : ''}
           ${ziel && ziel.id !== sc.id ? `<p><button type="button" class="text-knopf" data-linse="${esc(ziel.id)}">${esc(G.zurLinse(linsenName(ziel)))}</button></p>` : ''}
@@ -496,39 +569,67 @@ function zmBilanz() {
   return L.zeitmaschine.bilanz(ev.filter((r) => sawVon(r) === 'ja').length, ev.filter((r) => sawVon(r) === 'teilweise').length, ev.length, keinesVorher);
 }
 
-/** Eine Zeile unter dem Globus: bevorzugt ein gesehenes Ereignis des gewählten Szenarios */
-function zmHinweis(sc) {
-  const ev = gueltigeReplays().filter((r) => r.kind === 'event');
-  const gesehen = ev.filter((r) => sawVon(r) === 'ja').sort((a, b) => String(b.date).localeCompare(String(a.date)));
-  const r = gesehen.find((x) => x.scenario === sc.id) ?? gesehen[0];
-  if (!r) return '';
-  const titel = L.zeitmaschine.kurzTitel?.[r.id] ?? ((sprache === 'en' && r.title_en) || r.title_de || r.title_en);
-  const jahr = Number.isFinite(Date.parse(r.date)) ? ` ${new Date(r.date).getUTCFullYear()}` : '';
-  return `<a class="zm-hinweis" href="#zm-titel" data-zu-zm="${esc(r.id)}">${esc(L.zeitmaschine.titel)} <strong>${esc(titel)}${esc(jahr)}: ${esc(L.zeitmaschine.gesehenNach(Number.isFinite(r.firstSeenHours) && r.firstSeenHours >= 0 ? r.firstSeenHours : null))}</strong> <span aria-hidden="true">→</span></a>`;
+const BEISPIEL_AUSFALL = 'iberia-blackout-2025-04';
+/** Woran man den Ernstfall erkennen würde, plus Knopf zur Wiedergabe eines echten Ausfalls */
+function ernstfall(sc) {
+  const E = L.ernstfall;
+  const r = gueltigeReplays().find((x) => x.id === BEISPIEL_AUSFALL);
+  const lv = Number.isFinite(r?.maxLevel) ? Math.max(0, Math.min(4, r.maxLevel)) : null;
+  const damals = r && lv != null ? E.damals(L.stufen[lv], Number.isFinite(r.firstSeenHours) && r.firstSeenHours >= 0 ? zmZeit(r.firstSeenHours) : null) : '';
+  return `<div class="ernstfall">
+      <p class="ernstfall-satz">${esc(E.satz[sc.id] ?? E.satz._)} <span class="ernstfall-jetzt">${esc(E.jetzt(ungewoehnlicheBereiche(sc).length, sc.domains.length))}</span></p>
+      ${r ? `<p><button type="button" class="knopf ernstfall-knopf" data-beispiel="${esc(r.id)}"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg>${esc(E.knopf)}</button></p>
+      ${damals ? `<p class="ernstfall-damals">${esc(damals)}</p>` : ''}` : ''}
+    </div>`;
 }
+const zmZeit = (h) => (h < 1 ? L.zeitmaschine.zumBeginn : h < 48 ? L.zeitmaschine.nachStunden(Math.round(h)) : L.zeitmaschine.nachTagen(Math.round(h / 24)));
+
+/** Kartentext aus den Feldern gebildet (die mitgelieferten Zusammenfassungen enthalten Fachwörter) */
+function zmText(r) {
+  const Z = L.zeitmaschine;
+  const lv = Number.isFinite(r.maxLevel) ? Math.max(0, Math.min(4, r.maxLevel)) : 0;
+  if (r.kind === 'control') return Z.textRuhig;
+  if (r.kind === 'recent') return Z.textRecent(L.stufen[lv]);
+  const saw = sawVon(r);
+  const wann = Number.isFinite(r.firstSeenHours) && r.firstSeenHours >= 0 ? zmZeit(r.firstSeenHours) : null;
+  if (saw === 'ja') return Z.textJa(L.stufen[lv], wann);
+  if (saw === 'teilweise') return lv ? Z.textTeil(L.stufen[lv], wann) : Z.textTeil0;
+  return Z.textNein;
+}
+
+function zmKarte(r) {
+  const Z = L.zeitmaschine;
+  const saw = r.kind === 'event' ? sawVon(r) : null;
+  const marke = r.kind === 'control' || r.control === 'quiet' ? `<span class="zm-saw saw-ruhig">${esc(Z.ruhigGeblieben)}</span>` : r.kind === 'recent' ? `<span class="zm-saw saw-nein">${esc(Z.verlaufMarke)}</span>` : saw ? `<span class="zm-saw saw-${saw}">${esc(Z.saw[saw])}</span>` : '';
+  const titel = (sprache === 'en' && r.title_en) || r.title_de || r.title_en;
+  return `<li><button type="button" class="zm-eintrag" data-replay="${esc(r.id)}" aria-expanded="false">
+          ${marke}
+          <span class="zm-titel">${esc(titel)}</span>
+          <span class="zm-meta">${r.date && Number.isFinite(Date.parse(r.date)) ? esc(datum(r.date)) + ' · ' : ''}${esc(Z.art[r.kind] ?? '')}</span>
+          <span class="zm-text">${esc(zmText(r))}</span>
+        </button></li>`;
+}
+
 function zeitmaschine(sc) {
   const Z = L.zeitmaschine;
   const alle = gueltigeReplays();
   if (!alle.length) return '';
   const bilanz = zmBilanz();
+  const neu = (a, b) => String(b.date).localeCompare(String(a.date));
+  const ev = alle.filter((r) => r.kind === 'event');
+  const ja = ev.filter((r) => sawVon(r) === 'ja').sort(neu).slice(0, 3);
+  const teil = ev.filter((r) => sawVon(r) === 'teilweise').sort(neu).slice(0, Math.max(0, 4 - ja.length));
+  const nein = ev.filter((r) => sawVon(r) === 'nein').sort(neu).slice(0, 1);
+  const zuerst = [...ja, ...teil, ...nein].slice(0, 5);
+  const ids = new Set(zuerst.map((r) => r.id));
   const recent = alle.filter((r) => r.kind === 'recent' && r.scenario === sc.id);
-  const rest = alle.filter((r) => r.kind !== 'recent').sort((a, b) => (a.kind === 'control') - (b.kind === 'control') || String(b.date).localeCompare(String(a.date)));
-  const liste = [...recent, ...rest];
+  const rest = [...ev.filter((r) => !ids.has(r.id)).sort(neu), ...recent, ...alle.filter((r) => r.kind === 'control').sort(neu)];
   return `<section class="zeitmaschine abschnitt" aria-labelledby="zm-titel">
       <h2 id="zm-titel" class="abschnitt-titel">${esc(Z.titel)}</h2>
       ${bilanz ? `<p class="zm-bilanz">${esc(bilanz)}</p>` : ''}
       <p class="abschnitt-erkl">${esc(Z.erkl)}</p>
-      <ul class="zm-liste">${liste.map((r) => {
-        const saw = SAW[String(r.sawIt ?? '').toLowerCase()];
-        const titel = (sprache === 'en' && r.title_en) || r.title_de || r.title_en;
-        const text = sprache === 'en' ? klarEn(r.summary_en || '') : klar(r.summary_de || '');
-        return `<li><button type="button" class="zm-eintrag" data-replay="${esc(r.id)}" aria-expanded="false">
-          ${saw ? `<span class="zm-saw saw-${saw}">${esc(Z.saw[saw])}</span>` : ''}
-          <span class="zm-titel">${esc(titel)}</span>
-          <span class="zm-meta">${r.date && Number.isFinite(Date.parse(r.date)) ? esc(datum(r.date)) + ' · ' : ''}${esc(Z.art[r.kind] ?? '')}</span>
-          ${text ? `<span class="zm-text">${esc(text)}</span>` : ''}
-        </button></li>`;
-      }).join('')}</ul>
+      <ul class="zm-liste">${zuerst.map(zmKarte).join('')}</ul>
+      ${rest.length ? `<details class="zm-mehr" id="zm-mehr"><summary>${esc(Z.alle(rest.length))}</summary><ul class="zm-liste">${rest.map(zmKarte).join('')}</ul></details>` : ''}
       <div id="zm-panel" class="zm-panel" hidden></div>
     </section>`;
 }
@@ -541,7 +642,7 @@ function zmStopp() {
   zustand.zm = null;
 }
 
-async function zmOeffne(id, knopf) {
+async function zmOeffne(id, knopf, sofort = false) {
   const Z = L.zeitmaschine;
   const panel = $('zm-panel');
   if (!panel) return;
@@ -595,9 +696,10 @@ async function zmOeffne(id, knopf) {
       if (!s || !s.id) continue;
       const a = Number(s.anomaly) || 0;
       const zst = a >= SIGNAL_AUF ? (aktiv.includes(s.domain) ? 'auf' : 'erhoeht') : 'ruhig';
-      const name = (en() && EN.signals?.[s.id]?.name) || klar(s.name ?? s.id);
+      const bekannt = alleSignale().get(s.id);
+      const name = bekannt ? alltag(bekannt) : (en() && EN.signals?.[s.id]?.name) || klar(s.name ?? s.id);
       const p = { id: null, zustand: zst, farbe, staerke: a, titel: name, info: L.globus.zustand[zst] };
-      if (s.geo && Number.isFinite(s.geo.lat) && Number.isFinite(s.geo.lon)) punkte.push({ ...p, lon: s.geo.lon, lat: s.geo.lat, titel: `${s.geo.label ?? ''} · ${name}` });
+      if (s.geo && Number.isFinite(s.geo.lat) && Number.isFinite(s.geo.lon)) punkte.push({ ...p, lon: s.geo.lon, lat: s.geo.lat, titel: `${ortName(s.geo)} · ${name}` });
       else ring.push(p);
     }
     z.globus.setzeZeit(new Date(f.t));
@@ -620,7 +722,8 @@ async function zmOeffne(id, knopf) {
   }
   // Start beim Ereignis, sonst am Ende
   const evI = daten.eventStart ? frames.findIndex((f) => Date.parse(f.t) >= Date.parse(daten.eventStart)) : -1;
-  if (zustand.zm === z) zeige(evI >= 0 ? evI : n - 1);
+  if (zustand.zm !== z) return;
+  if (sofort) { zeige(0); spiel.click(); } else zeige(evI >= 0 ? evI : n - 1);
 }
 
 // ---------- Für Neugierige ----------
@@ -666,7 +769,7 @@ function neugierig(sc, ms) {
         <p class="klein">${esc(N.empfindlich[zustand.snap.sensitivity] ?? '')}</p></div></details>
       ${kontext}
       <details><summary>${esc(N.vorsorgeTitel)}</summary><div class="text"><p>${esc(N.vorsorge)}</p><p>${extern('https://www.bbk.bund.de/', esc(N.vorsorgeLink))}</p></div></details>
-      <details><summary>${esc(N.quellen)}</summary><div class="text">${quellenBlock()}</div></details>
+      <details id="quellen"><summary>${esc(N.quellen)}</summary><div class="text">${quellenBlock()}</div></details>
     </section>`;
 }
 
@@ -706,16 +809,18 @@ function oeffneKarte(id) {
   const K = L.karte;
   const sc = aktuell();
   const dlg = $('karte');
-  const normal = s.baseline ? (s.baseline.mature ? mitEinheit(s.baseline.center, sUnit(s)) : K.lernt(s.baseline.n)) : K.lernt(0);
+  const ohne = OHNE_EINHEIT.has(s.unit);
+  const eh = EINHEIT[s.unit];
+  const normal = s.baseline ? (s.baseline.mature ? (ohne ? K.normalOhne : mitEinheit(s.baseline.center, eh ? eh[sprache === 'en' ? 1 : 0] : sUnit(s))) : K.lernt(s.baseline.n)) : K.lernt(0);
   const a = quellenEintrag(s);
   $('karte-inhalt').innerHTML = `
     <p class="karte-frage">${esc(K.frage)}</p>
-    <h2 id="karte-titel">${esc(sName(s))}</h2>
-    <p class="karte-ort"><span>${esc(s.geo ? s.geo.label : L.globus.weltweit)}</span> · <span>${esc(K.bereich)}: ${esc(dTitel(sc, d))}</span></p>
+    <h2 id="karte-titel">${esc(alltag(s))}</h2>
+    <p class="karte-fach">${esc(K.fachname)}: ${esc(sName(s))}</p>
+    <p class="karte-ort"><span>${esc(s.geo ? ortName(s.geo) : L.globus.weltweit)}</span> · <span>${esc(K.bereich)}: ${esc(dTitel(sc, d))}</span></p>
     <p class="karte-zustand z-${z} l-${Math.max(1, sc.level)}"><i aria-hidden="true"></i>${esc(K.zustand[z])}</p>
-    <p class="karte-plain">${esc(sPlain(s))}</p>
     ${z === 'leer' ? `<p class="karte-alt">${esc(K.alt(s.ts ? kurz(s.ts) : ''))}</p>` : `<dl class="karte-werte">
-      <div><dt>${esc(K.jetzt)}</dt><dd>${esc(mitEinheit(s.value, sUnit(s)))}</dd></div>
+      <div><dt>${esc(K.jetzt)}</dt><dd>${esc(wertText(s))}</dd></div>
       <div><dt>${esc(K.normal)}</dt><dd>${esc(normal)}</dd></div></dl>
       ${seltenheit(s) ? `<p class="karte-selten">${esc(seltenheit(s))}</p>` : ''}`}
     ${s.spark?.length > 1 ? `<figure class="karte-verlauf">${sparkSvg(s)}<figcaption>${esc(K.verlauf(kurz(s.sparkStart), kurz(s.sparkEnd)))}</figcaption></figure>` : ''}
@@ -786,13 +891,14 @@ async function renderLinse() {
     b.querySelector('.an-aus').textContent = an ? L.globus.an : L.globus.aus;
     zustand.globus?.setze(globusDaten(sc, ms, sichtbareSchichten(sc)));
   }));
-  main.querySelector('[data-zu-zm]')?.addEventListener('click', (e) => {
-    const ziel = $('zm-titel');
-    if (!ziel) return;
-    e.preventDefault();
-    ziel.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-    const knopf = document.querySelector(`[data-replay="${e.currentTarget.dataset.zuZm}"]`);
-    if (knopf) { knopf.focus({ preventScroll: true }); zmOeffne(knopf.dataset.replay, knopf); }
+  main.querySelector('[data-beispiel]')?.addEventListener('click', async (e) => {
+    const knopf = document.querySelector(`.zm-eintrag[data-replay="${e.currentTarget.dataset.beispiel}"]`);
+    if (!knopf) return;
+    const mehr = knopf.closest('details');
+    if (mehr) mehr.open = true;
+    knopf.focus({ preventScroll: true });
+    await zmOeffne(knopf.dataset.replay, knopf, true);
+    $('zm-panel')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   });
   main.querySelectorAll('[data-replay]').forEach((b) => b.addEventListener('click', () => zmOeffne(b.dataset.replay, b)));
   $('teilen')?.addEventListener('click', teilen);
@@ -811,8 +917,18 @@ async function renderLinse() {
   zustand.globus.setze(globusDaten(sc, ms, schichten));
 }
 
+const REPO = 'https://github.com/TRW123123/signal-radar';
+const herkunftHtml = () => `<span class="herkunft-lang">${esc(L.herkunft.satz)}</span><span class="herkunft-kurz">${esc(L.herkunft.kurz)}</span> ${extern(REPO, esc(L.herkunft.code))} · <a href="#quellen" data-quellen>${esc(L.herkunft.quellen)}</a>`;
+function oeffneQuellen(e) {
+  const d = $('quellen');
+  if (!d) return;
+  e.preventDefault();
+  d.open = true;
+  d.scrollIntoView({ block: 'start' });
+  d.querySelector('summary')?.focus({ preventScroll: true });
+}
 function renderFuss() {
-  $('fuss').innerHTML = `<p>${esc(L.projekt)}</p>${sprache === 'en' ? `<p>${esc(L.nurDeutsch)}</p>` : ''}`;
+  $('fuss').innerHTML = `<p>${herkunftHtml()}</p><p>${esc(L.projekt)}</p>${sprache === 'en' ? `<p>${esc(L.nurDeutsch)}</p>` : ''}`;
 }
 
 // ---------- Fehler ----------
@@ -857,6 +973,7 @@ async function start() {
     const z = zustand.karteVon;
     if (z && document.contains(z)) z.focus({ preventScroll: true });
   });
+  document.addEventListener('click', (e) => { if (e.target.closest?.('[data-quellen]')) oeffneQuellen(e); });
   renderKopf();
   try {
     const [snap, ger, erkl, rep] = await Promise.all([laden(), ladeOptional('data/rumors.json'), ladeOptional('data/explain.json'), ladeOptional('data/replays/index.json'), ladeEn()]);

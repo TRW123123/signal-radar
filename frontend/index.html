@@ -16,8 +16,15 @@
 <meta property="og:description" content="Gerüchte gibt es viele. Hier siehst du live, ob in den Messdaten der Welt wirklich etwas passiert.">
 <meta property="og:locale" content="de_DE">
 <meta property="og:locale:alternate" content="en_GB">
-<meta name="twitter:card" content="summary">
+<meta property="og:url" content="https://signal-radar.safak-t.workers.dev/">
+<meta property="og:image" content="https://signal-radar.safak-t.workers.dev/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Signal Radar: Weltkugel bei Nacht. Gerücht oder echt? Live-Blick in die Messdaten der Welt.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://signal-radar.safak-t.workers.dev/assets/og.png">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://raw.githubusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<link rel="canonical" href="https://signal-radar.safak-t.workers.dev/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/vendor/countries-110m.json" as="fetch" type="application/json" crossorigin>
@@ -37,6 +44,7 @@
       <button type="button" data-sprache="de" aria-pressed="true" lang="de">DE</button><button type="button" data-sprache="en" aria-pressed="false" lang="en">EN</button>
     </div>
     <p id="stand" class="stand"></p>
+    <p id="herkunft" class="herkunft" hidden></p>
   </header>
   <div id="hinweise" aria-live="polite"></div>
   <nav id="linsen" class="linsen" aria-label="Szenarien" hidden></nav>

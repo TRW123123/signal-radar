@@ -1,0 +1,2 @@
+Vorlage für assets/og.png. Erzeugen: Server auf frontend/ starten, vorlage.html in Chrome (Playwright) mit 1200x630 aufnehmen, sobald body[data-fertig] gesetzt ist.
+Bewusst ohne Urteil (statisches Bild).

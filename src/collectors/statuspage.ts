@@ -34,6 +34,27 @@ interface StatusResp { status?: { indicator?: string } }
 export const HOSTS: HostDef[] = hosts as HostDef[];
 export const MIN_RESPONSE_SHARE = 0.8;
 
+const HOST_LABEL = /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)$/;
+
+/** DNS hostname only: no IP, no userinfo, no path, no port, at least two labels. */
+export function isStatusHost(host: string): boolean {
+  if (typeof host !== 'string' || host.length === 0 || host.length > 253 || host !== host.toLowerCase()) return false;
+  if (host.includes('..') || /^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) return false;
+  const labels = host.split('.');
+  if (labels.length < 2) return false;
+  return labels.every((label) => HOST_LABEL.test(label));
+}
+
+/** Builds https://<host>/api/v2/<kind>.json or throws. Nothing from `host` can change the origin. */
+export function statusUrl(host: string, kind: 'status' | 'incidents'): string {
+  if (!isStatusHost(host)) throw new Error('statuspage: ungueltiger Host');
+  const u = new URL(`https://${host}/api/v2/${kind}.json`);
+  if (u.protocol !== 'https:' || u.username || u.password || u.hostname !== host || u.pathname !== `/api/v2/${kind}.json` || u.search || u.hash) {
+    throw new Error('statuspage: ungueltiger Host');
+  }
+  return u.href;
+}
+
 export function parseIndicator(body: StatusResp): Indicator {
   const raw = expect(expect(body?.status, 'status').indicator, 'status.indicator');
   if (raw === 'none' || raw === 'minor' || raw === 'major' || raw === 'critical') return raw;
@@ -154,7 +175,7 @@ const collector: Collector = {
         const slice = HOSTS.slice(i, i + BATCH);
         const settled = await Promise.all(slice.map(async (h) => {
           try {
-            const body = await ctx.http.json<StatusResp>(`https://${h.host}/api/v2/status.json`, { fixture: `statuspage/${h.host}.json` });
+            const body = await ctx.http.json<StatusResp>(statusUrl(h.host, 'status'), { fixture: `statuspage/${h.host}.json` });
             return { host: h.host, category: h.category, indicator: parseIndicator(body) } as HostResult;
           } catch (e) {
             ctx.log(`Host ${h.host} übersprungen: ${(e as Error).message}`);
@@ -189,7 +210,7 @@ const collector: Collector = {
     if (INCIDENT_SIGNALS.length) {
       const lists = await Promise.all(INCIDENT_HOSTS.map(async (h) => {
         try {
-          return parseIncidents(await ctx.http.json<IncidentsResp>(`https://${h}/api/v2/incidents.json`, { fixture: `statuspage-incidents/${h}.json` }));
+          return parseIncidents(await ctx.http.json<IncidentsResp>(statusUrl(h, 'incidents'), { fixture: `statuspage-incidents/${h}.json` }));
         } catch (e) {
           ctx.log(`incidents.json ${h} nicht nutzbar: ${(e as Error).message}`);
           return null;

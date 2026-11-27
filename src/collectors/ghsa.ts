@@ -1,7 +1,7 @@
 // GitHub Advisory Database über die REST-API (Klasse B: kuratierte Meldungen; Malware-Einträge stammen großteils aus
 // OpenSSF malicious-packages und Amazon Inspector, die geprüften Advisories von GitHub bzw. den Maintainern).
 // Quelle: https://api.github.com/advisories  Doku: https://docs.github.com/en/rest/security-advisories/global-advisories
-// Key: SR_GITHUB_KEY (Bearer-Token; in Actions ersatzweise github.token, 1 000 Anfragen/h je Repo). Ohne Token gehen die
+// Key: SR_GITHUB_KEY (Bearer-Token, nur lesend, 1 000 Anfragen/h). Kein Fallback auf github.token. Ohne Token gehen die
 //   Endpunkte auch (60/h je IP, geprüft 20.11.2026), das Limit teilen sich aber alle GitHub-Collectors: daher needsKey.
 // Lizenz: CC BY 4.0. Attribution laut GitHub: Link auf die GitHub Advisory Database https://github.com/advisories
 //   (oder auf einzelne Einträge). Pflichtangabe gehört in src/core/attribution.ts.

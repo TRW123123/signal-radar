@@ -2,7 +2,7 @@
 // Klassen: A für Zählungen über die GitHub-Plattform (Katalog), D für das Commit-Zeitmuster (Katalog).
 // Quelle: https://api.github.com/search/{commits,issues,repositories} und https://api.github.com/repos/<repo>/commits
 // Doku: https://docs.github.com/en/rest/search/search , https://docs.github.com/en/rest/commits/commits
-// Key: SR_GITHUB_KEY (Bearer-Token; in Actions ersatzweise github.token: 1 000 Anfragen/h je Repo, Suche 30/min).
+// Key: SR_GITHUB_KEY (Bearer-Token, nur lesend: 1 000 Anfragen/h je Token, Suche 30/min). Kein Fallback auf github.token.
 //   Ohne Token gehen die Endpunkte auch (Suche 10/min, sonst 60/h je IP), das Limit teilen sich aber alle GitHub-
 //   Collectors: daher needsKey. Je Lauf 8 Anfragen (5 Suche, 3 Commit-Listen), nur Zahlen und Zeitstempel, keine Personen.
 // Lizenz/Bedingungen: GitHub-Nutzungsbedingungen (https://docs.github.com/en/site-policy/github-terms/github-terms-of-service);

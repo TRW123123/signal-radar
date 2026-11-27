@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import collector, { HOSTS, aggregate, incidentSeries, parseIncidents, parseIndicator } from '../../src/collectors/statuspage.ts';
+import collector, { HOSTS, INCIDENT_HOSTS, aggregate, incidentSeries, isStatusHost, parseIncidents, parseIndicator, statusUrl } from '../../src/collectors/statuspage.ts';
 import type { HostResult } from '../../src/collectors/statuspage.ts';
 
 // Echte Antwort (gekürzt, 17.11.2026, status.circle.com): major; Gegenstück mit Fremdnamen siehe SendGrid-Umleitung (page.name Twilio).
@@ -55,6 +55,21 @@ test('parseIndicator: echte Antwort (Circle, major)', () => {
 });
 test('Hostliste: nur bereinigte Hosts, keine Umleitung auf fremde Seite', () => {
   assert.ok(!HOSTS.some((h) => h.host === 'status.sendgrid.com'));
+});
+
+test('isStatusHost: nur DNS-Namen, statusUrl bleibt auf dem Host', () => {
+  assert.equal(isStatusHost('www.githubstatus.com'), true);
+  assert.equal(isStatusHost('127.0.0.1'), false);
+  assert.equal(isStatusHost('localhost'), false);
+  assert.equal(isStatusHost('status.example.com@evil.com'), false);
+  assert.equal(isStatusHost('evil.com/api'), false);
+  assert.equal(isStatusHost('a.b'), true);
+  assert.ok(HOSTS.every((h) => isStatusHost(h.host)));
+  assert.ok(INCIDENT_HOSTS.every((h) => isStatusHost(h)));
+  assert.equal(statusUrl('status.circle.com', 'status'), 'https://status.circle.com/api/v2/status.json');
+  assert.equal(statusUrl('www.githubstatus.com', 'incidents'), 'https://www.githubstatus.com/api/v2/incidents.json');
+  assert.throws(() => statusUrl('127.0.0.1', 'status'), /ungueltiger Host/);
+  assert.throws(() => statusUrl('user:pass@status.circle.com', 'status'), /ungueltiger Host/);
 });
 
 // Form nach Doku nachgebaut (incidents.json), Fixture noch nicht aufgezeichnet.

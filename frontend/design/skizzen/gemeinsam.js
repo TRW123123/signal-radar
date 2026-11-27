@@ -3,8 +3,12 @@
 
 const SR = (() => {
   const q = new URLSearchParams(location.search);
-  const state = q.get('state') || 'calm';
-  const variant = q.get('v') || '';
+  const STATES = ['calm', 'rumor', 'single', 'elevated', 'acute'];
+  const VARIANTS = ['a', 'b'];
+  const rawState = q.get('state');
+  const rawVariant = q.get('v');
+  const state = STATES.includes(rawState) ? rawState : 'calm';
+  const variant = VARIANTS.includes(rawVariant) ? rawVariant : '';
 
   // Zentrale Texttabelle (später Englisch ergänzbar)
   const T = {
@@ -46,7 +50,17 @@ const SR = (() => {
   };
   const pct = (v) => Math.round(v * 100) + ' %';
   const zeit = (iso) => new Date(iso).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC';
-  const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  /** Link only for absolute https URLs. `text` is already escaped by the caller. */
+  function extLink(url, text) {
+    let href = '';
+    try {
+      const u = new URL(String(url ?? ''));
+      if (u.protocol === 'https:' && !u.username && !u.password) href = esc(u.href);
+    } catch { /* kein Link */ }
+    if (!href) return text;
+    return `<a href="${href}" rel="noopener noreferrer">${text}</a>`;
+  }
 
   /** Abweichung in Normal-Einheiten (Betrag) je Verlaufspunkt eines Signals. */
   function zs(sig) {
@@ -78,9 +92,8 @@ const SR = (() => {
   }
 
   function stateBar() {
-    const states = ['calm', 'rumor', 'single', 'elevated', 'acute'];
-    return '<nav class="sk-states" aria-label="Skizzen-Zustand">Skizzen-Zustand: ' + states.map((s) => s === state ? `<b>${s}</b>` : `<a href="?state=${s}${variant ? '&v=' + variant : ''}">${s}</a>`).join(' · ') + '</nav>';
+    return '<nav class="sk-states" aria-label="Skizzen-Zustand">Skizzen-Zustand: ' + STATES.map((s) => s === state ? `<b>${esc(s)}</b>` : `<a href="?state=${esc(s)}${variant ? '&amp;v=' + esc(variant) : ''}">${esc(s)}</a>`).join(' · ') + '</nav>';
   }
 
-  return { state, variant, T, KOMMEND, SENS, LEVEL_THRESHOLDS, GAP, load, nf, pct, zeit, esc, zs, spark, abweichung, stateBar };
+  return { state, variant, T, KOMMEND, SENS, LEVEL_THRESHOLDS, GAP, load, nf, pct, zeit, esc, extLink, zs, spark, abweichung, stateBar };
 })();

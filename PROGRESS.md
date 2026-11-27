@@ -50,7 +50,7 @@ Key gebaut; die meisten sind ungeprüft bis zum ersten Lauf mit Key. Welle 2: `c
 `request()` Status, Header und Cookies; Login-/Token-Antworten werden nie aufgezeichnet. `redactUrl` schwärzt Key-Parameter in jeder
 Schreibweise und Key-artige Pfadsegmente (FIRMS MAP_KEY), der Runner schwärzt zusätzlich alle Key-Werte in Fehlern und Logs.
 `space-track` (POST-Login + Cookie) und `reddit-json` (client_credentials + Bearer, eigener User-Agent) sind damit lauffähig.
-Workflow reicht alle neuen Secrets durch (`SR_GITHUB_KEY` fällt auf `github.token` zurück), Zeitlimit 15 min. Attribution für 14 neue
+Workflow reicht alle neuen Secrets durch (`SR_GITHUB_KEY` nur als eigenes Secret, ohne `github.token`), Zeitlimit 15 min. Attribution für 14 neue
 Quellen in `src/core/attribution.ts` und `docs/DATA-TERMS.md`. Offen: `docs/OPEN-QUESTIONS.md` Punkt 8 (Lizenzen Shadowserver, Metaculus,
 Reddit, ICE BofA; SAM-Kontingent; ID-Kollisionen; aisstream-Kompression; GFW regionIds). Nächster Schritt: Secrets anlegen, Live-Lauf, VERIFIED nachziehen.
 

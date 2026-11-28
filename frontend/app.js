@@ -2,6 +2,7 @@
 // Datenvertrag: Snapshot aus src/core/types.ts. Oberflächen-Texte: js/texte.js. Englische Daten-Texte: data/i18n-en.json.
 import { T, ORTE_EN, QUELLEN_EN } from './js/texte.js';
 import { ladeAtlas, erstelleGlobus } from './js/globus.js';
+import { httpsHref } from './js/https.js';
 
 const params = new URLSearchParams(location.search);
 
@@ -67,7 +68,11 @@ const tagJahr = (ms) => new Intl.DateTimeFormat(L.locale, sprache === 'en' ? { d
 const tag = (ms) => new Intl.DateTimeFormat(L.locale, { day: 'numeric', month: 'numeric' }).format(new Date(ms));
 const datum = (iso) => new Intl.DateTimeFormat(L.locale, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
 const prozent = (x) => new Intl.NumberFormat(L.locale, { style: 'percent', maximumFractionDigits: x < 0.1 ? 1 : 0 }).format(x);
-const extern = (url, text, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${esc(url)}" rel="noopener noreferrer external">${text}<span class="nur-vorleser"> ${esc(L.karte.extern)}</span></a>`;
+const extern = (url, text, cls = '') => {
+  const href = httpsHref(url);
+  if (!href) return text;
+  return `<a${cls ? ` class="${cls}"` : ''} href="${esc(href)}" rel="noopener noreferrer external">${text}<span class="nur-vorleser"> ${esc(L.karte.extern)}</span></a>`;
+};
 const ersterSatz = (t) => String(t ?? '').split(/(?<![0-9])[.!?]\s+(?=[A-ZÄÖÜ])/)[0].replace(/[.!?]?$/, '.');
 
 // ---------- Laden ----------

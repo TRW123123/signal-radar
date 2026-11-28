@@ -135,7 +135,7 @@ function render(snap) {
     <p class="hinweis">${T.keineWahrscheinlichkeit}</p>`;
 
   const gerede = sc.attention >= SR.GAP.attention
-    ? `<p class="gerede"><b>Aufmerksamkeit im Netz: ${pct(sc.attention)}.</b> ${sc.rumorGap === 'talk-no-data' ? 'Viel Gerede, die Messwerte sind ruhig.' : 'Gerede und Messwerte sind beide auffällig.'} Aufmerksamkeit zählt nicht als Beleg. ${sc.attentionSignals.map((s) => `<a href="${esc(s.sourceUrl)}">${esc(s.name)}</a>`).join(', ')}</p>`
+    ? `<p class="gerede"><b>Aufmerksamkeit im Netz: ${pct(sc.attention)}.</b> ${sc.rumorGap === 'talk-no-data' ? 'Viel Gerede, die Messwerte sind ruhig.' : 'Gerede und Messwerte sind beide auffällig.'} Aufmerksamkeit zählt nicht als Beleg. ${sc.attentionSignals.map((s) => SR.extLink(s.sourceUrl, esc(s.name))).join(', ')}</p>`
     : '';
 
   const darum = `<section class="sec"><h2>Darum</h2>
@@ -150,7 +150,7 @@ function render(snap) {
       <td class="num" data-l="Normal">${s.baseline ? nf(s.baseline.center) : '–'}</td>
       <td class="num" data-l="Abweichung">${abweichung(s)}${s.damp ? `<small>gedämpft: ${esc(s.damp.reason)}</small>` : ''}</td>
       <td class="verl">${spark(s, 180, 30)}</td>
-      <td data-l="Quelle"><a href="${esc(s.sourceUrl)}">${esc(s.sourceName)}</a></td>
+      <td data-l="Quelle">${SR.extLink(s.sourceUrl, esc(s.sourceName))}</td>
     </tr>`;
   const thead = '<thead><tr><th>Messreihe</th><th class="num">Jetzt</th><th class="num">Normal</th><th class="num">Abweichung</th><th>Verlauf</th><th>Rohdaten</th></tr></thead>';
   const belegSec = `<section class="sec"><h2>Belege</h2>

@@ -1,5 +1,7 @@
 # Live operation without a server: collect every 15 minutes, commit the raw data, rebuild the snapshot.
 # Every data point stays auditable in git history. Enable by pushing this repository to GitHub.
+# Collect and commit are separate jobs. The collect job has the API keys and a read-only token.
+# The commit job has no API keys and is the only job that can push.
 name: collect
 on:
   schedule:
@@ -9,6 +11,7 @@ on:
   push:
     branches: [master]
     paths: ['src/**', 'catalog/**', '.github/workflows/collect.yml']
+# Jobs setzen ihre Rechte selbst. collect bleibt lesend; nur commit darf schreiben.
 permissions:
   contents: write
 concurrency:
@@ -18,16 +21,24 @@ jobs:
   collect:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
       - name: Collect and score
         run: node src/cli.ts run --respect-intervals --prune-days 120
         env:
+          # The automatic GITHUB_TOKEN must not be visible to collector code.
+          GITHUB_TOKEN: ''
+          GH_TOKEN: ''
           SR_SENSITIVITY: high
           # Gelesen von gebauten Collectors: alle unten außer ENTSOE, ACLED, OPENSKY (geplant) und NASA_FIRMS (alter Alias von FIRMS). NVD ist optional (ohne Key langsamer). Ohne Wert wird übersprungen (kein Fehler).
+          # SR_GITHUB_KEY ist nur das eigene Secret (fein, nur lesend). Kein Fallback auf github.token.
           SR_CLOUDFLARE_KEY: ${{ secrets.SR_CLOUDFLARE_KEY }}
           SR_ABUSECH_KEY: ${{ secrets.SR_ABUSECH_KEY }}
           SR_SEC_USER_AGENT: ${{ secrets.SR_SEC_USER_AGENT }}
@@ -41,7 +52,7 @@ jobs:
           SR_ENTSOE_KEY: ${{ secrets.SR_ENTSOE_KEY }}
           SR_ACLED_KEY: ${{ secrets.SR_ACLED_KEY }}
           SR_OPENSKY_KEY: ${{ secrets.SR_OPENSKY_KEY }}
-          SR_GITHUB_KEY: ${{ secrets.SR_GITHUB_KEY || github.token }}
+          SR_GITHUB_KEY: ${{ secrets.SR_GITHUB_KEY }}
           SR_OTX_KEY: ${{ secrets.SR_OTX_KEY }}
           SR_AISSTREAM_KEY: ${{ secrets.SR_AISSTREAM_KEY }}
           SR_FAA_NOTAM_USER: ${{ secrets.SR_FAA_NOTAM_USER }}
@@ -56,15 +67,51 @@ jobs:
           SR_SAM_GOV_KEY: ${{ secrets.SR_SAM_GOV_KEY }}
           SR_REDDIT_USER: ${{ secrets.SR_REDDIT_USER }}
           SR_REDDIT_PASS: ${{ secrets.SR_REDDIT_PASS }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: collect-output
+          retention-days: 1
+          if-no-files-found: error
+          path: |
+            data
+            frontend/data/snapshot.json
+  commit:
+    needs: collect
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: collect-output
+          path: collect-output
       - name: Commit data
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          set -eu
+          test -d collect-output/data
+          test -f collect-output/frontend/data/snapshot.json
+          rm -rf data
+          mkdir -p frontend/data
+          cp -a collect-output/data data
+          cp -a collect-output/frontend/data/snapshot.json frontend/data/snapshot.json
           git config user.name "signal-radar-bot"
           git config user.email "signal-radar-bot@users.noreply.github.com"
           git add data frontend/data/snapshot.json
-          git diff --cached --quiet || git commit -m "data: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git diff --cached --quiet && exit 0
+          git commit -m "data: $(date -u +%Y-%m-%dT%H:%MZ)"
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w 0)
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ${auth}"
+          unset auth
           # other pushes may arrive while collecting: retry instead of losing the run
           for i in 1 2 3 4 5; do
-            git pull --rebase --autostash && git push && exit 0
+            git pull --rebase --autostash "https://github.com/${GITHUB_REPOSITORY}.git" master && git push "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:master && exit 0
+            git rebase --abort >/dev/null 2>&1 || true
             sleep $((i * 7))
           done
           exit 1

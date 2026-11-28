@@ -15,6 +15,7 @@
 
 import type { Collector, Observation } from '../core/types.ts';
 import { DAY_MS, expect, floorDay, isoDay, obs } from './_helpers.ts';
+import { isStatusHost } from './statuspage.ts';
 
 export const PROVIDERS = [
   { key: 'openai', host: 'status.openai.com', name: 'OpenAI', signal: 'ai.platforms.openai_incident_starts' },
@@ -25,7 +26,10 @@ export const INCIDENT_CAP = 50;
 export const MIN_DAYS = 7;
 export const MAX_DAYS = 45;
 
-export const incidentsUrl = (host: string) => `https://${host}/api/v2/incidents.json`;
+export const incidentsUrl = (host: string): string => {
+  if (!isStatusHost(host)) throw new Error('ai-provider-incidents: ungueltiger Host');
+  return `https://${host}/api/v2/incidents.json`;
+};
 export const fixtureName = (host: string) => `ai-provider-incidents/${host}.json`;
 
 export interface StartList { starts: number[]; full: boolean; oldest: number | null }

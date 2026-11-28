@@ -97,7 +97,7 @@ test('HTTP-Fehler: Fehlermeldung ohne Key in Query und Pfad', async () => {
 });
 
 test('redactUrl: Query-Parameter (alle Schreibweisen), Pfad-Keys, Userinfo', () => {
-  for (const p of ['api_key', 'apiKey', 'api-key', 'apikey', 'key', 'token', 'access_token', 'auth_key', 'MAP_KEY', 'client_secret', 'password']) {
+  for (const p of ['api_key', 'apiKey', 'api-key', 'apikey', 'key', 'token', 'access_token', 'auth_key', 'MAP_KEY', 'client_secret', 'password', 'securityToken', 'security_token']) {
     const r = redactUrl(`https://x.example/a?${p}=S3CRETvalue&series_id=DGS10`);
     assert.ok(!r.includes('S3CRETvalue'), p);
     assert.ok(r.includes('series_id=DGS10'), p);
@@ -137,6 +137,27 @@ test('Runner: Fehlermeldungen und Logs enthalten keine Keys', async () => {
   assert.match(r.error!, /REDACTED/);
   assert.ok(logs.every((l) => !l.includes(secret)));
   assert.deepEqual(secretValues({ SR_FIXTURES: 'replay', SR_X_KEY: 'k1', SR_Y_USER: 'u1' }).sort(), ['k1', 'u1']);
+});
+
+test('redirect: gleiche https-Origin wird gefolgt, fremde Origin nicht', async () => {
+  const { impl, calls } = fakeFetch((c) => {
+    if (c.url === 'https://example.org/a') return new Response('', { status: 302, headers: { location: '/b' } });
+    if (c.url === 'https://example.org/b') return new Response('{"ok":1}');
+    if (c.url === 'https://example.org/out') return new Response('', { status: 302, headers: { location: 'https://evil.example/x' } });
+    return new Response('no', { status: 500 });
+  });
+  const http = createHttp({ fixturesDir: tmp(), mode: 'network', minHostIntervalMs: 0, fetchImpl: impl });
+  assert.deepEqual(await http.json('https://example.org/a'), { ok: 1 });
+  assert.deepEqual(calls.map((c) => c.url), ['https://example.org/a', 'https://example.org/b']);
+  await assert.rejects(http.text('https://example.org/out', { headers: { authorization: 'Bearer SECRETVALUE' } }), (e: Error) =>
+    /redirect abgelehnt/.test(e.message) && !e.message.includes('SECRETVALUE'));
+  assert.ok(calls.every((c) => !c.url.includes('evil.example')));
+});
+
+test('Body über dem Limit wird abgebrochen', async () => {
+  const { impl } = fakeFetch(() => new Response('hello world'));
+  const http = createHttp({ fixturesDir: tmp(), mode: 'network', minHostIntervalMs: 0, fetchImpl: impl, maxBodyBytes: 4 });
+  await assert.rejects(http.text('https://example.org/big'), (e: Error) => /too large/.test(e.message) && !e.message.includes('hello'));
 });
 
 test('Netzwerkfehler: Ursache (cause) in der Meldung, Key geschwärzt', async () => {

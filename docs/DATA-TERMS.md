@@ -114,7 +114,7 @@ Angaben aus den Übergaben der Collector-Agents; die Bedingungen wurden dort gel
 
 - **Nutzungsbedingungen:** Advisory Database unter CC BY 4.0. REST- und Such-API: GitHub-Nutzungsbedingungen, hier nur Aggregatzahlen.
 - **Pflicht-Quellenangabe:** Link auf die GitHub Advisory Database, https://github.com/advisories; für `github-rest` Quelle „GitHub“.
-- **Status im Repo:** Collectors vorhanden (`ghsa`, `github-rest`, Key `SR_GITHUB_KEY`, in Actions ersatzweise `github.token`).
+- **Status im Repo:** Collectors vorhanden (`ghsa`, `github-rest`, Key `SR_GITHUB_KEY`). Actions reichen nur das Secret weiter, nicht `github.token`.
 
 ## CoinGecko
 

@@ -182,7 +182,7 @@ function render(snap) {
 
   const sigZeile = (s) => `<div class="sig"><b>${esc(s.name)}</b><small>${esc(s.plain)}</small>
       <div class="zahlen">jetzt ${nf(s.value)} ${esc(s.unit || '')} · normal ${s.baseline ? nf(s.baseline.center) : '–'} · ${abweichung(s)}</div>
-      ${spark(s, 220, 30)}<br><a href="${esc(s.sourceUrl)}">Rohdaten: ${esc(s.sourceName)}</a></div>`;
+      ${spark(s, 220, 30)}<br>${SR.extLink(s.sourceUrl, 'Rohdaten: ' + esc(s.sourceName))}</div>`;
 
   const links = `<section id="col-gerede"><h2>Gerede · zählt nicht als Beleg</h2>
       <p style="font-size:28px;font-weight:700;margin:0">${pct(sc.attention)}</p>

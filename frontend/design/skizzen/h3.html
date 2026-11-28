@@ -148,7 +148,7 @@ function render(snap) {
       <td class="num">jetzt ${nf(s.value)} ${esc(s.unit || '')}<small>normal ${s.baseline ? nf(s.baseline.center) : '–'}</small></td>
       <td class="num">${abweichung(s)}${s.damp ? `<small>gedämpft: ${esc(s.damp.reason)}</small>` : ''}</td>
       <td>${spark(s, 140, 26)}</td>
-      <td><a href="${esc(s.sourceUrl)}">Rohdaten</a><small>${esc(s.sourceName)}</small></td></tr>`).join('')}</table>`;
+      <td>${SR.extLink(s.sourceUrl, 'Rohdaten')}<small>${esc(s.sourceName)}</small></td></tr>`).join('')}</table>`;
 
   const spur = (d, cls = '') => `<div class="spur ${d.active ? 'aus' : ''} ${cls}">
       <button aria-expanded="false" aria-controls="det-${d.id}">
